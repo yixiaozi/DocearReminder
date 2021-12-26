@@ -1,0 +1,907 @@
+using DocearReminder;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web.Script.Serialization;
+using System.Windows.Forms;
+using System.Xml;
+using yixiaozi.Config;
+using yixiaozi.Model.DocearReminder;
+using yixiaozi.WinForm.Control.Calendar;
+using static DocearReminder.DocearReminderForm;
+using yixiaozi.WinForm.Common;
+using yixiaozi.Windows;
+using yixiaozi.Security;
+
+namespace Calendar
+{
+    public partial class CalendarForm : Form
+    {
+        List<Appointment> m_Appointments;
+        string mindmappath = "";
+        string[] noFolder = new string[] { };
+        string CalendarImagePath = "";
+        string logfile = "reminder.json";
+        List<string> workfolders = new List<string>();
+        private IniFile ini = new IniFile(@"./config.ini");
+        bool ismovetask = false;
+        [DllImport("User32.dll")]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("User32.dll")]
+        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        Encrypt encryptlog;
+
+        public CalendarForm(string path)// 后期希望只显示当期文件夹的日历
+        {
+            mindmappath = path;
+            string logpass = ini.ReadString("password", "abc", "");
+            encryptlog = new Encrypt(logpass);
+            InitializeComponent();
+            //this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            new MyProcess().OnlyOneForm("Calendar.exe");
+            string calanderpath = ini.ReadString("path", "calanderpath", "");
+            workfolders.Add(ini.ReadString("path", "rootpath", ""));
+            foreach (string item in calanderpath.Split(';'))
+            {
+                workfolder_combox.Items.Add(item);
+                workfolders.Add(ini.ReadString("path", item, ""));
+            }
+            tasktime.Text = "";
+            workfolder_combox.Items.Add("All");
+            workfolder_combox.SelectedIndex= hasinworkfolderIndex(mindmappath);
+            taskname.Text = "";
+            string no = ini.ReadString("path", "no", "");
+            noFolder = no.Split(';');
+            CalendarImagePath = ini.ReadStringDefault("path", "CalendarImagePath", "");
+            dayView1.Renderer = new Office11Renderer();
+            int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
+            int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
+            this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
+            this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
+            RefreshCalender();
+            DateTime startWeek = DateTime.Today;
+            if (startWeek.DayOfWeek.ToString("d")!="0")
+            {
+                startWeek = startWeek.AddDays(1 - Convert.ToInt32(startWeek.DayOfWeek.ToString("d")));
+            }
+            else
+            {
+                startWeek = startWeek.AddDays(-6);
+            }
+            dateTimePicker1.Value = startWeek;
+            dayView1.StartDate = startWeek;
+            dayView1.NewAppointment += new NewAppointmentEventHandler(dayView1_NewAppointment);
+            dayView1.SelectionChanged += new EventHandler(dayView1_SelectionChanged);
+            dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
+            dayView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseMove);
+            timer1.Interval = 60000;
+            timer1.Start();
+            try
+            {
+                if (Environment.OSVersion.Version.Major < 6)
+                {
+                    base.SendToBack();
+
+                    IntPtr hWndNewParent = User32.FindWindow("Progman", null);
+                    User32.SetParent(base.Handle, hWndNewParent);
+                }
+                else
+                {
+                    User32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, User32.SE_SHUTDOWN_PRIVILEGE);
+                }
+            }
+            catch (ApplicationException exx)
+            {
+                MessageBox.Show(this, exx.Message, "Pin to Desktop");
+            }
+            Center();
+            IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄
+            IntPtr hWndDesktop = FindWindow("Progman", "Program Manager");//获得桌面句柄
+            SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
+        }
+
+        yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
+        private void MainPage_Load(object sender, EventArgs e)
+        {
+            asc.controllInitializeSize(this);
+            //this.Height = this.MaximumSize.Height;
+            //this.Width = this.MaximumSize.Width;
+            this.WindowState = FormWindowState.Maximized;
+            asc.controlAutoSize(this);
+            Center();
+        }
+
+        private void MainPage_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
+        }
+
+        public void Center()
+        {
+            int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
+            int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
+            this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
+            this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
+        }
+        public void addreminderlog(string TaskName, string ID, string mindmap,double tasktime)
+        {
+            try
+            {
+                Reminder reminderObject = new Reminder();
+                FileInfo fi = new FileInfo(logfile);
+                if (!System.IO.File.Exists(logfile))
+                {
+                    File.WriteAllText(logfile, "");
+                }
+                using (StreamReader sw = fi.OpenText())
+                {
+                    string s = sw.ReadToEnd();
+                    var serializer = new JavaScriptSerializer();
+                    reminderObject = serializer.Deserialize<Reminder>(s);
+                    reminderObject.reminders.Add(new ReminderItem
+                    {
+                        name = TaskName,
+                        time = DateTime.Now,
+                        mindmapPath = mindmap,
+                        mindmap="calander",
+                        ID = ID,
+                        tasktime= tasktime
+                    });
+                }
+                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                File.WriteAllText(logfile, "");
+                using (StreamWriter sw = fi.AppendText())
+                {
+                    sw.Write(json);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+        void dayView1_NewAppointment(object sender, NewAppointmentEventArgs args)
+        {
+            Appointment m_Appointment = new Appointment();
+            m_Appointment.StartDate = args.StartDate;
+            m_Appointment.EndDate = args.EndDate;
+            m_Appointment.Title = args.Title;
+            m_Appointment.value= mindmappath + @"\calander.mm";
+            m_Appointment.ID= Guid.NewGuid().ToString();
+            m_Appointments.Add(m_Appointment);
+            try
+            {
+                addreminderlog(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes);
+                string path = mindmappath + @"\calander.mm";
+                if (!System.IO.File.Exists(path))
+                {
+                    System.IO.File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\calander.mm", path);
+                }
+                System.Xml.XmlDocument x = new XmlDocument();
+                x.Load(path);
+                XmlNode root = x.GetElementsByTagName("node")[0];
+                if (!haschildNode(root, DateTime.Now.Year.ToString()))
+                {
+                    XmlNode yearNode = x.CreateElement("node");
+                    XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                    yearNodeValue.Value = DateTime.Now.Year.ToString();
+                    yearNode.Attributes.Append(yearNodeValue);
+                    root.AppendChild(yearNode);
+                }
+                XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
+                if (!haschildNode(year, DateTime.Now.Month.ToString()))
+                {
+                    XmlNode monthNode = x.CreateElement("node");
+                    XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                    monthNodeValue.Value = DateTime.Now.Month.ToString();
+                    monthNode.Attributes.Append(monthNodeValue);
+                    year.AppendChild(monthNode);
+                }
+                XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
+                if (!haschildNode(month, DateTime.Now.Day.ToString()))
+                {
+                    XmlNode dayNode = x.CreateElement("node");
+                    XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                    dayNodeValue.Value = DateTime.Now.Day.ToString();
+                    dayNode.Attributes.Append(dayNodeValue);
+                    month.AppendChild(dayNode);
+                }
+                XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
+                XmlNode newNote = x.CreateElement("node");
+                string changedtaskname = args.Title;
+                XmlAttribute newNotetext = x.CreateAttribute("TEXT");
+                SaveLog("日历添加任务：" + changedtaskname + "    导图：" + mindmappath + @"\calander.mm");
+                newNotetext.Value = changedtaskname;
+                XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
+                newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
+                newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                newNote.Attributes.Append(newNotetext);
+                newNote.Attributes.Append(newNoteCREATED);
+                newNote.Attributes.Append(newNoteMODIFIED);
+                XmlAttribute TASKID = x.CreateAttribute("ID");
+                newNote.Attributes.Append(TASKID);
+                newNote.Attributes["ID"].Value = m_Appointment.ID;
+                XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
+                newNote.Attributes.Append(TASKLEVEL);
+                newNote.Attributes["TASKLEVEL"].Value = "1";
+                XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
+                newNote.Attributes.Append(TASKTIME);
+                newNote.Attributes["TASKTIME"].Value = (args.EndDate - args.StartDate).TotalMinutes.ToString("N0");
+                XmlNode remindernode = x.CreateElement("hook");
+                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                remindernode.Attributes.Append(remindernodeName);
+                XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                remindernodeTime.Value = (Convert.ToInt64((args.StartDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                remindernodeParameters.Attributes.Append(remindernodeTime);
+                remindernode.AppendChild(remindernodeParameters);
+                newNote.AppendChild(remindernode);
+                day.AppendChild(newNote);
+                x.Save(path);
+                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        public void SaveLog(string log)
+        {
+            log = log.Replace("\r", " ").Replace("\n", " ");
+            log = (DateTime.Now + "    " + log);
+            log = encryptlog.EncryptString(log);
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", true))
+            {
+                if (log != "")
+                {
+                    //file.Write(DateTime.Now + "        ");
+                    file.WriteLine(log);
+                    //file.Write("\r");
+                }
+            }
+        }
+
+        private void dayView1_MouseMove(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void dayView1_SelectionChanged(object sender, EventArgs e)
+        {
+        }
+        public bool haschildNode(XmlNode node, string child)
+        {
+            foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
+            {
+                if (item.Attributes.Cast<XmlAttribute>().Any(m => m.Name == "TEXT"))
+                {
+                    if (item.Attributes["TEXT"].Value == child)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        private void dayView1_ResolveAppointments(object sender, ResolveAppointmentsEventArgs args)
+        {
+            List<Appointment> m_Apps = new List<Appointment>();
+            foreach (Appointment m_App in m_Appointments)
+                if ((m_App.StartDate >= args.StartDate) &&
+                    (m_App.StartDate <= args.EndDate))
+                    m_Apps.Add(m_App);
+            args.Appointments = m_Apps;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        public class comboBoxItem
+        {
+            public string Text { get; set; }
+            public string Value { get; set; }
+        }
+        public bool hasinworkfolder(string path)
+        {
+            int i = 0;//跳过第一个，因为第一个是根目录
+            foreach (var item in workfolders)
+            {
+                if (i==0)
+                {
+                    i++;
+                    continue;
+                }
+                else
+                {
+                    if (path.Contains(item))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public int hasinworkfolderIndex(string path)
+        {
+            int i=0;
+            foreach (var item in workfolders)
+            {
+                if (path==item)
+                {
+                    return i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        #region MyRegion
+        private void button6_Click(object sender, EventArgs e)
+        {
+            dayView1.DaysToShow = 1;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            dayView1.DaysToShow = 3;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dayView1.DaysToShow = 5;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            dayView1.DaysToShow = 17;
+        }
+        #endregion
+
+
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            dayView1.StartDate = dateTimePicker1.Value;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            dayView1.DaysToShow = (int)numericUpDown1.Value;
+        }
+
+
+
+        private void CalendarForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            dayView1.StartDate = dateTimePicker1.Value;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            RefreshCalender();
+        }
+        public void RefreshCalender()
+        {
+            m_Appointments = new List<Appointment>();
+            DateTime m_Date = DateTime.Now;
+
+            Appointment m_Appointment = new Appointment();
+            m_Date = m_Date.AddHours(10 - m_Date.Hour);
+            m_Date = m_Date.AddMinutes(-m_Date.Minute);
+
+            Reminder reminderObject = new Reminder();
+            FileInfo fi = new FileInfo(logfile);
+            if (!System.IO.File.Exists(logfile))
+            {
+                File.WriteAllText(logfile, "");
+            }
+            using (StreamReader sw = fi.OpenText())
+            {
+                string s = sw.ReadToEnd();
+                var serializer = new JavaScriptSerializer();
+                reminderObject = serializer.Deserialize<Reminder>(s);
+                //IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted && m.mindmapPath.Contains(mindmappath)&& ((!HasInNoFolder(GetFolderName(m.mindmapPath)))|| ((workfolder_combox.SelectedItem == null && !hasinworkfolder(m.mindmapPath)) || (workfolder_combox.SelectedItem != null ? workfolder_combox.SelectedItem.ToString() == "All" : false))));
+                if (reminderObject.reminders==null||reminderObject.reminders.Count==0)
+                {
+                    return;
+                }
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted &&!m.isview&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text)));
+                if (workfolder_combox.SelectedItem!=null&&workfolder_combox.SelectedItem.ToString()== "RootPath")
+                {
+                    items = items.Where(m=>!hasinworkfolder(m.mindmapPath));
+                }
+                foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
+                {
+
+                    m_Appointment = new Appointment();
+                    m_Appointment.StartDate = item.time.AddHours(8);
+                    string taskname = item.name;
+                    if (!logfile.Contains("fanqie"))
+                    {
+                        taskname += ("("+item.tasktime.ToString("N0")+")");
+                    }
+                    if (item.tasktime < 15)
+                    {
+                        item.tasktime = 30;
+                    }
+                    m_Appointment.EndDate = item.time.AddHours(8).AddMinutes(item.tasktime);
+                    if (logfile.Contains("fanqie"))
+                    {
+                        DateTime dt = DateTime.Now;
+                        if (item.comleteTime != null)
+                        {
+                            dt = Convert.ToDateTime(item.comleteTime);
+                            if ((dt - item.time).TotalMinutes >= 20)
+                            {
+                                m_Appointment.EndDate = dt;
+                            }
+                            taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
+                        }
+                    }
+                    if (isZhuangbi)
+                    {
+                        string patten = @"(\S)";
+                        Regex reg = new Regex(patten);
+                        taskname = reg.Replace(taskname, "*"); 
+                    }
+                    m_Appointment.Title = taskname;
+                    m_Appointment.value = item.mindmapPath;
+                    m_Appointment.ID = item.ID!=null? item.ID.ToString():"";
+                    int zhongyao = item.tasklevel;
+                    if (zhongyao < numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                    if (zhongyao == 0)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.White;
+                        m_Appointment.BorderColor = System.Drawing.Color.White;
+                    }
+                    else if (zhongyao == 1)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+                    else if (zhongyao == 2)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+                    else if (zhongyao == 3)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
+                    }
+                    else if (zhongyao == 4)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
+                    }
+                    else if (zhongyao == 5)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.CadetBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
+                    }
+                    else if (zhongyao == 6)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Gold;
+                        m_Appointment.BorderColor = System.Drawing.Color.Gold;
+                    }
+                    else if (zhongyao == 7)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Orange;
+                        m_Appointment.BorderColor = System.Drawing.Color.Orange;
+                    }
+                    else if (zhongyao == 8)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.OrangeRed;
+                        m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
+                    }
+                    else if (zhongyao == 9)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Crimson;
+                        m_Appointment.BorderColor = System.Drawing.Color.Crimson;
+                    }
+                    else if (zhongyao >= 10)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Red;
+                        m_Appointment.BorderColor = System.Drawing.Color.Red;
+                    }
+
+
+                    m_Appointments.Add(m_Appointment);
+                }
+            }
+            dayView1.Refresh();
+        }
+        public void jietu()
+        {
+            try
+            {
+                //截图
+                Bitmap bit = new Bitmap(this.Width, this.Height);//实例化一个和窗体一样大的bitmap
+                Graphics g = Graphics.FromImage(bit);
+                g.CompositingQuality = CompositingQuality.HighQuality;//质量设为最高
+                g.CopyFromScreen(this.Left, this.Top, 0, 0, new Size(this.Width, this.Height));//保存整个窗体为图片
+                                                                                               //g.CopyFromScreen(panel游戏区 .PointToScreen(Point.Empty), Point.Empty, panel游戏区.Size);//只保存某个控件（这里是panel游戏区）
+                bit.Save(CalendarImagePath + DateTime.Now.ToString("yyyy年MM月dd日HH时mm分ss秒") + ".png");//默认保存格式为PNG，保存成jpg格式质量不是很好
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("截图错误" + ex.ToString());
+            }
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            RefreshCalender();
+        }
+        public string GetFolderName(string path)
+        {
+            if (path == "")
+            {
+                return "";
+            }
+            string filePathOnly = Path.GetDirectoryName(path);  //D:\Temp
+            string folderName = Path.GetFileName(filePathOnly);  //Temp
+            return folderName;
+        }
+        public bool HasInNoFolder(string path)
+        {
+            if (path == "" || path == null)
+            {
+                return false;
+            }
+            foreach (string item in noFolder)
+            {
+                if (path.Contains(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void 截图_Click(object sender, EventArgs e)
+        {
+            jietu();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            //jietu();
+        }
+
+        private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    if (numericUpDown1.Value <= 14)
+                    {
+                        numericUpDown1.Value++;
+                    }
+                    break;
+                case Keys.Down:
+                    if (numericUpDown1.Value >= 2)
+                    {
+                        numericUpDown1.Value--;
+                    }
+                    break;
+
+                case Keys.Left:
+                    if (numericUpDown1.Value == 7)
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
+                    }
+                    else if (numericUpDown1.Value == 15)
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-15);
+                    }
+                    else
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                    }
+                    break;
+                case Keys.Right:
+                    if (numericUpDown1.Value == 7)
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
+                    }
+                    else if (numericUpDown1.Value == 15)
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(15);
+                    }
+                    else
+                    {
+                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
+                    }
+                    break;
+                case Keys.S:
+                    if (logfile == "reminder.json")
+                    {
+                        logfile = "fanqie.json";
+                    }
+                    else
+                    {
+                        logfile = "reminder.json";
+                    }
+                    RefreshCalender();
+                    dayView1.StartDate = dayView1.StartDate;//用于刷新
+                    break;
+                case Keys.Q:
+                    this.Close();
+                    break;
+                case Keys.PageUp:
+                    if (numericUpDown2.Value <= 19)
+                    {
+                        numericUpDown2.Value++;
+                    }
+                    break;
+                case Keys.PageDown:
+                    if (numericUpDown2.Value >= 1)
+                    {
+                        numericUpDown2.Value--;
+                    }
+                    break;
+                case Keys.Home:
+                    dateTimePicker1.Value = DateTime.Today;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+            dayView1.StartDate = dayView1.StartDate;//用于刷新
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (workfolder_combox.SelectedItem.ToString() == "All")
+            {
+                mindmappath = "";
+                RefreshCalender();
+                dayView1.StartDate = dayView1.StartDate;//用于刷新
+            }
+            else if (workfolder_combox.SelectedItem.ToString() == "RootPath")
+            {
+                mindmappath = ini.ReadString("path", "rootpath", ""); ;
+                RefreshCalender();
+                dayView1.StartDate = dayView1.StartDate;//用于刷新
+            }
+            else
+            {
+                mindmappath = ini.ReadString("path", workfolder_combox.SelectedItem.ToString(), "");
+                RefreshCalender();
+                dayView1.StartDate = dayView1.StartDate;//用于刷新
+            }
+        }
+
+        private void dayView1_SelectionChanged_1(object sender, EventArgs e)
+        {
+            if (dayView1.SelectedAppointment != null)
+            {
+                try
+                {
+                    taskname.Text = dayView1.SelectedAppointment.Title;
+                    tasktime.Text = ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟");
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        private void dayView1_AppoinmentMove(object sender, AppointmentEventArgs e)
+        {
+            if (Control.MouseButtons == MouseButtons.Left)
+            {
+                ismovetask=true;
+            }
+            
+        }
+        public void EditTask(string path,string id,DateTime startdate,double tasktime)
+        {
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(path);
+            foreach (XmlNode node in x.GetElementsByTagName("node"))
+            {
+                if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                {
+                    try
+                    {
+                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                        bool isHashook = false;
+                        foreach (XmlNode item in node.ChildNodes)
+                        {
+                            if (item.Name == "hook" && !isHashook)
+                            {
+                                isHashook = true;
+                                item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((startdate- TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            }
+                        }
+                        if (!isHashook)
+                        {
+                            XmlNode remindernode = x.CreateElement("hook");
+                            XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                            remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                            remindernode.Attributes.Append(remindernodeName);
+                            XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                            XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                            remindernodeTime.Value = (Convert.ToInt64((startdate- TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            remindernodeParameters.Attributes.Append(remindernodeTime);
+                            remindernode.AppendChild(remindernodeParameters);
+                            node.AppendChild(remindernode);
+                        }
+                        //else
+                        //{
+                        //    node.FirstChild.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        //}
+                        XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
+                        node.Attributes.Append(TASKTIME);
+                        node.Attributes["TASKTIME"].Value = ((int)tasktime).ToString();
+                        x.Save(path);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
+                        th.Start();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+        }
+        public void EditTaskName(string path, string id,string NewName)
+        {
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(path);
+            foreach (XmlNode node in x.GetElementsByTagName("node"))
+            {
+                if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                {
+                    try
+                    {
+                        node.Attributes["TEXT"].Value = NewName;
+                        x.Save(path);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
+                        th.Start();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        private void dayView1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (logfile.Contains("fanqie"))
+            {
+                return;
+            }
+            if (ismovetask&& dayView1.SelectedAppointment!=null)
+            {
+                ismovetask = false;
+                try
+                {
+                    EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes);
+                    Reminder reminderObject = new Reminder();
+                    FileInfo fi = new FileInfo(logfile);
+                    if (!System.IO.File.Exists(logfile))
+                    {
+                        File.WriteAllText(logfile, "");
+                    }
+                    using (StreamReader sw = fi.OpenText())
+                    {
+                        string s = sw.ReadToEnd();
+                        var serializer = new JavaScriptSerializer();
+                        reminderObject = serializer.Deserialize<Reminder>(s);
+                        ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                        if (current!=null)
+                        {
+                            current.time = dayView1.SelectedAppointment.StartDate;
+                            current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                        }
+                    }
+                    string json = new JavaScriptSerializer().Serialize(reminderObject);
+                    File.WriteAllText(@"reminder.json", "");
+                    using (StreamWriter sw = fi.AppendText())
+                    {
+                        sw.Write(json);
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        private void textBox_searchwork_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    RefreshCalender();
+                    break;
+                case Keys.Shift:
+                    break;
+                case Keys.Control:
+                    break;
+                case Keys.Alt:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dayView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (dayView1.SelectedAppointment != null)
+            {
+                ismovetask = false;
+                try
+                {
+                    System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        private void numericOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            this.Opacity =Convert.ToDouble(numericOpacity.Value/100);
+        }
+
+        private void comboBox1_SelectedIndexChanged_2(object sender, EventArgs e)
+        {
+
+        }
+    }
+    internal class User32
+    {
+        public const int SE_SHUTDOWN_PRIVILEGE = 0x13;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx,
+            int cy, uint uFlags);
+    }
+    
+}

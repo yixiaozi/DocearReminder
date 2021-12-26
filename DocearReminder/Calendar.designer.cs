@@ -111,7 +111,7 @@ namespace Calendar
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // НиЭМ
             // 
@@ -125,7 +125,7 @@ namespace Calendar
             // 
             // timer2
             // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.timer2.Tick += new System.EventHandler(this.Timer2_Tick);
             // 
             // numericUpDown2
             // 
@@ -162,7 +162,7 @@ namespace Calendar
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(200, 21);
             this.textBox_searchwork.TabIndex = 28;
-            this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
+            this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
             // 
             // tasktime
             // 

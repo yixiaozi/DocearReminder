@@ -164,19 +164,21 @@ namespace Calendar
                     sw.Write(json);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
         }
         void dayView1_NewAppointment(object sender, NewAppointmentEventArgs args)
         {
-            Appointment m_Appointment = new Appointment();
-            m_Appointment.StartDate = args.StartDate;
-            m_Appointment.EndDate = args.EndDate;
-            m_Appointment.Title = args.Title;
-            m_Appointment.value= mindmappath + @"\calander.mm";
-            m_Appointment.ID= Guid.NewGuid().ToString();
+            Appointment m_Appointment = new Appointment
+            {
+                StartDate = args.StartDate,
+                EndDate = args.EndDate,
+                Title = args.Title,
+                value = mindmappath + @"\calander.mm",
+                ID = Guid.NewGuid().ToString()
+            };
             m_Appointments.Add(m_Appointment);
             try
             {
@@ -189,7 +191,7 @@ namespace Calendar
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(path);
                 XmlNode root = x.GetElementsByTagName("node")[0];
-                if (!haschildNode(root, DateTime.Now.Year.ToString()))
+                if (!HaschildNode(root, DateTime.Now.Year.ToString()))
                 {
                     XmlNode yearNode = x.CreateElement("node");
                     XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
@@ -198,7 +200,7 @@ namespace Calendar
                     root.AppendChild(yearNode);
                 }
                 XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
-                if (!haschildNode(year, DateTime.Now.Month.ToString()))
+                if (!HaschildNode(year, DateTime.Now.Month.ToString()))
                 {
                     XmlNode monthNode = x.CreateElement("node");
                     XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
@@ -207,7 +209,7 @@ namespace Calendar
                     year.AppendChild(monthNode);
                 }
                 XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
-                if (!haschildNode(month, DateTime.Now.Day.ToString()))
+                if (!HaschildNode(month, DateTime.Now.Day.ToString()))
                 {
                     XmlNode dayNode = x.CreateElement("node");
                     XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
@@ -281,7 +283,7 @@ namespace Calendar
         private void dayView1_SelectionChanged(object sender, EventArgs e)
         {
         }
-        public bool haschildNode(XmlNode node, string child)
+        public bool HaschildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
             {
@@ -299,9 +301,14 @@ namespace Calendar
         {
             List<Appointment> m_Apps = new List<Appointment>();
             foreach (Appointment m_App in m_Appointments)
+            {
                 if ((m_App.StartDate >= args.StartDate) &&
                     (m_App.StartDate <= args.EndDate))
+                {
                     m_Apps.Add(m_App);
+                }
+            }
+
             args.Appointments = m_Apps;
         }
 
@@ -361,7 +368,7 @@ namespace Calendar
             dayView1.DaysToShow = 3;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
             dayView1.DaysToShow = 5;
         }
@@ -432,8 +439,10 @@ namespace Calendar
                 foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
                 {
 
-                    m_Appointment = new Appointment();
-                    m_Appointment.StartDate = item.time.AddHours(8);
+                    m_Appointment = new Appointment
+                    {
+                        StartDate = item.time.AddHours(8)
+                    };
                     string taskname = item.name;
                     if (!logfile.Contains("fanqie"))
                     {
@@ -552,7 +561,7 @@ namespace Calendar
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             RefreshCalender();
         }
@@ -587,7 +596,7 @@ namespace Calendar
             jietu();
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private void Timer2_Tick(object sender, EventArgs e)
         {
             //jietu();
         }
@@ -767,7 +776,7 @@ namespace Calendar
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                         th.Start();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -790,7 +799,7 @@ namespace Calendar
                         th.Start();
                         return;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -835,13 +844,13 @@ namespace Calendar
                         sw.Write(json);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
         }
 
-        private void textBox_searchwork_KeyUp(object sender, KeyEventArgs e)
+        private void TextBox_searchwork_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -873,7 +882,7 @@ namespace Calendar
                 {
                     System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

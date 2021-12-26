@@ -9,9 +9,7 @@
             <icon BUILTIN="button_ok" />
           </node>
           <node TEXT="mytest" CREATED="1640513967713" MODIFIED="1640513967713" TASKLEVEL="1" TASKTIME="0" ID="ef24f633-393b-486a-84c7-99b738701b53">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1640513967713" />
-            </hook>
+            <icon BUILTIN="button_ok" />
           </node>
         </node>
       </node>

@@ -158,11 +158,11 @@ namespace DocearReminder
             this.searchword.Size = new System.Drawing.Size(600, 21);
             this.searchword.TabIndex = 2;
             this.searchword.TabStop = false;
-            this.searchword.TextChanged += new System.EventHandler(this.searchword_TextChanged);
-            this.searchword.Enter += new System.EventHandler(this.searchword_Enter);
-            this.searchword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.searchword_KeyUp);
-            this.searchword.Leave += new System.EventHandler(this.searchword_Leave);
-            this.searchword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.searchword_MouseDown);
+            this.searchword.TextChanged += new System.EventHandler(this.Searchword_TextChanged);
+            this.searchword.Enter += new System.EventHandler(this.Searchword_Enter);
+            this.searchword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Searchword_KeyUp);
+            this.searchword.Leave += new System.EventHandler(this.Searchword_Leave);
+            this.searchword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Searchword_MouseDown);
             // 
             // searchworkmenu
             // 
@@ -196,7 +196,7 @@ namespace DocearReminder
             this.reminder_week.TabStop = false;
             this.reminder_week.UseVisualStyleBackColor = true;
             this.reminder_week.Visible = false;
-            this.reminder_week.CheckedChanged += new System.EventHandler(this.reminder_week_CheckedChanged);
+            this.reminder_week.CheckedChanged += new System.EventHandler(this.Reminder_week_CheckedChanged);
             // 
             // reminder_month
             // 
@@ -209,7 +209,7 @@ namespace DocearReminder
             this.reminder_month.TabStop = false;
             this.reminder_month.UseVisualStyleBackColor = true;
             this.reminder_month.Visible = false;
-            this.reminder_month.CheckedChanged += new System.EventHandler(this.reminder_month_CheckedChanged);
+            this.reminder_month.CheckedChanged += new System.EventHandler(this.Reminder_month_CheckedChanged);
             // 
             // reminder_year
             // 
@@ -222,7 +222,7 @@ namespace DocearReminder
             this.reminder_year.TabStop = false;
             this.reminder_year.UseVisualStyleBackColor = true;
             this.reminder_year.Visible = false;
-            this.reminder_year.CheckedChanged += new System.EventHandler(this.reminder_year_CheckedChanged);
+            this.reminder_year.CheckedChanged += new System.EventHandler(this.Reminder_year_CheckedChanged);
             // 
             // reminder_yearafter
             // 
@@ -235,7 +235,7 @@ namespace DocearReminder
             this.reminder_yearafter.TabStop = false;
             this.reminder_yearafter.UseVisualStyleBackColor = true;
             this.reminder_yearafter.Visible = false;
-            this.reminder_yearafter.CheckedChanged += new System.EventHandler(this.reminder_yearafter_CheckedChanged);
+            this.reminder_yearafter.CheckedChanged += new System.EventHandler(this.Reminder_yearafter_CheckedChanged);
             // 
             // mindmaplist_count
             // 
@@ -254,7 +254,7 @@ namespace DocearReminder
             this.reminder_count.Size = new System.Drawing.Size(11, 12);
             this.reminder_count.TabIndex = 12;
             this.reminder_count.Text = "0";
-            this.reminder_count.Click += new System.EventHandler(this.reminder_count_Click);
+            this.reminder_count.Click += new System.EventHandler(this.Reminder_count_Click);
             // 
             // dateTimePicker
             // 
@@ -670,14 +670,14 @@ namespace DocearReminder
             this.nodetree.Size = new System.Drawing.Size(600, 307);
             this.nodetree.TabIndex = 100;
             this.nodetree.Visible = false;
-            this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView1_AfterLabelEdit);
-            this.nodetree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
+            this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TreeView1_AfterLabelEdit);
+            this.nodetree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.nodetree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.nodetree_AfterSelect);
-            this.nodetree.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyUp);
+            this.nodetree.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
             this.nodetree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nodetree_MouseDown);
-            this.nodetree.MouseLeave += new System.EventHandler(this.treeView1_MouseLeave);
-            this.nodetree.MouseHover += new System.EventHandler(this.treeView1_MouseHover);
-            this.nodetree.ParentChanged += new System.EventHandler(this.treeView1_ParentChanged);
+            this.nodetree.MouseLeave += new System.EventHandler(this.TreeView1_MouseLeave);
+            this.nodetree.MouseHover += new System.EventHandler(this.TreeView1_MouseHover);
+            this.nodetree.ParentChanged += new System.EventHandler(this.TreeView1_ParentChanged);
             // 
             // menu_reminderlist
             // 
@@ -707,7 +707,7 @@ namespace DocearReminder
             this.toolStripMenuItem_deny.Name = "toolStripMenuItem_deny";
             this.toolStripMenuItem_deny.Size = new System.Drawing.Size(162, 22);
             this.toolStripMenuItem_deny.Text = "推迟 [D]:deny";
-            this.toolStripMenuItem_deny.Click += new System.EventHandler(this.toolStripMenuItem_deny_Click);
+            this.toolStripMenuItem_deny.Click += new System.EventHandler(this.ToolStripMenuItem_deny_Click);
             // 
             // toolStripMenuItemCalcal
             // 
@@ -814,9 +814,9 @@ namespace DocearReminder
             this.FileTreeView.TabIndex = 112;
             this.FileTreeView.Visible = false;
             this.FileTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.FileTreeView_AfterLabelEdit);
-            this.FileTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
+            this.FileTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.FileTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.FileTreeView_NodeMouseDoubleClick);
-            this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyUp);
+            this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
             this.FileTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FileTreeView_MouseDown);
             // 
             // pictureBox1
@@ -887,7 +887,7 @@ namespace DocearReminder
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
             this.toolStripMenuItem8.Size = new System.Drawing.Size(144, 22);
             this.toolStripMenuItem8.Text = "设置任务";
-            this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.ToolStripMenuItem8_Click);
             // 
             // menu_filetree
             // 
@@ -904,7 +904,7 @@ namespace DocearReminder
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(168, 22);
             this.toolStripMenuItem5.Text = "删除文件(delete)";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.ToolStripMenuItem5_Click);
             // 
             // 打开文件ToolStripMenuItem
             // 
@@ -1215,11 +1215,11 @@ namespace DocearReminder
             this.richTextSubNode.TabIndex = 99;
             this.richTextSubNode.Text = "";
             this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
-            this.richTextSubNode.TextChanged += new System.EventHandler(this.richTextSubNode_TextChanged);
-            this.richTextSubNode.Enter += new System.EventHandler(this.richSubTest_Enter);
-            this.richTextSubNode.Leave += new System.EventHandler(this.richSubTest_Leave);
-            this.richTextSubNode.MouseLeave += new System.EventHandler(this.richSubTest_MouseLeave);
-            this.richTextSubNode.MouseHover += new System.EventHandler(this.richSubTest_MouseHover);
+            this.richTextSubNode.TextChanged += new System.EventHandler(this.RichTextSubNode_TextChanged);
+            this.richTextSubNode.Enter += new System.EventHandler(this.RichSubTest_Enter);
+            this.richTextSubNode.Leave += new System.EventHandler(this.RichSubTest_Leave);
+            this.richTextSubNode.MouseLeave += new System.EventHandler(this.RichSubTest_MouseLeave);
+            this.richTextSubNode.MouseHover += new System.EventHandler(this.RichSubTest_MouseHover);
             // 
             // tagCloudControl
             // 
@@ -1235,7 +1235,7 @@ namespace DocearReminder
             this.tagCloudControl.Size = new System.Drawing.Size(285, 215);
             this.tagCloudControl.TabIndex = 118;
             this.tagCloudControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlAdded);
-            this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlRemoved);
+            this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.TagCloudControl_ControlRemoved);
             // 
             // noterichTextBox
             // 
@@ -1263,12 +1263,12 @@ namespace DocearReminder
             this.reminderListBox.Name = "reminderListBox";
             this.reminderListBox.Size = new System.Drawing.Size(600, 158);
             this.reminderListBox.TabIndex = 117;
-            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.reminderlistBox_DrawItem);
+            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ReminderlistBox_DrawItem);
             this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
-            this.reminderListBox.DataSourceChanged += new System.EventHandler(this.reminderListBox_DataSourceChanged);
-            this.reminderListBox.SizeChanged += new System.EventHandler(this.reminderListBox_SizeChanged);
+            this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
+            this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
             this.reminderListBox.MouseHover += new System.EventHandler(this.reminderlist_MouseHover);
-            this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.reminderlist_MouseUp);
+            this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
             // reminderList
             // 
@@ -1285,13 +1285,13 @@ namespace DocearReminder
             this.reminderList.Size = new System.Drawing.Size(600, 130);
             this.reminderList.Sorted = true;
             this.reminderList.TabIndex = 3;
-            this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.reminderlist_DrawItem);
+            this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
             this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
-            this.reminderList.DataSourceChanged += new System.EventHandler(this.reminderListBox_DataSourceChanged);
-            this.reminderList.DoubleClick += new System.EventHandler(this.reminderlist_DoubleClick);
-            this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.reminderlist_MouseDown);
+            this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
+            this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
+            this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
             this.reminderList.MouseHover += new System.EventHandler(this.reminderlist_MouseHover);
-            this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.reminderlist_MouseUp);
+            this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
             // mindmaplist
             // 

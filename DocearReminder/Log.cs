@@ -24,7 +24,7 @@ namespace DocearReminder
         {
             InitializeComponent();
             logpass = ini.ReadString("password", "abc", "");
-            resultlistBox.Items.Add(new result { words = "", path = "" });
+            resultlistBox.Items.Add(new result { Words = "", path = "" });
             string fileName = System.AppDomain.CurrentDomain.BaseDirectory + "log.txt";
             resultlistBox.Items.Clear();
             getalllog(fileName);
@@ -38,7 +38,7 @@ namespace DocearReminder
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             logs = logs.OrderByDescending(m=>m.Time).ToList();
@@ -76,7 +76,7 @@ namespace DocearReminder
                                 catch (Exception)
                                 {
                                 }
-                                result r = new result { words = line, path = fileName,Time=dt};
+                                result r = new result { Words = line, path = fileName,Time=dt};
                                 logs.Add(r);
                             }
                         }
@@ -135,7 +135,7 @@ namespace DocearReminder
         public void getlog()
         {
             resultlistBox.Items.Clear();
-            foreach (result item in logs.Where(m => m.words.ToLower().Contains(keyword.Text.ToLower())))
+            foreach (result item in logs.Where(m => m.Words.ToLower().Contains(keyword.Text.ToLower())))
             {
                 resultlistBox.Items.Add(item);
             }
@@ -184,7 +184,7 @@ namespace DocearReminder
         }
         public class result
         {
-            public string words { get; set; }
+            public string Words { get; set; }
             public string path { get; set; }
             public DateTime Time { get; set; }
         }

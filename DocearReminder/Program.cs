@@ -23,8 +23,7 @@ namespace DocearReminder
         [STAThread]
         static void Main()
         {
-            bool runone;
-            System.Threading.Mutex run = new System.Threading.Mutex(true, "DocearReminder", out runone);
+            Mutex run = new System.Threading.Mutex(true, "DocearReminder", out bool runone);
             if (runone)
             {
                 run.ReleaseMutex();

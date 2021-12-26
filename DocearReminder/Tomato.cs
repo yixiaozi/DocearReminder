@@ -51,7 +51,7 @@ namespace DocearReminder
                 faneiguid = Guid.NewGuid().ToString();
                 addreminderlog(name, faneiguid, mindmap);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -76,7 +76,7 @@ namespace DocearReminder
                     fanqietime.Text = _fiveM.Hour.ToString("00") + ":" + _fiveM.Minute.ToString("00") + ":" + _fiveM.Second.ToString("00");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                     this.Close();
             }
@@ -165,7 +165,7 @@ namespace DocearReminder
                     sw.Write(json);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             
@@ -199,7 +199,7 @@ namespace DocearReminder
                     sw.Write(json);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

@@ -34,6 +34,11 @@
             this.timerDefault = new System.Windows.Forms.Timer(this.components);
             this.positionTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.暂停ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.置顶ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // fanqietime
@@ -49,6 +54,7 @@
             this.fanqietime.Click += new System.EventHandler(this.fanqietime_DoubleClick);
             this.fanqietime.Paint += new System.Windows.Forms.PaintEventHandler(this.fanqietime_Paint);
             this.fanqietime.DoubleClick += new System.EventHandler(this.fanqietime_DoubleClick);
+            this.fanqietime.MouseUp += new System.Windows.Forms.MouseEventHandler(this.fanqietime_MouseUp);
             // 
             // timerDefault
             // 
@@ -65,6 +71,38 @@
             this.panel1.Size = new System.Drawing.Size(239, 84);
             this.panel1.TabIndex = 2;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.暂停ToolStripMenuItem,
+            this.置顶ToolStripMenuItem,
+            this.关闭ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 70);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // 暂停ToolStripMenuItem
+            // 
+            this.暂停ToolStripMenuItem.Name = "暂停ToolStripMenuItem";
+            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.暂停ToolStripMenuItem.Text = "暂停";
+            this.暂停ToolStripMenuItem.Click += new System.EventHandler(this.暂停ToolStripMenuItem_Click);
+            // 
+            // 置顶ToolStripMenuItem
+            // 
+            this.置顶ToolStripMenuItem.Name = "置顶ToolStripMenuItem";
+            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.置顶ToolStripMenuItem.Text = "置顶";
+            this.置顶ToolStripMenuItem.Click += new System.EventHandler(this.置顶ToolStripMenuItem_Click);
+            // 
+            // 关闭ToolStripMenuItem
+            // 
+            this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.关闭ToolStripMenuItem.Text = "关闭";
+            this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
             // 
             // Tomato
             // 
@@ -87,6 +125,10 @@
             this.Load += new System.EventHandler(this.fanqie_Load);
             this.DoubleClick += new System.EventHandler(this.fanqie_DoubleClick);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fanqie_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Tomato_KeyUp);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Tomato_MouseUp);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Tomato_PreviewKeyDown);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,5 +140,9 @@
         private System.Windows.Forms.Timer timerDefault;
         private System.Windows.Forms.Timer positionTimer;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 暂停ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 置顶ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关闭ToolStripMenuItem;
     }
 }

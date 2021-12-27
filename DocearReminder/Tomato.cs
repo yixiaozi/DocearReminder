@@ -227,5 +227,74 @@ namespace DocearReminder
         {
 
         }
+
+        private void 关闭ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void 置顶ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.TopMost = !this.TopMost;
+        }
+
+        private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            positionTimer.Stop();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (this.TopMost)
+            {
+                置顶ToolStripMenuItem.Text = "取消置顶";
+            }
+            else
+            {
+                置顶ToolStripMenuItem.Text = "置顶";
+            }
+            if (positionTimer.Enabled)
+            {
+                暂停ToolStripMenuItem.Text = "暂停";
+            }
+            else
+            {
+                暂停ToolStripMenuItem.Text = "开始";
+            }
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip1.Show(this, new System.Drawing.Point(e.X, e.Y));
+            }
+        }
+
+        private void fanqietime_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip1.Show(this, new System.Drawing.Point(e.X, e.Y));
+            }
+        }
+
+        private void Tomato_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            
+        }
+
+        private void Tomato_KeyUp(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void Tomato_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip1.Show(this, new System.Drawing.Point(e.X, e.Y));
+            }
+        }
     }
 }

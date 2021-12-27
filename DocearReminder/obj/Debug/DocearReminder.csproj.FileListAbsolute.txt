@@ -188,6 +188,9 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\yixiaozi.pdb
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\NPOI.OOXML.xml
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\NPOI.xml
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\NPOI.OpenXml4Net.xml
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csprojAssemblyReference.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Update.Update.resources
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.AssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Interop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\AxInterop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Interop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\AxInterop.AcroPDFLib.dll

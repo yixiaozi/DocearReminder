@@ -2861,6 +2861,18 @@ namespace DocearReminder
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                             newNotetext.Value = searchword.Text;
+                            if (IsURL(newNotetext.Value))
+                            {
+                                string title = GetWebTitle(newNotetext.Value);
+                                if (title != "" && title != "忘记了，后面再改")
+                                {
+                                    //添加属性
+                                    XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                                    TASKLink.Value = newNotetext.Value;
+                                    newNote.Attributes.Append(TASKLink);
+                                    newNotetext.Value = title;
+                                }
+                            }
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                             newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4496,6 +4508,18 @@ namespace DocearReminder
                     {
                         newNotetext.Value = taskName.Substring(1);
                     }
+                    if (IsURL(newNotetext.Value))
+                    {
+                        string title = GetWebTitle(newNotetext.Value);
+                        if (title!=""&& title != "忘记了，后面再改")
+                        {
+                            //添加属性
+                            XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                            TASKLink.Value = newNotetext.Value;
+                            newNote.Attributes.Append(TASKLink);
+                            newNotetext.Value = title;
+                        }
+                    }
                     day.AppendChild(newNote);
                     searchword.Text = "";
                     if (ebdefault.Contains(new FileInfo(file.filePath).Name))
@@ -4585,6 +4609,18 @@ namespace DocearReminder
                 }
                 SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
                 newNotetext.Value = changedtaskname;
+                if (IsURL(newNotetext.Value))
+                {
+                    string title = GetWebTitle(newNotetext.Value);
+                    if (title != "" && title != "忘记了，后面再改")
+                    {
+                        //添加属性
+                        XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                        TASKLink.Value = newNotetext.Value;
+                        newNote.Attributes.Append(TASKLink);
+                        newNotetext.Value = title;
+                    }
+                }
                 XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                 newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                 XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4632,6 +4668,18 @@ namespace DocearReminder
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                             newNotetext.Value = searchword.Text;
+                            if (IsURL(newNotetext.Value))
+                            {
+                                string title = GetWebTitle(newNotetext.Value);
+                                if (title != "" && title != "忘记了，后面再改")
+                                {
+                                    //添加属性
+                                    XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                                    TASKLink.Value = newNotetext.Value;
+                                    newNote.Attributes.Append(TASKLink);
+                                    newNotetext.Value = title;
+                                }
+                            }
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                             newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4703,6 +4751,18 @@ namespace DocearReminder
                 string changedtaskname = searchword.Text;
                 XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                 newNotetext.Value = changedtaskname;
+                if (IsURL(newNotetext.Value))
+                {
+                    string title = GetWebTitle(newNotetext.Value);
+                    if (title != "" && title != "忘记了，后面再改")
+                    {
+                        //添加属性
+                        XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                        TASKLink.Value = newNotetext.Value;
+                        newNote.Attributes.Append(TASKLink);
+                        newNotetext.Value = title;
+                    }
+                }
                 XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                 newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                 XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4761,6 +4821,18 @@ namespace DocearReminder
                 }
                 SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
                 newNotetext.Value = changedtaskname;
+                if (IsURL(newNotetext.Value))
+                {
+                    string title = GetWebTitle(newNotetext.Value);
+                    if (title != "" && title != "忘记了，后面再改")
+                    {
+                        //添加属性
+                        XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                        TASKLink.Value = newNotetext.Value;
+                        newNote.Attributes.Append(TASKLink);
+                        newNotetext.Value = title;
+                    }
+                }
                 XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                 newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                 XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4827,6 +4899,18 @@ namespace DocearReminder
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                             newNotetext.Value = searchword.Text;
+                            if (IsURL(newNotetext.Value))
+                            {
+                                string title = GetWebTitle(newNotetext.Value);
+                                if (title != "" && title != "忘记了，后面再改")
+                                {
+                                    //添加属性
+                                    XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                                    TASKLink.Value = newNotetext.Value;
+                                    newNote.Attributes.Append(TASKLink);
+                                    newNotetext.Value = title;
+                                }
+                            }
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                             newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -4908,6 +4992,18 @@ namespace DocearReminder
                         XmlNode newNote = x.CreateElement("node");
                         XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                         newNotetext.Value = taskName;
+                        if (IsURL(newNotetext.Value))
+                        {
+                            string title = GetWebTitle(newNotetext.Value);
+                            if (title != "" && title != "忘记了，后面再改")
+                            {
+                                //添加属性
+                                XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                                TASKLink.Value = newNotetext.Value;
+                                newNote.Attributes.Append(TASKLink);
+                                newNotetext.Value = title;
+                            }
+                        }
                         XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                         newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                         XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -5879,6 +5975,18 @@ namespace DocearReminder
             XmlNode newNote = x.CreateElement("node");
             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
             newNotetext.Value = log;
+            if (IsURL(newNotetext.Value))
+            {
+                string title = GetWebTitle(newNotetext.Value);
+                if (title != "" && title != "忘记了，后面再改")
+                {
+                    //添加属性
+                    XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                    TASKLink.Value = newNotetext.Value;
+                    newNote.Attributes.Append(TASKLink);
+                    newNotetext.Value = title;
+                }
+            }
             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
             newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");

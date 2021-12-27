@@ -88,6 +88,7 @@ namespace DocearReminder
             this.Text = "Log";
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Log_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

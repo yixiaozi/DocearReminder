@@ -25,31 +25,40 @@ namespace DocearReminder
             InitializeComponent();
             logpass = ini.ReadString("password", "abc", "");
             resultlistBox.Items.Add(new result { Words = "", path = "" });
-            string fileName = System.AppDomain.CurrentDomain.BaseDirectory + "log.txt";
             resultlistBox.Items.Clear();
-            getalllog(fileName);
+            GetLog();
+            logs = logs.OrderByDescending(m=>m.Time).ToList();
+            resultlistBox.DisplayMember = "words";
+            resultlistBox.ValueMember = "path";
+            SearchLog();
+            Center();
+            keyword.Focus();
+        }
+        public void GetLog()
+        {
+            logs.Clear();
+            resultlistBox.Items.Clear();
+            string fileName = System.AppDomain.CurrentDomain.BaseDirectory + "log.txt";
+            GetFileLog(fileName);
             try
             {
-                foreach (string item in System.IO.Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory+@"\log"))
+                if (Showbackup.Checked)
                 {
-                    if (item.EndsWith("txt"))
+                    foreach (string item in System.IO.Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory + @"\log"))
                     {
-                        getalllog(item);
+                        if (item.EndsWith("txt"))
+                        {
+                            GetFileLog(item);
+                        }
                     }
                 }
             }
             catch (Exception)
             {
             }
-            logs = logs.OrderByDescending(m=>m.Time).ToList();
-            resultlistBox.DisplayMember = "words";
-            resultlistBox.ValueMember = "path";
-            getlog();
-            Center();
-            keyword.Focus();
-            getlog();
         }
-        public void getalllog(string fileName)
+
+        public void GetFileLog(string fileName)
         {
             const Int32 BufferSize = 128;
             using (var fileStream = File.OpenRead(fileName))
@@ -132,7 +141,7 @@ namespace DocearReminder
         {
             asc.controlAutoSize(this);
         }
-        public void getlog()
+        public void SearchLog()
         {
             resultlistBox.Items.Clear();
             foreach (result item in logs.Where(m => m.Words.ToLower().Contains(keyword.Text.ToLower())))
@@ -215,7 +224,7 @@ namespace DocearReminder
                 {
                     if (item.Name.EndsWith("txt"))
                     {
-                        getalllog(item.FullName);
+                        GetFileLog(item.FullName);
                     }
                 }
             }
@@ -226,7 +235,7 @@ namespace DocearReminder
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    getlog();
+                    SearchLog();
                     break;
             }
 
@@ -234,7 +243,7 @@ namespace DocearReminder
 
         private void button1_Click(object sender, EventArgs e)
         {
-            getlog();
+            SearchLog();
         }
 
         private void resultlistBox_DoubleClick(object sender, EventArgs e)
@@ -247,6 +256,14 @@ namespace DocearReminder
             {
             }
 
+        }
+
+        private void Showbackup_CheckedChanged(object sender, EventArgs e)
+        {
+            GetLog();
+            logs = logs.OrderByDescending(m => m.Time).ToList();
+            SearchLog();
+            Center();
         }
     }
 }

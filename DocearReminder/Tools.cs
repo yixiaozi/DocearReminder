@@ -28,6 +28,7 @@ namespace DocearReminder
         public Tools()
         {
             InitializeComponent();
+            checkBox1.Checked=DocearReminderForm.isZhuangbi ;
             Center();
         }
         public void Center()
@@ -118,7 +119,8 @@ namespace DocearReminder
         {
             try
             {
-                OpenFileDialog fileDialog = new OpenFileDialog();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                OpenFileDialog fileDialog = openFileDialog;
                 fileDialog.Multiselect = false;
                 fileDialog.Title = "请选择需要格式化的思维导图";
                 fileDialog.Filter = "思维导图(*mm*)|*.mm*"; //设置要选择的文件的类型
@@ -295,10 +297,12 @@ namespace DocearReminder
         {
             try
             {
-                OpenFileDialog fileDialog = new OpenFileDialog();
-                fileDialog.Multiselect = false;
-                fileDialog.Title = "请选择需要加密的日志";
-                fileDialog.Filter = "日志文件(*txt*)|*.txt*"; //设置要选择的文件的类型
+                OpenFileDialog fileDialog = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Title = "请选择需要加密的日志",
+                    Filter = "日志文件(*txt*)|*.txt*" //设置要选择的文件的类型
+                };
                 Encrypt encrypt = new Encrypt(DocearReminderForm.PassWord);
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -342,10 +346,12 @@ namespace DocearReminder
         {
             try
             {
-                OpenFileDialog fileDialog = new OpenFileDialog();
-                fileDialog.Multiselect = false;
-                fileDialog.Title = "请选择需要格式化的思维导图";
-                fileDialog.Filter = "思维导图(*mm*)|*.mm*"; //设置要选择的文件的类型
+                OpenFileDialog fileDialog = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Title = "请选择需要格式化的思维导图",
+                    Filter = "思维导图(*mm*)|*.mm*" //设置要选择的文件的类型
+                };
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string file = fileDialog.FileName;
@@ -386,45 +392,45 @@ namespace DocearReminder
         private void button4_Click(object sender, EventArgs e)
         {
             return;
-            IniFile ini = new IniFile(@"./config.ini");
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
-            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
-            {
-                try
-                {
-                    System.Xml.XmlDocument x = new XmlDocument();
-                    x.Load(file.FullName);
-                    bool isNeedUpdate = false;
-                    foreach (XmlNode node in x.GetElementsByTagName("node"))
-                    {
-                        try
-                        {
-                            if (node.Attributes != null && node.Attributes["TEXT"] != null && isURL(node.Attributes["TEXT"].Value) && node.Attributes["LINK"] == null)
-                            {
-                                XmlAttribute LINK = x.CreateAttribute("LINK");
-                                LINK.Value = node.Attributes["TEXT"].Value;
-                                node.Attributes["TEXT"].Value = yixiaozi.Net.HttpHelp.Web.getTitle(node.Attributes["TEXT"].Value);
-                                node.Attributes.Append(LINK);
-                                isNeedUpdate=true;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                    if (isNeedUpdate)
-                    {
-                        x.Save(file.FullName);
-                        yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName);
-                        //Thread th = new Thread(() => DocearReminderForm.ConvertFile(file.FullName));
-                        //th.Start();
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-            this.Close();
+            //IniFile ini = new IniFile(@"./config.ini");
+            //DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
+            //foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            //{
+            //    try
+            //    {
+            //        System.Xml.XmlDocument x = new XmlDocument();
+            //        x.Load(file.FullName);
+            //        bool isNeedUpdate = false;
+            //        foreach (XmlNode node in x.GetElementsByTagName("node"))
+            //        {
+            //            try
+            //            {
+            //                if (node.Attributes != null && node.Attributes["TEXT"] != null && isURL(node.Attributes["TEXT"].Value) && node.Attributes["LINK"] == null)
+            //                {
+            //                    XmlAttribute LINK = x.CreateAttribute("LINK");
+            //                    LINK.Value = node.Attributes["TEXT"].Value;
+            //                    node.Attributes["TEXT"].Value = yixiaozi.Net.HttpHelp.Web.getTitle(node.Attributes["TEXT"].Value);
+            //                    node.Attributes.Append(LINK);
+            //                    isNeedUpdate=true;
+            //                }
+            //            }
+            //            catch (Exception)
+            //            {
+            //            }
+            //        }
+            //        if (isNeedUpdate)
+            //        {
+            //            x.Save(file.FullName);
+            //            yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName);
+            //            //Thread th = new Thread(() => DocearReminderForm.ConvertFile(file.FullName));
+            //            //th.Start();
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+            //    }
+            //}
+            //this.Close();
         }
         //所有links建议文件
         private void button5_Click(object sender, EventArgs e)

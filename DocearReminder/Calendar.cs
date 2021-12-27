@@ -431,7 +431,7 @@ namespace Calendar
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted &&!m.isview&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text)));
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted &&!m.isview&&!m.isEBType&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text)));
                 if (workfolder_combox.SelectedItem!=null&&workfolder_combox.SelectedItem.ToString()== "RootPath")
                 {
                     items = items.Where(m=>!hasinworkfolder(m.mindmapPath));

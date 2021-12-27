@@ -32,6 +32,7 @@ namespace DocearReminder
             this.resultlistBox = new DocearReminder.Log.SortByTimeListBox();
             this.keyword = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.Showbackup = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // resultlistBox
@@ -48,7 +49,7 @@ namespace DocearReminder
             // 
             this.keyword.Location = new System.Drawing.Point(12, 13);
             this.keyword.Name = "keyword";
-            this.keyword.Size = new System.Drawing.Size(1029, 21);
+            this.keyword.Size = new System.Drawing.Size(960, 21);
             this.keyword.TabIndex = 1;
             this.keyword.TextChanged += new System.EventHandler(this.keyword_TextChanged);
             this.keyword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyword_KeyUp);
@@ -63,11 +64,23 @@ namespace DocearReminder
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // Showbackup
+            // 
+            this.Showbackup.AutoSize = true;
+            this.Showbackup.Location = new System.Drawing.Point(976, 18);
+            this.Showbackup.Name = "Showbackup";
+            this.Showbackup.Size = new System.Drawing.Size(72, 16);
+            this.Showbackup.TabIndex = 3;
+            this.Showbackup.Text = "显示备份";
+            this.Showbackup.UseVisualStyleBackColor = true;
+            this.Showbackup.CheckedChanged += new System.EventHandler(this.Showbackup_CheckedChanged);
+            // 
             // Log
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1134, 735);
+            this.Controls.Add(this.Showbackup);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.keyword);
             this.Controls.Add(this.resultlistBox);
@@ -85,5 +98,6 @@ namespace DocearReminder
         private SortByTimeListBox resultlistBox;
         private System.Windows.Forms.TextBox keyword;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox Showbackup;
     }
 }

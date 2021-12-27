@@ -873,20 +873,20 @@ namespace DocearReminder
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.menu_nodetree.Name = "contextMenuStrip3";
-            this.menu_nodetree.Size = new System.Drawing.Size(145, 48);
+            this.menu_nodetree.Size = new System.Drawing.Size(181, 70);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem7.Text = "删除(delete)";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItem8.Text = "设置任务";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem8.Text = "设置任务[C+enter]";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.ToolStripMenuItem8_Click);
             // 
             // menu_filetree

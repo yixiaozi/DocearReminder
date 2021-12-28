@@ -264,6 +264,7 @@ namespace DocearReminder
             this.dateTimePicker.CalendarTitleBackColor = System.Drawing.Color.White;
             this.dateTimePicker.CalendarTitleForeColor = System.Drawing.Color.Gray;
             this.dateTimePicker.CalendarTrailingForeColor = System.Drawing.Color.Gray;
+            this.dateTimePicker.Cursor = System.Windows.Forms.Cursors.Default;
             this.dateTimePicker.CustomFormat = "HH:mm MM月dd dddd";
             this.dateTimePicker.Font = new System.Drawing.Font("宋体", 8F);
             this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
@@ -276,6 +277,7 @@ namespace DocearReminder
             this.dateTimePicker.TabStop = false;
             this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             this.dateTimePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
+            this.dateTimePicker.MouseLeave += new System.EventHandler(this.dateTimePicker_MouseLeave);
             // 
             // n_days
             // 
@@ -325,7 +327,7 @@ namespace DocearReminder
             // 
             this.c_Wednesday.AutoSize = true;
             this.c_Wednesday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Wednesday.Location = new System.Drawing.Point(910, 51);
+            this.c_Wednesday.Location = new System.Drawing.Point(910, 50);
             this.c_Wednesday.Name = "c_Wednesday";
             this.c_Wednesday.Size = new System.Drawing.Size(13, 12);
             this.c_Wednesday.TabIndex = 29;
@@ -336,7 +338,7 @@ namespace DocearReminder
             // 
             this.c_Thursday.AutoSize = true;
             this.c_Thursday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Thursday.Location = new System.Drawing.Point(929, 51);
+            this.c_Thursday.Location = new System.Drawing.Point(929, 50);
             this.c_Thursday.Name = "c_Thursday";
             this.c_Thursday.Size = new System.Drawing.Size(13, 12);
             this.c_Thursday.TabIndex = 30;
@@ -347,7 +349,7 @@ namespace DocearReminder
             // 
             this.c_Friday.AutoSize = true;
             this.c_Friday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Friday.Location = new System.Drawing.Point(948, 51);
+            this.c_Friday.Location = new System.Drawing.Point(948, 50);
             this.c_Friday.Name = "c_Friday";
             this.c_Friday.Size = new System.Drawing.Size(13, 12);
             this.c_Friday.TabIndex = 31;
@@ -358,7 +360,7 @@ namespace DocearReminder
             // 
             this.c_Saturday.AutoSize = true;
             this.c_Saturday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Saturday.Location = new System.Drawing.Point(967, 51);
+            this.c_Saturday.Location = new System.Drawing.Point(967, 50);
             this.c_Saturday.Name = "c_Saturday";
             this.c_Saturday.Size = new System.Drawing.Size(13, 12);
             this.c_Saturday.TabIndex = 32;
@@ -417,7 +419,7 @@ namespace DocearReminder
             // 
             this.c_Sunday.AutoSize = true;
             this.c_Sunday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Sunday.Location = new System.Drawing.Point(986, 51);
+            this.c_Sunday.Location = new System.Drawing.Point(986, 50);
             this.c_Sunday.Name = "c_Sunday";
             this.c_Sunday.Size = new System.Drawing.Size(13, 12);
             this.c_Sunday.TabIndex = 38;
@@ -530,7 +532,7 @@ namespace DocearReminder
             // 
             this.ISLevel.AutoSize = true;
             this.ISLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ISLevel.Location = new System.Drawing.Point(1005, 33);
+            this.ISLevel.Location = new System.Drawing.Point(1005, 35);
             this.ISLevel.Name = "ISLevel";
             this.ISLevel.Size = new System.Drawing.Size(13, 12);
             this.ISLevel.TabIndex = 55;
@@ -553,7 +555,7 @@ namespace DocearReminder
             // 
             this.IsViewModel.AutoSize = true;
             this.IsViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsViewModel.Location = new System.Drawing.Point(1005, 51);
+            this.IsViewModel.Location = new System.Drawing.Point(1005, 50);
             this.IsViewModel.Name = "IsViewModel";
             this.IsViewModel.Size = new System.Drawing.Size(13, 12);
             this.IsViewModel.TabIndex = 59;
@@ -633,7 +635,7 @@ namespace DocearReminder
             // 
             this.IsJinianCheckBox.AutoSize = true;
             this.IsJinianCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsJinianCheckBox.Location = new System.Drawing.Point(986, 33);
+            this.IsJinianCheckBox.Location = new System.Drawing.Point(986, 35);
             this.IsJinianCheckBox.Name = "IsJinianCheckBox";
             this.IsJinianCheckBox.Size = new System.Drawing.Size(13, 12);
             this.IsJinianCheckBox.TabIndex = 86;
@@ -873,19 +875,19 @@ namespace DocearReminder
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.menu_nodetree.Name = "contextMenuStrip3";
-            this.menu_nodetree.Size = new System.Drawing.Size(181, 70);
+            this.menu_nodetree.Size = new System.Drawing.Size(180, 48);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(179, 22);
             this.toolStripMenuItem7.Text = "删除(delete)";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(179, 22);
             this.toolStripMenuItem8.Text = "设置任务[C+enter]";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.ToolStripMenuItem8_Click);
             // 

@@ -458,9 +458,17 @@ namespace DocearReminder
             RemindersOtherPath.RemoveAll(m => m.rootPath == rootpath.FullName);
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
-
-            foreach (MyListBoxItemRemind selectedReminder in RemindersOtherPath.Distinct().Where(m => m.Time - DateTime.Now >= new TimeSpan(0, 0, 0) && m.Time - DateTime.Now < new TimeSpan(0, 1, 0)))
+            List<string> name = new List<string>();
+            foreach (MyListBoxItemRemind selectedReminder in RemindersOtherPath.Distinct().Where(m => m.Time.DayOfYear==DateTime.Now.DayOfYear&& m.Time.Year == DateTime.Now.Year&&m.Time.Hour==DateTime.Now.Hour&&m.Time.Minute==DateTime.Now.Minute))
             {
+                if (name.Contains(selectedReminder.Name))
+                {
+                    continue;
+                }
+                else
+                {
+                    name.Add(selectedReminder.Name);
+                }
                 if (selectedReminder != null && selectedReminder.rtaskTime != 0)
                 {
                     if (GetPosition() < 20)
@@ -498,7 +506,6 @@ namespace DocearReminder
                     }
                 }
             }
-            System.Threading.Thread.Sleep(1000);//延迟应该放到外面否则，同一个时间的只能有一个出来
         }
 
         #endregion
@@ -2346,6 +2353,11 @@ namespace DocearReminder
                     e.Graphics.FillRectangle(mybsh, rect);
                     e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), rectleft); //Yellow
                 }
+                else
+                {
+                    e.Graphics.FillRectangle(mybsh, rect);
+                    e.Graphics.FillRectangle(new SolidBrush(Color.White), rectleft); //Yellow
+                }
                 if (searchword.Text.StartsWith("#"))
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
@@ -3143,12 +3155,17 @@ namespace DocearReminder
             if (reminderListBox.Focused)
             {
                 reminderlistSelectedItem = reminderListBox.SelectedItem;
-                //reminderListBox.Refresh();
+                reminderList.SelectedIndex = -1;
             }
             else
             {
-                //reminderList.Refresh();
+                reminderListBox.SelectedIndex = -1;
             }
+            if (reminderListBox.Visible)
+            {
+                reminderListBox.Refresh();
+            }
+            reminderList.Refresh();
             if (reminderlistSelectedItem == null)
             {
                 return;
@@ -3535,6 +3552,10 @@ namespace DocearReminder
             {
                 c_week.Checked = c_month.Checked = c_year.Checked = c_hour.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
+                if (n_days.Value==0)
+                {
+                    n_days.Value = 1;
+                }
             }
         }
         private void c_week_CheckedChanged(object sender, EventArgs e)
@@ -3544,6 +3565,10 @@ namespace DocearReminder
                 c_day.Checked = c_month.Checked = c_year.Checked = c_hour.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
             }
+            if (n_days.Value == 0)
+            {
+                n_days.Value = 1;
+            }
         }
         private void c_month_CheckedChanged(object sender, EventArgs e)
         {
@@ -3551,6 +3576,10 @@ namespace DocearReminder
             {
                 c_week.Checked = c_day.Checked = c_year.Checked = c_hour.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
+            }
+            if (n_days.Value == 0)
+            {
+                n_days.Value = 1;
             }
         }
         private void c_year_CheckedChanged(object sender, EventArgs e)
@@ -3560,6 +3589,10 @@ namespace DocearReminder
                 c_week.Checked = c_month.Checked = c_day.Checked = c_hour.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
             }
+            if (n_days.Value == 0)
+            {
+                n_days.Value = 1;
+            }
         }
         private void c_hour_CheckedChanged(object sender, EventArgs e)
         {
@@ -3567,6 +3600,10 @@ namespace DocearReminder
             {
                 c_week.Checked = c_month.Checked = c_day.Checked = c_year.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
+            }
+            if (n_days.Value == 0)
+            {
+                n_days.Value = 1;
             }
         }
         private void c_remember_CheckedChanged(object sender, EventArgs e)
@@ -5921,7 +5958,24 @@ namespace DocearReminder
             //{
             //    title = title.Substring(0, 30);
             //}
+            try
+            {
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\"))
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\");
+                }
+                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\" + ReplaceSpecialCharacterV2(DateTime.Now.ToString()+ title)+ ".html", sb.ToString());
+            }
+            catch (Exception)
+            {
+                return title;
+            }
             return title;
+        }
+        public string ReplaceSpecialCharacterV2(string str)
+        {
+            List<string> charArr = new List<string>() { "\\", "/", "*", "?", "<", ">", "|", ":", "\"" };
+            return charArr.Aggregate(str, (current, c) => current.Replace(c, ""));
         }
         private void hiddenmenu_DoubleClick(object sender, EventArgs e)
         {
@@ -6087,7 +6141,7 @@ namespace DocearReminder
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!keyNotWork() && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F11)
+            if (!keyNotWork() && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
             {
                 return;
             }
@@ -7231,6 +7285,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F5:
+                    SearchText_suggest.Visible = false;
                     RRReminderlist();
                     break;
                 case Keys.F6:
@@ -7245,6 +7300,8 @@ namespace DocearReminder
                         //{
                         //    fenlei_todo.Checked = !fenlei_todo.Checked;
                         //}
+                        MyHide();
+                        OpenSearch();
                     }
                     break;
                 case Keys.F7:
@@ -7259,6 +7316,8 @@ namespace DocearReminder
                         //{
                         //    fenlei_keepme.Checked = !fenlei_keepme.Checked;
                         //}
+                        MyHide();
+                        Btn_OpenFolder_Click();
                     }
                     break;
                 case Keys.F8:
@@ -7273,6 +7332,8 @@ namespace DocearReminder
                         //{
                         //    fenlei_rest.Checked = !fenlei_rest.Checked;
                         //}
+                        MyHide();
+                        btn_OpenFile_MouseClick();
                     }
                     break;
                 case Keys.F9:
@@ -7287,6 +7348,9 @@ namespace DocearReminder
                         //{
                         //    fenlei_wonderfull.Checked = !fenlei_wonderfull.Checked;
                         //}
+                        MyHide();
+                        Tools menu = new Tools();
+                        menu.ShowDialog();
                     }
                     break;
                 case Keys.FinalMode:
@@ -9850,7 +9914,7 @@ namespace DocearReminder
             {
                 return;
             }
-            if (searchword.Text.Length < 2)
+            if (searchword.Text.Length < 2&&!searchword.Text.StartsWith("@"))
             {
                 needSuggest = true;
                 SearchText_suggest.Visible = false;
@@ -11030,8 +11094,37 @@ namespace DocearReminder
                     reminderList.SelectedIndex = posindex;
                     menu_reminderlist.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
                 }
+                else
+                {
+                    IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
+                    RRReminderlist();
+                    reminderList.Refresh();
+                }
             }
-            reminderList.Refresh();
+            if (e.Button == MouseButtons.Left)
+            {
+                int posindex = reminderList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                reminderList.ContextMenuStrip = null;
+                if (posindex >= 0 && posindex < reminderList.Items.Count)
+                {
+                    //reminderList.SelectedIndex = posindex;
+                    //menu_reminderlist.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
+                }
+                else
+                {
+                    if (IsReminderOnlyCheckBox.Checked)
+                    {
+                        IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
+                        RRReminderlist();
+                    }
+                    else
+                    {
+                        showcyclereminder.Checked = !showcyclereminder.Checked;
+                        RRReminderlist();
+                    }
+                    reminderList.Refresh();
+                }
+            }
         }
         private void mindmaplist_MouseDown(object sender, MouseEventArgs e)
         {
@@ -11982,5 +12075,19 @@ namespace DocearReminder
             }
         }
         #endregion
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void dateTimePicker_MouseLeave(object sender, EventArgs e)
+        {
+            //EditTime_Clic(null, null);
+        }
     }
 }

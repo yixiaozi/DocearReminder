@@ -19,7 +19,6 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.Form1.resourc
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.Properties.Resources.resources
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csproj.GenerateResource.cache
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csproj.CoreCompileInputs.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csproj.CopyComplete
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.exe
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.pdb
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.IO.Compression.ZipFile.dll

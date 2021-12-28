@@ -32,8 +32,8 @@ namespace Update
             {
                 button1.Enabled = false;
                 label1.Text = "正在检查更新......";
-                //string version = HttpRequest.HttpGet("https://github.com/yixiaozi/DocearReminder/blob/main/README.md");
-                string version = HttpRequest.HttpGet("https://thrower.cc/SuperBusterLatestVersion.html");
+                string version = HttpRequest.HttpGet("https://github.com/yixiaozi/DocearReminder/blob/main/README.md");
+                //string version = HttpRequest.HttpGet("https://thrower.cc/SuperBusterLatestVersion.html");
                 Version versionCurrent = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                 string versionCurrentStr = string.Format("{0}.{1}.{2}.{3}", versionCurrent.Major, versionCurrent.Minor, versionCurrent.Build, versionCurrent.Revision.ToString("0000"));
                 MessageBox.Show(versionCurrentStr);

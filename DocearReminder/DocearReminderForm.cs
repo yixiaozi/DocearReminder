@@ -3127,18 +3127,18 @@ namespace DocearReminder
 
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            if (dateTimePicker.Focused && taskTime.Value == 0)
-            {
-                taskTime.Value = 10;
-            }
-            if (dateTimePicker.Focused && tasklevel.Value == 0 && mindmapornode.Text.Contains(">"))
-            {
-                tasklevel.Value = 1;
-            }
-            if (dateTimePicker.Focused && dateTimePicker.Value < DateTime.Now && dateTimePicker.Value.Day == 1)
-            {
-                dateTimePicker.Value = dateTimePicker.Value.AddMonths(1);
-            }
+            //if (dateTimePicker.Focused && taskTime.Value == 0)
+            //{
+            //    taskTime.Value = 10;
+            //}
+            //if (dateTimePicker.Focused && tasklevel.Value == 0 && mindmapornode.Text.Contains(">"))
+            //{
+            //    tasklevel.Value = 1;
+            //}
+            //if (dateTimePicker.Focused && dateTimePicker.Value < DateTime.Now && dateTimePicker.Value.Day == 1)
+            //{
+            //    dateTimePicker.Value = dateTimePicker.Value.AddMonths(1);
+            //}
         }
         bool isInReminderList = false;
         private void reminderlist_SelectedIndexChanged(object sender, EventArgs e)
@@ -7160,13 +7160,16 @@ namespace DocearReminder
                             }
                             else if (searchword.Text.StartsWith("#"))
                             {
+                                searchword.Text = "";
                                 reminderList.Focus();
-                                reminderList.SelectedIndex = 0;
+                                RRReminderlist();
+                                reminderList.SelectedIndex = reminderSelectIndex;
                             }
                             else
                             {
                                 searchword.Text = "";
                                 reminderList.Focus();
+                                RRReminderlist();
                                 reminderList.SelectedIndex = reminderSelectIndex;
                             }
                         }
@@ -7596,6 +7599,10 @@ namespace DocearReminder
                     {
                         n_days.Value += 1;
                     }
+                    else if (dateTimePicker.Focused)
+                    {
+                        dateTimePicker.Value= dateTimePicker.Value.AddHours(1);
+                    }
                     else if (nodetree.Focused)
                     {
                         try
@@ -7628,7 +7635,7 @@ namespace DocearReminder
                 case Keys.K:
                     if (keyNotWork())
                     {
-                        if (ReminderListFocused() || reminderListBox.Focused)
+                        if (ReminderListFocused())
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
@@ -7762,6 +7769,11 @@ namespace DocearReminder
                         {
                             n_days.Value -= 1;
                         }
+                    }
+                    
+                    else if (dateTimePicker.Focused)
+                    {
+                        dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
                     }
                     else if (nodetree.Focused)
                     {
@@ -7988,23 +8000,30 @@ namespace DocearReminder
                 case Keys.O:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        if (ReminderListFocused())
                         {
-                            do
+                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                dateTimePicker.Value = dateTimePicker.Value.AddHours(1);
+                                do
+                                {
+                                    dateTimePicker.Value = dateTimePicker.Value.AddHours(1);
+                                }
+                                while (dateTimePicker.Value < DateTime.Now);
+                                EditTime_Clic(null, null);
                             }
-                            while (dateTimePicker.Value < DateTime.Now);
-                            EditTime_Clic(null, null);
+                            else if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            {
+                                CanceSelectedlTask(false);
+                            }
+                            else
+                            {
+                                taskComplete_btn_Click(null, null);
+                                PlaySimpleSound("Done");
+                            }
                         }
-                        else if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        else if (dateTimePicker.Focused)
                         {
-                            CanceSelectedlTask(false);
-                        }
-                        else
-                        {
-                            taskComplete_btn_Click(null, null);
-                            PlaySimpleSound("Done");
+                            dateTimePicker.Value = dateTimePicker.Value.AddDays(1);
                         }
                     }
                     break;
@@ -8039,15 +8058,22 @@ namespace DocearReminder
                 case Keys.P:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        if (ReminderListFocused())
                         {
-                            dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
-                            EditTime_Clic(null, null);
+                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
+                                EditTime_Clic(null, null);
 
+                            }
+                            else
+                            {
+                                DelaySelectedTask();
+                            }
                         }
-                        else
+                        else if (dateTimePicker.Focused)
                         {
-                            DelaySelectedTask();
+                            dateTimePicker.Value = dateTimePicker.Value.AddDays(-1);
                         }
                     }
                     break;
@@ -12088,6 +12114,11 @@ namespace DocearReminder
         private void dateTimePicker_MouseLeave(object sender, EventArgs e)
         {
             //EditTime_Clic(null, null);
+        }
+
+        private void EditTaskTime_Click(object sender, EventArgs e)
+        {
+            EditTime_Clic(null, null);
         }
     }
 }

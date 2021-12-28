@@ -59,6 +59,7 @@ namespace Calendar
             workfolder_combox.Items.Add("All");
             workfolder_combox.SelectedIndex= hasinworkfolderIndex(mindmappath);
             taskname.Text = "";
+            tasktime.Text = "";
             string no = ini.ReadString("path", "no", "");
             noFolder = no.Split(';');
             CalendarImagePath = ini.ReadStringDefault("path", "CalendarImagePath", "");
@@ -603,6 +604,17 @@ namespace Calendar
 
         private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
         {
+            if (!Console.CapsLock==true)
+            {
+                dayView1.AllowInplaceEditing = true;
+                dayView1.AllowNew = true;
+                return;
+            }
+            else
+            {
+                dayView1.AllowInplaceEditing = false;
+                dayView1.AllowNew = false;
+            }
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -715,8 +727,9 @@ namespace Calendar
             {
                 try
                 {
-                    taskname.Text = dayView1.SelectedAppointment.Title;
-                    tasktime.Text = ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "∑÷÷”");
+                    //taskname.Text = dayView1.SelectedAppointment.Title;
+                    //tasktime.Text = ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "∑÷÷”");
+                    this.Text = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "∑÷÷”"+"|"+ dayView1.SelectedAppointment.Title;
                 }
                 catch (Exception)
                 {

@@ -1,0 +1,3 @@
+2021/12/29 6:28:03   E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\DocearReminder.exe
+2021/12/29 7:00:03               Console.CapsLock = true;
+

@@ -134,6 +134,7 @@ namespace DocearReminder
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.EditTaskTime = new System.Windows.Forms.Button();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1325,6 +1326,20 @@ namespace DocearReminder
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
             // 
+            // EditTaskTime
+            // 
+            this.EditTaskTime.BackColor = System.Drawing.Color.White;
+            this.EditTaskTime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.EditTaskTime.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.EditTaskTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.EditTaskTime.ForeColor = System.Drawing.Color.White;
+            this.EditTaskTime.Location = new System.Drawing.Point(860, 8);
+            this.EditTaskTime.Name = "EditTaskTime";
+            this.EditTaskTime.Size = new System.Drawing.Size(12, 23);
+            this.EditTaskTime.TabIndex = 125;
+            this.EditTaskTime.UseVisualStyleBackColor = false;
+            this.EditTaskTime.Click += new System.EventHandler(this.EditTaskTime_Click);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1332,6 +1347,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.Controls.Add(this.EditTaskTime);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.pictureBox1);
@@ -1547,6 +1563,7 @@ namespace DocearReminder
         private NotifyIcon notifyIcon1;
         private ToolStripMenuItem 打开文件ToolStripMenuItem;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
+        private Button EditTaskTime;
     }
 }
 

@@ -1319,6 +1319,9 @@ namespace DocearReminder
             // 
             // notifyIcon1
             // 
+            this.notifyIcon1.BalloonTipText = "1";
+            this.notifyIcon1.BalloonTipTitle = "2";
+            this.notifyIcon1.ContextMenuStrip = this.menu;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "DocearReminder:请作对的事！";
             this.notifyIcon1.Visible = true;

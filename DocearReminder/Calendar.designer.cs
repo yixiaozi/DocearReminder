@@ -80,6 +80,8 @@ namespace Calendar
             this.dayView1.WorkingMinuteEnd = 0;
             this.dayView1.WorkingMinuteStart = 0;
             this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
+            this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
+            //this.dayView1.NewAppointment += new yixiaozi.WinForm.Control.Calendar.NewAppointmentEventHandler(this.dayView1_NewAppointment_1);
             this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
             this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
             this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);

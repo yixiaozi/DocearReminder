@@ -82,7 +82,7 @@ namespace Calendar
             dayView1.StartDate = startWeek;
             dayView1.NewAppointment += new NewAppointmentEventHandler(dayView1_NewAppointment);
             dayView1.SelectionChanged += new EventHandler(dayView1_SelectionChanged);
-            dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
+            //dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
             dayView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseMove);
             timer1.Interval = 60000;
             timer1.Start();
@@ -133,7 +133,7 @@ namespace Calendar
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void addreminderlog(string TaskName, string ID, string mindmap,double tasktime)
+        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap,double tasktime,DateTime taskTime)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace Calendar
                     reminderObject.reminders.Add(new ReminderItem
                     {
                         name = TaskName,
-                        time = DateTime.Now,
+                        time = taskTime,
                         mindmapPath = mindmap,
                         mindmap="calander",
                         ID = ID,
@@ -183,7 +183,7 @@ namespace Calendar
             m_Appointments.Add(m_Appointment);
             try
             {
-                addreminderlog(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes);
+                reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes,args.StartDate);
                 string path = mindmappath + @"\calander.mm";
                 if (!System.IO.File.Exists(path))
                 {
@@ -192,42 +192,42 @@ namespace Calendar
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(path);
                 XmlNode root = x.GetElementsByTagName("node")[0];
-                if (!HaschildNode(root, DateTime.Now.Year.ToString()))
+                if (!HaschildNode(root, args.StartDate.Year.ToString()))
                 {
                     XmlNode yearNode = x.CreateElement("node");
                     XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
-                    yearNodeValue.Value = DateTime.Now.Year.ToString();
+                    yearNodeValue.Value = args.StartDate.Year.ToString();
                     yearNode.Attributes.Append(yearNodeValue);
                     root.AppendChild(yearNode);
                 }
-                XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
-                if (!HaschildNode(year, DateTime.Now.Month.ToString()))
+                XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == args.StartDate.Year.ToString());
+                if (!HaschildNode(year, args.StartDate.Month.ToString()))
                 {
                     XmlNode monthNode = x.CreateElement("node");
                     XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
-                    monthNodeValue.Value = DateTime.Now.Month.ToString();
+                    monthNodeValue.Value = args.StartDate.Month.ToString();
                     monthNode.Attributes.Append(monthNodeValue);
                     year.AppendChild(monthNode);
                 }
-                XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
-                if (!HaschildNode(month, DateTime.Now.Day.ToString()))
+                XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == args.StartDate.Month.ToString());
+                if (!HaschildNode(month, args.StartDate.Day.ToString()))
                 {
                     XmlNode dayNode = x.CreateElement("node");
                     XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
-                    dayNodeValue.Value = DateTime.Now.Day.ToString();
+                    dayNodeValue.Value = args.StartDate.Day.ToString();
                     dayNode.Attributes.Append(dayNodeValue);
                     month.AppendChild(dayNode);
                 }
-                XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
+                XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == args.StartDate.Day.ToString());
                 XmlNode newNote = x.CreateElement("node");
                 string changedtaskname = args.Title;
                 XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                 SaveLog("日历添加任务：" + changedtaskname + "    导图：" + mindmappath + @"\calander.mm");
                 newNotetext.Value = changedtaskname;
                 XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                newNoteCREATED.Value = (Convert.ToInt64((args.StartDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                 XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
-                newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                newNoteMODIFIED.Value = (Convert.ToInt64((args.StartDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                 newNote.Attributes.Append(newNotetext);
                 newNote.Attributes.Append(newNoteCREATED);
                 newNote.Attributes.Append(newNoteMODIFIED);
@@ -447,7 +447,7 @@ namespace Calendar
                     string taskname = item.name;
                     if (!logfile.Contains("fanqie"))
                     {
-                        taskname += ("("+item.tasktime.ToString("N0")+")");
+                        //taskname += ("("+item.tasktime.ToString("N0")+")");
                     }
                     if (item.tasktime < 15)
                     {
@@ -464,7 +464,7 @@ namespace Calendar
                             {
                                 m_Appointment.EndDate = dt;
                             }
-                            taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
+                            //taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
                         }
                     }
                     if (isZhuangbi)
@@ -606,90 +606,100 @@ namespace Calendar
         {
             if (!Console.CapsLock==true)
             {
-                dayView1.AllowInplaceEditing = true;
-                dayView1.AllowNew = true;
-                return;
+                switch (e.KeyCode)
+                {
+                    case Keys.Enter:
+                        Edit(true);
+                        break;
+                    default:
+                        break;
+                }
+                if (!dayView1.AllowInplaceEditing)
+                {
+                    dayView1.AllowInplaceEditing = true;
+                    dayView1.AllowNew = true;
+                }
             }
             else
             {
+                switch (e.KeyCode)
+                {
+                    case Keys.Up:
+                        if (numericUpDown1.Value <= 14)
+                        {
+                            numericUpDown1.Value++;
+                        }
+                        break;
+                    case Keys.Down:
+                        if (numericUpDown1.Value >= 2)
+                        {
+                            numericUpDown1.Value--;
+                        }
+                        break;
+
+                    case Keys.Left:
+                        if (numericUpDown1.Value == 7)
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
+                        }
+                        else if (numericUpDown1.Value == 15)
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-15);
+                        }
+                        else
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                        }
+                        break;
+                    case Keys.Right:
+                        if (numericUpDown1.Value == 7)
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
+                        }
+                        else if (numericUpDown1.Value == 15)
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(15);
+                        }
+                        else
+                        {
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
+                        }
+                        break;
+                    case Keys.S:
+                        if (logfile == "reminder.json")
+                        {
+                            logfile = "fanqie.json";
+                        }
+                        else
+                        {
+                            logfile = "reminder.json";
+                        }
+                        RefreshCalender();
+                        dayView1.StartDate = dayView1.StartDate;//用于刷新
+                        break;
+                    case Keys.Q:
+                        this.Close();
+                        break;
+                    case Keys.PageUp:
+                        if (numericUpDown2.Value <= 19)
+                        {
+                            numericUpDown2.Value++;
+                        }
+                        break;
+                    case Keys.PageDown:
+                        if (numericUpDown2.Value >= 1)
+                        {
+                            numericUpDown2.Value--;
+                        }
+                        break;
+                    case Keys.Home:
+                        dateTimePicker1.Value = DateTime.Today;
+                        break;
+                    default:
+                        break;
+                }
                 dayView1.AllowInplaceEditing = false;
                 dayView1.AllowNew = false;
-            }
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    if (numericUpDown1.Value <= 14)
-                    {
-                        numericUpDown1.Value++;
-                    }
-                    break;
-                case Keys.Down:
-                    if (numericUpDown1.Value >= 2)
-                    {
-                        numericUpDown1.Value--;
-                    }
-                    break;
-
-                case Keys.Left:
-                    if (numericUpDown1.Value == 7)
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
-                    }
-                    else if (numericUpDown1.Value == 15)
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-15);
-                    }
-                    else
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
-                    }
-                    break;
-                case Keys.Right:
-                    if (numericUpDown1.Value == 7)
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
-                    }
-                    else if (numericUpDown1.Value == 15)
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(15);
-                    }
-                    else
-                    {
-                        dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
-                    }
-                    break;
-                case Keys.S:
-                    if (logfile == "reminder.json")
-                    {
-                        logfile = "fanqie.json";
-                    }
-                    else
-                    {
-                        logfile = "reminder.json";
-                    }
-                    RefreshCalender();
-                    dayView1.StartDate = dayView1.StartDate;//用于刷新
-                    break;
-                case Keys.Q:
-                    this.Close();
-                    break;
-                case Keys.PageUp:
-                    if (numericUpDown2.Value <= 19)
-                    {
-                        numericUpDown2.Value++;
-                    }
-                    break;
-                case Keys.PageDown:
-                    if (numericUpDown2.Value >= 1)
-                    {
-                        numericUpDown2.Value--;
-                    }
-                    break;
-                case Keys.Home:
-                    dateTimePicker1.Value = DateTime.Today;
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -745,7 +755,7 @@ namespace Calendar
             }
             
         }
-        public void EditTask(string path,string id,DateTime startdate,double tasktime)
+        public void EditTask(string path,string id,DateTime startdate,double tasktime,string TaskName)
         {
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(path);
@@ -785,6 +795,7 @@ namespace Calendar
                         XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
                         node.Attributes.Append(TASKTIME);
                         node.Attributes["TASKTIME"].Value = ((int)tasktime).ToString();
+                        node.Attributes["TEXT"].Value = TaskName;
                         x.Save(path);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                         th.Start();
@@ -819,19 +830,23 @@ namespace Calendar
                 }
             }
         }
-
+        //修改时间
         private void dayView1_MouseUp(object sender, MouseEventArgs e)
         {
             if (logfile.Contains("fanqie"))
             {
                 return;
             }
-            if (ismovetask&& dayView1.SelectedAppointment!=null)
+            Edit();
+        }
+        public void Edit(bool isEdit=false)
+        {
+            if ((ismovetask||isEdit)&& dayView1.SelectedAppointment != null)
             {
                 ismovetask = false;
                 try
                 {
-                    EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes);
+                    EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
                     Reminder reminderObject = new Reminder();
                     FileInfo fi = new FileInfo(logfile);
                     if (!System.IO.File.Exists(logfile))
@@ -844,7 +859,7 @@ namespace Calendar
                         var serializer = new JavaScriptSerializer();
                         reminderObject = serializer.Deserialize<Reminder>(s);
                         ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
-                        if (current!=null)
+                        if (current != null)
                         {
                             current.time = dayView1.SelectedAppointment.StartDate;
                             current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
@@ -907,6 +922,11 @@ namespace Calendar
         }
 
         private void comboBox1_SelectedIndexChanged_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dayView1_NewAppointment_1(object sender, NewAppointmentEventArgs args)
         {
 
         }

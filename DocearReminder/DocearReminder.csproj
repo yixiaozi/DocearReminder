@@ -187,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Reminders.ico" />
+    <None Include="Resources\柳侑绮 %2858%29.jpg" />
     <Content Include="tomato.ico" />
   </ItemGroup>
   <ItemGroup>

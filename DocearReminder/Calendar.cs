@@ -39,6 +39,8 @@ namespace Calendar
         [DllImport("User32.dll")]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
         Encrypt encryptlog;
+        string lastId = "";
+        string lastName = "";
 
         public CalendarForm(string path)// 后期希望只显示当期文件夹的日历
         {
@@ -283,6 +285,22 @@ namespace Calendar
 
         private void dayView1_SelectionChanged(object sender, EventArgs e)
         {
+            if (dayView1.SelectedAppointment!=null)
+            {
+                lastId = dayView1.SelectedAppointment.ID;
+                lastName = dayView1.SelectedAppointment.Title;
+            }
+            //测试是否变化
+            foreach (Appointment m_App in m_Appointments)
+            {
+                if (m_App.ID==lastId&&m_App.Title!=lastName)
+                {
+                    Edit(true, m_App);
+                    lastId = m_App.ID;
+                    lastName = m_App.Title;
+                }
+                
+            }
         }
         public bool HaschildNode(XmlNode node, string child)
         {
@@ -837,9 +855,16 @@ namespace Calendar
             {
                 return;
             }
-            Edit();
+            if (e.Button== MouseButtons.Left)
+            {
+                Edit();
+            }
+            else if (e.Button==MouseButtons.Right)
+            {
+                contextMenuStrip1.Show(dayView1, new System.Drawing.Point(e.X, e.Y));
+            }
         }
-        public void Edit(bool isEdit=false)
+        public void Edit(bool isEdit=false,Appointment app=null)
         {
             if ((ismovetask||isEdit)&& dayView1.SelectedAppointment != null)
             {
@@ -863,6 +888,43 @@ namespace Calendar
                         {
                             current.time = dayView1.SelectedAppointment.StartDate;
                             current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                            current.name = dayView1.SelectedAppointment.Title;
+                        }
+                    }
+                    string json = new JavaScriptSerializer().Serialize(reminderObject);
+                    File.WriteAllText(@"reminder.json", "");
+                    using (StreamWriter sw = fi.AppendText())
+                    {
+                        sw.Write(json);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            else if (app != null)
+            {
+                ismovetask = false;
+                try
+                {
+                    EditTask(app.value, app.ID, app.StartDate, (app.EndDate - app.StartDate).TotalMinutes, app.Title);
+                    Reminder reminderObject = new Reminder();
+                    FileInfo fi = new FileInfo(logfile);
+                    if (!System.IO.File.Exists(logfile))
+                    {
+                        File.WriteAllText(logfile, "");
+                    }
+                    using (StreamReader sw = fi.OpenText())
+                    {
+                        string s = sw.ReadToEnd();
+                        var serializer = new JavaScriptSerializer();
+                        reminderObject = serializer.Deserialize<Reminder>(s);
+                        ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(app.value) && m.ID == app.ID);
+                        if (current != null)
+                        {
+                            current.time = app.StartDate;
+                            current.tasktime = (app.EndDate - app.StartDate).TotalMinutes;
+                            current.name = app.Title;
                         }
                     }
                     string json = new JavaScriptSerializer().Serialize(reminderObject);

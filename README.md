@@ -1,4 +1,5 @@
 # DocearReminder
+[![Gitter](https://badges.gitter.im/yixiaozi/DocearReminder.svg)](https://gitter.im/yixiaozi/DocearReminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## 主窗口
 ![DocearReminderForm](Info/images/DocearReminderForm.png "")

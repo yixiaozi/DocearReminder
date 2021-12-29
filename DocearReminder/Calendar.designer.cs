@@ -48,10 +48,15 @@ namespace Calendar
             this.tasktime = new System.Windows.Forms.Label();
             this.numericOpacity = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置时间ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dayView1
@@ -62,6 +67,7 @@ namespace Calendar
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dayView1.BackColor = System.Drawing.Color.White;
+            this.dayView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dayView1.DaysToShow = 7;
             this.dayView1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.dayView1.HalfHourHeight = 20;
@@ -81,7 +87,6 @@ namespace Calendar
             this.dayView1.WorkingMinuteStart = 0;
             this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
             this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
-            //this.dayView1.NewAppointment += new yixiaozi.WinForm.Control.Calendar.NewAppointmentEventHandler(this.dayView1_NewAppointment_1);
             this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
             this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
             this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
@@ -236,13 +241,42 @@ namespace Calendar
             "任务",
             "不重要",
             "记录",
-            "记忆"});
+            "记忆",
+            "所有"});
             this.comboBox1.Location = new System.Drawing.Point(348, 0);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(90, 20);
             this.comboBox1.TabIndex = 30;
             this.comboBox1.Text = "任务";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_2);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.完成ToolStripMenuItem,
+            this.打开导图ToolStripMenuItem,
+            this.设置时间ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
+            // 
+            // 完成ToolStripMenuItem
+            // 
+            this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.柳侑绮__58_;
+            this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.完成ToolStripMenuItem.Text = "完成";
+            // 
+            // 打开导图ToolStripMenuItem
+            // 
+            this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开导图ToolStripMenuItem.Text = "打开导图";
+            // 
+            // 设置时间ToolStripMenuItem
+            // 
+            this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
+            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.设置时间ToolStripMenuItem.Text = "设置时间";
             // 
             // CalendarForm
             // 
@@ -278,6 +312,7 @@ namespace Calendar
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -300,6 +335,10 @@ namespace Calendar
         private System.Windows.Forms.Label tasktime;
         private System.Windows.Forms.NumericUpDown numericOpacity;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 完成ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开导图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 设置时间ToolStripMenuItem;
     }
 }
 

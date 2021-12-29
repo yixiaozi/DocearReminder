@@ -34,6 +34,10 @@ namespace Calendar
             yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
             this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置时间ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -48,15 +52,11 @@ namespace Calendar
             this.tasktime = new System.Windows.Forms.Label();
             this.numericOpacity = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.设置时间ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dayView1
@@ -91,6 +91,36 @@ namespace Calendar
             this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
             this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
             this.dayView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseUp);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.完成ToolStripMenuItem,
+            this.打开导图ToolStripMenuItem,
+            this.设置时间ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
+            // 
+            // 完成ToolStripMenuItem
+            // 
+            this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
+            this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.完成ToolStripMenuItem.Text = "完成";
+            // 
+            // 打开导图ToolStripMenuItem
+            // 
+            this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
+            this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开导图ToolStripMenuItem.Text = "打开导图";
+            // 
+            // 设置时间ToolStripMenuItem
+            // 
+            this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
+            this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
+            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.设置时间ToolStripMenuItem.Text = "设置时间";
             // 
             // panel1
             // 
@@ -250,34 +280,6 @@ namespace Calendar
             this.comboBox1.Text = "任务";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_2);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.完成ToolStripMenuItem,
-            this.打开导图ToolStripMenuItem,
-            this.设置时间ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
-            // 
-            // 完成ToolStripMenuItem
-            // 
-            this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.柳侑绮__58_;
-            this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.完成ToolStripMenuItem.Text = "完成";
-            // 
-            // 打开导图ToolStripMenuItem
-            // 
-            this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.打开导图ToolStripMenuItem.Text = "打开导图";
-            // 
-            // 设置时间ToolStripMenuItem
-            // 
-            this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
-            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.设置时间ToolStripMenuItem.Text = "设置时间";
-            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -308,11 +310,11 @@ namespace Calendar
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

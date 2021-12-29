@@ -80,7 +80,6 @@ namespace DocearReminder
             this.c_remember = new System.Windows.Forms.CheckBox();
             this.ebcheckBox = new System.Windows.Forms.CheckBox();
             this.FileTreeView = new System.Windows.Forms.TreeView();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PathcomboBox = new System.Windows.Forms.ComboBox();
             this.IsReminderOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.menu_mindmaps = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -135,17 +134,18 @@ namespace DocearReminder
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.EditTaskTime = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).BeginInit();
             this.menu_reminderlist.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menu_mindmaps.SuspendLayout();
             this.menu_nodetree.SuspendLayout();
             this.menu_filetree.SuspendLayout();
             this.menu.SuspendLayout();
             this.panel_clearSearchWord.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // searchword
@@ -695,62 +695,63 @@ namespace DocearReminder
             this.打开所在目录ToolStripMenuItem,
             this.快捷键说明ToolStripMenuItem});
             this.menu_reminderlist.Name = "contextMenuStrip1";
-            this.menu_reminderlist.Size = new System.Drawing.Size(163, 202);
+            this.menu_reminderlist.Size = new System.Drawing.Size(181, 224);
             this.menu_reminderlist.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // toolStripMenuItem_oktask
             // 
+            this.toolStripMenuItem_oktask.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.toolStripMenuItem_oktask.Name = "toolStripMenuItem_oktask";
-            this.toolStripMenuItem_oktask.Size = new System.Drawing.Size(162, 22);
+            this.toolStripMenuItem_oktask.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem_oktask.Text = "完成 [O]:ok";
             this.toolStripMenuItem_oktask.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem_deny
             // 
             this.toolStripMenuItem_deny.Name = "toolStripMenuItem_deny";
-            this.toolStripMenuItem_deny.Size = new System.Drawing.Size(162, 22);
+            this.toolStripMenuItem_deny.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem_deny.Text = "推迟 [D]:deny";
             this.toolStripMenuItem_deny.Click += new System.EventHandler(this.ToolStripMenuItem_deny_Click);
             // 
             // toolStripMenuItemCalcal
             // 
             this.toolStripMenuItemCalcal.Name = "toolStripMenuItemCalcal";
-            this.toolStripMenuItemCalcal.Size = new System.Drawing.Size(162, 22);
+            this.toolStripMenuItemCalcal.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItemCalcal.Text = "取消 [C]";
             this.toolStripMenuItemCalcal.Click += new System.EventHandler(this.toolStripMenuItemCalcal_Click);
             // 
             // 仅查看CdToolStripMenuItem
             // 
             this.仅查看CdToolStripMenuItem.Name = "仅查看CdToolStripMenuItem";
-            this.仅查看CdToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.仅查看CdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.仅查看CdToolStripMenuItem.Text = "仅查看[C+d]";
             this.仅查看CdToolStripMenuItem.Click += new System.EventHandler(this.仅查看CdToolStripMenuItem_Click);
             // 
             // 非重要ToolStripMenuItem1
             // 
             this.非重要ToolStripMenuItem1.Name = "非重要ToolStripMenuItem1";
-            this.非重要ToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
+            this.非重要ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.非重要ToolStripMenuItem1.Text = "非重要[z]";
             this.非重要ToolStripMenuItem1.Click += new System.EventHandler(this.非重要ToolStripMenuItem1_Click);
             // 
             // 设置重要xToolStripMenuItem
             // 
             this.设置重要xToolStripMenuItem.Name = "设置重要xToolStripMenuItem";
-            this.设置重要xToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.设置重要xToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.设置重要xToolStripMenuItem.Text = "重要[x]";
             this.设置重要xToolStripMenuItem.Click += new System.EventHandler(this.设置重要xToolStripMenuItem_Click);
             // 
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openFileToolStripMenuItem.Text = "打开文件[enter]";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // 打开所在目录ToolStripMenuItem
             // 
             this.打开所在目录ToolStripMenuItem.Name = "打开所在目录ToolStripMenuItem";
-            this.打开所在目录ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.打开所在目录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开所在目录ToolStripMenuItem.Text = "打开文件夹";
             this.打开所在目录ToolStripMenuItem.Click += new System.EventHandler(this.打开所在目录ToolStripMenuItem_Click);
             // 
@@ -760,7 +761,7 @@ namespace DocearReminder
             this.下一个jToolStripMenuItem,
             this.上一个kToolStripMenuItem});
             this.快捷键说明ToolStripMenuItem.Name = "快捷键说明ToolStripMenuItem";
-            this.快捷键说明ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.快捷键说明ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.快捷键说明ToolStripMenuItem.Text = "快捷键说明";
             // 
             // 下一个jToolStripMenuItem
@@ -821,16 +822,6 @@ namespace DocearReminder
             this.FileTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.FileTreeView_NodeMouseDoubleClick);
             this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
             this.FileTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FileTreeView_MouseDown);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(927, 535);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(130, 155);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 113;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
             // 
             // PathcomboBox
             // 
@@ -1343,6 +1334,16 @@ namespace DocearReminder
             this.EditTaskTime.UseVisualStyleBackColor = false;
             this.EditTaskTime.Click += new System.EventHandler(this.EditTaskTime_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(927, 535);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(130, 155);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 113;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1440,13 +1441,13 @@ namespace DocearReminder
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).EndInit();
             this.menu_reminderlist.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menu_mindmaps.ResumeLayout(false);
             this.menu_nodetree.ResumeLayout(false);
             this.menu_filetree.ResumeLayout(false);
             this.menu.ResumeLayout(false);
             this.panel_clearSearchWord.ResumeLayout(false);
             this.panel_clearSearchWord.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

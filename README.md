@@ -1,6 +1,4 @@
 # DocearReminder
-[![Gitter](https://badges.gitter.im/yixiaozi/DocearReminder.svg)](https://gitter.im/yixiaozi/DocearReminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
 [![Join the chat at https://gitter.im/yixiaozi/DocearReminder](https://badges.gitter.im/yixiaozi/DocearReminder.svg)](https://gitter.im/yixiaozi/DocearReminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## 主窗口

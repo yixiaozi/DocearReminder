@@ -31,7 +31,7 @@ namespace Calendar
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
+            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool2 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
             this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -52,6 +52,7 @@ namespace Calendar
             this.tasktime = new System.Windows.Forms.Label();
             this.numericOpacity = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.lockButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -61,8 +62,8 @@ namespace Calendar
             // 
             // dayView1
             // 
-            drawTool1.DayView = this.dayView1;
-            this.dayView1.ActiveTool = drawTool1;
+            drawTool2.DayView = this.dayView1;
+            this.dayView1.ActiveTool = drawTool2;
             this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -103,21 +104,18 @@ namespace Calendar
             // 
             // 完成ToolStripMenuItem
             // 
-            this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
             this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             // 
             // 打开导图ToolStripMenuItem
             // 
-            this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
             this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             // 
             // 设置时间ToolStripMenuItem
             // 
-            this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
             this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.设置时间ToolStripMenuItem.Text = "设置时间";
@@ -280,6 +278,16 @@ namespace Calendar
             this.comboBox1.Text = "任务";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_2);
             // 
+            // lockButton
+            // 
+            this.lockButton.Location = new System.Drawing.Point(813, 0);
+            this.lockButton.Name = "lockButton";
+            this.lockButton.Size = new System.Drawing.Size(75, 21);
+            this.lockButton.TabIndex = 31;
+            this.lockButton.Text = "锁定";
+            this.lockButton.UseVisualStyleBackColor = true;
+            this.lockButton.Click += new System.EventHandler(this.lockButton_Click);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -299,6 +307,7 @@ namespace Calendar
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lockButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -341,6 +350,7 @@ namespace Calendar
         private System.Windows.Forms.ToolStripMenuItem 完成ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开导图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 设置时间ToolStripMenuItem;
+        private System.Windows.Forms.Button lockButton;
     }
 }
 

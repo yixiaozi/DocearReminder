@@ -107,10 +107,12 @@ namespace DocearReminder
         bool selectedpath = true;
         UsedTimer usedTimer = new UsedTimer();
         Guid currentUsedTimerId;
-
+        DateTime formActive;
+        TimeSpan leavespan = new TimeSpan();
         #endregion
         public DocearReminderForm()
         {
+            formActive = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
             SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
@@ -517,12 +519,34 @@ namespace DocearReminder
         }
         public void MyHide()
         {
+            LeaveTime();
             PlaySimpleSound("hide");
             SearchText_suggest.Visible = false;
             this.Hide();
-            usedTimer.SetEndDate(currentUsedTimerId);
+            if (leavespan >= new TimeSpan(0,0,60))
+            {
+                usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
+            }
+            else
+            {
+                usedTimer.SetEndDate(currentUsedTimerId);
+            }
             SaveUsedTimerFile(usedTimer);
             currentUsedTimerId = Guid.NewGuid();
+        }
+
+        //判断操作间隔，如果大于60s则记录离开时间，避免窗口一直显示对统计使用时间的影响
+        public void LeaveTime()
+        {
+            if ((DateTime.Now - formActive) >= new TimeSpan(0, 0, 60))
+            {
+                leavespan=leavespan.Add(DateTime.Now - formActive);
+            }
+            else
+            {
+                formActive = DateTime.Now;
+                leavespan = new TimeSpan(0,0,0);
+            }
         }
 
         public void MyShow()
@@ -530,6 +554,9 @@ namespace DocearReminder
             Center();
             this.Show();
             this.Activate();
+            usedTimer.NewOneTime(currentUsedTimerId);
+            formActive = DateTime.Now;
+            leavespan= new TimeSpan(0,0,0);
             reminderList.Focus();
         }
 
@@ -2578,6 +2605,7 @@ namespace DocearReminder
         }
         private void Form1_MouseEnter(object sender, EventArgs e)
         {
+            //LeaveTime();
             //if (this.Location.Y < -60)//已隐藏
             //    Center();//= new System.Drawing.Point(this.Location.X, 2);
             if (InReminderBool)
@@ -2590,11 +2618,13 @@ namespace DocearReminder
         }
         private void Form1_MouseHover(object sender, EventArgs e)
         {
+            //LeaveTime();
             //hoverTimer.Stop();//关闭计时器
             //hoverTimer.Start();//重新计时
         }
         private void Form1_MouseLeave(object sender, EventArgs e)
         {
+            //LeaveTime();
             //if (this.Location.Y < 30 && ((Cursor.Position.X < this.Location.X || Cursor.Position.Y < this.Location.Y) || (Cursor.Position.X > this.Location.X + 836 || Cursor.Position.Y > this.Location.Y + 544)))
             //Center();//= new Point(this.Location.X, -543);
         }
@@ -5091,6 +5121,7 @@ namespace DocearReminder
         }
         private void mindmaplist_MouseUp(object sender, MouseEventArgs e)
         {
+            LeaveTime();
             IsSelectReminder = false;
         }
         private void feeling_Click(object sender, EventArgs e)
@@ -5692,6 +5723,7 @@ namespace DocearReminder
         }
         private void Reminderlist_MouseUp(object sender, MouseEventArgs e)
         {
+            LeaveTime();
             if (e.Button == MouseButtons.Right && reminderList.SelectedIndex >= 0)
             {
                 Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
@@ -5699,6 +5731,7 @@ namespace DocearReminder
         }
         private void reminderlist_MouseHover(object sender, EventArgs e)
         {
+            //LeaveTime();
             InReminderBool = true;
             if (!searchword.Focused)
             {
@@ -6232,6 +6265,7 @@ namespace DocearReminder
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
+            LeaveTime();
             if (!keyNotWork() && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
             {
                 return;

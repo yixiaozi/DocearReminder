@@ -187,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Reminders.ico" />
-    <None Include="Resources\柳侑绮 %2858%29.jpg" />
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />

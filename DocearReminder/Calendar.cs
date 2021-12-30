@@ -622,7 +622,7 @@ namespace Calendar
 
         private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!Console.CapsLock==true)
+            if (!Console.CapsLock==true||!islock)
             {
                 switch (e.KeyCode)
                 {
@@ -991,6 +991,20 @@ namespace Calendar
         private void dayView1_NewAppointment_1(object sender, NewAppointmentEventArgs args)
         {
 
+        }
+        bool islock = false;
+        private void lockButton_Click(object sender, EventArgs e)
+        {
+            if (lockButton.Text=="Ëø¶¨")
+            {
+                lockButton.Text = "½âËø";
+                islock = false;
+            }
+            else
+            {
+                lockButton.Text = "Ëø¶¨";
+                islock = true;
+            }
         }
     }
     internal class User32

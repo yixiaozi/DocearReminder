@@ -20,6 +20,7 @@ using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.MyConvert;
@@ -109,6 +110,8 @@ namespace DocearReminder
         Guid currentUsedTimerId;
         DateTime formActive;
         TimeSpan leavespan = new TimeSpan();
+        bool isneedreminderlistrefresh = true;
+        bool isneedKeyUpEventWork = true;
         #endregion
         public DocearReminderForm()
         {
@@ -190,11 +193,11 @@ namespace DocearReminder
                 if (!Directory.Exists(ini.ReadStringDefault("path", "rootpath", "")))
                 {
                     Directory.CreateDirectory(ini.ReadStringDefault("path", "rootpath", ""));
-                    File.Copy(System.AppDomain.CurrentDomain.BaseDirectory+ @"\Demo\calander.mm", ini.ReadStringDefault("path", "rootpath", "")+@"\calander.mm");
+                    File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\Demo\calander.mm", ini.ReadStringDefault("path", "rootpath", "") + @"\calander.mm");
                     Process.Start(ini.ReadStringDefault("path", "rootpath", ""));
                 }
                 rootpath = new DirectoryInfo(ini.ReadStringDefault("path", "rootpath", ""));
-                
+
 
                 rootrootpath = new DirectoryInfo(ini.ReadStringDefault("path", "rootpath", ""));
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
@@ -458,7 +461,7 @@ namespace DocearReminder
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
             List<string> name = new List<string>();
-            foreach (MyListBoxItemRemind selectedReminder in RemindersOtherPath.Distinct().Where(m => m.Time.DayOfYear==DateTime.Now.DayOfYear&& m.Time.Year == DateTime.Now.Year&&m.Time.Hour==DateTime.Now.Hour&&m.Time.Minute==DateTime.Now.Minute))
+            foreach (MyListBoxItemRemind selectedReminder in RemindersOtherPath.Distinct().Where(m => m.Time.DayOfYear == DateTime.Now.DayOfYear && m.Time.Year == DateTime.Now.Year && m.Time.Hour == DateTime.Now.Hour && m.Time.Minute == DateTime.Now.Minute))
             {
                 if (name.Contains(selectedReminder.Name))
                 {
@@ -523,7 +526,7 @@ namespace DocearReminder
             PlaySimpleSound("hide");
             SearchText_suggest.Visible = false;
             this.Hide();
-            if (leavespan >= new TimeSpan(0,0,60))
+            if (leavespan >= new TimeSpan(0, 0, 60))
             {
                 usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
             }
@@ -540,12 +543,12 @@ namespace DocearReminder
         {
             if ((DateTime.Now - formActive) >= new TimeSpan(0, 0, 60))
             {
-                leavespan=leavespan.Add(DateTime.Now - formActive);
+                leavespan = leavespan.Add(DateTime.Now - formActive);
             }
             else
             {
                 formActive = DateTime.Now;
-                leavespan = new TimeSpan(0,0,0);
+                leavespan = new TimeSpan(0, 0, 0);
             }
         }
 
@@ -556,7 +559,7 @@ namespace DocearReminder
             this.Activate();
             usedTimer.NewOneTime(currentUsedTimerId);
             formActive = DateTime.Now;
-            leavespan= new TimeSpan(0,0,0);
+            leavespan = new TimeSpan(0, 0, 0);
             reminderList.Focus();
         }
 
@@ -1118,11 +1121,11 @@ namespace DocearReminder
 
         public void RRReminderlist()
         {
-            if (mindmapSearch.Text!="")//清空一下这里的值，不然总是显示，很难受
+            if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
             {
                 mindmapSearch.Text = "";
             }
-            reminderSelectIndex = -1;
+            reminderSelectIndex = reminderList.SelectedIndex;
             int task = 0;
             int ctask = 0;//周期任务个数
             int vtask = 0;//不重要任务数量
@@ -1263,7 +1266,7 @@ namespace DocearReminder
                                             editTime = item.editCount;
                                             item.ID = GetAttribute(node.ParentNode, "ID");
                                             item.isview = GetAttribute(node.ParentNode, "ISVIEW") == "true" || MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly"));
-                                            item.isEBType=GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb";
+                                            item.isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb";
                                         }
                                     }
                                 }
@@ -1288,9 +1291,9 @@ namespace DocearReminder
                                         mindmapPath = path.Value,
                                         ID = GetAttribute(node.ParentNode, "ID"),
                                         isview = GetAttribute(node.ParentNode, "ISVIEW") == "true" || MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly")),
-                                        isEBType=GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb"
+                                        isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb"
                                     };
-                                reminderObject.reminders.Add(newitem);
+                                    reminderObject.reminders.Add(newitem);
                                     reminderObject.reminderCount += 1;
                                 }
                                 //添加提醒到提醒清单
@@ -1651,10 +1654,8 @@ namespace DocearReminder
                                             Regex reg = new Regex(patten);
                                             taskNameDis = reg.Replace(taskNameDis, "*");
                                         }
-                                        reminderList.Items.Add(new MyListBoxItemRemind
+                                        reminderlistItems.Add(new MyListBoxItemRemind
                                         {
-                                            //Text = dt.ToString("yy-MM-dd-HH:mm") + " > " + dt.AddMinutes(MyToInt16(GetAttribute(node.ParentNode, "TASKTIME"))).ToString("HH:mm") + @"  " + (GetAttribute(node.ParentNode, "TASKLEVEL") != "" ? GetAttribute(node.ParentNode, "TASKLEVEL") : "0") + @"  " + taskNameDis + dakainfo,
-                                            //Text = (IsJinianCheckBox.Checked ? jinianDt.ToString("dd HH:mm") : dt.ToString("dd HH:mm")) + @"  " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
                                             Text = (IsJinianCheckBox.Checked ? jinianDt.ToString("dd HH:mm") : dt.ToString("dd HH:mm")) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
@@ -1691,14 +1692,6 @@ namespace DocearReminder
 
                         }
                     }
-                    // This text will always be added, making the file longer over time
-                    // if it is not deleted.
-                    //using (StreamReader sw = fi.OpenText())
-                    //{
-                    //    string s = sw.ReadToEnd();
-                    //    var serializer = new JavaScriptSerializer();
-                    //    Reminder result = serializer.Deserialize<Reminder>(s);
-                    //}
                 }
             }
             else
@@ -2043,11 +2036,21 @@ namespace DocearReminder
                     });
                 }
             }
-            foreach (MyListBoxItemRemind item in reminderlistItems)
+            foreach (MyListBoxItemRemind item in reminderlistItems.OrderBy(m => m.Time))
             {
                 reminderList.Items.Add(item);
             }
-            reminderList.Refresh();
+            ////reminderList.Refresh();
+            try
+            {
+                isneedreminderlistrefresh = false;
+                reminderList.SelectedIndex = reminderSelectIndex;
+                isneedreminderlistrefresh = true;
+
+            }
+            catch (Exception)
+            {
+            }
             foreach (ReminderItem item in reminderObject.reminders.Where(m => !(m.isCurrect || m.isNew) && !m.isCompleted))
             {
                 if (mindmaplist.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
@@ -2104,6 +2107,7 @@ namespace DocearReminder
         {
             reminderList.Sorted = false;
             reminderList.Sorted = true;
+            reminderList.Refresh();
         }
         private void mindmaplist_DoubleClick(object sender, EventArgs e)
         {
@@ -2610,7 +2614,7 @@ namespace DocearReminder
             //    Center();//= new System.Drawing.Point(this.Location.X, 2);
             if (InReminderBool)
             {
-                reminderList.Refresh();
+                //reminderList.Refresh();
                 InReminderBool = false;
             }
             //if (this.Location.X < -60)//已隐藏
@@ -3200,7 +3204,10 @@ namespace DocearReminder
             {
                 reminderListBox.Refresh();
             }
-            reminderList.Refresh();
+            if (isneedreminderlistrefresh)
+            {
+                reminderList.Refresh();
+            }
             if (reminderlistSelectedItem == null)
             {
                 return;
@@ -3587,7 +3594,7 @@ namespace DocearReminder
             {
                 c_week.Checked = c_month.Checked = c_year.Checked = c_hour.Checked = c_remember.Checked = false;
                 button_cycle.Text = "设置周期";
-                if (n_days.Value==0)
+                if (n_days.Value == 0)
                 {
                     n_days.Value = 1;
                 }
@@ -4291,7 +4298,7 @@ namespace DocearReminder
                         XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                         yearNodeValue.Value = DateTime.Now.Year.ToString();
                         yearNode.Attributes.Append(yearNodeValue);
-                        root.AppendChild(yearNode);
+                        XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
                     }
                     XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
                     if (!haschildNode(year, DateTime.Now.Month.ToString()))
@@ -4300,7 +4307,7 @@ namespace DocearReminder
                         XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                         monthNodeValue.Value = DateTime.Now.Month.ToString();
                         monthNode.Attributes.Append(monthNodeValue);
-                        year.AppendChild(monthNode);
+                        XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
                     }
                     XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
                     if (!haschildNode(month, DateTime.Now.Day.ToString()))
@@ -4309,7 +4316,7 @@ namespace DocearReminder
                         XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                         dayNodeValue.Value = DateTime.Now.Day.ToString();
                         dayNode.Attributes.Append(dayNodeValue);
-                        month.AppendChild(dayNode);
+                        XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
                     }
                     XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
                     XmlNode newNote = x.CreateElement("node");
@@ -4583,7 +4590,7 @@ namespace DocearReminder
                     if (IsURL(newNotetext.Value))
                     {
                         string title = GetWebTitle(newNotetext.Value);
-                        if (title!=""&& title != "忘记了，后面再改")
+                        if (title != "" && title != "忘记了，后面再改")
                         {
                             //添加属性
                             XmlAttribute TASKLink = x.CreateAttribute("LINK");
@@ -4634,7 +4641,7 @@ namespace DocearReminder
                     XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                     yearNodeValue.Value = DateTime.Now.Year.ToString();
                     yearNode.Attributes.Append(yearNodeValue);
-                    root.AppendChild(yearNode);
+                    XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
                 }
                 XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
                 if (!haschildNode(year, DateTime.Now.Month.ToString()))
@@ -4643,7 +4650,7 @@ namespace DocearReminder
                     XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                     monthNodeValue.Value = DateTime.Now.Month.ToString();
                     monthNode.Attributes.Append(monthNodeValue);
-                    year.AppendChild(monthNode);
+                    XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
                 }
                 XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
                 if (!haschildNode(month, DateTime.Now.Day.ToString()))
@@ -4652,7 +4659,7 @@ namespace DocearReminder
                     XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                     dayNodeValue.Value = DateTime.Now.Day.ToString();
                     dayNode.Attributes.Append(dayNodeValue);
-                    month.AppendChild(dayNode);
+                    XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
                 }
                 XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
                 XmlNode newNote = x.CreateElement("node");
@@ -4774,7 +4781,19 @@ namespace DocearReminder
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                             th.Start();
                             searchword.Text = "";
+                            reminderSelectIndex = reminderList.SelectedIndex;
                             RRReminderlist();
+                            reminderList.Focus();
+                            try
+                            {
+                                isneedreminderlistrefresh = false;
+                                reminderList.SelectedIndex = reminderSelectIndex;
+                                reminderList.Focus();
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            ShowSubNode();
                             return;
                         }
                     }
@@ -4797,7 +4816,7 @@ namespace DocearReminder
                     XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                     yearNodeValue.Value = DateTime.Now.Year.ToString();
                     yearNode.Attributes.Append(yearNodeValue);
-                    root.AppendChild(yearNode);
+                    XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
                 }
                 XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
                 if (!haschildNode(year, DateTime.Now.Month.ToString()))
@@ -4806,7 +4825,7 @@ namespace DocearReminder
                     XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                     monthNodeValue.Value = DateTime.Now.Month.ToString();
                     monthNode.Attributes.Append(monthNodeValue);
-                    year.AppendChild(monthNode);
+                    XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
                 }
                 XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
                 if (!haschildNode(month, DateTime.Now.Day.ToString()))
@@ -4815,7 +4834,7 @@ namespace DocearReminder
                     XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                     dayNodeValue.Value = DateTime.Now.Day.ToString();
                     dayNode.Attributes.Append(dayNodeValue);
-                    month.AppendChild(dayNode);
+                    XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
                 }
                 XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
 
@@ -5119,6 +5138,77 @@ namespace DocearReminder
             {
             }
         }
+
+        public string AddNodeInNodeTree(string taskName)
+        {
+            try
+            {
+                System.Xml.XmlDocument x = new XmlDocument();
+                x.Load(showMindmapName);
+                //x.GetElementById(id).RemoveAll(); ;
+                foreach (XmlNode node in x.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == ((XmlAttribute)(nodetree.SelectedNode.Parent.Tag)).Value)
+                    {
+                        XmlNode newNote = x.CreateElement("node");
+                        XmlAttribute newNotetext = x.CreateAttribute("TEXT");
+                        newNotetext.Value = taskName;
+                        if (IsURL(newNotetext.Value))
+                        {
+                            string title = GetWebTitle(newNotetext.Value);
+                            if (title != "" && title != "忘记了，后面再改")
+                            {
+                                //添加属性
+                                XmlAttribute TASKLink = x.CreateAttribute("LINK");
+                                TASKLink.Value = newNotetext.Value;
+                                newNote.Attributes.Append(TASKLink);
+                                newNotetext.Value = title;
+                            }
+                        }
+                        XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
+                        newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
+                        newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        newNote.Attributes.Append(newNotetext);
+                        newNote.Attributes.Append(newNoteCREATED);
+                        newNote.Attributes.Append(newNoteMODIFIED);
+                        XmlAttribute TASKID = x.CreateAttribute("ID");
+                        newNote.Attributes.Append(TASKID);
+                        newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
+                        //XmlNode newElem = x.CreateElement("icon");
+                        //XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
+                        //BUILTIN.Value = "flag-orange";
+                        //newElem.Attributes.Append(BUILTIN);
+                        //newNote.AppendChild(newElem);
+                        if (false)
+                        {
+                            XmlNode remindernode = x.CreateElement("hook");
+                            XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                            remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                            remindernode.Attributes.Append(remindernodeName);
+                            XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                            XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                            remindernodeTime.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            remindernodeParameters.Attributes.Append(remindernodeTime);
+                            remindernode.AppendChild(remindernodeParameters);
+                            newNote.AppendChild(remindernode);
+                            fenshuADD(3);
+                        }
+                        node.AppendChild(newNote);
+                        searchword.Text = "";
+                        x.Save(renameMindMapPath);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
+                        th.Start();
+                        return newNote.Attributes["ID"].Value;
+                    }
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
         private void mindmaplist_MouseUp(object sender, MouseEventArgs e)
         {
             LeaveTime();
@@ -5155,7 +5245,7 @@ namespace DocearReminder
                 XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                 yearNodeValue.Value = taskTime.Year.ToString();
                 yearNode.Attributes.Append(yearNodeValue);
-                root.AppendChild(yearNode);
+                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
             }
             XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes["TEXT"].Value == taskTime.Year.ToString());
             if (!haschildNode(year, taskTime.Month.ToString()))
@@ -5164,7 +5254,7 @@ namespace DocearReminder
                 XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                 monthNodeValue.Value = taskTime.Month.ToString();
                 monthNode.Attributes.Append(monthNodeValue);
-                year.AppendChild(monthNode);
+                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
             }
             XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes["TEXT"].Value == taskTime.Month.ToString());
             if (!haschildNode(month, taskTime.Day.ToString()))
@@ -5173,7 +5263,7 @@ namespace DocearReminder
                 XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                 dayNodeValue.Value = taskTime.Day.ToString();
                 dayNode.Attributes.Append(dayNodeValue);
-                month.AppendChild(dayNode);
+                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
             }
             XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes["TEXT"].Value == taskTime.Day.ToString());
             if (!haschildNode(day, "Task"))
@@ -5242,7 +5332,6 @@ namespace DocearReminder
                         th.Start();
                     }
                 }
-                searchword.Text = "";
                 shaixuanfuwei();
                 RRReminderlist();
                 PlaySimpleSound("deny");
@@ -5253,7 +5342,6 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -5352,7 +5440,34 @@ namespace DocearReminder
             {
             }
         }
+        public void UPNodeByID(string id)
+        {
+            try
+            {
 
+                XElement file = XElement.Load(showMindmapName);
+                XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
+                MoveElementUp(element);
+                file.Save(showMindmapName);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public void DownNodeByID(string id)
+        {
+            try
+            {
+
+                XElement file = XElement.Load(showMindmapName);
+                XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
+                DownElementUp(element);
+                file.Save(showMindmapName);
+            }
+            catch (Exception)
+            {
+            }
+        }
         public void SetTaskNodeByID(string id)
         {
             try
@@ -5800,7 +5915,7 @@ namespace DocearReminder
                 XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                 yearNodeValue.Value = DateTime.Now.Year.ToString();
                 yearNode.Attributes.Append(yearNodeValue);
-                root.AppendChild(yearNode);
+                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
             }
             XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
             if (!haschildNode(year, DateTime.Now.Month.ToString()))
@@ -5809,7 +5924,7 @@ namespace DocearReminder
                 XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                 monthNodeValue.Value = DateTime.Now.Month.ToString();
                 monthNode.Attributes.Append(monthNodeValue);
-                year.AppendChild(monthNode);
+                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
             }
             XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
             if (!haschildNode(month, DateTime.Now.Day.ToString()))
@@ -5818,7 +5933,7 @@ namespace DocearReminder
                 XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                 dayNodeValue.Value = DateTime.Now.Day.ToString();
                 dayNode.Attributes.Append(dayNodeValue);
-                month.AppendChild(dayNode);
+                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
             }
             XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
             XmlNode newNote = x.CreateElement("node");
@@ -5876,7 +5991,7 @@ namespace DocearReminder
             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap));
             th.Start();
         }
-        public void AddClipToTask(bool istask=false)
+        public void AddClipToTask(bool istask = false)
         {
             IDataObject iData = new DataObject();
             iData = Clipboard.GetDataObject();
@@ -6062,7 +6177,7 @@ namespace DocearReminder
                 {
                     Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\");
                 }
-                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\" + ReplaceSpecialCharacterV2(DateTime.Now.ToString()+ title)+ ".html", sb.ToString());
+                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\" + ReplaceSpecialCharacterV2(DateTime.Now.ToString() + title) + ".html", sb.ToString());
             }
             catch (Exception)
             {
@@ -6129,7 +6244,7 @@ namespace DocearReminder
                 XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                 yearNodeValue.Value = dt.Year.ToString();
                 yearNode.Attributes.Append(yearNodeValue);
-                root.AppendChild(yearNode);
+                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
             }
             XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Year.ToString());
             if (!haschildNode(year, dt.Month.ToString()))
@@ -6138,7 +6253,7 @@ namespace DocearReminder
                 XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                 monthNodeValue.Value = dt.Month.ToString();
                 monthNode.Attributes.Append(monthNodeValue);
-                year.AppendChild(monthNode);
+                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
             }
             XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Month.ToString());
             if (!haschildNode(month, dt.Day.ToString()))
@@ -6147,7 +6262,7 @@ namespace DocearReminder
                 XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                 dayNodeValue.Value = dt.Day.ToString();
                 dayNode.Attributes.Append(dayNodeValue);
-                month.AppendChild(dayNode);
+                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
             }
             XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Day.ToString());
             XmlNode newNote = x.CreateElement("node");
@@ -6268,6 +6383,11 @@ namespace DocearReminder
             LeaveTime();
             if (!keyNotWork() && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
             {
+                return;
+            }
+            if (!isneedKeyUpEventWork)
+            {
+                isneedKeyUpEventWork = true;
                 return;
             }
             switch (e.KeyCode)
@@ -6646,6 +6766,17 @@ namespace DocearReminder
                     {
                         reminderList.Focus();
                         reminderList.Refresh();
+                    }
+                    else if (nodetree.Focused)
+                    {
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            DownNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                            Extensions.MoveDown(nodetree.SelectedNode);
+                            fenshuADD(1);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                            th.Start();
+                        }
                     }
                     break;
                 case Keys.E:
@@ -7200,8 +7331,19 @@ namespace DocearReminder
                                 }
                             }
                         }
+                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (nodetree.SelectedNode != null && !nodetree.SelectedNode.IsEditing)
+                            {
+                                TreeNode node = nodetree.SelectedNode.Parent.Nodes.Add("");
+                                nodetree.SelectedNode = node;
+                                node.BeginEdit();
+                                IsMindMapNodeEdit = true;
+                            }
+                        }
                         else
                         {
+                            //暂时不将树视图放到最大了
                             if (nodetree.Top != 9)
                             {
                                 nodetree.Top = FileTreeView.Top = 9;
@@ -7334,7 +7476,7 @@ namespace DocearReminder
                         try
                         {
                             MyHide();
-                            System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\README.docx");
+                            System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\DocearReminder.chm");
                         }
                         catch (Exception)
                         {
@@ -7604,6 +7746,17 @@ namespace DocearReminder
                 case Keys.IMENonconvert:
                     break;
                 case Keys.Insert:
+                    if (nodetree.Focused)
+                    {
+                        if (nodetree.SelectedNode != null && !nodetree.SelectedNode.IsEditing)
+                        {
+                            TreeNode node = nodetree.SelectedNode.Nodes.Add("");
+                            nodetree.SelectedNode.ExpandAll();
+                            nodetree.SelectedNode = node;
+                            node.BeginEdit();
+                            IsMindMapNodeEdit = true;
+                        }
+                    }
                     break;
                 case Keys.J:
                     if (keyNotWork())
@@ -7740,7 +7893,7 @@ namespace DocearReminder
                     }
                     else if (dateTimePicker.Focused)
                     {
-                        dateTimePicker.Value= dateTimePicker.Value.AddHours(1);
+                        dateTimePicker.Value = dateTimePicker.Value.AddHours(1);
                     }
                     else if (nodetree.Focused)
                     {
@@ -7909,7 +8062,7 @@ namespace DocearReminder
                             n_days.Value -= 1;
                         }
                     }
-                    
+
                     else if (dateTimePicker.Focused)
                     {
                         dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
@@ -7960,7 +8113,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (ReminderListFocused() || reminderListBox.Focused || mindmaplist.Focused || this.Focused)
+                        else if (ReminderListFocused() || mindmaplist.Focused || this.Focused)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
@@ -7990,6 +8143,11 @@ namespace DocearReminder
                                 tasklevel.Focus();
                             }
                         }
+                    }
+                    if (searchword.Text.StartsWith("deny"))
+                    {
+                        searchword.Text = "";
+                        reminderList.Focus();
                     }
                     break;
                 //case Keys.LButton:
@@ -8414,6 +8572,17 @@ namespace DocearReminder
                         {
                             reminderList.Refresh();
                         }
+                        else if (nodetree.Focused)
+                        {
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            {
+                                UPNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                                Extensions.MoveUp(nodetree.SelectedNode);
+                                fenshuADD(1);
+                                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                                th.Start();
+                            }
+                        }
                     }
                     break;
                 case Keys.V:
@@ -8703,7 +8872,7 @@ namespace DocearReminder
                 XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
                 yearNodeValue.Value = dt.Year.ToString();
                 yearNode.Attributes.Append(yearNodeValue);
-                root.AppendChild(yearNode);
+                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
             }
             XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Year.ToString());
             if (!haschildNode(year, dt.Month.ToString()))
@@ -8712,7 +8881,7 @@ namespace DocearReminder
                 XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
                 monthNodeValue.Value = dt.Month.ToString();
                 monthNode.Attributes.Append(monthNodeValue);
-                year.AppendChild(monthNode);
+                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
             }
             XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Month.ToString());
             if (!haschildNode(month, dt.Day.ToString()))
@@ -8721,7 +8890,7 @@ namespace DocearReminder
                 XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                 dayNodeValue.Value = dt.Day.ToString();
                 dayNode.Attributes.Append(dayNodeValue);
-                month.AppendChild(dayNode);
+                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
             }
             XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == dt.Day.ToString());
             XmlNode newNote = x.CreateElement("node");
@@ -9463,7 +9632,7 @@ namespace DocearReminder
         }
         public void ShowSubNode()
         {
-            if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~"))
+            if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused)
             {
                 return;
             }
@@ -9496,20 +9665,6 @@ namespace DocearReminder
             {
                 return;
             }
-            //XmlNode tasknode = x.GetElementById(id);
-            //foreach (XmlNode node in tasknode.ChildNodes)
-            //{
-            //    try
-            //    {
-            //        if (node.Name== "node")
-            //        {
-            //            richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + node.Attributes["TEXT"].Value);
-            //        }
-            //    }
-            //    catch (Exception)
-            //    {
-            //    }
-            //}
 
             foreach (XmlNode node in x.GetElementsByTagName("node"))
             {
@@ -9865,11 +10020,12 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 denyAll_Click(null, null);
-                reminderList.Focus();
                 if (reminderList.Items.Count > 0)
                 {
                     reminderList.SelectedIndex = 0;
                 }
+                reminderList.Focus();
+                isneedKeyUpEventWork = false;
             }
             else if (searchword.Text.ToLower().StartsWith("mindmaps"))
             {
@@ -10090,7 +10246,7 @@ namespace DocearReminder
             {
                 return;
             }
-            if (searchword.Text.Length < 2&&!searchword.Text.StartsWith("@"))
+            if (searchword.Text.Length < 2 && !searchword.Text.StartsWith("@"))
             {
                 needSuggest = true;
                 SearchText_suggest.Visible = false;
@@ -10120,7 +10276,13 @@ namespace DocearReminder
                 }
                 else
                 {
-                    SearchText_suggest.SelectedIndex = 0;
+                    try
+                    {
+                        SearchText_suggest.SelectedIndex = 0;
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
 
                 return;
@@ -10133,7 +10295,13 @@ namespace DocearReminder
                 }
                 else
                 {
-                    SearchText_suggest.SelectedIndex = 0;
+                    try
+                    {
+                        SearchText_suggest.SelectedIndex = 0;
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
 
                 return;
@@ -10893,11 +11061,28 @@ namespace DocearReminder
         {
             string newTxt = e.Label;//获取新文本
             string oldTxt = e.Node.Text;//获取原来的文本 
-            if (newTxt != null && newTxt != oldTxt)
+            if (oldTxt != "")
             {
-                RenameNodeByID(newTxt);
-                SaveLog("修改节点名称：" + oldTxt + "  To  " + newTxt);
-                return;
+                if (newTxt != null && newTxt != oldTxt)
+                {
+                    RenameNodeByID(newTxt);
+                    fenshuADD(1);
+                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                    th.Start();
+                    SaveLog("修改节点名称：" + oldTxt + "  To  " + newTxt);
+                    return;
+                }
+            }
+            else
+            {
+                XmlDocument doc = new XmlDocument();
+                XmlAttribute tag = doc.CreateAttribute("ID");
+                tag.Value = AddNodeInNodeTree(newTxt);
+                nodetree.SelectedNode.Tag = tag;
+                SaveLog("添加节点名称：" + newTxt);
+                fenshuADD(1);
+                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                th.Start();
             }
         }
 
@@ -11411,18 +11596,24 @@ namespace DocearReminder
 
         private void GetFolderToSuggest()
         {
-            string pathArr = ini.ReadStringDefault("path", Environment.MachineName + "Folders", "");
-            foreach (string item in pathArr.Split(';'))
+            try
             {
-                string path = ini.ReadStringDefault("path", item, "");
-                foreach (FileInfo file in new DirectoryInfo(path).GetFiles("*", SearchOption.AllDirectories))
+                string pathArr = ini.ReadStringDefault("path", Environment.MachineName + "Folders", "");
+                foreach (string item in pathArr.Split(';'))
                 {
-                    if (file.FullName.Contains(".svn") || file.FullName.Contains(".vs") || file.FullName.Contains(".git") || file.FullName.ToLower().Contains("backup"))
+                    string path = ini.ReadStringDefault("path", item, "");
+                    foreach (FileInfo file in new DirectoryInfo(path).GetFiles("*", SearchOption.AllDirectories))
                     {
-                        continue;
+                        if (file.FullName.Contains(".svn") || file.FullName.Contains(".vs") || file.FullName.Contains(".git") || file.FullName.ToLower().Contains("backup"))
+                        {
+                            continue;
+                        }
+                        suggestListData.Add(new StationInfo { StationName_CN = item + ":" + file.Name, mindmapurl = file.FullName, isNode = "file" });
                     }
-                    suggestListData.Add(new StationInfo { StationName_CN = item + ":" + file.Name, mindmapurl = file.FullName, isNode = "file" });
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -11854,7 +12045,7 @@ namespace DocearReminder
         }
         #region 右键菜单动作
 
-        
+
         private void autoRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //获取程序执行路径..
@@ -12261,5 +12452,123 @@ namespace DocearReminder
         {
             EditTime_Clic(null, null);
         }
+
+        private void searchword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+        static void MoveElementUp(XElement element)
+        {
+            // Walk backwards until we find an element - ignore text nodes
+            XNode previousNode = element.PreviousNode;
+            while (previousNode != null && !(previousNode is XElement))
+            {
+                previousNode = previousNode.PreviousNode;
+            }
+            if (previousNode == null)
+            {
+                throw new ArgumentException("Nowhere to move element to!");
+            }
+            element.Remove();
+            previousNode.AddBeforeSelf(element);
+        }
+        static void RemoveNamespacePrefix(XElement element)
+        {
+            //Remove from element
+            if (element.Name.Namespace != null)
+                element.Name = element.Name.LocalName;
+
+            //Remove from attributes
+            var attributes = element.Attributes().ToArray();
+            element.RemoveAttributes();
+            foreach (var attr in attributes)
+            {
+                var newAttr = attr;
+
+                if (attr.Name.Namespace != null)
+                    newAttr = new XAttribute(attr.Name.LocalName, attr.Value);
+
+                element.Add(newAttr);
+            };
+
+            //Remove from children
+            foreach (var child in element.Descendants())
+                RemoveNamespacePrefix(child);
+        }
+        static void DownElementUp(XElement element)
+        {
+            // Walk backwards until we find an element - ignore text nodes
+            XNode previousNode = element.NextNode;
+            while (previousNode != null && !(previousNode is XElement))
+            {
+                previousNode = previousNode.NextNode;
+            }
+            if (previousNode == null)
+            {
+                throw new ArgumentException("Nowhere to move element to!");
+            }
+            element.Remove();
+            previousNode.AddAfterSelf(element);
+        }
+    }
+
+}
+public static class Extensions
+{
+    public static void MoveUp(this TreeNode node)
+    {
+        TreeNode parent = node.Parent;
+        TreeView view = node.TreeView;
+        if (parent != null)
+        {
+            int index = parent.Nodes.IndexOf(node);
+            if (index > 0)
+            {
+                parent.Nodes.RemoveAt(index);
+                parent.Nodes.Insert(index - 1, node);
+                view.SelectedNode = parent.Nodes[index - 1];
+            }
+        }
+        else if (node.TreeView.Nodes.Contains(node)) //root node
+        {
+            int index = view.Nodes.IndexOf(node);
+            if (index > 0)
+            {
+                view.Nodes.RemoveAt(index);
+                view.Nodes.Insert(index - 1, node);
+                view.SelectedNode = view.Nodes[index - 1];
+            }
+        }
+    }
+
+    public static void MoveDown(this TreeNode node)
+    {
+
+        TreeNode parent = node.Parent;
+        TreeView view = node.TreeView;
+        if (parent != null)
+        {
+            int index = parent.Nodes.IndexOf(node);
+            if (index < parent.Nodes.Count - 1)
+            {
+                parent.Nodes.RemoveAt(index);
+                parent.Nodes.Insert(index + 1, node);
+                view.SelectedNode = parent.Nodes[index + 1];
+            }
+        }
+        else if (view != null && view.Nodes.Contains(node)) //root node
+        {
+            int index = view.Nodes.IndexOf(node);
+            if (index < view.Nodes.Count - 1)
+            {
+                view.Nodes.RemoveAt(index);
+                view.Nodes.Insert(index + 1, node);
+                view.SelectedNode = view.Nodes[index + 1];
+            }
+        }
+    }
+    public static XElement ToXELement(this XmlNode source)
+    {
+        return XElement.Parse(source.OuterXml);
     }
 }

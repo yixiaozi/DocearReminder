@@ -1,0 +1,24 @@
+2022/1/7 19:46:29   nodetree.SelectedNode.Parent.Tag
+2022/1/7 19:46:59   if (nodetree.SelectedNode.Tag != null)
+2022/1/7 19:49:57   if (nodetree.SelectedNode.Tag != null)
+2022/1/7 19:51:34   if (nodetree.SelectedNode.Tag != null)
+2022/1/7 19:53:21   newNote.Attributes["ID"].Value
+2022/1/7 19:54:29   newNote.Attributes["ID"].Value
+2022/1/7 19:56:46   newNote.Attributes["ID"].Value
+2022/1/7 19:57:45   newNote.Attributes["ID"].Value
+2022/1/7 19:59:52   newNote.Attributes["ID"].Value
+2022/1/7 20:03:20   newNote.Attributes["ID"].Value
+2022/1/7 21:26:07   else if (nodetree.Focused)
+                        {
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            {
+                                Extensions.MoveUp(nodetree.SelectedNode);
+                            }
+                        }
+2022/1/7 21:29:45   view.SelectedNode = parent.Nodes[index - 1];
+2022/1/7 22:19:51   .Attribute("type").Value
+2022/1/7 22:25:29   Descendants
+2022/1/7 22:26:53   DescendantsAndSelf
+2022/1/7 22:27:51   DescendantsAndSelf
+2022/1/7 22:55:21                               DownNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+

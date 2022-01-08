@@ -1,0 +1,6 @@
+2021/12/27 23:12:59   if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip1.Show();
+            }
+2021/12/27 23:17:31                   contextMenuStrip1.Show();
+

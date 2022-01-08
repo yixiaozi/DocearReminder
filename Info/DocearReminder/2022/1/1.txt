@@ -1,0 +1,12 @@
+2022/1/1 4:56:11   docear-1.2.0.0_stable_build291
+2022/1/1 5:04:22   https://github.com/yixiaozi/DocearReminder
+2022/1/1 5:15:04   软件还会记录剪切板操作，在文件夹的2022年内，请相信你的数据绝对时安全的。此软件不会有任何联网行为，源码已经公开，相信有心的人一定能找到。
+2022/1/1 9:48:36   E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\DocearReminder.exe
+2022/1/1 9:50:10   链接: https://pan.baidu.com/s/1jkRdYzJIOrnJ7nkTLnMi6g?pwd=p3nv 提取码: p3nv 复制这段内容后打开百度网盘手机App，操作更方便哦 
+--来自百度网盘超级会员v5的分享
+2022/1/1 9:51:16   链接: https://pan.baidu.com/s/1vy9SZDn7IXUfy4SPynPfbg?pwd=g9bm 提取码: g9bm
+2022/1/1 9:52:54   已经更新了程序，如果你不清楚如何配置，可以下载最新的。
+2022/1/1 10:53:18   task default
+2022/1/1 10:53:43   在输入框输入tool,showlog,j,k则是向上向下se,j,k则是向上向下F,j,k则是向上向下f,o=0.5,t番茄汁，T正番茄钟则会有对应功能自己研究吧
+2022/1/1 10:53:43   软件有详细的使用记录，加密保存了，密匙时配置文件中的abc
+2022/1/1 10:59:49   5可以切换看周期任务还是单次任务

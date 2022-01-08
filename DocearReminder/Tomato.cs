@@ -207,15 +207,15 @@ namespace DocearReminder
 
         private void panel1_Click(object sender, EventArgs e)
         {
-            if (this.TopMost)
-            {
-                this.TopMost = false;
-                positionTimer.Stop();
-            }
-            else
-            {
-                positionTimer.Start();
-            }
+            //if (this.TopMost)
+            //{
+            //    this.TopMost = false;
+            //    positionTimer.Stop();
+            //}
+            //else
+            //{
+            //    positionTimer.Start();
+            //}
         }
 
         private void W(object sender, PaintEventArgs e)

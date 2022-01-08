@@ -161,6 +161,7 @@ namespace DocearReminder
             this.searchword.TabStop = false;
             this.searchword.TextChanged += new System.EventHandler(this.Searchword_TextChanged);
             this.searchword.Enter += new System.EventHandler(this.Searchword_Enter);
+            this.searchword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchword_KeyPress);
             this.searchword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Searchword_KeyUp);
             this.searchword.Leave += new System.EventHandler(this.Searchword_Leave);
             this.searchword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Searchword_MouseDown);
@@ -695,63 +696,63 @@ namespace DocearReminder
             this.打开所在目录ToolStripMenuItem,
             this.快捷键说明ToolStripMenuItem});
             this.menu_reminderlist.Name = "contextMenuStrip1";
-            this.menu_reminderlist.Size = new System.Drawing.Size(181, 224);
+            this.menu_reminderlist.Size = new System.Drawing.Size(163, 202);
             this.menu_reminderlist.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // toolStripMenuItem_oktask
             // 
             this.toolStripMenuItem_oktask.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.toolStripMenuItem_oktask.Name = "toolStripMenuItem_oktask";
-            this.toolStripMenuItem_oktask.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem_oktask.Size = new System.Drawing.Size(162, 22);
             this.toolStripMenuItem_oktask.Text = "完成 [O]:ok";
             this.toolStripMenuItem_oktask.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem_deny
             // 
             this.toolStripMenuItem_deny.Name = "toolStripMenuItem_deny";
-            this.toolStripMenuItem_deny.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem_deny.Size = new System.Drawing.Size(162, 22);
             this.toolStripMenuItem_deny.Text = "推迟 [D]:deny";
             this.toolStripMenuItem_deny.Click += new System.EventHandler(this.ToolStripMenuItem_deny_Click);
             // 
             // toolStripMenuItemCalcal
             // 
             this.toolStripMenuItemCalcal.Name = "toolStripMenuItemCalcal";
-            this.toolStripMenuItemCalcal.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemCalcal.Size = new System.Drawing.Size(162, 22);
             this.toolStripMenuItemCalcal.Text = "取消 [C]";
             this.toolStripMenuItemCalcal.Click += new System.EventHandler(this.toolStripMenuItemCalcal_Click);
             // 
             // 仅查看CdToolStripMenuItem
             // 
             this.仅查看CdToolStripMenuItem.Name = "仅查看CdToolStripMenuItem";
-            this.仅查看CdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.仅查看CdToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.仅查看CdToolStripMenuItem.Text = "仅查看[C+d]";
             this.仅查看CdToolStripMenuItem.Click += new System.EventHandler(this.仅查看CdToolStripMenuItem_Click);
             // 
             // 非重要ToolStripMenuItem1
             // 
             this.非重要ToolStripMenuItem1.Name = "非重要ToolStripMenuItem1";
-            this.非重要ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.非重要ToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
             this.非重要ToolStripMenuItem1.Text = "非重要[z]";
             this.非重要ToolStripMenuItem1.Click += new System.EventHandler(this.非重要ToolStripMenuItem1_Click);
             // 
             // 设置重要xToolStripMenuItem
             // 
             this.设置重要xToolStripMenuItem.Name = "设置重要xToolStripMenuItem";
-            this.设置重要xToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.设置重要xToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.设置重要xToolStripMenuItem.Text = "重要[x]";
             this.设置重要xToolStripMenuItem.Click += new System.EventHandler(this.设置重要xToolStripMenuItem_Click);
             // 
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.openFileToolStripMenuItem.Text = "打开文件[enter]";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // 打开所在目录ToolStripMenuItem
             // 
             this.打开所在目录ToolStripMenuItem.Name = "打开所在目录ToolStripMenuItem";
-            this.打开所在目录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开所在目录ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.打开所在目录ToolStripMenuItem.Text = "打开文件夹";
             this.打开所在目录ToolStripMenuItem.Click += new System.EventHandler(this.打开所在目录ToolStripMenuItem_Click);
             // 
@@ -761,7 +762,7 @@ namespace DocearReminder
             this.下一个jToolStripMenuItem,
             this.上一个kToolStripMenuItem});
             this.快捷键说明ToolStripMenuItem.Name = "快捷键说明ToolStripMenuItem";
-            this.快捷键说明ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.快捷键说明ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.快捷键说明ToolStripMenuItem.Text = "快捷键说明";
             // 
             // 下一个jToolStripMenuItem
@@ -931,7 +932,7 @@ namespace DocearReminder
             this.打开程序目录ToolStripMenuItem,
             this.推出F11ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 290);
+            this.menu.Size = new System.Drawing.Size(212, 312);
             // 
             // 查看模式ToolStripMenuItem
             // 
@@ -940,6 +941,7 @@ namespace DocearReminder
             this.周期ToolStripMenuItem,
             this.非重要ToolStripMenuItem,
             this.导图查看模式ToolStripMenuItem});
+            this.查看模式ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.查看模式ToolStripMenuItem.Name = "查看模式ToolStripMenuItem";
             this.查看模式ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.查看模式ToolStripMenuItem.Text = "查看模式";
@@ -948,31 +950,32 @@ namespace DocearReminder
             // 单次ToolStripMenuItem
             // 
             this.单次ToolStripMenuItem.Name = "单次ToolStripMenuItem";
-            this.单次ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.单次ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.单次ToolStripMenuItem.Text = "单次[5]";
             // 
             // 周期ToolStripMenuItem
             // 
             this.周期ToolStripMenuItem.Name = "周期ToolStripMenuItem";
-            this.周期ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.周期ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.周期ToolStripMenuItem.Text = "周期[5][S+5]";
             // 
             // 非重要ToolStripMenuItem
             // 
             this.非重要ToolStripMenuItem.Name = "非重要ToolStripMenuItem";
-            this.非重要ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.非重要ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.非重要ToolStripMenuItem.Text = "非重要[6]";
             // 
             // 导图查看模式ToolStripMenuItem
             // 
             this.导图查看模式ToolStripMenuItem.Name = "导图查看模式ToolStripMenuItem";
-            this.导图查看模式ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.导图查看模式ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.导图查看模式ToolStripMenuItem.Text = "导图查看模式[s]";
             // 
             // autoRunToolStripMenuItem
             // 
             this.autoRunToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.disAutoRunToolStripMenuItem});
+            this.autoRunToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.autoRunToolStripMenuItem.Name = "autoRunToolStripMenuItem";
             this.autoRunToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.autoRunToolStripMenuItem.Text = "开机启动";
@@ -980,11 +983,12 @@ namespace DocearReminder
             // disAutoRunToolStripMenuItem
             // 
             this.disAutoRunToolStripMenuItem.Name = "disAutoRunToolStripMenuItem";
-            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disAutoRunToolStripMenuItem.Text = "取消开机启动";
             // 
             // 工具箱ToolStripMenuItem
             // 
+            this.工具箱ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.工具箱ToolStripMenuItem.Name = "工具箱ToolStripMenuItem";
             this.工具箱ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.工具箱ToolStripMenuItem.Text = "工具箱:tool";
@@ -992,6 +996,7 @@ namespace DocearReminder
             // 
             // 日历QToolStripMenuItem
             // 
+            this.日历QToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.日历QToolStripMenuItem.Name = "日历QToolStripMenuItem";
             this.日历QToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.日历QToolStripMenuItem.Text = "日历(Q)";
@@ -1002,6 +1007,7 @@ namespace DocearReminder
             this.剪切板ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.剪切板文件ToolStripMenuItem,
             this.文件夹ToolStripMenuItem});
+            this.剪切板ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.剪切板ToolStripMenuItem.Name = "剪切板ToolStripMenuItem";
             this.剪切板ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.剪切板ToolStripMenuItem.Text = "剪切板:clipsearch";
@@ -1010,19 +1016,20 @@ namespace DocearReminder
             // 剪切板文件ToolStripMenuItem
             // 
             this.剪切板文件ToolStripMenuItem.Name = "剪切板文件ToolStripMenuItem";
-            this.剪切板文件ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.剪切板文件ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.剪切板文件ToolStripMenuItem.Text = "文件:clipf";
             this.剪切板文件ToolStripMenuItem.Click += new System.EventHandler(this.剪切板文件ToolStripMenuItem_Click);
             // 
             // 文件夹ToolStripMenuItem
             // 
             this.文件夹ToolStripMenuItem.Name = "文件夹ToolStripMenuItem";
-            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.文件夹ToolStripMenuItem.Text = "文件夹:clipF";
             this.文件夹ToolStripMenuItem.Click += new System.EventHandler(this.文件夹ToolStripMenuItem_Click);
             // 
             // 操作记录F12ToolStripMenuItem
             // 
+            this.操作记录F12ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.操作记录F12ToolStripMenuItem.Name = "操作记录F12ToolStripMenuItem";
             this.操作记录F12ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.操作记录F12ToolStripMenuItem.Text = "操作记录(F12)";
@@ -1034,6 +1041,7 @@ namespace DocearReminder
             this.o05ToolStripMenuItem,
             this.o08ToolStripMenuItem,
             this.o1ToolStripMenuItem});
+            this.透明度ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.透明度ToolStripMenuItem.Name = "透明度ToolStripMenuItem";
             this.透明度ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.透明度ToolStripMenuItem.Text = "透明度";
@@ -1042,21 +1050,21 @@ namespace DocearReminder
             // o05ToolStripMenuItem
             // 
             this.o05ToolStripMenuItem.Name = "o05ToolStripMenuItem";
-            this.o05ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.o05ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.o05ToolStripMenuItem.Text = "50%:o=0.5";
             this.o05ToolStripMenuItem.Click += new System.EventHandler(this.o05ToolStripMenuItem_Click);
             // 
             // o08ToolStripMenuItem
             // 
             this.o08ToolStripMenuItem.Name = "o08ToolStripMenuItem";
-            this.o08ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.o08ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.o08ToolStripMenuItem.Text = "80%:o=0.8";
             this.o08ToolStripMenuItem.Click += new System.EventHandler(this.o08ToolStripMenuItem_Click);
             // 
             // o1ToolStripMenuItem
             // 
             this.o1ToolStripMenuItem.Name = "o1ToolStripMenuItem";
-            this.o1ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.o1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.o1ToolStripMenuItem.Text = "100%:o=1";
             this.o1ToolStripMenuItem.Click += new System.EventHandler(this.o1ToolStripMenuItem_Click);
             // 
@@ -1064,6 +1072,7 @@ namespace DocearReminder
             // 
             this.显示树视图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.隐藏树视图SnToolStripMenuItem});
+            this.显示树视图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.显示树视图ToolStripMenuItem.Name = "显示树视图ToolStripMenuItem";
             this.显示树视图ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.显示树视图ToolStripMenuItem.Text = "显示树视图[B,N]";
@@ -1072,12 +1081,13 @@ namespace DocearReminder
             // 隐藏树视图SnToolStripMenuItem
             // 
             this.隐藏树视图SnToolStripMenuItem.Name = "隐藏树视图SnToolStripMenuItem";
-            this.隐藏树视图SnToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.隐藏树视图SnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.隐藏树视图SnToolStripMenuItem.Text = "隐藏树视图[S+n]";
             this.隐藏树视图SnToolStripMenuItem.Click += new System.EventHandler(this.隐藏树视图SnToolStripMenuItem_Click);
             // 
             // 是否锁定窗口lockToolStripMenuItem
             // 
+            this.是否锁定窗口lockToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.是否锁定窗口lockToolStripMenuItem.Name = "是否锁定窗口lockToolStripMenuItem";
             this.是否锁定窗口lockToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.是否锁定窗口lockToolStripMenuItem.Text = "是否锁定窗口:lock";
@@ -1085,6 +1095,7 @@ namespace DocearReminder
             // 
             // 是否播放声音playsoundToolStripMenuItem
             // 
+            this.是否播放声音playsoundToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.是否播放声音playsoundToolStripMenuItem.Name = "是否播放声音playsoundToolStripMenuItem";
             this.是否播放声音playsoundToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.是否播放声音playsoundToolStripMenuItem.Text = "是否播放声音:playsound";
@@ -1092,6 +1103,7 @@ namespace DocearReminder
             // 
             // 显示右侧ToolStripMenuItem
             // 
+            this.显示右侧ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.显示右侧ToolStripMenuItem.Name = "显示右侧ToolStripMenuItem";
             this.显示右侧ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.显示右侧ToolStripMenuItem.Text = "显示右侧[A+l]";
@@ -1099,6 +1111,7 @@ namespace DocearReminder
             // 
             // 打开程序目录ToolStripMenuItem
             // 
+            this.打开程序目录ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.打开程序目录ToolStripMenuItem.Name = "打开程序目录ToolStripMenuItem";
             this.打开程序目录ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.打开程序目录ToolStripMenuItem.Text = "打开程序目录";
@@ -1106,6 +1119,7 @@ namespace DocearReminder
             // 
             // 推出F11ToolStripMenuItem
             // 
+            this.推出F11ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.推出F11ToolStripMenuItem.Name = "推出F11ToolStripMenuItem";
             this.推出F11ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.推出F11ToolStripMenuItem.Text = "退出(F11)";

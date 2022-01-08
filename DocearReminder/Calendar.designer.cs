@@ -31,7 +31,7 @@ namespace Calendar
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool2 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
+            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
             this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -62,8 +62,8 @@ namespace Calendar
             // 
             // dayView1
             // 
-            drawTool2.DayView = this.dayView1;
-            this.dayView1.ActiveTool = drawTool2;
+            drawTool1.DayView = this.dayView1;
+            this.dayView1.ActiveTool = drawTool1;
             this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -100,24 +100,27 @@ namespace Calendar
             this.打开导图ToolStripMenuItem,
             this.设置时间ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
             // 
             // 完成ToolStripMenuItem
             // 
+            this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             // 
             // 打开导图ToolStripMenuItem
             // 
+            this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             // 
             // 设置时间ToolStripMenuItem
             // 
+            this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
-            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.设置时间ToolStripMenuItem.Text = "设置时间";
             // 
             // panel1

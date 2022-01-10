@@ -522,20 +522,26 @@ namespace DocearReminder
         }
         public void MyHide()
         {
-            LeaveTime();
-            PlaySimpleSound("hide");
-            SearchText_suggest.Visible = false;
-            this.Hide();
-            if (leavespan >= new TimeSpan(0, 0, 60))
+            try
             {
-                usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
+                LeaveTime();
+                PlaySimpleSound("hide");
+                SearchText_suggest.Visible = false;
+                this.Hide();
+                if (leavespan >= new TimeSpan(0, 0, 60))
+                {
+                    usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
+                }
+                else
+                {
+                    usedTimer.SetEndDate(currentUsedTimerId);
+                }
+                SaveUsedTimerFile(usedTimer);
+                currentUsedTimerId = Guid.NewGuid();
             }
-            else
+            catch (Exception)
             {
-                usedTimer.SetEndDate(currentUsedTimerId);
             }
-            SaveUsedTimerFile(usedTimer);
-            currentUsedTimerId = Guid.NewGuid();
         }
 
         //判断操作间隔，如果大于60s则记录离开时间，避免窗口一直显示对统计使用时间的影响
@@ -5458,13 +5464,38 @@ namespace DocearReminder
         {
             try
             {
-
                 XElement file = XElement.Load(showMindmapName);
                 XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
-                DownElementUp(element);
+                MoveElementDown(element);
                 file.Save(showMindmapName);
             }
             catch (Exception)
+            {
+            }
+        }
+        public void LeftNodeByID(string id)
+        {
+            try
+            {
+                XElement file = XElement.Load(showMindmapName);
+                XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
+                MoveElementLeft(element);
+                file.Save(showMindmapName);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public void RightNodeByID(string id)
+        {
+            try
+            {
+                XElement file = XElement.Load(showMindmapName);
+                XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
+                MoveElementRight(element);
+                file.Save(showMindmapName);
+            }
+            catch (Exception ex)
             {
             }
         }
@@ -6478,6 +6509,14 @@ namespace DocearReminder
                     {
                         Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
                         MyHide();
+                    }else if (nodetree.Focused&&nodetree.SelectedNode!=null)
+                    {
+                        Clipboard.SetDataObject(nodetree.SelectedNode.Text);
+                        MyHide();
+                    }else if (FileTreeView.Focused&& FileTreeView.SelectedNode!=null)
+                    {
+                        Clipboard.SetDataObject(FileTreeView.SelectedNode.Name);
+                        MyHide();
                     }
                     break;
                 case Keys.Cancel:
@@ -7468,6 +7507,10 @@ namespace DocearReminder
                             OpenFanqie();
                             MyHide();
                         }
+                        else if (nodetree.Focused)
+                        {
+                            FileTreeView.Focus();
+                        }
                     }
                     break;
                 case Keys.F1:
@@ -7646,6 +7689,10 @@ namespace DocearReminder
                         {
                             OpenFanqie(true);
                             MyHide();
+                        }
+                        else if (FileTreeView.Focused)
+                        {
+                            nodetree.Focus();
                         }
                     }
                     break;
@@ -8167,13 +8214,24 @@ namespace DocearReminder
                 case Keys.LaunchMail:
                     break;
                 case Keys.Left:
+                    if (nodetree.Focused)
+                    {
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            LeftNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                            Extensions.MoveToFather(nodetree.SelectedNode);
+                            fenshuADD(1);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                            th.Start();
+                        }
+                    }
                     break;
                 case Keys.LineFeed:
                     break;
                 case Keys.M:
                     if (keyNotWork())
                     {
-                        if (ReminderListFocused() || reminderListBox.Focused || dateTimePicker.Focused || tasklevel.Focused)
+                        if (ReminderListFocused()|| dateTimePicker.Focused || tasklevel.Focused)
                         {
                             taskTime.Focus();
                         }
@@ -8487,6 +8545,17 @@ namespace DocearReminder
                 //case Keys.RWin:
                 //break;
                 case Keys.Right:
+                    if (nodetree.Focused)
+                    {
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            RightNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                            Extensions.MoveToChildren(nodetree.SelectedNode);
+                            fenshuADD(1);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                            th.Start();
+                        }
+                    }
                     break;
                 case Keys.S:
                     if (keyNotWork())
@@ -8563,6 +8632,10 @@ namespace DocearReminder
                     else if (FileTreeView.Focused)
                     {
                         ShowMindmapFileUp();
+                    }
+                    else if (nodetree.Focused)
+                    {
+                        reminderList.Focus();
                     }
                     break;
                 case Keys.Up:
@@ -12472,6 +12545,35 @@ namespace DocearReminder
             element.Remove();
             previousNode.AddBeforeSelf(element);
         }
+        static void MoveElementLeft(XElement element)
+        {
+            // Walk backwards until we find an element - ignore text nodes
+            XNode parentNode = element.Parent;
+            if (parentNode == null)
+            {
+                throw new ArgumentException("Nowhere to move element to!");
+            }
+            element.Remove();
+            parentNode.AddAfterSelf(element);
+        }
+        static void MoveElementRight(XElement element)
+        {
+            // Walk backwards until we find an element - ignore text nodes
+            XNode previousNode = element.PreviousNode;
+            if (previousNode == null)
+            {
+                throw new ArgumentException("Nowhere to move element to!");
+            }
+            element.Remove();
+            if (((XElement)previousNode).Elements().LastOrDefault()!=null)
+            {
+                ((XElement)previousNode).Elements().LastOrDefault().AddAfterSelf(element);
+            }
+            else
+            {
+                ((XElement)previousNode).AddFirst(element);
+            }
+        }
         static void RemoveNamespacePrefix(XElement element)
         {
             //Remove from element
@@ -12495,7 +12597,7 @@ namespace DocearReminder
             foreach (var child in element.Descendants())
                 RemoveNamespacePrefix(child);
         }
-        static void DownElementUp(XElement element)
+        static void MoveElementDown(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
             XNode previousNode = element.NextNode;
@@ -12564,6 +12666,54 @@ public static class Extensions
                 view.Nodes.RemoveAt(index);
                 view.Nodes.Insert(index + 1, node);
                 view.SelectedNode = view.Nodes[index + 1];
+            }
+        }
+    }
+    public static void MoveToFather(this TreeNode node)
+    {
+        TreeNode parent = node.Parent;
+        TreeView view = node.TreeView;
+        if (parent != null&& parent.Parent != null)
+        {
+            int index = parent.Nodes.IndexOf(node);
+            int fatherindex = parent.Parent.Nodes.IndexOf(parent);
+            parent.Nodes.RemoveAt(index);
+            parent.Parent.Nodes.Insert(fatherindex+1, node);
+            view.SelectedNode = parent.Parent.Nodes[fatherindex + 1];
+        }
+        else if (node.TreeView.Nodes.Contains(node.Parent)) //root node
+        {
+            int index = node.Parent.Nodes.IndexOf(node);
+            int fatherindex = node.TreeView.Nodes.IndexOf(node.Parent);
+            node.Parent.Nodes.RemoveAt(index);
+            view.Nodes.Insert(fatherindex + 1, node);
+            view.SelectedNode = view.Nodes[fatherindex + 1];
+        }
+    }
+
+    public static void MoveToChildren(this TreeNode node)
+    {
+
+        TreeNode parent = node.Parent;
+        TreeView view = node.TreeView;
+        if (parent != null)
+        {
+            int index = parent.Nodes.IndexOf(node);
+            if (index > 0)
+            {
+                parent.Nodes.RemoveAt(index);
+                parent.Nodes[index - 1].Nodes.Insert(parent.Nodes[index - 1].Nodes.Count,node);
+                view.SelectedNode = parent.Nodes[index - 1].Nodes[parent.Nodes[index - 1].Nodes.Count-1];
+            }
+        }
+        else if (node.TreeView.Nodes.Contains(node)) //root node
+        {
+            int index = view.Nodes.IndexOf(node);
+            if (index > 0)
+            {
+                view.Nodes.RemoveAt(index);
+                view.Nodes[index-1].Nodes.Insert(view.Nodes[index - 1].Nodes.Count, node);
+                view.SelectedNode = view.Nodes[index - 1].Nodes[view.Nodes[index - 1].Nodes.Count-1];
             }
         }
     }

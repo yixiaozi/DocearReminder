@@ -22,6 +22,10 @@ namespace DocearReminder
             resultlistBox.ValueMember = "path";
             Center();
             DirSearch(path + @"\" + DateTime.Now.Year.ToString());
+            for (int i = 1; i < 50; i++)
+            {
+                DirSearch(path + @"\" + (DateTime.Now.Year-i).ToString());
+            }
             allresult = allresult.OrderByDescending(m => m.Time).ToList();
             getlog();
         }
@@ -35,6 +39,10 @@ namespace DocearReminder
         {
             try
             {
+                if (!Directory.Exists(sDir))
+                {
+                    return;
+                }
                 foreach (string d in Directory.GetDirectories(sDir))
                 {
                     foreach (string fileName in Directory.GetFiles(d, "*.txt"))

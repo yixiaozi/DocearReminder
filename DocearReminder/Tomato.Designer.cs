@@ -51,7 +51,6 @@
             this.fanqietime.Size = new System.Drawing.Size(108, 46);
             this.fanqietime.TabIndex = 0;
             this.fanqietime.Text = "Time";
-            this.fanqietime.Click += new System.EventHandler(this.fanqietime_DoubleClick);
             this.fanqietime.Paint += new System.Windows.Forms.PaintEventHandler(this.fanqietime_Paint);
             this.fanqietime.DoubleClick += new System.EventHandler(this.fanqietime_DoubleClick);
             this.fanqietime.MouseUp += new System.Windows.Forms.MouseEventHandler(this.fanqietime_MouseUp);

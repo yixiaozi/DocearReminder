@@ -139,28 +139,7 @@ namespace DocearReminder
         private void createsuggest_Click(object sender, EventArgs e)
         {
             IniFile ini = new IniFile(@"./config.ini");
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
-            string content = "";
-            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
-            {
-                string filename= Path.GetFileNameWithoutExtension(file.FullName);
-                content += filename;
-                content += "|";
-                content += GetFirstSpell(filename);
-                content += "|";
-                content += ConvertToAllSpell(filename);
-                content += "|";
-                content += GetFirstSpell(filename);
-                content += "@";
-            }
-            RecordLog(content);
-            StationInfo.StationData = null;
-            this.Close();
-        }
-        public static void createsuggest_fun()
-        {
-            IniFile ini = new IniFile(@"./config.ini");
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
@@ -173,6 +152,91 @@ namespace DocearReminder
                 content += "|";
                 content += GetFirstSpell(filename);
                 content += "@";
+            }
+            try//获取外部文件夹
+            {
+                string calanderpath = ini.ReadString("path", "calanderpath", "");
+                foreach (string item in calanderpath.Split(';'))
+                {
+                    if (item != "")
+                    {
+                        if (ini.ReadString("path", item, "") != "")
+                        {
+                            if (!ini.ReadString("path", item, "").Contains(ini.ReadString("path", "rootpath", "")))
+                            {
+                                DirectoryInfo pathout = new DirectoryInfo(ini.ReadString("path", item, ""));
+                                foreach (FileInfo file in pathout.GetFiles("*.mm", SearchOption.AllDirectories))
+                                {
+                                    string filename = Path.GetFileNameWithoutExtension(file.FullName);
+                                    content += filename;
+                                    content += "|";
+                                    content += GetFirstSpell(filename);
+                                    content += "|";
+                                    content += ConvertToAllSpell(filename);
+                                    content += "|";
+                                    content += GetFirstSpell(filename);
+                                    content += "@";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            RecordLog(content);
+            StationInfo.StationData = null;
+            this.Close();
+        }
+        public static void createsuggest_fun()
+        {
+            IniFile ini = new IniFile(@"./config.ini");
+            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); 
+            string content = "";
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            {
+                string filename = Path.GetFileNameWithoutExtension(file.FullName);
+                content += filename;
+                content += "|";
+                content += GetFirstSpell(filename);
+                content += "|";
+                content += ConvertToAllSpell(filename);
+                content += "|";
+                content += GetFirstSpell(filename);
+                content += "@";
+            }
+            try//获取外部文件夹
+            {
+                string calanderpath = ini.ReadString("path", "calanderpath", "");
+                foreach (string item in calanderpath.Split(';'))
+                {
+                    if (item != "")
+                    {
+                        if (ini.ReadString("path", item, "")!="")
+                        {
+                            if (!ini.ReadString("path", item, "").Contains(ini.ReadString("path", "rootpath", "")))
+                            {
+                                DirectoryInfo pathout = new DirectoryInfo(ini.ReadString("path", item, "")); 
+                                foreach (FileInfo file in pathout.GetFiles("*.mm", SearchOption.AllDirectories))
+                                {
+                                    string filename = Path.GetFileNameWithoutExtension(file.FullName);
+                                    content += filename;
+                                    content += "|";
+                                    content += GetFirstSpell(filename);
+                                    content += "|";
+                                    content += ConvertToAllSpell(filename);
+                                    content += "|";
+                                    content += GetFirstSpell(filename);
+                                    content += "@";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
             }
             RecordLog(content);
             StationInfo.StationData = null;
@@ -210,9 +274,7 @@ namespace DocearReminder
             }
             catch (Exception e)
             {
-                Console.WriteLine("全拼转化出错！" + e.Message);
             }
-
             return string.Empty;
         }
         /// <summary>
@@ -241,7 +303,6 @@ namespace DocearReminder
             }
             catch (Exception e)
             {
-                Console.WriteLine("首字母转化出错！" + e.Message);
             }
 
             return string.Empty;

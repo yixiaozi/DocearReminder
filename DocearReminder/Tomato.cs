@@ -133,7 +133,7 @@ namespace DocearReminder
         private void positionTimer_Tick(object sender, EventArgs e)
         {
             this.Location = new System.Drawing.Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - 250, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - 150 - _fanqieCount * 120);
-            this.TopMost = true;
+            //this.TopMost = true;
         }
         public void addreminderlog(string TaskName,string ID,string mindmap)
         {
@@ -240,7 +240,14 @@ namespace DocearReminder
 
         private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            positionTimer.Stop();
+            if (暂停ToolStripMenuItem.Text == "暂停")
+            {
+                timerDefault.Stop();
+            }
+            else
+            {
+                timerDefault.Start();
+            }
         }
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -253,7 +260,7 @@ namespace DocearReminder
             {
                 置顶ToolStripMenuItem.Text = "置顶";
             }
-            if (positionTimer.Enabled)
+            if (timerDefault.Enabled)
             {
                 暂停ToolStripMenuItem.Text = "暂停";
             }

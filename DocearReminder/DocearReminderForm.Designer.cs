@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using yixiaozi.WinForm.Control.TagCloud;
 using yixiaozi.WinForm.Control;
+using System;
 
 namespace DocearReminder
 {
@@ -524,6 +525,11 @@ namespace DocearReminder
             0,
             0,
             0});
+            this.tasklevel.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.tasklevel.Name = "tasklevel";
             this.tasklevel.Size = new System.Drawing.Size(35, 21);
             this.tasklevel.TabIndex = 48;
@@ -674,10 +680,10 @@ namespace DocearReminder
             this.nodetree.Size = new System.Drawing.Size(600, 307);
             this.nodetree.TabIndex = 100;
             this.nodetree.Visible = false;
-            this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TreeView1_AfterLabelEdit);
+            this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.NodeTree_AfterLabelEdit);
             this.nodetree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.nodetree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.nodetree_AfterSelect);
-            this.nodetree.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
+            this.nodetree.KeyUp += new System.Windows.Forms.KeyEventHandler(this.NodeTree_KeyUp);
             this.nodetree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nodetree_MouseDown);
             this.nodetree.MouseLeave += new System.EventHandler(this.TreeView1_MouseLeave);
             this.nodetree.MouseHover += new System.EventHandler(this.TreeView1_MouseHover);
@@ -821,7 +827,7 @@ namespace DocearReminder
             this.FileTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.FileTreeView_AfterLabelEdit);
             this.FileTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.FileTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.FileTreeView_NodeMouseDoubleClick);
-            this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
+            this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyUp);
             this.FileTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FileTreeView_MouseDown);
             // 
             // PathcomboBox
@@ -932,7 +938,7 @@ namespace DocearReminder
             this.打开程序目录ToolStripMenuItem,
             this.推出F11ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 312);
+            this.menu.Size = new System.Drawing.Size(212, 290);
             // 
             // 查看模式ToolStripMenuItem
             // 
@@ -950,25 +956,25 @@ namespace DocearReminder
             // 单次ToolStripMenuItem
             // 
             this.单次ToolStripMenuItem.Name = "单次ToolStripMenuItem";
-            this.单次ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.单次ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.单次ToolStripMenuItem.Text = "单次[5]";
             // 
             // 周期ToolStripMenuItem
             // 
             this.周期ToolStripMenuItem.Name = "周期ToolStripMenuItem";
-            this.周期ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.周期ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.周期ToolStripMenuItem.Text = "周期[5][S+5]";
             // 
             // 非重要ToolStripMenuItem
             // 
             this.非重要ToolStripMenuItem.Name = "非重要ToolStripMenuItem";
-            this.非重要ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.非重要ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.非重要ToolStripMenuItem.Text = "非重要[6]";
             // 
             // 导图查看模式ToolStripMenuItem
             // 
             this.导图查看模式ToolStripMenuItem.Name = "导图查看模式ToolStripMenuItem";
-            this.导图查看模式ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.导图查看模式ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.导图查看模式ToolStripMenuItem.Text = "导图查看模式[s]";
             // 
             // autoRunToolStripMenuItem
@@ -983,7 +989,7 @@ namespace DocearReminder
             // disAutoRunToolStripMenuItem
             // 
             this.disAutoRunToolStripMenuItem.Name = "disAutoRunToolStripMenuItem";
-            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.disAutoRunToolStripMenuItem.Text = "取消开机启动";
             // 
             // 工具箱ToolStripMenuItem
@@ -1016,14 +1022,14 @@ namespace DocearReminder
             // 剪切板文件ToolStripMenuItem
             // 
             this.剪切板文件ToolStripMenuItem.Name = "剪切板文件ToolStripMenuItem";
-            this.剪切板文件ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.剪切板文件ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.剪切板文件ToolStripMenuItem.Text = "文件:clipf";
             this.剪切板文件ToolStripMenuItem.Click += new System.EventHandler(this.剪切板文件ToolStripMenuItem_Click);
             // 
             // 文件夹ToolStripMenuItem
             // 
             this.文件夹ToolStripMenuItem.Name = "文件夹ToolStripMenuItem";
-            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.文件夹ToolStripMenuItem.Text = "文件夹:clipF";
             this.文件夹ToolStripMenuItem.Click += new System.EventHandler(this.文件夹ToolStripMenuItem_Click);
             // 
@@ -1050,21 +1056,21 @@ namespace DocearReminder
             // o05ToolStripMenuItem
             // 
             this.o05ToolStripMenuItem.Name = "o05ToolStripMenuItem";
-            this.o05ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.o05ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.o05ToolStripMenuItem.Text = "50%:o=0.5";
             this.o05ToolStripMenuItem.Click += new System.EventHandler(this.o05ToolStripMenuItem_Click);
             // 
             // o08ToolStripMenuItem
             // 
             this.o08ToolStripMenuItem.Name = "o08ToolStripMenuItem";
-            this.o08ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.o08ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.o08ToolStripMenuItem.Text = "80%:o=0.8";
             this.o08ToolStripMenuItem.Click += new System.EventHandler(this.o08ToolStripMenuItem_Click);
             // 
             // o1ToolStripMenuItem
             // 
             this.o1ToolStripMenuItem.Name = "o1ToolStripMenuItem";
-            this.o1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.o1ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.o1ToolStripMenuItem.Text = "100%:o=1";
             this.o1ToolStripMenuItem.Click += new System.EventHandler(this.o1ToolStripMenuItem_Click);
             // 
@@ -1081,7 +1087,7 @@ namespace DocearReminder
             // 隐藏树视图SnToolStripMenuItem
             // 
             this.隐藏树视图SnToolStripMenuItem.Name = "隐藏树视图SnToolStripMenuItem";
-            this.隐藏树视图SnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.隐藏树视图SnToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.隐藏树视图SnToolStripMenuItem.Text = "隐藏树视图[S+n]";
             this.隐藏树视图SnToolStripMenuItem.Click += new System.EventHandler(this.隐藏树视图SnToolStripMenuItem_Click);
             // 
@@ -1258,6 +1264,7 @@ namespace DocearReminder
             this.noterichTextBox.TabIndex = 119;
             this.noterichTextBox.Text = "";
             this.noterichTextBox.TextChanged += new System.EventHandler(this.noterichTextBox_TextChanged);
+            this.noterichTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.noterichTextBox_KeyUp);
             // 
             // reminderListBox
             // 
@@ -1365,6 +1372,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.EditTaskTime);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
@@ -1405,7 +1413,6 @@ namespace DocearReminder
             this.Controls.Add(this.ebcheckBox);
             this.Controls.Add(this.IsReminderOnlyCheckBox);
             this.Controls.Add(this.tagCloudControl);
-            this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.reminderListBox);
             this.Controls.Add(this.reminderList);
             this.Controls.Add(this.searchword);
@@ -1467,6 +1474,7 @@ namespace DocearReminder
 
         }
 
+        
         #endregion
         private SortByTimeListBox reminderList;
         private System.Windows.Forms.TextBox searchword;

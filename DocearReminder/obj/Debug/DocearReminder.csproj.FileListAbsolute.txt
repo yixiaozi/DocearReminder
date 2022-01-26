@@ -191,5 +191,6 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\NPOI.OpenXml
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Update.Update.resources
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\HtmlAgilityPack.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Prism.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\System.ValueTuple.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csprojAssemblyReference.cache
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete

@@ -653,7 +653,7 @@ namespace DocearReminder
             // onlyZhouqi
             // 
             this.onlyZhouqi.AutoSize = true;
-            this.onlyZhouqi.Checked = true;
+            this.onlyZhouqi.Checked = false;
             this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.onlyZhouqi.Location = new System.Drawing.Point(886, 501);

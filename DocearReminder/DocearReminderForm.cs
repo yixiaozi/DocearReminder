@@ -183,7 +183,7 @@ namespace DocearReminder
                 ebconfig = Convert.ToInt32(ini.ReadString("config", "ebconfig", ""));
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
-
+                onlyZhouqi.Checked= ini.ReadString("config", "IsCycleOnly", "") == "true"; 
                 string birthday = ini.ReadString("info", "birthday", "");
                 string scorestr = ini.ReadString("info", "score", "");
                 fenshu.Text = scorestr;
@@ -2712,6 +2712,16 @@ namespace DocearReminder
                     {
                         reminderList.SelectedIndex = reminderIndex;
                     }
+                    else
+                    {
+                        try//完成的是最后一个的时候
+                        {
+                            reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
                 }
                 else
                 {
@@ -2720,6 +2730,16 @@ namespace DocearReminder
                     if (reminderIndex <= reminderListBox.Items.Count - 1)//1,0 0>=0
                     {
                         reminderListBox.SelectedIndex = reminderIndex;
+                    }
+                    else
+                    {
+                        try//完成的是最后一个的时候
+                        {
+                            reminderListBox.SelectedIndex = reminderListBox.Items.Count - 1;
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
                 if (reminderList.Items.Count == 0 && ebcheckBox.Checked)
@@ -3774,17 +3794,30 @@ namespace DocearReminder
                 {
                     reminderSelectIndex = reminderList.SelectedIndex;
                 }
+                else
+                {
+                    reminderSelectIndex = reminderListBox.SelectedIndex;
+                }
                 EditTask();
                 //ChangeReminder();
-                reminderList.Focus();
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Time = dateTimePicker.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).level = (int)tasklevel.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).rtaskTime = (int)taskTime.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Text = newName((MyListBoxItemRemind)(reminderlistSelectedItem)).Text;
                 taskTime.Value = 0;
                 tasklevel.Value = 0;
-                reminderList.SelectedIndex = reminderSelectIndex;
-                reminderlist_SelectedIndexChanged(null, null);
+                if (reminderList.SelectedIndex != -1)
+                {
+                    reminderList.SelectedIndex = reminderSelectIndex;
+                    //reminderlist_SelectedIndexChanged(null, null);
+                    reminderList.Focus();
+                }
+                else
+                {
+                    reminderListBox.SelectedIndex = reminderSelectIndex;
+                    //reminderlist_SelectedIndexChanged(null, null);
+                    reminderListBox.Focus();
+                }
                 fenshuADD(1);
             }
             catch (Exception)
@@ -3821,105 +3854,57 @@ namespace DocearReminder
         }
         public void EditTask()
         {
-            if (reminderList.SelectedIndex >= 0)
+            MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(selectedReminder.Value);
+            string taskName = selectedReminder.Name;
+            DateTime dateBefore = selectedReminder.Time;
+            int taskTimeBefore = selectedReminder.rtaskTime;
+            int tasklevelBefore = selectedReminder.level;
+            if (selectedReminder.isEncrypted)
             {
-                MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
-                System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(selectedReminder.Value);
-                string taskName = selectedReminder.Name;
-                DateTime dateBefore = selectedReminder.Time;
-                int taskTimeBefore = selectedReminder.rtaskTime;
-                int tasklevelBefore = selectedReminder.level;
-                if (selectedReminder.isEncrypted)
-                {
-                    taskName = encrypt.EncryptString(taskName);
-                }
-                foreach (XmlNode node in x.GetElementsByTagName("node"))
-                {
-                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == selectedReminder.IDinXML)
-                    {
-                        try
-                        {
-                            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                            bool isHashook = false;
-                            foreach (XmlNode item in node.ChildNodes)
-                            {
-                                if (item.Name == "hook" && !isHashook)
-                                {
-                                    isHashook = true;
-                                    item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                                }
-                            }
-                            if (!isHashook)
-                            {
-                                XmlNode remindernode = x.CreateElement("hook");
-                                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
-                                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
-                                remindernode.Attributes.Append(remindernodeName);
-                                XmlNode remindernodeParameters = x.CreateElement("Parameters");
-                                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
-                                remindernodeTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                                remindernodeParameters.Attributes.Append(remindernodeTime);
-                                remindernode.AppendChild(remindernodeParameters);
-                                node.AppendChild(remindernode);
-                            }
-                            XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
-                            node.Attributes.Append(TASKTIME);
-                            node.Attributes["TASKTIME"].Value = taskTime.Value.ToString();
-                            XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
-                            node.Attributes.Append(TASKLEVEL);
-                            node.Attributes["TASKLEVEL"].Value = tasklevel.Value.ToString();
-                            x.Save(selectedReminder.Value);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
-                            th.Start();
-                            SaveLog("修改了任务：" + taskName + "    时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString() + "    时长：" + taskTimeBefore.ToString() + ">" + taskTime.Value.ToString() + "    等级：" + tasklevelBefore.ToString() + ">" + tasklevel.Value.ToString());
-                            return;
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    }
-                }
+                taskName = encrypt.EncryptString(taskName);
             }
-        }
-        public void EditTaskEndDate()
-        {
-            if (reminderList.SelectedIndex >= 0)
+            foreach (XmlNode node in x.GetElementsByTagName("node"))
             {
-                MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
-                System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(selectedReminder.Value);
-                string taskName = selectedReminder.Name;
-                DateTime dateBefore = selectedReminder.EndDate;
-                if (selectedReminder.isEncrypted)
-                {
-                    taskName = encrypt.EncryptString(taskName);
-                }
-                foreach (XmlNode node in x.GetElementsByTagName("hook"))
+                if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == selectedReminder.IDinXML)
                 {
                     try
                     {
-                        if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
+                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                        bool isHashook = false;
+                        foreach (XmlNode item in node.ChildNodes)
                         {
-                            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                            if (GetAttribute(node.FirstChild, "EndDate") != "")
+                            if (item.Name == "hook" && !isHashook)
                             {
-                                node.FirstChild.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                isHashook = true;
+                                item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             }
-                            else
-                            {
-                                //添加属性
-                                XmlAttribute TASKLEVEL = x.CreateAttribute("EndDate");
-                                node.ParentNode.Attributes.Append(TASKLEVEL);
-                                node.ParentNode.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                            }
-                            x.Save(selectedReminder.Value);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
-                            th.Start();
-                            SaveLog("修改了任务：" + taskName + "    截止时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString());
-                            return;
                         }
+                        if (!isHashook)
+                        {
+                            XmlNode remindernode = x.CreateElement("hook");
+                            XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                            remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                            remindernode.Attributes.Append(remindernodeName);
+                            XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                            XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                            remindernodeTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            remindernodeParameters.Attributes.Append(remindernodeTime);
+                            remindernode.AppendChild(remindernodeParameters);
+                            node.AppendChild(remindernode);
+                        }
+                        XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
+                        node.Attributes.Append(TASKTIME);
+                        node.Attributes["TASKTIME"].Value = taskTime.Value.ToString();
+                        XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
+                        node.Attributes.Append(TASKLEVEL);
+                        node.Attributes["TASKLEVEL"].Value = tasklevel.Value.ToString();
+                        x.Save(selectedReminder.Value);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                        th.Start();
+                        SaveLog("修改了任务：" + taskName + "    时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString() + "    时长：" + taskTimeBefore.ToString() + ">" + taskTime.Value.ToString() + "    等级：" + tasklevelBefore.ToString() + ">" + tasklevel.Value.ToString());
+                        return;
                     }
                     catch (Exception)
                     {
@@ -3928,9 +3913,51 @@ namespace DocearReminder
                 }
             }
         }
+        public void EditTaskEndDate()
+        {
+            MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(selectedReminder.Value);
+            string taskName = selectedReminder.Name;
+            DateTime dateBefore = selectedReminder.EndDate;
+            if (selectedReminder.isEncrypted)
+            {
+                taskName = encrypt.EncryptString(taskName);
+            }
+            foreach (XmlNode node in x.GetElementsByTagName("hook"))
+            {
+                try
+                {
+                    if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
+                    {
+                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                        if (GetAttribute(node.FirstChild, "EndDate") != "")
+                        {
+                            node.FirstChild.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        }
+                        else
+                        {
+                            //添加属性
+                            XmlAttribute TASKLEVEL = x.CreateAttribute("EndDate");
+                            node.ParentNode.Attributes.Append(TASKLEVEL);
+                            node.ParentNode.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        }
+                        x.Save(selectedReminder.Value);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                        th.Start();
+                        SaveLog("修改了任务：" + taskName + "    截止时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString());
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
         public void SetTaskIsView()
         {
-            if (reminderList.SelectedIndex == -1)
+            if (!ReminderListFocused())
             {
                 return;
             }
@@ -5621,10 +5648,9 @@ namespace DocearReminder
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(showMindmapName);
                 fenshuADD(1);
-                //x.GetElementById(id).RemoveAll(); ;
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
-                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)//todo:应该判断是否已经是任务
                     {
                         XmlNode remindernode = x.CreateElement("hook");
                         XmlAttribute remindernodeName = x.CreateAttribute("NAME");
@@ -5636,6 +5662,12 @@ namespace DocearReminder
                         remindernodeParameters.Attributes.Append(remindernodeTime);
                         remindernode.AppendChild(remindernodeParameters);
                         node.AppendChild(remindernode);
+                        //图标
+                        XmlNode newElem = x.CreateElement("icon");
+                        XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
+                        BUILTIN.Value = "clock";
+                        newElem.Attributes.Append(BUILTIN);
+                        node.AppendChild(newElem);
                         x.Save(showMindmapName);
                         return;
                     }
@@ -6815,11 +6847,6 @@ namespace DocearReminder
                             }
                             else
                             {
-                                //DirectoryInfo path = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
-                                //foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
-                                //{
-                                //    file.Delete();
-                                //}
                                 if (IsReminderOnlyCheckBox.Checked)
                                 {
                                     IsReminderOnlyCheckBox.Checked = false;
@@ -7346,77 +7373,77 @@ namespace DocearReminder
                         //}
                         else if (searchword.Text.StartsWith("rss"))
                         {
-                            try
-                            {
-                                string rss = searchword.Text.Substring(3);
-                                if (rss == "" || !IsUri(rss))
-                                {
-                                    return;
-                                }
+                            //try
+                            //{
+                            //    string rss = searchword.Text.Substring(3);
+                            //    if (rss == "" || !IsUri(rss))
+                            //    {
+                            //        return;
+                            //    }
 
-                                string path = ini.ReadString("path", "rss", "");
-                                string domin = GetTopDomin(rss);
-                                if (!System.IO.Directory.Exists(path + "\\" + domin))
-                                {
-                                    System.IO.Directory.CreateDirectory(path + "\\" + domin);
-                                }
-                                WebClient webClient = new WebClient();
-                                webClient.Headers.Add("user-agent", "MyRSSReader/1.0");
-                                XmlReader readers = XmlReader.Create(webClient.OpenRead(rss));
-                                XmlDocument doc = new XmlDocument(); // 创建文档对象
-                                try
-                                {
-                                    doc.Load(readers);//加载XML 包括HTTP：// 和本地
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);//异常处理
-                                }
-                                string titleStr = doc.GetElementsByTagName("title")[0].InnerText;
-                                titleStr = Regex.Replace(titleStr, @"[\""]+", "");
-                                titleStr = titleStr.Replace(" ", "");
-                                titleStr = Regex.Replace(titleStr, @"((?=[\x21-\x7e]+)[^A-Za-z0-9])", "");
-                                string demoPath = ini.ReadString("path", "rssdemo", "");
-                                string fileName = path + "\\" + domin + "\\" + titleStr + ".mm";// getTitle(rss);
-                                if (!File.Exists(fileName))//&&//将所有RSS记录一下，如果包含就不操作了。
-                                {
-                                    System.IO.File.Copy(demoPath, fileName);
-                                    TextContentReplace(fileName, "####URL####", rss);
-                                }
-                                XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项           
-                                System.Xml.XmlDocument x = new XmlDocument();
-                                x.Load(fileName);
-                                foreach (XmlNode node in list)  // 循环每一项
-                                {
-                                    XmlElement ele = (XmlElement)node;
-                                    string title = ele.GetElementsByTagName("title")[0].InnerText;//获得标题
-                                    string link = ele.GetElementsByTagName("link")[0].InnerText;//获得联接
-                                    string description = ele.GetElementsByTagName("description")[0].InnerText;//获得联接
-                                    string guidurl = ele.GetElementsByTagName("guid").Count == 0 ? "" : ele.GetElementsByTagName("guid")[0].InnerText;//获得联接
-                                    DateTime dt = DateTime.Now;
-                                    try
-                                    {
-                                        dt = Convert.ToDateTime(((System.Xml.XmlElement)ele.PreviousSibling).InnerText);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                    //添加到列表内
-                                    ListViewItem item = new ListViewItem
-                                    {
-                                        Text = title,
-                                        Tag = link
-                                    };
-                                    AddTaskToFile(x, "文章", title, link, description, guidurl, dt);
-                                }
-                                x.Save(fileName);
-                                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(fileName));
-                                th.Start();
-                                searchword.Text = "";
-                            }
-                            catch (Exception)
-                            {
-                            }
+                            //    string path = ini.ReadString("path", "rss", "");
+                            //    string domin = GetTopDomin(rss);
+                            //    if (!System.IO.Directory.Exists(path + "\\" + domin))
+                            //    {
+                            //        System.IO.Directory.CreateDirectory(path + "\\" + domin);
+                            //    }
+                            //    WebClient webClient = new WebClient();
+                            //    webClient.Headers.Add("user-agent", "MyRSSReader/1.0");
+                            //    XmlReader readers = XmlReader.Create(webClient.OpenRead(rss));
+                            //    XmlDocument doc = new XmlDocument(); // 创建文档对象
+                            //    try
+                            //    {
+                            //        doc.Load(readers);//加载XML 包括HTTP：// 和本地
+                            //    }
+                            //    catch (Exception ex)
+                            //    {
+                            //        MessageBox.Show(ex.Message);//异常处理
+                            //    }
+                            //    string titleStr = doc.GetElementsByTagName("title")[0].InnerText;
+                            //    titleStr = Regex.Replace(titleStr, @"[\""]+", "");
+                            //    titleStr = titleStr.Replace(" ", "");
+                            //    titleStr = Regex.Replace(titleStr, @"((?=[\x21-\x7e]+)[^A-Za-z0-9])", "");
+                            //    string demoPath = ini.ReadString("path", "rssdemo", "");
+                            //    string fileName = path + "\\" + domin + "\\" + titleStr + ".mm";// getTitle(rss);
+                            //    if (!File.Exists(fileName))//&&//将所有RSS记录一下，如果包含就不操作了。
+                            //    {
+                            //        System.IO.File.Copy(demoPath, fileName);
+                            //        TextContentReplace(fileName, "####URL####", rss);
+                            //    }
+                            //    XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项           
+                            //    System.Xml.XmlDocument x = new XmlDocument();
+                            //    x.Load(fileName);
+                            //    foreach (XmlNode node in list)  // 循环每一项
+                            //    {
+                            //        XmlElement ele = (XmlElement)node;
+                            //        string title = ele.GetElementsByTagName("title")[0].InnerText;//获得标题
+                            //        string link = ele.GetElementsByTagName("link")[0].InnerText;//获得联接
+                            //        string description = ele.GetElementsByTagName("description")[0].InnerText;//获得联接
+                            //        string guidurl = ele.GetElementsByTagName("guid").Count == 0 ? "" : ele.GetElementsByTagName("guid")[0].InnerText;//获得联接
+                            //        DateTime dt = DateTime.Now;
+                            //        try
+                            //        {
+                            //            dt = Convert.ToDateTime(((System.Xml.XmlElement)ele.PreviousSibling).InnerText);
+                            //        }
+                            //        catch (Exception)
+                            //        {
+                            //        }
+                            //        //添加到列表内
+                            //        ListViewItem item = new ListViewItem
+                            //        {
+                            //            Text = title,
+                            //            Tag = link
+                            //        };
+                            //        AddTaskToFile(x, "文章", title, link, description, guidurl, dt);
+                            //    }
+                            //    x.Save(fileName);
+                            //    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(fileName));
+                            //    th.Start();
+                            //    searchword.Text = "";
+                            //}
+                            //catch (Exception)
+                            //{
+                            //}
                         }
                         else if (searchword.Text.StartsWith("t"))
                         {
@@ -7497,6 +7524,7 @@ namespace DocearReminder
                                 try
                                 {
                                     SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
+                                    nodetree.SelectedNode.Text = DateTime.Now.ToString("MMddHH ") + nodetree.SelectedNode.Text;
                                     SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                                     Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                                     th.Start();
@@ -7701,9 +7729,12 @@ namespace DocearReminder
                     Jietu();
                     break;
                 case Keys.F11:
-                    //以后退出程序只有输入Exit
+                    DirectoryInfo path = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
+                    foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
+                    {
+                        file.Delete();
+                    }
                     Application.Exit();
-
                     break;
                 case Keys.F12:
                     if (keyNotWork())
@@ -8456,7 +8487,7 @@ namespace DocearReminder
                             }
                         }
                     }
-                    else if (reminderList.Focused)
+                    else if (ReminderListFocused())
                     {
                         mindmaplist.Focus();
                     }
@@ -8747,6 +8778,11 @@ namespace DocearReminder
                                     nodetree.Visible = FileTreeView.Visible = true;
                                     this.Height = 860;
                                     nodetree.Focus();
+                                }
+                                else if (reminderListBox.Focused)
+                                {
+                                    reminderListBox.Sorted = false;
+                                    reminderListBox.Sorted = true;
                                 }
                                 else
                                 {
@@ -11006,7 +11042,7 @@ namespace DocearReminder
             }
             else if (needSuggest)
             {
-                List<StationInfo> result = suggestListData.FindAll(m => m.StationName_CN.ToLower().Contains(searchword.Text.ToLower()) || (m.isNode == "" && StringHasArrALL(m.mindmapurl.ToLower(), searchword.Text.ToLower().Split(' '))));
+                List<StationInfo> result = suggestListData.FindAll(m => m.StationName_CN.ToLower().Contains(searchword.Text.ToLower()) || StringHasArrALL(m.StationName_CN.ToLower()+ m.mindmapurl.ToLower(), searchword.Text.ToLower().Split(' ')) || (m.isNode == "" && StringHasArrALL(m.StationName_CN.ToLower() + m.mindmapurl.ToLower(), searchword.Text.ToLower().Split(' '))));
                 if (result.Count() > 0)
                 {
                     string taskname = searchword.Text;

@@ -192,5 +192,8 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Update.Updat
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\HtmlAgilityPack.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Prism.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\System.ValueTuple.dll
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csprojAssemblyReference.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Interop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\AxInterop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.AssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Interop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\AxInterop.AcroPDFLib.dll

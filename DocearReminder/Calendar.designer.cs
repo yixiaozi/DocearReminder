@@ -287,7 +287,7 @@ namespace Calendar
             this.lockButton.Name = "lockButton";
             this.lockButton.Size = new System.Drawing.Size(75, 21);
             this.lockButton.TabIndex = 31;
-            this.lockButton.Text = "Ëø¶¨";
+            this.lockButton.Text = "½âËø";
             this.lockButton.UseVisualStyleBackColor = true;
             this.lockButton.Click += new System.EventHandler(this.lockButton_Click);
             // 

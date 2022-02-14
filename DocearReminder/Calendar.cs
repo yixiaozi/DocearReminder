@@ -614,7 +614,7 @@ namespace Calendar
         {
             jietu();
         }
-
+        
         private void Timer2_Tick(object sender, EventArgs e)
         {
             //jietu();
@@ -622,7 +622,7 @@ namespace Calendar
 
         private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!Console.CapsLock==true||!islock)
+            if (!Console.CapsLock&&!islock)
             {
                 switch (e.KeyCode)
                 {
@@ -992,7 +992,7 @@ namespace Calendar
         {
 
         }
-        bool islock = false;
+        bool islock = true;
         private void lockButton_Click(object sender, EventArgs e)
         {
             if (lockButton.Text=="Ëø¶¨")

@@ -1014,6 +1014,10 @@ namespace DocearReminder
             {
                 foreach (FileInfo file in path.GetFiles("*.mm"))
                 {
+                    if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
+                    {
+                        mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName});
+                    }
                     if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
                     {
                         try
@@ -2485,16 +2489,8 @@ namespace DocearReminder
             {
                 if (item.IsShow)
                 {
-                    //remindCount += 1;
-                    //if (item.Time.Hour + (float)item.rtaskTime / 60 <= 24)
-                    //{
-                        remindHours += item.rtaskTime;
-                    //}
-                    //else
-                    //{
-                    //    remindHours += (24 - item.Time.Hour) * 60;
-                    //    remindHours -= item.Time.Minute;
-                    //}
+                    remindCount += 1;
+                    remindHours += item.rtaskTime;
                 }
             }
             foreach (MyListBoxItemRemind item in reminderListBox.Items)
@@ -2502,15 +2498,7 @@ namespace DocearReminder
                 if (item.IsShow)
                 {
                     remindCount += 1;
-                    //if (item.Time.Hour + (float)item.rtaskTime / 60 <= 24)
-                    //{
-                        remindHours += item.rtaskTime;
-                    //}
-                    //else
-                    //{
-                    //    remindHours += (24 - item.Time.Hour) * 60;
-                    //    remindHours -= item.Time.Minute;
-                    //}
+                    remindHours += item.rtaskTime;
                 }
             }
             Hours.Text = ((float)remindHours / 60).ToString("N2");
@@ -3459,6 +3447,7 @@ namespace DocearReminder
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
                 RRReminderlist();
+                reminderList.Focus();
             }
             catch (Exception)
             {
@@ -3466,7 +3455,6 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
         public string GetAttribute(XmlNode node, string name, int resultLenght = 0)
@@ -4363,6 +4351,133 @@ namespace DocearReminder
                     }
                     else
                     {
+                        //只显示当前导图的任务
+                        try
+                        {
+                            reminderList.Items.Clear();
+                            XmlDocument x = new XmlDocument();
+                            try
+                            {
+                                x.Load(file.filePath);
+                            }
+                            catch (Exception)
+                            {
+                                return;
+                            }
+                            if (x.GetElementsByTagName("hook").Count != 0)
+                            {
+                                string str1 = "hook";
+                                string str2 = "NAME";
+                                string str3 = "plugins/TimeManagementReminder.xml";
+                                foreach (XmlNode node in x.GetElementsByTagName(str1))
+                                {
+                                    try
+                                    {
+                                        if (node.Attributes[str2].Value == str3)
+                                        {
+                                            string reminder = "";
+                                            DateTime dt = DateTime.Now;
+                                            if (node.InnerXml != "")
+                                            {
+                                                reminder = node.InnerXml.Split('\"')[1];
+                                                long unixTimeStamp = Convert.ToInt64(reminder);
+                                                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                                dt = startTime.AddMilliseconds(unixTimeStamp);
+                                            }
+                                            else
+                                            {
+                                                reminder = GetAttribute(node.ParentNode, "RememberTime");
+                                                if (reminder == "")
+                                                {
+                                                }
+                                                else
+                                                {
+                                                    long unixTimeStamp = Convert.ToInt64(reminder);
+                                                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                                    dt = startTime.AddMilliseconds(unixTimeStamp);
+                                                }
+                                            }
+                                            //添加提醒到提醒清单
+                                            string dakainfo = "";
+                                            if (GetAttribute(node.ParentNode, "ISDAKA") == "true")
+                                            {
+                                                dakainfo = " | " + GetAttribute(node.ParentNode, "DAKADAY");
+                                            }
+                                            string taskName1 = "";
+                                            string taskNameDis = "";
+                                            bool isEncrypted = false;
+                                            taskName1 = node.ParentNode.Attributes["TEXT"].Value;
+                                            if (taskName1.Length > 6)
+                                            {
+                                                if (taskName1.Substring(0, 3) == "***")
+                                                {
+                                                    if (PassWord != "")
+                                                    {
+                                                        taskName1 = encrypt.DecryptString(node.ParentNode.Attributes["TEXT"].Value);
+                                                        isEncrypted = true;
+                                                    }
+                                                }
+                                            }
+                                            taskNameDis = taskName1;
+                                            if (IsFileUrl(taskName1))
+                                            {
+                                                if (Path.GetExtension(taskName1) != "")
+                                                {
+                                                    taskNameDis = "#" + Path.GetFileName(taskName1);
+                                                }
+                                                else
+                                                {
+                                                    taskNameDis = "Path:" + Path.GetFullPath(taskName1).Split('\\').Last(m => m != "");
+                                                }
+                                            }
+                                            if (GetAttribute(node.ParentNode, "ISVIEW") == "true")
+                                            {
+                                                taskNameDis = "待：" + taskNameDis;
+                                            }
+                                            if (taskName1.ToLower() != "bin")
+                                            {
+                                                reminderList.Items.Add(new MyListBoxItemRemind
+                                                {
+                                                    Text = dt.ToString("yy-MM-dd-HH:mm") + @"  " + taskNameDis + dakainfo,
+                                                    Name = taskName1,
+                                                    Time = dt,
+                                                    Value = file.filePath,
+                                                    IsShow = false,
+                                                    remindertype = GetAttribute(node.ParentNode, "REMINDERTYPE"),
+                                                    rhours = MyToInt16(GetAttribute(node.ParentNode, "RHOUR")),
+                                                    rdays = MyToInt16(GetAttribute(node.ParentNode, "RDAYS")),
+                                                    rMonth = MyToInt16(GetAttribute(node.ParentNode, "RMONTH")),
+                                                    rWeek = MyToInt16(GetAttribute(node.ParentNode, "RWEEK")),
+                                                    rweeks = GetAttribute(node.ParentNode, "RWEEKS").ToCharArray(),
+                                                    ryear = MyToInt16(GetAttribute(node.ParentNode, "RYEAR")),
+                                                    rtaskTime = MyToInt16(GetAttribute(node.ParentNode, "TASKTIME")),
+                                                    IsDaka = GetAttribute(node.ParentNode, "ISDAKA"),
+                                                    IsView = GetAttribute(node.ParentNode, "ISVIEW"),
+                                                    DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
+                                                    level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                                    ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
+                                                    DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
+                                                    editTime = 0,
+                                                    isEncrypted = isEncrypted,
+                                                    link = GetAttribute(node.ParentNode, "LINK"),
+                                                    IDinXML = GetAttribute(node.ParentNode, "ID")
+                                                });
+                                            }
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                    }
+                                }
+                                reminderList.Sorted = false;
+                                reminderList.Sorted = true ;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+
                         //用树视图打开思维导图
                         reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.name, Value = file.filePath, IDinXML = "GUID" };
                         ShowMindmap();
@@ -6737,47 +6852,61 @@ namespace DocearReminder
                 case Keys.D1:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        if (isSettingSyncWeek)
                         {
-                            showtomorrow.Checked = !showtomorrow.Checked;
-                            RRReminderlist();
-                        }
-                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
-                        {
-                            IsViewModel.Checked = !IsViewModel.Checked;
+                            c_Monday.Checked = !c_Monday.Checked;
                         }
                         else
                         {
-                            IsSelectReminder = false;
-                            mindmaplist.Focus();
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            {
+                                showtomorrow.Checked = !showtomorrow.Checked;
+                                RRReminderlist();
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                IsViewModel.Checked = !IsViewModel.Checked;
+                            }
+                            else
+                            {
+                                IsSelectReminder = false;
+                                mindmaplist.Focus();
+                            }
                         }
                     }
                     break;
                 case Keys.D2:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        if (isSettingSyncWeek)
                         {
-                            reminder_week.Checked = !reminder_week.Checked;
-                            RRReminderlist();
-                        }
-                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
-                        {
-                            //moshiview.Checked = !moshiview.Checked;
+                            c_Tuesday.Checked = !c_Tuesday.Checked;
                         }
                         else
                         {
-                            IsSelectReminder = true;
-                            reminderList.SelectedIndex = reminderSelectIndex;
-                            reminderList.Focus();
-                            if (reminderList.SelectedIndex < 0 || reminderList.SelectedIndex > reminderList.Items.Count - 1)
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                try
+                                reminder_week.Checked = !reminder_week.Checked;
+                                RRReminderlist();
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                //moshiview.Checked = !moshiview.Checked;
+                            }
+                            else
+                            {
+                                IsSelectReminder = true;
+                                reminderList.SelectedIndex = reminderSelectIndex;
+                                reminderList.Focus();
+                                if (reminderList.SelectedIndex < 0 || reminderList.SelectedIndex > reminderList.Items.Count - 1)
                                 {
-                                    reminderList.SelectedIndex = 0;
-                                }
-                                catch (Exception)
-                                {
+                                    try
+                                    {
+                                        reminderList.SelectedIndex = 0;
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
                                 }
                             }
                         }
@@ -6786,77 +6915,98 @@ namespace DocearReminder
                 case Keys.D3:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        if (isSettingSyncWeek)
                         {
-                            reminder_month.Checked = !reminder_month.Checked;
-                            RRReminderlist();
-                        }
-                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
-                        {
-                            //quanxuan.Checked = !quanxuan.Checked;
+                            c_Wednesday.Checked = !c_Wednesday.Checked;
                         }
                         else
                         {
-                            IsSelectReminder = false;
-                            searchword.Focus();
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            {
+                                reminder_month.Checked = !reminder_month.Checked;
+                                RRReminderlist();
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                //quanxuan.Checked = !quanxuan.Checked;
+                            }
+                            else
+                            {
+                                IsSelectReminder = false;
+                                searchword.Focus();
+                            }
                         }
                     }
                     break;
                 case Keys.D4:
                     if (keyNotWork())
                     {
-                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        if (isSettingSyncWeek)
                         {
-                            reminder_year.Checked = !reminder_year.Checked;
-                            RRReminderlist();
+                            c_Thursday.Checked = !c_Thursday.Checked;
                         }
                         else
                         {
-                            if (this.Height > 550)
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                nodetree.Focus();
+                                reminder_year.Checked = !reminder_year.Checked;
+                                RRReminderlist();
                             }
                             else
                             {
-                                richTextSubNode.Focus();
+                                if (this.Height > 550)
+                                {
+                                    nodetree.Focus();
+                                }
+                                else
+                                {
+                                    richTextSubNode.Focus();
+                                }
+                                //FormX = this.Location.Y;
+                                //Center();//= new Point(this.Location.X, -1569);
+                                //System.Diagnostics.Process.Start(new DirectoryInfo(((MyListBoxItemRemind)reminderlistSelectedItem).Value).FullName.Substring(0, ((MyListBoxItemRemind)reminderlistSelectedItem).Value.Length - Path.GetFileName(((MyListBoxItemRemind)reminderlistSelectedItem).Value).Length));
                             }
-                            //FormX = this.Location.Y;
-                            //Center();//= new Point(this.Location.X, -1569);
-                            //System.Diagnostics.Process.Start(new DirectoryInfo(((MyListBoxItemRemind)reminderlistSelectedItem).Value).FullName.Substring(0, ((MyListBoxItemRemind)reminderlistSelectedItem).Value.Length - Path.GetFileName(((MyListBoxItemRemind)reminderlistSelectedItem).Value).Length));
                         }
                     }
                     break;
                 case Keys.D5:
                     if (keyNotWork())
                     {
-                        if (this.Height > 550)
+                        if (isSettingSyncWeek)
                         {
-                            FileTreeView.Focus();
+                            c_Friday.Checked = !c_Friday.Checked;
                         }
                         else
                         {
-                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                            if (this.Height > 550)
                             {
-                                reminder_yearafter.Checked = !reminder_yearafter.Checked;
-                            }
-                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
-                            {
-                                onlyZhouqi.Checked = !onlyZhouqi.Checked;
-                                shaixuanfuwei();
-                                RRReminderlist();
+                                FileTreeView.Focus();
                             }
                             else
                             {
-                                if (IsReminderOnlyCheckBox.Checked)
+                                if (e.Modifiers.CompareTo(Keys.Control) == 0)
                                 {
-                                    IsReminderOnlyCheckBox.Checked = false;
+                                    reminder_yearafter.Checked = !reminder_yearafter.Checked;
+                                }
+                                else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                                {
+                                    onlyZhouqi.Checked = !onlyZhouqi.Checked;
+                                    shaixuanfuwei();
                                     RRReminderlist();
                                 }
                                 else
                                 {
-                                    showcyclereminder.Checked = !showcyclereminder.Checked;
-                                    shaixuanfuwei();
-                                    RRReminderlist();
+                                    if (IsReminderOnlyCheckBox.Checked)
+                                    {
+                                        IsReminderOnlyCheckBox.Checked = false;
+                                        RRReminderlist();
+                                    }
+                                    else
+                                    {
+                                        showcyclereminder.Checked = !showcyclereminder.Checked;
+                                        shaixuanfuwei();
+                                        RRReminderlist();
+                                    }
                                 }
                             }
                         }
@@ -6867,20 +7017,34 @@ namespace DocearReminder
                     //{
                     //    Load_Click(null, null);
                     //}
-                    IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
-                    RRReminderlist();
-                    try
+                    if (isSettingSyncWeek)
                     {
-                        reminderList.SelectedIndex = 0;
+                        c_Saturday.Checked = !c_Saturday.Checked;
                     }
-                    catch (Exception)
+                    else
                     {
+                        IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
+                        RRReminderlist();
+                        try
+                        {
+                            reminderList.SelectedIndex = 0;
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                     break;
                 case Keys.D7:
-                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                    if (isSettingSyncWeek)
                     {
-                        morning.Checked = !morning.Checked;
+                        c_Sunday.Checked = !c_Sunday.Checked;
+                    }
+                    else
+                    {
+                        if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                        {
+                            morning.Checked = !morning.Checked;
+                        }
                     }
                     break;
                 case Keys.D8:
@@ -8662,10 +8826,48 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.Oem4:
+                    if (ReminderListFocused())
+                    {
+                        n_days.Focus();
+                    }
                     break;
                 case Keys.Oem5:
                     break;
                 case Keys.Oem6:
+                    if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                    {
+                        c_day.Checked = c_week.Checked = c_hour.Checked = c_month.Checked = c_year.Checked = false;
+                        button_cycle_Click(null, null);
+                    }
+                    else
+                    {
+                        isSettingSyncWeek = false;
+                        if (c_day.Checked == c_week.Checked == c_hour.Checked == c_month.Checked == c_year.Checked == false)
+                        {
+                            c_day.Checked = true;
+                        }
+                        else if (c_day.Checked)
+                        {
+                            c_week.Checked = true;
+                            isSettingSyncWeek = true;
+                        }
+                        else if (c_week.Checked)
+                        {
+                            c_hour.Checked = true;
+                        }
+                        else if (c_hour.Checked)
+                        {
+                            c_month.Checked = true;
+                        }
+                        else if (c_month.Checked)
+                        {
+                            c_year.Checked = true;
+                        }
+                        else if (c_year.Checked)
+                        {
+                            c_day.Checked = true;
+                        }
+                    }
                     break;
                 case Keys.Oem7:
                     break;
@@ -12448,6 +12650,7 @@ namespace DocearReminder
         }
         bool isnottagcloudonload = true;
         private int leftIndex=0;
+        private bool isSettingSyncWeek;
 
         private void tagCloudControl_ControlAdded(object sender, ControlEventArgs e)
         {

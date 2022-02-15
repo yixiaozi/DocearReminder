@@ -110,6 +110,8 @@ namespace Calendar
             IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄
             IntPtr hWndDesktop = FindWindow("Progman", "Program Manager");//获得桌面句柄
             SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
+            dayView1.AllowInplaceEditing = false;
+            dayView1.AllowNew = false;
         }
 
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
@@ -495,10 +497,21 @@ namespace Calendar
                     m_Appointment.value = item.mindmapPath;
                     m_Appointment.ID = item.ID!=null? item.ID.ToString():"";
                     int zhongyao = item.tasklevel;
-                    if (zhongyao < numericUpDown2.Value)
+                    if (numericUpDown2.Value>=0)
                     {
-                        continue;
+                        if (zhongyao < numericUpDown2.Value)
+                        {
+                            continue;
+                        }
                     }
+                    else
+                    {
+                        if (zhongyao > numericUpDown2.Value)
+                        {
+                            continue;
+                        }
+                    }
+                    
                     if (zhongyao == 0)
                     {
                         m_Appointment.Color = System.Drawing.Color.White;
@@ -554,8 +567,11 @@ namespace Calendar
                         m_Appointment.Color = System.Drawing.Color.Red;
                         m_Appointment.BorderColor = System.Drawing.Color.Red;
                     }
-
-
+                    else
+                    {
+                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
                     m_Appointments.Add(m_Appointment);
                 }
             }
@@ -632,26 +648,51 @@ namespace Calendar
                     default:
                         break;
                 }
-                if (!dayView1.AllowInplaceEditing)
-                {
-                    dayView1.AllowInplaceEditing = true;
-                    dayView1.AllowNew = true;
-                }
+                dayView1.AllowInplaceEditing = true;
+                dayView1.AllowNew = true;
             }
             else
             {
                 switch (e.KeyCode)
                 {
                     case Keys.Up:
-                        if (numericUpDown1.Value <= 14)
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            numericUpDown1.Value++;
+                            this.Opacity+=5;
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (workfolder_combox.SelectedIndex>0)
+                            {
+                                workfolder_combox.SelectedIndex--;
+                            }
+                        }
+                        else
+                        {
+                            if (numericUpDown1.Value < 14)
+                            {
+                                numericUpDown1.Value++;
+                            }
                         }
                         break;
                     case Keys.Down:
-                        if (numericUpDown1.Value >= 2)
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            numericUpDown1.Value--;
+                            this.Opacity -= 5;
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (workfolder_combox.SelectedIndex < workfolder_combox.Items.Count-1)
+                            {
+                                workfolder_combox.SelectedIndex++;
+                            }
+                        }
+                        else
+                        {
+                            if (numericUpDown1.Value >= 2)
+                            {
+                                numericUpDown1.Value--;
+                            }
                         }
                         break;
 
@@ -660,9 +701,9 @@ namespace Calendar
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
                         }
-                        else if (numericUpDown1.Value == 15)
+                        else if (numericUpDown1.Value == 14)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-15);
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-14);
                         }
                         else
                         {
@@ -674,9 +715,9 @@ namespace Calendar
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
                         }
-                        else if (numericUpDown1.Value == 15)
+                        else if (numericUpDown1.Value == 14)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(15);
+                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(14);
                         }
                         else
                         {
@@ -699,19 +740,25 @@ namespace Calendar
                         this.Close();
                         break;
                     case Keys.PageUp:
-                        if (numericUpDown2.Value <= 19)
+                        if (numericUpDown2.Value <= 99)
                         {
                             numericUpDown2.Value++;
                         }
                         break;
                     case Keys.PageDown:
-                        if (numericUpDown2.Value >= 1)
+                        if (numericUpDown2.Value >= 0)
                         {
                             numericUpDown2.Value--;
                         }
                         break;
                     case Keys.Home:
                         dateTimePicker1.Value = DateTime.Today;
+                        break;
+                    case Keys.I:
+                        textBox_searchwork.Focus();
+                        break;
+                    case Keys.Escape:
+                        dayView1.Focus();
                         break;
                     default:
                         break;
@@ -998,12 +1045,12 @@ namespace Calendar
             if (lockButton.Text=="锁定")
             {
                 lockButton.Text = "解锁";
-                islock = false;
+                islock = true;
             }
             else
             {
                 lockButton.Text = "锁定";
-                islock = true;
+                islock = false;
             }
         }
     }

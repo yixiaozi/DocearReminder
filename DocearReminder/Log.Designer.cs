@@ -43,6 +43,7 @@ namespace DocearReminder
             this.resultlistBox.Name = "resultlistBox";
             this.resultlistBox.Size = new System.Drawing.Size(1110, 688);
             this.resultlistBox.TabIndex = 0;
+            this.resultlistBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.resultlistBox_MouseClick);
             this.resultlistBox.DoubleClick += new System.EventHandler(this.resultlistBox_DoubleClick);
             // 
             // keyword

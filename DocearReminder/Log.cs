@@ -572,7 +572,6 @@ namespace DocearReminder
                     break;
                 case Keys.OemQuestion:
                     break;
-                    break;
                 case Keys.Oem8:
                     break;
                 case Keys.OemBackslash:
@@ -607,6 +606,17 @@ namespace DocearReminder
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void resultlistBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(((result)resultlistBox.SelectedItem).Words);
+            }
+            catch (Exception)
+            {
             }
         }
     }

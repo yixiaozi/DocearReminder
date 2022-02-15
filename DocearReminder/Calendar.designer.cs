@@ -100,27 +100,27 @@ namespace Calendar
             this.打开导图ToolStripMenuItem,
             this.设置时间ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             // 
             // 设置时间ToolStripMenuItem
             // 
             this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
-            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.设置时间ToolStripMenuItem.Text = "设置时间";
             // 
             // panel1
@@ -199,6 +199,11 @@ namespace Calendar
             // numericUpDown2
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(164, 0);
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(40, 21);
             this.numericUpDown2.TabIndex = 25;
@@ -315,6 +320,9 @@ namespace Calendar
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalendarForm";
+            this.Opacity = 0.6D;
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  ";

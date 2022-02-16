@@ -1331,7 +1331,7 @@ namespace DocearReminder
                                         jinianDt = startTime.AddMilliseconds(unixTimeStamp);
                                         if (IsJinianCheckBox.Checked)
                                         {
-                                            jinianriInfo = " | " + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jinianDt).TotalDays));
+                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jinianDt).TotalDays));
                                         }
                                         else
                                         {
@@ -1340,9 +1340,8 @@ namespace DocearReminder
                                                 string EndDate = GetAttribute(node.ParentNode, "EndDate");
                                                 long unixTimeEndDate = Convert.ToInt64(EndDate);
                                                 DateTime EndDateDt = startTime.AddMilliseconds(unixTimeEndDate);
-                                                jinianriInfo = " | " + GetTimeSpanStr(Convert.ToInt16((EndDateDt - DateTime.Now).TotalDays));
+                                                jinianriInfo = " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((EndDateDt - DateTime.Now).TotalDays)) +"]";
                                             }
-                                            //jinianriInfo = " | " + GetTimeSpanStr(Convert.ToInt16((dt-DateTime.Now).TotalDays));
                                         }
                                     }
                                     catch (Exception)
@@ -1366,20 +1365,20 @@ namespace DocearReminder
                                     LeftDakaDays = " | [" + GetAttribute(node.ParentNode, "LeftDakaDays") + "次]";
                                 }
                                 bool IsShow = true;
-                                if (ISLevel.Checked)
-                                {
-                                    if (MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")) != tasklevel.Value && reminderList.SelectedIndex < 0)
-                                    {
-                                        IsShow = false;
-                                    }
-                                }
-                                else
-                                {
-                                    //if (MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")) < tasklevel.Value && reminderList.SelectedIndex < 0)
-                                    //{
-                                    //    IsShow = false;
-                                    //}
-                                }
+                                //if (ISLevel.Checked)
+                                //{
+                                //    if (MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")) != tasklevel.Value && reminderList.SelectedIndex < 0)
+                                //    {
+                                //        IsShow = false;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    //if (MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")) < tasklevel.Value && reminderList.SelectedIndex < 0)
+                                //    //{
+                                //    //    IsShow = false;
+                                //    //}
+                                //}
                                 //逆反，不需要了，按钮也删除掉
                                 //if (nifan.Checked && reminderlist.SelectedIndex < 0)
                                 //{
@@ -3787,24 +3786,21 @@ namespace DocearReminder
                     reminderSelectIndex = reminderListBox.SelectedIndex;
                 }
                 EditTask();
-                //ChangeReminder();
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Time = dateTimePicker.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).level = (int)tasklevel.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).rtaskTime = (int)taskTime.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Text = newName((MyListBoxItemRemind)(reminderlistSelectedItem)).Text;
-                taskTime.Value = 0;
-                tasklevel.Value = 0;
                 if (reminderList.SelectedIndex != -1)
                 {
                     reminderList.SelectedIndex = reminderSelectIndex;
-                    //reminderlist_SelectedIndexChanged(null, null);
                     reminderList.Focus();
+                    reminderList.Refresh();
                 }
                 else
                 {
                     reminderListBox.SelectedIndex = reminderSelectIndex;
-                    //reminderlist_SelectedIndexChanged(null, null);
                     reminderListBox.Focus();
+                    reminderListBox.Refresh();
                 }
                 fenshuADD(1);
             }
@@ -4064,7 +4060,7 @@ namespace DocearReminder
                 reminderList.Refresh();
                 reminderList.Items.RemoveAt(reminderIndex);
                 reminderList.SelectedIndex = reminderIndex;
-                fenshuADD(-selectedReminder.level);
+                fenshuADD(1);// -selectedReminder.level);
             }
             catch (Exception)
             {
@@ -8825,7 +8821,7 @@ namespace DocearReminder
                         showcyclereminder.Checked = !showcyclereminder.Checked;
                     }
                     break;
-                case Keys.Oem4:
+                case Keys.Oem6:
                     if (ReminderListFocused())
                     {
                         n_days.Focus();
@@ -8833,7 +8829,7 @@ namespace DocearReminder
                     break;
                 case Keys.Oem5:
                     break;
-                case Keys.Oem6:
+                case Keys.Oem4:
                     if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                     {
                         c_day.Checked = c_week.Checked = c_hour.Checked = c_month.Checked = c_year.Checked = false;
@@ -9333,7 +9329,8 @@ namespace DocearReminder
                 case Keys.XButton2:
                     break;
                 case Keys.Y:
-                    ShowSubNode();
+                    IsJinianCheckBox.Checked = !IsJinianCheckBox.Checked;
+                    //ShowSubNode();
                     break;
                 case Keys.Z:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
@@ -9621,6 +9618,9 @@ namespace DocearReminder
                             node.ParentNode.Attributes["LeftDakaDays"].Value = (Convert.ToInt16(node.ParentNode.Attributes["LeftDakaDays"].Value) + num).ToString();
                         }
                         x.Save(selectedReminder.Value);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                        th.Start();
+                        RRReminderlist();
                         return;
                     }
                 }
@@ -9669,7 +9669,6 @@ namespace DocearReminder
         }
         public static MyListBoxItemRemind newName(MyListBoxItemRemind reminder)
         {
-            //reminder.Text = reminder.Datetime.ToString("yy-MM-dd-HH:mm") + " > " + reminder.Datetime.AddMinutes(reminder.rtaskTime).ToString("HH:mm") + @"  " + (reminder.level != null ? reminder.level.ToString() : "0") + @"  " + reminder.Name;
             reminder.Text = reminder.Time.ToString("dd HH:mm") + intostringwithlenght(reminder.rtaskTime, 4) + @" " + reminder.Name;
             return reminder;
         }
@@ -10915,11 +10914,6 @@ namespace DocearReminder
         private void Panel4_Paint(object sender, PaintEventArgs e)
         {
         }
-        private void Panel4_DoubleClick(object sender, EventArgs e)
-        {
-            Thread th = new Thread(() => Application.Run(new Calendar.CalendarForm(mindmapPath)));
-            th.Start();
-        }
         public void Jietu()
         {
             //截图
@@ -11352,10 +11346,6 @@ namespace DocearReminder
             list.RemoveAt(index1);
             list.Insert(0, temp);
             return list;
-        }
-        private void JinainPanel_Paint(object sender, PaintEventArgs e)
-        {
-            Jinian_btn_Click(null, null);
         }
         private void onlyZhouqi_CheckedChanged(object sender, EventArgs e)
         {
@@ -13323,6 +13313,11 @@ namespace DocearReminder
                     nodetree.Focus();
                 }
             }
+        }
+
+        private void IsJinianCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            RRReminderlist();
         }
     }
 

@@ -33,7 +33,6 @@ namespace Calendar
             this.components = new System.ComponentModel.Container();
             yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
-            this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,45 +52,13 @@ namespace Calendar
             this.numericOpacity = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lockButton = new System.Windows.Forms.Button();
+            this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dayView1
-            // 
-            drawTool1.DayView = this.dayView1;
-            this.dayView1.ActiveTool = drawTool1;
-            this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dayView1.BackColor = System.Drawing.Color.White;
-            this.dayView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dayView1.DaysToShow = 7;
-            this.dayView1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.dayView1.HalfHourHeight = 20;
-            this.dayView1.Location = new System.Drawing.Point(0, 0);
-            this.dayView1.Margin = new System.Windows.Forms.Padding(0);
-            this.dayView1.Name = "dayView1";
-            this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
-            this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1250, 1000);
-            this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
-            this.dayView1.StartHour = 1;
-            this.dayView1.TabIndex = 0;
-            this.dayView1.Text = "   ";
-            this.dayView1.WorkingHourEnd = 23;
-            this.dayView1.WorkingHourStart = 3;
-            this.dayView1.WorkingMinuteEnd = 0;
-            this.dayView1.WorkingMinuteStart = 0;
-            this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
-            this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
-            this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
-            this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
-            this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
-            this.dayView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseUp);
             // 
             // contextMenuStrip1
             // 
@@ -100,27 +67,28 @@ namespace Calendar
             this.打开导图ToolStripMenuItem,
             this.设置时间ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.完成ToolStripMenuItem.Text = "完成";
+            this.完成ToolStripMenuItem.Click += new System.EventHandler(this.完成ToolStripMenuItem_Click);
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             // 
             // 设置时间ToolStripMenuItem
             // 
             this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
             this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
-            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.设置时间ToolStripMenuItem.Text = "设置时间";
             // 
             // panel1
@@ -295,6 +263,39 @@ namespace Calendar
             this.lockButton.Text = "解锁";
             this.lockButton.UseVisualStyleBackColor = true;
             this.lockButton.Click += new System.EventHandler(this.lockButton_Click);
+            // 
+            // dayView1
+            // 
+            drawTool1.DayView = this.dayView1;
+            this.dayView1.ActiveTool = drawTool1;
+            this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dayView1.BackColor = System.Drawing.Color.White;
+            this.dayView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dayView1.DaysToShow = 7;
+            this.dayView1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.dayView1.HalfHourHeight = 20;
+            this.dayView1.Location = new System.Drawing.Point(0, 0);
+            this.dayView1.Margin = new System.Windows.Forms.Padding(0);
+            this.dayView1.Name = "dayView1";
+            this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
+            this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
+            this.dayView1.Size = new System.Drawing.Size(1250, 1000);
+            this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
+            this.dayView1.StartHour = 1;
+            this.dayView1.TabIndex = 0;
+            this.dayView1.Text = "   ";
+            this.dayView1.WorkingHourEnd = 23;
+            this.dayView1.WorkingHourStart = 3;
+            this.dayView1.WorkingMinuteEnd = 0;
+            this.dayView1.WorkingMinuteStart = 0;
+            this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
+            this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
+            this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
+            this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
+            this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
+            this.dayView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseUp);
             // 
             // CalendarForm
             // 

@@ -658,7 +658,7 @@ namespace Calendar
                     case Keys.Up:
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            this.Opacity+=5;
+                            this.Opacity+=0.05;
                         }
                         else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -678,7 +678,7 @@ namespace Calendar
                     case Keys.Down:
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            this.Opacity -= 5;
+                            this.Opacity -= 0.05;
                         }
                         else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -1052,6 +1052,22 @@ namespace Calendar
                 lockButton.Text = "Ëø¶¨";
                 islock = false;
             }
+        }
+
+        private void Íê³ÉToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+                Appointment m_Appointment = new Appointment
+                {
+                    StartDate = dayView1.SelectionStart,
+                    EndDate = dayView1.SelectionEnd,
+                    Title = "End",
+                    value = @"\calander.mm",
+                    ID = Guid.NewGuid().ToString()
+                };
+                m_Appointments.Add(m_Appointment);
+            dayView1.Refresh();
+
         }
     }
     internal class User32

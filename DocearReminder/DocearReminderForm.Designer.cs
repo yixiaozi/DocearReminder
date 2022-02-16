@@ -54,7 +54,6 @@ namespace DocearReminder
             this.showtomorrow = new System.Windows.Forms.CheckBox();
             this.SearchText_suggest = new System.Windows.Forms.ListBox();
             this.tasklevel = new System.Windows.Forms.NumericUpDown();
-            this.ISLevel = new System.Windows.Forms.CheckBox();
             this.c_hour = new System.Windows.Forms.CheckBox();
             this.IsViewModel = new System.Windows.Forms.CheckBox();
             this.afternoon = new System.Windows.Forms.CheckBox();
@@ -398,7 +397,7 @@ namespace DocearReminder
             // 
             this.c_month.AutoSize = true;
             this.c_month.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_month.Location = new System.Drawing.Point(929, 35);
+            this.c_month.Location = new System.Drawing.Point(910, 35);
             this.c_month.Name = "c_month";
             this.c_month.Size = new System.Drawing.Size(13, 12);
             this.c_month.TabIndex = 36;
@@ -410,7 +409,7 @@ namespace DocearReminder
             // 
             this.c_year.AutoSize = true;
             this.c_year.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_year.Location = new System.Drawing.Point(948, 35);
+            this.c_year.Location = new System.Drawing.Point(929, 35);
             this.c_year.Name = "c_year";
             this.c_year.Size = new System.Drawing.Size(13, 12);
             this.c_year.TabIndex = 37;
@@ -536,22 +535,11 @@ namespace DocearReminder
             this.tasklevel.TabStop = false;
             this.tasklevel.ValueChanged += new System.EventHandler(this.tasklevel_ValueChanged);
             // 
-            // ISLevel
-            // 
-            this.ISLevel.AutoSize = true;
-            this.ISLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ISLevel.Location = new System.Drawing.Point(1005, 35);
-            this.ISLevel.Name = "ISLevel";
-            this.ISLevel.Size = new System.Drawing.Size(13, 12);
-            this.ISLevel.TabIndex = 55;
-            this.ISLevel.TabStop = false;
-            this.ISLevel.UseVisualStyleBackColor = true;
-            // 
             // c_hour
             // 
             this.c_hour.AutoSize = true;
             this.c_hour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_hour.Location = new System.Drawing.Point(910, 35);
+            this.c_hour.Location = new System.Drawing.Point(948, 35);
             this.c_hour.Name = "c_hour";
             this.c_hour.Size = new System.Drawing.Size(13, 12);
             this.c_hour.TabIndex = 57;
@@ -643,17 +631,18 @@ namespace DocearReminder
             // 
             this.IsJinianCheckBox.AutoSize = true;
             this.IsJinianCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsJinianCheckBox.Location = new System.Drawing.Point(986, 35);
+            this.IsJinianCheckBox.Location = new System.Drawing.Point(1005, 35);
             this.IsJinianCheckBox.Name = "IsJinianCheckBox";
             this.IsJinianCheckBox.Size = new System.Drawing.Size(13, 12);
             this.IsJinianCheckBox.TabIndex = 86;
             this.IsJinianCheckBox.TabStop = false;
             this.IsJinianCheckBox.UseVisualStyleBackColor = true;
+            this.IsJinianCheckBox.CheckedChanged += new System.EventHandler(this.IsJinianCheckBox_CheckedChanged);
             // 
             // onlyZhouqi
             // 
             this.onlyZhouqi.AutoSize = true;
-            this.onlyZhouqi.Checked = false;
+            this.onlyZhouqi.Checked = true;
             this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.onlyZhouqi.Location = new System.Drawing.Point(886, 501);
@@ -1384,7 +1373,6 @@ namespace DocearReminder
             this.Controls.Add(this.afternoon);
             this.Controls.Add(this.IsViewModel);
             this.Controls.Add(this.c_hour);
-            this.Controls.Add(this.ISLevel);
             this.Controls.Add(this.tasklevel);
             this.Controls.Add(this.showtomorrow);
             this.Controls.Add(this.showcyclereminder);
@@ -1504,7 +1492,6 @@ namespace DocearReminder
         private System.Windows.Forms.Label Hours;
         private System.Windows.Forms.Label hourLeft;
         private System.Windows.Forms.NumericUpDown tasklevel;
-        private System.Windows.Forms.CheckBox ISLevel;
         private System.Windows.Forms.CheckBox c_hour;
         private System.Windows.Forms.CheckBox IsViewModel;
         private System.Windows.Forms.CheckBox afternoon;

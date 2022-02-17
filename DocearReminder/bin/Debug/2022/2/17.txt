@@ -1,3 +1,69 @@
 2022/2/17 0:48:54   m_Appointment
 2022/2/17 0:50:32               dayView1.Refresh();
 
+2022/2/17 19:36:12                   this.完成ToolStripMenuItem.Click += new System.EventHandler(this.SetTimeBlock);
+
+2022/2/17 19:40:29   global::DocearReminder.Properties.Resources.square_ok,SetTimeBlock
+2022/2/17 19:51:09   E:\yixiaozi\.files\DocearReminder
+2022/2/17 19:52:08                   throw;
+
+2022/2/17 19:54:03   System.Xml.XmlDocument x = new XmlDocument();
+                    x.Load(path.Value);
+2022/2/17 19:54:32   timeblockmm
+2022/2/17 19:54:44    ini.ReadString("path", "no", "");
+2022/2/17 19:55:41   foreach (XmlNode node in x.GetElementsByTagName("node"))
+                    {
+2022/2/17 19:56:35   node.Attributes["TEXT"] == null
+2022/2/17 19:57:10                       //
+
+2022/2/17 19:57:11                       
+
+2022/2/17 19:57:18   node.Attributes["TEXT"] 
+2022/2/17 20:00:16   foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes["TEXT"] == null&& node.Attributes["TEXT"].Value== "事件类别")
+                    {
+                        SearchNode(node);
+                        break;
+                    }
+                }
+2022/2/17 20:02:50    System.Windows.Forms.ToolStripMenuItem adbc ;
+                string timeBlockName = "";
+                this.Menu.Items.Add("a"+i, global::DocearReminder.Properties.Resources.square_ok,SetTimeBlock);
+                ((ToolStripMenuItem)Menu.Items[i]).DropDownItems.Add("222", global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+2022/2/17 20:03:14   node.ChildNodes.Count
+2022/2/17 20:03:21                           if (node.ChildNodes.Count)
+
+2022/2/17 20:03:21                           {
+
+2022/2/17 20:03:21                           }
+
+2022/2/17 20:04:20   this.Menu.Items.Add("a" + i, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+2022/2/17 20:04:37   ToolStripMenuItem
+2022/2/17 20:05:13   System.Windows.Forms.ToolStripMenuItem newMenu= this.Menu.Items.Add("a" + i, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+2022/2/17 20:05:21   node.Attributes["TEXT"]
+2022/2/17 20:06:49   ToolStripItem
+2022/2/17 20:07:47    System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add(node.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+2022/2/17 20:08:45   System.Windows.Forms.ToolStripItem newMenu 
+2022/2/17 20:09:03                           string timeBlockName = "
+
+2022/2/17 20:09:04                           
+
+2022/2/17 20:09:30   DropDownItems.
+2022/2/17 20:09:30                           ((ToolStripMenuItem)Menu.Items[i]).Add("222", global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+
+2022/2/17 20:09:53                           ((ToolStripMenuItem)Menu.Items[i]).DropDownItems.Add("222", global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+
+2022/2/17 20:10:32               }
+
+2022/2/17 20:10:33               
+
+2022/2/17 20:11:52   [TimeBlock]
+mindmap=E:\yixiaozi\时间块.mm
+2022/2/17 20:14:02   E:\yixiaozi\.files\DocearReminder\UsedTimer.json
+2022/2/17 20:14:40   E:\yixiaozi\.files\DocearReminder\UsedTimer.json
+2022/2/17 20:17:09                           break;
+
+2022/2/17 20:19:56   ((System.Windows.Forms.ToolStripItem)sender).Text
+2022/2/17 20:48:00   m_Appointment
+2022/2/17 20:51:34   m_Appointment

@@ -112,7 +112,50 @@ namespace Calendar
             SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
             dayView1.AllowInplaceEditing = false;
             dayView1.AllowNew = false;
+            #region 添加菜单
+            try
+            {
+                System.Xml.XmlDocument timeblockmm = new XmlDocument();
+                timeblockmm.Load(ini.ReadString("TimeBlock", "mindmap", ""));
+                foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes["TEXT"] != null&& node.Attributes["TEXT"].Value== "事件类别")
+                    {
+                        SearchNode(node,null);
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            #endregion
         }
+
+        public void SearchNode(XmlNode node, ToolStripItem menuitem)
+        {
+            if (node.ChildNodes.Count>0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null)
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu;
+                        if (menuitem==null)
+                        {
+                            newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+                        }
+                        else
+                        {
+                            newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+                        }
+                        SearchNode(Subnode, newMenu);
+                    }
+                }
+            }
+        }
+
+
 
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
         private void MainPage_Load(object sender, EventArgs e)
@@ -137,7 +180,7 @@ namespace Calendar
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap,double tasktime,DateTime taskTime)
+        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap,double tasktime,DateTime taskTime,string mindmapName)
         {
             try
             {
@@ -157,7 +200,7 @@ namespace Calendar
                         name = TaskName,
                         time = taskTime,
                         mindmapPath = mindmap,
-                        mindmap="calander",
+                        mindmap=mindmapName,
                         ID = ID,
                         tasktime= tasktime
                     });
@@ -187,7 +230,7 @@ namespace Calendar
             m_Appointments.Add(m_Appointment);
             try
             {
-                reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes,args.StartDate);
+                reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes,args.StartDate, "calander");
                 string path = mindmappath + @"\calander.mm";
                 if (!System.IO.File.Exists(path))
                 {
@@ -447,12 +490,11 @@ namespace Calendar
                 string s = sw.ReadToEnd();
                 var serializer = new JavaScriptSerializer();
                 reminderObject = serializer.Deserialize<Reminder>(s);
-                //IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted && m.mindmapPath.Contains(mindmappath)&& ((!HasInNoFolder(GetFolderName(m.mindmapPath)))|| ((workfolder_combox.SelectedItem == null && !hasinworkfolder(m.mindmapPath)) || (workfolder_combox.SelectedItem != null ? workfolder_combox.SelectedItem.ToString() == "All" : false))));
                 if (reminderObject.reminders==null||reminderObject.reminders.Count==0)
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => !m.isCompleted &&!m.isview&&!m.isEBType&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text)));
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted &&!m.isview&&!m.isEBType&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text))) && !c_timeBlock.Checked) || (c_timeBlock.Checked&&m.mindmap=="TimeBlock"));
                 if (workfolder_combox.SelectedItem!=null&&workfolder_combox.SelectedItem.ToString()== "RootPath")
                 {
                     items = items.Where(m=>!hasinworkfolder(m.mindmapPath));
@@ -908,7 +950,7 @@ namespace Calendar
             }
             else if (e.Button==MouseButtons.Right)
             {
-                contextMenuStrip1.Show(dayView1, new System.Drawing.Point(e.X, e.Y));
+                Menu.Show(dayView1, new System.Drawing.Point(e.X, e.Y));
             }
         }
         public void Edit(bool isEdit=false,Appointment app=null)
@@ -1054,20 +1096,19 @@ namespace Calendar
             }
         }
 
-        private void 完成ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SetTimeBlock(object sender, EventArgs e)
         {
-            
-                Appointment m_Appointment = new Appointment
-                {
-                    StartDate = dayView1.SelectionStart,
-                    EndDate = dayView1.SelectionEnd,
-                    Title = "End",
-                    value = @"\calander.mm",
-                    ID = Guid.NewGuid().ToString()
-                };
-                m_Appointments.Add(m_Appointment);
+            Appointment m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart,
+                EndDate = dayView1.SelectionEnd,
+                Title = ((System.Windows.Forms.ToolStripItem)sender).Text,
+                value = @"\calander.mm",
+                ID = Guid.NewGuid().ToString(),
+            };
+            m_Appointments.Add(m_Appointment);
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock");
             dayView1.Refresh();
-
         }
     }
     internal class User32

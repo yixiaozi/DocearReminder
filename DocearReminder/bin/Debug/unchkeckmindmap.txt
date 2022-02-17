@@ -1,5 +1,6 @@
 .mm
 mo\calander.mm
 .mm
-D:\Demo\calander.mm
+.mm
+mo\calander.mm
 .mm

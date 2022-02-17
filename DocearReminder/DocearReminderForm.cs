@@ -309,6 +309,47 @@ namespace DocearReminder
                     acsc.Add(item.name);
                 }
                 GetAllFilesJsonIconFile();
+                //添加提示信息
+                try
+                {
+                    Dictionary<Control, string> dic = new Dictionary<Control, string>();
+                    dic.Add(n_days, "日期数");
+                    dic.Add(c_day, "日周期");
+                    dic.Add(c_week, "周周期");
+                    dic.Add(c_hour, "小时周期");
+                    dic.Add(c_month, "月周期");
+                    dic.Add(c_year, "年周期");
+                    dic.Add(c_Sunday, "周日");
+                    dic.Add(c_Saturday, "周六");
+                    dic.Add(c_Friday, "周五");
+                    dic.Add(c_Wednesday, "周三");
+                    dic.Add(c_Tuesday, "周二");
+                    dic.Add(c_Thursday, "周四");
+                    dic.Add(c_Monday, "周一");
+                    dic.Add(c_Jinian, "纪念日");
+                    dic.Add(c_ViewModel, "查看模式");
+                    dic.Add(dateTimePicker, "任务时间");
+                    dic.Add(taskTime, "任务时长");
+                    dic.Add(tasklevel, "任务等级");
+                    //dic.Add(richTextSubNode, "子节点");
+                    //dic.Add(tagCloudControl, "标签云");
+                    dic.Add(fathernode, "父节点信息");
+                    dic.Add(hourLeft, "当日剩余小时");
+                    dic.Add(Hours, "任务时间总计");
+                    dic.Add(labeltaskinfo, "任务信息：任务（只读任务）|周期任务（记忆任务）|不重要任务|密码任务");
+                    dic.Add(reminder_count, "任务数量");
+                    dic.Add(fenshu, "分数");
+                    dic.Add(usedtimelabel, "总使用时长");
+                    dic.Add(todayusedtime, "当日使用时长");
+                    dic.Add(usedCount, "打开次数");
+                    dic.Add(mindmaplist_count, "导图数");
+                    dic.Add(taskcount, "任务总数");
+                    dic.Add(c_remember, "任务总数");
+                    MoveOverInfoTip.SettingMutiTipInfo(dic);
+                }
+                catch (Exception)
+                {
+                }
             }
             catch (Exception ex)
             {
@@ -1177,7 +1218,7 @@ namespace DocearReminder
                     }
                 }
             }
-            if (!IsViewModel.Checked && mindmapornode.Text == "")
+            if (!c_ViewModel.Checked && mindmapornode.Text == "")
             {
                 reminderList.Items.Clear();
                 //如果SS的时候只能当前类型的。
@@ -1329,7 +1370,7 @@ namespace DocearReminder
                                         long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
                                         System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                         jinianDt = startTime.AddMilliseconds(unixTimeStamp);
-                                        if (IsJinianCheckBox.Checked)
+                                        if (c_Jinian.Checked)
                                         {
                                             jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jinianDt).TotalDays));
                                         }
@@ -1520,7 +1561,7 @@ namespace DocearReminder
                                         IsShow = false;
                                     }
                                 }
-                                if (!IsViewModel.Checked && GetAttribute(node.ParentNode, "ISVIEW") == "true")
+                                if (!c_ViewModel.Checked && GetAttribute(node.ParentNode, "ISVIEW") == "true")
                                 {
                                     IsShow = false;
                                 }
@@ -1604,7 +1645,7 @@ namespace DocearReminder
                                         taskNameDis = "Path:" + Path.GetFullPath(taskName).Split('\\').Last(m => m != "");
                                     }
                                 }
-                                if (IsJinianCheckBox.Checked)
+                                if (c_Jinian.Checked)
                                 {
                                     if (jinianriInfo != "")
                                     {
@@ -1672,7 +1713,7 @@ namespace DocearReminder
                                         }
                                         reminderlistItems.Add(new MyListBoxItemRemind
                                         {
-                                            Text = (IsJinianCheckBox.Checked ? jinianDt.ToString("dd HH:mm") : dt.ToString("dd HH:mm")) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Text = (c_Jinian.Checked ? jinianDt.ToString("dd HH:mm") : dt.ToString("dd HH:mm")) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
                                             jinianDatetime = jinianDt,
@@ -1939,7 +1980,7 @@ namespace DocearReminder
             if (!searchword.Text.StartsWith("ss") && showfenge)
             {
                 //添加一个当期时间条目
-                if (!IsJinianCheckBox.Checked)
+                if (!c_Jinian.Checked)
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
@@ -1966,7 +2007,7 @@ namespace DocearReminder
                         isTask = false
                     });
                 }
-                if (hasMorning && hasNoon && morning.Checked && !IsJinianCheckBox.Checked)
+                if (hasMorning && hasNoon && morning.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
                     reminderList.Items.Add(new MyListBoxItemRemind
@@ -1994,7 +2035,7 @@ namespace DocearReminder
                         isTask = false
                     });
                 }
-                if (hasNoon && hasAfter && day.Checked && !IsJinianCheckBox.Checked)
+                if (hasNoon && hasAfter && day.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
                     reminderList.Items.Add(new MyListBoxItemRemind
@@ -2023,7 +2064,7 @@ namespace DocearReminder
 
                     });
                 }
-                if (hasAfter && hasNight && afternoon.Checked && night.Checked && !IsJinianCheckBox.Checked)
+                if (hasAfter && hasNight && afternoon.Checked && night.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
                     reminderList.Items.Add(new MyListBoxItemRemind
@@ -3369,6 +3410,14 @@ namespace DocearReminder
             n_days.Value = 0;
             taskTime.Value = selectedReminder.rtaskTime;
             dateTimePicker.Value = selectedReminder.Time;
+            if (selectedReminder.Time.Year!=DateTime.Now.Year)
+            {
+                dateTimePicker.CustomFormat = "yyyy MM月dd dddd";
+            }
+            else
+            {
+                dateTimePicker.CustomFormat = "HH:mm MM月dd dddd";
+            }
             if (selectedReminder.remindertype != "")
             {
                 switch (selectedReminder.remindertype)
@@ -6400,7 +6449,7 @@ namespace DocearReminder
                 }
                 return;
             }
-            if (IsViewModel.Checked)
+            if (c_ViewModel.Checked)
             {
                 RRReminderlist();
             }
@@ -6861,7 +6910,7 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                IsViewModel.Checked = !IsViewModel.Checked;
+                                c_ViewModel.Checked = !c_ViewModel.Checked;
                             }
                             else
                             {
@@ -7064,8 +7113,9 @@ namespace DocearReminder
                         {
                             try
                             {
+                                string deleteNodeName = nodetree.SelectedNode.Text;
                                 deleteNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
-                                SaveLog("删除节点：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
+                                SaveLog("删除节点：" + deleteNodeName + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                                 fenshuADD(1);
                                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                                 th.Start();
@@ -7803,7 +7853,7 @@ namespace DocearReminder
                 case Keys.Escape:
                     if (!keyNotWork())
                     {
-                        if (searchword.Focused && IsViewModel.Checked)
+                        if (searchword.Focused && c_ViewModel.Checked)
                         {
                             mindmaplist.Focus();
                         }
@@ -9091,8 +9141,8 @@ namespace DocearReminder
                 case Keys.S:
                     if (keyNotWork())
                     {
-                        IsViewModel.Checked = !IsViewModel.Checked;
-                        if (!IsViewModel.Checked)
+                        c_ViewModel.Checked = !c_ViewModel.Checked;
+                        if (!c_ViewModel.Checked)
                         {
                             shaixuanfuwei();
                             RRReminderlist();
@@ -9329,7 +9379,7 @@ namespace DocearReminder
                 case Keys.XButton2:
                     break;
                 case Keys.Y:
-                    IsJinianCheckBox.Checked = !IsJinianCheckBox.Checked;
+                    c_Jinian.Checked = !c_Jinian.Checked;
                     //ShowSubNode();
                     break;
                 case Keys.Z:
@@ -9729,7 +9779,7 @@ namespace DocearReminder
         }
         private void fenlei_CheckedChanged(object sender, EventArgs e)
         {
-            if (((IsViewModel.Checked && !InMindMapBool) || isHasNoFenleiModel) && mindmaplist.SelectedIndex != -1)
+            if (((c_ViewModel.Checked && !InMindMapBool) || isHasNoFenleiModel) && mindmaplist.SelectedIndex != -1)
             {
                 //设置分类
                 Reminder reminderObject = new Reminder();
@@ -9860,7 +9910,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            if (IsViewModel.Checked)
+                            if (c_ViewModel.Checked)
                             {
                                 if (!jsonHasMindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
                                 {
@@ -9973,7 +10023,7 @@ namespace DocearReminder
         }
         private void IsRememberModel_CheckedChanged(object sender, EventArgs e)
         {
-            IsViewModel.Checked = false;
+            c_ViewModel.Checked = false;
             Load_Click(null, null);
         }
         private void IsShowSub_CheckedChanged(object sender, EventArgs e)
@@ -10946,6 +10996,7 @@ namespace DocearReminder
             {
                 needSuggest = true;
                 SearchText_suggest.Visible = false;
+                ShowSubNode();
                 return;
             }
             if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Space)
@@ -11290,11 +11341,13 @@ namespace DocearReminder
                 {
                     needSuggest = false;
                     SearchText_suggest.Visible = false;
+                    ShowSubNode();
                 }
             }
             else
             {
                 SearchText_suggest.Visible = false;
+                ShowSubNode();
             }
         }
         private void mindmapSearch_TextChanged(object sender, EventArgs e)
@@ -12877,8 +12930,9 @@ namespace DocearReminder
             {
                 try
                 {
+                    string deleteNodeName = nodetree.SelectedNode.Text;
                     deleteNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
-                    SaveLog("删除节点：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
+                    SaveLog("删除节点：" + deleteNodeName + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                     fenshuADD(1);
                     Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                     th.Start();
@@ -12992,8 +13046,8 @@ namespace DocearReminder
 
         private void 查看模式ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IsViewModel.Checked = !IsViewModel.Checked;
-            if (!IsViewModel.Checked)
+            c_ViewModel.Checked = !c_ViewModel.Checked;
+            if (!c_ViewModel.Checked)
             {
                 shaixuanfuwei();
                 RRReminderlist();
@@ -13320,6 +13374,44 @@ namespace DocearReminder
             RRReminderlist();
         }
     }
+    class MoveOverInfoTip
+    {
+
+        #region   基础参数
+        //信息提示组件
+        private static ToolTip _toolTip = new ToolTip();
+        #endregion
+
+        #region   公有方法
+        /// <summary>
+        /// 设置单个控件提示信息
+        /// </summary>
+        /// <typeparam name="T">组件类型</typeparam>
+        /// <param name="t">组件</param>
+        /// <param name="tipInfo">需要显示的提示信息</param>
+        public static void SettingSingleTipInfo<T>(T t, string tipInfo) where T : Control
+        {
+            _toolTip.SetToolTip(t, tipInfo);
+        }
+        /// <summary>
+        /// 设置多个同种类型的提示信息
+        /// </summary>
+        /// <typeparam name="T">组件类型</typeparam>
+        /// <param name="dic">组件和提示信息字典</param>
+        public static void SettingMutiTipInfo<T>(Dictionary<T, string> dic) where T : Control
+        {
+            if (dic == null || dic.Count <= 0) return;
+
+            foreach (var item in dic)
+            {
+                _toolTip.SetToolTip(item.Key, item.Value);
+            }
+
+        }
+        #endregion
+        #region   私有方法
+        #endregion
+    }
 
 }
 public static class Extensions
@@ -13429,3 +13521,5 @@ public static class Extensions
         return XElement.Parse(source.OuterXml);
     }
 }
+ 
+    

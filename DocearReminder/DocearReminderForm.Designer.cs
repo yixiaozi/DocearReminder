@@ -55,13 +55,13 @@ namespace DocearReminder
             this.SearchText_suggest = new System.Windows.Forms.ListBox();
             this.tasklevel = new System.Windows.Forms.NumericUpDown();
             this.c_hour = new System.Windows.Forms.CheckBox();
-            this.IsViewModel = new System.Windows.Forms.CheckBox();
+            this.c_ViewModel = new System.Windows.Forms.CheckBox();
             this.afternoon = new System.Windows.Forms.CheckBox();
             this.day = new System.Windows.Forms.CheckBox();
             this.morning = new System.Windows.Forms.CheckBox();
             this.night = new System.Windows.Forms.CheckBox();
             this.mindmapSearch = new System.Windows.Forms.TextBox();
-            this.IsJinianCheckBox = new System.Windows.Forms.CheckBox();
+            this.c_Jinian = new System.Windows.Forms.CheckBox();
             this.onlyZhouqi = new System.Windows.Forms.CheckBox();
             this.nodetree = new System.Windows.Forms.TreeView();
             this.menu_reminderlist = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -547,17 +547,17 @@ namespace DocearReminder
             this.c_hour.UseVisualStyleBackColor = true;
             this.c_hour.CheckedChanged += new System.EventHandler(this.c_hour_CheckedChanged);
             // 
-            // IsViewModel
+            // c_ViewModel
             // 
-            this.IsViewModel.AutoSize = true;
-            this.IsViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsViewModel.Location = new System.Drawing.Point(1005, 50);
-            this.IsViewModel.Name = "IsViewModel";
-            this.IsViewModel.Size = new System.Drawing.Size(13, 12);
-            this.IsViewModel.TabIndex = 59;
-            this.IsViewModel.TabStop = false;
-            this.IsViewModel.UseVisualStyleBackColor = true;
-            this.IsViewModel.CheckedChanged += new System.EventHandler(this.IsViewModel_CheckedChanged);
+            this.c_ViewModel.AutoSize = true;
+            this.c_ViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.c_ViewModel.Location = new System.Drawing.Point(1005, 50);
+            this.c_ViewModel.Name = "c_ViewModel";
+            this.c_ViewModel.Size = new System.Drawing.Size(13, 12);
+            this.c_ViewModel.TabIndex = 59;
+            this.c_ViewModel.TabStop = false;
+            this.c_ViewModel.UseVisualStyleBackColor = true;
+            this.c_ViewModel.CheckedChanged += new System.EventHandler(this.IsViewModel_CheckedChanged);
             // 
             // afternoon
             // 
@@ -627,17 +627,17 @@ namespace DocearReminder
             this.mindmapSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.mindmapSearch.TextChanged += new System.EventHandler(this.mindmapSearch_TextChanged);
             // 
-            // IsJinianCheckBox
+            // c_Jinian
             // 
-            this.IsJinianCheckBox.AutoSize = true;
-            this.IsJinianCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsJinianCheckBox.Location = new System.Drawing.Point(1005, 35);
-            this.IsJinianCheckBox.Name = "IsJinianCheckBox";
-            this.IsJinianCheckBox.Size = new System.Drawing.Size(13, 12);
-            this.IsJinianCheckBox.TabIndex = 86;
-            this.IsJinianCheckBox.TabStop = false;
-            this.IsJinianCheckBox.UseVisualStyleBackColor = true;
-            this.IsJinianCheckBox.CheckedChanged += new System.EventHandler(this.IsJinianCheckBox_CheckedChanged);
+            this.c_Jinian.AutoSize = true;
+            this.c_Jinian.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.c_Jinian.Location = new System.Drawing.Point(1005, 35);
+            this.c_Jinian.Name = "c_Jinian";
+            this.c_Jinian.Size = new System.Drawing.Size(13, 12);
+            this.c_Jinian.TabIndex = 86;
+            this.c_Jinian.TabStop = false;
+            this.c_Jinian.UseVisualStyleBackColor = true;
+            this.c_Jinian.CheckedChanged += new System.EventHandler(this.IsJinianCheckBox_CheckedChanged);
             // 
             // onlyZhouqi
             // 
@@ -1371,7 +1371,7 @@ namespace DocearReminder
             this.Controls.Add(this.morning);
             this.Controls.Add(this.day);
             this.Controls.Add(this.afternoon);
-            this.Controls.Add(this.IsViewModel);
+            this.Controls.Add(this.c_ViewModel);
             this.Controls.Add(this.c_hour);
             this.Controls.Add(this.tasklevel);
             this.Controls.Add(this.showtomorrow);
@@ -1395,7 +1395,7 @@ namespace DocearReminder
             this.Controls.Add(this.reminder_year);
             this.Controls.Add(this.reminder_month);
             this.Controls.Add(this.reminder_week);
-            this.Controls.Add(this.IsJinianCheckBox);
+            this.Controls.Add(this.c_Jinian);
             this.Controls.Add(this.onlyZhouqi);
             this.Controls.Add(this.c_remember);
             this.Controls.Add(this.ebcheckBox);
@@ -1493,7 +1493,7 @@ namespace DocearReminder
         private System.Windows.Forms.Label hourLeft;
         private System.Windows.Forms.NumericUpDown tasklevel;
         private System.Windows.Forms.CheckBox c_hour;
-        private System.Windows.Forms.CheckBox IsViewModel;
+        private System.Windows.Forms.CheckBox c_ViewModel;
         private System.Windows.Forms.CheckBox afternoon;
         private System.Windows.Forms.CheckBox day;
         private System.Windows.Forms.CheckBox morning;
@@ -1502,7 +1502,7 @@ namespace DocearReminder
         private MyRichTextBox richTextSubNode;
         private System.Windows.Forms.ListBox SearchText_suggest;
         private System.Windows.Forms.TextBox mindmapSearch;
-        private System.Windows.Forms.CheckBox IsJinianCheckBox;
+        private System.Windows.Forms.CheckBox c_Jinian;
         private System.Windows.Forms.CheckBox onlyZhouqi;
         private System.Windows.Forms.TreeView nodetree;
         private System.Windows.Forms.ContextMenuStrip menu_reminderlist;

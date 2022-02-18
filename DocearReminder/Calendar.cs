@@ -59,7 +59,7 @@ namespace Calendar
             }
             tasktime.Text = "";
             workfolder_combox.Items.Add("All");
-            workfolder_combox.SelectedIndex= hasinworkfolderIndex(mindmappath);
+            workfolder_combox.SelectedIndex = hasinworkfolderIndex(mindmappath);
             taskname.Text = "";
             tasktime.Text = "";
             string no = ini.ReadString("path", "no", "");
@@ -72,7 +72,7 @@ namespace Calendar
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
             RefreshCalender();
             DateTime startWeek = DateTime.Today;
-            if (startWeek.DayOfWeek.ToString("d")!="0")
+            if (startWeek.DayOfWeek.ToString("d") != "0")
             {
                 startWeek = startWeek.AddDays(1 - Convert.ToInt32(startWeek.DayOfWeek.ToString("d")));
             }
@@ -119,9 +119,9 @@ namespace Calendar
                 timeblockmm.Load(ini.ReadString("TimeBlock", "mindmap", ""));
                 foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
                 {
-                    if (node.Attributes["TEXT"] != null&& node.Attributes["TEXT"].Value== "事件类别")
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
                     {
-                        SearchNode(node,null);
+                        SearchNode(node, null);
                         break;
                     }
                 }
@@ -134,27 +134,28 @@ namespace Calendar
 
         public void SearchNode(XmlNode node, ToolStripItem menuitem)
         {
-            if (node.ChildNodes.Count>0)
+            if (node.ChildNodes.Count > 0)
             {
                 foreach (XmlNode Subnode in node.ChildNodes)
                 {
                     if (Subnode.Attributes["TEXT"] != null)
                     {
                         System.Windows.Forms.ToolStripItem newMenu;
-                        if (menuitem==null)
+                        if (menuitem == null)
                         {
                             newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+                            newMenu.ForeColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
                         }
                         else
                         {
                             newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
+                            newMenu.ForeColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
                         }
                         SearchNode(Subnode, newMenu);
                     }
                 }
             }
         }
-
 
 
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
@@ -180,7 +181,7 @@ namespace Calendar
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap,double tasktime,DateTime taskTime,string mindmapName)
+        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName)
         {
             try
             {
@@ -200,9 +201,9 @@ namespace Calendar
                         name = TaskName,
                         time = taskTime,
                         mindmapPath = mindmap,
-                        mindmap=mindmapName,
+                        mindmap = mindmapName,
                         ID = ID,
-                        tasktime= tasktime
+                        tasktime = tasktime
                     });
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
@@ -230,7 +231,7 @@ namespace Calendar
             m_Appointments.Add(m_Appointment);
             try
             {
-                reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes,args.StartDate, "calander");
+                reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes, args.StartDate, "calander");
                 string path = mindmappath + @"\calander.mm";
                 if (!System.IO.File.Exists(path))
                 {
@@ -330,7 +331,7 @@ namespace Calendar
 
         private void dayView1_SelectionChanged(object sender, EventArgs e)
         {
-            if (dayView1.SelectedAppointment!=null)
+            if (dayView1.SelectedAppointment != null)
             {
                 lastId = dayView1.SelectedAppointment.ID;
                 lastName = dayView1.SelectedAppointment.Title;
@@ -338,13 +339,13 @@ namespace Calendar
             //测试是否变化
             foreach (Appointment m_App in m_Appointments)
             {
-                if (m_App.ID==lastId&&m_App.Title!=lastName)
+                if (m_App.ID == lastId && m_App.Title != lastName)
                 {
                     Edit(true, m_App);
                     lastId = m_App.ID;
                     lastName = m_App.Title;
                 }
-                
+
             }
         }
         public bool HaschildNode(XmlNode node, string child)
@@ -390,7 +391,7 @@ namespace Calendar
             int i = 0;//跳过第一个，因为第一个是根目录
             foreach (var item in workfolders)
             {
-                if (i==0)
+                if (i == 0)
                 {
                     i++;
                     continue;
@@ -407,10 +408,10 @@ namespace Calendar
         }
         public int hasinworkfolderIndex(string path)
         {
-            int i=0;
+            int i = 0;
             foreach (var item in workfolders)
             {
-                if (path==item)
+                if (path == item)
                 {
                     return i;
                 }
@@ -490,14 +491,14 @@ namespace Calendar
                 string s = sw.ReadToEnd();
                 var serializer = new JavaScriptSerializer();
                 reminderObject = serializer.Deserialize<Reminder>(s);
-                if (reminderObject.reminders==null||reminderObject.reminders.Count==0)
+                if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted &&!m.isview&&!m.isEBType&& m.mindmapPath.Contains(mindmappath)&&(m.mindmapPath.Contains(textBox_searchwork.Text)||m.name.Contains(textBox_searchwork.Text))) && !c_timeBlock.Checked) || (c_timeBlock.Checked&&m.mindmap=="TimeBlock"));
-                if (workfolder_combox.SelectedItem!=null&&workfolder_combox.SelectedItem.ToString()== "RootPath")
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath) && (m.mindmapPath.Contains(textBox_searchwork.Text) || m.name.Contains(textBox_searchwork.Text))) && !c_timeBlock.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock"));
+                if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "RootPath")
                 {
-                    items = items.Where(m=>!hasinworkfolder(m.mindmapPath));
+                    items = items.Where(m => !hasinworkfolder(m.mindmapPath));
                 }
                 foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
                 {
@@ -533,13 +534,13 @@ namespace Calendar
                     {
                         string patten = @"(\S)";
                         Regex reg = new Regex(patten);
-                        taskname = reg.Replace(taskname, "*"); 
+                        taskname = reg.Replace(taskname, "*");
                     }
                     m_Appointment.Title = taskname;
                     m_Appointment.value = item.mindmapPath;
-                    m_Appointment.ID = item.ID!=null? item.ID.ToString():"";
+                    m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
                     int zhongyao = item.tasklevel;
-                    if (numericUpDown2.Value>=0)
+                    if (numericUpDown2.Value >= 0)
                     {
                         if (zhongyao < numericUpDown2.Value)
                         {
@@ -553,11 +554,22 @@ namespace Calendar
                             continue;
                         }
                     }
-                    
+
                     if (zhongyao == 0)
                     {
                         m_Appointment.Color = System.Drawing.Color.White;
                         m_Appointment.BorderColor = System.Drawing.Color.White;
+                        if (item.mindmap== "TimeBlock")
+                        {
+                            try
+                            {
+                                m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                                m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
                     }
                     else if (zhongyao == 1)
                     {
@@ -611,8 +623,8 @@ namespace Calendar
                     }
                     else
                     {
-                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
-                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
                     }
                     m_Appointments.Add(m_Appointment);
                 }
@@ -672,7 +684,7 @@ namespace Calendar
         {
             jietu();
         }
-        
+
         private void Timer2_Tick(object sender, EventArgs e)
         {
             //jietu();
@@ -680,7 +692,7 @@ namespace Calendar
 
         private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!Console.CapsLock&&!islock)
+            if (!Console.CapsLock && !islock)
             {
                 switch (e.KeyCode)
                 {
@@ -700,11 +712,11 @@ namespace Calendar
                     case Keys.Up:
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            this.Opacity+=0.05;
+                            this.Opacity += 0.05;
                         }
                         else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            if (workfolder_combox.SelectedIndex>0)
+                            if (workfolder_combox.SelectedIndex > 0)
                             {
                                 workfolder_combox.SelectedIndex--;
                             }
@@ -724,7 +736,7 @@ namespace Calendar
                         }
                         else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            if (workfolder_combox.SelectedIndex < workfolder_combox.Items.Count-1)
+                            if (workfolder_combox.SelectedIndex < workfolder_combox.Items.Count - 1)
                             {
                                 workfolder_combox.SelectedIndex++;
                             }
@@ -846,7 +858,7 @@ namespace Calendar
                 {
                     //taskname.Text = dayView1.SelectedAppointment.Title;
                     //tasktime.Text = ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟");
-                    this.Text = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟"+"|"+ dayView1.SelectedAppointment.Title;
+                    this.Text = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟" + "|" + dayView1.SelectedAppointment.Title;
                 }
                 catch (Exception)
                 {
@@ -858,11 +870,11 @@ namespace Calendar
         {
             if (Control.MouseButtons == MouseButtons.Left)
             {
-                ismovetask=true;
+                ismovetask = true;
             }
-            
+
         }
-        public void EditTask(string path,string id,DateTime startdate,double tasktime,string TaskName)
+        public void EditTask(string path, string id, DateTime startdate, double tasktime, string TaskName)
         {
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(path);
@@ -879,7 +891,7 @@ namespace Calendar
                             if (item.Name == "hook" && !isHashook)
                             {
                                 isHashook = true;
-                                item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((startdate- TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((startdate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             }
                         }
                         if (!isHashook)
@@ -890,7 +902,7 @@ namespace Calendar
                             remindernode.Attributes.Append(remindernodeName);
                             XmlNode remindernodeParameters = x.CreateElement("Parameters");
                             XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
-                            remindernodeTime.Value = (Convert.ToInt64((startdate- TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            remindernodeTime.Value = (Convert.ToInt64((startdate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             remindernodeParameters.Attributes.Append(remindernodeTime);
                             remindernode.AppendChild(remindernodeParameters);
                             node.AppendChild(remindernode);
@@ -914,7 +926,7 @@ namespace Calendar
                 }
             }
         }
-        public void EditTaskName(string path, string id,string NewName)
+        public void EditTaskName(string path, string id, string NewName)
         {
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(path);
@@ -944,23 +956,26 @@ namespace Calendar
             {
                 return;
             }
-            if (e.Button== MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 Edit();
             }
-            else if (e.Button==MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
                 Menu.Show(dayView1, new System.Drawing.Point(e.X, e.Y));
             }
         }
-        public void Edit(bool isEdit=false,Appointment app=null)
+        public void Edit(bool isEdit = false, Appointment app = null)
         {
-            if ((ismovetask||isEdit)&& dayView1.SelectedAppointment != null)
+            if ((ismovetask || isEdit) && dayView1.SelectedAppointment != null)
             {
                 ismovetask = false;
                 try
                 {
-                    EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
+                    if (!c_timeBlock.Checked)
+                    {
+                        EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
+                    }
                     Reminder reminderObject = new Reminder();
                     FileInfo fi = new FileInfo(logfile);
                     if (!System.IO.File.Exists(logfile))
@@ -996,7 +1011,10 @@ namespace Calendar
                 ismovetask = false;
                 try
                 {
-                    EditTask(app.value, app.ID, app.StartDate, (app.EndDate - app.StartDate).TotalMinutes, app.Title);
+                    if (!c_timeBlock.Checked)
+                    {
+                        EditTask(app.value, app.ID, app.StartDate, (app.EndDate - app.StartDate).TotalMinutes, app.Title);
+                    }
                     Reminder reminderObject = new Reminder();
                     FileInfo fi = new FileInfo(logfile);
                     if (!System.IO.File.Exists(logfile))
@@ -1069,7 +1087,7 @@ namespace Calendar
 
         private void numericOpacity_ValueChanged(object sender, EventArgs e)
         {
-            this.Opacity =Convert.ToDouble(numericOpacity.Value/100);
+            this.Opacity = Convert.ToDouble(numericOpacity.Value / 100);
         }
 
         private void comboBox1_SelectedIndexChanged_2(object sender, EventArgs e)
@@ -1084,7 +1102,7 @@ namespace Calendar
         bool islock = true;
         private void lockButton_Click(object sender, EventArgs e)
         {
-            if (lockButton.Text=="锁定")
+            if (lockButton.Text == "锁定")
             {
                 lockButton.Text = "解锁";
                 islock = true;
@@ -1098,17 +1116,89 @@ namespace Calendar
 
         private void SetTimeBlock(object sender, EventArgs e)
         {
-            Appointment m_Appointment = new Appointment
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
             {
-                StartDate = dayView1.SelectionStart,
-                EndDate = dayView1.SelectionEnd,
-                Title = ((System.Windows.Forms.ToolStripItem)sender).Text,
-                value = @"\calander.mm",
-                ID = Guid.NewGuid().ToString(),
-            };
+                StartDate = dayView1.SelectionStart
+        };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).ForeColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).ForeColor;
+            }
+            
+            //m_Appointment.Locked = true;
             m_Appointments.Add(m_Appointment);
-            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock");
             dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock");
+        }
+        public string GetColor(XmlNode node)
+        {
+            try
+            {
+                if (node.ChildNodes.Count != 0)
+                {
+                    foreach (XmlNode item in node.ChildNodes)
+                    {
+                        if (item.Name == "edge")
+                        {
+                            return item.Attributes["COLOR"].Value;
+                        }
+                    }
+                }
+                return "#999999";
+            }
+            catch (Exception)
+            {
+                return "#999999";
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Reminder reminderObject = new Reminder();
+                FileInfo fi = new FileInfo(logfile);
+                if (!System.IO.File.Exists(logfile))
+                {
+                    File.WriteAllText(logfile, "");
+                }
+                using (StreamReader sw = fi.OpenText())
+                {
+                    string s = sw.ReadToEnd();
+                    var serializer = new JavaScriptSerializer();
+                    reminderObject = serializer.Deserialize<Reminder>(s);
+                    reminderObject.reminders.RemoveAll(m => m.ID == dayView1.SelectedAppointment.ID);
+                }
+                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                File.WriteAllText(@"reminder.json", "");
+                using (StreamWriter sw = fi.AppendText())
+                {
+                    sw.Write(json);
+                }
+                m_Appointments.Remove(dayView1.SelectedAppointment);
+                dayView1.Refresh();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void 打开导图ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
+
+            }
+            catch (Exception)
+            {
+            }
         }
     }
     internal class User32

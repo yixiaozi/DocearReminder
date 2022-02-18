@@ -10355,7 +10355,7 @@ namespace DocearReminder
             {
                 return;
             }
-            if (((MyListBoxItemRemind)reminderlistSelectedItem).Name == "当前时间" || !((MyListBoxItemRemind)reminderlistSelectedItem).Value.EndsWith("mm"))
+            if (((MyListBoxItemRemind)reminderlistSelectedItem).Name == "当前时间" || reminderlistSelectedItem == null|| !((MyListBoxItemRemind)reminderlistSelectedItem).Value.EndsWith("mm"))
             {
                 return;
             }

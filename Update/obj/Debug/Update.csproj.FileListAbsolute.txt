@@ -28,4 +28,4 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\HtmlAgilityPack.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\Prism.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\Newtonsoft.Json.xml
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.ValueTuple.dll
-E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csprojAssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csproj.AssemblyReference.cache

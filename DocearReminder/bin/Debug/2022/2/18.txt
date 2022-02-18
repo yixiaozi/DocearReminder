@@ -3,3 +3,53 @@
 2022/2/18 6:20:07   &&m.mindmap=="TimeBlock"
 2022/2/18 6:22:36   c_timeBlock.Checked
 2022/2/18 6:23:03   c_timeBlock.Checked
+2022/2/18 7:25:44   E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\DocearReminder.exe
+2022/2/18 21:20:50   Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "")), System.Globalization.NumberStyles.HexNumber));
+2022/2/18 21:22:56                               newMenu.BackColor = Color.FromArgb(Convert.ToInt32(GetColor(Subnode).Replace("#", "0x")));
+
+2022/2/18 21:28:18   newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "")), System.Globalization.NumberStyles.HexNumber));
+2022/2/18 21:29:47   newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "")), System.Globalization.NumberStyles.HexNumber));
+2022/2/18 21:31:05   ToolStripItem
+2022/2/18 21:33:14   private class MyRenderer : ToolStripProfessionalRenderer 
+    { 
+        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)      
+        { 
+            Rectangle rc = new Rectangle(Point.Empty, e.Item.Size); 
+            Color c = e.Item.Selected ? Color.Azure : Color.Beige; 
+            using (SolidBrush brush = new SolidBrush(c)) 
+                e.Graphics.FillRectangle(brush, rc); 
+        } 
+    } 
+2022/2/18 21:33:25   menuStrip1.Renderer = new MyRenderer(); 
+2022/2/18 21:43:09   ((System.Windows.Forms.ToolStripItem)sender).Text
+2022/2/18 21:44:36   ((System.Windows.Forms.ToolStripItem)sender).ForeColor
+2022/2/18 21:46:03   ((System.Windows.Forms.ToolStripItem)sender).ForeColor
+2022/2/18 21:48:13                           
+
+2022/2/18 21:49:43   BorderColor
+2022/2/18 21:51:12   ((System.Windows.Forms.ToolStripItem)sender).ForeColor
+2022/2/18 21:53:44   System.Drawing.Color.PowderBlue;
+2022/2/18 21:54:25   System.Drawing.Color.PowderBlue;
+2022/2/18 21:58:59   m_Appointment.
+2022/2/18 22:18:49               m_Appointment.StartDate = dayView1.SelectionStart;
+
+2022/2/18 22:25:00   System.Drawing.Color.FromArgb(((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb())
+2022/2/18 22:26:17   System.Drawing.Color.FromArgb(((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb())
+2022/2/18 22:56:53   BorderColor
+2022/2/18 23:03:22   System.Drawing.Color
+2022/2/18 23:03:43   Color.FromArgb
+2022/2/18 23:06:19    unchecked
+            {
+                button3.BackColor = Color.FromArgb((int)0xffdd2378);
+            }
+2022/2/18 23:06:38   m_Appointment.Color = System.Drawing.Color.FromArgb(((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb());
+            m_Appointment.BorderColor = System.Drawing.Color.FromArgb(((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb());
+2022/2/18 23:07:08                   button3.BackColor = Color.FromArgb((int)0xffdd2378);
+
+2022/2/18 23:07:33                   button3.BackColor = Color.FromArgb((int)0xffdd2378);
+
+2022/2/18 23:11:18   ((System.Windows.Forms.ToolStripItem)sender).ForeColor;
+2022/2/18 23:18:51   Color.FromArgb(Int32.Parse(item.mindmapPath));
+2022/2/18 23:21:45                               
+
+2022/2/18 23:39:31   m_Appointments

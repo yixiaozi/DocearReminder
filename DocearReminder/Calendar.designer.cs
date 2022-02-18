@@ -36,9 +36,7 @@ namespace Calendar
             this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.设置时间ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -99,40 +97,25 @@ namespace Calendar
             // 
             this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.完成ToolStripMenuItem,
-            this.打开导图ToolStripMenuItem,
-            this.设置时间ToolStripMenuItem});
+            this.打开导图ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(125, 70);
+            this.Menu.Size = new System.Drawing.Size(181, 70);
             // 
             // 完成ToolStripMenuItem
             // 
-            this.完成ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
             this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.完成ToolStripMenuItem.Text = "完成";
-            this.完成ToolStripMenuItem.Click += new System.EventHandler(this.SetTimeBlock);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(97, 22);
-            this.toolStripMenuItem2.Text = "123";
+            this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
-            // 
-            // 设置时间ToolStripMenuItem
-            // 
-            this.设置时间ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.apple;
-            this.设置时间ToolStripMenuItem.Name = "设置时间ToolStripMenuItem";
-            this.设置时间ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.设置时间ToolStripMenuItem.Text = "设置时间";
+            this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -382,9 +365,7 @@ namespace Calendar
         private System.Windows.Forms.ContextMenuStrip Menu;
         private System.Windows.Forms.ToolStripMenuItem 完成ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开导图ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 设置时间ToolStripMenuItem;
         private System.Windows.Forms.Button lockButton;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.CheckBox c_timeBlock;
     }
 }

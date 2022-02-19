@@ -31,3 +31,53 @@
 2022/2/19 9:22:26   HourSeperatorColor
 2022/2/19 9:25:58   ControlPaint
 2022/2/19 9:27:57   ControlPaint
+2022/2/19 10:08:55   appointmentViews
+2022/2/19 10:16:52   halfHourHeight
+2022/2/19 10:43:23   Appointment
+2022/2/19 10:53:13   Appointment
+2022/2/19 11:16:39   DrawAppointment
+2022/2/19 11:19:40   appointment.Title
+2022/2/19 11:27:28   SelectionChanged
+2022/2/19 11:35:13   appointmentViews
+2022/2/19 11:38:55   appointmentViews
+2022/2/19 11:40:05   appointmentViews
+2022/2/19 11:41:07   appointmentViews
+2022/2/19 11:42:11   appointmentViews
+2022/2/19 13:17:15   appointmentViews
+2022/2/19 13:23:31   appointmentViews
+2022/2/19 13:23:57   appointmentViews
+2022/2/19 13:29:24   appointmentViews
+2022/2/19 13:36:40               new Font(7)
+
+2022/2/19 13:37:22               new Font(7)
+
+2022/2/19 13:39:42               new Font(7)
+
+2022/2/19 13:42:07               
+
+2022/2/19 13:51:48               
+
+2022/2/19 13:55:48               
+
+2022/2/19 13:59:00               
+
+2022/2/19 14:05:03               editbox.BackColor
+
+2022/2/19 14:07:04                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:07:30                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:09:28                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:10:45                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:24:35                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:25:53                   editbox.Font = selectedAppointment.e
+
+2022/2/19 14:54:06               scrollbar.
+
+2022/2/19 15:01:00   scrollbar.Value
+2022/2/19 15:08:01    - this.Height 
+2022/2/19 15:32:15                           dayView1.Focus();|
+

@@ -840,6 +840,9 @@ namespace Calendar
                     case Keys.Escape:
                         dayView1.Focus();
                         break;
+                    case Keys.Delete:
+                        toolStripMenuItem2_Click(null, null);
+                        break;
                     default:
                         break;
                 }
@@ -1090,7 +1093,52 @@ namespace Calendar
                     break;
             }
         }
-
+        private void CalendarWhell(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
+                {
+                    if (dayView1.HalfHourHeight <=20)
+                    {
+                        return;
+                    }
+                    if (e.Delta > 0)
+                    {
+                        if (dayView1.StartHour < 12)
+                        {
+                            dayView1.StartHour += 1;
+                        }
+                    }
+                    else
+                    {
+                        if (dayView1.StartHour > 0)
+                        {
+                            dayView1.StartHour -= 1;
+                        }
+                    }
+                }
+                else
+                {
+                    if (e.Delta > 0)
+                    {
+                        dayView1.HalfHourHeight += 2;
+                    }
+                    else
+                    {
+                        if (dayView1.HalfHourHeight > 20)
+                        {
+                            dayView1.HalfHourHeight -= 2;
+                        }
+                    }
+                }
+                dayView1.Refresh();
+            }
+            catch (Exception)
+            {
+                dayView1.Refresh();
+            }
+        }
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 

@@ -880,7 +880,7 @@ namespace DocearReminder
                                             nodeIconString += "|";
                                             nodeIconString += "true";
                                             nodeIconString += "|";
-                                            nodeIconString += node.ParentNode.Attributes["ID"].Value;
+                                            nodeIconString += node.ParentNode!=null&& node.ParentNode.Attributes!=null&& node.ParentNode.Attributes["ID"]!=null?node.ParentNode.Attributes["ID"].Value:"";
                                             nodeIconString += "|";
                                             nodeIconString += file.FullName;
                                             nodeIconString += "@";
@@ -4359,7 +4359,7 @@ namespace DocearReminder
             {
                 string filename = searchword.Text.Split('@')[1];
                 string taskName = searchword.Text.Split('@')[0];
-                if (filename == "gc")
+                if (filename.StartsWith("gc"))
                 {
                     string gitCommand = "git";
                     //string gitAddArgument = @"add -A";
@@ -4370,7 +4370,14 @@ namespace DocearReminder
                     System.Diagnostics.Process.Start(gitCommand, gitCommitArgument);
                     //System.Diagnostics.Process.Start(gitCommand, gitPushArgument);
                     SaveLog("git commit:" + searchword.Text);
-                    searchword.Text = "";
+                    if (searchword.Text.EndsWith("e"))
+                    {
+                        Application.Exit();
+                    }
+                    else
+                    {
+                        searchword.Text = "";
+                    }
                     return;
                 }
                 if (filename == "password")
@@ -10351,7 +10358,7 @@ namespace DocearReminder
         }
         public void ShowSubNode()
         {
-            if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused)
+            if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused|| reminderlistSelectedItem==null)
             {
                 return;
             }
@@ -10632,6 +10639,7 @@ namespace DocearReminder
                 string gitAddArgument = @"add -A";
                 System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
                 searchword.Text = "";
+                
                 return;
             }
             else if (searchword.Text.ToLower().StartsWith("help"))

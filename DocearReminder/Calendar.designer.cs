@@ -57,6 +57,7 @@ namespace Calendar
             this.c_timeBlock = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.c_fanqie = new System.Windows.Forms.CheckBox();
+            this.c_15 = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -327,6 +328,18 @@ namespace Calendar
             this.c_fanqie.UseVisualStyleBackColor = true;
             this.c_fanqie.CheckedChanged += new System.EventHandler(this.c_fanqie_CheckedChanged);
             // 
+            // c_15
+            // 
+            this.c_15.AutoSize = true;
+            this.c_15.Checked = true;
+            this.c_15.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.c_15.Location = new System.Drawing.Point(1014, 3);
+            this.c_15.Name = "c_15";
+            this.c_15.Size = new System.Drawing.Size(48, 16);
+            this.c_15.TabIndex = 35;
+            this.c_15.Text = "·Å´ó";
+            this.c_15.UseVisualStyleBackColor = true;
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -334,6 +347,7 @@ namespace Calendar
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1246, 961);
+            this.Controls.Add(this.c_15);
             this.Controls.Add(this.c_fanqie);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.c_timeBlock);
@@ -371,7 +385,7 @@ namespace Calendar
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.dayView1.MouseWheel += CalendarWhell;
+
         }
 
        
@@ -400,6 +414,7 @@ namespace Calendar
         private System.Windows.Forms.CheckBox c_timeBlock;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox c_fanqie;
+        private CheckBox c_15;
     }
 }
 

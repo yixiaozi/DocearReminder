@@ -522,22 +522,18 @@ namespace Calendar
                     {
                         //taskname += ("("+item.tasktime.ToString("N0")+")");
                     }
-                    if (ini.ReadString("appearance", "Calander15", "1")=="true")
+                    if (ini.ReadString("appearance", "Calander15", "1")=="true"&&!c_15.Checked||c_fanqie.Checked || c_timeBlock.Checked)
                     {
                         if (item.tasktime < 15)
                         {
                             item.tasktime = 15;
-                        }
-                        if (item.tasktime < 30)
-                        {
-                            item.tasktime = 30;
                         }
                     }
                     else
                     {
-                        if (item.tasktime < 15)
+                        if (item.tasktime < 30)
                         {
-                            item.tasktime = 15;
+                            item.tasktime = 30;
                         }
                     }
                     
@@ -1099,7 +1095,7 @@ namespace Calendar
             {
                 if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
                 {
-                    if (dayView1.HalfHourHeight <=20)
+                    if (dayView1.HalfHourHeight == 20)
                     {
                         return;
                     }
@@ -1120,6 +1116,10 @@ namespace Calendar
                 }
                 else
                 {
+                    if (dayView1.HalfHourHeight == 20)
+                    {
+                        dayView1.StartHour = 1;
+                    }
                     if (e.Delta > 0)
                     {
                         dayView1.HalfHourHeight += 2;

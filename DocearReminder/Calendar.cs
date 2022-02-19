@@ -71,6 +71,7 @@ namespace Calendar
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
             RefreshCalender();
+            dayView1.AllowScroll = true;
             DateTime startWeek = DateTime.Today;
             if (startWeek.DayOfWeek.ToString("d") != "0")
             {
@@ -79,6 +80,15 @@ namespace Calendar
             else
             {
                 startWeek = startWeek.AddDays(-6);
+            }
+            try
+            {
+                this.Opacity = Convert.ToDouble(ini.ReadString("appearance", "CalanderOpacity", "1"));
+                numericOpacity.Value = Convert.ToInt32(this.Opacity * 100);
+
+            }
+            catch (Exception)
+            {
             }
             dateTimePicker1.Value = startWeek;
             dayView1.StartDate = startWeek;
@@ -144,12 +154,12 @@ namespace Calendar
                         if (menuitem == null)
                         {
                             newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
-                            newMenu.ForeColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
                         }
                         else
                         {
                             newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
-                            newMenu.ForeColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
                         }
                         SearchNode(Subnode, newMenu);
                     }
@@ -495,7 +505,7 @@ namespace Calendar
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath) && (m.mindmapPath.Contains(textBox_searchwork.Text) || m.name.Contains(textBox_searchwork.Text))) && !c_timeBlock.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock"));
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath) && (m.mindmapPath.Contains(textBox_searchwork.Text) || m.name.Contains(textBox_searchwork.Text))) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && !c_timeBlock.Checked && !c_fanqie.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_fanqie.Checked && m.mindmap == "FanQie"));
                 if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "RootPath")
                 {
                     items = items.Where(m => !hasinworkfolder(m.mindmapPath));
@@ -512,10 +522,25 @@ namespace Calendar
                     {
                         //taskname += ("("+item.tasktime.ToString("N0")+")");
                     }
-                    if (item.tasktime < 15)
+                    if (ini.ReadString("appearance", "Calander15", "1")=="true")
                     {
-                        item.tasktime = 30;
+                        if (item.tasktime < 15)
+                        {
+                            item.tasktime = 15;
+                        }
+                        if (item.tasktime < 30)
+                        {
+                            item.tasktime = 30;
+                        }
                     }
+                    else
+                    {
+                        if (item.tasktime < 15)
+                        {
+                            item.tasktime = 15;
+                        }
+                    }
+                    
                     m_Appointment.EndDate = item.time.AddHours(8).AddMinutes(item.tasktime);
                     if (logfile.Contains("fanqie"))
                     {
@@ -565,6 +590,10 @@ namespace Calendar
                             {
                                 m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                                 m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                                if (item.time.AddHours(8) < DateTime.Today)
+                                {
+                                    m_Appointment.Locked = true;
+                                }
                             }
                             catch (Exception)
                             {
@@ -751,7 +780,7 @@ namespace Calendar
                         break;
 
                     case Keys.Left:
-                        if (numericUpDown1.Value == 7)
+                        if (numericUpDown1.Value == 7&& dateTimePicker1.Value.DayOfWeek==DayOfWeek.Monday)
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
                         }
@@ -779,16 +808,10 @@ namespace Calendar
                         }
                         break;
                     case Keys.S:
-                        if (logfile == "reminder.json")
-                        {
-                            logfile = "fanqie.json";
-                        }
-                        else
-                        {
-                            logfile = "reminder.json";
-                        }
-                        RefreshCalender();
-                        dayView1.StartDate = dayView1.StartDate;//用于刷新
+                        c_fanqie.Checked = !c_fanqie.Checked;
+                        break;
+                    case Keys.A:
+                        c_timeBlock.Checked = !c_timeBlock.Checked;
                         break;
                     case Keys.Q:
                         this.Close();
@@ -810,6 +833,9 @@ namespace Calendar
                         break;
                     case Keys.I:
                         textBox_searchwork.Focus();
+                        break;
+                    case Keys.R:
+                        RefreshCalender();
                         break;
                     case Keys.Escape:
                         dayView1.Focus();
@@ -1123,12 +1149,12 @@ namespace Calendar
         };
             m_Appointment.EndDate = dayView1.SelectionEnd;
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
-            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).ForeColor.ToArgb().ToString();
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();
             unchecked
             {
-                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).ForeColor;
-                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).ForeColor;
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
             }
             
             //m_Appointment.Locked = true;
@@ -1140,21 +1166,32 @@ namespace Calendar
         {
             try
             {
-                if (node.ChildNodes.Count != 0)
+                foreach (XmlNode item in node.ChildNodes)
                 {
-                    foreach (XmlNode item in node.ChildNodes)
+                    if (item.Name == "edge")
                     {
-                        if (item.Name == "edge")
-                        {
-                            return item.Attributes["COLOR"].Value;
-                        }
+                        return item.Attributes["COLOR"].Value;
                     }
                 }
-                return "#999999";
+                foreach (XmlNode item in node.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                return "#ffffff";
             }
             catch (Exception)
             {
-                return "#999999";
+                return "#ffffff";
             }
         }
 
@@ -1199,6 +1236,22 @@ namespace Calendar
             catch (Exception)
             {
             }
+        }
+
+        private void c_timeBlock_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = DateTime.Today;
+        }
+
+        private void c_fanqie_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+            dayView1.StartDate = dayView1.StartDate;//用于刷新
         }
     }
     internal class User32

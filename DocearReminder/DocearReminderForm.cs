@@ -516,7 +516,7 @@ namespace DocearReminder
                 {
                     if (GetPosition() < 20)
                     {
-                        Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition()));
+                        Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition(),false,selectedReminder.level));
                         th.Start();
                     }
                     if (IsURL(selectedReminder.Name.Trim()))
@@ -4028,9 +4028,9 @@ namespace DocearReminder
                 }
             }
         }
-        public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false)
+        public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false,int tasklevelNum=0)
         {
-            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault);
+            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault,tasklevelNum);
             fanqie.ShowDialog();
         }
         public void OpenMenu()
@@ -4045,7 +4045,7 @@ namespace DocearReminder
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
                 if (selectedReminder.rtaskTime > 0)
                 {
-                    Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition()));
+                    Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition(),false,selectedReminder.level));
                     tomatoCount += 1;
                     th.Start();
                 }
@@ -4058,7 +4058,7 @@ namespace DocearReminder
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
                 if (selectedReminder.rtaskTime >= 0 || isnotdefault)
                 {
-                    Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition(), isnotdefault));
+                    Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition(), isnotdefault,selectedReminder.level));
                     tomatoCount += 1;
                     th.Start();
                     if (IsURL(((MyListBoxItemRemind)reminderlistSelectedItem).Name.Trim()))
@@ -7668,7 +7668,7 @@ namespace DocearReminder
                                     tasktime = Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1));
                                     break;
                                 }
-                                Thread th = new Thread(() => OpenFanQie(tasktime, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition()));
+                                Thread th = new Thread(() => OpenFanQie(tasktime, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(),false,2));
                                 tomatoCount += 1;
                                 th.Start();
                                 searchword.Text = "";
@@ -7682,7 +7682,7 @@ namespace DocearReminder
                             try
                             {
                                 string taskname = searchword.Text.Substring(1);
-                                Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true));
+                                Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true,2));
                                 tomatoCount += 1;
                                 th.Start();
                                 searchword.Text = "";

@@ -33,7 +33,6 @@ namespace Calendar
             this.components = new System.ComponentModel.Container();
             yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
-            this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +52,9 @@ namespace Calendar
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lockButton = new System.Windows.Forms.Button();
             this.c_timeBlock = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.c_fanqie = new System.Windows.Forms.CheckBox();
+            this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -60,52 +62,19 @@ namespace Calendar
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).BeginInit();
             this.SuspendLayout();
             // 
-            // dayView1
-            // 
-            drawTool1.DayView = this.dayView1;
-            this.dayView1.ActiveTool = drawTool1;
-            this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dayView1.BackColor = System.Drawing.Color.White;
-            this.dayView1.ContextMenuStrip = this.Menu;
-            this.dayView1.DaysToShow = 7;
-            this.dayView1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.dayView1.HalfHourHeight = 20;
-            this.dayView1.Location = new System.Drawing.Point(0, 0);
-            this.dayView1.Margin = new System.Windows.Forms.Padding(0);
-            this.dayView1.Name = "dayView1";
-            this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
-            this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1250, 1000);
-            this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
-            this.dayView1.StartHour = 1;
-            this.dayView1.TabIndex = 0;
-            this.dayView1.Text = "   ";
-            this.dayView1.WorkingHourEnd = 23;
-            this.dayView1.WorkingHourStart = 3;
-            this.dayView1.WorkingMinuteEnd = 0;
-            this.dayView1.WorkingMinuteStart = 0;
-            this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
-            this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
-            this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
-            this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
-            this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
-            this.dayView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseUp);
-            // 
             // Menu
             // 
             this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.完成ToolStripMenuItem,
             this.打开导图ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(181, 70);
+            this.Menu.Size = new System.Drawing.Size(125, 48);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.square_ok;
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -113,7 +82,7 @@ namespace Calendar
             // 
             this.打开导图ToolStripMenuItem.Image = global::DocearReminder.Properties.Resources.resize_1;
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
@@ -166,7 +135,7 @@ namespace Calendar
             // 
             this.button1.Location = new System.Drawing.Point(650, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 21);
+            this.button1.Size = new System.Drawing.Size(61, 21);
             this.button1.TabIndex = 23;
             this.button1.Text = "刷新";
             this.button1.UseVisualStyleBackColor = true;
@@ -178,9 +147,9 @@ namespace Calendar
             // 
             // 截图
             // 
-            this.截图.Location = new System.Drawing.Point(731, 0);
+            this.截图.Location = new System.Drawing.Point(717, 0);
             this.截图.Name = "截图";
-            this.截图.Size = new System.Drawing.Size(75, 21);
+            this.截图.Size = new System.Drawing.Size(65, 21);
             this.截图.TabIndex = 24;
             this.截图.Text = "截图";
             this.截图.UseVisualStyleBackColor = true;
@@ -258,7 +227,7 @@ namespace Calendar
             this.numericOpacity.Size = new System.Drawing.Size(40, 21);
             this.numericOpacity.TabIndex = 29;
             this.numericOpacity.Value = new decimal(new int[] {
-            100,
+            70,
             0,
             0,
             0});
@@ -275,16 +244,16 @@ namespace Calendar
             "所有"});
             this.comboBox1.Location = new System.Drawing.Point(348, 0);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(90, 20);
+            this.comboBox1.Size = new System.Drawing.Size(91, 20);
             this.comboBox1.TabIndex = 30;
             this.comboBox1.Text = "任务";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_2);
             // 
             // lockButton
             // 
-            this.lockButton.Location = new System.Drawing.Point(813, 0);
+            this.lockButton.Location = new System.Drawing.Point(788, 0);
             this.lockButton.Name = "lockButton";
-            this.lockButton.Size = new System.Drawing.Size(75, 21);
+            this.lockButton.Size = new System.Drawing.Size(52, 21);
             this.lockButton.TabIndex = 31;
             this.lockButton.Text = "解锁";
             this.lockButton.UseVisualStyleBackColor = true;
@@ -293,12 +262,68 @@ namespace Calendar
             // c_timeBlock
             // 
             this.c_timeBlock.AutoSize = true;
-            this.c_timeBlock.Location = new System.Drawing.Point(895, 3);
+            this.c_timeBlock.Location = new System.Drawing.Point(906, 3);
             this.c_timeBlock.Name = "c_timeBlock";
             this.c_timeBlock.Size = new System.Drawing.Size(60, 16);
             this.c_timeBlock.TabIndex = 32;
             this.c_timeBlock.Text = "时间块";
             this.c_timeBlock.UseVisualStyleBackColor = true;
+            this.c_timeBlock.CheckedChanged += new System.EventHandler(this.c_timeBlock_CheckedChanged);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(845, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(53, 23);
+            this.button2.TabIndex = 33;
+            this.button2.Text = "今天";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // c_fanqie
+            // 
+            this.c_fanqie.AutoSize = true;
+            this.c_fanqie.Location = new System.Drawing.Point(965, 3);
+            this.c_fanqie.Name = "c_fanqie";
+            this.c_fanqie.Size = new System.Drawing.Size(48, 16);
+            this.c_fanqie.TabIndex = 34;
+            this.c_fanqie.Text = "番茄";
+            this.c_fanqie.UseVisualStyleBackColor = true;
+            this.c_fanqie.CheckedChanged += new System.EventHandler(this.c_fanqie_CheckedChanged);
+            // 
+            // dayView1
+            // 
+            drawTool1.DayView = this.dayView1;
+            this.dayView1.ActiveTool = drawTool1;
+            this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dayView1.BackColor = System.Drawing.Color.White;
+            this.dayView1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dayView1.ContextMenuStrip = this.Menu;
+            this.dayView1.DaysToShow = 7;
+            this.dayView1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.dayView1.HalfHourHeight = 20;
+            this.dayView1.Location = new System.Drawing.Point(0, 0);
+            this.dayView1.Margin = new System.Windows.Forms.Padding(0);
+            this.dayView1.Name = "dayView1";
+            this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
+            this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
+            this.dayView1.Size = new System.Drawing.Size(1250, 1000);
+            this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
+            this.dayView1.StartHour = 1;
+            this.dayView1.TabIndex = 0;
+            this.dayView1.Text = "   ";
+            this.dayView1.WorkingHourEnd = 23;
+            this.dayView1.WorkingHourStart = 3;
+            this.dayView1.WorkingMinuteEnd = 0;
+            this.dayView1.WorkingMinuteStart = 0;
+            this.dayView1.SelectionChanged += new System.EventHandler(this.dayView1_SelectionChanged_1);
+            this.dayView1.ResolveAppointments += new yixiaozi.WinForm.Control.Calendar.ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
+            this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
+            this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
+            this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
+            this.dayView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseUp);
             // 
             // CalendarForm
             // 
@@ -307,6 +332,8 @@ namespace Calendar
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1246, 961);
+            this.Controls.Add(this.c_fanqie);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.c_timeBlock);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.numericOpacity);
@@ -325,7 +352,7 @@ namespace Calendar
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalendarForm";
-            this.Opacity = 0.6D;
+            this.Opacity = 0.7D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
@@ -367,6 +394,8 @@ namespace Calendar
         private System.Windows.Forms.ToolStripMenuItem 打开导图ToolStripMenuItem;
         private System.Windows.Forms.Button lockButton;
         private System.Windows.Forms.CheckBox c_timeBlock;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox c_fanqie;
     }
 }
 

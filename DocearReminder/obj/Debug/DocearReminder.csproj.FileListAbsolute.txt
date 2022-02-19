@@ -197,3 +197,4 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\AxInterop.Ac
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.AssemblyReference.cache
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Interop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\AxInterop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete

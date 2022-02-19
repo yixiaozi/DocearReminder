@@ -20,7 +20,7 @@ namespace DocearReminder
         bool isnotdefault = false;
         private int _fanqieCount=0;
         string faneiguid;
-        public Tomato(DateTime fiveM,string name ,string mindmap, int fanqieCount,bool isADD=false)
+        public Tomato(DateTime fiveM,string name ,string mindmap, int fanqieCount,bool isADD=false,int taskLevel=0)
         {
             if (fanqieCount>10)
             {
@@ -49,7 +49,7 @@ namespace DocearReminder
                 Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(name));
                 th.Start();
                 faneiguid = Guid.NewGuid().ToString();
-                addreminderlog(name, faneiguid, mindmap);
+                addreminderlog(name, faneiguid, mindmap, taskLevel);
             }
             catch (Exception)
             {
@@ -135,15 +135,15 @@ namespace DocearReminder
             this.Location = new System.Drawing.Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - 250, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - 150 - _fanqieCount * 120);
             //this.TopMost = true;
         }
-        public void addreminderlog(string TaskName,string ID,string mindmap)
+        public void addreminderlog(string TaskName,string ID,string mindmap,int taskLevel)
         {
             try
             {
                 Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(@"fanqie.json");
-                if (!System.IO.File.Exists(@"fanqie.json"))
+                FileInfo fi = new FileInfo(@"reminder.json");
+                if (!System.IO.File.Exists(@"reminder.json"))
                 {
-                    File.WriteAllText(@"fanqie.json", "");
+                    File.WriteAllText(@"reminder.json", "");
                 }
                 using (StreamReader sw = fi.OpenText())
                 {
@@ -155,11 +155,13 @@ namespace DocearReminder
                         name = TaskName,
                         time = DateTime.Now,
                         mindmapPath = mindmap,
-                        ID = ID
+                        ID = ID,
+                        mindmap="FanQie",
+                        tasklevel= taskLevel
                     });
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"fanqie.json", "");
+                File.WriteAllText(@"reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);
@@ -176,10 +178,10 @@ namespace DocearReminder
             try
             {
                 Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(@"fanqie.json");
-                if (!System.IO.File.Exists(@"fanqie.json"))
+                FileInfo fi = new FileInfo(@"reminder.json");
+                if (!System.IO.File.Exists(@"reminder.json"))
                 {
-                    File.WriteAllText(@"fanqie.json", "");
+                    File.WriteAllText(@"reminder.json", "");
                 }
                 using (StreamReader sw = fi.OpenText())
                 {
@@ -193,7 +195,7 @@ namespace DocearReminder
                     }
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"fanqie.json", "");
+                File.WriteAllText(@"reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);

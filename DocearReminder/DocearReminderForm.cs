@@ -3280,6 +3280,7 @@ namespace DocearReminder
         bool isInReminderList = false;
         private void reminderlist_SelectedIndexChanged(object sender, EventArgs e)
         {
+            isSettingSyncWeek = false;
             reminderlistSelectedItem = reminderList.SelectedItem;
             if (reminderlistSelectedItem != null)
             {
@@ -6719,14 +6720,14 @@ namespace DocearReminder
                 }
             }
         }
-        public bool keyNotWork()
+        public bool keyNotWork(KeyEventArgs e)
         {
-            return !(searchword.Focused || richTextSubNode.Focused || mindmapSearch.Focused || noterichTextBox.Focused);
+            return !(searchword.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             LeaveTime();
-            if (!keyNotWork() && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
+            if (!keyNotWork(e) && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
             {
                 return;
             }
@@ -6847,7 +6848,7 @@ namespace DocearReminder
                 case Keys.Crsel:
                     break;
                 case Keys.D:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
@@ -6902,7 +6903,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D1:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (isSettingSyncWeek)
                         {
@@ -6928,7 +6929,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D2:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (isSettingSyncWeek)
                         {
@@ -6965,7 +6966,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D3:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (isSettingSyncWeek)
                         {
@@ -6991,7 +6992,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D4:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (isSettingSyncWeek)
                         {
@@ -7022,7 +7023,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D5:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (isSettingSyncWeek)
                         {
@@ -7200,7 +7201,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.E:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         ebcheckBox.Checked = !ebcheckBox.Checked;
                     }
@@ -7858,7 +7859,7 @@ namespace DocearReminder
                 case Keys.EraseEof:
                     break;
                 case Keys.Escape:
-                    if (!keyNotWork())
+                    if (!keyNotWork(e))
                     {
                         if (searchword.Focused && c_ViewModel.Checked)
                         {
@@ -7916,7 +7917,7 @@ namespace DocearReminder
                 case Keys.Exsel:
                     break;
                 case Keys.F:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -7930,7 +7931,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F1:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         try
                         {
@@ -7954,7 +7955,7 @@ namespace DocearReminder
                     Application.Exit();
                     break;
                 case Keys.F12:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //System.Diagnostics.Process.Start(@"log.txt");
                         MyHide();
@@ -7977,7 +7978,7 @@ namespace DocearReminder
                 case Keys.F19:
                     break;
                 case Keys.F2:
-                    if (keyNotWork() && !FileTreeView.Focused && !nodetree.Focused)
+                    if (keyNotWork(e) && !FileTreeView.Focused && !nodetree.Focused)
                     {
                         isRename = true;
                         reminderSelectIndex = reminderList.SelectedIndex;
@@ -8003,7 +8004,7 @@ namespace DocearReminder
                 case Keys.F24:
                     break;
                 case Keys.F3:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8017,7 +8018,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F4:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8035,7 +8036,7 @@ namespace DocearReminder
                     RRReminderlist();
                     break;
                 case Keys.F6:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8051,7 +8052,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F7:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8067,7 +8068,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F8:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8083,7 +8084,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.F9:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (moshiview.Checked)
                         //{
@@ -8103,7 +8104,7 @@ namespace DocearReminder
                     break;
                 case Keys.G:
                     leftIndex = 0;
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -8181,7 +8182,7 @@ namespace DocearReminder
                 case Keys.Home:
                     break;
                 case Keys.I:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -8239,7 +8240,7 @@ namespace DocearReminder
                     break;
                 case Keys.J:
                     leftIndex = 0;
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if ((ReminderListFocused() && (reminderList.Items.Count != 0) || reminderListBox.Items.Count != 0))
                         {
@@ -8406,7 +8407,7 @@ namespace DocearReminder
                     break;
                 case Keys.K:
                     leftIndex = 0;
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -8567,7 +8568,7 @@ namespace DocearReminder
                     break;
                 case Keys.L:
                     leftIndex = 0;
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (nodetree.Focused)
                         {
@@ -8713,7 +8714,7 @@ namespace DocearReminder
                 case Keys.LineFeed:
                     break;
                 case Keys.M:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused()|| dateTimePicker.Focused || tasklevel.Focused)
                         {
@@ -8738,7 +8739,7 @@ namespace DocearReminder
                 case Keys.Multiply:
                     break;
                 case Keys.N:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         PlaySimpleSound("treeview");
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
@@ -8775,6 +8776,23 @@ namespace DocearReminder
                                 return;
                             }
                             System.Diagnostics.Process.Start(new System.IO.FileInfo(mindmapPath).Directory.FullName);
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Alt) == 0) {
+                            if (noterichTextBox.Focused)
+                            {
+                                nodetree.Top = FileTreeView.Top = 501;
+                                nodetree.Height = FileTreeView.Height = 307;
+                                pictureBox1.Visible = false;
+                                nodetree.Visible = FileTreeView.Visible = false;
+                                this.Height = 540;
+                                reminderList.Focus();
+                            }
+                            else
+                            {
+                                this.Height = 860;
+                                nodetree.Visible = FileTreeView.Visible = true;
+                                noterichTextBox.Focus();
+                            }
                         }
                         else
                         {
@@ -8837,7 +8855,7 @@ namespace DocearReminder
                 case Keys.NumPad9:
                     break;
                 case Keys.O:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -8873,7 +8891,7 @@ namespace DocearReminder
                 case Keys.Oem2:
                     break;
                 case Keys.Oem3:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         showcyclereminder.Checked = !showcyclereminder.Checked;
                     }
@@ -8933,7 +8951,7 @@ namespace DocearReminder
                 case Keys.OemPeriod:
                     break;
                 case Keys.P:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -8997,7 +9015,7 @@ namespace DocearReminder
                 case Keys.ProcessKey:
                     break;
                 case Keys.Q:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (mindmaplist.Focused)
                         {
@@ -9010,7 +9028,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.R:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -9146,7 +9164,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.S:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         c_ViewModel.Checked = !c_ViewModel.Checked;
                         if (!c_ViewModel.Checked)
@@ -9249,7 +9267,7 @@ namespace DocearReminder
                     break;
                 case Keys.Up:
                     leftIndex = 0;
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -9288,7 +9306,7 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.V:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         if (ReminderListFocused())
                         {
@@ -9319,7 +9337,7 @@ namespace DocearReminder
                     taskTime.Value = 0;
                     RRReminderlist();
                     //why ,what is it?
-                    //if (keyNotWork())
+                    //if (keyNotWork(e))
                     //{
                     //    if (reminderListFocused())
                     //    {
@@ -9349,7 +9367,7 @@ namespace DocearReminder
                     //}
                     break;
                 case Keys.X:
-                    if (keyNotWork())
+                    if (keyNotWork(e))
                     {
                         //if (mindmaplist.Focused)
                         //{
@@ -13380,6 +13398,14 @@ namespace DocearReminder
         private void IsJinianCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             RRReminderlist();
+        }
+
+        private void toolStripMenuItem_timeblock_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockReport()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
         }
     }
     class MoveOverInfoTip

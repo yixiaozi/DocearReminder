@@ -94,7 +94,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(225, 200);
+            this.button1.Location = new System.Drawing.Point(229, 200);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 30);
             this.button1.TabIndex = 15;
@@ -104,7 +104,7 @@
             // 
             // createsuggest
             // 
-            this.createsuggest.Location = new System.Drawing.Point(350, 200);
+            this.createsuggest.Location = new System.Drawing.Point(341, 200);
             this.createsuggest.Name = "createsuggest";
             this.createsuggest.Size = new System.Drawing.Size(138, 30);
             this.createsuggest.TabIndex = 16;
@@ -115,11 +115,11 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(509, 208);
+            this.checkBox1.Location = new System.Drawing.Point(501, 208);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(72, 16);
+            this.checkBox1.Size = new System.Drawing.Size(84, 16);
             this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "ZhuangBi";
+            this.checkBox1.Text = "任务名脱敏";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -165,7 +165,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(543, 89);
+            this.button5.Location = new System.Drawing.Point(529, 89);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(120, 23);
             this.button5.TabIndex = 22;
@@ -177,9 +177,9 @@
             // 
             this.button6.Location = new System.Drawing.Point(12, 133);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.Size = new System.Drawing.Size(118, 23);
             this.button6.TabIndex = 23;
-            this.button6.Text = "设置颜色";
+            this.button6.Text = "设置窗口颜色风格";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -206,7 +206,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Tools";
-            this.Text = "Menu";
+            this.Text = "Tools";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.Tools_Load);
             this.ResumeLayout(false);

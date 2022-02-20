@@ -135,6 +135,7 @@ namespace DocearReminder
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.EditTaskTime = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripMenuItem_timeblock = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -821,6 +822,8 @@ namespace DocearReminder
             // 
             // PathcomboBox
             // 
+            this.PathcomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.PathcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.PathcomboBox.ForeColor = System.Drawing.Color.Gray;
             this.PathcomboBox.FormattingEnabled = true;
             this.PathcomboBox.Items.AddRange(new object[] {
@@ -925,9 +928,10 @@ namespace DocearReminder
             this.是否播放声音playsoundToolStripMenuItem,
             this.显示右侧ToolStripMenuItem,
             this.打开程序目录ToolStripMenuItem,
-            this.推出F11ToolStripMenuItem});
+            this.推出F11ToolStripMenuItem,
+            this.toolStripMenuItem_timeblock});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 290);
+            this.menu.Size = new System.Drawing.Size(212, 334);
             // 
             // 查看模式ToolStripMenuItem
             // 
@@ -1354,6 +1358,13 @@ namespace DocearReminder
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             // 
+            // toolStripMenuItem_timeblock
+            // 
+            this.toolStripMenuItem_timeblock.Name = "toolStripMenuItem_timeblock";
+            this.toolStripMenuItem_timeblock.Size = new System.Drawing.Size(211, 22);
+            this.toolStripMenuItem_timeblock.Text = "TimeBlockReport";
+            this.toolStripMenuItem_timeblock.Click += new System.EventHandler(this.toolStripMenuItem_timeblock_Click);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1577,6 +1588,7 @@ namespace DocearReminder
         private ToolStripMenuItem 打开文件ToolStripMenuItem;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
         private Button EditTaskTime;
+        private ToolStripMenuItem toolStripMenuItem_timeblock;
     }
 }
 

@@ -76,9 +76,24 @@
       <HintPath>bin\Debug\NPinyin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="ScottPlot, Version=4.1.33.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScottPlot.4.1.33\lib\net461\ScottPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="ScottPlot.WinForms, Version=4.1.33.0, Culture=neutral, PublicKeyToken=5df1dfa5321e734b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScottPlot.WinForms.4.1.33\lib\net461\ScottPlot.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.6.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Speech" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -101,6 +116,12 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +133,12 @@
     </Compile>
     <Compile Include="Search.Designer.cs">
       <DependentUpon>Search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeBlockReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeBlockReport.Designer.cs">
+      <DependentUpon>TimeBlockReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Tomato.cs">
       <SubType>Form</SubType>
@@ -148,6 +175,9 @@
     <EmbeddedResource Include="Search.resx">
       <DependentUpon>Search.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TimeBlockReport.resx">
+      <DependentUpon>TimeBlockReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tomato.resx">
       <DependentUpon>Tomato.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +201,7 @@
       <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DocearReminder.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\MyMind.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -190,6 +221,8 @@
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />
+    <Content Include="Resources\关闭.png" />
+    <Content Include="Resources\最小化 %283%29.png" />
     <Content Include="tomato.ico" />
   </ItemGroup>
   <ItemGroup>

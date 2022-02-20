@@ -44,6 +44,18 @@ namespace Calendar
 
         public CalendarForm(string path)// 后期希望只显示当期文件夹的日历
         {
+            //Mutex run = new System.Threading.Mutex(true, "CalendarForm", out bool runone);
+            //if (runone)
+            //{
+            //    run.ReleaseMutex();
+            //}
+            //else
+            //{
+            //    MessageBox.Show(null, "有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    //   提示信息，可以删除。     
+            //    Application.Exit();//退出程序   
+            //}
+
             mindmappath = path;
             string logpass = ini.ReadString("password", "abc", "");
             encryptlog = new Encrypt(logpass);

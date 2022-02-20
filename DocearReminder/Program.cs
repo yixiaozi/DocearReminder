@@ -29,7 +29,12 @@ namespace DocearReminder
                 run.ReleaseMutex();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new DocearReminderForm());
+                Form1 form1 = new Form1();
+                if (form1.ShowDialog() == DialogResult.OK)
+                {
+                    
+                    Application.Run(new DocearReminderForm());
+                }
             }
             else
             {

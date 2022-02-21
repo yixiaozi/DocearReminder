@@ -4881,6 +4881,7 @@ namespace DocearReminder
                     SaveLog("添加任务@：" + taskName + "    导图" + filename);
                     shaixuanfuwei();
                     searchword.Text = "";
+                    //todo 如果新添加的思維导图没有，自动刷新
                     RRReminderlist();
                     return;
                 }
@@ -6824,11 +6825,11 @@ namespace DocearReminder
                     {
                         Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
                         MyHide();
-                    }else if (nodetree.Focused&&nodetree.SelectedNode!=null)
+                    } else if (nodetree.Focused && nodetree.SelectedNode != null)
                     {
                         Clipboard.SetDataObject(nodetree.SelectedNode.Text);
                         MyHide();
-                    }else if (FileTreeView.Focused&& FileTreeView.SelectedNode!=null)
+                    } else if (FileTreeView.Focused && FileTreeView.SelectedNode != null)
                     {
                         Clipboard.SetDataObject(FileTreeView.SelectedNode.Name);
                         MyHide();
@@ -7676,7 +7677,7 @@ namespace DocearReminder
                                     tasktime = Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1));
                                     break;
                                 }
-                                Thread th = new Thread(() => OpenFanQie(tasktime, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(),false,2));
+                                Thread th = new Thread(() => OpenFanQie(tasktime, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), false, 2));
                                 tomatoCount += 1;
                                 th.Start();
                                 searchword.Text = "";
@@ -7690,7 +7691,7 @@ namespace DocearReminder
                             try
                             {
                                 string taskname = searchword.Text.Substring(1);
-                                Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true,2));
+                                Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true, 2));
                                 tomatoCount += 1;
                                 th.Start();
                                 searchword.Text = "";
@@ -7757,7 +7758,7 @@ namespace DocearReminder
                             if (nodetree.SelectedNode != null && !nodetree.SelectedNode.IsEditing)
                             {
                                 TreeNode node;
-                                if (nodetree.SelectedNode.Parent!=null)
+                                if (nodetree.SelectedNode.Parent != null)
                                 {
                                     node = nodetree.SelectedNode.Parent.Nodes.Add("");
                                 }
@@ -7947,13 +7948,21 @@ namespace DocearReminder
                     Jietu();
                     break;
                 case Keys.F11:
-                    DirectoryInfo path = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
-                    foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
+                    if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
-                        file.Delete();
+                        Application.Restart();
+                        Process.GetCurrentProcess()?.Kill();
                     }
-                    Application.Exit();
-                    break;
+                    else
+                    {
+                        DirectoryInfo path = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
+                        foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
+                        {
+                            file.Delete();
+                        }
+                        Application.Exit();
+                    }
+            break;
                 case Keys.F12:
                     if (keyNotWork(e))
                     {

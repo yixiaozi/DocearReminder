@@ -192,6 +192,7 @@ namespace DocearReminder
                     if (item != null)
                     {
                         item.comleteTime = DateTime.Now;
+                        item.tasktime = (DateTime.Now - item.time).TotalMinutes;
                     }
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);

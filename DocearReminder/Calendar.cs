@@ -534,6 +534,15 @@ namespace Calendar
                     {
                         //taskname += ("("+item.tasktime.ToString("N0")+")");
                     }
+                    try//解决有点只保存结束时间的问题
+                    {
+                        if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
+                        {
+                            item.tasktime = ((TimeSpan)(item.comleteTime - item.time)).TotalMinutes;
+                        }
+                    }
+                    catch (Exception e)
+                    { }
                     if (ini.ReadString("appearance", "Calander15", "1")=="true"&&!c_15.Checked||c_fanqie.Checked || c_timeBlock.Checked)
                     {
                         if (item.tasktime < 15)

@@ -542,5 +542,17 @@ namespace DocearReminder
                 DocearReminderForm.BackGroundColor= colorDialog1.Color;
             }
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Encrypt encrypt = new Encrypt(DocearReminderForm.PassWord);
+                pwd.Text = encrypt.EncryptString(pwd.Text);
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

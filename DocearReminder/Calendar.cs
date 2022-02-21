@@ -129,6 +129,7 @@ namespace Calendar
                 MessageBox.Show(this, exx.Message, "Pin to Desktop");
             }
             Center();
+            dayView1.MouseWheel += CalendarWhell;
             IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄
             IntPtr hWndDesktop = FindWindow("Progman", "Program Manager");//获得桌面句柄
             SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
@@ -167,18 +168,48 @@ namespace Calendar
                         {
                             newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
                             newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
                         }
                         else
                         {
                             newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetTimeBlock);
                             newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
                         }
                         SearchNode(Subnode, newMenu);
                     }
                 }
             }
         }
-
+        public string GetFatherNodeName(XmlNode node)
+        {
+            try
+            {
+                string s = "";
+                while (node.ParentNode != null)
+                {
+                    try
+                    {
+                        //去掉根节点
+                        if (node.ParentNode.ParentNode.Name == "map"|| node.ParentNode.Attributes["TEXT"].Value== "事件类别")
+                        {
+                            break;
+                        }
+                        s = node.ParentNode.Attributes["TEXT"].Value + (s != "" ? "|" : "") + s;
+                        node = node.ParentNode;
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+                }
+                return s;
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
 
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
         private void MainPage_Load(object sender, EventArgs e)
@@ -203,7 +234,7 @@ namespace Calendar
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName)
+        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null)
         {
             try
             {
@@ -225,7 +256,8 @@ namespace Calendar
                         mindmapPath = mindmap,
                         mindmap = mindmapName,
                         ID = ID,
-                        tasktime = tasktime
+                        tasktime = tasktime,
+                        nameFull=tag!=null?tag.ToString():""
                     });
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
@@ -578,7 +610,14 @@ namespace Calendar
                         Regex reg = new Regex(patten);
                         taskname = reg.Replace(taskname, "*");
                     }
-                    m_Appointment.Title = taskname;
+                    if (showfatchertimeblock&& item.mindmap == "TimeBlock")
+                    {
+                        m_Appointment.Title =item.nameFull+ (item.nameFull!=null&& item.nameFull != ""? "|":"") + taskname;
+                    }
+                    else
+                    {
+                        m_Appointment.Title = taskname;
+                    }
                     m_Appointment.value = item.mindmapPath;
                     m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
                     int zhongyao = item.tasklevel;
@@ -605,6 +644,7 @@ namespace Calendar
                         {
                             try
                             {
+
                                 m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                                 m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
                                 if (item.time.AddHours(8) < DateTime.Today)
@@ -825,7 +865,15 @@ namespace Calendar
                         }
                         break;
                     case Keys.S:
-                        c_fanqie.Checked = !c_fanqie.Checked;
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            showfatchertimeblock = !showfatchertimeblock;
+                            RefreshCalender();
+                        }
+                        else
+                        {
+                            c_fanqie.Checked = !c_fanqie.Checked;
+                        }
                         break;
                     case Keys.A:
                         c_timeBlock.Checked = !c_timeBlock.Checked;
@@ -1195,6 +1243,8 @@ namespace Calendar
 
         }
         bool islock = true;
+        private bool showfatchertimeblock;
+
         private void lockButton_Click(object sender, EventArgs e)
         {
             if (lockButton.Text == "锁定")
@@ -1229,7 +1279,7 @@ namespace Calendar
             //m_Appointment.Locked = true;
             m_Appointments.Add(m_Appointment);
             dayView1.Refresh();
-            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock");
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag);
         }
         public string GetColor(XmlNode node)
         {

@@ -279,17 +279,18 @@ namespace Calendar
                 StartDate = args.StartDate,
                 EndDate = args.EndDate,
                 Title = args.Title,
-                value = mindmappath + @"\calander.mm",
+                value = ini.ReadStringDefault("path", "CalendarmapPath", ""),//mindmappath + @"\calander.mm",
                 ID = Guid.NewGuid().ToString()
             };
             m_Appointments.Add(m_Appointment);
             try
             {
                 reminderObjectJsonAdd(args.Title, m_Appointment.ID, m_Appointment.value, (args.EndDate - args.StartDate).TotalMinutes, args.StartDate, "calander");
-                string path = mindmappath + @"\calander.mm";
+                string path = ini.ReadStringDefault("path", "CalendarmapPath", "");//mindmappath + @"\calander.mm";
                 if (!System.IO.File.Exists(path))
                 {
-                    System.IO.File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\calander.mm", path);
+                    return;
+                    //System.IO.File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\calander.mm", path);
                 }
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(path);
@@ -324,7 +325,7 @@ namespace Calendar
                 XmlNode newNote = x.CreateElement("node");
                 string changedtaskname = args.Title;
                 XmlAttribute newNotetext = x.CreateAttribute("TEXT");
-                SaveLog("日历添加任务：" + changedtaskname + "    导图：" + mindmappath + @"\calander.mm");
+                SaveLog("日历添加任务：" + changedtaskname + "    导图：" + ini.ReadStringDefault("path", "CalendarmapPath", ""));// mindmappath + @"\calander.mm");
                 newNotetext.Value = changedtaskname;
                 XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                 newNoteCREATED.Value = (Convert.ToInt64((args.StartDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();

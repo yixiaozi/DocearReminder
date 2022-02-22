@@ -195,7 +195,6 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\System.Value
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Interop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\AxInterop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.TimeBlockReport.resources
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.AssemblyReference.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Interop.AcroPDFLib.dll
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\AxInterop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.Form1.resources
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csprojAssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Gma.UserActivityMonitor;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -131,8 +132,8 @@ namespace DocearReminder
                 //频繁刷新导致界面闪烁解决方法我也不知道有没有用
                 pathArr.Add(ini.ReadString("path", "rootpath", ""));
                 mindmapPath = ini.ReadString("path", "rootpath", "");
-                //HookManager.KeyDown += HookManager_KeyDown;
-                //HookManager.KeyDown += HookManager_KeyDown_saveKeyBoard;
+                HookManager.KeyDown += HookManager_KeyDown;
+                HookManager.KeyUp += HookManager_KeyDown_saveKeyBoard;
                 this.DoubleBuffered = true;//设置本窗体
                 SetStyle(ControlStyles.UserPaint, true);
                 SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
@@ -468,7 +469,6 @@ namespace DocearReminder
             if (this.Visible == true)
             {
                 MyHide();
-
             }
             else
             {
@@ -861,13 +861,16 @@ namespace DocearReminder
                                     {
                                         if (node.ParentNode.Attributes["TEXT"].Value != "")
                                         {
+                                            string parentNodePath = GetFatherNodeName(node.ParentNode);
                                             nodesicon.Add(new node
                                             {
                                                 Text = node.ParentNode.Attributes["TEXT"].Value,
                                                 mindmapName = fileName,
                                                 mindmapPath = file.FullName,
                                                 editDateTime = DateTime.Now,
-                                                Time = DateTime.Now
+                                                Time = DateTime.Now,
+                                                IDinXML = node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "",
+                                                ParentNodePath = parentNodePath
                                             });
                                             filename = node.ParentNode.Attributes["TEXT"].Value.Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "");
                                             nodeIconString += filename;
@@ -883,6 +886,8 @@ namespace DocearReminder
                                             nodeIconString += node.ParentNode!=null&& node.ParentNode.Attributes!=null&& node.ParentNode.Attributes["ID"]!=null?node.ParentNode.Attributes["ID"].Value:"";
                                             nodeIconString += "|";
                                             nodeIconString += file.FullName;
+                                            nodeIconString += "|";
+                                            nodeIconString += parentNodePath;
                                             nodeIconString += "@";
                                         }
                                     }
@@ -7955,7 +7960,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        DirectoryInfo path = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
+                        DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
                         foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
                         {
                             file.Delete();
@@ -10385,64 +10390,70 @@ namespace DocearReminder
         }
         public void ShowSubNode()
         {
-            if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused|| reminderlistSelectedItem==null)
+            try
             {
-                return;
-            }
-            if (((MyListBoxItemRemind)reminderlistSelectedItem).Name == "当前时间" || reminderlistSelectedItem == null|| !((MyListBoxItemRemind)reminderlistSelectedItem).Value.EndsWith("mm"))
-            {
-                return;
-            }
-            richTextSubNode.Clear();
-            //当任务长度大于某个长度时，将其显示在子节点框
-            if (((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
-            {
-                richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).Name);
-            }
-            if (((MyListBoxItemRemind)reminderlistSelectedItem).link != "")
-            {
-                richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).link);
-            }
-            System.Xml.XmlDocument x = new XmlDocument();
-            string id = "";
-            try//解决文件被占用时报错
-            {
-                x.Load(((MyListBoxItemRemind)reminderlistSelectedItem).Value);
+                if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused || reminderlistSelectedItem == null)
+                {
+                    return;
+                }
+                if (((MyListBoxItemRemind)reminderlistSelectedItem).Name == "当前时间" || reminderlistSelectedItem == null || !((MyListBoxItemRemind)reminderlistSelectedItem).Value.EndsWith("mm"))
+                {
+                    return;
+                }
+                richTextSubNode.Clear();
+                //当任务长度大于某个长度时，将其显示在子节点框
+                if (((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
+                {
+                    richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                }
+                if (((MyListBoxItemRemind)reminderlistSelectedItem).link != "")
+                {
+                    richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).link);
+                }
+                System.Xml.XmlDocument x = new XmlDocument();
+                string id = "";
+                try//解决文件被占用时报错
+                {
+                    x.Load(((MyListBoxItemRemind)reminderlistSelectedItem).Value);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
+                if (x.GetElementsByTagName("node").Count == 0)
+                {
+                    return;
+                }
+
+                foreach (XmlNode node in x.GetElementsByTagName("node"))
+                {
+                    try
+                    {
+                        if (node != null && node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                        {
+                            try
+                            {
+                                //显示父节点
+                                fathernode.Text = GetFatherNodeName(node);
+                                foreach (XmlNode subNode in node.ChildNodes)
+                                {
+                                    if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
+                                    {
+                                        richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + subNode.Attributes["TEXT"].Value);
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+                }
             }
             catch (Exception)
             {
-                return;
-            }
-            id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
-            if (x.GetElementsByTagName("node").Count == 0)
-            {
-                return;
-            }
-
-            foreach (XmlNode node in x.GetElementsByTagName("node"))
-            {
-                try
-                {
-                    if (node != null && node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
-                    {
-                        try
-                        {
-                            //显示父节点
-                            fathernode.Text = GetFatherNodeName(node);
-                            foreach (XmlNode subNode in node.ChildNodes)
-                            {
-                                if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
-                                {
-                                    richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + subNode.Attributes["TEXT"].Value);
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
-                catch (Exception) { }
             }
         }
         public string GetFatherNodeName(XmlNode node)
@@ -11113,14 +11124,15 @@ namespace DocearReminder
                     renameMindMapFileID = info.nodeID;
                     SearchText_suggest.Visible = false;
                     searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
-                    if (!usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))//放到这里也可以放到最终也可以暂时放这里
+                    if ((!usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))&& (!usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl)))//放到这里也可以放到最终也可以暂时放这里
                     {
-                        usedSuggest2.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
+                        usedSuggest2.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
                     }
                     else
                     {
                         usedSuggest2.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
-                        usedSuggest2.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
+                        usedSuggest2.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
+                        usedSuggest2.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID +"|" + info.fatherNodePath);
                     }
                     new TextListConverter().WriteListToTextFile(usedSuggest2, System.AppDomain.CurrentDomain.BaseDirectory + @"\usedSuggest2.txt");
                 }
@@ -11129,12 +11141,10 @@ namespace DocearReminder
                     if (filename == "")
                     {
                         StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
-                        if (!usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))
-                        {
-                        }
-                        else
+                        if (usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl+"|" + info.fatherNodePath)|| usedSuggest2.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))
                         {
                             usedSuggest2.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
+                            usedSuggest2.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
                         }
                         new TextListConverter().WriteListToTextFile(usedSuggest2, System.AppDomain.CurrentDomain.BaseDirectory + @"\usedSuggest2.txt");
                     }
@@ -11184,7 +11194,14 @@ namespace DocearReminder
                         {
                             try
                             {
-                                ddd.Add(new StationInfo() { StationName_CN = usedSuggest2[i].Split('|')[0], StationName_EN = usedSuggest2[i].Split('|')[1], StationName_JX = usedSuggest2[i].Split('|')[2], nodeID = usedSuggest2[i].Split('|')[3], mindmapurl = usedSuggest2[i].Split('|')[4] });
+                                if (usedSuggest2[i].Split('|').Length<=5)
+                                {
+                                    ddd.Add(new StationInfo() { StationName_CN = usedSuggest2[i].Split('|')[0], StationName_EN = usedSuggest2[i].Split('|')[1], StationName_JX = usedSuggest2[i].Split('|')[2], nodeID = usedSuggest2[i].Split('|')[3], mindmapurl = usedSuggest2[i].Split('|')[4] });
+                                }
+                                else
+                                {
+                                    ddd.Add(new StationInfo() { StationName_CN = usedSuggest2[i].Split('|')[0], StationName_EN = usedSuggest2[i].Split('|')[1], StationName_JX = usedSuggest2[i].Split('|')[2], nodeID = usedSuggest2[i].Split('|')[3], mindmapurl = usedSuggest2[i].Split('|')[4], fatherNodePath = usedSuggest2[i].Split('|')[5] });
+                                }
                             }
                             catch (Exception)
                             {
@@ -11786,6 +11803,8 @@ namespace DocearReminder
                 if (SearchText_suggest.SelectedItem != null && ((StationInfo)SearchText_suggest.SelectedItem).mindmapurl != null)
                 {
                     richTextSubNode.AppendText(((StationInfo)SearchText_suggest.SelectedItem).mindmapurl);
+                    richTextSubNode.AppendText(Environment.NewLine);
+                    richTextSubNode.AppendText(((StationInfo)SearchText_suggest.SelectedItem).fatherNodePath);
                 }
             }
             catch (Exception)
@@ -12203,6 +12222,7 @@ namespace DocearReminder
             searchform.ShowDialog();
         }
 
+
         public struct Point
         {
             public int p1;
@@ -12210,16 +12230,126 @@ namespace DocearReminder
 
             public Point(int p1, int p2)
             {
+                // TODO: Complete member initialization
                 this.p1 = p1;
                 this.p2 = p2;
             }
         }
-        private void HookManager_KeyDown_saveKeyBoard(IntPtr e)
+        Point p = new Point(1, 1);
+        public void SetAlt()
+        {
+            if (niazhi)
+            {
+                keybd_event(18, 0, 0, 0);
+            }
+            else
+            {
+                keybd_event(18, 0, 0x2, 0);
+            }
+        }
+        private void HookManager_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (this.Visible == true)
+            {
+                return;
+            }
+            if (e.KeyCode == Keys.Y && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_LEFTDOWN, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.H && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.J && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                SetCursorPos(p.p1 - mouseDisplacement, p.p2);
+            }
+            else if (e.KeyCode == Keys.L && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                SetCursorPos(p.p1 + mouseDisplacement, p.p2);
+            }
+            else if (e.KeyCode == Keys.I && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                SetCursorPos(p.p1, p.p2 - mouseDisplacement);
+            }
+            else if (e.KeyCode == Keys.K && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                SetCursorPos(p.p1, p.p2 + mouseDisplacement);
+            }
+            else if (e.KeyCode == Keys.U && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_LEFTDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.N && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                mouse_event(MOUSEEVENTF_LEFTDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
+                System.Threading.Thread.Sleep(150);
+                mouse_event(MOUSEEVENTF_LEFTDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.O && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_RIGHTDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_RIGHTUP, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.M && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_MIDDLEDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_MIDDLEUP, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_MIDDLEDOWN, p.p1, p.p2, 0, 0);
+                mouse_event(MOUSEEVENTF_MIDDLEUP, p.p1, p.p2, 0, 0);
+            }
+            else if (e.KeyCode == Keys.Oem1 && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_WHEEL, p.p1, p.p2, -200, 0);
+            }
+            else if (e.KeyCode == Keys.Oem7 && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+
+                GetCursorPos(ref p);
+                mouse_event(MOUSEEVENTF_WHEEL, p.p1, p.p2, 200, 0);
+            }
+            else if (e.KeyCode == Keys.Oemplus && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                if (mouseDisplacement < 100)
+                {
+                    mouseDisplacement += 2;
+                    //l_mouseDisplacement.Text = mouseDisplacement.ToString();
+                }
+            }
+            else if (e.KeyCode == Keys.OemMinus && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                if (mouseDisplacement > 5)
+                {
+                    mouseDisplacement -= 2;
+                    //l_mouseDisplacement.Text = mouseDisplacement.ToString();
+                }
+            }
+
+        }
+        private void HookManager_KeyDown_saveKeyBoard(object sender, KeyEventArgs e)
         {
             //记录键盘键
-            System.IO.Directory.CreateDirectory(clipordFilePath + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\");
+            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\");
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(clipordFilePath + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\key.txt", true))
+            new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\key.txt", true))
             {
                 if (DateTime.Now.Hour != hour)
                 {
@@ -12227,10 +12357,9 @@ namespace DocearReminder
                     file.Write("\r");
                     file.Write(DateTime.Now);
                 }
-                //char* pChar = reinterpret_cast<char*>(e.ToPointer());
-                if (e != null)
+                if (e.KeyCode.ToString() != "")
                 {
-                    //file.Write(e.ToInt32().ToString()+"|");
+                    file.Write(e.KeyCode.ToString()+";");
                 }
             }
         }
@@ -12729,6 +12858,7 @@ namespace DocearReminder
         bool isnottagcloudonload = true;
         private int leftIndex=0;
         private bool isSettingSyncWeek;
+        private bool niazhi;
 
         private void tagCloudControl_ControlAdded(object sender, ControlEventArgs e)
         {

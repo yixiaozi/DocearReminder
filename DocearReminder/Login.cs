@@ -20,9 +20,10 @@ namespace DocearReminder
                 Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
                 try
                 {
-                    textBox1.Text = ini.ReadString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), "").Split('@')[0];
-                    textBox2.Text = ini.ReadString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), "").Split('@')[1];
-                    button1_Click(null, null);
+                    string pas = encrypt.DecryptString(ini.ReadString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), ""));
+                    textBox1.Text = pas.Split('@')[0];
+                    textBox2.Text = pas.Split('@')[1];
+                    //button1_Click(null, null);//not work
                 }
                 catch (Exception)
                 {
@@ -94,7 +95,7 @@ namespace DocearReminder
             if (checkBox1.Checked)
             {
                 Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
-                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), textBox1.Text+"@"+ textBox2.Text);
+                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), encrypt.EncryptString(textBox1.Text+"@"+ textBox2.Text));
                 ini.WriteString("password", "r", "1");
             }
             else

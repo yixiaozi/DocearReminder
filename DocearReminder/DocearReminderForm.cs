@@ -113,9 +113,12 @@ namespace DocearReminder
         TimeSpan leavespan = new TimeSpan();
         bool isneedreminderlistrefresh = true;
         bool isneedKeyUpEventWork = true;
+		private System.IO.FileSystemWatcher fileSystemWatcher1;
         #endregion
         public DocearReminderForm()
         {
+            this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             formActive = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
@@ -10892,7 +10895,7 @@ namespace DocearReminder
             }
             else
             {
-                if (isSearchFileOrNode)
+                if (searchword.Text==""&&isSearchFileOrNode)
                 {
                     isSearchFileOrNode = false;
                     //重新进入导图模式

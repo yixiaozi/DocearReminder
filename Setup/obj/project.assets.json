@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v5.0,Profile=windows": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v5.0,Profile=windows": []
+  },
+  "packageFolders": {
+    "C:\\Users\\wangy\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "E:\\yixiaozi\\Code\\C#\\Project\\DocearReminder\\Setup\\Setup.csproj",
+      "projectName": "Setup",
+      "projectPath": "E:\\yixiaozi\\Code\\C#\\Project\\DocearReminder\\Setup\\Setup.csproj",
+      "packagesPath": "C:\\Users\\wangy\\.nuget\\packages\\",
+      "outputPath": "E:\\yixiaozi\\Code\\C#\\Project\\DocearReminder\\Setup\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\wangy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net50-windows"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net50-windows": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net50-windows": {}
+    }
+  }
+}

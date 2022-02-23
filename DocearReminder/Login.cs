@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Security;
+using System.Data.SQLite;
+using System.Collections.Generic;
 
 namespace DocearReminder
 {
@@ -14,6 +16,29 @@ namespace DocearReminder
         public Form1()
         {
             InitializeComponent();
+
+            //if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\FileLog.db"))
+            //{
+            //    using (SQLiteConnection conn = new SQLiteConnection("data source="+ System.AppDomain.CurrentDomain.BaseDirectory + "FileLog.db"))
+            //    {
+            //        using (SQLiteCommand cmd = new SQLiteCommand())
+            //        {
+            //            cmd.Connection = conn;
+            //            conn.Open();
+
+            //            SQLiteHelper sh = new SQLiteHelper(cmd);
+
+            //            // do something...
+            //            var dic = new Dictionary<string, object>();
+            //            dic["File"] = "John";
+            //            dic["Action"] = 1;
+            //            dic["Time"] = 6.8;
+            //            sh.Insert("Log", dic);
+            //            conn.Close();
+            //        }
+            //    }
+            //}
+
             if (ini.ReadString("password", "r", "")=="1")
             {
                 checkBox1.Checked = true;

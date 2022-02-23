@@ -554,5 +554,29 @@ namespace DocearReminder
             {
             }
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            IniFile ini = new IniFile(@"./config.ini");
+            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); 
+            List<string> names = new List<string>();
+            string result = "";
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            {
+                string filename = Path.GetFileNameWithoutExtension(file.FullName);
+                if (names.Contains(filename))
+                {
+                    result+=(file.FullName+Environment.NewLine);
+                }
+                else
+                {
+                    names.Add(filename);
+                }
+            }
+            if (true)
+            {
+                MessageBox.Show(result);
+            }
+        }
     }
 }

@@ -117,15 +117,16 @@ namespace DocearReminder
                 return;
             }
             IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
+            Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (checkBox1.Checked)
             {
-                Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
                 ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), encrypt.EncryptString(textBox1.Text+"@"+ textBox2.Text));
                 ini.WriteString("password", "r", "1");
             }
             else
             {
                 ini.WriteString("password", "r", "0");
+                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."),"");
             }
         }
 

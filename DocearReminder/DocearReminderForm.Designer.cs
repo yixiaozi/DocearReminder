@@ -109,6 +109,7 @@ namespace DocearReminder
             this.o05ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.o08ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.o1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.irisSkinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.显示树视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.隐藏树视图SnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.是否锁定窗口lockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +117,7 @@ namespace DocearReminder
             this.显示右侧ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开程序目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.推出F11ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_timeblock = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.taskcount = new System.Windows.Forms.Label();
             this.mindmapornode = new System.Windows.Forms.Label();
@@ -133,9 +135,8 @@ namespace DocearReminder
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.EditTaskTime = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStripMenuItem_timeblock = new System.Windows.Forms.ToolStripMenuItem();
+            this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -481,7 +482,7 @@ namespace DocearReminder
             // 
             this.showcyclereminder.AutoSize = true;
             this.showcyclereminder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showcyclereminder.Location = new System.Drawing.Point(872, 501);
+            this.showcyclereminder.Location = new System.Drawing.Point(933, 582);
             this.showcyclereminder.Name = "showcyclereminder";
             this.showcyclereminder.Size = new System.Drawing.Size(13, 12);
             this.showcyclereminder.TabIndex = 43;
@@ -566,7 +567,7 @@ namespace DocearReminder
             this.afternoon.Checked = true;
             this.afternoon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.afternoon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.afternoon.Location = new System.Drawing.Point(899, 517);
+            this.afternoon.Location = new System.Drawing.Point(1077, 605);
             this.afternoon.Name = "afternoon";
             this.afternoon.Size = new System.Drawing.Size(13, 12);
             this.afternoon.TabIndex = 72;
@@ -580,7 +581,7 @@ namespace DocearReminder
             this.day.Checked = true;
             this.day.CheckState = System.Windows.Forms.CheckState.Checked;
             this.day.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.day.Location = new System.Drawing.Point(886, 518);
+            this.day.Location = new System.Drawing.Point(1064, 606);
             this.day.Name = "day";
             this.day.Size = new System.Drawing.Size(13, 12);
             this.day.TabIndex = 73;
@@ -594,7 +595,7 @@ namespace DocearReminder
             this.morning.Checked = true;
             this.morning.CheckState = System.Windows.Forms.CheckState.Checked;
             this.morning.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.morning.Location = new System.Drawing.Point(872, 517);
+            this.morning.Location = new System.Drawing.Point(1050, 605);
             this.morning.Name = "morning";
             this.morning.Size = new System.Drawing.Size(13, 12);
             this.morning.TabIndex = 74;
@@ -608,7 +609,7 @@ namespace DocearReminder
             this.night.Checked = true;
             this.night.CheckState = System.Windows.Forms.CheckState.Checked;
             this.night.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.night.Location = new System.Drawing.Point(915, 517);
+            this.night.Location = new System.Drawing.Point(1093, 605);
             this.night.Name = "night";
             this.night.Size = new System.Drawing.Size(13, 12);
             this.night.TabIndex = 75;
@@ -646,7 +647,7 @@ namespace DocearReminder
             this.onlyZhouqi.Checked = true;
             this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.onlyZhouqi.Location = new System.Drawing.Point(886, 501);
+            this.onlyZhouqi.Location = new System.Drawing.Point(947, 582);
             this.onlyZhouqi.Name = "onlyZhouqi";
             this.onlyZhouqi.Size = new System.Drawing.Size(13, 12);
             this.onlyZhouqi.TabIndex = 89;
@@ -664,12 +665,11 @@ namespace DocearReminder
             this.nodetree.ItemHeight = 14;
             this.nodetree.LabelEdit = true;
             this.nodetree.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.nodetree.Location = new System.Drawing.Point(260, 501);
+            this.nodetree.Location = new System.Drawing.Point(260, 521);
             this.nodetree.Name = "nodetree";
             this.nodetree.ShowNodeToolTips = true;
             this.nodetree.Size = new System.Drawing.Size(600, 307);
             this.nodetree.TabIndex = 100;
-            this.nodetree.Visible = false;
             this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.NodeTree_AfterLabelEdit);
             this.nodetree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.nodetree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.nodetree_AfterSelect);
@@ -793,7 +793,7 @@ namespace DocearReminder
             // 
             this.ebcheckBox.AutoSize = true;
             this.ebcheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ebcheckBox.Location = new System.Drawing.Point(899, 501);
+            this.ebcheckBox.Location = new System.Drawing.Point(960, 582);
             this.ebcheckBox.Name = "ebcheckBox";
             this.ebcheckBox.Size = new System.Drawing.Size(13, 12);
             this.ebcheckBox.TabIndex = 111;
@@ -808,14 +808,14 @@ namespace DocearReminder
             this.FileTreeView.FullRowSelect = true;
             this.FileTreeView.LabelEdit = true;
             this.FileTreeView.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.FileTreeView.Location = new System.Drawing.Point(10, 501);
+            this.FileTreeView.Location = new System.Drawing.Point(10, 521);
             this.FileTreeView.Name = "FileTreeView";
             this.FileTreeView.ShowNodeToolTips = true;
             this.FileTreeView.Size = new System.Drawing.Size(233, 307);
             this.FileTreeView.TabIndex = 112;
-            this.FileTreeView.Visible = false;
             this.FileTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.FileTreeView_AfterLabelEdit);
             this.FileTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
+            this.FileTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.FileTreeView_AfterSelect_1);
             this.FileTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.FileTreeView_NodeMouseDoubleClick);
             this.FileTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyUp);
             this.FileTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FileTreeView_MouseDown);
@@ -839,7 +839,7 @@ namespace DocearReminder
             // 
             this.IsReminderOnlyCheckBox.AutoSize = true;
             this.IsReminderOnlyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(915, 501);
+            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(976, 582);
             this.IsReminderOnlyCheckBox.Name = "IsReminderOnlyCheckBox";
             this.IsReminderOnlyCheckBox.Size = new System.Drawing.Size(13, 12);
             this.IsReminderOnlyCheckBox.TabIndex = 115;
@@ -923,6 +923,7 @@ namespace DocearReminder
             this.剪切板ToolStripMenuItem,
             this.操作记录F12ToolStripMenuItem,
             this.透明度ToolStripMenuItem,
+            this.irisSkinToolStripMenuItem,
             this.显示树视图ToolStripMenuItem,
             this.是否锁定窗口lockToolStripMenuItem,
             this.是否播放声音playsoundToolStripMenuItem,
@@ -1067,6 +1068,12 @@ namespace DocearReminder
             this.o1ToolStripMenuItem.Text = "100%:o=1";
             this.o1ToolStripMenuItem.Click += new System.EventHandler(this.o1ToolStripMenuItem_Click);
             // 
+            // irisSkinToolStripMenuItem
+            // 
+            this.irisSkinToolStripMenuItem.Name = "irisSkinToolStripMenuItem";
+            this.irisSkinToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.irisSkinToolStripMenuItem.Text = "切换皮肤";
+            // 
             // 显示树视图ToolStripMenuItem
             // 
             this.显示树视图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1123,6 +1130,13 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.推出F11ToolStripMenuItem.Text = "退出(F11)";
             this.推出F11ToolStripMenuItem.Click += new System.EventHandler(this.推出F11ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem_timeblock
+            // 
+            this.toolStripMenuItem_timeblock.Name = "toolStripMenuItem_timeblock";
+            this.toolStripMenuItem_timeblock.Size = new System.Drawing.Size(211, 22);
+            this.toolStripMenuItem_timeblock.Text = "TimeBlockReport";
+            this.toolStripMenuItem_timeblock.Click += new System.EventHandler(this.toolStripMenuItem_timeblock_Click);
             // 
             // taskcount
             // 
@@ -1250,7 +1264,7 @@ namespace DocearReminder
             this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
             this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.noterichTextBox.Location = new System.Drawing.Point(872, 501);
+            this.noterichTextBox.Location = new System.Drawing.Point(872, 521);
             this.noterichTextBox.Name = "noterichTextBox";
             this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.noterichTextBox.Size = new System.Drawing.Size(285, 307);
@@ -1334,20 +1348,6 @@ namespace DocearReminder
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
             // 
-            // EditTaskTime
-            // 
-            this.EditTaskTime.BackColor = System.Drawing.Color.White;
-            this.EditTaskTime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.EditTaskTime.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.EditTaskTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.EditTaskTime.ForeColor = System.Drawing.Color.White;
-            this.EditTaskTime.Location = new System.Drawing.Point(860, 8);
-            this.EditTaskTime.Name = "EditTaskTime";
-            this.EditTaskTime.Size = new System.Drawing.Size(12, 23);
-            this.EditTaskTime.TabIndex = 125;
-            this.EditTaskTime.UseVisualStyleBackColor = false;
-            this.EditTaskTime.Click += new System.EventHandler(this.EditTaskTime_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(927, 535);
@@ -1358,12 +1358,15 @@ namespace DocearReminder
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             // 
-            // toolStripMenuItem_timeblock
+            // skinEngine1
             // 
-            this.toolStripMenuItem_timeblock.Name = "toolStripMenuItem_timeblock";
-            this.toolStripMenuItem_timeblock.Size = new System.Drawing.Size(211, 22);
-            this.toolStripMenuItem_timeblock.Text = "TimeBlockReport";
-            this.toolStripMenuItem_timeblock.Click += new System.EventHandler(this.toolStripMenuItem_timeblock_Click);
+            this.skinEngine1.@__DrawButtonFocusRectangle = true;
+            this.skinEngine1.DisabledButtonTextColor = System.Drawing.Color.Gray;
+            this.skinEngine1.DisabledMenuFontColor = System.Drawing.SystemColors.GrayText;
+            this.skinEngine1.InactiveCaptionColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.skinEngine1.SerialNumber = "";
+            this.skinEngine1.SkinFile = "";
+            this.skinEngine1.SkinPassword = "";
             // 
             // DocearReminderForm
             // 
@@ -1373,7 +1376,6 @@ namespace DocearReminder
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 818);
             this.Controls.Add(this.noterichTextBox);
-            this.Controls.Add(this.EditTaskTime);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.pictureBox1);
@@ -1587,8 +1589,9 @@ namespace DocearReminder
         private NotifyIcon notifyIcon1;
         private ToolStripMenuItem 打开文件ToolStripMenuItem;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
-        private Button EditTaskTime;
         private ToolStripMenuItem toolStripMenuItem_timeblock;
+        private Sunisoft.IrisSkin.SkinEngine skinEngine1;
+        private ToolStripMenuItem irisSkinToolStripMenuItem;
     }
 }
 

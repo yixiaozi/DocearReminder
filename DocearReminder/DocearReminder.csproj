@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Gma.UserActivityMonitor.dll</HintPath>
     </Reference>
+    <Reference Include="IrisSkin4">
+      <HintPath>bin\Debug\IrisSkin4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
       <HintPath>.\NAudio.dll</HintPath>

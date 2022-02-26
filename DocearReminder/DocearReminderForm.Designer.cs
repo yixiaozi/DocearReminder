@@ -627,6 +627,7 @@ namespace DocearReminder
             this.mindmapSearch.Size = new System.Drawing.Size(231, 14);
             this.mindmapSearch.TabIndex = 84;
             this.mindmapSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mindmapSearch.Visible = false;
             this.mindmapSearch.TextChanged += new System.EventHandler(this.mindmapSearch_TextChanged);
             // 
             // c_Jinian
@@ -1166,12 +1167,14 @@ namespace DocearReminder
             // 
             // panel_clearSearchWord
             // 
+            this.panel_clearSearchWord.BackColor = System.Drawing.Color.Transparent;
             this.panel_clearSearchWord.Controls.Add(this.DAKAINFO);
             this.panel_clearSearchWord.Controls.Add(this.mindmapornode);
             this.panel_clearSearchWord.Location = new System.Drawing.Point(260, 31);
             this.panel_clearSearchWord.Name = "panel_clearSearchWord";
             this.panel_clearSearchWord.Size = new System.Drawing.Size(600, 18);
             this.panel_clearSearchWord.TabIndex = 47;
+            this.panel_clearSearchWord.Visible = false;
             this.panel_clearSearchWord.Click += new System.EventHandler(this.panel_clearSearchWord_Click);
             // 
             // fathernode
@@ -1374,7 +1377,7 @@ namespace DocearReminder
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1167, 818);
+            this.ClientSize = new System.Drawing.Size(1167, 846);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);

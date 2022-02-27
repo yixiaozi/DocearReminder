@@ -30,6 +30,10 @@ using yixiaozi.Windows;
 using yixiaozi.WinForm.Control;
 using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
+using System.Speech.Recognition;
+using System.Speech.Synthesis;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace DocearReminder
 {
@@ -152,6 +156,7 @@ namespace DocearReminder
                 addFanQieTimer.Enabled = false; //是否不断重复定时器操作
                 addFanQieTimer.Start();
                 InitializeComponent();
+                InitVoice();
                 if (ini.ReadString("Skin", "src", "")!="")
                 {
                     skinEngine1.SkinFile = ini.ReadString("Skin", "src", "");
@@ -355,6 +360,7 @@ namespace DocearReminder
                     dic.Add(mindmaplist_count, "导图数");
                     dic.Add(taskcount, "任务总数");
                     dic.Add(c_remember, "任务总数");
+                    dic.Add(c_speechcontrol, "语音控制");
                     dic.Add(searchword, "task@mindmap==.task +Enter"+Environment.NewLine+@"subnote +Enter"+Environment.NewLine+@"subtask +Shift+Enter==subtask. +Enter"+Environment.NewLine+
                         "@mindmap  detail of mindmap"+Environment.NewLine+"@mindmap +Shift open mindmap"+
                         Environment.NewLine+"#searchfiles"+
@@ -422,8 +428,16 @@ namespace DocearReminder
             }
             foreach (DirectoryInfo item in folder.GetDirectories())
             {
-                newMenu = irisSkinToolStripMenuItem.DropDownItems.Add(item.Name, global::DocearReminder.Properties.Resources.square_ok, SetSkin);
-                addirisSkinToolStripMenuItem(item,newMenu);
+                if (menuitem == null)
+                {
+                    newMenu = irisSkinToolStripMenuItem.DropDownItems.Add(item.Name, global::DocearReminder.Properties.Resources.square_ok, null);
+                }
+                else
+                {
+                    newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(item.Name,global::DocearReminder.Properties.Resources.square_ok, null);
+                }
+                addirisSkinToolStripMenuItem(item, newMenu);
+
             }
         }
 
@@ -663,7 +677,7 @@ namespace DocearReminder
             usedTimer.NewOneTime(currentUsedTimerId);
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
-            if (this.Height == 540)
+            if (this.Height == 560)
             {
                 reminderList.Focus();
             }
@@ -3425,7 +3439,7 @@ namespace DocearReminder
                 return;
             }
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
-            if (this.Height > 550)
+            if (this.Height > 560)
             {
                 SelectTreeNode(nodetree.Nodes, selectedReminder.Name);
             }
@@ -7069,7 +7083,7 @@ namespace DocearReminder
                             }
                             else
                             {
-                                if (this.Height > 550)
+                                if (this.Height > 560)
                                 {
                                     nodetree.Focus();
                                 }
@@ -7093,7 +7107,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            if (this.Height > 550)
+                            if (this.Height > 560)
                             {
                                 FileTreeView.Focus();
                             }
@@ -8995,15 +9009,19 @@ namespace DocearReminder
                         {
                             c_hour.Checked = true;
                         }
-                        else if (c_hour.Checked)
-                        {
-                            c_month.Checked = true;
-                        }
                         else if (c_month.Checked)
                         {
                             c_year.Checked = true;
                         }
                         else if (c_year.Checked)
+                        {
+                            c_hour.Checked = true;
+                        }
+                        else if (c_hour.Checked)
+                        {
+                            c_remember.Checked = true;
+                        }
+                        else if (c_remember.Checked)
                         {
                             c_day.Checked = true;
                         }
@@ -13611,6 +13629,126 @@ namespace DocearReminder
         private void FileTreeView_AfterSelect_1(object sender, TreeViewEventArgs e)
         {
 
+        }
+        #region 语音命令
+        static SpeechSynthesizer SS = new SpeechSynthesizer();
+        private SpeechRecognitionEngine SRE = new SpeechRecognitionEngine(); //语音识别模块
+        private bool SRE_listening = false;
+        private int wordid;
+        private string shibie;
+
+        [DllImport("kernel32.dll")]
+        public static extern bool Beep(int freq, int duration);
+
+        public void InitVoice()  //语音识别初始化
+        {
+            SRE.SetInputToDefaultAudioDevice();  // 默认的语音输入设备，也可以设定为去识别一个WAV文
+
+            GrammarBuilder GB = new GrammarBuilder();
+
+            GB.Append(new Choices(new string[] { "查看任务", "打开日历", "退出程序" }));
+
+            DictationGrammar DG = new DictationGrammar();
+
+            Grammar G = new Grammar(GB);
+
+            G.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(G_SpeechRecognized);  //注册语音识别事件
+
+            SRE.EndSilenceTimeout = TimeSpan.FromSeconds(2);
+
+            SRE.LoadGrammar(G);
+
+        }
+
+        void G_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            //Beep(500, 500);//已识别提示音
+
+            string result = e.Result.Text;
+            switch (result)
+            {
+                case "查看任务":
+                    shibie = "中国：五星红旗";
+                    choice(0);
+                    break;
+                case "打开日历":
+                    shibie = "美国：星条旗";
+                    choice(1);
+                    break;
+                case "退出程序":
+                    shibie = "推出程序";
+                    choice(2);
+                    break;
+            }
+
+        }
+
+        private void choice(int id)
+        {
+            wordid = id;
+
+            Thread t1;
+            Thread t2;
+
+            t1 = new Thread(new ThreadStart(ShowAnswer));
+            t1.Start();
+            t1.Join();
+            t2 = new Thread(new ThreadStart(SpeekAnswer));
+            t2.Start();
+        }
+        void ShowAnswer()  //线程
+        {
+            MethodInvoker mi = new MethodInvoker(this.dosomething);
+            this.BeginInvoke(mi);
+
+        }
+        void dosomething()
+        {
+            //textBox1.Text = shibie;
+        }
+        void SpeekAnswer()  //线程
+        {
+            switch (wordid)
+            {
+                case 0:
+                    SS.Speak("查看任务");
+                    MyShow();
+                    break;
+                case 1:
+                    SS.Speak("打开日历");
+                    if (mindmaplist.Focused)
+                    {
+                        IsSelectReminder = false;
+                    }
+                    Thread thCalendarForm = new Thread(() => Application.Run(new Calendar.CalendarForm(mindmapPath)));
+                    thCalendarForm.Start();
+                    MyHide();
+                    return;
+                    break;
+                case 2:
+                    SS.Speak("退出程序");
+                    Application.Exit();
+                    break;
+            }
+        }
+        #endregion
+        /// <summary>
+        /// 语音控制
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void c_speechcontrol_CheckedChanged(object sender, EventArgs e)
+        {
+            if (c_speechcontrol.Checked)
+            {
+                SRE.RecognizeAsync(RecognizeMode.Multiple);
+                SRE_listening = true;
+            }
+            else
+            {
+                SRE.RecognizeAsyncStop();
+                SRE_listening = false;
+            }
         }
     }
     class MoveOverInfoTip

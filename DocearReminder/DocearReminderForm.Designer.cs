@@ -137,6 +137,7 @@ namespace DocearReminder
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
+            this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -276,6 +277,7 @@ namespace DocearReminder
             this.dateTimePicker.MaxDate = new System.DateTime(2499, 12, 17, 0, 0, 0, 0);
             this.dateTimePicker.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.ShowUpDown = true;
             this.dateTimePicker.Size = new System.Drawing.Size(146, 20);
             this.dateTimePicker.TabIndex = 17;
             this.dateTimePicker.TabStop = false;
@@ -1371,6 +1373,17 @@ namespace DocearReminder
             this.skinEngine1.SkinFile = "";
             this.skinEngine1.SkinPassword = "";
             // 
+            // c_speechcontrol
+            // 
+            this.c_speechcontrol.AutoSize = true;
+            this.c_speechcontrol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.c_speechcontrol.Location = new System.Drawing.Point(986, 35);
+            this.c_speechcontrol.Name = "c_speechcontrol";
+            this.c_speechcontrol.Size = new System.Drawing.Size(13, 12);
+            this.c_speechcontrol.TabIndex = 125;
+            this.c_speechcontrol.UseVisualStyleBackColor = true;
+            this.c_speechcontrol.CheckedChanged += new System.EventHandler(this.c_speechcontrol_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1378,6 +1391,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.c_speechcontrol);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
@@ -1595,6 +1609,7 @@ namespace DocearReminder
         private ToolStripMenuItem toolStripMenuItem_timeblock;
         private Sunisoft.IrisSkin.SkinEngine skinEngine1;
         private ToolStripMenuItem irisSkinToolStripMenuItem;
+        private CheckBox c_speechcontrol;
     }
 }
 

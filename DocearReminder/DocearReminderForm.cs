@@ -10501,11 +10501,15 @@ namespace DocearReminder
                     return;
                 }
                 id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
+                if (richTextSubNodeID == id)
+                {
+                    richTextSubNodeID = id;
+                }
                 if (x.GetElementsByTagName("node").Count == 0)
                 {
                     return;
                 }
-
+                string subNodesInfo = "";
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
                     try
@@ -10520,17 +10524,21 @@ namespace DocearReminder
                                 {
                                     if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
                                     {
-                                        richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + subNode.Attributes["TEXT"].Value);
+                                        subNodesInfo+=(subNode.Attributes["TEXT"].Value+Environment.NewLine);
                                     }
                                 }
                             }
                             catch (Exception)
                             {
+                                richTextSubNode.AppendText(subNodesInfo);
+                                subNodesInfo="";
+                                continue;
                             }
                         }
                     }
                     catch (Exception) { }
                 }
+                richTextSubNode.AppendText(subNodesInfo);
             }
             catch (Exception)
             {
@@ -13636,6 +13644,7 @@ namespace DocearReminder
         private bool SRE_listening = false;
         private int wordid;
         private string shibie;
+        private string richTextSubNodeID;
 
         [DllImport("kernel32.dll")]
         public static extern bool Beep(int freq, int duration);

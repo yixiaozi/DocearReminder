@@ -6847,7 +6847,7 @@ namespace DocearReminder
                     PlaySimpleSound("treeview");
                     if (ReminderListFocused() || reminderListBox.Focused || nodetree.Focused)
                     {
-                        if (this.Height != 860)
+                        if (this.Height != 888)
                         {
                             ShowMindmap(true);
                             ShowMindmapFile();
@@ -9007,7 +9007,7 @@ namespace DocearReminder
                         }
                         else if (c_week.Checked)
                         {
-                            c_hour.Checked = true;
+                            c_month.Checked = true;
                         }
                         else if (c_month.Checked)
                         {
@@ -13443,7 +13443,7 @@ namespace DocearReminder
         private void labeltaskinfo_Click(object sender, EventArgs e)
         {
             PlaySimpleSound("treeview");
-            if (this.Height == 860)
+            if (this.Height == 888)
             {
                 nodetree.Top = FileTreeView.Top = 521;
                 nodetree.Height = FileTreeView.Height = 307;

@@ -121,8 +121,7 @@ namespace DocearReminder
         #endregion
         public DocearReminderForm()
         {
-            this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
-            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
+            
             formActive = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
@@ -157,6 +156,21 @@ namespace DocearReminder
                 addFanQieTimer.Start();
                 InitializeComponent();
                 InitVoice();
+
+                this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+                fileSystemWatcher1.IncludeSubdirectories = true;
+                fileSystemWatcher1.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                             | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
+                this.fileSystemWatcher1.EnableRaisingEvents = true;
+                this.fileSystemWatcher1.SynchronizingObject = this;
+                this.fileSystemWatcher1.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Deleted);
+                this.fileSystemWatcher1.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
+                this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
+                this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Created);
+                this.fileSystemWatcher1.Path = ini.ReadString("path", "rootpath", "");
+                ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
+
                 if (ini.ReadString("Skin", "src", "")!="")
                 {
                     skinEngine1.SkinFile = ini.ReadString("Skin", "src", "");
@@ -259,7 +273,7 @@ namespace DocearReminder
                         daydiff += 30;
                     }
                     string birthString = (yeardiff.ToString() + "年" + (monthdiff != 0 ? monthdiff.ToString() + "月" : "") + (daydiff != 0 ? daydiff.ToString() + "天" : ""));
-                    this.Text += ("   " + birthString);
+                    this.Text += ("   " + birthString)+"  @  "+DateTime.Now.ToString("HH:mm");
                     foreach (string item in calanderpath.Split(';'))
                     {
                         if (item != "")
@@ -677,6 +691,7 @@ namespace DocearReminder
             usedTimer.NewOneTime(currentUsedTimerId);
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
+            this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm");
             if (this.Height == 560)
             {
                 reminderList.Focus();
@@ -11129,7 +11144,7 @@ namespace DocearReminder
             {
                 needSuggest = true;
                 SearchText_suggest.Visible = false;
-                ShowSubNode();
+                //ShowSubNode();
                 return;
             }
             if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Space)
@@ -12199,7 +12214,6 @@ namespace DocearReminder
                 {
                     file.Write(DateTime.Now + "   ");
                     file.WriteLine(log);
-                    //file.Write("\r");
                 }
             }
         }
@@ -13523,11 +13537,6 @@ namespace DocearReminder
         {
             EditTime_Clic(null, null);
         }
-
-        private void searchword_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
         static void MoveElementUp(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
@@ -13759,6 +13768,58 @@ namespace DocearReminder
                 SRE_listening = false;
             }
         }
+
+        #region 文件操作日志
+        string firstname = "";
+        private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
+        {//发生改变
+            if ((isLog(e.FullPath)) &&firstname!= e.FullPath.ToString())
+            {
+                firstname = e.FullPath.ToString();
+                SaveFileLog("修改：" + e.FullPath.ToString());
+            }
+        }
+
+        private void fileSystemWatcher1_Created(object sender, System.IO.FileSystemEventArgs e)
+        {//新增
+            SaveFileLog("新增：" + e.FullPath.ToString());
+        }
+
+        private void fileSystemWatcher1_Deleted(object sender, System.IO.FileSystemEventArgs e)
+        {//删除
+            SaveFileLog("删除：" + e.FullPath.ToString());
+        }
+
+        private void fileSystemWatcher1_Renamed(object sender, System.IO.RenamedEventArgs e)
+        {
+            SaveFileLog("更名：" + e.OldFullPath.ToString()+"To"+e.Name);
+        }
+        public bool isLog(string path)
+        {
+            if (path.Contains(".git")|| path.Contains(".svn")|| path.Contains(".vs") || path.Contains("~"))
+            {
+                return false;
+            }
+            return true;
+        }
+        public void SaveFileLog(string log)
+        {
+            if (log.Contains(clipordFilePath))
+            {
+                return;
+            }
+            System.IO.Directory.CreateDirectory(clipordFilePath + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\");
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(clipordFilePath + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\" + DateTime.Now.Day.ToString() + "_File.txt", true))
+            {
+                if (log != "")
+                {
+                    file.Write(DateTime.Now + "   ");
+                    file.WriteLine(log);
+                }
+            }
+        }
+        #endregion
     }
     class MoveOverInfoTip
     {

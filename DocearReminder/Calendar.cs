@@ -42,25 +42,26 @@ namespace Calendar
         string lastId = "";
         string lastName = "";
         List<Color> timeblockColors = new List<Color>();
+        //private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
-        public CalendarForm(string path)// 后期希望只显示当期文件夹的日历
+        public CalendarForm(string path,bool OpenNew=false)// 后期希望只显示当期文件夹的日历
         {
-            //Mutex run = new System.Threading.Mutex(true, "CalendarForm", out bool runone);
-            //if (runone)
+            //if (!OpenNew)
             //{
-            //    run.ReleaseMutex();
-            //}
-            //else
-            //{
-            //    MessageBox.Show(null, "有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    //   提示信息，可以删除。     
-            //    Application.Exit();//退出程序   
+            //    Center();
+            //    this.Show();
+            //    this.Activate();
             //}
 
             mindmappath = path;
             string logpass = ini.ReadString("password", "abc", "");
             encryptlog = new Encrypt(logpass);
             InitializeComponent();
+            //if (ini.ReadString("Skin", "src", "") != "")
+            //{
+            //    skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
+            //    skinEngine1.SkinFile = ini.ReadString("Skin", "src", "");
+            //}
             //this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             new MyProcess().OnlyOneForm("Calendar.exe");
             string calanderpath = ini.ReadString("path", "calanderpath", "");
@@ -70,11 +71,8 @@ namespace Calendar
                 workfolder_combox.Items.Add(item);
                 workfolders.Add(ini.ReadString("path", item, ""));
             }
-            tasktime.Text = "";
             workfolder_combox.Items.Add("All");
             workfolder_combox.SelectedIndex = hasinworkfolderIndex(mindmappath);
-            taskname.Text = "";
-            tasktime.Text = "";
             string no = ini.ReadString("path", "no", "");
             noFolder = no.Split(';');
             CalendarImagePath = ini.ReadStringDefault("path", "CalendarImagePath", "");
@@ -146,7 +144,17 @@ namespace Calendar
                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
                     {
                         SearchNode(node, null);
-                        break;
+                    }else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("进步", global::DocearReminder.Properties.Resources.square_ok, SetProgress);
+                        newMenu.BackColor = Color.Red;
+                        SearchNode_progress(node, newMenu);
+                    }
+                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "错误")
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("错误", global::DocearReminder.Properties.Resources.square_ok, SetMistake);
+                        newMenu.BackColor = Color.Gray;
+                        SearchNode_mistake(node, newMenu);
                     }
                 }
                 if (timeblockColors.Count>0)
@@ -193,6 +201,58 @@ namespace Calendar
                             timeblockColors.Add(newMenu.BackColor);
                         }
                         SearchNode(Subnode, newMenu);
+                    }
+                }
+            }
+        }
+        public void SearchNode_progress(XmlNode node, ToolStripItem menuitem)
+        {
+            if (node.ChildNodes.Count > 0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null)
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu;
+                        if (menuitem == null)
+                        {
+                            newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetProgress);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        else
+                        {
+                            newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetProgress);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        SearchNode_progress(Subnode, newMenu);
+                    }
+                }
+            }
+        }
+        public void SearchNode_mistake(XmlNode node, ToolStripItem menuitem)
+        {
+            if (node.ChildNodes.Count > 0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null)
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu;
+                        if (menuitem == null)
+                        {
+                            newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetMistake);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        else
+                        {
+                            newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetMistake);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        SearchNode_mistake(Subnode, newMenu);
                     }
                 }
             }
@@ -600,7 +660,7 @@ namespace Calendar
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted));
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted)|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake"));
                 if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "RootPath")
                 {
                     items = items.Where(m => !hasinworkfolder(m.mindmapPath));
@@ -711,7 +771,7 @@ namespace Calendar
                     {
                         m_Appointment.Color = System.Drawing.Color.White;
                         m_Appointment.BorderColor = System.Drawing.Color.White;
-                        if (item.mindmap== "TimeBlock")
+                        if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress")
                         {
                             try
                             {
@@ -1042,8 +1102,6 @@ namespace Calendar
             {
                 try
                 {
-                    //taskname.Text = dayView1.SelectedAppointment.Title;
-                    //tasktime.Text = ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟");
                     this.Text = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟" + "|" + dayView1.SelectedAppointment.Title;
                 }
                 catch (Exception)
@@ -1392,6 +1450,56 @@ namespace Calendar
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
             SetFanQieComplete(fanqieid);
         }
+        private void SetProgress(object sender, EventArgs e)
+        {
+
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart
+            };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            m_Appointment.Type = "Progress";
+            string comment = "";
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+            }
+
+            //m_Appointment.Locked = true;
+            m_Appointments.Add(m_Appointment);
+            dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Progress", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+        }
+        private void SetMistake(object sender, EventArgs e)
+        {
+
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart
+            };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            m_Appointment.Type = "Mistake";
+            string comment = "";
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+            }
+
+            //m_Appointment.Locked = true;
+            m_Appointments.Add(m_Appointment);
+            dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Mistake", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+        }
         private void SetTimeBlockColor(object sender, EventArgs e)
         {
             if (dayView1.SelectedAppointment != null)//切换颜色吧？
@@ -1590,7 +1698,7 @@ namespace Calendar
                 {
                 }
                 
-                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + args.Comment) : "")+ editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + args.Comment.Substring(0,args.Comment.Length>=20?20: args.Comment.Length)) : "")+ editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
         }
 
@@ -1672,6 +1780,18 @@ namespace Calendar
         private void c_done_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+        }
+
+        private void c_progress_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+
+        }
+
+        private void c_mistake_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+
         }
     }
     internal class User32

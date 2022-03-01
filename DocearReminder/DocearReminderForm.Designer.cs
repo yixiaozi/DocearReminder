@@ -163,11 +163,7 @@ namespace DocearReminder
             this.searchword.TabIndex = 2;
             this.searchword.TabStop = false;
             this.searchword.TextChanged += new System.EventHandler(this.Searchword_TextChanged);
-            this.searchword.Enter += new System.EventHandler(this.Searchword_Enter);
-            this.searchword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchword_KeyPress);
             this.searchword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Searchword_KeyUp);
-            this.searchword.Leave += new System.EventHandler(this.Searchword_Leave);
-            this.searchword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Searchword_MouseDown);
             // 
             // searchworkmenu
             // 

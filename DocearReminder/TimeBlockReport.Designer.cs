@@ -34,7 +34,7 @@ namespace DocearReminder
             // 
             // formsPlot1
             // 
-            this.formsPlot1.Location = new System.Drawing.Point(44, 74);
+            this.formsPlot1.Location = new System.Drawing.Point(12, 127);
             this.formsPlot1.Name = "formsPlot1";
             this.formsPlot1.Size = new System.Drawing.Size(467, 333);
             this.formsPlot1.TabIndex = 0;

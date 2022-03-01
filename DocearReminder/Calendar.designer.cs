@@ -50,9 +50,7 @@ namespace Calendar
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.workfolder_combox = new System.Windows.Forms.ComboBox();
-            this.taskname = new System.Windows.Forms.Label();
             this.textBox_searchwork = new System.Windows.Forms.TextBox();
-            this.tasktime = new System.Windows.Forms.Label();
             this.numericOpacity = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lockButton = new System.Windows.Forms.Button();
@@ -62,6 +60,8 @@ namespace Calendar
             this.c_15 = new System.Windows.Forms.CheckBox();
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.c_done = new System.Windows.Forms.CheckBox();
+            this.c_progress = new System.Windows.Forms.CheckBox();
+            this.c_mistake = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -238,15 +238,6 @@ namespace Calendar
             this.workfolder_combox.Text = "RootPath";
             this.workfolder_combox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // taskname
-            // 
-            this.taskname.AutoSize = true;
-            this.taskname.Location = new System.Drawing.Point(1181, 3);
-            this.taskname.Name = "taskname";
-            this.taskname.Size = new System.Drawing.Size(53, 12);
-            this.taskname.TabIndex = 27;
-            this.taskname.Text = "taskname";
-            // 
             // textBox_searchwork
             // 
             this.textBox_searchwork.Location = new System.Drawing.Point(445, 0);
@@ -255,15 +246,6 @@ namespace Calendar
             this.textBox_searchwork.TabIndex = 28;
             this.textBox_searchwork.TextChanged += new System.EventHandler(this.textBox_searchwork_TextChanged);
             this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
-            // 
-            // tasktime
-            // 
-            this.tasktime.AutoSize = true;
-            this.tasktime.Location = new System.Drawing.Point(1122, 4);
-            this.tasktime.Name = "tasktime";
-            this.tasktime.Size = new System.Drawing.Size(53, 12);
-            this.tasktime.TabIndex = 1;
-            this.tasktime.Text = "tasktime";
             // 
             // numericOpacity
             // 
@@ -351,7 +333,7 @@ namespace Calendar
             this.c_15.AutoSize = true;
             this.c_15.Checked = true;
             this.c_15.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_15.Location = new System.Drawing.Point(991, 3);
+            this.c_15.Location = new System.Drawing.Point(1117, 3);
             this.c_15.Name = "c_15";
             this.c_15.Size = new System.Drawing.Size(48, 16);
             this.c_15.TabIndex = 35;
@@ -366,13 +348,35 @@ namespace Calendar
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(930, 3);
+            this.c_done.Location = new System.Drawing.Point(1044, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
             this.c_done.Text = "已完成";
             this.c_done.UseVisualStyleBackColor = true;
             this.c_done.CheckedChanged += new System.EventHandler(this.c_done_CheckedChanged);
+            // 
+            // c_progress
+            // 
+            this.c_progress.AutoSize = true;
+            this.c_progress.Location = new System.Drawing.Point(939, 2);
+            this.c_progress.Name = "c_progress";
+            this.c_progress.Size = new System.Drawing.Size(48, 16);
+            this.c_progress.TabIndex = 1;
+            this.c_progress.Text = "进步";
+            this.c_progress.UseVisualStyleBackColor = true;
+            this.c_progress.CheckedChanged += new System.EventHandler(this.c_progress_CheckedChanged);
+            // 
+            // c_mistake
+            // 
+            this.c_mistake.AutoSize = true;
+            this.c_mistake.Location = new System.Drawing.Point(993, 2);
+            this.c_mistake.Name = "c_mistake";
+            this.c_mistake.Size = new System.Drawing.Size(48, 16);
+            this.c_mistake.TabIndex = 1;
+            this.c_mistake.Text = "错误";
+            this.c_mistake.UseVisualStyleBackColor = true;
+            this.c_mistake.CheckedChanged += new System.EventHandler(this.c_mistake_CheckedChanged);
             // 
             // CalendarForm
             // 
@@ -381,6 +385,8 @@ namespace Calendar
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1246, 961);
+            this.Controls.Add(this.c_mistake);
+            this.Controls.Add(this.c_progress);
             this.Controls.Add(this.c_done);
             this.Controls.Add(this.c_15);
             this.Controls.Add(this.c_fanqie);
@@ -388,9 +394,7 @@ namespace Calendar
             this.Controls.Add(this.c_timeBlock);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.numericOpacity);
-            this.Controls.Add(this.tasktime);
             this.Controls.Add(this.textBox_searchwork);
-            this.Controls.Add(this.taskname);
             this.Controls.Add(this.workfolder_combox);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.截图);
@@ -405,7 +409,6 @@ namespace Calendar
             this.Name = "CalendarForm";
             this.Opacity = 0.7D;
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  ";
@@ -437,9 +440,7 @@ namespace Calendar
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.ComboBox workfolder_combox;
-        private System.Windows.Forms.Label taskname;
         private System.Windows.Forms.TextBox textBox_searchwork;
-        private System.Windows.Forms.Label tasktime;
         private System.Windows.Forms.NumericUpDown numericOpacity;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ContextMenuStrip Menu;
@@ -453,6 +454,8 @@ namespace Calendar
         private ToolTip toolTip2;
         private ToolStripMenuItem commentToolStripMenuItem;
         private CheckBox c_done;
+        private CheckBox c_progress;
+        private CheckBox c_mistake;
     }
 }
 

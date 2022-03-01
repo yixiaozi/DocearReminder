@@ -32,4 +32,4 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.Data.SQLite.d
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.Data.SQLite.pdb
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.Data.SQLite.xml
 E:\yixiaozi\Code\C#\Project\DocearReminder\Update\bin\Debug\System.Data.SQLite.dll.config
-E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csproj.AssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\Update\obj\Debug\Update.csprojAssemblyReference.cache

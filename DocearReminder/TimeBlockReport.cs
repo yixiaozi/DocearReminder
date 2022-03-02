@@ -50,17 +50,17 @@ namespace DocearReminder
                 }
                 foreach(ReminderItem item in reminderObject.reminders)
                 {
-                    if (item.mindmap == "TimeBlock")
+                    if (item.mindmap == "TimeBlock"&& item.time.AddHours(8).Date==DateTime.Today)
                     {
-                        if (reportData.items.Exists(m => m.name == (((item.nameFull != null && item.nameFull != "") ? "|" : "") + item.name)))
+                        if (reportData.items.Exists(m => m.name == (((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Split('|')[0]))
                         {
-                            reportData.items.First(m => m.name == (((item.nameFull != null && item.nameFull != "") ? item.nameFull+"|" : "") + item.name)).value +=item.tasktime;
+                            reportData.items.First(m => m.name == ((((item.nameFull != null && item.nameFull != "") ? item.nameFull+"|" : "") + item.name).Split('|')[0])).value +=item.tasktime;
                         }
                         else
                         {
                             reportData.items.Add(new ReportDataItem
                             {
-                                name = (((item.nameFull != null && item.nameFull != "" )? item.nameFull+"|" : "") + item.name),
+                                name = ((((item.nameFull != null && item.nameFull != "" )? item.nameFull+"|" : "") + item.name).Split('|')[0]),
                                 value = item.tasktime
                             }); ;
                         }
@@ -91,8 +91,8 @@ namespace DocearReminder
             //pie.SliceFillColors = sliceColors;
             //pie.SliceLabelColors = labelColors;
 
-            plt.SaveFig("pie_customColors.png");
-            plt.Title("Bubble Plot with Labels");
+            //plt.SaveFig("pie_customColors.png");
+            plt.Title("今日统计");
             plt.AxisAuto(.2, .25); // zoom out to accommodate large bubbles
             formsPlot1.Refresh();
         }
@@ -135,6 +135,7 @@ namespace DocearReminder
         public class ReportDataItem
         {
             public string name { get; set; }
+            public string fullName { get; set; }
             public double value { get; set; }
         }
     }

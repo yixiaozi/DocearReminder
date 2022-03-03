@@ -22,7 +22,7 @@ using yixiaozi.WinForm.Common;
 using yixiaozi.Windows;
 using yixiaozi.Security;
 
-namespace Calendar
+namespace DocearReminder
 {
     public partial class CalendarForm : Form
     {

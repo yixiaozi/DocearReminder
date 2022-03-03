@@ -11,7 +11,6 @@ using System.Speech.Synthesis;
 using System.IO;
 using yixiaozi.Windows;
 using yixiaozi.Config;
-using Calendar;
 
 namespace DocearReminder
 {

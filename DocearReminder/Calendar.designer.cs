@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using yixiaozi.WinForm.Control;
 using yixiaozi.WinForm.Control.Calendar;
 
-namespace Calendar
+namespace DocearReminder
 {
     partial class CalendarForm
     {

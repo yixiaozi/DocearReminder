@@ -931,7 +931,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.toolStripMenuItem_timeblock});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 334);
+            this.menu.Size = new System.Drawing.Size(212, 356);
             // 
             // 查看模式ToolStripMenuItem
             // 
@@ -1072,6 +1072,7 @@ namespace DocearReminder
             this.irisSkinToolStripMenuItem.Name = "irisSkinToolStripMenuItem";
             this.irisSkinToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.irisSkinToolStripMenuItem.Text = "切换皮肤";
+            this.irisSkinToolStripMenuItem.Click += new System.EventHandler(this.irisSkinToolStripMenuItem_Click);
             // 
             // 显示树视图ToolStripMenuItem
             // 
@@ -1290,7 +1291,6 @@ namespace DocearReminder
             this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
             this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
             this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
-            this.reminderListBox.MouseHover += new System.EventHandler(this.reminderlist_MouseHover);
             this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
             // reminderList
@@ -1313,7 +1313,6 @@ namespace DocearReminder
             this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
             this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
             this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
-            this.reminderList.MouseHover += new System.EventHandler(this.reminderlist_MouseHover);
             this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
             // mindmaplist
@@ -1468,9 +1467,6 @@ namespace DocearReminder
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DocearReminderForm_MouseDown);
-            this.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.Form1_MouseLeave);
-            this.MouseHover += new System.EventHandler(this.Form1_MouseHover);
             this.searchworkmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).EndInit();

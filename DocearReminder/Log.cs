@@ -23,7 +23,7 @@ namespace DocearReminder
         public Log()
         {
             InitializeComponent();
-            logpass = ini.ReadString("password", "abc", "");
+            logpass = ini.ReadString("password", "i", "");
             resultlistBox.Items.Add(new result { Words = "", path = "" });
             resultlistBox.Items.Clear();
             GetLog();
@@ -219,7 +219,7 @@ namespace DocearReminder
             if(keyword.Text.ToLower()==("showall"))
             {
                 keyword.Text = "";
-                DirectoryInfo dictionary = new DirectoryInfo(ini.ReadString("path", "logFolder", ""));
+                DirectoryInfo dictionary = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "logFolder", "")));
                 foreach (FileInfo item in dictionary.GetFiles())
                 {
                     if (item.Name.EndsWith("txt"))

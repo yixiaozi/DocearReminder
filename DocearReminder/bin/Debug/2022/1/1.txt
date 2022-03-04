@@ -1,4 +1,0 @@
-2022/1/1 4:56:11   docear-1.2.0.0_stable_build291
-2022/1/1 5:04:22   https://github.com/yixiaozi/DocearReminder
-2022/1/1 5:15:04   软件还会记录剪切板操作，在文件夹的2022年内，请相信你的数据绝对时安全的。此软件不会有任何联网行为，源码已经公开，相信有心的人一定能找到。
-2022/1/1 16:36:01   https://www.youtube.com/watch?v=y7yMNbfUiCw&list=LL&index=1&ab_channel=BLACKROX

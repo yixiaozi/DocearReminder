@@ -37,13 +37,8 @@ namespace DocearReminder
             }
             else
             {
-                Application.Run(new CalendarForm((new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini")).ReadString("path", "rootpath", "")));
+                Application.Run(new CalendarForm(System.IO.Path.GetFullPath(((new IniFile(System.IO.Path.GetFullPath(@".\config.ini"))).ReadString("path", "rootpath", "")))));
             }
-
-            //new MyProcess().OnlyOneForm("DocearReminder.exe");
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new DocearReminderForm());
         }
         
     }

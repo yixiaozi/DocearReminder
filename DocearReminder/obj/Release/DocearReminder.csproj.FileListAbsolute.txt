@@ -1,6 +1,10 @@
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.csprojAssemblyReference.cache
+E:\yixiaozi\.files\DocearReminder\DocearReminder.exe.config
+E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
+E:\yixiaozi\.files\DocearReminder\DocearReminder.pdb
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\Interop.AcroPDFLib.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\AxInterop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.csproj.ResolveComReference.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\Calendar.CalendarForm.resources
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.CalendarForm.resources
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.Log.resources
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.Form1.resources
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.Search.resources
@@ -14,7 +18,5 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearRemi
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.csproj.CoreCompileInputs.cache
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.exe
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.pdb
-E:\yixiaozi\.files\DocearReminder\DocearReminder.exe.config
-E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
-E:\yixiaozi\.files\DocearReminder\DocearReminder.pdb
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.csproj.AssemblyReference.cache
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Release\DocearReminder.csproj.CopyComplete

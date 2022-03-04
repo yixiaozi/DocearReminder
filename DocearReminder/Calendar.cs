@@ -54,7 +54,7 @@ namespace DocearReminder
             //}
 
             mindmappath = path;
-            string logpass = ini.ReadString("password", "abc", "");
+            string logpass = ini.ReadString("password", "i", "");
             encryptlog = new Encrypt(logpass);
             InitializeComponent();
             //if (ini.ReadString("Skin", "src", "") != "")
@@ -65,17 +65,17 @@ namespace DocearReminder
             //this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             new MyProcess().OnlyOneForm("Calendar.exe");
             string calanderpath = ini.ReadString("path", "calanderpath", "");
-            workfolders.Add(ini.ReadString("path", "rootpath", ""));
+            workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             foreach (string item in calanderpath.Split(';'))
             {
                 workfolder_combox.Items.Add(item);
-                workfolders.Add(ini.ReadString("path", item, ""));
+                workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", item, "")));
             }
             workfolder_combox.Items.Add("All");
             workfolder_combox.SelectedIndex = hasinworkfolderIndex(mindmappath);
             string no = ini.ReadString("path", "no", "");
             noFolder = no.Split(';');
-            CalendarImagePath = ini.ReadStringDefault("path", "CalendarImagePath", "");
+            CalendarImagePath = System.IO.Path.GetFullPath((ini.ReadStringDefault("path", "CalendarImagePath", "")));
             dayView1.Renderer = new Office11Renderer();
             int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
             int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;

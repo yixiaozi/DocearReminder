@@ -135,7 +135,7 @@ namespace DocearReminder
                     suggestListData.AddRange(RecentlyFileHelper.GetStartFiles());
                 }
                 //频繁刷新导致界面闪烁解决方法我也不知道有没有用
-                pathArr.Add(ini.ReadString("path", "rootpath", ""));
+                pathArr.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 mindmapPath = ini.ReadString("path", "rootpath", "");
                 HookManager.KeyDown += HookManager_KeyDown;
                 HookManager.KeyUp += HookManager_KeyDown_saveKeyBoard;
@@ -216,18 +216,18 @@ namespace DocearReminder
                 string scorestr = ini.ReadString("info", "score", "");
                 fenshu.Text = scorestr;
                 command = ini.ReadString("config", "command", "");
-                logpass = ini.ReadString("password", "abc", "");
+                logpass = ini.ReadString("password", "i", "");
                 encryptlog = new Encrypt(logpass);
-                if (!Directory.Exists(ini.ReadStringDefault("path", "rootpath", "")))
+                if (!Directory.Exists(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", ""))))
                 {
-                    Directory.CreateDirectory(ini.ReadStringDefault("path", "rootpath", ""));
+                    Directory.CreateDirectory(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                     File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\Demo\calander.mm", ini.ReadStringDefault("path", "rootpath", "") + @"\calander.mm");
-                    Process.Start(ini.ReadStringDefault("path", "rootpath", ""));
+                    Process.Start(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 }
-                rootpath = new DirectoryInfo(ini.ReadStringDefault("path", "rootpath", ""));
+                rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
 
 
-                rootrootpath = new DirectoryInfo(ini.ReadStringDefault("path", "rootpath", ""));
+                rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
                 IconNodesSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
@@ -241,7 +241,7 @@ namespace DocearReminder
                 FileTreeView.AfterSelect += FileTreeView_AfterSelect;
                 string calanderpath = ini.ReadString("path", "calanderpath", "");
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-                fileTreePath = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                fileTreePath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 this.Height = 560;
                 noterichTextBox.LoadFile(ini.ReadString("path", "note", System.AppDomain.CurrentDomain.BaseDirectory + @"\note.txt"));
                 richTextSubNode.Height = 0;
@@ -2342,7 +2342,7 @@ namespace DocearReminder
         }
         private void encryptbutton_Click(object sender, EventArgs e)
         {
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             mindmaplist.Items.Clear();
             reminderList.Items.Clear();
             LoadEncryptFile(path);
@@ -2362,7 +2362,7 @@ namespace DocearReminder
         {
             mindmaplist.Items.Clear();
             reminderList.Items.Clear();
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             string keyword = yixiaozi.Model.DocearReminder.Helper.ConvertString(searchword.Text);
             string searchPattern = "*.mm";
             if (!IsEncryptBool)
@@ -7393,7 +7393,7 @@ namespace DocearReminder
                             {
                                 if (searchword.Text.Length < 7)
                                 {
-                                    new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                                    new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                                     //rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
                                 }
                                 else
@@ -7421,11 +7421,11 @@ namespace DocearReminder
                                     {
                                         try
                                         {
-                                            rootpath = new DirectoryInfo(ini.ReadString("path", changePath, ""));
+                                            rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", changePath, "")));
                                         }
                                         catch (Exception)
                                         {
-                                            rootpath = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                                            rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                                         }
                                     }
                                 }
@@ -7654,7 +7654,7 @@ namespace DocearReminder
                         }
                         //else if (searchword.Text.StartsWith("remind"))//直接用mindmaps好了
                         //{
-                        //    DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                        //    DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                         //    string content = "";
                         //    foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
                         //    {
@@ -8037,7 +8037,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        //DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                        //DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                         //foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
                         //{
                         //    file.Delete();
@@ -10784,7 +10784,7 @@ namespace DocearReminder
                 try
                 {
                     ////首先删除临时文件
-                    DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", "")); //System.AppDomain.CurrentDomain.BaseDirectory);
+                    DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
                     foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
                     {
                         file.Delete();
@@ -10879,7 +10879,7 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 Tools.createsuggest_fun();
-                DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
                 {
                     if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
@@ -10898,7 +10898,7 @@ namespace DocearReminder
                             {
                                 if (!ini.ReadString("path", item, "").Contains(ini.ReadString("path", "rootpath", "")))
                                 {
-                                    DirectoryInfo pathout = new DirectoryInfo(ini.ReadString("path", item, ""));
+                                    DirectoryInfo pathout = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", item, "")));
                                     foreach (FileInfo file in pathout.GetFiles("*.mm", SearchOption.AllDirectories))
                                     {
                                         if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
@@ -10919,7 +10919,7 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 remindmapsList.Clear();
-                DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+                DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
                 {
                     string text = System.IO.File.ReadAllText(file.FullName);
@@ -11121,6 +11121,7 @@ namespace DocearReminder
             {
                 return;
             }
+            searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
             if (searchword.Text.Length < 2 && !searchword.Text.StartsWith("@"))
             {
                 needSuggest = true;
@@ -11422,13 +11423,12 @@ namespace DocearReminder
                 }
                 SearchText_suggest.Height = SearchText_suggest.PreferredHeight; //12 * SearchText_suggest.Items.Count + 10;
             }
-            else if (needSuggest)
+            else if (needSuggest&&(e.KeyCode == Keys.Menu || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.Space|| e.KeyCode == Keys.Enter))
             {
-                List<StationInfo> result = suggestListData.FindAll(m => m.StationName_CN.ToLower().Contains(searchword.Text.ToLower()) || StringHasArrALL(m.StationName_CN.ToLower()+ m.mindmapurl.ToLower(), searchword.Text.ToLower().Split(' ')) || (m.isNode == "" && StringHasArrALL(m.StationName_CN.ToLower() + m.mindmapurl.ToLower(), searchword.Text.ToLower().Split(' '))));
+                List<StationInfo> result = suggestListData.FindAll(m => m.StationName_CN.ToLower().Contains(searchword.Text.Replace(","," ").ToLower()) || (searchword.Text.Replace(",", " ").Contains(' ')&&StringHasArrALL(m.StationName_CN.ToLower()+ m.mindmapurl.ToLower(), searchword.Text.Replace(",", " ").ToLower().Split(' '))) || (m.isNode == ""&&searchword.Text.Contains(' ')&&StringHasArrALL(m.StationName_CN.ToLower() + m.mindmapurl.ToLower(), searchword.Text.Replace(",", " ").ToLower().Split(' '))));
                 if (result.Count() > 0)
                 {
                     string taskname = searchword.Text;
-                    searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
                     if (e.KeyCode == Keys.Enter)
                     {
                         StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
@@ -11601,7 +11601,7 @@ namespace DocearReminder
         }
         private void allFloderChanged(object sender, EventArgs e)
         {
-            rootpath = new DirectoryInfo(ini.ReadString("path", "rootpath", ""));
+            rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             mindmapPath = rootpath.FullName;
             searchword.Text = "";
             Load_Click(null, null);
@@ -11673,7 +11673,7 @@ namespace DocearReminder
         }
         public bool StringHasArrALL(string str, string[] arr)
         {
-            if (str == null || str == "")
+            if (str == null || str == ""||arr.Length==0)
             {
                 return false;
             }
@@ -11706,7 +11706,7 @@ namespace DocearReminder
         #region RSS
         public void RSSRenew()
         {
-            DirectoryInfo path = new DirectoryInfo(ini.ReadString("path", "rss", ""));
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rss", "")));
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
                 try
@@ -12074,12 +12074,12 @@ namespace DocearReminder
                 if (PathcomboBox.SelectedItem.ToString() == "all")
                 {
                     allFloder = true;
-                    rootpath = new DirectoryInfo(ini.ReadString("path", "rootPath", ""));
+                    rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 }
                 else
                 {
                     allFloder = false;
-                    rootpath = new DirectoryInfo(ini.ReadString("path", PathcomboBox.SelectedItem.ToString(), ""));
+                    rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", PathcomboBox.SelectedItem.ToString(), "")));
                 }
                 mindmapPath = rootpath.FullName;
                 searchword.Text = "";

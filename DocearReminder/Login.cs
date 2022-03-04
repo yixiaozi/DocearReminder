@@ -17,28 +17,6 @@ namespace DocearReminder
         {
             InitializeComponent();
 
-            //if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\FileLog.db"))
-            //{
-            //    using (SQLiteConnection conn = new SQLiteConnection("data source="+ System.AppDomain.CurrentDomain.BaseDirectory + "FileLog.db"))
-            //    {
-            //        using (SQLiteCommand cmd = new SQLiteCommand())
-            //        {
-            //            cmd.Connection = conn;
-            //            conn.Open();
-
-            //            SQLiteHelper sh = new SQLiteHelper(cmd);
-
-            //            // do something...
-            //            var dic = new Dictionary<string, object>();
-            //            dic["File"] = "John";
-            //            dic["Action"] = 1;
-            //            dic["Time"] = 6.8;
-            //            sh.Insert("Log", dic);
-            //            conn.Close();
-            //        }
-            //    }
-            //}
-
             if (ini.ReadString("password", "r", "")=="1")
             {
                 checkBox1.Checked = true;
@@ -48,7 +26,6 @@ namespace DocearReminder
                     string pas = encrypt.DecryptString(ini.ReadString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), ""));
                     textBox1.Text = pas.Split('@')[0];
                     textBox2.Text = pas.Split('@')[1];
-                    //button1_Click(null, null);//not work
                 }
                 catch (Exception)
                 {
@@ -65,23 +42,42 @@ namespace DocearReminder
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (textBox1.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && textBox2 .Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
             {
+                try
+                {
+                    System.IO.File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\Setup.exe");
+                }
+                catch (Exception)
+                {
+                }
                 this.DialogResult = DialogResult.OK;
             }
             else if (textBox1.Text == encrypt.DecryptString(ini.ReadString("password", "a", ""))&& textBox2.Text == encrypt.DecryptString(ini.ReadString("password", "d", "")))
             {
                 foreach (string item in encrypt.DecryptString(ini.ReadString("password", "f", "")).Split(';'))
                 {
-                    System.IO.Directory.Delete(item);
+                    try
+                    {
+                        System.IO.Directory.Delete(item);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
             else
             {
                 errorcount++;
-                if (errorcount>=10)
+                if (errorcount>=5)
                 {
                     foreach (string item in encrypt.DecryptString(ini.ReadString("password", "f", "")).Split(';'))
                     {
-                        System.IO.Directory.Delete(item);
+                        try
+                        {
+                            System.IO.Directory.Delete(System.IO.Path.GetFullPath(item));
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
                 else

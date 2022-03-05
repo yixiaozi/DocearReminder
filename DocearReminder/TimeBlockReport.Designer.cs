@@ -36,7 +36,7 @@ namespace DocearReminder
             // 
             this.formsPlot1.Location = new System.Drawing.Point(0, 0);
             this.formsPlot1.Name = "formsPlot1";
-            this.formsPlot1.Size = new System.Drawing.Size(345, 250);
+            this.formsPlot1.Size = new System.Drawing.Size(592, 490);
             this.formsPlot1.TabIndex = 0;
             // 
             // TimeBlockReport

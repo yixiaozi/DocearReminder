@@ -236,7 +236,6 @@
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />
     <Content Include="Resources\关闭.png" />
-    <Content Include="Resources\最小化 %283%29.png" />
     <Content Include="tomato.ico" />
   </ItemGroup>
   <ItemGroup>

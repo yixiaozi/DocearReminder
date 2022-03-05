@@ -1802,6 +1802,24 @@ namespace DocearReminder
             RefreshCalender();
 
         }
+
+        private void ·¬ÇÑÖÓToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Thread th = new Thread(() => OpenFanQie(Convert.ToInt32((dayView1.SelectedAppointment.EndDate-dayView1.SelectedAppointment.StartDate).TotalMinutes), dayView1.SelectedAppointment.Title, dayView1.SelectedAppointment.value, GetPosition()));
+                tomatoCount += 1;
+                th.Start();
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false, int tasklevelNum = 0)
+        {
+            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault, tasklevelNum);
+            fanqie.ShowDialog();
+        }
     }
     internal class User32
     {

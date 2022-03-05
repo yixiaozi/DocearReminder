@@ -71,9 +71,6 @@ namespace DocearReminder
             // pictureBox2
             // 
             this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.ErrorImage = global::DocearReminder.Properties.Resources.最小化__3_;
-            this.pictureBox2.Image = global::DocearReminder.Properties.Resources.最小化__3_;
-            this.pictureBox2.InitialImage = global::DocearReminder.Properties.Resources.最小化__3_;
             this.pictureBox2.Location = new System.Drawing.Point(548, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";

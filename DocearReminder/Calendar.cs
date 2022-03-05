@@ -953,7 +953,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            if (numericUpDown1.Value < 14)
+                            if (numericUpDown1.Value < 14&&!c_lock.Checked)
                             {
                                 numericUpDown1.Value++;
                             }
@@ -973,7 +973,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            if (numericUpDown1.Value >= 2)
+                            if (numericUpDown1.Value >= 2 && !c_lock.Checked)
                             {
                                 numericUpDown1.Value--;
                             }
@@ -981,6 +981,10 @@ namespace DocearReminder
                         break;
 
                     case Keys.Left:
+                        if (c_lock.Checked)
+                        {
+                            return;
+                        }
                         if (numericUpDown1.Value == 7&& dateTimePicker1.Value.DayOfWeek==DayOfWeek.Monday)
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
@@ -995,6 +999,10 @@ namespace DocearReminder
                         }
                         break;
                     case Keys.Right:
+                        if (c_lock.Checked)
+                        {
+                            return;
+                        }
                         if (numericUpDown1.Value == 7)
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
@@ -1760,6 +1768,7 @@ namespace DocearReminder
             }
             string json = new JavaScriptSerializer().Serialize(reminderObject);
             File.WriteAllText(@"reminder.json", "");
+            RefreshCalender();
             using (StreamWriter sw = fi.AppendText())
             {
                 sw.Write(json);

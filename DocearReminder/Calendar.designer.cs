@@ -62,6 +62,7 @@ namespace DocearReminder
             this.c_done = new System.Windows.Forms.CheckBox();
             this.c_progress = new System.Windows.Forms.CheckBox();
             this.c_mistake = new System.Windows.Forms.CheckBox();
+            this.c_lock = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -176,7 +177,7 @@ namespace DocearReminder
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(41, 21);
+            this.numericUpDown1.Size = new System.Drawing.Size(31, 21);
             this.numericUpDown1.TabIndex = 20;
             this.numericUpDown1.Value = new decimal(new int[] {
             7,
@@ -215,14 +216,14 @@ namespace DocearReminder
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(164, 0);
+            this.numericUpDown2.Location = new System.Drawing.Point(151, 0);
             this.numericUpDown2.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(40, 21);
+            this.numericUpDown2.Size = new System.Drawing.Size(33, 21);
             this.numericUpDown2.TabIndex = 25;
             this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
@@ -231,9 +232,9 @@ namespace DocearReminder
             this.workfolder_combox.FormattingEnabled = true;
             this.workfolder_combox.Items.AddRange(new object[] {
             "RootPath"});
-            this.workfolder_combox.Location = new System.Drawing.Point(259, 0);
+            this.workfolder_combox.Location = new System.Drawing.Point(269, 0);
             this.workfolder_combox.Name = "workfolder_combox";
-            this.workfolder_combox.Size = new System.Drawing.Size(80, 20);
+            this.workfolder_combox.Size = new System.Drawing.Size(76, 20);
             this.workfolder_combox.TabIndex = 26;
             this.workfolder_combox.Text = "RootPath";
             this.workfolder_combox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -254,14 +255,14 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericOpacity.Location = new System.Drawing.Point(210, 0);
+            this.numericOpacity.Location = new System.Drawing.Point(188, 0);
             this.numericOpacity.Minimum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.numericOpacity.Name = "numericOpacity";
-            this.numericOpacity.Size = new System.Drawing.Size(40, 21);
+            this.numericOpacity.Size = new System.Drawing.Size(31, 21);
             this.numericOpacity.TabIndex = 29;
             this.numericOpacity.Value = new decimal(new int[] {
             70,
@@ -378,6 +379,18 @@ namespace DocearReminder
             this.c_mistake.UseVisualStyleBackColor = true;
             this.c_mistake.CheckedChanged += new System.EventHandler(this.c_mistake_CheckedChanged);
             // 
+            // c_lock
+            // 
+            this.c_lock.AutoSize = true;
+            this.c_lock.Checked = true;
+            this.c_lock.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.c_lock.Location = new System.Drawing.Point(222, 3);
+            this.c_lock.Name = "c_lock";
+            this.c_lock.Size = new System.Drawing.Size(48, 16);
+            this.c_lock.TabIndex = 1;
+            this.c_lock.Text = "Ëø¶¨";
+            this.c_lock.UseVisualStyleBackColor = true;
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -385,6 +398,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1246, 961);
+            this.Controls.Add(this.c_lock);
             this.Controls.Add(this.c_mistake);
             this.Controls.Add(this.c_progress);
             this.Controls.Add(this.c_done);
@@ -456,6 +470,7 @@ namespace DocearReminder
         private CheckBox c_done;
         private CheckBox c_progress;
         private CheckBox c_mistake;
+        private CheckBox c_lock;
     }
 }
 

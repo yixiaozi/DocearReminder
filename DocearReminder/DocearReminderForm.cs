@@ -4624,6 +4624,7 @@ namespace DocearReminder
 
                         //用树视图打开思维导图
                         reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.name, Value = file.filePath, IDinXML = "GUID" };
+                        mindmapornode.Text = file.name;//进入查看子节点一样的逻辑，按w才能退出
                         ShowMindmap();
                         ShowMindmapFile();
                         nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
@@ -7296,6 +7297,7 @@ namespace DocearReminder
                     {
                         try
                         {
+                            //最近文档
                             if (searchword.Text.ToLower().StartsWith("`") || searchword.Text.ToLower().StartsWith("·"))
                             {
                                 isSearchFileOrNode = true;
@@ -7782,7 +7784,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (searchword.Text.StartsWith("@@"))
+                        else if (searchword.Text.StartsWith("@@"))//todo 这个是干嘛的？没有看懂
                         {
                             searchword.Text = "";
                             //显示当前导图的所有任务

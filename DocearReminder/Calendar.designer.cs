@@ -34,13 +34,14 @@ namespace DocearReminder
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool2 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
+            yixiaozi.WinForm.Control.Calendar.DrawTool drawTool1 = new yixiaozi.WinForm.Control.Calendar.DrawTool();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarForm));
             this.dayView1 = new yixiaozi.WinForm.Control.Calendar.DayView();
             this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.完成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开导图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.番茄钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -63,7 +64,6 @@ namespace DocearReminder
             this.c_progress = new System.Windows.Forms.CheckBox();
             this.c_mistake = new System.Windows.Forms.CheckBox();
             this.c_lock = new System.Windows.Forms.CheckBox();
-            this.番茄钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -73,8 +73,8 @@ namespace DocearReminder
             // 
             // dayView1
             // 
-            drawTool2.DayView = this.dayView1;
-            this.dayView1.ActiveTool = drawTool2;
+            drawTool1.DayView = this.dayView1;
+            this.dayView1.ActiveTool = drawTool1;
             this.dayView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -118,28 +118,35 @@ namespace DocearReminder
             this.打开导图ToolStripMenuItem,
             this.番茄钟ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(181, 114);
+            this.Menu.Size = new System.Drawing.Size(133, 92);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // 打开导图ToolStripMenuItem
-            // 
-            this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.打开导图ToolStripMenuItem.Text = "打开导图";
-            this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
             // commentToolStripMenuItem
             // 
             this.commentToolStripMenuItem.Name = "commentToolStripMenuItem";
-            this.commentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.commentToolStripMenuItem.Text = "Comment";
             this.commentToolStripMenuItem.Click += new System.EventHandler(this.commentToolStripMenuItem_Click);
+            // 
+            // 打开导图ToolStripMenuItem
+            // 
+            this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.打开导图ToolStripMenuItem.Text = "打开导图";
+            this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
+            // 
+            // 番茄钟ToolStripMenuItem
+            // 
+            this.番茄钟ToolStripMenuItem.Name = "番茄钟ToolStripMenuItem";
+            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.番茄钟ToolStripMenuItem.Text = "番茄钟";
+            this.番茄钟ToolStripMenuItem.Click += new System.EventHandler(this.番茄钟ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -390,13 +397,6 @@ namespace DocearReminder
             this.c_lock.TabIndex = 1;
             this.c_lock.Text = "锁定";
             this.c_lock.UseVisualStyleBackColor = true;
-            // 
-            // 番茄钟ToolStripMenuItem
-            // 
-            this.番茄钟ToolStripMenuItem.Name = "番茄钟ToolStripMenuItem";
-            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.番茄钟ToolStripMenuItem.Text = "番茄钟";
-            this.番茄钟ToolStripMenuItem.Click += new System.EventHandler(this.番茄钟ToolStripMenuItem_Click);
             // 
             // CalendarForm
             // 

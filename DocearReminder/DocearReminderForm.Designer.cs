@@ -931,7 +931,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.toolStripMenuItem_timeblock});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 356);
+            this.menu.Size = new System.Drawing.Size(212, 334);
             // 
             // 查看模式ToolStripMenuItem
             // 

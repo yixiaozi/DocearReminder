@@ -316,10 +316,6 @@ namespace DocearReminder
             {
                 Reminder reminderObject = new Reminder();
                 FileInfo fi = new FileInfo(logfile);
-                if (!System.IO.File.Exists(logfile))
-                {
-                    File.WriteAllText(logfile, "");
-                }
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
@@ -355,10 +351,6 @@ namespace DocearReminder
             {
                 Reminder reminderObject = new Reminder();
                 FileInfo fi = new FileInfo(logfile);
-                if (!System.IO.File.Exists(logfile))
-                {
-                    File.WriteAllText(logfile, "");
-                }
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
@@ -647,10 +639,6 @@ namespace DocearReminder
 
             Reminder reminderObject = new Reminder();
             FileInfo fi = new FileInfo(logfile);
-            if (!System.IO.File.Exists(logfile))
-            {
-                File.WriteAllText(logfile, "");
-            }
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
@@ -1231,10 +1219,6 @@ namespace DocearReminder
                     }
                     Reminder reminderObject = new Reminder();
                     FileInfo fi = new FileInfo(logfile);
-                    if (!System.IO.File.Exists(logfile))
-                    {
-                        File.WriteAllText(logfile, "");
-                    }
                     using (StreamReader sw = fi.OpenText())
                     {
                         string s = sw.ReadToEnd();
@@ -1270,10 +1254,6 @@ namespace DocearReminder
                     }
                     Reminder reminderObject = new Reminder();
                     FileInfo fi = new FileInfo(logfile);
-                    if (!System.IO.File.Exists(logfile))
-                    {
-                        File.WriteAllText(logfile, "");
-                    }
                     using (StreamReader sw = fi.OpenText())
                     {
                         string s = sw.ReadToEnd();
@@ -1557,10 +1537,6 @@ namespace DocearReminder
             {
                 Reminder reminderObject = new Reminder();
                 FileInfo fi = new FileInfo(logfile);
-                if (!System.IO.File.Exists(logfile))
-                {
-                    File.WriteAllText(logfile, "");
-                }
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
@@ -1587,10 +1563,6 @@ namespace DocearReminder
             {
                 Reminder reminderObject = new Reminder();
                 FileInfo fi = new FileInfo(logfile);
-                if (!System.IO.File.Exists(logfile))
-                {
-                    File.WriteAllText(logfile, "");
-                }
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
@@ -1751,10 +1723,6 @@ namespace DocearReminder
             }
             Reminder reminderObject = new Reminder();
             FileInfo fi = new FileInfo(logfile);
-            if (!System.IO.File.Exists(logfile))
-            {
-                File.WriteAllText(logfile, "");
-            }
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
@@ -1768,11 +1736,11 @@ namespace DocearReminder
             }
             string json = new JavaScriptSerializer().Serialize(reminderObject);
             File.WriteAllText(@"reminder.json", "");
-            RefreshCalender();
             using (StreamWriter sw = fi.AppendText())
             {
                 sw.Write(json);
             }
+            RefreshCalender();
         }
 
         private void dayView1_KeyDown(object sender, KeyEventArgs e)

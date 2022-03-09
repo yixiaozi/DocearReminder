@@ -1800,11 +1800,22 @@ namespace DocearReminder
                                     }
 
                                 }
-                                string nodeid = GetAttribute(node.ParentNode, "ID");
-                                if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
-                                {
-                                    IsShow = false;
+                                if (showwaittask) {
+                                    if (GetAttribute(node.ParentNode, "ISVIEW") == "true")
+                                    {
+                                        IsShow = true;
+                                    }
+                                    else
+                                    {
+                                        IsShow = false;
+                                    }
                                 }
+                                //判断ID的重复，不再需要
+                                //string nodeid = GetAttribute(node.ParentNode, "ID");
+                                //if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
+                                //{
+                                //    IsShow = false;
+                                //}
                                 if (IsShow)
                                 {
                                     if (taskName.ToLower() != "bin")
@@ -4973,7 +4984,7 @@ namespace DocearReminder
                     SaveLog("添加任务@：" + taskName + "    导图" + filename);
                     shaixuanfuwei();
                     searchword.Text = "";
-                    //todo 如果新添加的思維导图没有，自动刷新
+                    //如果新添加的思維导图没有，自动刷新，放弃了，刷新一下吧，不自动了
                     RRReminderlist();
                     return;
                 }
@@ -5902,7 +5913,7 @@ namespace DocearReminder
             {
             }
         }
-        public void SetTaskNodeByID(string id)
+        public bool SetTaskNodeByID(string id)
         {
             try
             {
@@ -5911,7 +5922,7 @@ namespace DocearReminder
                 fenshuADD(1);
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
-                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)//todo:应该判断是否已经是任务
+                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id&&!istask(node))
                     {
                         XmlNode remindernode = x.CreateElement("hook");
                         XmlAttribute remindernodeName = x.CreateAttribute("NAME");
@@ -5930,12 +5941,32 @@ namespace DocearReminder
                         newElem.Attributes.Append(BUILTIN);
                         node.AppendChild(newElem);
                         x.Save(showMindmapName);
-                        return;
+                        return true;
                     }
                 }
+                return false;
             }
             catch (Exception)
             {
+                return false;
+            }
+        }
+        public bool istask(XmlNode node)
+        {
+            try
+            {
+                foreach (XmlNode item in node.ChildNodes)
+                {
+                    if (item.Name == "hook" && item.Attributes != null && item.Attributes["NAME"] != null && item.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
         public void RenameNodeByID(string taskName)
@@ -7784,7 +7815,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (searchword.Text.StartsWith("@@"))//todo 这个是干嘛的？没有看懂
+                        else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
                         {
                             searchword.Text = "";
                             //显示当前导图的所有任务
@@ -7826,11 +7857,13 @@ namespace DocearReminder
                             {
                                 try
                                 {
-                                    SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
-                                    nodetree.SelectedNode.Text = DateTime.Now.ToString("MMddHH ") + nodetree.SelectedNode.Text;
-                                    SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
-                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
-                                    th.Start();
+                                    if (SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value))
+                                    {
+                                        nodetree.SelectedNode.Text = DateTime.Now.ToString("MMddHH ") + nodetree.SelectedNode.Text;
+                                        SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
+                                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                                        th.Start();
+                                    }
                                 }
                                 catch (Exception)
                                 {
@@ -9418,39 +9451,18 @@ namespace DocearReminder
                 case Keys.VolumeUp:
                     break;
                 case Keys.W:
-                    mindmapornode.Text = "";
-                    tasklevel.Value = 0;
-                    taskTime.Value = 0;
-                    RRReminderlist();
-                    //why ,what is it?
-                    //if (keyNotWork(e))
-                    //{
-                    //    if (reminderListFocused())
-                    //    {
-                    //        if (reminderlist.SelectedIndex != -1)
-                    //        {
-                    //            reminderSelectIndex = reminderlist.SelectedIndex;
-                    //            reminderlist.SelectedIndex = -1;
-                    //            IsSelectReminder = false;
-                    //        }
-                    //        else
-                    //        {
-                    //            reminderlist.SelectedIndex = reminderSelectIndex;
-                    //        }
-                    //    }
-                    //    else if (mindmaplist.Focused)
-                    //    {
-                    //        if (mindmaplist.SelectedIndex != -1)
-                    //        {
-                    //            mindmapSelectIndex = mindmaplist.SelectedIndex;
-                    //            mindmaplist.SelectedIndex = -1;
-                    //        }
-                    //        else
-                    //        {
-                    //            mindmaplist.SelectedIndex = mindmapSelectIndex;
-                    //        }
-                    //    }
-                    //}
+                    if (mindmapornode.Text != "")
+                    {
+                        mindmapornode.Text = "";
+                        tasklevel.Value = 0;
+                        taskTime.Value = 0;
+                        RRReminderlist();
+                    }
+                    else
+                    {
+                        showwaittask = !showwaittask;
+                        RRReminderlist();
+                    }
                     break;
                 case Keys.X:
                     if (keyNotWork(e))
@@ -12306,7 +12318,6 @@ namespace DocearReminder
 
             public Point(int p1, int p2)
             {
-                // TODO: Complete member initialization
                 this.p1 = p1;
                 this.p2 = p2;
             }
@@ -13479,10 +13490,12 @@ namespace DocearReminder
         {
             try
             {
-                SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
-                SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
-                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
-                th.Start();
+                if (SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value))
+                {
+                    SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
+                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
+                    th.Start();
+                }
             }
             catch (Exception)
             {
@@ -13735,6 +13748,8 @@ namespace DocearReminder
 
         #region 文件操作日志
         string firstname = "";
+        private bool showwaittask=false;
+
         private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
         {//发生改变
             if ((isLog(e.FullPath)) &&firstname!= e.FullPath.ToString())

@@ -214,7 +214,6 @@ E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\System.Data.
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\System.Data.SQLite.dll.config
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\Interop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\AxInterop.AcroPDFLib.dll
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.AssemblyReference.cache
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\Interop.AcroPDFLib.dll
-E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\AxInterop.AcroPDFLib.dll
 E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\bin\Debug\NAudio.dll
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csprojAssemblyReference.cache
+E:\yixiaozi\Code\C#\Project\DocearReminder\DocearReminder\obj\Debug\DocearReminder.csproj.CopyComplete

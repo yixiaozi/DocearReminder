@@ -6948,6 +6948,14 @@ namespace DocearReminder
                         Clipboard.SetDataObject(FileTreeView.SelectedNode.Name);
                         MyHide();
                     }
+                    else if (searchword.Focused)
+                    {
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            Clipboard.SetDataObject(searchword.Text);
+                            MyHide();
+                        }
+                    }
                     break;
                 case Keys.Cancel:
                     break;

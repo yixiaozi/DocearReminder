@@ -11437,7 +11437,7 @@ namespace DocearReminder
                 }
                 SearchText_suggest.Height = SearchText_suggest.PreferredHeight; //12 * SearchText_suggest.Items.Count + 10;
             }
-            else if (needSuggest&&(e.KeyCode == Keys.Menu || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.Space|| e.KeyCode == Keys.Enter))
+            else if (needSuggest&&(e.KeyCode == Keys.Menu || e.KeyCode == Keys.ControlKey || (e.KeyCode == Keys.Space&&searchword.Text.EndsWith(" "))|| e.KeyCode == Keys.Enter))
             {
                 List<StationInfo> result = suggestListData.FindAll(m => m.StationName_CN.ToLower().Contains(searchword.Text.Replace(","," ").ToLower()) || (searchword.Text.Replace(",", " ").Contains(' ')&&StringHasArrALL(m.StationName_CN.ToLower()+ m.mindmapurl.ToLower(), searchword.Text.Replace(",", " ").ToLower().Split(' '))) || (m.isNode == ""&&searchword.Text.Contains(' ')&&StringHasArrALL(m.StationName_CN.ToLower() + m.mindmapurl.ToLower(), searchword.Text.Replace(",", " ").ToLower().Split(' '))));
                 if (result.Count() > 0)

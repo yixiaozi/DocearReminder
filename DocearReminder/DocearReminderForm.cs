@@ -1810,12 +1810,12 @@ namespace DocearReminder
                                         IsShow = false;
                                     }
                                 }
-                                //判断ID的重复，不再需要
-                                //string nodeid = GetAttribute(node.ParentNode, "ID");
-                                //if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
-                                //{
-                                //    IsShow = false;
-                                //}
+                                //判断ID的重复，避免在Box中同时显示
+                                string nodeid = GetAttribute(node.ParentNode, "ID");
+                                if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
+                                {
+                                    IsShow = false;
+                                }
                                 if (IsShow)
                                 {
                                     if (taskName.ToLower() != "bin")
@@ -3468,7 +3468,7 @@ namespace DocearReminder
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
             if (this.Height > 560)
             {
-                SelectTreeNode(nodetree.Nodes, selectedReminder.Name);
+                SelectTreeNode(nodetree.Nodes, selectedReminder.IDinXML);
             }
             if (selectedReminder.isEncrypted)
             {
@@ -10329,7 +10329,7 @@ namespace DocearReminder
             {
                 return;
             }
-            string Name = "";
+            string taskid = "";
             string id = "";
             string rootname = "Root";
             if (ReminderListFocused()||searchword.Focused)
@@ -10338,7 +10338,7 @@ namespace DocearReminder
                 {
                     return;
                 }
-                Name = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
+                taskid = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
                 showMindmapName = renameMindMapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                 id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
                 if (isShowSub)
@@ -10353,7 +10353,7 @@ namespace DocearReminder
                     return;
                 }
                 showMindmapName = renameMindMapPath = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
-                Name = ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3);
+                //taskid = ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3);
             }
             if (renameMindMapPath == "")
             {
@@ -10379,7 +10379,10 @@ namespace DocearReminder
                         {
                             parentNode = node;
                             AddNode(parentNode, tNode, true);
-                            SelectTreeNode(nodetree.Nodes, Name);
+                            if (taskid!="")
+                            {
+                                SelectTreeNode(nodetree.Nodes, taskid);
+                            }
                         }
                     }
                     catch (Exception) { }
@@ -10388,7 +10391,10 @@ namespace DocearReminder
             else
             {
                 AddNode(x.DocumentElement, tNode, true);
-                SelectTreeNode(nodetree.Nodes, Name);
+                if (taskid != "")
+                {
+                    SelectTreeNode(nodetree.Nodes, taskid);
+                }
             }
 
         }
@@ -10476,16 +10482,22 @@ namespace DocearReminder
             return "";
         }
 
-        public void SelectTreeNode(TreeNodeCollection node, string name)
+        public void SelectTreeNode(TreeNodeCollection node, string taskid)
         {
             foreach (TreeNode item in node)
             {
-                if (item.Text.EndsWith(name))
+                try
                 {
-                    nodetree.SelectedNode = item;
-                    return;
+                    if (((System.Xml.XmlAttribute)item.Tag).Value == (taskid))
+                    {
+                        nodetree.SelectedNode = item;
+                        return;
+                    }
                 }
-                SelectTreeNode(item.Nodes, name);
+                catch (Exception)
+                {
+                }
+                SelectTreeNode(item.Nodes, taskid);
             }
         }
         public void ShowSubNode()

@@ -140,10 +140,10 @@ namespace DocearReminder
             try
             {
                 Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(@"reminder.json");
-                if (!System.IO.File.Exists(@"reminder.json"))
+                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
                 {
-                    File.WriteAllText(@"reminder.json", "");
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 }
                 using (StreamReader sw = fi.OpenText())
                 {
@@ -161,7 +161,7 @@ namespace DocearReminder
                     });
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"reminder.json", "");
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);
@@ -178,10 +178,10 @@ namespace DocearReminder
             try
             {
                 Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(@"reminder.json");
-                if (!System.IO.File.Exists(@"reminder.json"))
+                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
                 {
-                    File.WriteAllText(@"reminder.json", "");
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 }
                 using (StreamReader sw = fi.OpenText())
                 {
@@ -196,7 +196,7 @@ namespace DocearReminder
                     }
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"reminder.json", "");
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory+@"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);

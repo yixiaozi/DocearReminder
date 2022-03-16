@@ -30,9 +30,9 @@ namespace DocearReminder
         string mindmappath = "";
         string[] noFolder = new string[] { };
         string CalendarImagePath = "";
-        string logfile = "reminder.json";
+        string logfile = System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json";
         List<string> workfolders = new List<string>();
-        private IniFile ini = new IniFile(@"./config.ini");
+        private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         bool ismovetask = false;
         [DllImport("User32.dll")]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -657,7 +657,7 @@ namespace DocearReminder
                 {
                     try//¹ýÂË×Ö·û´®
                     {
-                        if (!(item.name.Contains(textBox_searchwork.Text))&&!(item.mindmapPath.Contains(textBox_searchwork.Text))&&!(item.comment != null && item.comment != "" && item.comment.Contains(textBox_searchwork.Text)))
+                        if (!(item.name.Contains(textBox_searchwork.Text))&&!(item.mindmapPath.Contains(textBox_searchwork.Text)) && !(item.nameFull.Contains(textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(textBox_searchwork.Text)))
                         {
                             continue;
                         }
@@ -1233,7 +1233,7 @@ namespace DocearReminder
                         }
                     }
                     string json = new JavaScriptSerializer().Serialize(reminderObject);
-                    File.WriteAllText(@"reminder.json", "");
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                     using (StreamWriter sw = fi.AppendText())
                     {
                         sw.Write(json);
@@ -1268,7 +1268,7 @@ namespace DocearReminder
                         }
                     }
                     string json = new JavaScriptSerializer().Serialize(reminderObject);
-                    File.WriteAllText(@"reminder.json", "");
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                     using (StreamWriter sw = fi.AppendText())
                     {
                         sw.Write(json);
@@ -1545,7 +1545,7 @@ namespace DocearReminder
                     reminderObject.reminders.RemoveAll(m => m.ID == dayView1.SelectedAppointment.ID);
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"reminder.json", "");
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);
@@ -1575,7 +1575,7 @@ namespace DocearReminder
                     }
                 }
                 string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(@"reminder.json", "");
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
                     sw.Write(json);
@@ -1735,7 +1735,7 @@ namespace DocearReminder
                 }
             }
             string json = new JavaScriptSerializer().Serialize(reminderObject);
-            File.WriteAllText(@"reminder.json", "");
+            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
             using (StreamWriter sw = fi.AppendText())
             {
                 sw.Write(json);

@@ -1369,7 +1369,8 @@ namespace DocearReminder
                             {
                                 string reminder = "";
                                 DateTime dt = DateTime.Now;
-                                DateTime jinianDt = DateTime.Now;
+                                DateTime jiniantimeDT = DateTime.Now;
+                                DateTime endtimeDT = DateTime.Now;
                                 if (node.InnerXml != "")
                                 {
                                     reminder = node.InnerXml.Split('\"')[1];
@@ -1473,10 +1474,10 @@ namespace DocearReminder
                                         string JinianBeginTime = GetAttribute(node.ParentNode, "JinianBeginTime");
                                         long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
                                         System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                                        jinianDt = startTime.AddMilliseconds(unixTimeStamp);
+                                        jiniantimeDT = startTime.AddMilliseconds(unixTimeStamp);
                                         if (c_Jinian.Checked)
                                         {
-                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jinianDt).TotalDays));
+                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jiniantimeDT).TotalDays));
                                         }
                                         else
                                         {
@@ -1484,8 +1485,8 @@ namespace DocearReminder
                                             {
                                                 string EndDate = GetAttribute(node.ParentNode, "EndDate");
                                                 long unixTimeEndDate = Convert.ToInt64(EndDate);
-                                                DateTime EndDateDt = startTime.AddMilliseconds(unixTimeEndDate);
-                                                jinianriInfo = " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((EndDateDt - DateTime.Now).TotalDays)) +"]";
+                                                endtimeDT = startTime.AddMilliseconds(unixTimeEndDate);
+                                                jinianriInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((endtimeDT - DateTime.Now).TotalDays)) +"]";
                                             }
                                         }
                                     }
@@ -1497,11 +1498,12 @@ namespace DocearReminder
                                 string EndDateInfo = "";
                                 if (GetAttribute(node.ParentNode, "EndDate") != "")
                                 {
-                                    string JinianBeginTime = GetAttribute(node.ParentNode, "EndDate");
-                                    long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
+                                    string enddatetime = GetAttribute(node.ParentNode, "EndDate");
+                                    long unixTimeStamp = Convert.ToInt64(enddatetime);
                                     System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                                    jinianDt = startTime.AddMilliseconds(unixTimeStamp);
-                                    EndDateInfo = " | [" + jinianDt.ToString("yy-MM-dd") + "]";
+                                    endtimeDT = startTime.AddMilliseconds(unixTimeStamp);
+                                    EndDateInfo = " | [" + endtimeDT.ToString("yy-MM-dd") + "]";
+                                    EndDateInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((endtimeDT - DateTime.Now).TotalDays)) +"]";
                                 }
                                 //剩余打开次数
                                 string LeftDakaDays = "";
@@ -1760,6 +1762,17 @@ namespace DocearReminder
                                         IsShow = false;
                                     }
                                 }
+                                if (c_endtime.Checked)
+                                {
+                                    if (EndDateInfo != "")
+                                    {
+                                        IsShow = true;
+                                    }
+                                    else
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
                                 //搜索任务模式
                                 if (searchword.Text.StartsWith("ss"))
                                 {
@@ -1828,10 +1841,10 @@ namespace DocearReminder
                                         }
                                         reminderlistItems.Add(new MyListBoxItemRemind
                                         {
-                                            Text = (c_Jinian.Checked ? jinianDt.ToString("dd HH:mm") : dt.ToString("dd HH:mm")) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm"): (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
-                                            jinianDatetime = jinianDt,
+                                            jinianDatetime = jiniantimeDT,
                                             Value = path.Value,
                                             IsShow = IsShow,
                                             remindertype = GetAttribute(node.ParentNode, "REMINDERTYPE"),
@@ -3981,7 +3994,6 @@ namespace DocearReminder
                 SortReminderList();
                 reminderList.SelectedIndex = reminderSelectIndex;
                 reminderlist_SelectedIndexChanged(null, null);
-                fenshuADD(-1);
             }
             catch (Exception)
             {
@@ -9486,13 +9498,30 @@ namespace DocearReminder
                         //MyHide();
                         if (reminderList.Focused)
                         {
+                            int index = reminderList.SelectedIndex;
                             reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                             reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                             Reminderlistboxchange();
                             reminderList.Items.RemoveAt(reminderList.SelectedIndex);
+                            try
+                            {
+                                if (reminderList.Items.Count - 1 >= index)
+                                {
+                                    reminderList.SelectedIndex = index;
+                                }
+                                else
+                                {
+                                    reminderList.SelectedIndex = index - 1;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            
                         }
                         else if (reminderListBox.Focused)
                         {
+                            int index = reminderListBox.SelectedIndex;
                             reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                             Reminderlistboxchange();
@@ -9500,6 +9529,23 @@ namespace DocearReminder
                             {
                                 reminderList.Focus();
                                 reminderList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    if (reminderListBox.Items.Count - 1 >= index)
+                                    {
+                                        reminderListBox.SelectedIndex = index;
+                                    }
+                                    else
+                                    {
+                                        reminderListBox.SelectedIndex = index;
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
                         }
                         return;
@@ -9774,6 +9820,10 @@ namespace DocearReminder
         }
         public void SetLeftDakaDays(int num)
         {
+            if (reminderlistSelectedItem==null)
+            {
+                return;
+            }
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(selectedReminder.Value);
@@ -10517,10 +10567,12 @@ namespace DocearReminder
                 if (((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
                 {
                     richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                    richTextSubNode.AppendText(Environment.NewLine);
                 }
                 if (((MyListBoxItemRemind)reminderlistSelectedItem).link != "")
                 {
                     richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).link);
+                    richTextSubNode.AppendText(Environment.NewLine);
                 }
                 System.Xml.XmlDocument x = new XmlDocument();
                 string id = "";
@@ -13823,6 +13875,11 @@ namespace DocearReminder
         private void irisSkinToolStripMenuItem_Click(object sender, EventArgs e)
         {
             skinEngine1.SkinFile = "";
+        }
+
+        private void c_endtime_CheckedChanged(object sender, EventArgs e)
+        {
+            RRReminderlist();
         }
     }
     class MoveOverInfoTip

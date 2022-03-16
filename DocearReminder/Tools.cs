@@ -43,8 +43,8 @@ namespace DocearReminder
         {
             Reminder reminderObject = new Reminder();
             Reminder reminderObjectBACKUP = new Reminder();
-            FileInfo fi = new FileInfo(@"reminder.json");
-            IniFile ini = new IniFile(@"./config.ini");
+            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             using (StreamReader sw = fi.OpenText())
             {
@@ -60,8 +60,8 @@ namespace DocearReminder
                     }
                 }
             }
-            SaveJson(reminderObject, @"reminder.json");
-            SaveJson(reminderObjectBACKUP, path + @".\reminderjson\" + DateTime.Now.ToString("yyyyMMddMMss") + ".json");
+            SaveJson(reminderObject, System.AppDomain.CurrentDomain.BaseDirectory +@"\reminder.json");
+            SaveJson(reminderObjectBACKUP, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminderjson\" + DateTime.Now.ToString("yyyyMMddMMss") + ".json");
             this.Close();
         }
         public void SaveJson(Reminder jsonObject, string path) {
@@ -83,7 +83,7 @@ namespace DocearReminder
 
         private void deletetemp_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             int deleteCount = 0;
             foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
@@ -138,7 +138,7 @@ namespace DocearReminder
 
         private void createsuggest_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -191,7 +191,7 @@ namespace DocearReminder
         }
         public static void createsuggest_fun()
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -321,7 +321,7 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
@@ -496,7 +496,7 @@ namespace DocearReminder
         //所有links建议文件
         private void button5_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
 
             List<string> usedSuggest = new List<string>();
@@ -557,7 +557,7 @@ namespace DocearReminder
 
         private void button8_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(@"./config.ini");
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             List<string> names = new List<string>();
             string result = "";

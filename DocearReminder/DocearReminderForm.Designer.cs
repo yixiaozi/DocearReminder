@@ -138,6 +138,7 @@ namespace DocearReminder
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
             this.c_speechcontrol = new System.Windows.Forms.CheckBox();
+            this.c_endtime = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -294,9 +295,9 @@ namespace DocearReminder
             // 
             this.button_cycle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_cycle.ForeColor = System.Drawing.Color.Gray;
-            this.button_cycle.Location = new System.Drawing.Point(1027, 33);
+            this.button_cycle.Location = new System.Drawing.Point(1071, 33);
             this.button_cycle.Name = "button_cycle";
-            this.button_cycle.Size = new System.Drawing.Size(128, 30);
+            this.button_cycle.Size = new System.Drawing.Size(84, 30);
             this.button_cycle.TabIndex = 18;
             this.button_cycle.TabStop = false;
             this.button_cycle.Text = "设置周期";
@@ -1379,6 +1380,18 @@ namespace DocearReminder
             this.c_speechcontrol.UseVisualStyleBackColor = true;
             this.c_speechcontrol.CheckedChanged += new System.EventHandler(this.c_speechcontrol_CheckedChanged);
             // 
+            // c_endtime
+            // 
+            this.c_endtime.AutoSize = true;
+            this.c_endtime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.c_endtime.Location = new System.Drawing.Point(1027, 35);
+            this.c_endtime.Name = "c_endtime";
+            this.c_endtime.Size = new System.Drawing.Size(13, 12);
+            this.c_endtime.TabIndex = 126;
+            this.c_endtime.TabStop = false;
+            this.c_endtime.UseVisualStyleBackColor = true;
+            this.c_endtime.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1386,6 +1399,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.c_endtime);
             this.Controls.Add(this.c_speechcontrol);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.nodetree);
@@ -1602,6 +1616,7 @@ namespace DocearReminder
         private Sunisoft.IrisSkin.SkinEngine skinEngine1;
         private ToolStripMenuItem irisSkinToolStripMenuItem;
         private CheckBox c_speechcontrol;
+        private CheckBox c_endtime;
     }
 }
 

@@ -127,6 +127,12 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyHours.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyHours.Designer.cs">
+      <DependentUpon>KeyHours.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,8 +183,17 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
+    <Compile Include="UseTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UseTime.Designer.cs">
+      <DependentUpon>UseTime.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Calendar.resx">
       <DependentUpon>Calendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyHours.resx">
+      <DependentUpon>KeyHours.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log.resx">
       <DependentUpon>Log.cs</DependentUpon>
@@ -213,6 +228,9 @@
     </Compile>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UseTime.resx">
+      <DependentUpon>UseTime.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DocearReminder.manifest" />
     <None Include="packages.config" />

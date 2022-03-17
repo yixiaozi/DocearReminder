@@ -1300,11 +1300,11 @@ namespace DocearReminder
             bool hasNight = false;
             List<MyListBoxItemRemind> reminderlistItems = new List<MyListBoxItemRemind>();
             Reminder reminderObject = new Reminder();
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json"))
+            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
             {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json", new JavaScriptSerializer().Serialize(reminderObject));
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", new JavaScriptSerializer().Serialize(reminderObject));
             }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
+            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
             IsEncryptBool = false;
             using (StreamReader sw = fi.OpenText())
             {
@@ -2281,7 +2281,7 @@ namespace DocearReminder
             //    reminderObject.reminders.Remove(item);
             //}
             string json = new JavaScriptSerializer().Serialize(reminderObject);
-            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json", "");
+            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
             using (StreamWriter sw = fi.AppendText())
             {
                 sw.Write(json);
@@ -13691,14 +13691,6 @@ namespace DocearReminder
             RRReminderlist();
         }
 
-        private void toolStripMenuItem_timeblock_Click(object sender, EventArgs e)
-        {
-            Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockReport()));
-            thCalendarForm.Start();
-            MyHide();
-            return;
-        }
-
         private void FileTreeView_AfterSelect_1(object sender, TreeViewEventArgs e)
         {
 
@@ -13880,6 +13872,30 @@ namespace DocearReminder
         private void c_endtime_CheckedChanged(object sender, EventArgs e)
         {
             RRReminderlist();
+        }
+
+        private void 时间快ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockReport()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
+        }
+
+        private void 使用记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new UseTime()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
+        }
+
+        private void 键盘分析ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new KeyHours()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
         }
     }
     class MoveOverInfoTip

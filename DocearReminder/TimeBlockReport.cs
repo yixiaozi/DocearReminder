@@ -19,82 +19,25 @@ namespace DocearReminder
         public TimeBlockReport()
         {
             InitializeComponent();
+            Center();
         }
 
-        /// <summary>
-        /// https://scottplot.net/cookbook/4.1/
-        /// </summary>
+        public void Center()
+        {
+            int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
+            int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
+            this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
+            this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
+        }
+
+
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TimeBlockReport_Load(object sender, EventArgs e)
         {
-            var plt = formsPlot1.Plot;
-            Reminder reminderObject = new Reminder();
-            string logfile = "reminder.json";
-            FileInfo fi = new FileInfo(logfile);
-            if (!System.IO.File.Exists(logfile))
-            {
-                File.WriteAllText(logfile, "");
-            }
-            double[] values = { 778, 43, 283, 76, 184 };
-            string[] labels = { "C#", "JAVA", "Python", "F#", "PHP" };
-            ReportDataCol reportData = new ReportDataCol();
-            using (StreamReader sw = fi.OpenText())
-            {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer();
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
-                {
-                    return;
-                }
-                foreach(ReminderItem item in reminderObject.reminders)
-                {
-                    if (item.mindmap == "TimeBlock"&& item.time.AddHours(8).Date==DateTime.Today)
-                    {
-                        if (reportData.items.Exists(m => m.name == (((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Split('|')[0]))
-                        {
-                            reportData.items.First(m => m.name == ((((item.nameFull != null && item.nameFull != "") ? item.nameFull+"|" : "") + item.name).Split('|')[0])).value +=item.tasktime;
-                        }
-                        else
-                        {
-                            reportData.items.Add(new ReportDataItem
-                            {
-                                name = ((((item.nameFull != null && item.nameFull != "" )? item.nameFull+"|" : "") + item.name).Split('|')[0]),
-                                value = item.tasktime
-                            }); ;
-                        }
-                    }
-                    
-                }
-            }
-            //Color[] sliceColors =
-            //{
-            //    ColorTranslator.FromHtml("#178600"),
-            //    ColorTranslator.FromHtml("#B07219"),
-            //    ColorTranslator.FromHtml("#3572A5"),
-            //    ColorTranslator.FromHtml("#B845FC"),
-            //    ColorTranslator.FromHtml("#4F5D95"),
-            //};
-            //// Show labels using different transparencies
-            //Color[] labelColors =
-            //    new Color[] {
-            //    Color.FromArgb(255, Color.White),
-            //    Color.FromArgb(100, Color.White),
-            //    Color.FromArgb(250, Color.White),
-            //    Color.FromArgb(150, Color.White),
-            //    Color.FromArgb(200, Color.White),
-            //     };
-            var pie = plt.AddPie(reportData.values);
-            pie.SliceLabels = reportData.names;
-            pie.ShowLabels = true;
-            //pie.SliceFillColors = sliceColors;
-            //pie.SliceLabelColors = labelColors;
-
-            //plt.SaveFig("pie_customColors.png");
-            plt.Title("今日统计");
-            plt.AxisAuto(.2, .25); // zoom out to accommodate large bubbles
-            formsPlot1.Refresh();
+            startDt.Value = DateTime.Today;
+            endDT.Value = DateTime.Today;
+            LoadChart();
         }
 
         public class ReportDataCol
@@ -137,6 +80,64 @@ namespace DocearReminder
             public string name { get; set; }
             public string fullName { get; set; }
             public double value { get; set; }
+        }
+
+        private void startDt_ValueChanged(object sender, EventArgs e)
+        {
+            LoadChart();
+        }
+
+        /// <summary>
+        /// https://scottplot.net/cookbook/4.1/
+        /// </summary>
+        public void LoadChart()
+        {
+            var plt = formsPlot1.Plot;
+            Reminder reminderObject = new Reminder();
+            string logfile = System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json";
+            FileInfo fi = new FileInfo(logfile);
+            if (!System.IO.File.Exists(logfile))
+            {
+                File.WriteAllText(logfile, "");
+            }
+            double[] values = { 778, 43, 283, 76, 184 };
+            string[] labels = { "C#", "JAVA", "Python", "F#", "PHP" };
+            ReportDataCol reportData = new ReportDataCol();
+            using (StreamReader sw = fi.OpenText())
+            {
+                string s = sw.ReadToEnd();
+                var serializer = new JavaScriptSerializer();
+                reminderObject = serializer.Deserialize<Reminder>(s);
+                if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
+                {
+                    return;
+                }
+                foreach (ReminderItem item in reminderObject.reminders)
+                {
+                    if (item.mindmap == "TimeBlock" && item.time.AddHours(8).Date >= startDt.Value && item.time.AddHours(8).Date <= endDT.Value)
+                    {
+                        if (reportData.items.Exists(m => m.name == (((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Split('|')[0]))
+                        {
+                            reportData.items.First(m => m.name == ((((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Split('|')[0])).value += item.tasktime;
+                        }
+                        else
+                        {
+                            reportData.items.Add(new ReportDataItem
+                            {
+                                name = ((((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Split('|')[0]),
+                                value = item.tasktime
+                            }); ;
+                        }
+                    }
+
+                }
+            }
+            var pie = plt.AddPie(reportData.values);
+            pie.SliceLabels = reportData.names;
+            pie.ShowLabels = true;
+            //plt.Title("今日统计");
+            plt.AxisAuto(.2, .25);
+            formsPlot1.Refresh();
         }
     }
 }

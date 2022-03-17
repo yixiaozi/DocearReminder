@@ -117,7 +117,10 @@ namespace DocearReminder
             this.显示右侧ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开程序目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.推出F11ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem_timeblock = new System.Windows.Forms.ToolStripMenuItem();
+            this.报表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.时间快ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.使用记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.键盘分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.taskcount = new System.Windows.Forms.Label();
             this.mindmapornode = new System.Windows.Forms.Label();
@@ -135,10 +138,10 @@ namespace DocearReminder
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
             this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.c_endtime = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -930,7 +933,7 @@ namespace DocearReminder
             this.显示右侧ToolStripMenuItem,
             this.打开程序目录ToolStripMenuItem,
             this.推出F11ToolStripMenuItem,
-            this.toolStripMenuItem_timeblock});
+            this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
             this.menu.Size = new System.Drawing.Size(212, 334);
             // 
@@ -1132,12 +1135,36 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem.Text = "退出(F11)";
             this.推出F11ToolStripMenuItem.Click += new System.EventHandler(this.推出F11ToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem_timeblock
+            // 报表ToolStripMenuItem
             // 
-            this.toolStripMenuItem_timeblock.Name = "toolStripMenuItem_timeblock";
-            this.toolStripMenuItem_timeblock.Size = new System.Drawing.Size(211, 22);
-            this.toolStripMenuItem_timeblock.Text = "TimeBlockReport";
-            this.toolStripMenuItem_timeblock.Click += new System.EventHandler(this.toolStripMenuItem_timeblock_Click);
+            this.报表ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.时间快ToolStripMenuItem,
+            this.使用记录ToolStripMenuItem,
+            this.键盘分析ToolStripMenuItem});
+            this.报表ToolStripMenuItem.Name = "报表ToolStripMenuItem";
+            this.报表ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.报表ToolStripMenuItem.Text = "报表";
+            // 
+            // 时间快ToolStripMenuItem
+            // 
+            this.时间快ToolStripMenuItem.Name = "时间快ToolStripMenuItem";
+            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.时间快ToolStripMenuItem.Text = "时间快";
+            this.时间快ToolStripMenuItem.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
+            // 
+            // 使用记录ToolStripMenuItem
+            // 
+            this.使用记录ToolStripMenuItem.Name = "使用记录ToolStripMenuItem";
+            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.使用记录ToolStripMenuItem.Text = "使用记录";
+            this.使用记录ToolStripMenuItem.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
+            // 
+            // 键盘分析ToolStripMenuItem
+            // 
+            this.键盘分析ToolStripMenuItem.Name = "键盘分析ToolStripMenuItem";
+            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.键盘分析ToolStripMenuItem.Text = "键盘分析";
+            this.键盘分析ToolStripMenuItem.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
             // taskcount
             // 
@@ -1349,16 +1376,6 @@ namespace DocearReminder
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(927, 535);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(130, 155);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 113;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            // 
             // skinEngine1
             // 
             this.skinEngine1.@__DrawButtonFocusRectangle = true;
@@ -1391,6 +1408,16 @@ namespace DocearReminder
             this.c_endtime.TabStop = false;
             this.c_endtime.UseVisualStyleBackColor = true;
             this.c_endtime.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(927, 535);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(130, 155);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 113;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // DocearReminderForm
             // 
@@ -1612,11 +1639,14 @@ namespace DocearReminder
         private NotifyIcon notifyIcon1;
         private ToolStripMenuItem 打开文件ToolStripMenuItem;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem_timeblock;
         private Sunisoft.IrisSkin.SkinEngine skinEngine1;
         private ToolStripMenuItem irisSkinToolStripMenuItem;
         private CheckBox c_speechcontrol;
         private CheckBox c_endtime;
+        private ToolStripMenuItem 报表ToolStripMenuItem;
+        private ToolStripMenuItem 时间快ToolStripMenuItem;
+        private ToolStripMenuItem 使用记录ToolStripMenuItem;
+        private ToolStripMenuItem 键盘分析ToolStripMenuItem;
     }
 }
 

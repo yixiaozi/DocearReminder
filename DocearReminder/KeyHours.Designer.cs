@@ -1,7 +1,6 @@
-﻿
-namespace DocearReminder
+﻿namespace DocearReminder
 {
-    partial class TimeBlockReport
+    partial class KeyHours
     {
         /// <summary>
         /// Required designer variable.
@@ -29,70 +28,76 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeBlockReport));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyHours));
             this.formsPlot1 = new ScottPlot.FormsPlot();
             this.label1 = new System.Windows.Forms.Label();
-            this.startDt = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
-            this.endDT = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.formsPlot2 = new ScottPlot.FormsPlot();
             this.SuspendLayout();
             // 
             // formsPlot1
             // 
-            this.formsPlot1.Location = new System.Drawing.Point(2, 67);
+            this.formsPlot1.Location = new System.Drawing.Point(14, 53);
             this.formsPlot1.Name = "formsPlot1";
-            this.formsPlot1.Size = new System.Drawing.Size(674, 584);
+            this.formsPlot1.Size = new System.Drawing.Size(947, 354);
             this.formsPlot1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 18);
+            this.label1.Location = new System.Drawing.Point(12, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "开始时间：";
             // 
-            // startDt
+            // dateTimePicker1
             // 
-            this.startDt.Location = new System.Drawing.Point(72, 13);
-            this.startDt.Name = "startDt";
-            this.startDt.Size = new System.Drawing.Size(124, 21);
-            this.startDt.TabIndex = 2;
-            this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
+            this.dateTimePicker1.Location = new System.Drawing.Point(83, 15);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(108, 21);
+            this.dateTimePicker1.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(202, 18);
+            this.label2.Location = new System.Drawing.Point(213, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "结束时间：";
             // 
-            // endDT
+            // dateTimePicker2
             // 
-            this.endDT.Location = new System.Drawing.Point(264, 13);
-            this.endDT.Name = "endDT";
-            this.endDT.Size = new System.Drawing.Size(112, 21);
-            this.endDT.TabIndex = 4;
-            this.endDT.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
+            this.dateTimePicker2.Location = new System.Drawing.Point(284, 15);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(108, 21);
+            this.dateTimePicker2.TabIndex = 4;
             // 
-            // TimeBlockReport
+            // formsPlot2
+            // 
+            this.formsPlot2.Location = new System.Drawing.Point(14, 401);
+            this.formsPlot2.Name = "formsPlot2";
+            this.formsPlot2.Size = new System.Drawing.Size(947, 309);
+            this.formsPlot2.TabIndex = 5;
+            // 
+            // KeyHours
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(681, 657);
-            this.Controls.Add(this.endDT);
+            this.ClientSize = new System.Drawing.Size(973, 722);
+            this.Controls.Add(this.formsPlot2);
+            this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.startDt);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.formsPlot1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "TimeBlockReport";
-            this.Text = "时间块";
-            this.Load += new System.EventHandler(this.TimeBlockReport_Load);
+            this.Name = "KeyHours";
+            this.Text = "键盘分析";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -102,8 +107,9 @@ namespace DocearReminder
 
         private ScottPlot.FormsPlot formsPlot1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker startDt;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker endDT;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private ScottPlot.FormsPlot formsPlot2;
     }
 }

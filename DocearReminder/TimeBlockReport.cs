@@ -19,6 +19,7 @@ namespace DocearReminder
         public TimeBlockReport()
         {
             InitializeComponent();
+            
             Center();
         }
 
@@ -35,8 +36,7 @@ namespace DocearReminder
         /// <param name="e"></param>
         private void TimeBlockReport_Load(object sender, EventArgs e)
         {
-            startDt.Value = DateTime.Today;
-            endDT.Value = DateTime.Today;
+            
             LoadChart();
         }
 
@@ -92,6 +92,7 @@ namespace DocearReminder
         /// </summary>
         public void LoadChart()
         {
+            formsPlot1.Plot.Clear();
             var plt = formsPlot1.Plot;
             Reminder reminderObject = new Reminder();
             string logfile = System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json";
@@ -100,8 +101,6 @@ namespace DocearReminder
             {
                 File.WriteAllText(logfile, "");
             }
-            double[] values = { 778, 43, 283, 76, 184 };
-            string[] labels = { "C#", "JAVA", "Python", "F#", "PHP" };
             ReportDataCol reportData = new ReportDataCol();
             using (StreamReader sw = fi.OpenText())
             {
@@ -134,10 +133,12 @@ namespace DocearReminder
             }
             var pie = plt.AddPie(reportData.values);
             pie.SliceLabels = reportData.names;
+            pie.ShowPercentages = true;
+            //pie.ShowValues = true;
             pie.ShowLabels = true;
-            //plt.Title("今日统计");
-            plt.AxisAuto(.2, .25);
+            plt.Legend();
             formsPlot1.Refresh();
+            
         }
     }
 }

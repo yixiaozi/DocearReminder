@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace DocearReminder
 {
     partial class TimeBlockReport
@@ -59,6 +61,7 @@ namespace DocearReminder
             this.startDt.Name = "startDt";
             this.startDt.Size = new System.Drawing.Size(124, 21);
             this.startDt.TabIndex = 2;
+            startDt.Value = DateTime.Today;
             this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // label2
@@ -76,6 +79,7 @@ namespace DocearReminder
             this.endDT.Name = "endDT";
             this.endDT.Size = new System.Drawing.Size(112, 21);
             this.endDT.TabIndex = 4;
+            endDT.Value = DateTime.Today;
             this.endDT.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // TimeBlockReport

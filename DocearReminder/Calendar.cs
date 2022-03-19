@@ -1703,7 +1703,7 @@ namespace DocearReminder
             };
             RichTextBox textBox = new RichTextBox() { Left = 10, Top = 10, Width = 380,Height=100};
             textBox.Text = text;
-            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 100, Top = 130, DialogResult = DialogResult.OK };
+            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 130, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(confirmation);

@@ -38,9 +38,10 @@
             // 
             // formsPlot1
             // 
+            this.formsPlot1.AutoSize = true;
             this.formsPlot1.Location = new System.Drawing.Point(13, 50);
             this.formsPlot1.Name = "formsPlot1";
-            this.formsPlot1.Size = new System.Drawing.Size(769, 406);
+            this.formsPlot1.Size = new System.Drawing.Size(1047, 421);
             this.formsPlot1.TabIndex = 0;
             // 
             // label1
@@ -58,8 +59,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(107, 21);
             this.dateTimePicker1.TabIndex = 2;
-            dateTimePicker1.Value = System.DateTime.Today;
-
+            this.dateTimePicker1.Value = new System.DateTime(2022, 3, 19, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label2
@@ -77,15 +77,16 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(131, 21);
             this.dateTimePicker2.TabIndex = 4;
-            dateTimePicker2.Value = System.DateTime.Today.AddDays(1);
+            this.dateTimePicker2.Value = new System.DateTime(2022, 3, 20, 0, 0, 0, 0);
             this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // UseTime
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(794, 468);
+            this.ClientSize = new System.Drawing.Size(1072, 483);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dateTimePicker1);
@@ -94,6 +95,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UseTime";
             this.Text = "使用分析";
+            this.Load += new System.EventHandler(this.UseTime_Load);
+            this.Resize += new System.EventHandler(this.UseTime_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

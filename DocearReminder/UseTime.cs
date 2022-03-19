@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using yixiaozi.Model.DocearReminder;
+using yixiaozi.WinForm.Common;
+
 namespace DocearReminder
 {
     public partial class UseTime : Form
@@ -81,6 +83,23 @@ namespace DocearReminder
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             ShowChart();
+        }
+
+        private void UseTime_Resize(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
+        }
+        yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
+
+        private void KeyHours_Resize(object sender, EventArgs e)
+        {
+        }
+
+        private void UseTime_Load(object sender, EventArgs e)
+        {
+            asc.controllInitializeSize(this);
+            //this.WindowState = FormWindowState.Maximized;
+            asc.controlAutoSize(this);
         }
     }
 }

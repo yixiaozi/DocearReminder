@@ -13867,6 +13867,7 @@ namespace DocearReminder
         private void irisSkinToolStripMenuItem_Click(object sender, EventArgs e)
         {
             skinEngine1.SkinFile = "";
+            ini.WriteString("Skin", "src", skinEngine1.SkinFile);
         }
 
         private void c_endtime_CheckedChanged(object sender, EventArgs e)

@@ -91,15 +91,12 @@ namespace DocearReminder
         }
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
 
-        private void KeyHours_Resize(object sender, EventArgs e)
-        {
-        }
-
         private void UseTime_Load(object sender, EventArgs e)
         {
             asc.controllInitializeSize(this);
             //this.WindowState = FormWindowState.Maximized;
             asc.controlAutoSize(this);
         }
+
     }
 }

@@ -1352,7 +1352,14 @@ namespace DocearReminder
                     string str2 = "NAME";
                     string str3 = "plugins/TimeManagementReminder.xml";
                     System.Xml.XmlDocument x = new XmlDocument();
-                    x.Load(path.Value);
+                    try
+                    {
+                        x.Load(path.Value);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                     if (x.GetElementsByTagName(str1).Count == 0)
                     {
                         continue;

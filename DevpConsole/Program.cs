@@ -64,7 +64,7 @@ namespace DevpConsole
             }
             string keyorder = "A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T;U;V;W;X;Y;Z;LControlKey;LShiftKey;Space;Return";
             List<string> keyorderArr = keyorder.Split(';').ToList();
-            int[] keynumbers = new int[300];
+            int[] keynumbers = new int[3000];
             foreach (keyRecord item in result)
             {
                 foreach (string key in item.Keys.Split(';'))

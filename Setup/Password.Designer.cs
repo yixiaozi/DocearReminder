@@ -1,6 +1,6 @@
-﻿namespace Setup
+﻿namespace Password
 {
-    partial class Setup
+    partial class Password
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Setup));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Password));
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,14 +42,19 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(51, 112);
+            this.button1.Location = new System.Drawing.Point(51, 136);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(153, 16);
+            this.button1.Size = new System.Drawing.Size(153, 35);
             this.button1.TabIndex = 0;
             this.button1.Text = "设置密码";
             this.button1.UseVisualStyleBackColor = true;
@@ -108,7 +113,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(459, 39);
+            this.richTextBox1.Location = new System.Drawing.Point(480, 39);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(212, 75);
@@ -126,7 +131,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(87, 39);
+            this.textBox4.Location = new System.Drawing.Point(81, 39);
             this.textBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(211, 21);
@@ -134,7 +139,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(87, 71);
+            this.textBox5.Location = new System.Drawing.Point(81, 71);
             this.textBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(211, 21);
@@ -143,7 +148,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 39);
+            this.label5.Location = new System.Drawing.Point(10, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 11;
@@ -152,17 +157,67 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(20, 71);
+            this.label6.Location = new System.Drawing.Point(12, 71);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 12;
             this.label6.Text = "迷惑密码";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(249, 172);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(407, 12);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "主Key是用来加密用户名和密码的，保证其他人看不到你实际的用户名和密码";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(249, 202);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(389, 12);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "迷惑用户名和密码，意味着当你输入这组密码会立刻删掉需要删除的目录";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(251, 230);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(221, 12);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "连续输错多次密码，同样会删除那些目录";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(251, 258);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(365, 12);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "登录窗体可以设置记住密码，在你保证计算机足够安全的情况下使用";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(251, 284);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(281, 12);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "一旦成功登录，则会删除本设置密码程序，请悉知。";
             // 
             // Setup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 319);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox5);
@@ -200,6 +255,11 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
     }
 }
 

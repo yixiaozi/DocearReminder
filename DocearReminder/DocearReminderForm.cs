@@ -337,6 +337,8 @@ namespace DocearReminder
                     acsc.Add(item.name);
                 }
                 GetAllFilesJsonIconFile();
+                GetAllNodeJsonFile();
+                GetAllFilesJsonFile();
                 //添加提示信息
                 try
                 {
@@ -647,6 +649,11 @@ namespace DocearReminder
                     }
                 }
             }
+            if (DateTime.Now.Minute==0|| DateTime.Now.Minute == 15|| DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
+            {
+                Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", GetPosition(), false));
+                th.Start();
+            }
         }
 
         #endregion
@@ -846,6 +853,10 @@ namespace DocearReminder
                         {
                             try
                             {
+                                if (node.Attributes[str2]==null|| node.Attributes["ID"]==null)
+                                {
+                                    continue;
+                                }
                                 if (node.Attributes[str2].Value != "")
                                 {
                                     if (!contents.Contains(node.Attributes[str2].Value))
@@ -858,7 +869,6 @@ namespace DocearReminder
                                             editDateTime = DateTime.Now,
                                             Time = DateTime.Now,
                                             IDinXML = node.Attributes["ID"].Value,
-
                                         });
                                     }
                                 }
@@ -871,6 +881,10 @@ namespace DocearReminder
                         {
                             try
                             {
+                                if (node.Attributes[str2] == null)
+                                {
+                                    continue;
+                                }
                                 if (!contents.Contains(node.Attributes[str2].Value))
                                 {
                                     nodes.Add(new node
@@ -1041,6 +1055,10 @@ namespace DocearReminder
         }
         public void GetAllNodeout()
         {
+            if (nodes==null)
+            {
+                nodes = new List<node>();
+            }
             nodes.Clear();
             GetAllNode(rootrootpath);
             if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json"))
@@ -1064,20 +1082,33 @@ namespace DocearReminder
         }
         public void GetAllNodeJsonFile()
         {
-            Thread th = new Thread(() => GetAllNodeout())
+            try
             {
-                IsBackground = true
-            };
-            th.Start();
-
+                Thread th = new Thread(() => GetAllNodeout())
+                {
+                    IsBackground = true
+                };
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         public void GetAllFilesJsonIconFile()
         {
-            Thread th = new Thread(() => GetAllNodeIconout())
+            try
             {
-                IsBackground = true
-            };
-            th.Start();
+                Thread th = new Thread(() => GetAllNodeIconout())
+                {
+                    IsBackground = true
+                };
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         public void GetAllFiles(DirectoryInfo path)
         {
@@ -1127,8 +1158,16 @@ namespace DocearReminder
         }
         public void GetAllFilesJsonFile()
         {
-            Thread thfiles = new Thread(() => GetAllFilesout());
-            thfiles.Start();
+            try
+            {
+                Thread thfiles = new Thread(() => GetAllFilesout());
+                thfiles.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            
         }
 
         #endregion
@@ -5121,6 +5160,10 @@ namespace DocearReminder
                 {
                     try
                     {
+                        if (node.ParentNode==null|| node.ParentNode.Attributes==null|| node.ParentNode.Attributes["ID"]==null)
+                        {
+                            continue;
+                        }
                         if (node.ParentNode.Attributes["ID"].Value == selectedReminder.IDinXML)
                         {
                             XmlNode newNote = x.CreateElement("node");
@@ -7393,8 +7436,17 @@ namespace DocearReminder
                             }
                             else if (((MyListBoxItemRemind)reminderlistSelectedItem).link != "" && ((MyListBoxItemRemind)reminderlistSelectedItem).link != null)
                             {
-                                System.Diagnostics.Process.Start(((MyListBoxItemRemind)reminderlistSelectedItem).link);
-                                SaveLog("打开：    " + ((MyListBoxItemRemind)reminderlistSelectedItem).link);
+                                //转换相对路径
+                                string link = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
+                                if (link.StartsWith("."))
+                                {
+                                    string mindmapfolderPath = ((MyListBoxItemRemind)reminderlistSelectedItem).rootPath;
+                                    link =mindmapfolderPath +"\\"+ link;
+                                    link=link.Replace("/","\\");
+                                    link=link.Replace(@"\\",@"\");
+                                }
+                                System.Diagnostics.Process.Start(link);
+                                SaveLog("打开：    " + link);
                             }
                             else
                             {
@@ -8948,7 +9000,7 @@ namespace DocearReminder
                             if (ReminderListFocused())
                             {
                                 ShowMindmap();
-                                ShowMindmapFile();
+                                ShowMindmapFile(false,100);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
                                 this.Height = 888;
                                 nodetree.Focus();
@@ -8956,7 +9008,7 @@ namespace DocearReminder
                             else if (mindmaplist.Focused)
                             {
                                 ShowMindmap();
-                                ShowMindmapFile();
+                                ShowMindmapFile(false,100);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
                                 this.Height = 888;
                                 nodetree.Focus();
@@ -9943,16 +9995,14 @@ namespace DocearReminder
         public void SaveLog(string log)
         {
             log = log.Replace("\r", " ").Replace("\n", " ");
-            log = (DateTime.Now + "    " + log);
+            log = (DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "    " + log);
             log = encryptlog.EncryptString(log);
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", true))
             {
                 if (log != "")
                 {
-                    //file.Write(DateTime.Now + "        ");
                     file.WriteLine(log);
-                    //file.Write("\r");
                 }
             }
         }
@@ -10219,7 +10269,7 @@ namespace DocearReminder
         {
             //ShowSubNode();
         }
-        public void ShowMindmapFile(bool isShowSub = false)
+        public void ShowMindmapFile(bool isShowSub = false,int level=3)
         {
             if (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null)
             {
@@ -10251,7 +10301,7 @@ namespace DocearReminder
                 return;
             }
             fileTreePath = new FileInfo(mindmapPath).Directory;
-            BuildTree(fileTreePath, FileTreeView.Nodes, true);
+            BuildTree(fileTreePath, FileTreeView.Nodes, true,level);
             FileTreeView.Sort();
         }
 
@@ -10272,8 +10322,12 @@ namespace DocearReminder
             }
         }
 
-        private void BuildTree(DirectoryInfo directoryInfo, TreeNodeCollection addInMe, bool isRoot)
+        private void BuildTree(DirectoryInfo directoryInfo, TreeNodeCollection addInMe, bool isRoot,int level=3)
         {
+            if (level<=0)
+            {
+                return;
+            }
             TreeNode curNode = new TreeNode();
             if (isRoot)
             {
@@ -10281,7 +10335,7 @@ namespace DocearReminder
                 {
                     if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     {
-                        BuildTree(subdir, FileTreeView.Nodes, false);
+                        BuildTree(subdir, FileTreeView.Nodes, false,level-1);
                     }
                 }
                 foreach (FileInfo file in directoryInfo.GetFiles())
@@ -10308,7 +10362,7 @@ namespace DocearReminder
                 {
                     if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     {
-                        BuildTree(subdir, curNode.Nodes, false);
+                        BuildTree(subdir, curNode.Nodes, false,level-1);
                     }
                 }
             }
@@ -10400,7 +10454,7 @@ namespace DocearReminder
                 id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
                 if (isShowSub)
                 {
-                    rootname = "RootWithTime";
+                    rootname = "RootWithTime-NOMORE";//禁止显示时间了
                 }
             }
             else if (mindmaplist.Focused)
@@ -10548,6 +10602,7 @@ namespace DocearReminder
                     if (((System.Xml.XmlAttribute)item.Tag).Value == (taskid))
                     {
                         nodetree.SelectedNode = item;
+                        nodetree.SelectedNode.Expand();//展开当前节点
                         return;
                     }
                 }
@@ -11301,15 +11356,14 @@ namespace DocearReminder
                     renameMindMapFileID = info.nodeID;
                     SearchText_suggest.Visible = false;
                     searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
-                    if ((!IconNodesSelected.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))&& (!IconNodesSelected.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl)))//放到这里也可以放到最终也可以暂时放这里
+                    if (!IconNodesSelected.Any(m=>m.Contains(info.nodeID)))
                     {
                         IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
                     }
                     else
                     {
-                        IconNodesSelected.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
-                        IconNodesSelected.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
-                        IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID +"|" + info.fatherNodePath);
+                        IconNodesSelected.RemoveAll(m=>m.Contains(info.nodeID));
+                        IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID +"|" + info.mindmapurl + "|" +info.fatherNodePath);
                     }
                     new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
                 }
@@ -11318,12 +11372,11 @@ namespace DocearReminder
                     if (filename == "")
                     {
                         StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
-                        if (IconNodesSelected.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl+"|" + info.fatherNodePath)|| IconNodesSelected.Contains(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl))
+                        if (IconNodesSelected.Any(m => m.Contains(info.nodeID)))
                         {
-                            IconNodesSelected.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl);
-                            IconNodesSelected.Remove(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
+                            IconNodesSelected.RemoveAll(m => m.Contains(info.nodeID));
+                            new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
                         }
-                        new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
                     }
                     else
                     {
@@ -12228,10 +12281,13 @@ namespace DocearReminder
                 if (iData.GetDataPresent(DataFormats.Rtf))
                 {
                     log = (string)iData.GetData(DataFormats.Text);
+                    log = yixiaozi.StringHelper.ChineseStringUtility.ToSimplified(log);//切换成简体字
                 }
                 else if (iData.GetDataPresent(DataFormats.Text))
                 {
                     log = (string)iData.GetData(DataFormats.Text);
+                    log = yixiaozi.StringHelper.ChineseStringUtility.ToSimplified(log);//切换成简体字
+                    Clipboard.SetDataObject(log);
                 }
                 else if (Clipboard.ContainsFileDropList())
                 {
@@ -12249,13 +12305,13 @@ namespace DocearReminder
                     System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images");
                     Clipboard.GetImage().Save((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".jpg").Replace(@"\\", @"\"));
                 }
-                if (log.Length > 10)
+                if (log.Length > 5)
                 {
                     if (!logHistory.Contains(log))
                     {
                         SaveLogClip(log);
                         logHistory.Add(log);
-                        if (logHistory.Count > 10)
+                        if (logHistory.Count > 20)
                         {
                             logHistory.RemoveAt(0);
                         }
@@ -12286,7 +12342,7 @@ namespace DocearReminder
             {
                 if (log != "")
                 {
-                    file.Write(DateTime.Now + "   ");
+                    file.Write(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "   ");
                     file.WriteLine(log);
                 }
             }
@@ -12521,7 +12577,7 @@ namespace DocearReminder
                 {
                     hour = DateTime.Now.Hour;
                     file.Write("\r");
-                    file.Write(DateTime.Now);
+                    file.Write(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                 }
                 if (e.KeyCode.ToString() != "")
                 {
@@ -13864,7 +13920,7 @@ namespace DocearReminder
             {
                 if (log != "")
                 {
-                    file.Write(DateTime.Now + "   ");
+                    file.Write(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "   ");
                     file.WriteLine(log);
                 }
             }

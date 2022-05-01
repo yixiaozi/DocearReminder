@@ -468,16 +468,14 @@ namespace DocearReminder
         public void SaveLog(string log)
         {
             log = log.Replace("\r", " ").Replace("\n", " ");
-            log = (DateTime.Now + "    " + log);
+            log = (DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "    " + log);
             log = encryptlog.EncryptString(log);
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", true))
             {
                 if (log != "")
                 {
-                    //file.Write(DateTime.Now + "        ");
                     file.WriteLine(log);
-                    //file.Write("\r");
                 }
             }
         }
@@ -631,11 +629,8 @@ namespace DocearReminder
         public void RefreshCalender()
         {
             m_Appointments = new List<Appointment>();
-            DateTime m_Date = DateTime.Now;
 
             Appointment m_Appointment = new Appointment();
-            m_Date = m_Date.AddHours(10 - m_Date.Hour);
-            m_Date = m_Date.AddMinutes(-m_Date.Minute);
 
             Reminder reminderObject = new Reminder();
             FileInfo fi = new FileInfo(logfile);
@@ -648,7 +643,7 @@ namespace DocearReminder
                 {
                     return;
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted)|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake"));
+                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake")||(m.time.AddHours(8)>DateTime.Now&& m.mindmapPath.Contains(mindmappath)));
                 if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "RootPath")
                 {
                     items = items.Where(m => !hasinworkfolder(m.mindmapPath));
@@ -766,10 +761,10 @@ namespace DocearReminder
 
                                 m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                                 m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                                //if (item.time.AddHours(8) < DateTime.Today)//时间块禁止编辑？
-                                //{
-                                //    m_Appointment.Locked = true;
-                                //}
+                                if (item.time.AddHours(8) < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
+                                {
+                                    m_Appointment.Locked = true;
+                                }
                             }
                             catch (Exception)
                             {
@@ -1363,6 +1358,16 @@ namespace DocearReminder
                 }
                 catch (Exception)
                 {
+                    try
+                    {
+                        if (dayView1.SelectedAppointment.Type== "时间块")
+                        {
+                            commentToolStripMenuItem_Click(null, null);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
         }

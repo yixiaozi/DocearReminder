@@ -10,12 +10,12 @@ using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Security;
 
-namespace Setup
+namespace Password
 {
-    public partial class Setup : Form
+    public partial class Password : Form
     {
         IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
-        public Setup()
+        public Password()
         {
             InitializeComponent();
         }

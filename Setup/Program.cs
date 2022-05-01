@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Setup
+namespace Password
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace Setup
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Setup());
+            Application.Run(new Password());
         }
     }
 }

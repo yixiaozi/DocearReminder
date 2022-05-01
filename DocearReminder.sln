@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1738
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocearReminder", "DocearReminder\DocearReminder.csproj", "{50804B18-81C7-48AA-A317-916FA77E6612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{39B08FEB-E68C-4CF9-83CB-F5C844766FE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Password", "Setup\Password.csproj", "{39B08FEB-E68C-4CF9-83CB-F5C844766FE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{8053D96D-AE9B-4DED-941E-DB6F57A74595}"
 EndProject

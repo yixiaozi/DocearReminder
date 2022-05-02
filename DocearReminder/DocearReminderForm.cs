@@ -616,7 +616,9 @@ namespace DocearReminder
                 {
                     if (GetPosition() < 20)
                     {
-                        Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, GetPosition(),false,selectedReminder.level));
+                        int p=GetPosition();
+                        DocearReminderForm.fanqiePosition[p] = true;
+                        Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, p, false, selectedReminder.level));
                         th.Start();
                     }
                     if (IsURL(selectedReminder.Name.Trim()))
@@ -651,7 +653,9 @@ namespace DocearReminder
             }
             if (DateTime.Now.Minute==0|| DateTime.Now.Minute == 15|| DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
             {
-                Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", GetPosition(), false));
+                int p = GetPosition();
+                DocearReminderForm.fanqiePosition[p] = true;
+                Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
                 th.Start();
             }
         }
@@ -4191,7 +4195,7 @@ namespace DocearReminder
         }
         public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false,int tasklevelNum=0)
         {
-            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault,tasklevelNum);
+            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, fanqieCount, isnotDefault,tasklevelNum);
             fanqie.ShowDialog();
         }
         public void OpenMenu()

@@ -149,10 +149,10 @@ namespace DocearReminder
                 hoverTimer.Tick += new EventHandler(Hover);//到3秒了自动隐藏
                 hoverTimer.Enabled = false; //是否不断重复定时器操作
                 hoverTimer.Start();
-                addFanQieTimer.Interval = 60000;
-                addFanQieTimer.Tick += new EventHandler(AddFanQie);//到3秒了自动隐藏
-                addFanQieTimer.Enabled = false; //是否不断重复定时器操作
+                addFanQieTimer.Interval = 60 * 1000 - DateTime.Now.Second * 1000 - DateTime.Now.Millisecond;
+                addFanQieTimer.Tick += new EventHandler(AddFanQie);
                 addFanQieTimer.Start();
+
                 InitializeComponent();
                 InitVoice();
 
@@ -393,6 +393,7 @@ namespace DocearReminder
             {
                 MessageBox.Show(ex.ToString());
             }
+            titleTimer.Start();
             SaveLog("打开程序。");
         }
 
@@ -598,6 +599,7 @@ namespace DocearReminder
         #region 番茄钟
         private void AddFanQie(object O, EventArgs ev)
         {
+            addFanQieTimer.Interval = 60000;
             RemindersOtherPath.RemoveAll(m => m.rootPath == rootpath.FullName);
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
@@ -618,8 +620,11 @@ namespace DocearReminder
                     {
                         int p=GetPosition();
                         DocearReminderForm.fanqiePosition[p] = true;
+                        lockForm = true;
                         Thread th = new Thread(() => OpenFanQie(selectedReminder.rtaskTime, selectedReminder.Name, selectedReminder.Value, p, false, selectedReminder.level));
                         th.Start();
+                        lockForm = false;
+                        this.Activate();
                     }
                     if (IsURL(selectedReminder.Name.Trim()))
                     {
@@ -716,7 +721,7 @@ namespace DocearReminder
             usedTimer.NewOneTime(currentUsedTimerId);
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
-            this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm");
+            this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
             if (this.Height == 560)
             {
                 reminderList.Focus();
@@ -932,17 +937,15 @@ namespace DocearReminder
                 {
                     try
                     {
-                        string str1 = "icon";
-                        string str2 = "BUILTIN";
                         System.Xml.XmlDocument x = new XmlDocument();
                         x.Load(file.FullName);
                         string fileName = file.Name.Substring(0, file.Name.Length - 3);
                         List<string> contents = new List<string>();
-                        foreach (XmlNode node in x.GetElementsByTagName(str1))
+                        foreach (XmlNode node in x.GetElementsByTagName("icon"))
                         {
                             try
                             {
-                                if (node.Attributes[str2].Value != "")
+                                if (node.Attributes["BUILTIN"].Value != ""&& node.Attributes["BUILTIN"].Value != "button_ok")
                                 {
                                     string filename = "";
                                     if (node.ParentNode.Attributes["TEXT"] == null)
@@ -4342,7 +4345,7 @@ namespace DocearReminder
                                     {
                                         selectedReminder.Time = selectedReminder.Time.AddDays(selectedReminder.rdays);
                                     }
-                                    while (selectedReminder.Time < DateTime.Now);
+                                    while (selectedReminder.Time < DateTime.Today);//起码延迟到今天，而不是现在
                                     break;
                                 case "week":
                                     do
@@ -4364,7 +4367,7 @@ namespace DocearReminder
                                     {
                                         selectedReminder.Time = selectedReminder.Time.AddMonths(selectedReminder.rMonth);
                                     }
-                                    while (selectedReminder.Time < DateTime.Now);
+                                    while (selectedReminder.Time < DateTime.Today);
 
                                     break;
                                 case "year":
@@ -4376,7 +4379,7 @@ namespace DocearReminder
                                     {
                                         selectedReminder.Time = selectedReminder.Time.AddYears(selectedReminder.ryear);
                                     }
-                                    while (selectedReminder.Time < DateTime.Now);
+                                    while (selectedReminder.Time < DateTime.Today);
                                     break;
                             }
                         }
@@ -5157,18 +5160,39 @@ namespace DocearReminder
             //给任务添加节点
             if ((reminderList.SelectedIndex >= 0 || reminderListBox.SelectedIndex >= 0) && searchword.Text != "" && IsSelectReminder)
             {
+                string currentPath = "";
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+                if (mindmapornode.Text != "")
+                {
+                    if (mindmapornode.Text.Contains(">"))
+                    {
+                        currentPath = renameMindMapPath;
+                    }
+                    else
+                    {
+                        mindmapfile file = mindmapfiles.FirstOrDefault(m => m.name.ToLower() == mindmapornode.Text.ToLower());//不区分大小写 //是否需要优化下这个逻辑呢？？
+                        if (file == null)
+                        {
+                            return;
+                        }
+                        currentPath = file.filePath;
+                    }
+                }
+                else
+                {
+                    currentPath = selectedReminder.Value;
+                }
                 System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(selectedReminder.Value);
+                x.Load(currentPath);
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
                     try
                     {
-                        if (node.ParentNode==null|| node.ParentNode.Attributes==null|| node.ParentNode.Attributes["ID"]==null)
+                        if (node==null|| node.Attributes==null|| node.Attributes["ID"]==null)
                         {
                             continue;
                         }
-                        if (node.ParentNode.Attributes["ID"].Value == selectedReminder.IDinXML)
+                        if (node.Attributes["ID"].Value == selectedReminder.IDinXML)
                         {
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
@@ -5195,21 +5219,37 @@ namespace DocearReminder
                             XmlAttribute TASKID = x.CreateAttribute("ID");
                             newNote.Attributes.Append(TASKID);
                             newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
-                            //XmlNode newElem = x.CreateElement("icon");
-                            //XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
-                            //BUILTIN.Value = "flag-orange";
-                            //newElem.Attributes.Append(BUILTIN);
-                            //newNote.AppendChild(newElem);
-                            node.ParentNode.AppendChild(newNote);
+                            XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
+                            newNote.Attributes.Append(TASKLEVEL);
+                            newNote.Attributes["TASKLEVEL"].Value = "1";
+                            if (istask)
+                            {
+                                XmlNode remindernode = x.CreateElement("hook");
+                                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                                remindernode.Attributes.Append(remindernodeName);
+                                XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                                //如果是子节点，时间和子节点一样
+                                if (dateTimePicker.Value > DateTime.Now)
+                                {
+                                    remindernodeTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                }
+                                else
+                                {
+                                    remindernodeTime.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                }
+                                remindernodeParameters.Attributes.Append(remindernodeTime);
+                                remindernode.AppendChild(remindernodeParameters);
+                                newNote.AppendChild(remindernode);
+                            }
+                            node.AppendChild(newNote);
                             SaveLog("添加子节点：" + searchword.Text + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
-                            searchword.Text = "";
                             x.Save(selectedReminder.Value);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                             th.Start();
                             searchword.Text = "";
                             reminderSelectIndex = reminderList.SelectedIndex;
-                            RRReminderlist();
-                            reminderList.Focus();
                             try
                             {
                                 isneedreminderlistrefresh = false;
@@ -5220,7 +5260,15 @@ namespace DocearReminder
                             {
                                 reminderList.Focus();
                             }
-                            ShowSubNode();
+                            if (istask)
+                            {
+                                shaixuanfuwei();
+                                RRReminderlist();
+                            }
+                            else
+                            {
+                                ShowSubNode();
+                            }
                             return;
                         }
                     }
@@ -5299,6 +5347,27 @@ namespace DocearReminder
                 BUILTIN.Value = "flag-orange";
                 newElem.Attributes.Append(BUILTIN);
                 newNote.AppendChild(newElem);
+                if (istask)
+                {
+                    XmlNode remindernode = x.CreateElement("hook");
+                    XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                    remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                    remindernode.Attributes.Append(remindernodeName);
+                    XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                    XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                    //如果是子节点，时间和子节点一样
+                    if (dateTimePicker.Value > DateTime.Now)
+                    {
+                        remindernodeTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                    }
+                    else
+                    {
+                        remindernodeTime.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                    }
+                    remindernodeParameters.Attributes.Append(remindernodeTime);
+                    remindernode.AppendChild(remindernodeParameters);
+                    newNote.AppendChild(remindernode);
+                }
                 day.AppendChild(newNote);
                 x.Save(path);
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
@@ -5306,186 +5375,6 @@ namespace DocearReminder
                 SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
                 searchword.Text = "";
                 RRReminderlist();
-            }
-            //这个会在什么时候进入呢？
-            if (mindmaplist.SelectedIndex >= 0 && searchword.Text != "" && !IsSelectReminder)
-            {
-                string path = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
-                System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(path);
-                XmlNode root = x.GetElementsByTagName("node")[0];
-                XmlNode newNote = x.CreateElement("node");
-                string changedtaskname = "";
-                XmlAttribute newNotetext = x.CreateAttribute("TEXT");
-                if (IsEncryptBool)
-                {
-                    if (PassWord == "")
-                    {
-                        return;
-                    }
-                    changedtaskname = encrypt.EncryptString(searchword.Text);
-                    IsEncryptBool = false;
-                }
-                else
-                {
-                    if (IsURL(searchword.Text.Trim()))
-                    {
-                        changedtaskname = GetWebTitle(searchword.Text.Trim()) + " | " + searchword.Text;
-                    }
-                    else
-                    {
-                        changedtaskname = searchword.Text;
-                    }
-                }
-                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
-                newNotetext.Value = changedtaskname;
-                if (IsURL(newNotetext.Value))
-                {
-                    string title = GetWebTitle(newNotetext.Value);
-                    if (title != "" && title != "忘记了，后面再改")
-                    {
-                        //添加属性
-                        XmlAttribute TASKLink = x.CreateAttribute("LINK");
-                        TASKLink.Value = newNotetext.Value;
-                        newNote.Attributes.Append(TASKLink);
-                        newNotetext.Value = title;
-                    }
-                }
-                XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
-                newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                newNote.Attributes.Append(newNotetext);
-                newNote.Attributes.Append(newNoteCREATED);
-                newNote.Attributes.Append(newNoteMODIFIED);
-                XmlAttribute TASKID = x.CreateAttribute("ID");
-                newNote.Attributes.Append(TASKID);
-                newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
-                XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
-                newNote.Attributes.Append(TASKLEVEL);
-                newNote.Attributes["TASKLEVEL"].Value = "1";
-                XmlNode remindernode = x.CreateElement("hook");
-                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
-                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
-                remindernode.Attributes.Append(remindernodeName);
-                XmlNode remindernodeParameters = x.CreateElement("Parameters");
-                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
-                remindernodeTime.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                remindernodeParameters.Attributes.Append(remindernodeTime);
-                remindernode.AppendChild(remindernodeParameters);
-                newNote.AppendChild(remindernode);
-                root.AppendChild(newNote);
-                x.Save(path);
-                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
-                th.Start();
-                shaixuanfuwei();
-                searchword.Text = "";
-                RRReminderlist();
-            }
-            if ((reminderList.SelectedIndex >= 0 || reminderListBox.SelectedIndex >= 0) && searchword.Text != "" && IsSelectReminder)
-            {
-                string currentPath = "";
-                MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
-                if (mindmapornode.Text != "")
-                {
-                    if (mindmapornode.Text.Contains(">"))
-                    {
-                        currentPath = renameMindMapPath;
-                    }
-                    else
-                    {
-                        mindmapfile file = mindmapfiles.FirstOrDefault(m => m.name.ToLower() == mindmapornode.Text.ToLower());//不区分大小写 //是否需要优化下这个逻辑呢？？
-                        if (file == null)
-                        {
-                            return;
-                        }
-                        currentPath = file.filePath;
-                    }
-                }
-                else
-                {
-                    currentPath = selectedReminder.Value;
-                }
-                System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(currentPath);
-                foreach (XmlNode node in x.GetElementsByTagName("node"))
-                {
-                    try
-                    {
-                        if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == selectedReminder.IDinXML)
-                        {
-                            XmlNode newNote = x.CreateElement("node");
-                            XmlAttribute newNotetext = x.CreateAttribute("TEXT");
-                            newNotetext.Value = searchword.Text;
-                            if (IsURL(newNotetext.Value))
-                            {
-                                string title = GetWebTitle(newNotetext.Value);
-                                if (title != "" && title != "忘记了，后面再改")
-                                {
-                                    //添加属性
-                                    XmlAttribute TASKLink = x.CreateAttribute("LINK");
-                                    TASKLink.Value = newNotetext.Value;
-                                    newNote.Attributes.Append(TASKLink);
-                                    newNotetext.Value = title;
-                                }
-                            }
-                            XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                            newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                            XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
-                            newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                            newNote.Attributes.Append(newNotetext);
-                            newNote.Attributes.Append(newNoteCREATED);
-                            newNote.Attributes.Append(newNoteMODIFIED);
-                            XmlAttribute TASKID = x.CreateAttribute("ID");
-                            newNote.Attributes.Append(TASKID);
-                            newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
-                            XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
-                            newNote.Attributes.Append(TASKLEVEL);
-                            newNote.Attributes["TASKLEVEL"].Value = "1";
-                            if (istask)
-                            {
-                                XmlNode remindernode = x.CreateElement("hook");
-                                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
-                                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
-                                remindernode.Attributes.Append(remindernodeName);
-                                XmlNode remindernodeParameters = x.CreateElement("Parameters");
-                                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
-                                //如果是子节点，时间和子节点一样
-                                if (dateTimePicker.Value > DateTime.Now)
-                                {
-                                    remindernodeTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                                }
-                                else
-                                {
-                                    remindernodeTime.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                                }
-                                remindernodeParameters.Attributes.Append(remindernodeTime);
-                                remindernode.AppendChild(remindernodeParameters);
-                                newNote.AppendChild(remindernode);
-                            }
-                            node.AppendChild(newNote);
-                            SaveLog("添加子节点：" + searchword.Text + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
-                            searchword.Text = "";
-                            x.Save(currentPath);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(currentPath));
-                            th.Start();
-                            if (istask)
-                            {
-                                shaixuanfuwei();
-                                RRReminderlist();
-                            }
-                            else
-                            {
-                                ShowSubNode();
-                            }
-                            return;
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
             }
             else if (searchword.Text != "" && !searchword.Text.EndsWith(".")&&!searchword.Text.EndsWith("hhh"))
             {
@@ -11354,6 +11243,7 @@ namespace DocearReminder
                 if (e.KeyCode == Keys.Enter)
                 {
                     StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
+                    info.StationName_CN = info.StationName_CN.Replace("★","");
                     searchword.Text = taskname + "@@" + info.StationName_CN;
                     mindmapornode.Text = info.mindmapurl.Split('\\')[info.mindmapurl.Split('\\').Length - 1] + ">" + info.StationName_CN;
                     renameMindMapPath = info.mindmapurl;
@@ -11401,6 +11291,7 @@ namespace DocearReminder
                             {
                                 int index = dataSource.IndexOf(dataSource.FirstOrDefault(m => m.StationName_CN == IconNodesSelected[i].Split('|')[0]));
                                 dataSource = Swap(dataSource, index);
+                                dataSource[0].StationName_CN = "★" + dataSource[0].StationName_CN;
                             }
                         }
                         foreach (StationInfo item in dataSource.Where(m => m.StationName_CN.Length > 50))
@@ -11483,6 +11374,7 @@ namespace DocearReminder
                 if (e.KeyCode == Keys.Enter)
                 {
                     StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
+                    info.StationName_CN = info.StationName_CN.Replace("★", "");
                     if (command.Contains(info.StationName_CN))
                     {
                         searchword.Text = info.StationName_CN;
@@ -11542,6 +11434,7 @@ namespace DocearReminder
                             {
                                 int index = dataSource.IndexOf(dataSource.FirstOrDefault(m => m.StationName_CN == RecentOpenedMap[i]));
                                 dataSource = Swap(dataSource, index);
+                                dataSource[0].StationName_CN = "★" + dataSource[0].StationName_CN;
                             }
                         }
                         if (dataSource.Count > 0)
@@ -13964,6 +13857,11 @@ namespace DocearReminder
             thCalendarForm.Start();
             MyHide();
             return;
+        }
+
+        private void titleTimer_Tick(object sender, EventArgs e)
+        {
+            this.Text=this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
         }
     }
     class MoveOverInfoTip

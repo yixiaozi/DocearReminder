@@ -142,6 +142,7 @@ namespace DocearReminder
             this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.c_endtime = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1148,21 +1149,21 @@ namespace DocearReminder
             // 时间快ToolStripMenuItem
             // 
             this.时间快ToolStripMenuItem.Name = "时间快ToolStripMenuItem";
-            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.时间快ToolStripMenuItem.Text = "时间快";
             this.时间快ToolStripMenuItem.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
             // 
             // 使用记录ToolStripMenuItem
             // 
             this.使用记录ToolStripMenuItem.Name = "使用记录ToolStripMenuItem";
-            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.使用记录ToolStripMenuItem.Text = "使用记录";
             this.使用记录ToolStripMenuItem.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
             // 
             // 键盘分析ToolStripMenuItem
             // 
             this.键盘分析ToolStripMenuItem.Name = "键盘分析ToolStripMenuItem";
-            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.键盘分析ToolStripMenuItem.Text = "键盘分析";
             this.键盘分析ToolStripMenuItem.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
@@ -1419,6 +1420,12 @@ namespace DocearReminder
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             // 
+            // titleTimer
+            // 
+            this.titleTimer.Enabled = true;
+            this.titleTimer.Interval = 1000;
+            this.titleTimer.Tick += new System.EventHandler(this.titleTimer_Tick);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1647,6 +1654,7 @@ namespace DocearReminder
         private ToolStripMenuItem 时间快ToolStripMenuItem;
         private ToolStripMenuItem 使用记录ToolStripMenuItem;
         private ToolStripMenuItem 键盘分析ToolStripMenuItem;
+        private Timer titleTimer;
     }
 }
 

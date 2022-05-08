@@ -57,6 +57,7 @@ namespace DocearReminder
         private string[] noFiles = new string[] { };
         private CustomCheckedListBox mindmaplis1 = new CustomCheckedListBox();
         private CustomCheckedListBox.ObjectCollection mindmaplist_backup;
+        private List<MyListBoxItem> mindmaplist_all = new List<MyListBoxItem>();
         public string CurrentLanguage = "";
         public string jsonHasMindmaps = "";
         public List<mindmapfile> mindmapfiles = new List<mindmapfile>();
@@ -320,6 +321,13 @@ namespace DocearReminder
                 mindmaplist_backup = mindmaplis1.Items;
                 mindmaplist_backup.Clear();
                 mindmaplist_backup.AddRange(mindmaplist.Items);
+                foreach (var item in mindmaplist.Items)
+                {
+                    if (!mindmaplist_all.Any(m=>m.Value== ((MyListBoxItem)item).Value))
+                    {
+                        mindmaplist_all.Add(((MyListBoxItem)item));
+                    }
+                }
                 mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
                 for (int i = 0; i < mindmaplist.Items.Count; i++)
                 {
@@ -501,6 +509,13 @@ namespace DocearReminder
             //}
             mindmaplist_backup.Clear();
             mindmaplist_backup.AddRange(mindmaplist.Items);
+            foreach (var item in mindmaplist.Items)
+            {
+                if (!mindmaplist_all.Any(m => m.Value == ((MyListBoxItem)item).Value))
+                {
+                    mindmaplist_all.Add(((MyListBoxItem)item));
+                }
+            }
             mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
             for (int i = 0; i < mindmaplist.Items.Count; i++)
             {
@@ -1375,7 +1390,7 @@ namespace DocearReminder
                 List<MyListBoxItem> showMindmaps = new List<MyListBoxItem>();
                 if (searchword.Text.StartsWith("ss"))
                 {
-                    foreach (MyListBoxItem item in mindmaplist_backup)
+                    foreach (MyListBoxItem item in mindmaplist_all)
                     {
                         showMindmaps.Add(item);
                     }
@@ -1709,7 +1724,7 @@ namespace DocearReminder
                                 {
                                     IsShow = false;
                                 }
-                                if (searchword.Text != "")
+                                if (searchword.Text != ""&&!searchword.Text.StartsWith("ss"))
                                 {
                                     if (node.ParentNode.Attributes["TEXT"].Value.Contains(searchword.Text.Trim()))
                                     {
@@ -11538,7 +11553,7 @@ namespace DocearReminder
             {
                 isRefreshMindmap = true;
                 mindmaplist.Items.Clear();
-                foreach (var item in mindmaplist_backup)
+                foreach (var item in mindmaplist_all)
                 {
                     mindmaplist.Items.Add(item);
                 }

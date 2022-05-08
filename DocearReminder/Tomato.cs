@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using yixiaozi.Model.DocearReminder;
+using Color = System.Drawing.Color;
 
 namespace DocearReminder
 {
@@ -55,6 +56,7 @@ namespace DocearReminder
             {
             }
         }
+        bool ISOver = false;
 
         private void timerDefault_Tick(object sender, EventArgs e)
         {
@@ -67,18 +69,38 @@ namespace DocearReminder
                 }
                 else
                 {
-                    _fiveM = _fiveM.AddSeconds(-1);
-                    if (_fiveM == new DateTime())
+                    if (ISOver)
+                    {
+                        _fiveM = _fiveM.AddSeconds(1);
+                    }
+                    else
+                    {
+                        _fiveM = _fiveM.AddSeconds(-1);
+                    }
+                    if (_fiveM == new DateTime()&& this.Text.Length==5&&this.Text[2]==':')
                     {
                         DocearReminderForm.fanqiePosition[_fanqieCount] = false;
                         this.Close();
                     }
+                    else if (ISOver && _fiveM == new DateTime().AddHours(1))
+                    {
+                        DocearReminderForm.fanqiePosition[_fanqieCount] = false;
+                        this.Close();
+                    }
+                    else if (_fiveM <= new DateTime())
+                    {
+                        fanqietime.ForeColor = Color.Red;
+                    }
+                    if (_fiveM == new DateTime())
+                    {
+                        ISOver = true;
+                    }
                     fanqietime.Text = _fiveM.Hour.ToString("00") + ":" + _fiveM.Minute.ToString("00") + ":" + _fiveM.Second.ToString("00");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                    this.Close();
+                 this.Close();
             }
         }
 

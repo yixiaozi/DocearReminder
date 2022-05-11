@@ -319,7 +319,10 @@ namespace DocearReminder
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
+                    var serializer = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    };
                     reminderObject = serializer.Deserialize<Reminder>(s);
                     reminderObject.reminders.Add(new ReminderItem
                     {
@@ -333,7 +336,10 @@ namespace DocearReminder
                         comment=comment
                     });
                 }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                string json = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                }.Serialize(reminderObject);
                 File.WriteAllText(logfile, "");
                 using (StreamWriter sw = fi.AppendText())
                 {
@@ -354,7 +360,10 @@ namespace DocearReminder
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
+                    var serializer = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    };
                     reminderObject = serializer.Deserialize<Reminder>(s);
                     ReminderItem item= reminderObject.reminders.FirstOrDefault(m=>m.ID==ID);
                     if (item!=null)
@@ -362,7 +371,10 @@ namespace DocearReminder
                         item.mindmapPath = color.ToArgb().ToString();
                     }
                 }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                string json = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                }.Serialize(reminderObject);
                 File.WriteAllText(logfile, "");
                 using (StreamWriter sw = fi.AppendText())
                 {
@@ -637,7 +649,10 @@ namespace DocearReminder
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer();
+                var serializer = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                };
                 reminderObject = serializer.Deserialize<Reminder>(s);
                 if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
                 {
@@ -1217,7 +1232,10 @@ namespace DocearReminder
                     using (StreamReader sw = fi.OpenText())
                     {
                         string s = sw.ReadToEnd();
-                        var serializer = new JavaScriptSerializer();
+                        var serializer = new JavaScriptSerializer()
+                        {
+                            MaxJsonLength = Int32.MaxValue
+                        };
                         reminderObject = serializer.Deserialize<Reminder>(s);
                         ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
                         if (current != null)
@@ -1227,7 +1245,10 @@ namespace DocearReminder
                             current.name = dayView1.SelectedAppointment.Title.Split('(')[0];
                         }
                     }
-                    string json = new JavaScriptSerializer().Serialize(reminderObject);
+                    string json = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    }.Serialize(reminderObject);
                     File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                     using (StreamWriter sw = fi.AppendText())
                     {
@@ -1252,7 +1273,10 @@ namespace DocearReminder
                     using (StreamReader sw = fi.OpenText())
                     {
                         string s = sw.ReadToEnd();
-                        var serializer = new JavaScriptSerializer();
+                        var serializer = new JavaScriptSerializer()
+                        {
+                            MaxJsonLength = Int32.MaxValue
+                        };
                         reminderObject = serializer.Deserialize<Reminder>(s);
                         ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(app.value) && m.ID == app.ID);
                         if (current != null)
@@ -1262,7 +1286,10 @@ namespace DocearReminder
                             current.name = app.Title.Split('(')[0]; ;
                         }
                     }
-                    string json = new JavaScriptSerializer().Serialize(reminderObject);
+                    string json = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    }.Serialize(reminderObject);
                     File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                     using (StreamWriter sw = fi.AppendText())
                     {
@@ -1545,11 +1572,17 @@ namespace DocearReminder
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
+                    var serializer = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    };
                     reminderObject = serializer.Deserialize<Reminder>(s);
                     reminderObject.reminders.RemoveAll(m => m.ID == dayView1.SelectedAppointment.ID);
                 }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                string json = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                }.Serialize(reminderObject);
                 File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
@@ -1571,7 +1604,10 @@ namespace DocearReminder
                 using (StreamReader sw = fi.OpenText())
                 {
                     string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
+                    var serializer = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    };
                     reminderObject = serializer.Deserialize<Reminder>(s);
                     ReminderItem item= reminderObject.reminders.FirstOrDefault(m => m.ID == id);
                     if (item!=null)
@@ -1579,7 +1615,10 @@ namespace DocearReminder
                         item.isCompleted = true;
                     }
                 }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
+                string json = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                }.Serialize(reminderObject);
                 File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
                 using (StreamWriter sw = fi.AppendText())
                 {
@@ -1731,7 +1770,10 @@ namespace DocearReminder
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer();
+                var serializer = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                };
                 reminderObject = serializer.Deserialize<Reminder>(s);
                 ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
                 if (current != null)
@@ -1739,7 +1781,10 @@ namespace DocearReminder
                     current.comment = promptValue;
                 }
             }
-            string json = new JavaScriptSerializer().Serialize(reminderObject);
+            string json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = Int32.MaxValue
+            }.Serialize(reminderObject);
             File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
             using (StreamWriter sw = fi.AppendText())
             {

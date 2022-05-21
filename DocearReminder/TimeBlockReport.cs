@@ -138,7 +138,10 @@ namespace DocearReminder
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer();
+                var serializer = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                };
                 reminderObject = serializer.Deserialize<Reminder>(s);
                 if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
                 {

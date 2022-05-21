@@ -134,6 +134,18 @@ namespace DocearReminder
             SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
             dayView1.AllowInplaceEditing = false;
             dayView1.AllowNew = false;
+            FreshMenu();
+        }
+        public void FreshMenu()
+        {
+            for (int i = Menu.Items.Count-1; i > 0; i--)
+            {
+                string name = Menu.Items[i].Text;
+                if (name != "完成" && name != "Comment" && name != "打开导图" && name != "番茄钟")
+                {
+                    Menu.Items.RemoveAt(i);
+                }
+            }
             #region 添加菜单
             try
             {
@@ -144,7 +156,8 @@ namespace DocearReminder
                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
                     {
                         SearchNode(node, null);
-                    }else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
+                    }
+                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("进步", global::DocearReminder.Properties.Resources.square_ok, SetProgress);
                         newMenu.BackColor = Color.Red;
@@ -157,7 +170,7 @@ namespace DocearReminder
                         SearchNode_mistake(node, newMenu);
                     }
                 }
-                if (timeblockColors.Count>0)
+                if (timeblockColors.Count > 0)
                 {
                     System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("改变颜色", global::DocearReminder.Properties.Resources.square_ok, SetTimeBlockColor);
                     newMenu.BackColor = Color.White;
@@ -181,7 +194,7 @@ namespace DocearReminder
             {
                 foreach (XmlNode Subnode in node.ChildNodes)
                 {
-                    if (Subnode.Attributes["TEXT"] != null)
+                    if (Subnode.Attributes["TEXT"] != null&& Subnode.Attributes["TEXT"].Value!="未分类")
                     {
                         System.Windows.Forms.ToolStripItem newMenu;
                         if (menuitem == null)
@@ -636,6 +649,7 @@ namespace DocearReminder
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            FreshMenu();
             RefreshCalender();
         }
         public void RefreshCalender()
@@ -1549,6 +1563,34 @@ namespace DocearReminder
                     }
                 }
                 foreach (XmlNode item in node.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
                 {
                     if (item.Name == "edge")
                     {

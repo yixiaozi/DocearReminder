@@ -679,10 +679,17 @@ namespace DocearReminder
             }
             if (DateTime.Now.Minute==0|| DateTime.Now.Minute == 15|| DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
             {
-                int p = GetPosition();
-                DocearReminderForm.fanqiePosition[p] = true;
-                Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
-                th.Start();
+                if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5)
+                {
+
+                }
+                else
+                {
+                    int p = GetPosition();
+                    DocearReminderForm.fanqiePosition[p] = true;
+                    Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
+                    th.Start();
+                }
             }
         }
 
@@ -1302,8 +1309,7 @@ namespace DocearReminder
         }
         public void AddmindmapfilesOnly(DirectoryInfo path)
         {
-            if (true)
-            {
+            try{
                 foreach (FileInfo file in path.GetFiles("*.mm"))
                 {
                     if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
@@ -1320,31 +1326,27 @@ namespace DocearReminder
                         }
                     }
                 }
-            }
-            else
-            {
-                //foreach (FileInfo file in path.GetFiles())
-                //{
-                //    mindmaplist.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
-                //}
-            }
-            if (path.GetDirectories().Length > 0)
-            {
-                foreach (DirectoryInfo subPath in path.GetDirectories())
+                if (path.GetDirectories().Length > 0)
                 {
-                    //需要排除的文件夹
-                    if (!".svn".Contains(subPath.Name) && (allFloder || (!allFloder && !noFolder.Contains(subPath.Name))) && subPath.Name[0] != '.')
+                    foreach (DirectoryInfo subPath in path.GetDirectories())
                     {
-                        AddmindmapfilesOnly(subPath);
-                    }
-                    else
-                    {
-                        if (noFolder.Contains(subPath.Name))
+                        //需要排除的文件夹
+                        if (!".svn".Contains(subPath.Name) && (allFloder || (!allFloder && !noFolder.Contains(subPath.Name))) && subPath.Name[0] != '.')
                         {
                             AddmindmapfilesOnly(subPath);
                         }
+                        else
+                        {
+                            if (noFolder.Contains(subPath.Name))
+                            {
+                                AddmindmapfilesOnly(subPath);
+                            }
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
             }
         }
 

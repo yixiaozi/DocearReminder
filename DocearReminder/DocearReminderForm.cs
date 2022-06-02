@@ -243,7 +243,7 @@ namespace DocearReminder
                 string calanderpath = ini.ReadString("path", "calanderpath", "");
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
                 fileTreePath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
-                this.Height = 560;
+                this.Height = 545;
                 noterichTextBox.LoadFile(ini.ReadString("path", "note", System.AppDomain.CurrentDomain.BaseDirectory + @"\note.txt"));
                 richTextSubNode.Height = 0;
                 fathernode.Text = "";
@@ -750,7 +750,7 @@ namespace DocearReminder
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
             this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
-            if (this.Height == 560)
+            if (this.Height <= 560)
             {
                 reminderList.Focus();
             }
@@ -1352,10 +1352,10 @@ namespace DocearReminder
 
         public void RRReminderlist()
         {
-            if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
-            {
-                mindmapSearch.Text = "";
-            }
+            //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
+            //{
+            //    mindmapSearch.Text = "";
+            //}
             reminderSelectIndex = reminderList.SelectedIndex;
             int task = 0;
             int ctask = 0;//周期任务个数
@@ -1740,7 +1740,7 @@ namespace DocearReminder
                                 }
                                 if (searchword.Text != ""&&!searchword.Text.StartsWith("ss"))
                                 {
-                                    if (node.ParentNode.Attributes["TEXT"].Value.Contains(searchword.Text.Trim()))
+                                    if (node.ParentNode.Attributes["TEXT"].Value.Contains(searchword.Text.Trim())|| node.ParentNode.InnerXml.Contains(searchword.Text.Trim()))//可以搜索子任务了
                                     {
                                         IsShow = true;
                                     }
@@ -1923,7 +1923,7 @@ namespace DocearReminder
                                         }
                                         reminderlistItems.Add(new MyListBoxItemRemind
                                         {
-                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm"): (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
                                             jinianDatetime = jiniantimeDT,
@@ -1948,8 +1948,9 @@ namespace DocearReminder
                                             IDinXML = GetAttribute(node.ParentNode, "ID"),
                                             link = GetAttribute(node.ParentNode, "LINK"),
                                             rootPath = rootpath.FullName,
-                                            ISReminderOnly = iSReminderOnly
-                                        });
+                                            ISReminderOnly = iSReminderOnly,
+                                            Content = ((System.Xml.XmlElement)node.ParentNode).InnerXml
+                                    });
                                     }
                                 }
                             }
@@ -2005,7 +2006,7 @@ namespace DocearReminder
                 string str1 = "hook";
                 string str2 = "NAME";
                 string str3 = "plugins/TimeManagementReminder.xml";
-                if (mindmapornode.Text.Contains(">"))
+                if (mindmapornode.Text.Contains(">>"))//不再显示此节点内容
                 {
                     foreach (XmlNode node in x.GetElementsByTagName("node"))
                     {
@@ -2175,7 +2176,8 @@ namespace DocearReminder
                                         editTime = 0,
                                         isEncrypted = isEncrypted,
                                         link = GetAttribute(node.ParentNode, "LINK"),
-                                        IDinXML = GetAttribute(node.ParentNode, "ID")
+                                        IDinXML = GetAttribute(node.ParentNode, "ID"),
+                                        Content = ((System.Xml.XmlElement)node.ParentNode).InnerXml
                                     });
                                 }
                             }
@@ -4736,7 +4738,7 @@ namespace DocearReminder
                         ShowMindmap();
                         ShowMindmapFile();
                         nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-                        this.Height = 888;
+                        this.Height = 880;
                         nodetree.Focus();
                         searchword.Text = "";
                         return;
@@ -6877,7 +6879,7 @@ namespace DocearReminder
                         {
                             ShowMindmap(true);
                             ShowMindmapFile();
-                            this.Height = 888;
+                            this.Height = 880;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
                             nodetree.Focus();
                         }
@@ -6892,7 +6894,7 @@ namespace DocearReminder
                             }
                             else
                             {
-                                this.Height = 560;
+                                this.Height = 545;
                                 nodetree.Top = 521;
                                 FileTreeView.Top = 521;
                                 nodetree.Height = 307;
@@ -7822,13 +7824,155 @@ namespace DocearReminder
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
                         {
                             searchword.Text = "";
-                            //显示当前导图的所有任务
-                            RRReminderlist();
-                            reminderList.Focus();
-                            if (reminderList.Items.Count > 0)
+                            ////显示当前导图的所有任务
+                            //RRReminderlist();
+                            //reminderList.Focus();
+                            //if (reminderList.Items.Count > 0)
+                            //{
+                            //    reminderList.SelectedIndex = 0;
+                            //}
+                            //只显示当前导图的任务
+                            FileInfo file = new FileInfo(renameMindMapPath);
+                            try
                             {
-                                reminderList.SelectedIndex = 0;
+                                reminderList.Items.Clear();
+                                XmlDocument x = new XmlDocument();
+                                try
+                                {
+                                    x.Load(file.FullName);
+                                }
+                                catch (Exception)
+                                {
+                                    return;
+                                }
+                                if (x.GetElementsByTagName("hook").Count != 0)
+                                {
+                                    string str1 = "hook";
+                                    string str2 = "NAME";
+                                    string str3 = "plugins/TimeManagementReminder.xml";
+                                    foreach (XmlNode node in x.GetElementsByTagName(str1))
+                                    {
+                                        try
+                                        {
+                                            if (node.Attributes[str2].Value == str3)
+                                            {
+                                                string reminder = "";
+                                                DateTime dt = DateTime.Now;
+                                                if (node.InnerXml != "")
+                                                {
+                                                    reminder = node.InnerXml.Split('\"')[1];
+                                                    long unixTimeStamp = Convert.ToInt64(reminder);
+                                                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                                    dt = startTime.AddMilliseconds(unixTimeStamp);
+                                                }
+                                                else
+                                                {
+                                                    reminder = GetAttribute(node.ParentNode, "RememberTime");
+                                                    if (reminder == "")
+                                                    {
+                                                    }
+                                                    else
+                                                    {
+                                                        long unixTimeStamp = Convert.ToInt64(reminder);
+                                                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                                        dt = startTime.AddMilliseconds(unixTimeStamp);
+                                                    }
+                                                }
+                                                //添加提醒到提醒清单
+                                                string dakainfo = "";
+                                                if (GetAttribute(node.ParentNode, "ISDAKA") == "true")
+                                                {
+                                                    dakainfo = " | " + GetAttribute(node.ParentNode, "DAKADAY");
+                                                }
+                                                string taskName1 = "";
+                                                string taskNameDis = "";
+                                                bool isEncrypted = false;
+                                                taskName1 = node.ParentNode.Attributes["TEXT"].Value;
+                                                if (taskName1.Length > 6)
+                                                {
+                                                    if (taskName1.Substring(0, 3) == "***")
+                                                    {
+                                                        if (PassWord != "")
+                                                        {
+                                                            taskName1 = encrypt.DecryptString(node.ParentNode.Attributes["TEXT"].Value);
+                                                            isEncrypted = true;
+                                                        }
+                                                    }
+                                                }
+                                                taskNameDis = taskName1;
+                                                if (IsFileUrl(taskName1))
+                                                {
+                                                    if (Path.GetExtension(taskName1) != "")
+                                                    {
+                                                        taskNameDis = "#" + Path.GetFileName(taskName1);
+                                                    }
+                                                    else
+                                                    {
+                                                        taskNameDis = "Path:" + Path.GetFullPath(taskName1).Split('\\').Last(m => m != "");
+                                                    }
+                                                }
+                                                if (GetAttribute(node.ParentNode, "ISVIEW") == "true")
+                                                {
+                                                    taskNameDis = "待：" + taskNameDis;
+                                                }
+                                                if (taskName1.ToLower() != "bin")
+                                                {
+                                                    reminderList.Items.Add(new MyListBoxItemRemind
+                                                    {
+                                                        Text = dt.ToString("yy-MM-dd-HH:mm") + @"  " + taskNameDis + dakainfo,
+                                                        Name = taskName1,
+                                                        Time = dt,
+                                                        Value = file.FullName,
+                                                        IsShow = false,
+                                                        remindertype = GetAttribute(node.ParentNode, "REMINDERTYPE"),
+                                                        rhours = MyToInt16(GetAttribute(node.ParentNode, "RHOUR")),
+                                                        rdays = MyToInt16(GetAttribute(node.ParentNode, "RDAYS")),
+                                                        rMonth = MyToInt16(GetAttribute(node.ParentNode, "RMONTH")),
+                                                        rWeek = MyToInt16(GetAttribute(node.ParentNode, "RWEEK")),
+                                                        rweeks = GetAttribute(node.ParentNode, "RWEEKS").ToCharArray(),
+                                                        ryear = MyToInt16(GetAttribute(node.ParentNode, "RYEAR")),
+                                                        rtaskTime = MyToInt16(GetAttribute(node.ParentNode, "TASKTIME")),
+                                                        IsDaka = GetAttribute(node.ParentNode, "ISDAKA"),
+                                                        IsView = GetAttribute(node.ParentNode, "ISVIEW"),
+                                                        DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
+                                                        level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                                        ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
+                                                        DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
+                                                        editTime = 0,
+                                                        isEncrypted = isEncrypted,
+                                                        link = GetAttribute(node.ParentNode, "LINK"),
+                                                        IDinXML = GetAttribute(node.ParentNode, "ID")
+                                                    });
+                                                }
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+
+                                        }
+                                    }
+                                    reminderList.Sorted = false;
+                                    reminderList.Sorted = true;
+                                }
                             }
+                            catch (Exception)
+                            {
+                            }
+
+                            //用树视图打开思维导图
+                            reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.Name, Value = file.FullName, IDinXML = "GUID" };
+                            mindmapornode.Text = file.FullName;//进入查看子节点一样的逻辑，按w才能退出
+                            ShowMindmap();
+                            SelectTreeNode(nodetree.Nodes, renameMindMapFileID);
+                            ShowMindmapFile();
+                            renameMindMapPath = "";
+                            renameMindMapFileID = "";
+                            //todo：选中子节点
+                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                            this.Height = 880;
+                            nodetree.Focus();
+                            searchword.Text = "";
+                            return;  
                         }
                         else
                         {
@@ -7902,8 +8046,8 @@ namespace DocearReminder
                             }
                             else
                             {
-                                nodetree.Top = FileTreeView.Top = 521;
-                                nodetree.Height = FileTreeView.Height = 307;
+                                nodetree.Top = FileTreeView.Top = 506;
+                                nodetree.Height = FileTreeView.Height = 322;
                             }
                         }
                     }
@@ -7918,8 +8062,8 @@ namespace DocearReminder
                             }
                             else
                             {
-                                nodetree.Top = FileTreeView.Top = 521;
-                                nodetree.Height = FileTreeView.Height = 307;
+                                nodetree.Top = FileTreeView.Top = 506;
+                                nodetree.Height = FileTreeView.Height = 322;
                             }
                             FileTreeView.Focus();
                         }
@@ -8871,12 +9015,20 @@ namespace DocearReminder
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
                             //下面窗口设置一下
-                            nodetree.Top = FileTreeView.Top = 521;
-                            nodetree.Height = FileTreeView.Height = 307;
+                            nodetree.Top = FileTreeView.Top = 506;
+                            nodetree.Height = FileTreeView.Height = 322;
                             pictureBox1.Visible = false;
-                            this.Height = 560;
+                            this.Height = 545;
                             reminderList.Focus();
                             //Center(); 
+                            //刷新一下任务
+                            if (mindmapornode.Text!="")
+                            {
+                                mindmapornode.Text = "";
+                                tasklevel.Value = 0;
+                                taskTime.Value = 0;
+                                RRReminderlist();
+                            }
                         }
                         else if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
@@ -8906,16 +9058,16 @@ namespace DocearReminder
                         else if (e.Modifiers.CompareTo(Keys.Alt) == 0) {
                             if (noterichTextBox.Focused)
                             {
-                                nodetree.Top = FileTreeView.Top = 521;
-                                nodetree.Height = FileTreeView.Height = 307;
+                                nodetree.Top = FileTreeView.Top = 506;
+                                nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
-                                this.Height = 560;
+                                this.Height = 545;
                                 reminderList.Focus();
                             }
                             else
                             {
-                                this.Height = 888;
+                                this.Height = 880;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
                                 noterichTextBox.Focus();
                             }
@@ -8927,7 +9079,7 @@ namespace DocearReminder
                                 ShowMindmap();
                                 ShowMindmapFile(false,100);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-                                this.Height = 888;
+                                this.Height = 880;
                                 nodetree.Focus();
                             }
                             else if (mindmaplist.Focused)
@@ -8935,17 +9087,17 @@ namespace DocearReminder
                                 ShowMindmap();
                                 ShowMindmapFile(false,100);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-                                this.Height = 888;
+                                this.Height = 880;
                                 nodetree.Focus();
                             }
                             else if (nodetree.Focused || FileTreeView.Focused)
                             {
                                 //下面窗口设置一下
-                                nodetree.Top = FileTreeView.Top = 521;
-                                nodetree.Height = FileTreeView.Height = 307;
+                                nodetree.Top = FileTreeView.Top = 506;
+                                nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
-                                this.Height = 560;
+                                this.Height = 545;
                                 reminderList.Focus();
                             }
                         }
@@ -9172,7 +9324,7 @@ namespace DocearReminder
                                     ShowMindmap();
                                     ShowMindmapFile();
                                     nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-                                    this.Height = 888;
+                                    this.Height = 880;
                                     nodetree.Focus();
                                 }
                                 else if (reminderListBox.Focused)
@@ -9374,8 +9526,8 @@ namespace DocearReminder
                             }
                             else
                             {
-                                nodetree.Top = FileTreeView.Top = 521;
-                                nodetree.Height = FileTreeView.Height = 307;
+                                nodetree.Top = FileTreeView.Top = 506;
+                                nodetree.Height = FileTreeView.Height = 322;
                             }
                         }
                         else
@@ -10559,6 +10711,7 @@ namespace DocearReminder
                     return;
                 }
                 richTextSubNode.Clear();
+
                 //当任务长度大于某个长度时，将其显示在子节点框
                 if (((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
                 {
@@ -11203,7 +11356,10 @@ namespace DocearReminder
             {
                 return;
             }
-            searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
+            if (!isRename)//重命名的时候，可以移动光标
+            {
+                searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
+            }
             if (searchword.Text.Length < 2 && !searchword.Text.StartsWith("@"))
             {
                 needSuggest = true;
@@ -11676,10 +11832,10 @@ namespace DocearReminder
         private void panel5_Click(object sender, EventArgs e)
         {
             //下面窗口设置一下
-            nodetree.Top = FileTreeView.Top = 521;
-            nodetree.Height = FileTreeView.Height = 307;
+            nodetree.Top = FileTreeView.Top = 506;
+            nodetree.Height = FileTreeView.Height = 322;
             pictureBox1.Visible = false;
-            this.Height = 560;
+            this.Height = 545;
             reminderList.Focus();
             //Center();
         }
@@ -13015,7 +13171,6 @@ namespace DocearReminder
         {
 
         }
-        bool isnottagcloudonload = true;
         private int leftIndex=0;
         private bool isSettingSyncWeek;
         private bool niazhi;
@@ -13408,17 +13563,17 @@ namespace DocearReminder
             ShowMindmap();
             ShowMindmapFile();
             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-            this.Height = 888;
+            this.Height = 880;
             nodetree.Focus();
         }
 
         private void 隐藏树视图SnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            nodetree.Top = FileTreeView.Top = 521;
-            nodetree.Height = FileTreeView.Height = 307;
+            nodetree.Top = FileTreeView.Top = 506;
+            nodetree.Height = FileTreeView.Height = 322;
             pictureBox1.Visible = false;
             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
-            this.Height = 560;
+            this.Height = 545;
             reminderList.Focus();
         }
 
@@ -13522,11 +13677,11 @@ namespace DocearReminder
             PlaySimpleSound("treeview");
             if (this.Height == 888)
             {
-                nodetree.Top = FileTreeView.Top = 521;
-                nodetree.Height = FileTreeView.Height = 307;
+                nodetree.Top = FileTreeView.Top = 506;
+                nodetree.Height = FileTreeView.Height = 322;
                 pictureBox1.Visible = false;
                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
-                this.Height = 560;
+                this.Height = 545;
                 reminderList.Focus();
             }
             else
@@ -13534,7 +13689,7 @@ namespace DocearReminder
                 ShowMindmap();
                 ShowMindmapFile();
                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
-                this.Height = 888;
+                this.Height = 880;
                 nodetree.Focus();
             }
         }
@@ -13903,6 +14058,11 @@ namespace DocearReminder
         private void titleTimer_Tick(object sender, EventArgs e)
         {
             this.Text=this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
+        }
+
+        private void menu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
     class MoveOverInfoTip

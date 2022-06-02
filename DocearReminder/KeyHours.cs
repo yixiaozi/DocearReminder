@@ -107,7 +107,7 @@ namespace DocearReminder
             string keyorder = "A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T;U;V;W;X;Y;Z;Oemcomma;OemPeriod;Oem1;Oem7;OemOpenBrackets;Oem6;Oem5;LControlKey;LShiftKey;Space;Return;Tab;Capital;LWin;Down;Up;Left;Right;Escape;Back;Delete;PageUp;PageDown;Insert;Home;End;D1;D2;D3;D4;D5;D6;D7;D8;D9;D0;OemMinus;Oemplus";
             int number = keyorder.Split(';').Length;
             List<string> keyorderArr = keyorder.Split(';').ToList();
-            int[] keynumbers = new int[300];
+            int[] keynumbers = new int[3000];
             foreach (keyRecord item in result)
             {
                 if (item.time >= dateTimePicker1.Value && item.time <= dateTimePicker2.Value)

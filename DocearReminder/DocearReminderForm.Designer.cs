@@ -456,12 +456,14 @@ namespace DocearReminder
             // fenshu
             // 
             this.fenshu.AutoSize = true;
+            this.fenshu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fenshu.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.fenshu.Location = new System.Drawing.Point(258, 483);
             this.fenshu.Name = "fenshu";
             this.fenshu.Size = new System.Drawing.Size(11, 12);
             this.fenshu.TabIndex = 76;
             this.fenshu.Text = "0";
+            this.fenshu.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
             // 
             // hourLeft
             // 
@@ -669,10 +671,10 @@ namespace DocearReminder
             this.nodetree.ItemHeight = 14;
             this.nodetree.LabelEdit = true;
             this.nodetree.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.nodetree.Location = new System.Drawing.Point(260, 521);
+            this.nodetree.Location = new System.Drawing.Point(260, 506);
             this.nodetree.Name = "nodetree";
             this.nodetree.ShowNodeToolTips = true;
-            this.nodetree.Size = new System.Drawing.Size(600, 307);
+            this.nodetree.Size = new System.Drawing.Size(600, 322);
             this.nodetree.TabIndex = 100;
             this.nodetree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.NodeTree_AfterLabelEdit);
             this.nodetree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
@@ -812,10 +814,10 @@ namespace DocearReminder
             this.FileTreeView.FullRowSelect = true;
             this.FileTreeView.LabelEdit = true;
             this.FileTreeView.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.FileTreeView.Location = new System.Drawing.Point(10, 521);
+            this.FileTreeView.Location = new System.Drawing.Point(10, 506);
             this.FileTreeView.Name = "FileTreeView";
             this.FileTreeView.ShowNodeToolTips = true;
-            this.FileTreeView.Size = new System.Drawing.Size(233, 307);
+            this.FileTreeView.Size = new System.Drawing.Size(233, 322);
             this.FileTreeView.TabIndex = 112;
             this.FileTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.FileTreeView_AfterLabelEdit);
             this.FileTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
@@ -937,6 +939,7 @@ namespace DocearReminder
             this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
             this.menu.Size = new System.Drawing.Size(212, 334);
+            this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
             // 
@@ -1228,11 +1231,13 @@ namespace DocearReminder
             // usedCount
             // 
             this.usedCount.AutoSize = true;
+            this.usedCount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.usedCount.Location = new System.Drawing.Point(116, 483);
             this.usedCount.Name = "usedCount";
             this.usedCount.Size = new System.Drawing.Size(11, 12);
             this.usedCount.TabIndex = 122;
             this.usedCount.Text = "0";
+            this.usedCount.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
             // usedtimelabel
             // 
@@ -1243,6 +1248,7 @@ namespace DocearReminder
             this.usedtimelabel.Size = new System.Drawing.Size(29, 12);
             this.usedtimelabel.TabIndex = 123;
             this.usedtimelabel.Text = "time";
+            this.usedtimelabel.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
             // 
             // todayusedtime
             // 
@@ -1295,10 +1301,10 @@ namespace DocearReminder
             this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
             this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.noterichTextBox.Location = new System.Drawing.Point(872, 521);
+            this.noterichTextBox.Location = new System.Drawing.Point(872, 506);
             this.noterichTextBox.Name = "noterichTextBox";
             this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.noterichTextBox.Size = new System.Drawing.Size(285, 307);
+            this.noterichTextBox.Size = new System.Drawing.Size(285, 322);
             this.noterichTextBox.TabIndex = 119;
             this.noterichTextBox.Text = "";
             this.noterichTextBox.TextChanged += new System.EventHandler(this.noterichTextBox_TextChanged);

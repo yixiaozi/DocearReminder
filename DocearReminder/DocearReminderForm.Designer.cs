@@ -143,6 +143,8 @@ namespace DocearReminder
             this.c_endtime = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
+            this.nodetreeSearch = new System.Windows.Forms.TextBox();
+            this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1269,7 +1271,7 @@ namespace DocearReminder
             this.richTextSubNode.MaximumSize = new System.Drawing.Size(285, 250);
             this.richTextSubNode.Name = "richTextSubNode";
             this.richTextSubNode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextSubNode.Size = new System.Drawing.Size(285, 178);
+            this.richTextSubNode.Size = new System.Drawing.Size(285, 90);
             this.richTextSubNode.TabIndex = 99;
             this.richTextSubNode.Text = "";
             this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
@@ -1432,6 +1434,33 @@ namespace DocearReminder
             this.titleTimer.Interval = 1000;
             this.titleTimer.Tick += new System.EventHandler(this.titleTimer_Tick);
             // 
+            // nodetreeSearch
+            // 
+            this.nodetreeSearch.ForeColor = System.Drawing.Color.Gray;
+            this.nodetreeSearch.Location = new System.Drawing.Point(872, 478);
+            this.nodetreeSearch.Name = "nodetreeSearch";
+            this.nodetreeSearch.Size = new System.Drawing.Size(285, 21);
+            this.nodetreeSearch.TabIndex = 127;
+            this.nodetreeSearch.Visible = false;
+            this.nodetreeSearch.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.nodetreeSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.nodetreeSearch_KeyUp);
+            // 
+            // hopeNote
+            // 
+            this.hopeNote.BackColor = System.Drawing.Color.White;
+            this.hopeNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.hopeNote.ForeColor = System.Drawing.Color.Gray;
+            this.hopeNote.Location = new System.Drawing.Point(872, 165);
+            this.hopeNote.MaximumSize = new System.Drawing.Size(285, 250);
+            this.hopeNote.Name = "hopeNote";
+            this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.hopeNote.Size = new System.Drawing.Size(285, 82);
+            this.hopeNote.TabIndex = 128;
+            this.hopeNote.Text = "";
+            this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
+            this.hopeNote.TextChanged += new System.EventHandler(this.hopeNote_TextChanged);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1439,6 +1468,8 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.hopeNote);
+            this.Controls.Add(this.nodetreeSearch);
             this.Controls.Add(this.c_endtime);
             this.Controls.Add(this.c_speechcontrol);
             this.Controls.Add(this.noterichTextBox);
@@ -1661,6 +1692,8 @@ namespace DocearReminder
         private ToolStripMenuItem 使用记录ToolStripMenuItem;
         private ToolStripMenuItem 键盘分析ToolStripMenuItem;
         private Timer titleTimer;
+        private TextBox nodetreeSearch;
+        private MyRichTextBox hopeNote;
     }
 }
 

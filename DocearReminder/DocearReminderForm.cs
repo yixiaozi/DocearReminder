@@ -278,10 +278,11 @@ namespace DocearReminder
                     {
                         if (item != "")
                         {
-                            PathcomboBox.Items.Add(item);
+                            int i=PathcomboBox.Items.Add(item);
                         }
                     }
                     PathcomboBox.Items.Add("all");
+                    hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory +@"rootPath.txt");
                 }
                 catch (Exception)
                 {
@@ -4737,7 +4738,7 @@ namespace DocearReminder
                         mindmapornode.Text = file.name;//进入查看子节点一样的逻辑，按w才能退出
                         ShowMindmap();
                         ShowMindmapFile();
-                        nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                        nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                         this.Height = 880;
                         nodetree.Focus();
                         searchword.Text = "";
@@ -6826,7 +6827,7 @@ namespace DocearReminder
         }
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(searchword.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
+            return !(searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -6880,7 +6881,7 @@ namespace DocearReminder
                             ShowMindmap(true);
                             ShowMindmapFile();
                             this.Height = 880;
-                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             nodetree.Focus();
                         }
                         else
@@ -6890,7 +6891,7 @@ namespace DocearReminder
                                 ShowMindmap(true);
                                 ShowMindmapFile();
                                 nodetree.Focus();
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             }
                             else
                             {
@@ -6899,7 +6900,7 @@ namespace DocearReminder
                                 FileTreeView.Top = 521;
                                 nodetree.Height = 307;
                                 FileTreeView.Height = 307;
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 reminderList.Focus();
                             }
                         }
@@ -7473,6 +7474,7 @@ namespace DocearReminder
                                     pathArr.Add(rootpath.FullName);
                                 }
                                 mindmapPath = rootpath.FullName;
+                               
                                 searchword.Text = "";
 
                                 Load_Click(null, null);
@@ -7968,7 +7970,7 @@ namespace DocearReminder
                             renameMindMapPath = "";
                             renameMindMapFileID = "";
                             //todo：选中子节点
-                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             this.Height = 880;
                             nodetree.Focus();
                             searchword.Text = "";
@@ -8071,7 +8073,7 @@ namespace DocearReminder
                                 if (nodetree.Top != 9)
                                 {
                                     nodetree.Top = FileTreeView.Top = 9;
-                                    nodetree.Height = FileTreeView.Height = 799;
+                                    nodetree.Height = FileTreeView.Height = 818;
                                 }
                                 else
                                 {
@@ -8088,7 +8090,7 @@ namespace DocearReminder
                             if (nodetree.Top != 9)
                             {
                                 nodetree.Top = FileTreeView.Top = 9;
-                                nodetree.Height = FileTreeView.Height = 799;
+                                nodetree.Height = FileTreeView.Height = 818;
                             }
                             else
                             {
@@ -8166,6 +8168,10 @@ namespace DocearReminder
                             reminderList.Focus();
                         }
                         else if (noterichTextBox.Focused)
+                        {
+                            nodetree.Focus();
+                        }
+                        else if (nodetreeSearch.Focused)
                         {
                             nodetree.Focus();
                         }
@@ -8500,6 +8506,7 @@ namespace DocearReminder
                         }
                         else
                         {
+
                             isRename = false;
                             reminderSelectIndex = reminderList.SelectedIndex;
                             searchword.Focus();
@@ -9048,9 +9055,10 @@ namespace DocearReminder
                             nodetree.Top = FileTreeView.Top = 506;
                             nodetree.Height = FileTreeView.Height = 322;
                             pictureBox1.Visible = false;
+                            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
                             this.Height = 545;
                             reminderList.Focus();
-                            //Center(); 
+                            Center();
                             //刷新一下任务
                             if (mindmapornode.Text!="")
                             {
@@ -9091,14 +9099,14 @@ namespace DocearReminder
                                 nodetree.Top = FileTreeView.Top = 506;
                                 nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 this.Height = 545;
                                 reminderList.Focus();
                             }
                             else
                             {
                                 this.Height = 880;
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                 noterichTextBox.Focus();
                             }
                         }
@@ -9108,7 +9116,7 @@ namespace DocearReminder
                             {
                                 ShowMindmap();
                                 ShowMindmapFile(false,100);
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                 this.Height = 880;
                                 nodetree.Focus();
                             }
@@ -9116,7 +9124,7 @@ namespace DocearReminder
                             {
                                 ShowMindmap();
                                 ShowMindmapFile(false,100);
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                 this.Height = 880;
                                 nodetree.Focus();
                             }
@@ -9126,7 +9134,7 @@ namespace DocearReminder
                                 nodetree.Top = FileTreeView.Top = 506;
                                 nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
-                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 this.Height = 545;
                                 reminderList.Focus();
                             }
@@ -9353,7 +9361,7 @@ namespace DocearReminder
                                     reminderList.Focus();
                                     ShowMindmap();
                                     ShowMindmapFile();
-                                    nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                                    nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                     this.Height = 880;
                                     nodetree.Focus();
                                 }
@@ -9471,19 +9479,26 @@ namespace DocearReminder
                 case Keys.S:
                     if (keyNotWork(e))
                     {
-                        c_ViewModel.Checked = !c_ViewModel.Checked;
-                        if (!c_ViewModel.Checked)
+                        if (nodetree.Focused || FileTreeView.Focused)
                         {
-                            shaixuanfuwei();
-                            RRReminderlist();
-                            reminderList.Focus();
+                            nodetreeSearch.Focus();
                         }
                         else
                         {
-                            reminderList.SelectedIndex = -1;
-                            reminderSelectIndex = -1;
-                            IsSelectReminder = false;
-                            mindmaplist.Focus();
+                            c_ViewModel.Checked = !c_ViewModel.Checked;
+                            if (!c_ViewModel.Checked)
+                            {
+                                shaixuanfuwei();
+                                RRReminderlist();
+                                reminderList.Focus();
+                            }
+                            else
+                            {
+                                reminderList.SelectedIndex = -1;
+                                reminderSelectIndex = -1;
+                                IsSelectReminder = false;
+                                mindmaplist.Focus();
+                            }
                         }
                     }
                     break;
@@ -9552,7 +9567,7 @@ namespace DocearReminder
                             if (nodetree.Top != 9)
                             {
                                 nodetree.Top = FileTreeView.Top = 9;
-                                nodetree.Height = FileTreeView.Height = 799;
+                                nodetree.Height = FileTreeView.Height = 818;
                             }
                             else
                             {
@@ -10460,12 +10475,19 @@ namespace DocearReminder
                     {
                         continue;
                     }
-                    FileTreeView.Nodes.Add(file.FullName, file.Name);
+                    TreeNode newnode= FileTreeView.Nodes.Add(file.FullName, file.Name);
+                    if (System.IO.Directory.Exists(file.FullName)){
+                        newnode.Tag=string.Join(",",System.IO.Directory.GetFiles(file.FullName,"*.*",SearchOption.AllDirectories));
+                    }
                 }
             }
             else
             {
                 curNode = addInMe.Add(directoryInfo.FullName, " " + directoryInfo.Name);
+                if (System.IO.Directory.Exists(directoryInfo.FullName))
+                {
+                    curNode.Tag = string.Join(",", System.IO.Directory.GetFiles(directoryInfo.FullName, "*.*", SearchOption.AllDirectories));
+                }
                 foreach (FileInfo file in directoryInfo.GetFiles())
                 {
                     if (file.Name.StartsWith("~") && (file.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
@@ -12347,6 +12369,22 @@ namespace DocearReminder
                 }
                 mindmapPath = rootpath.FullName;
                 searchword.Text = "";
+                //todo:加载hope笔记
+                try
+                {
+                    if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt"))
+                    {
+                        hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory +"\\"+ PathcomboBox.SelectedItem.ToString() + @".txt");
+
+                    }
+                    else
+                    {
+                        hopeNote.Text = "";
+                    }
+                }
+                catch (Exception)
+                {
+                }
                 PlaySimpleSound("changepath");
                 Load_Click(null, null);
                 reminderList.Focus();
@@ -13171,7 +13209,8 @@ namespace DocearReminder
 
         private void richTextSubNode_SizeChanged(object sender, EventArgs e)
         {
-            tagCloudControl.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
+            hopeNote.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
+            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
             tagCloudControl.Height = 475 - tagCloudControl.Top;
         }
 
@@ -13586,7 +13625,7 @@ namespace DocearReminder
         {
             ShowMindmap();
             ShowMindmapFile();
-            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
             this.Height = 880;
             nodetree.Focus();
         }
@@ -13596,7 +13635,7 @@ namespace DocearReminder
             nodetree.Top = FileTreeView.Top = 506;
             nodetree.Height = FileTreeView.Height = 322;
             pictureBox1.Visible = false;
-            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
+            nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
             this.Height = 545;
             reminderList.Focus();
         }
@@ -13704,7 +13743,7 @@ namespace DocearReminder
                 nodetree.Top = FileTreeView.Top = 506;
                 nodetree.Height = FileTreeView.Height = 322;
                 pictureBox1.Visible = false;
-                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = false;
+                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                 this.Height = 545;
                 reminderList.Focus();
             }
@@ -13712,7 +13751,7 @@ namespace DocearReminder
             {
                 ShowMindmap();
                 ShowMindmapFile();
-                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = true;
+                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                 this.Height = 880;
                 nodetree.Focus();
             }
@@ -14088,7 +14127,130 @@ namespace DocearReminder
         {
 
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void SearchTreeNode(TreeNodeCollection nodes,string searchWorld)
+        {
+            foreach (TreeNode item in nodes)
+            {
+                if (searchWorld=="red")
+                {
+                    item.ForeColor = Color.Gray;
+                    if (item.Nodes.Count > 0)
+                    {
+                        SearchTreeNode(item.Nodes, "red");
+                    }
+                    continue;
+                }
+                string tagstring = "";
+                try
+                {
+                    if (item.Tag!=null)
+                    {
+                        tagstring = ((System.Xml.XmlNode)item.Tag).OuterXml;
+                    }
+                    else
+                    {
+                    }
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        if (item.Tag != null)
+                        {
+                            tagstring = item.Tag.SafeToString();
+                        }
+                        else
+                        {
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                if (tagstring.Contains(searchWorld)|| item.Text.Contains(searchWorld))
+                {
+                    if (item.Text.Contains(searchWorld))
+                    {
+                        item.ForeColor = Color.Red;
+                    }
+                    if (item.Nodes.Count > 0)
+                    {
+                        item.ExpandAll();
+                        SearchTreeNode(item.Nodes, searchWorld);
+                    }
+                }
+                else
+                {
+                    item.ForeColor = Color.Gray;
+                    if (item.Nodes.Count > 0)
+                    {
+                        SearchTreeNode(item.Nodes, "red");
+                    }
+                    item.Collapse();
+                }
+            }
+        }
+
+        private void nodetreeSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //todo:搜索树
+                //只需要遍历树的Tab就可以了
+                if (nodetreeSearch.Text.Trim() != "")
+                {
+                    SearchTreeNode(nodetree.Nodes, nodetreeSearch.Text.Trim());
+                    SearchTreeNode(FileTreeView.Nodes, nodetreeSearch.Text.Trim());
+                }
+                else
+                {
+                    nodetree.CollapseAll();
+                    FileTreeView.CollapseAll();
+                }
+                if (nodetree.Top != 9)
+                {
+                    nodetree.Top = FileTreeView.Top = 9;
+                    nodetree.Height = FileTreeView.Height = 818;
+                }
+                nodetree.Focus();
+            }
+        }
+
+        private void hopeNote_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                hopeNote.ForeColor = Color.Gray;
+                if (hopeNote.Text.Trim() == "")
+                {
+                    hopeNote.Height = 50;
+                    return;
+                }
+                int EM_GETLINECOUNT = 0x00BA;
+                int lc = SendMessage(this.hopeNote.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
+                int sf = this.hopeNote.Font.Height * (lc + 1);
+                this.hopeNote.Height = sf;
+                hopeNote.SaveFile(System.AppDomain.CurrentDomain.BaseDirectory + PathcomboBox.SelectedItem.ToString()+ @".txt");
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void hopeNote_SizeChanged(object sender, EventArgs e)
+        {
+            hopeNote.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
+            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
+            tagCloudControl.Height = 475 - tagCloudControl.Top;
+        }
     }
+
     class MoveOverInfoTip
     {
         #region   基础参数

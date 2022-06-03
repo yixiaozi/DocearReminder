@@ -5489,7 +5489,7 @@ namespace DocearReminder
             }
         }
 
-        public string AddNodeInNodeTree(string taskName)
+        public XmlNode AddNodeInNodeTree(string taskName)
         {
             try
             {
@@ -5500,7 +5500,7 @@ namespace DocearReminder
                 {
                     if (nodetree.Nodes.Contains(nodetree.SelectedNode))
                     {
-                        if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == ((XmlAttribute)(nodetree.Nodes[0].Tag)).Value)
+                        if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText ==nodetree.Nodes[0].Name)
                         {
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
@@ -5551,12 +5551,12 @@ namespace DocearReminder
                             x.Save(renameMindMapPath);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
                             th.Start();
-                            return newNote.Attributes["ID"].Value;
+                            return newNote;
                         }
                     }
                     else
                     {
-                        if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == ((XmlAttribute)(nodetree.SelectedNode.Parent.Tag)).Value)
+                        if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == nodetree.SelectedNode.Parent.Name)
                         {
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
@@ -5607,15 +5607,15 @@ namespace DocearReminder
                             x.Save(renameMindMapPath);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
                             th.Start();
-                            return newNote.Attributes["ID"].Value;
+                            return newNote;
                         }
                     }
                 }
-                return "";
+                return null;
             }
             catch (Exception ex)
             {
-                return "";
+                return null;
             }
         }
         private void mindmaplist_MouseUp(object sender, MouseEventArgs e)
@@ -7229,12 +7229,12 @@ namespace DocearReminder
                 case Keys.Delete:
                     if (nodetree.Focused)
                     {
-                        if (nodetree.SelectedNode.Tag != null)
+                        if (nodetree.SelectedNode.Name != null)
                         {
                             try
                             {
                                 string deleteNodeName = nodetree.SelectedNode.Text;
-                                deleteNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
+                                deleteNodeByID(nodetree.SelectedNode.Name);
                                 SaveLog("删除节点：" + deleteNodeName + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                                 fenshuADD(1);
                                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -7296,7 +7296,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            DownNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                            DownNodeByID(nodetree.SelectedNode.Name);
                             Extensions.MoveDown(nodetree.SelectedNode);
                             fenshuADD(1);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -8001,11 +8001,11 @@ namespace DocearReminder
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
                             //将树节点设置成任务
-                            if (nodetree.SelectedNode.Tag != null)
+                            if (nodetree.SelectedNode.Name != null)
                             {
                                 try
                                 {
-                                    if (SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value))
+                                    if (SetTaskNodeByID(nodetree.SelectedNode.Name))
                                     {
                                         nodetree.SelectedNode.Text = DateTime.Now.ToString("MMddHH ") + nodetree.SelectedNode.Text;
                                         SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
@@ -8038,16 +8038,46 @@ namespace DocearReminder
                         }
                         else
                         {
-                            //暂时不将树视图放到最大了
-                            if (nodetree.Top != 9)
+                            //todo:Enter时候打开链接
+                            if (nodetree.SelectedNode.ForeColor == Color.DeepSkyBlue)
                             {
-                                nodetree.Top = FileTreeView.Top = 9;
-                                nodetree.Height = FileTreeView.Height = 799;
+                                try
+                                {
+                                    string link = GetAttribute(((XmlNode)nodetree.SelectedNode.Tag), "LINK");
+                                    if (IsURL(link))
+                                    {
+                                        Process.Start(link);
+                                    }
+                                    else if (IsFileUrl(link))
+                                    {
+                                        Process.Start(getFileUrlPath(link));
+                                    }else if (link.StartsWith("."))
+                                    {
+                                        FileInfo file=new FileInfo(((XmlNode)nodetree.SelectedNode.Tag).BaseURI.Substring(8));
+                                        string mindmapfolderPath = file.Directory.FullName;
+                                        link = mindmapfolderPath + "\\" + link;
+                                        link = link.Replace("/", "\\");
+                                        link = link.Replace(@"\\", @"\");
+                                        Process.Start(getFileUrlPath(link));
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
                             else
                             {
-                                nodetree.Top = FileTreeView.Top = 506;
-                                nodetree.Height = FileTreeView.Height = 322;
+                                //暂时不将树视图放到最大了
+                                if (nodetree.Top != 9)
+                                {
+                                    nodetree.Top = FileTreeView.Top = 9;
+                                    nodetree.Height = FileTreeView.Height = 799;
+                                }
+                                else
+                                {
+                                    nodetree.Top = FileTreeView.Top = 506;
+                                    nodetree.Height = FileTreeView.Height = 322;
+                                }
                             }
                         }
                     }
@@ -8926,7 +8956,7 @@ namespace DocearReminder
                         {
                             if (nodetree.Nodes.IndexOf(nodetree.SelectedNode)<0)//如果是根节点，禁止左移
                             {
-                                LeftNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                                LeftNodeByID(nodetree.SelectedNode.Name);
                                 Extensions.MoveToFather(nodetree.SelectedNode);
                                 fenshuADD(1);
                                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -9370,7 +9400,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            RightNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                            RightNodeByID(nodetree.SelectedNode.Name);
                             Extensions.MoveToChildren(nodetree.SelectedNode);
                             fenshuADD(1);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -9556,7 +9586,7 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                UPNodeByID(((XmlAttribute)nodetree.SelectedNode.Tag).Value);
+                                UPNodeByID(nodetree.SelectedNode.Name);
                                 Extensions.MoveUp(nodetree.SelectedNode);
                                 fenshuADD(1);
                                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -10630,7 +10660,6 @@ namespace DocearReminder
                     }
                     else
                     {
-                        int id1 = 0;
                         TreeNode inTreeNodeAdd;
                         if (inTreeNode.Text.StartsWith("Root"))
                         {
@@ -10643,20 +10672,18 @@ namespace DocearReminder
                                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                 dt = startTime.AddMilliseconds(unixTimeStamp);
                             }
-                            id1 = nodetree.Nodes.Add(new TreeNode(gettasktime(xNode) + (reminder != "" && inTreeNode.Text == "RootWithTime" ? dt.ToString("MMddHH ") : "") + xNode.Attributes["TEXT"].InnerText));
-                            inTreeNodeAdd = nodetree.Nodes[id1];
+                            inTreeNodeAdd = nodetree.Nodes.Add(xNode.Attributes["ID"].Value, gettasktime(xNode) + (reminder != "" && inTreeNode.Text == "RootWithTime" ? dt.ToString("MMddHH ") : "") + xNode.Attributes["TEXT"].InnerText);
                         }
                         else
                         {
-                            id1 = inTreeNode.Nodes.Add(new TreeNode(gettasktime(xNode) +xNode.Attributes["TEXT"].InnerText));
-                            inTreeNodeAdd = inTreeNode.Nodes[id1];
+                            inTreeNodeAdd = inTreeNode.Nodes.Add(xNode.Attributes["ID"].Value, (gettasktime(xNode) +xNode.Attributes["TEXT"].InnerText));
                         }
-                        object objectTag = null;
-                        if (xNode.Attributes != null && xNode.Attributes["ID"] != null)
+                        inTreeNodeAdd.Tag = xNode;
+                        if (GetAttribute(xNode,"LINK")!="")
                         {
-                            objectTag = xNode.Attributes["ID"];
+                            inTreeNodeAdd.ForeColor = Color.DeepSkyBlue;
                         }
-                        inTreeNodeAdd.Tag = objectTag;
+                        //TODO:给树视图添加链接  
                         if (xNode.HasChildNodes)
                         {
                             AddNode(xNode, inTreeNodeAdd, true);
@@ -10685,7 +10712,7 @@ namespace DocearReminder
             {
                 try
                 {
-                    if (((System.Xml.XmlAttribute)item.Tag).Value == (taskid))
+                    if (item.Name == (taskid))
                     {
                         nodetree.SelectedNode = item;
                         nodetree.SelectedNode.Expand();//展开当前节点
@@ -12254,10 +12281,9 @@ namespace DocearReminder
             }
             else
             {
-                XmlDocument doc = new XmlDocument();
-                XmlAttribute tag = doc.CreateAttribute("ID");
-                tag.Value = AddNodeInNodeTree(newTxt);
-                nodetree.SelectedNode.Tag = tag;
+                XmlNode newNode= AddNodeInNodeTree(newTxt);
+                nodetree.SelectedNode.Tag = newNode;
+                nodetree.SelectedNode.Name = GetAttribute(newNode,"ID");
                 SaveLog("添加节点名称：" + newTxt);
                 fenshuADD(1);
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -12273,10 +12299,8 @@ namespace DocearReminder
                     IsMindMapNodeEdit = true;
                     isRename = true;
                     renameTaskName = nodetree.SelectedNode.Text;
-                    renameMindMapFileID = ((XmlAttribute)(nodetree.SelectedNode.Tag)).Value;
-                    {
-                        nodetree.SelectedNode.BeginEdit();
-                    }
+                    renameMindMapFileID = nodetree.SelectedNode.Name;
+                    nodetree.SelectedNode.BeginEdit();
                     break;
                 default:
                     break;
@@ -13406,12 +13430,12 @@ namespace DocearReminder
 
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
-            if (nodetree.SelectedNode.Tag != null)
+            if (nodetree.SelectedNode.Name != null)
             {
                 try
                 {
                     string deleteNodeName = nodetree.SelectedNode.Text;
-                    deleteNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value);
+                    deleteNodeByID(nodetree.SelectedNode.Name);
                     SaveLog("删除节点：" + deleteNodeName + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                     fenshuADD(1);
                     Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -13718,7 +13742,7 @@ namespace DocearReminder
         {
             try
             {
-                if (SetTaskNodeByID(((XmlAttribute)(nodetree.SelectedNode.Tag)).Value))
+                if (SetTaskNodeByID(nodetree.SelectedNode.Name))
                 {
                     SaveLog("设置节点为任务：" + nodetree.SelectedNode.Text + "    导图" + showMindmapName.Split('\\')[showMindmapName.Split('\\').Length - 1]);
                     Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));

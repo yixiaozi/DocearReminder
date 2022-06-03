@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdate", "AutoUpdate\Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevpConsole", "DevpConsole\DevpConsole.csproj", "{06DE5AE9-7C12-4F2E-A615-0DBE7CF27718}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocearCalendar", "System.Windows.Forms.Calendar\DocearCalendar.csproj", "{25649F08-3046-4891-ADB8-7EA787B57063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarDemo", "CalendarDemo\CalendarDemo.csproj", "{CCAB97D3-8290-4140-906D-8FF8CB8D6FED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{06DE5AE9-7C12-4F2E-A615-0DBE7CF27718}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06DE5AE9-7C12-4F2E-A615-0DBE7CF27718}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06DE5AE9-7C12-4F2E-A615-0DBE7CF27718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25649F08-3046-4891-ADB8-7EA787B57063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25649F08-3046-4891-ADB8-7EA787B57063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25649F08-3046-4891-ADB8-7EA787B57063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25649F08-3046-4891-ADB8-7EA787B57063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAB97D3-8290-4140-906D-8FF8CB8D6FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAB97D3-8290-4140-906D-8FF8CB8D6FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAB97D3-8290-4140-906D-8FF8CB8D6FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAB97D3-8290-4140-906D-8FF8CB8D6FED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

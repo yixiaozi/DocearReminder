@@ -37,7 +37,7 @@ namespace DocearReminder
             }
             else
             {
-                Application.Run(new CalendarForm(System.IO.Path.GetFullPath(((new IniFile(System.IO.Path.GetFullPath(@".\config.ini"))).ReadString("path", "rootpath", "")))));
+                //Application.Run(new CalendarForm(System.IO.Path.GetFullPath(((new IniFile(System.IO.Path.GetFullPath(@".\config.ini"))).ReadString("path", "rootpath", "")))));
             }
         }
         

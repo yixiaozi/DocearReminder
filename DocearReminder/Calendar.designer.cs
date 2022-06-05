@@ -252,7 +252,6 @@ namespace DocearReminder
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(119, 21);
             this.textBox_searchwork.TabIndex = 28;
-            this.textBox_searchwork.TextChanged += new System.EventHandler(this.textBox_searchwork_TextChanged);
             this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
             // 
             // numericOpacity
@@ -433,6 +432,8 @@ namespace DocearReminder
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  ";
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CalendarForm_FormClosed);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);

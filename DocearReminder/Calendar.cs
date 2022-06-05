@@ -1114,6 +1114,8 @@ namespace DocearReminder
                 RefreshCalender();
                 dayView1.StartDate = dayView1.StartDate;//用于刷新
             }
+            UsedLogRenew();
+
         }
 
         private void dayView1_SelectionChanged_1(object sender, EventArgs e)
@@ -1322,6 +1324,7 @@ namespace DocearReminder
             {
                 case Keys.Enter:
                     RefreshCalender();
+                    UsedLogRenew();
                     break;
                 case Keys.Shift:
                     break;
@@ -1420,7 +1423,7 @@ namespace DocearReminder
 
         private void comboBox1_SelectedIndexChanged_2(object sender, EventArgs e)
         {
-
+            UsedLogRenew();
         }
 
         private void dayView1_NewAppointment_1(object sender, NewAppointmentEventArgs args)
@@ -1689,6 +1692,8 @@ namespace DocearReminder
         private void c_timeBlock_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+            UsedLogRenew();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1841,25 +1846,23 @@ namespace DocearReminder
             nomoretooltip = true;
         }
 
-        private void textBox_searchwork_TextChanged(object sender, EventArgs e)
-        {
-            RefreshCalender();
-        }
-
         private void c_done_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+            UsedLogRenew();
         }
 
         private void c_progress_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+            UsedLogRenew();
 
         }
 
         private void c_mistake_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+            UsedLogRenew();
 
         }
 
@@ -1880,6 +1883,64 @@ namespace DocearReminder
             Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault, tasklevelNum);
             fanqie.ShowDialog();
         }
+        #region 添加使用记录
+
+        Guid currentUsedTimerId;
+        string usedTimeLog = "";
+        private void UseTime_Activated(object sender, EventArgs e)
+        {
+            UsedLogRenew();
+        }
+
+        private void UseTime_Deactivate(object sender, EventArgs e)
+        {
+            UsedLogRenew(false);
+        }
+        public void UsedLogRenew(bool newlog = true, bool newid = true)
+        {
+            //结束之前的ID记录，并生成新的ID
+            if (newid || currentUsedTimerId == null)
+            {
+                DocearReminderForm.usedTimer.SetEndDate(currentUsedTimerId);
+                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)){IsBackground = true};
+                th.Start();
+                currentUsedTimerId = Guid.NewGuid();
+            }
+            //添加一个新的记录
+            if (newlog)
+            {
+                string file = "";
+                string name;
+                if (c_timeBlock.Checked)
+                {
+                    name = "时间块";
+                }
+                else if (c_fanqie.Checked)
+                {
+                    name = "番茄钟";
+                }
+                else if (c_progress.Checked)
+                {
+                    name = "进步";
+                }
+                else if (c_mistake.Checked)
+                {
+                    name = "错误";
+                }
+                else if (c_done.Checked)
+                {
+                    name = "已完成";
+                }
+                else
+                {
+                    name = "任务";
+                }
+                file = workfolder_combox.SelectedItem.ToString();
+                DocearReminderForm.usedTimer.NewOneTime(currentUsedTimerId, file, name, usedTimeLog, "日历");
+                usedTimeLog = "";
+            }
+        }
+        #endregion
     }
     internal class User32
     {

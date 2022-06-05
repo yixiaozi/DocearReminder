@@ -110,7 +110,7 @@ namespace DocearReminder
         Encrypt encrypt;
         Encrypt encryptlog;
         bool selectedpath = true;
-        UsedTimer usedTimer = new UsedTimer();
+        public static UsedTimer  usedTimer = new UsedTimer();
         Guid currentUsedTimerId;
         DateTime formActive;
         TimeSpan leavespan = new TimeSpan();
@@ -475,18 +475,30 @@ namespace DocearReminder
             skinEngine1.SkinFile = ((System.Windows.Forms.ToolStripItem)sender).Tag.ToString();
             ini.WriteString("Skin","src", skinEngine1.SkinFile);
         }
-
-        private void SaveUsedTimerFile(UsedTimer data)
+        //加一个控制，一分钟写一次就好了
+        public static List<string> usetimelist = new List<string>();
+        public static string usedtimerJson="";
+        public static void SaveUsedTimerFile(UsedTimer data)
         {
-            string json = new JavaScriptSerializer()
+            if (!usetimelist.Contains(DateTime.Now.ToString("yy-MM-dd-HH-mm")))
             {
-                MaxJsonLength = Int32.MaxValue
-            }.Serialize(data);
-            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", "");
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json");
-            using (StreamWriter sw = fi.AppendText())
-            {
-                sw.Write(json);
+                usetimelist.Add(DateTime.Now.ToString("yy-MM-dd-HH-mm"));
+                try
+                {
+                    usedtimerJson = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    }.Serialize(data);
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", usedtimerJson);
+                }
+                catch (Exception)
+                {
+                }
+                //FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json");
+                //using (StreamWriter sw = fi.AppendText())
+                //{
+                //    sw.Write(json);
+                //}
             }
         }
 
@@ -680,7 +692,7 @@ namespace DocearReminder
             }
             if (DateTime.Now.Minute==0|| DateTime.Now.Minute == 15|| DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
             {
-                if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5)
+                if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5||searchword.Focused||hopeNote.Focused|| nodetreeSearch.Focused)
                 {
 
                 }
@@ -737,7 +749,7 @@ namespace DocearReminder
             //添加一个新的记录
             if (newlog)
             {
-                usedTimer.NewOneTime(currentUsedTimerId, PathcomboBox.SelectedItem.ToString(), showMindmapName, usedTimeLog, "主窗口");
+                usedTimer.NewOneTime(currentUsedTimerId, PathcomboBox.SelectedItem==null?"rootPath":PathcomboBox.SelectedItem.ToString(), showMindmapName, usedTimeLog, "主窗口");
                 usedTimeLog = "";
             }
         }

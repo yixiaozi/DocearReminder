@@ -64,7 +64,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(108, 21);
             this.dateTimePicker1.TabIndex = 2;
-            this.dateTimePicker1.Value = System.DateTime.Today;
+            this.dateTimePicker1.Value = new System.DateTime(2022, 6, 5, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label2
@@ -82,7 +82,7 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(108, 21);
             this.dateTimePicker2.TabIndex = 4;
-            this.dateTimePicker2.Value = System.DateTime.Today.AddDays(1);
+            this.dateTimePicker2.Value = new System.DateTime(2022, 6, 6, 0, 0, 0, 0);
             this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // formsPlot2
@@ -159,6 +159,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "键盘分析";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.KeyHours_Load);
             this.Resize += new System.EventHandler(this.KeyHours_Resize);
             this.ResumeLayout(false);

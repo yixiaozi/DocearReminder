@@ -80,8 +80,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Todoist.Net\Todoist.Net.csproj">
-      <Project>{0d84413b-43c0-4f0e-92a6-669f2e9ea5cb}</Project>
+    <ProjectReference Include="..\Todoist.Net\Todoist.Net.csproj">
+      <Project>{31f87e7e-c72e-4317-b799-e71f69df7746}</Project>
       <Name>Todoist.Net</Name>
     </ProjectReference>
   </ItemGroup>

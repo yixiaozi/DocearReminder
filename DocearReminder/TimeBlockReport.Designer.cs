@@ -67,7 +67,7 @@ namespace DocearReminder
             this.startDt.Name = "startDt";
             this.startDt.Size = new System.Drawing.Size(124, 21);
             this.startDt.TabIndex = 2;
-            this.startDt.Value = DateTime.Today;
+            this.startDt.Value = new System.DateTime(2022, 6, 5, 0, 0, 0, 0);
             this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // label2
@@ -85,7 +85,7 @@ namespace DocearReminder
             this.endDT.Name = "endDT";
             this.endDT.Size = new System.Drawing.Size(112, 21);
             this.endDT.TabIndex = 4;
-            this.endDT.Value = DateTime.Today.AddDays(1);
+            this.endDT.Value = new System.DateTime(2022, 6, 6, 0, 0, 0, 0);
             this.endDT.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // searchword
@@ -183,6 +183,8 @@ namespace DocearReminder
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TimeBlockReport";
             this.Text = "时间块";
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.TimeBlockReport_Load);
             this.Resize += new System.EventHandler(this.TimeBlockReport_Resize);
             this.ResumeLayout(false);

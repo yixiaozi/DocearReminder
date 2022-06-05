@@ -1234,7 +1234,7 @@ namespace DocearReminder
             // 
             this.usedCount.AutoSize = true;
             this.usedCount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.usedCount.Location = new System.Drawing.Point(116, 483);
+            this.usedCount.Location = new System.Drawing.Point(98, 483);
             this.usedCount.Name = "usedCount";
             this.usedCount.Size = new System.Drawing.Size(11, 12);
             this.usedCount.TabIndex = 122;
@@ -1255,7 +1255,7 @@ namespace DocearReminder
             // todayusedtime
             // 
             this.todayusedtime.AutoSize = true;
-            this.todayusedtime.Location = new System.Drawing.Point(146, 483);
+            this.todayusedtime.Location = new System.Drawing.Point(147, 483);
             this.todayusedtime.Name = "todayusedtime";
             this.todayusedtime.Size = new System.Drawing.Size(23, 12);
             this.todayusedtime.TabIndex = 124;

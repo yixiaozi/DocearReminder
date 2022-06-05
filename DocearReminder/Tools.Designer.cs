@@ -232,6 +232,8 @@
             this.Name = "Tools";
             this.Text = "Tools";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.Tools_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

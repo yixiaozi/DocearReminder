@@ -62,6 +62,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Search";
             this.Text = "Search";
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
             this.ResumeLayout(false);

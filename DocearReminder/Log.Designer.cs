@@ -87,6 +87,8 @@ namespace DocearReminder
             this.Controls.Add(this.resultlistBox);
             this.Name = "Log";
             this.Text = "Log";
+            this.Activated += new System.EventHandler(this.UseTime_Activated);
+            this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Log_KeyUp);

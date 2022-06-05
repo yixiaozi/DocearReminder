@@ -8,9 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using yixiaozi.Config;
+using yixiaozi.Model.DocearReminder;
 using yixiaozi.WinForm.Common;
 
 namespace DocearReminder
@@ -619,5 +622,56 @@ namespace DocearReminder
             {
             }
         }
+        #region 添加使用记录
+
+        Guid currentUsedTimerId;
+        string usedTimeLog = "";
+        private void UseTime_Activated(object sender, EventArgs e)
+        {
+            UsedLogRenew();
+        }
+
+        private void UseTime_Deactivate(object sender, EventArgs e)
+        {
+            UsedLogRenew(false);
+        }
+        public void UsedLogRenew(bool newlog = true, bool newid = true)
+        {
+            //结束之前的ID记录，并生成新的ID
+            if (newid || currentUsedTimerId == null)
+            {
+                DocearReminderForm.usedTimer.SetEndDate(currentUsedTimerId);
+                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)){IsBackground = true};
+                currentUsedTimerId = Guid.NewGuid();
+            }
+            //添加一个新的记录
+            if (newlog)
+            {
+                //主窗口
+                //时间块
+                //历史记录
+                //剪切板
+                //工具窗口
+                //报表 - 时间块
+                //报表 - 键盘
+                //报表 - 使用记录
+                //所有
+                DocearReminderForm.usedTimer.NewOneTime(currentUsedTimerId, "", "", keyword.Text, "历史记录");
+            }
+        }
+        private void SaveUsedTimerFile(UsedTimer data)
+        {
+            string json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = Int32.MaxValue
+            }.Serialize(data);
+            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", "");
+            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json");
+            using (StreamWriter sw = fi.AppendText())
+            {
+                sw.Write(json);
+            }
+        }
+        #endregion
     }
 }

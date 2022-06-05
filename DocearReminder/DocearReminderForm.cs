@@ -79,7 +79,6 @@ namespace DocearReminder
         Reminder reminderObjectOut = new Reminder();
         string showMindmapName = "";//用于Tree中当前导图的名称
         string renameTaskName = "";
-        string renameMindMapPath = "";
         string renameMindMapFileIDParent = "";
         string renameMindMapFileID = "";
         bool isRename = false;
@@ -118,6 +117,7 @@ namespace DocearReminder
         bool isneedreminderlistrefresh = true;
         bool isneedKeyUpEventWork = true;
 		private System.IO.FileSystemWatcher fileSystemWatcher1;
+        public string usedTimeLog = "";
         #endregion
         public DocearReminderForm()
         {
@@ -237,16 +237,16 @@ namespace DocearReminder
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
                 #region UsedTimer
+                fathernode.Text = "";
                 UsedTimerOnLoad();
                 #endregion
                 FileTreeView.AfterSelect += FileTreeView_AfterSelect;
                 string calanderpath = ini.ReadString("path", "calanderpath", "");
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
                 fileTreePath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
-                this.Height = 545;
+                this.Height = 545;showMindmapName="";
                 noterichTextBox.LoadFile(ini.ReadString("path", "note", System.AppDomain.CurrentDomain.BaseDirectory + @"\note.txt"));
                 richTextSubNode.Height = 0;
-                fathernode.Text = "";
                 try
                 {
 
@@ -426,7 +426,7 @@ namespace DocearReminder
             usedCount.Text = usedTimer.Count.ToString();
             usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
             todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
-            usedTimer.NewOneTime(currentUsedTimerId);
+            UsedLogRenew(true,false);
         }
         /// <summary>
         /// 
@@ -588,7 +588,7 @@ namespace DocearReminder
                 usedCount.Text = usedTimer.Count.ToString();
                 usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
                 todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
-                usedTimer.NewOneTime(currentUsedTimerId);
+                UsedLogRenew();
             }
         }
         public void showcalander()
@@ -708,10 +708,21 @@ namespace DocearReminder
         {
             try
             {
-                LeaveTime();
                 PlaySimpleSound("hide");
                 SearchText_suggest.Visible = false;
                 this.Hide();
+                UsedLogRenew(false);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public void UsedLogRenew(bool newlog=true,bool newid=true)
+        {
+            //结束之前的ID记录，并生成新的ID
+            if (newid)
+            {
+                LeaveTime();
                 if (leavespan >= new TimeSpan(0, 0, 60))
                 {
                     usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
@@ -723,8 +734,11 @@ namespace DocearReminder
                 SaveUsedTimerFile(usedTimer);
                 currentUsedTimerId = Guid.NewGuid();
             }
-            catch (Exception)
+            //添加一个新的记录
+            if (newlog)
             {
+                usedTimer.NewOneTime(currentUsedTimerId, PathcomboBox.SelectedItem.ToString(), showMindmapName, usedTimeLog, "主窗口");
+                usedTimeLog = "";
             }
         }
 
@@ -747,7 +761,7 @@ namespace DocearReminder
             Center();
             this.Show();
             this.Activate();
-            usedTimer.NewOneTime(currentUsedTimerId);
+            UsedLogRenew(true,false);
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
             this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
@@ -1177,7 +1191,14 @@ namespace DocearReminder
         }
         public void GetAllFilesout()
         {
-            allfiles.Clear();
+            if (allfiles==null)
+            {
+                allfiles = new List<node>();
+            }
+            else
+            {
+                allfiles.Clear();
+            }
             GetAllFiles(rootrootpath);
             //File.WriteAllText(@"allfiles.json", "");
             ClearTxt(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
@@ -1976,7 +1997,7 @@ namespace DocearReminder
                 {
                     if (mindmapornode.Text.Contains(">"))
                     {
-                        currentPath = renameMindMapPath;
+                        currentPath = showMindmapName;
                     }
                     else
                     {
@@ -4548,7 +4569,7 @@ namespace DocearReminder
                 else
                 {
                     AddNodeByID(istask, taskName);
-                    SaveLog("Add节点名称：" + taskName + "  Map:  " + renameMindMapPath + "    节点：" + nodeName);
+                    SaveLog("Add节点名称：" + taskName + "  Map:  " + showMindmapName + "    节点：" + nodeName);
                     searchword.Text = "";
                     mindmapornode.Text = "";
                     if (istask)
@@ -4619,6 +4640,7 @@ namespace DocearReminder
                             {
                                 return;
                             }
+                            fathernode.Text = file.filePath;
                             if (x.GetElementsByTagName("hook").Count != 0)
                             {
                                 string str1 = "hook";
@@ -5201,7 +5223,7 @@ namespace DocearReminder
                 {
                     if (mindmapornode.Text.Contains(">"))
                     {
-                        currentPath = renameMindMapPath;
+                        currentPath = showMindmapName;
                     }
                     else
                     {
@@ -5425,7 +5447,7 @@ namespace DocearReminder
             try
             {
                 System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(renameMindMapPath);
+                x.Load(showMindmapName);
                 //x.GetElementById(id).RemoveAll(); ;
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
@@ -5477,8 +5499,8 @@ namespace DocearReminder
                         }
                         node.AppendChild(newNote);
                         searchword.Text = "";
-                        x.Save(renameMindMapPath);
-                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
+                        x.Save(showMindmapName);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                         th.Start();
                         ShowSubNode();
                         return;
@@ -5549,8 +5571,8 @@ namespace DocearReminder
                             }
                             node.ParentNode.AppendChild(newNote);//根站点的父亲，应该就是根节点
                             searchword.Text = "";
-                            x.Save(renameMindMapPath);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
+                            x.Save(showMindmapName);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                             th.Start();
                             return newNote;
                         }
@@ -5605,8 +5627,8 @@ namespace DocearReminder
                             }
                             node.AppendChild(newNote);
                             searchword.Text = "";
-                            x.Save(renameMindMapPath);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
+                            x.Save(showMindmapName);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                             th.Start();
                             return newNote;
                         }
@@ -5964,7 +5986,7 @@ namespace DocearReminder
             try
             {
                 System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(renameMindMapPath);
+                x.Load(showMindmapName);
                 fenshuADD(2);
                 //x.GetElementById(id).RemoveAll(); ;
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
@@ -5972,10 +5994,10 @@ namespace DocearReminder
                     if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == renameMindMapFileID)
                     {
                         node.Attributes["TEXT"].InnerText = taskName;
-                        x.Save(renameMindMapPath);
+                        x.Save(showMindmapName);
                         PlaySimpleSound("edittask");
 
-                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(renameMindMapPath));
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                         th.Start();
                         if (renameMindMapFileIDParent != "")
                         {
@@ -6895,7 +6917,7 @@ namespace DocearReminder
                             }
                             else
                             {
-                                this.Height = 545;
+                                this.Height = 545;showMindmapName="";
                                 nodetree.Top = 521;
                                 FileTreeView.Top = 521;
                                 nodetree.Height = 307;
@@ -7179,10 +7201,6 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.D6:
-                    //if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
-                    //{
-                    //    Load_Click(null, null);
-                    //}
                     if (isSettingSyncWeek)
                     {
                         c_Saturday.Checked = !c_Saturday.Checked;
@@ -7476,7 +7494,7 @@ namespace DocearReminder
                                 mindmapPath = rootpath.FullName;
                                
                                 searchword.Text = "";
-
+                                UsedLogRenew();
                                 Load_Click(null, null);
                                 reminderList.Focus();
                                 return;
@@ -7834,7 +7852,7 @@ namespace DocearReminder
                             //    reminderList.SelectedIndex = 0;
                             //}
                             //只显示当前导图的任务
-                            FileInfo file = new FileInfo(renameMindMapPath);
+                            FileInfo file = new FileInfo(showMindmapName);
                             try
                             {
                                 reminderList.Items.Clear();
@@ -7967,7 +7985,7 @@ namespace DocearReminder
                             ShowMindmap();
                             SelectTreeNode(nodetree.Nodes, renameMindMapFileID);
                             ShowMindmapFile();
-                            renameMindMapPath = "";
+                            showMindmapName = "";
                             renameMindMapFileID = "";
                             //todo：选中子节点
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
@@ -8291,7 +8309,7 @@ namespace DocearReminder
                         reminderSelectIndex = reminderList.SelectedIndex;
                         searchword.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
                         renameTaskName = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
-                        renameMindMapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                        showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                         if (mindmapornode.Text.Contains(">"))
                         {
                             renameMindMapFileIDParent = renameMindMapFileID;
@@ -8496,7 +8514,7 @@ namespace DocearReminder
                             reminderSelectIndex = reminderList.SelectedIndex;
                             searchword.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
                             renameTaskName = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
-                            renameMindMapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                            showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                             if (mindmapornode.Text.Contains(">"))
                             {
                                 renameMindMapFileIDParent = renameMindMapFileID;
@@ -9056,7 +9074,7 @@ namespace DocearReminder
                             nodetree.Height = FileTreeView.Height = 322;
                             pictureBox1.Visible = false;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
-                            this.Height = 545;
+                            this.Height = 545;showMindmapName="";
                             reminderList.Focus();
                             Center();
                             //刷新一下任务
@@ -9100,7 +9118,7 @@ namespace DocearReminder
                                 nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
-                                this.Height = 545;
+                                this.Height = 545;showMindmapName="";
                                 reminderList.Focus();
                             }
                             else
@@ -9135,7 +9153,7 @@ namespace DocearReminder
                                 nodetree.Height = FileTreeView.Height = 322;
                                 pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
-                                this.Height = 545;
+                                this.Height = 545;showMindmapName="";
                                 reminderList.Focus();
                             }
                         }
@@ -9322,6 +9340,7 @@ namespace DocearReminder
                     }
                     mindmapPath = rootpath.FullName;
                     searchword.Text = "";
+                    UsedLogRenew();
                     Load_Click(null, null);
                     break;
                 case Keys.Pause:
@@ -10118,6 +10137,13 @@ namespace DocearReminder
         {
             log = log.Replace("\r", " ").Replace("\n", " ");
             log = (DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "    " + log);
+            try//
+            {
+                usedTimeLog += ((usedTimeLog==""?"":Environment.NewLine)+ log);
+            }
+            catch (Exception)
+            {
+            }
             log = encryptlog.EncryptString(log);
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", true))
@@ -10394,6 +10420,17 @@ namespace DocearReminder
         private void IsRememberModel_CheckedChanged(object sender, EventArgs e)
         {
             c_ViewModel.Checked = false;
+            try
+            {
+                if (mindmaplist.SelectedItem != null)
+                {
+                    fathernode.Text = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            UsedLogRenew();
             Load_Click(null, null);
         }
         private void IsShowSub_CheckedChanged(object sender, EventArgs e)
@@ -10588,7 +10625,7 @@ namespace DocearReminder
                     return;
                 }
                 taskid = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
-                showMindmapName = renameMindMapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                showMindmapName= ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                 id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
                 if (isShowSub)
                 {
@@ -10601,17 +10638,17 @@ namespace DocearReminder
                 {
                     return;
                 }
-                showMindmapName = renameMindMapPath = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                showMindmapName= ((MyListBoxItem)mindmaplist.SelectedItem).Value;
                 //taskid = ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3);
             }
-            if (renameMindMapPath == "")
+            if (showMindmapName == "")
             {
                 return;
             }
-
+            UsedLogRenew();//切换导图时更新
             richTextSubNode.Clear();
             System.Xml.XmlDocument x = new XmlDocument();
-            x.Load(renameMindMapPath);
+            x.Load(showMindmapName);
             nodetree.Nodes.Clear();
             TreeNode tNode = new TreeNode
             {
@@ -11264,6 +11301,7 @@ namespace DocearReminder
                     isSearchFileOrNode = false;
                     //重新进入导图模式
                     searchword.Text = "";
+                    UsedLogRenew();
                     Load_Click(null, null);
                     reminderList.Focus();
                 }
@@ -11492,7 +11530,7 @@ namespace DocearReminder
                     info.StationName_CN = info.StationName_CN.Replace("★","");
                     searchword.Text = taskname + "@@" + info.StationName_CN;
                     mindmapornode.Text = info.mindmapurl.Split('\\')[info.mindmapurl.Split('\\').Length - 1] + ">" + info.StationName_CN;
-                    renameMindMapPath = info.mindmapurl;
+                    showMindmapName = info.mindmapurl;
                     renameMindMapFileID = info.nodeID;
                     SearchText_suggest.Visible = false;
                     searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
@@ -11884,16 +11922,9 @@ namespace DocearReminder
             nodetree.Top = FileTreeView.Top = 506;
             nodetree.Height = FileTreeView.Height = 322;
             pictureBox1.Visible = false;
-            this.Height = 545;
+            this.Height = 545;showMindmapName="";
             reminderList.Focus();
             //Center();
-        }
-        private void allFloderChanged(object sender, EventArgs e)
-        {
-            rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
-            mindmapPath = rootpath.FullName;
-            searchword.Text = "";
-            Load_Click(null, null);
         }
         private void RsscheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -12386,6 +12417,7 @@ namespace DocearReminder
                 {
                 }
                 PlaySimpleSound("changepath");
+                UsedLogRenew();
                 Load_Click(null, null);
                 reminderList.Focus();
                 Center();
@@ -13636,7 +13668,7 @@ namespace DocearReminder
             nodetree.Height = FileTreeView.Height = 322;
             pictureBox1.Visible = false;
             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
-            this.Height = 545;
+            this.Height = 545;showMindmapName="";
             reminderList.Focus();
         }
 
@@ -13744,7 +13776,7 @@ namespace DocearReminder
                 nodetree.Height = FileTreeView.Height = 322;
                 pictureBox1.Visible = false;
                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
-                this.Height = 545;
+                this.Height = 545;showMindmapName="";
                 reminderList.Focus();
             }
             else

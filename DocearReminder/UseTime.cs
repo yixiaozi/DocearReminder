@@ -49,8 +49,12 @@ namespace DocearReminder
             fi.Delete();
             List<double> names = new List<double>();
             List<double> values = new List<double>();
-
-            foreach (var item in UsedTimer.TimeLog.GroupBy(m => Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")).AddHours(8)).OrderBy(m => m.Key))
+            IEnumerable<OneTime> sortList = UsedTimer.TimeLog.Where(m => (m.section == null && m.fileFullName == null && section.Text == "" && file.Text == "" && log.Text == "") || (m.section != null && m.section.Contains(section.Text.Trim())) && (m.fileFullName != null && m.fileFullName.Contains(file.Text.Trim())) && (m.Log != null && m.Log.Contains(log.Text.Trim())));
+            if (sortList.Count()==0)
+            {
+                return;
+            }
+            foreach (var item in sortList.GroupBy(m => Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")).AddHours(8)).OrderBy(m => m.Key))
             {
                 if (item.Key >= dateTimePicker1.Value&& item.Key <= dateTimePicker2.Value)
                 {
@@ -98,5 +102,13 @@ namespace DocearReminder
             asc.controlAutoSize(this);
         }
 
+
+        private void section_TextChanged(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Enter)
+            {
+                ShowChart();
+            }
+        }
     }
 }

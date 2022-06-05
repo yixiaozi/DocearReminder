@@ -128,7 +128,6 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemInfo.cs" />
     <Compile Include="KeyHours.cs">
       <SubType>Form</SubType>
     </Compile>

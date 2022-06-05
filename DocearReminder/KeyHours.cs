@@ -47,7 +47,7 @@ namespace DocearReminder
             formsPlot1.Configuration.LeftClickDragPan = false;
             #region 构造数据
             List<keyRecord> result = new List<keyRecord>();
-            foreach (string item in System.IO.Directory.GetFiles(@"E:\yixiaozi\.files\DocearReminder\2022", "key.txt", SearchOption.AllDirectories))
+            foreach (string item in System.IO.Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory, "key.txt", SearchOption.AllDirectories))
             {
                 System.IO.File.Delete(item.Replace(".txt", "1.txt"));
                 System.IO.File.Copy(item, item.Replace(".txt", "1.txt"));

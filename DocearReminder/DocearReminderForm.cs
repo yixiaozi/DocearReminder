@@ -75,7 +75,6 @@ namespace DocearReminder
         public static bool isZhuangbi = false;
         AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
         public bool showfenge = false;
-        public bool isHasNoFenleiModel = false;
         Reminder reminderObjectOut = new Reminder();
         string showMindmapName = "";//用于Tree中当前导图的名称
         string renameTaskName = "";
@@ -226,7 +225,26 @@ namespace DocearReminder
                     Process.Start(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 }
                 rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
-
+                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                {
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", new JavaScriptSerializer
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    }.Serialize(reminderObject));
+                }
+                else
+                {
+                    FileInfo reminderjsonfile = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+                    using (StreamReader sw = reminderjsonfile.OpenText())
+                    {
+                        string s = sw.ReadToEnd();
+                        var serializer = new JavaScriptSerializer()
+                        {
+                            MaxJsonLength = Int32.MaxValue
+                        };
+                        reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(s)); 
+                    }
+                }
 
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
@@ -405,7 +423,21 @@ namespace DocearReminder
             titleTimer.Start();
             SaveLog("打开程序。");
         }
-
+        /// <summary>
+        /// 将Json格式的时间字符串替换为"yyyy-MM-dd HH:mm:ss"格式的字符串
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static string ReplaceJsonDateToDateString(string json)
+        {
+            return Regex.Replace(json, @"\\/Date\((\d+)\)\\/", match =>
+            {
+                DateTime dt = new DateTime(1970, 1, 1);
+                dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                dt = dt.ToLocalTime();
+                return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            });
+        }
         private void UsedTimerOnLoad()
         {
             if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json"))
@@ -703,6 +735,17 @@ namespace DocearReminder
                     Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
                     th.Start();
                 }
+            }
+            try
+            {
+                string json = new JavaScriptSerializer()
+                {
+                    MaxJsonLength = Int32.MaxValue
+                }.Serialize(reminderObject);
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -1383,7 +1426,7 @@ namespace DocearReminder
             {
             }
         }
-
+        public static Reminder reminderObject = new Reminder();
         public void RRReminderlist()
         {
             //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
@@ -1402,33 +1445,16 @@ namespace DocearReminder
             bool hasAfter = false;
             bool hasNight = false;
             List<MyListBoxItemRemind> reminderlistItems = new List<MyListBoxItemRemind>();
-            Reminder reminderObject = new Reminder();
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
-            {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", new JavaScriptSerializer
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject));
-            }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+            
             IsEncryptBool = false;
-            using (StreamReader sw = fi.OpenText())
+            foreach (ReminderItem item in reminderObject.reminders.Where(m => !m.isCompleted))
             {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer()
+                if (mindmaplist.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
                 {
-                    MaxJsonLength = Int32.MaxValue
-                };
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                foreach (ReminderItem item in reminderObject.reminders.Where(m => !m.isCompleted))
-                {
-                    if (mindmaplist.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
-                    {
-                        item.isCurrect = false;
-                        item.isNew = false;
-                        item.isview = false;
-                        item.isEBType = false;
-                    }
+                    item.isCurrect = false;
+                    item.isNew = false;
+                    item.isview = false;
+                    item.isEBType = false;
                 }
             }
             if (!c_ViewModel.Checked && mindmapornode.Text == "")
@@ -1530,7 +1556,7 @@ namespace DocearReminder
                                             item.ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING"));
                                             item.mindmapPath = path.Value;
                                             item.isCompleted = false;
-                                            if (item.time.AddHours(8).ToString("yyyy/MM/dd HH:mm") != dt.ToString("yyyy/MM/dd HH:mm"))
+                                            if (item.time.ToString("yyyy/MM/dd HH:mm") != dt.ToString("yyyy/MM/dd HH:mm"))
                                             {
                                                 item.time = dt;
                                                 item.editCount += 1;
@@ -2398,15 +2424,7 @@ namespace DocearReminder
             //{
             //    reminderObject.reminders.Remove(item);
             //}
-            string json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = Int32.MaxValue
-            }.Serialize(reminderObject);
-            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-            using (StreamWriter sw = fi.AppendText())
-            {
-                sw.Write(json);
-            }
+            
             hourLeft.Text = (24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60).ToString("N2");
             pageinfo(task + "(" + isviewtask + ")|" + ctask + "(" + ebtask + ")|" + vtask + "|" + passtask);
             //如果没有非紧急任务，就显示其他任务
@@ -4419,7 +4437,7 @@ namespace DocearReminder
                                     do
                                     {
                                         selectedReminder.Time = selectedReminder.Time.AddDays(1);
-                                        if (selectedReminder.Time.DayOfWeek.ToString() == "Sunday")
+                                        if (selectedReminder.Time.DayOfWeek.ToString() == "Sunday")//todo:按周推迟这里的逻辑还有问题
                                         {
                                             selectedReminder.Time = selectedReminder.Time.AddDays(selectedReminder.rWeek * 7);
                                         }
@@ -10174,178 +10192,151 @@ namespace DocearReminder
                 e.Cancel = true;
                 MyHide();
             }
-            SaveLog("关闭程序。");
-        }
-        private void fenlei_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((c_ViewModel.Checked && !InMindMapBool) || isHasNoFenleiModel) && mindmaplist.SelectedIndex != -1)
+            try
             {
-                //设置分类
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
-                using (StreamReader sw = fi.OpenText())
-                {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    jsonHasMindmaps = reminderObject.mindmaps;
-                    foreach (Control item in this.Controls)
-                    {
-                        if (item.Name.Contains("fenlei_") && !reminderObject.Fenleis.Any(m => m.Name == item.Text))
-                        {
-                            reminderObject.Fenleis.Add(new Fenlei { Name = item.Text, MindMaps = new List<string>() });
-                        }
-                    }
-                    if (mindmaplist.SelectedItem != null)
-                    {
-                        foreach (Control item in this.Controls)
-                        {
-                            if (item.Name.Contains("fenlei_"))
-                            {
-                                if (((CheckBox)item).Checked && !reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
-                                {
-                                    reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Add(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
-                                }
-                                if (((MyListBoxItem)mindmaplist.SelectedItem != null))
-                                {
-                                    if (!((CheckBox)item).Checked && reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
-                                    {
-                                        while (reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
-                                        {
-                                            reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Remove(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 string json = new JavaScriptSerializer()
                 {
                     MaxJsonLength = Int32.MaxValue
                 }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json", "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
-                }
-                if (isHasNoFenleiModel)
-                {
-                    isHasNoFenleiModel = false;
-                    foreach (Control item in this.Controls)
-                    {
-                        if (item.Name.Contains("fenlei_") && ((CheckBox)item).Checked)
-                        {
-                            ((CheckBox)item).Checked = false;
-                        }
-                    }
-                    fenlei_CheckedChanged(null, null);
-                }
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
             }
-            else
+            catch (Exception)
             {
-                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
-                List<string> mindmaps = new List<string>();
-                using (StreamReader sw = fi.OpenText())
-                {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObjectOut = serializer.Deserialize<Reminder>(s);
-                    jsonHasMindmaps = reminderObjectOut.mindmaps;
-                    if (false) //fenleidanxuan.Checked
-                    {
-                        //foreach (Control item in this.Controls)
-                        //{
-                        //    if (item.Name.Contains("fenlei_") && ((CheckBox)item).Checked)
-                        //    {
-                        //        isCodeFenlei = true;
-                        //        ((CheckBox)item).Checked = false;
-                        //        isCodeFenlei = false;
-                        //    }
-                        //}
-                        //CheckBox currentCheckBox = sender as CheckBox;
-                        //isCodeFenlei = true;
-                        //currentCheckBox.Checked = true;
-                        //isCodeFenlei = false;
-                        //mindmaps.AddRange(reminderObjectOut.Fenleis.First(m => m.Name == currentCheckBox.Text).MindMaps);
-                    }
-                    else
-                    {
-                        int selectedfenleicount = 0;
-                        //在这里将某个分类的添加进去。
-                        foreach (Control item in this.Controls)
-                        {
-                            if (item.Name.Contains("fenlei_") && ((CheckBox)item).Checked)
-                            {
-                                selectedfenleicount++;
-                                mindmaps.AddRange(reminderObjectOut.Fenleis.First(m => m.Name == item.Text).MindMaps);
-                            }
-                        }
-                        //如果一个都没选择，就把没有分类的显示出来，方便分类。
-                        isHasNoFenleiModel = false;
-                        if (selectedfenleicount == 0 && reminderObjectOut.NoFenleiMindmaps.Count != 0)
-                        {
-                            isHasNoFenleiModel = true;
-                            mindmaps.AddRange(reminderObjectOut.NoFenleiMindmaps);
-                        }
-                    }
-                    //mindmaplist = mindmaplist_backup;
-                    mindmaplist.Items.Clear();
-                    mindmaplist.Items.AddRange(mindmaplist_backup);
-                    //for (int i = 0; i < mindmaplist.Items.Count; i++)
-                    //{
-                    //    if (mindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
-                    //    {
-                    //        mindmaplist.SetItemCheckState(i, CheckState.Checked);
-                    //    }
-                    //    else
-                    //    {
-                    //        mindmaplist.Items.RemoveAt(i);
-                    //        //mindmaplist.SetItemCheckState(i, CheckState.Unchecked);
-                    //    }
-                    //}
-                    for (int i = mindmaplist.Items.Count - 1; i >= 0; i--)
-                    {
-                        if (mindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
-                        {
-                            mindmaplist.SetItemCheckState(i, CheckState.Checked);
-                        }
-                        else
-                        {
-                            if (c_ViewModel.Checked)
-                            {
-                                if (!jsonHasMindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
-                                {
-                                    MyListBoxItem newitem = new MyListBoxItem
-                                    {
-                                        Text = ((MyListBoxItem)mindmaplist.Items[i]).Text,
-                                        Value = ((MyListBoxItem)mindmaplist.Items[i]).Value,
-                                        IsSpecial = true
-                                    };
-                                    mindmaplist.Items.RemoveAt(i);
-                                    mindmaplist.Items.Insert(i, newitem);
-                                }
-                                mindmaplist.SetItemCheckState(i, CheckState.Unchecked);
-                            }
-                            else
-                            {
-                                mindmaplist.Items.RemoveAt(i);
-                            }
-                        }
-                    }
-                }
-                tasklevel.Value = 0;
-                taskTime.Value = 0;
-                //将没有分过类的导图设置颜色
-                RRReminderlist();
             }
+            SaveLog("关闭程序。");
         }
+        //private void fenlei_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (((c_ViewModel.Checked && !InMindMapBool) || isHasNoFenleiModel) && mindmaplist.SelectedIndex != -1)
+        //    {
+        //        //设置分类-已经不需要了
+        //        //jsonHasMindmaps = reminderObject.mindmaps;
+        //        //foreach (Control item in this.Controls)
+        //        //{
+        //        //    if (item.Name.Contains("fenlei_") && !reminderObject.Fenleis.Any(m => m.Name == item.Text))
+        //        //    {
+        //        //        reminderObject.Fenleis.Add(new Fenlei { Name = item.Text, MindMaps = new List<string>() });
+        //        //    }
+        //        //}
+        //        //if (mindmaplist.SelectedItem != null)
+        //        //{
+        //        //    foreach (Control item in this.Controls)
+        //        //    {
+        //        //        if (item.Name.Contains("fenlei_"))
+        //        //        {
+        //        //            if (((CheckBox)item).Checked && !reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
+        //        //            {
+        //        //                reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Add(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+        //        //            }
+        //        //            if (((MyListBoxItem)mindmaplist.SelectedItem != null))
+        //        //            {
+        //        //                if (!((CheckBox)item).Checked && reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
+        //        //                {
+        //        //                    while (reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Contains(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3)))
+        //        //                    {
+        //        //                        reminderObject.Fenleis.First(m => m.Name == item.Text).MindMaps.Remove(((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+        //        //                    }
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
+        //        List<string> mindmaps = new List<string>();
+        //        using (StreamReader sw = fi.OpenText())
+        //        {
+        //            string s = sw.ReadToEnd();
+        //            var serializer = new JavaScriptSerializer()
+        //            {
+        //                MaxJsonLength = Int32.MaxValue
+        //            };
+        //            reminderObjectOut = serializer.Deserialize<Reminder>(s);
+        //            jsonHasMindmaps = reminderObjectOut.mindmaps;
+        //            if (false) //fenleidanxuan.Checked
+        //            {
+        //                //foreach (Control item in this.Controls)
+        //                //{
+        //                //    if (item.Name.Contains("fenlei_") && ((CheckBox)item).Checked)
+        //                //    {
+        //                //        isCodeFenlei = true;
+        //                //        ((CheckBox)item).Checked = false;
+        //                //        isCodeFenlei = false;
+        //                //    }
+        //                //}
+        //                //CheckBox currentCheckBox = sender as CheckBox;
+        //                //isCodeFenlei = true;
+        //                //currentCheckBox.Checked = true;
+        //                //isCodeFenlei = false;
+        //                //mindmaps.AddRange(reminderObjectOut.Fenleis.First(m => m.Name == currentCheckBox.Text).MindMaps);
+        //            }
+        //            else
+        //            {
+        //                int selectedfenleicount = 0;
+        //                //在这里将某个分类的添加进去。
+        //                foreach (Control item in this.Controls)
+        //                {
+        //                    if (item.Name.Contains("fenlei_") && ((CheckBox)item).Checked)
+        //                    {
+        //                        selectedfenleicount++;
+        //                        mindmaps.AddRange(reminderObjectOut.Fenleis.First(m => m.Name == item.Text).MindMaps);
+        //                    }
+        //                }
+        //                //如果一个都没选择，就把没有分类的显示出来，方便分类。
+        //            }
+        //            //mindmaplist = mindmaplist_backup;
+        //            mindmaplist.Items.Clear();
+        //            mindmaplist.Items.AddRange(mindmaplist_backup);
+        //            //for (int i = 0; i < mindmaplist.Items.Count; i++)
+        //            //{
+        //            //    if (mindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
+        //            //    {
+        //            //        mindmaplist.SetItemCheckState(i, CheckState.Checked);
+        //            //    }
+        //            //    else
+        //            //    {
+        //            //        mindmaplist.Items.RemoveAt(i);
+        //            //        //mindmaplist.SetItemCheckState(i, CheckState.Unchecked);
+        //            //    }
+        //            //}
+        //            for (int i = mindmaplist.Items.Count - 1; i >= 0; i--)
+        //            {
+        //                if (mindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
+        //                {
+        //                    mindmaplist.SetItemCheckState(i, CheckState.Checked);
+        //                }
+        //                else
+        //                {
+        //                    if (c_ViewModel.Checked)
+        //                    {
+        //                        if (!jsonHasMindmaps.Contains(((MyListBoxItem)mindmaplist.Items[i]).Text))
+        //                        {
+        //                            MyListBoxItem newitem = new MyListBoxItem
+        //                            {
+        //                                Text = ((MyListBoxItem)mindmaplist.Items[i]).Text,
+        //                                Value = ((MyListBoxItem)mindmaplist.Items[i]).Value,
+        //                                IsSpecial = true
+        //                            };
+        //                            mindmaplist.Items.RemoveAt(i);
+        //                            mindmaplist.Items.Insert(i, newitem);
+        //                        }
+        //                        mindmaplist.SetItemCheckState(i, CheckState.Unchecked);
+        //                    }
+        //                    else
+        //                    {
+        //                        mindmaplist.Items.RemoveAt(i);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        tasklevel.Value = 0;
+        //        taskTime.Value = 0;
+        //        //将没有分过类的导图设置颜色
+        //        RRReminderlist();
+        //    }
+        //}
         private void mindmaplist_MouseHover(object sender, EventArgs e)
         {
             InMindMapBool = true;
@@ -12390,7 +12381,7 @@ namespace DocearReminder
         {
 
         }
-
+        public static string section = "rootPath";//用于和日历同步
         private void PathcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!selectedpath)
@@ -12410,6 +12401,7 @@ namespace DocearReminder
                     allFloder = false;
                     rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", PathcomboBox.SelectedItem.ToString(), "")));
                 }
+                section = PathcomboBox.SelectedItem.ToString();
                 mindmapPath = rootpath.FullName;
                 searchword.Text = "";
                 //todo:加载hope笔记

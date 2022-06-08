@@ -30,7 +30,6 @@ namespace DocearReminder
         string mindmappath = "";
         string[] noFolder = new string[] { };
         string CalendarImagePath = "";
-        string logfile = System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json";
         List<string> workfolders = new List<string>();
         private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         bool ismovetask = false;
@@ -65,7 +64,7 @@ namespace DocearReminder
             //this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             new MyProcess().OnlyOneForm("Calendar.exe");
             string calanderpath = ini.ReadString("path", "calanderpath", "");
-            workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
+            workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootPath", "")));
             foreach (string item in calanderpath.Split(';'))
             {
                 workfolder_combox.Items.Add(item);
@@ -107,7 +106,7 @@ namespace DocearReminder
             dayView1.SelectionChanged += new EventHandler(dayView1_SelectionChanged);
             //dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
             dayView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseMove);
-            timer1.Interval = 60000;
+            timer1.Interval = 10000;
             timer1.Start();
             try
             {
@@ -327,37 +326,17 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(logfile);
-                using (StreamReader sw = fi.OpenText())
+                reminderObject.reminders.Add(new ReminderItem
                 {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    reminderObject.reminders.Add(new ReminderItem
-                    {
-                        name = TaskName,
-                        time = taskTime,
-                        mindmapPath = mindmap,
-                        mindmap = mindmapName,
-                        ID = ID,
-                        tasktime = tasktime,
-                        nameFull=tag!=null?tag.ToString():"",
-                        comment=comment
-                    });
-                }
-                string json = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject);
-                File.WriteAllText(logfile, "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
-                }
+                    name = TaskName,
+                    time = taskTime,
+                    mindmapPath = mindmap,
+                    mindmap = mindmapName,
+                    ID = ID,
+                    tasktime = tasktime,
+                    nameFull=tag!=null?tag.ToString():"",
+                    comment=comment
+                });
             }
             catch (Exception)
             {
@@ -368,30 +347,10 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(logfile);
-                using (StreamReader sw = fi.OpenText())
+                ReminderItem item= reminderObject.reminders.FirstOrDefault(m=>m.ID==ID);
+                if (item!=null)
                 {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    ReminderItem item= reminderObject.reminders.FirstOrDefault(m=>m.ID==ID);
-                    if (item!=null)
-                    {
-                        item.mindmapPath = color.ToArgb().ToString();
-                    }
-                }
-                string json = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject);
-                File.WriteAllText(logfile, "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
+                    item.mindmapPath = color.ToArgb().ToString();
                 }
             }
             catch (Exception)
@@ -655,221 +614,200 @@ namespace DocearReminder
         public void RefreshCalender()
         {
             m_Appointments = new List<Appointment>();
-
             Appointment m_Appointment = new Appointment();
-
-            Reminder reminderObject = new Reminder();
-            FileInfo fi = new FileInfo(logfile);
-            using (StreamReader sw = fi.OpenText())
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake")||(m.time>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&(!m.isview||(isview_c.Checked&& m.isview))&&!m.isCompleted));
+            if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer()
+                items = items.Where(m => !hasinworkfolder(m.mindmapPath));
+            }
+            foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
+            {
+                try//过滤字符串
                 {
-                    MaxJsonLength = Int32.MaxValue
+                    if (!(item.name.Contains(textBox_searchwork.Text))&&!(item.mindmapPath.Contains(textBox_searchwork.Text)) && !(item.nameFull.Contains(textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(textBox_searchwork.Text)))
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                    
+
+                m_Appointment = new Appointment
+                {
+                    StartDate = item.time
                 };
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
+                string taskname = item.name;
+                try//解决有点只保存结束时间的问题
                 {
-                    return;
+                    if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
+                    {
+                        item.tasktime = ((TimeSpan)(item.comleteTime - item.time)).TotalMinutes;
+                    }
                 }
-                IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted && !m.isview && !m.isEBType && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake")||(m.time.AddHours(8)>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&!m.isview));
-                if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "RootPath")
+                catch (Exception e)
+                { }
+                if (ini.ReadString("appearance", "Calander15", "1")=="true"&&!c_15.Checked||c_fanqie.Checked || c_timeBlock.Checked)
                 {
-                    items = items.Where(m => !hasinworkfolder(m.mindmapPath));
+                    if (item.tasktime < 15)
+                    {
+                        item.tasktime = 15;
+                    }
                 }
-                foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
+                else
                 {
-                    try//过滤字符串
+                    if (item.tasktime < 30)
                     {
-                        if (!(item.name.Contains(textBox_searchwork.Text))&&!(item.mindmapPath.Contains(textBox_searchwork.Text)) && !(item.nameFull.Contains(textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(textBox_searchwork.Text)))
-                        {
-                            continue;
-                        }
+                        item.tasktime = 30;
                     }
-                    catch (Exception)
-                    {
-                    }
+                }
                     
+                m_Appointment.EndDate = item.time.AddMinutes(item.tasktime);
+                //if (logfile.Contains("fanqie"))
+                //{
+                //    DateTime dt = DateTime.Now;
+                //    if (item.comleteTime != null)
+                //    {
+                //        dt = Convert.ToDateTime(item.comleteTime);
+                //        if ((dt - item.time).TotalMinutes >= 20)
+                //        {
+                //            m_Appointment.EndDate = dt;
+                //        }
+                //        //taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
+                //    }
+                //}
+                if (isZhuangbi)
+                {
+                    string patten = @"(\S)";
+                    Regex reg = new Regex(patten);
+                    taskname = reg.Replace(taskname, "*");
+                    if (item.comment!=null&&item.comment!="")
+                    {
+                        item.comment = reg.Replace(item.comment, "*");
+                    }
+                }
+                if (showfatchertimeblock&& item.mindmap == "TimeBlock")
+                {
+                    m_Appointment.Title =item.nameFull+ (item.nameFull!=null&& item.nameFull != ""? "|":"") + taskname;
+                }
+                else
+                {
+                    m_Appointment.Title = taskname;
+                }
+                m_Appointment.Comment = item.comment;
+                if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
+                {
+                    m_Appointment.Title += ("("+m_Appointment.Comment+")");
+                }
+                m_Appointment.value = item.mindmapPath;
+                m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
+                int zhongyao = item.tasklevel;
+                if (numericUpDown2.Value >= 0)
+                {
+                    if (zhongyao < numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (zhongyao > numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
 
-                    m_Appointment = new Appointment
+                if (zhongyao == 0)
+                {
+                    m_Appointment.Color = System.Drawing.Color.White;
+                    m_Appointment.BorderColor = System.Drawing.Color.White;
+                    if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress")
                     {
-                        StartDate = item.time.AddHours(8)
-                    };
-                    string taskname = item.name;
-                    if (!logfile.Contains("fanqie"))
-                    {
-                        //taskname += ("("+item.tasktime.ToString("N0")+")");
-                    }
-                    try//解决有点只保存结束时间的问题
-                    {
-                        if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
+                        try
                         {
-                            item.tasktime = ((TimeSpan)(item.comleteTime - item.time)).TotalMinutes;
-                        }
-                    }
-                    catch (Exception e)
-                    { }
-                    if (ini.ReadString("appearance", "Calander15", "1")=="true"&&!c_15.Checked||c_fanqie.Checked || c_timeBlock.Checked)
-                    {
-                        if (item.tasktime < 15)
-                        {
-                            item.tasktime = 15;
-                        }
-                    }
-                    else
-                    {
-                        if (item.tasktime < 30)
-                        {
-                            item.tasktime = 30;
-                        }
-                    }
-                    
-                    m_Appointment.EndDate = item.time.AddHours(8).AddMinutes(item.tasktime);
-                    if (logfile.Contains("fanqie"))
-                    {
-                        DateTime dt = DateTime.Now;
-                        if (item.comleteTime != null)
-                        {
-                            dt = Convert.ToDateTime(item.comleteTime);
-                            if ((dt - item.time).TotalMinutes >= 20)
-                            {
-                                m_Appointment.EndDate = dt;
-                            }
-                            //taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
-                        }
-                    }
-                    if (isZhuangbi)
-                    {
-                        string patten = @"(\S)";
-                        Regex reg = new Regex(patten);
-                        taskname = reg.Replace(taskname, "*");
-                        if (item.comment!=null&&item.comment!="")
-                        {
-                            item.comment = reg.Replace(item.comment, "*");
-                        }
-                    }
-                    if (showfatchertimeblock&& item.mindmap == "TimeBlock")
-                    {
-                        m_Appointment.Title =item.nameFull+ (item.nameFull!=null&& item.nameFull != ""? "|":"") + taskname;
-                    }
-                    else
-                    {
-                        m_Appointment.Title = taskname;
-                    }
-                    m_Appointment.Comment = item.comment;
-                    if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
-                    {
-                        m_Appointment.Title += ("("+m_Appointment.Comment+")");
-                    }
-                    m_Appointment.value = item.mindmapPath;
-                    m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
-                    int zhongyao = item.tasklevel;
-                    if (numericUpDown2.Value >= 0)
-                    {
-                        if (zhongyao < numericUpDown2.Value)
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (zhongyao > numericUpDown2.Value)
-                        {
-                            continue;
-                        }
-                    }
 
-                    if (zhongyao == 0)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.White;
-                        m_Appointment.BorderColor = System.Drawing.Color.White;
-                        if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress")
-                        {
-                            try
+                            m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                            m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                            if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
                             {
-
-                                m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                                m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                                if (item.time.AddHours(8) < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
-                                {
-                                    m_Appointment.Locked = true;
-                                }
-                            }
-                            catch (Exception)
-                            {
+                                m_Appointment.Locked = true;
                             }
                         }
+                        catch (Exception)
+                        {
+                        }
                     }
-                    else if (zhongyao == 1)
-                    {
+                }
+                else if (zhongyao == 1)
+                {
+                    m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                    m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                }
+                else if (zhongyao == 2)
+                {
+                    m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                    m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                }
+                else if (zhongyao == 3)
+                {
+                    m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
+                    m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
+                }
+                else if (zhongyao == 4)
+                {
+                    m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
+                    m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
+                }
+                else if (zhongyao == 5)
+                {
+                    m_Appointment.Color = System.Drawing.Color.CadetBlue;
+                    m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
+                }
+                else if (zhongyao == 6)
+                {
+                    m_Appointment.Color = System.Drawing.Color.Gold;
+                    m_Appointment.BorderColor = System.Drawing.Color.Gold;
+                }
+                else if (zhongyao == 7)
+                {
+                    m_Appointment.Color = System.Drawing.Color.Orange;
+                    m_Appointment.BorderColor = System.Drawing.Color.Orange;
+                }
+                else if (zhongyao == 8)
+                {
+                    m_Appointment.Color = System.Drawing.Color.OrangeRed;
+                    m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
+                }
+                else if (zhongyao == 9)
+                {
+                    m_Appointment.Color = System.Drawing.Color.Crimson;
+                    m_Appointment.BorderColor = System.Drawing.Color.Crimson;
+                }
+                else if (zhongyao >= 10)
+                {
+                    m_Appointment.Color = System.Drawing.Color.Red;
+                    m_Appointment.BorderColor = System.Drawing.Color.Red;
+                }
+                else
+                {
                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
-                    }
-                    else if (zhongyao == 2)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
-                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
-                    }
-                    else if (zhongyao == 3)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
-                        m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
-                    }
-                    else if (zhongyao == 4)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
-                        m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
-                    }
-                    else if (zhongyao == 5)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.CadetBlue;
-                        m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
-                    }
-                    else if (zhongyao == 6)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.Gold;
-                        m_Appointment.BorderColor = System.Drawing.Color.Gold;
-                    }
-                    else if (zhongyao == 7)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.Orange;
-                        m_Appointment.BorderColor = System.Drawing.Color.Orange;
-                    }
-                    else if (zhongyao == 8)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.OrangeRed;
-                        m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
-                    }
-                    else if (zhongyao == 9)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.Crimson;
-                        m_Appointment.BorderColor = System.Drawing.Color.Crimson;
-                    }
-                    else if (zhongyao >= 10)
-                    {
-                        m_Appointment.Color = System.Drawing.Color.Red;
-                        m_Appointment.BorderColor = System.Drawing.Color.Red;
-                    }
-                    else
-                    {
-                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
-                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
-                    }
-                    switch (item.mindmap)
-                    {
-                        case "FanQie":
-                            m_Appointment.Type = "番茄钟";
-                            break;
-                        case "TimeBlock":
-                            m_Appointment.Type = "时间块";
-                            break;
-                        default:
-                            m_Appointment.Type = "任务";
-                            break;
-                    }
-                    m_Appointment.Tag = item;
-                    m_Appointments.Add(m_Appointment);
                 }
+                switch (item.mindmap)
+                {
+                    case "FanQie":
+                        m_Appointment.Type = "番茄钟";
+                        break;
+                    case "TimeBlock":
+                        m_Appointment.Type = "时间块";
+                        break;
+                    default:
+                        m_Appointment.Type = "任务";
+                        break;
+                }
+                m_Appointment.Tag = item;
+                m_Appointments.Add(m_Appointment);
             }
             dayView1.Refresh();
         }
@@ -894,7 +832,29 @@ namespace DocearReminder
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            RefreshCalender();
+            try
+            {
+                if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString())
+                {
+                    for (int i = 0; i < workfolder_combox.Items.Count; i++)
+                    {
+                        if (workfolder_combox.Items[i].ToString()==DocearReminderForm.section)
+                        {
+                            workfolder_combox.SelectedIndex = i;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!isMenuShow)
+                    {
+                        RefreshCalender();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
         public string GetFolderName(string path)
         {
@@ -1102,9 +1062,9 @@ namespace DocearReminder
                 RefreshCalender();
                 dayView1.StartDate = dayView1.StartDate;//用于刷新
             }
-            else if (workfolder_combox.SelectedItem.ToString() == "RootPath")
+            else if (workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
-                mindmappath = ini.ReadString("path", "rootpath", ""); ;
+                mindmappath = ini.ReadString("path", "rootPath", ""); ;
                 RefreshCalender();
                 dayView1.StartDate = dayView1.StartDate;//用于刷新
             }
@@ -1219,10 +1179,10 @@ namespace DocearReminder
         private void dayView1_MouseUp(object sender, MouseEventArgs e)
         {
             toolTip2.Hide(this);
-            if (logfile.Contains("fanqie"))
-            {
-                return;
-            }
+            //if (logfile.Contains("fanqie"))
+            //{
+            //    return;
+            //}
             if (e.Button == MouseButtons.Left)
             {
                 Edit();
@@ -1239,36 +1199,17 @@ namespace DocearReminder
                 ismovetask = false;
                 try
                 {
-                    if (!c_timeBlock.Checked)
+                    //if (!c_timeBlock.Checked)//如果时时间块
+                    if (dayView1.SelectedAppointment.Type != "时间块")//如果时时间块
                     {
                         EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
                     }
-                    Reminder reminderObject = new Reminder();
-                    FileInfo fi = new FileInfo(logfile);
-                    using (StreamReader sw = fi.OpenText())
+                    ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                    if (current != null)
                     {
-                        string s = sw.ReadToEnd();
-                        var serializer = new JavaScriptSerializer()
-                        {
-                            MaxJsonLength = Int32.MaxValue
-                        };
-                        reminderObject = serializer.Deserialize<Reminder>(s);
-                        ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
-                        if (current != null)
-                        {
-                            current.time = dayView1.SelectedAppointment.StartDate;
-                            current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
-                            current.name = dayView1.SelectedAppointment.Title.Split('(')[0];
-                        }
-                    }
-                    string json = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    }.Serialize(reminderObject);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                    using (StreamWriter sw = fi.AppendText())
-                    {
-                        sw.Write(json);
+                        current.time = dayView1.SelectedAppointment.StartDate;
+                        current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                        current.name = dayView1.SelectedAppointment.Title.Split('(')[0];
                     }
                 }
                 catch (Exception)
@@ -1284,32 +1225,12 @@ namespace DocearReminder
                     {
                         EditTask(app.value, app.ID, app.StartDate, (app.EndDate - app.StartDate).TotalMinutes, app.Title);
                     }
-                    Reminder reminderObject = new Reminder();
-                    FileInfo fi = new FileInfo(logfile);
-                    using (StreamReader sw = fi.OpenText())
+                    ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(app.value) && m.ID == app.ID);
+                    if (current != null)
                     {
-                        string s = sw.ReadToEnd();
-                        var serializer = new JavaScriptSerializer()
-                        {
-                            MaxJsonLength = Int32.MaxValue
-                        };
-                        reminderObject = serializer.Deserialize<Reminder>(s);
-                        ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(app.value) && m.ID == app.ID);
-                        if (current != null)
-                        {
-                            current.time = app.StartDate;
-                            current.tasktime = (app.EndDate - app.StartDate).TotalMinutes;
-                            current.name = app.Title.Split('(')[0]; ;
-                        }
-                    }
-                    string json = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    }.Serialize(reminderObject);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                    using (StreamWriter sw = fi.AppendText())
-                    {
-                        sw.Write(json);
+                        current.time = app.StartDate;
+                        current.tasktime = (app.EndDate - app.StartDate).TotalMinutes;
+                        current.name = app.Title.Split('(')[0]; ;
                     }
                 }
                 catch (Exception)
@@ -1612,27 +1533,7 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(logfile);
-                using (StreamReader sw = fi.OpenText())
-                {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    reminderObject.reminders.RemoveAll(m => m.ID == dayView1.SelectedAppointment.ID);
-                }
-                string json = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
-                }
+                reminderObject.reminders.RemoveAll(m => m.ID == dayView1.SelectedAppointment.ID);
                 m_Appointments.Remove(dayView1.SelectedAppointment);
                 dayView1.Refresh();
             }
@@ -1644,30 +1545,10 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(logfile);
-                using (StreamReader sw = fi.OpenText())
+                ReminderItem item= reminderObject.reminders.FirstOrDefault(m => m.ID == id);
+                if (item!=null)
                 {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    };
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    ReminderItem item= reminderObject.reminders.FirstOrDefault(m => m.ID == id);
-                    if (item!=null)
-                    {
-                        item.isCompleted = true;
-                    }
-                }
-                string json = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
+                    item.isCompleted = true;
                 }
                 m_Appointments.Remove(dayView1.SelectedAppointment);
                 dayView1.Refresh();
@@ -1784,6 +1665,7 @@ namespace DocearReminder
         }
         public static string ShowDialog(string text, string caption)
         {
+            isMenuShow = true;
             Form prompt = new Form()
             {
                 Width = 420,
@@ -1795,7 +1677,7 @@ namespace DocearReminder
             RichTextBox textBox = new RichTextBox() { Left = 10, Top = 10, Width = 380,Height=100};
             textBox.Text = text;
             Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 130, DialogResult = DialogResult.OK };
-            confirmation.Click += (sender, e) => { prompt.Close(); };
+            confirmation.Click += (sender, e) => { isMenuShow = false; prompt.Close(); };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(confirmation);
             prompt.AcceptButton = confirmation;
@@ -1812,30 +1694,10 @@ namespace DocearReminder
                 dayView1.SelectedAppointment.Comment = promptValue;
                 dayView1.Refresh();
             }
-            Reminder reminderObject = new Reminder();
-            FileInfo fi = new FileInfo(logfile);
-            using (StreamReader sw = fi.OpenText())
+            ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
+            if (current != null)
             {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                };
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
-                if (current != null)
-                {
-                    current.comment = promptValue;
-                }
-            }
-            string json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = Int32.MaxValue
-            }.Serialize(reminderObject);
-            File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-            using (StreamWriter sw = fi.AppendText())
-            {
-                sw.Write(json);
+                current.comment = promptValue;
             }
             RefreshCalender();
         }
@@ -1941,6 +1803,22 @@ namespace DocearReminder
             }
         }
         #endregion
+
+        private void isview_c_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+            UsedLogRenew();
+        }
+        public static bool isMenuShow = false;
+        private void Menu_Opened(object sender, EventArgs e)
+        {
+            isMenuShow = true;
+        }
+
+        private void Menu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            isMenuShow = false;
+        }
     }
     internal class User32
     {

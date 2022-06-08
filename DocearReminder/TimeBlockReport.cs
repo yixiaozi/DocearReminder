@@ -128,72 +128,51 @@ namespace DocearReminder
             formsPlot1.Configuration.ScrollWheelZoom = false;
             formsPlot1.Configuration.LeftClickDragPan = false;
             var plt = formsPlot1.Plot;
-            Reminder reminderObject = new Reminder();
-            string logfile = System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json";
-            FileInfo fi = new FileInfo(logfile);
-            if (!System.IO.File.Exists(logfile))
-            {
-                File.WriteAllText(logfile, "");
-            }
             ReportDataCol reportData = new ReportDataCol();
-            using (StreamReader sw = fi.OpenText())
+            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders)
             {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer()
+                if (item.mindmap == "TimeBlock" && item.time.AddHours(8).Date >= startDt.Value && item.time.AddHours(8).Date <= endDT.Value)
                 {
-                    MaxJsonLength = Int32.MaxValue
-                };
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                if (reminderObject.reminders == null || reminderObject.reminders.Count == 0)
-                {
-                    return;
-                }
-                foreach (ReminderItem item in reminderObject.reminders)
-                {
-                    if (item.mindmap == "TimeBlock" && item.time.AddHours(8).Date >= startDt.Value && item.time.AddHours(8).Date <= endDT.Value)
+                    if (searchword.Text != "")
                     {
-                        if (searchword.Text!="")
+                        try//过滤字符串
                         {
-                            try//过滤字符串
+                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(searchword.Text)))
                             {
-                                if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(searchword.Text)))
-                                {
-                                    continue;
-                                }
-                            }
-                            catch (Exception)
-                            {
+                                continue;
                             }
                         }
-                        if (comboBox1.SelectedIndex>0)
+                        catch (Exception)
                         {
-                            try//过滤分类
-                            {
-                                if (!(item.name.Contains(comboBox1.SelectedItem.ToString())) && !(item.mindmapPath.Contains(comboBox1.SelectedItem.ToString())) && !(item.nameFull.Contains(comboBox1.SelectedItem.ToString())) && !(item.comment != null && item.comment != "" && item.comment.Contains(comboBox1.SelectedItem.ToString())))
-                                {
-                                    continue;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                            }
-                        }
-                        if (reportData.items.Exists(m => m.name == getFirst(item)))
-                        {
-                            reportData.items.First(m => m.name == getFirst(item)).value += item.tasktime;
-                            //是否应该更新下颜色呢？有必要影响效率吗？
-                        }
-                        else
-                        {
-                            reportData.items.Add(new ReportDataItem
-                            {
-                                name = getFirst(item),
-                                value = item.tasktime,
-                                color=Color.FromArgb(Int32.Parse(item.mindmapPath))
-                        }); ;
                         }
                     }
-
+                    if (comboBox1.SelectedIndex > 0)
+                    {
+                        try//过滤分类
+                        {
+                            if (!(item.name.Contains(comboBox1.SelectedItem.ToString())) && !(item.mindmapPath.Contains(comboBox1.SelectedItem.ToString())) && !(item.nameFull.Contains(comboBox1.SelectedItem.ToString())) && !(item.comment != null && item.comment != "" && item.comment.Contains(comboBox1.SelectedItem.ToString())))
+                            {
+                                continue;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    if (reportData.items.Exists(m => m.name == getFirst(item)))
+                    {
+                        reportData.items.First(m => m.name == getFirst(item)).value += item.tasktime;
+                        //是否应该更新下颜色呢？有必要影响效率吗？
+                    }
+                    else
+                    {
+                        reportData.items.Add(new ReportDataItem
+                        {
+                            name = getFirst(item),
+                            value = item.tasktime,
+                            color = Color.FromArgb(Int32.Parse(item.mindmapPath))
+                        }); ;
+                    }
                 }
             }
             if (reportData.values.Length==0)

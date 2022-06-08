@@ -161,33 +161,15 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
-                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                DocearReminderForm.reminderObject.reminders.Add(new ReminderItem
                 {
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                }
-                using (StreamReader sw = fi.OpenText())
-                {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    reminderObject.reminders.Add(new ReminderItem
-                    {
-                        name = TaskName,
-                        time = DateTime.Now,
-                        mindmapPath = mindmap,
-                        ID = ID,
-                        mindmap="FanQie",
-                        tasklevel= taskLevel
-                    });
-                }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
-                }
+                    name = TaskName,
+                    time = DateTime.Now,
+                    mindmapPath = mindmap,
+                    ID = ID,
+                    mindmap="FanQie",
+                    tasklevel= taskLevel
+                });
             }
             catch (Exception)
             {
@@ -199,29 +181,11 @@ namespace DocearReminder
         {
             try
             {
-                Reminder reminderObject = new Reminder();
-                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
-                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                ReminderItem item = DocearReminderForm.reminderObject.reminders.First(m => m.ID == ID);
+                if (item != null)
                 {
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", "");
-                }
-                using (StreamReader sw = fi.OpenText())
-                {
-                    string s = sw.ReadToEnd();
-                    var serializer = new JavaScriptSerializer();
-                    reminderObject = serializer.Deserialize<Reminder>(s);
-                    ReminderItem item = reminderObject.reminders.First(m => m.ID == ID);
-                    if (item != null)
-                    {
-                        item.comleteTime = DateTime.Now;
-                        item.tasktime = (DateTime.Now - item.time.AddHours(8)).TotalMinutes;
-                    }
-                }
-                string json = new JavaScriptSerializer().Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory+@"\reminder.json", "");
-                using (StreamWriter sw = fi.AppendText())
-                {
-                    sw.Write(json);
+                    item.comleteTime = DateTime.Now;
+                    item.tasktime = (DateTime.Now - item.time.AddHours(8)).TotalMinutes;
                 }
             }
             catch (Exception)

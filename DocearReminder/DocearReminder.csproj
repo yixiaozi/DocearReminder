@@ -158,6 +158,12 @@
     <Compile Include="TimeBlockReport.Designer.cs">
       <DependentUpon>TimeBlockReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeBlockTrend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeBlockTrend.Designer.cs">
+      <DependentUpon>TimeBlockTrend.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tomato.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeBlockReport.resx">
       <DependentUpon>TimeBlockReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeBlockTrend.resx">
+      <DependentUpon>TimeBlockTrend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tomato.resx">
       <DependentUpon>Tomato.cs</DependentUpon>

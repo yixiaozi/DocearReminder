@@ -67,7 +67,7 @@ namespace DocearReminder
             this.startDt.Name = "startDt";
             this.startDt.Size = new System.Drawing.Size(124, 21);
             this.startDt.TabIndex = 2;
-            this.startDt.Value = new System.DateTime(2022, 6, 5, 0, 0, 0, 0);
+            this.startDt.Value = DateTime.Today;
             this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // label2
@@ -85,7 +85,7 @@ namespace DocearReminder
             this.endDT.Name = "endDT";
             this.endDT.Size = new System.Drawing.Size(112, 21);
             this.endDT.TabIndex = 4;
-            this.endDT.Value = new System.DateTime(2022, 6, 6, 0, 0, 0, 0);
+            this.endDT.Value = DateTime.Now;
             this.endDT.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // searchword

@@ -18,6 +18,8 @@
     <PackageIconUrl>https://raw.githubusercontent.com/olsh/todoist-net/master/images/todoist-net-nuget.png</PackageIconUrl>
     
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

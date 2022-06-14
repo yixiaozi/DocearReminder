@@ -1,4 +1,6 @@
-﻿namespace DocearReminder
+﻿using System;
+
+namespace DocearReminder
 {
     partial class UseTime
     {
@@ -74,7 +76,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(107, 21);
             this.dateTimePicker1.TabIndex = 2;
-            this.dateTimePicker1.Value = new System.DateTime(2022, 6, 5, 0, 0, 0, 0);
+            this.dateTimePicker1.Value = DateTime.Today;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label2
@@ -92,7 +94,7 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(131, 21);
             this.dateTimePicker2.TabIndex = 4;
-            this.dateTimePicker2.Value = new System.DateTime(2022, 6, 6, 0, 0, 0, 0);
+            this.dateTimePicker2.Value = DateTime.Now;
             this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // section

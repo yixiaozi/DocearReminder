@@ -131,7 +131,7 @@ namespace DocearReminder
             ReportDataCol reportData = new ReportDataCol();
             foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders)
             {
-                if (item.mindmap == "TimeBlock" && item.time.AddHours(8).Date >= startDt.Value && item.time.AddHours(8).Date <= endDT.Value)
+                if (item.mindmap == "TimeBlock" && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
                 {
                     if (searchword.Text != "")
                     {

@@ -639,6 +639,7 @@ namespace DocearReminder
                     StartDate = item.time
                 };
                 string taskname = item.name;
+                string common = item.comment;
                 try//解决有点只保存结束时间的问题
                 {
                     if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
@@ -682,9 +683,9 @@ namespace DocearReminder
                     string patten = @"(\S)";
                     Regex reg = new Regex(patten);
                     taskname = reg.Replace(taskname, "*");
-                    if (item.comment!=null&&item.comment!="")
+                    if (common != null&& common != "")
                     {
-                        item.comment = reg.Replace(item.comment, "*");
+                        common = reg.Replace(common, "*");
                     }
                 }
                 if (showfatchertimeblock&& item.mindmap == "TimeBlock")
@@ -695,7 +696,7 @@ namespace DocearReminder
                 {
                     m_Appointment.Title = taskname;
                 }
-                m_Appointment.Comment = item.comment;
+                m_Appointment.Comment = common;
                 if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
                 {
                     m_Appointment.Title += ("("+m_Appointment.Comment+")");

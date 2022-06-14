@@ -452,7 +452,7 @@ namespace DocearReminder
                 {
                     MaxJsonLength = Int32.MaxValue
                 };
-                usedTimer = serializer.Deserialize<UsedTimer>(s);
+                usedTimer = serializer.Deserialize<UsedTimer>(ReplaceJsonDateToDateString(s));
             }
             currentUsedTimerId = Guid.NewGuid();
             usedCount.Text = usedTimer.Count.ToString();
@@ -828,6 +828,15 @@ namespace DocearReminder
             {
                 nodetree.Focus();
             }
+            try
+            {
+                usedCount.Text = usedTimer.Count.ToString();
+                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
+                todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
+            }
+            catch (Exception)
+            {
+            }
         }
 
         #endregion
@@ -944,7 +953,7 @@ namespace DocearReminder
         #region allnode,allicon,allfile等数据加载
         public void GetAllNode(DirectoryInfo path)
         {
-            foreach (FileInfo file in path.GetFiles("*.mm"))
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
                 if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
                 {
@@ -1015,21 +1024,10 @@ namespace DocearReminder
                     }
                 }
             }
-            if (path.GetDirectories().Length > 0)
-            {
-                foreach (DirectoryInfo subPath in path.GetDirectories())
-                {
-                    //需要排除的文件夹
-                    if (!".svn".Contains(subPath.Name) && subPath.Name[0] != '.')// && !noFolder.Contains(subPath.Name)
-                    {
-                        GetAllNode(subPath);
-                    }
-                }
-            }
         }
         public void GetAllNodeIcon(DirectoryInfo path)
         {
-            foreach (FileInfo file in path.GetFiles("*.mm"))
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
                 if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
                 {
@@ -1118,17 +1116,6 @@ namespace DocearReminder
                     }
                     catch (Exception)
                     {
-                    }
-                }
-            }
-            if (path.GetDirectories().Length > 0)
-            {
-                foreach (DirectoryInfo subPath in path.GetDirectories())
-                {
-                    //需要排除的文件夹
-                    if (!".svn".Contains(subPath.Name) && subPath.Name[0] != '.')//&& !noFolder.Contains(subPath.Name)
-                    {
-                        GetAllNodeIcon(subPath);
                     }
                 }
             }
@@ -1306,126 +1293,102 @@ namespace DocearReminder
         //获取包含任务的导图
         public void LoadFile(DirectoryInfo path)
         {
-            if (true)
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
-                foreach (FileInfo file in path.GetFiles("*.mm"))
+                if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
                 {
-                    if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
+                    mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName});
+                }
+                string subPath = file.DirectoryName;
+                if (!noFiles.Contains(file.Name) && file.Name[0] != '~'&&!".svn".Contains(subPath) && (allFloder || (PathcomboBox.SelectedItem.ToString()=="rootPath" && !MyContains(file.FullName,noFolder))|| PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
+                {
+                    try
                     {
-                        mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName});
-                    }
-                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
-                    {
-                        try
+                        if (!remindmapsList.Contains(file.FullName))
                         {
-                            if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
+                            //暂时取消remindmapsList的作用，因为避免总是需要考虑这个问题。
+                            //continue;
+                        }
+                        string str1 = "hook";
+                        string str2 = "NAME";
+                        string str3 = "plugins/TimeManagementReminder.xml";
+                        System.Xml.XmlDocument x = new XmlDocument();
+                        x.Load(file.FullName);
+                        int number = 0;
+                        foreach (XmlNode node in x.GetElementsByTagName(str1))
+                        {
+                            try
                             {
-                                mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
-                            }
-                            if (!remindmapsList.Contains(file.FullName))
-                            {
-                                //暂时取消remindmapsList的作用，因为避免总是需要考虑这个问题。
-                                //continue;
-                            }
-                            string str1 = "hook";
-                            string str2 = "NAME";
-                            string str3 = "plugins/TimeManagementReminder.xml";
-                            System.Xml.XmlDocument x = new XmlDocument();
-                            x.Load(file.FullName);
-                            int number = 0;
-                            foreach (XmlNode node in x.GetElementsByTagName(str1))
-                            {
-                                try
+                                if (node.Attributes != null && node.Attributes[str2] != null && node.Attributes[str2].Value == str3)
                                 {
-                                    if (node.Attributes != null && node.Attributes[str2] != null && node.Attributes[str2].Value == str3)
+                                    if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
                                     {
-                                        if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
-                                        {
-                                            number++;
-                                        }
+                                        number++;
                                     }
                                 }
-                                catch (Exception)
-                                {
-                                }
                             }
-                            if (number > 0)
+                            catch (Exception)
                             {
-                                mindmaplist.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3), Value = file.FullName });
+                            }
+                        }
+                        if (number > 0)
+                        {
+                            mindmaplist.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3), Value = file.FullName });
 
-                                taskcount.Text = (Convert.ToInt16(taskcount.Text) + number).ToString();
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            MessageBox.Show(file.FullName);
+                            taskcount.Text = (Convert.ToInt16(taskcount.Text) + number).ToString();
                         }
                     }
-                }
-                mindmaplist.Sorted = false;
-                mindmaplist.Sorted = true;
-            }
-            if (path.GetDirectories().Length > 0)
-            {
-                foreach (DirectoryInfo subPath in path.GetDirectories())
-                {
-                    //需要排除的文件夹
-                    if (!".svn".Contains(subPath.Name) && (allFloder || (!allFloder && !noFolder.Contains(subPath.Name))) && subPath.Name[0] != '.')
+                    catch (Exception)
                     {
-                        LoadFile(subPath);
-                    }
-                    else
-                    {
-                        if (noFolder.Contains(subPath.Name))
-                        {
-                            AddmindmapfilesOnly(subPath);
-                        }
+                        MessageBox.Show(file.FullName);
                     }
                 }
             }
+            mindmaplist.Sorted = false;
+            mindmaplist.Sorted = true;
         }
-        public void AddmindmapfilesOnly(DirectoryInfo path)
-        {
-            try{
-                foreach (FileInfo file in path.GetFiles("*.mm"))
-                {
-                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
-                    {
-                        try
-                        {
-                            if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
-                            {
-                                mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
-                            }
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
-                if (path.GetDirectories().Length > 0)
-                {
-                    foreach (DirectoryInfo subPath in path.GetDirectories())
-                    {
-                        //需要排除的文件夹
-                        if (!".svn".Contains(subPath.Name) && (allFloder || (!allFloder && !noFolder.Contains(subPath.Name))) && subPath.Name[0] != '.')
-                        {
-                            AddmindmapfilesOnly(subPath);
-                        }
-                        else
-                        {
-                            if (noFolder.Contains(subPath.Name))
-                            {
-                                AddmindmapfilesOnly(subPath);
-                            }
-                        }
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-            }
-        }
+        //public void AddmindmapfilesOnly(DirectoryInfo path)
+        //{
+        //    try{
+        //        foreach (FileInfo file in path.GetFiles("*.mm"))
+        //        {
+        //            if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
+        //            {
+        //                try
+        //                {
+        //                    if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
+        //                    {
+        //                        mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
+        //                    }
+        //                }
+        //                catch (Exception)
+        //                {
+        //                }
+        //            }
+        //        }
+        //        if (path.GetDirectories().Length > 0)
+        //        {
+        //            foreach (DirectoryInfo subPath in path.GetDirectories())
+        //            {
+        //                //需要排除的文件夹
+        //                if (!".svn".Contains(subPath.Name) && (allFloder || (!allFloder && !noFolder.Contains(subPath.Name))) && subPath.Name[0] != '.')
+        //                {
+        //                    AddmindmapfilesOnly(subPath);
+        //                }
+        //                else
+        //                {
+        //                    if (noFolder.Contains(subPath.Name))
+        //                    {
+        //                        AddmindmapfilesOnly(subPath);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //    }
+        //}
         public static Reminder reminderObject = new Reminder();
         public void RRReminderlist()
         {
@@ -5476,9 +5439,14 @@ namespace DocearReminder
         {
             try
             {
+                bool isadddate = false;
+                if (taskName.StartsWith("."))
+                {
+                    isadddate = true;
+                    taskName = taskName.Substring(1);
+                }
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(showMindmapName);
-                //x.GetElementById(id).RemoveAll(); ;
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
                     if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == renameMindMapFileID)
@@ -5527,7 +5495,42 @@ namespace DocearReminder
                             newNote.AppendChild(remindernode);
                             fenshuADD(3);
                         }
-                        node.AppendChild(newNote);
+                        if (isadddate)
+                        {
+                            XmlNode root = node;
+                            if (!haschildNode(root, DateTime.Now.Year.ToString()))
+                            {
+                                XmlNode yearNode = x.CreateElement("node");
+                                XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                                yearNodeValue.Value = DateTime.Now.Year.ToString();
+                                yearNode.Attributes.Append(yearNodeValue);
+                                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+                            }
+                            XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
+                            if (!haschildNode(year, DateTime.Now.Month.ToString()))
+                            {
+                                XmlNode monthNode = x.CreateElement("node");
+                                XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                                monthNodeValue.Value = DateTime.Now.Month.ToString();
+                                monthNode.Attributes.Append(monthNodeValue);
+                                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+                            }
+                            XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
+                            if (!haschildNode(month, DateTime.Now.Day.ToString()))
+                            {
+                                XmlNode dayNode = x.CreateElement("node");
+                                XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                                dayNodeValue.Value = DateTime.Now.Day.ToString();
+                                dayNode.Attributes.Append(dayNodeValue);
+                                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+                            }
+                            XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
+                            day.AppendChild(newNote);
+                        }
+                        else
+                        {
+                            node.AppendChild(newNote);
+                        }
                         searchword.Text = "";
                         x.Save(showMindmapName);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
@@ -7493,6 +7496,8 @@ namespace DocearReminder
                                         {
                                             selectedpath = false;
                                             PathcomboBox.SelectedIndex = i;
+                                            loadHopeNote();
+                                            break;
                                         }
                                     }
                                     if (changePath.ToLower() == "rss")
@@ -9163,7 +9168,7 @@ namespace DocearReminder
                             if (ReminderListFocused())
                             {
                                 ShowMindmap();
-                                ShowMindmapFile(false,100);
+                                ShowMindmapFile(false,5);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                 this.Height = 880;
                                 nodetree.Focus();
@@ -9171,7 +9176,7 @@ namespace DocearReminder
                             else if (mindmaplist.Focused)
                             {
                                 ShowMindmap();
-                                ShowMindmapFile(false,100);
+                                ShowMindmapFile(false,5);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                                 this.Height = 880;
                                 nodetree.Focus();
@@ -11994,9 +11999,25 @@ namespace DocearReminder
                 //MessageBox.Show(ex.ToString());
             }
         }
-        public bool StringHasArrALL(string str, string[] arr)
+        public bool MyContains(string str, string[] arr)
         {
             if (str == null || str == ""||arr.Length==0)
+            {
+                return true;
+            }
+            str = str.ToLower();
+            foreach (string item in arr)
+            {
+                if (str.ToLower().Contains(item.ToLower().Trim()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool StringHasArrALL(string str, string[] arr)
+        {
+            if (str == null || str == "" || arr.Length == 0)
             {
                 return false;
             }
@@ -12273,14 +12294,15 @@ namespace DocearReminder
                     FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.mm");
                     fi.CopyTo(parentFolder + "\\" + newTxt);
                     FileTreeView.SelectedNode.Name = parentFolder + "\\" + newTxt;
-                    StreamReader reader = new StreamReader(FileTreeView.SelectedNode.Name, Encoding.Default);
+                    StreamReader reader = new StreamReader(FileTreeView.SelectedNode.Name, Encoding.UTF8);
                     String a = reader.ReadToEnd();
                     reader.Close();
                     a = a.Replace("DefaultName", newTxt.Substring(0,newTxt.Length-3));
-                    StreamWriter readTxt = new StreamWriter(FileTreeView.SelectedNode.Name, false, Encoding.Default);
+                    StreamWriter readTxt = new StreamWriter(FileTreeView.SelectedNode.Name, false, Encoding.UTF8);
                     readTxt.Write(a);
                     readTxt.Flush();
                     readTxt.Close();
+                    yixiaozi.Model.DocearReminder.Helper.ConvertFile(FileTreeView.SelectedNode.Name);
                 }
                 else if (newTxt.EndsWith(".xlsx"))
                 {
@@ -12404,27 +12426,33 @@ namespace DocearReminder
                 section = PathcomboBox.SelectedItem.ToString();
                 mindmapPath = rootpath.FullName;
                 searchword.Text = "";
-                //todo:加载hope笔记
-                try
-                {
-                    if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt"))
-                    {
-                        hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory +"\\"+ PathcomboBox.SelectedItem.ToString() + @".txt");
-
-                    }
-                    else
-                    {
-                        hopeNote.Text = "";
-                    }
-                }
-                catch (Exception)
-                {
-                }
+                loadHopeNote();
                 PlaySimpleSound("changepath");
                 UsedLogRenew();
                 Load_Click(null, null);
                 reminderList.Focus();
                 Center();
+            }
+            catch (Exception)
+            {
+            }
+        }
+        /// <summary>
+        /// 加载hope笔记
+        /// </summary>
+        public void loadHopeNote()
+        {
+            try
+            {
+                if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt"))
+                {
+                    hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt");
+
+                }
+                else
+                {
+                    hopeNote.Text = "";
+                }
             }
             catch (Exception)
             {
@@ -14064,6 +14092,20 @@ namespace DocearReminder
                 SRE_listening = false;
             }
         }
+        
+        public bool MyProcessStart(string path)
+        {
+            try
+            {
+                Process.Start(path);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
         #region 文件操作日志
         string firstname = "";
@@ -14323,6 +14365,7 @@ namespace DocearReminder
         #region   私有方法
         #endregion
     }
+
 
 }
 public static class Extensions

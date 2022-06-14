@@ -51,10 +51,10 @@ namespace DocearReminder
             //fi.Delete();
             List<double> names = new List<double>();
             List<double> values = new List<double>();
-            IEnumerable<OneTime> sortList = DocearReminderForm.usedTimer.TimeLog.Where(m=> Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")).AddHours(8) >= dateTimePicker1.Value && Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")).AddHours(8)<= dateTimePicker2.Value.AddDays(1)).Where(m => (((m.formName!=null&&m.formName.Contains(FormNamesSelect.SelectedItem.ToString()))|| FormNamesSelect.SelectedItem.ToString()=="所有") &&(((m.section == null|| m.section == "") && (m.fileFullName == null|| m.fileFullName == "") && section.Text == "" && file.Text == "" && log.Text == "") || (m.section != null && m.section.ToLower().Contains(section.Text.ToLower().Trim())) && (m.fileFullName != null && m.fileFullName.Contains(file.Text.Trim())) && (m.Log != null && m.Log.Contains(log.Text.Trim())))));
+            IEnumerable<OneTime> sortList = DocearReminderForm.usedTimer.TimeLog.Where(m=> Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")) >= dateTimePicker1.Value && Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00"))<= dateTimePicker2.Value.AddDays(1)).Where(m => (((m.formName!=null&&m.formName.Contains(FormNamesSelect.SelectedItem.ToString()))|| FormNamesSelect.SelectedItem.ToString()=="所有") &&(((m.section == null|| m.section == "") && (m.fileFullName == null|| m.fileFullName == "") && section.Text == "" && file.Text == "" && log.Text == "") || (m.section != null && m.section.ToLower().Contains(section.Text.ToLower().Trim())) && (m.fileFullName != null && m.fileFullName.Contains(file.Text.Trim())) && (m.Log != null && m.Log.Contains(log.Text.Trim())))));
             if (sortList.Count()!=0)
             {
-                foreach (var item in sortList.GroupBy(m => Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00")).AddHours(8)).OrderBy(m => m.Key))
+                foreach (var item in sortList.GroupBy(m => Convert.ToDateTime(m.startDate.ToString("yyyy/MM/dd HH:00:00"))).OrderBy(m => m.Key))
                 {
                     names.Add(item.Key.ToOADate());
                     double timeCount = 0;

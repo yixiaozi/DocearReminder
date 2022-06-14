@@ -158,8 +158,8 @@ namespace DocearReminder
 
                 this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
                 fileSystemWatcher1.IncludeSubdirectories = true;
-                fileSystemWatcher1.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-                             | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                fileSystemWatcher1.NotifyFilter = NotifyFilters.LastWrite
+                             | NotifyFilters.FileName | NotifyFilters.DirectoryName;// NotifyFilters.LastAccess |
                 ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
                 this.fileSystemWatcher1.EnableRaisingEvents = true;
                 this.fileSystemWatcher1.SynchronizingObject = this;
@@ -7497,6 +7497,7 @@ namespace DocearReminder
                                             selectedpath = false;
                                             PathcomboBox.SelectedIndex = i;
                                             loadHopeNote();
+                                            section = PathcomboBox.SelectedItem.ToString();
                                             break;
                                         }
                                     }
@@ -12008,7 +12009,7 @@ namespace DocearReminder
             str = str.ToLower();
             foreach (string item in arr)
             {
-                if (str.ToLower().Contains(item.ToLower().Trim()))
+                if (str.ToLower().Contains("\\"+item.ToLower().Trim()+"\\"))
                 {
                     return true;
                 }
@@ -14112,11 +14113,20 @@ namespace DocearReminder
         private bool showwaittask=false;
 
         private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
-        {//发生改变
-            if ((isLog(e.FullPath)) &&firstname!= e.FullPath.ToString())
+        {
+            try
             {
-                firstname = e.FullPath.ToString();
-                SaveFileLog("修改：" + e.FullPath.ToString());
+                fileSystemWatcher1.EnableRaisingEvents = false;
+                //发生改变
+                if ((isLog(e.FullPath)) && firstname != e.FullPath.ToString())
+                {
+                    firstname = e.FullPath.ToString();
+                    SaveFileLog("修改：" + e.FullPath.ToString());
+                }
+            }
+            finally
+            {
+                fileSystemWatcher1.EnableRaisingEvents = true;
             }
         }
 

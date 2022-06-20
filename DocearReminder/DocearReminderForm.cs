@@ -813,6 +813,7 @@ namespace DocearReminder
 
         public void MyShow()
         {
+            keyJ.Stop();
             Center();
             this.Show();
             this.Activate();
@@ -11452,6 +11453,13 @@ namespace DocearReminder
             {
                 return;
             }
+            if (searchword.Text.ToLower().StartsWith("sjj")) //startjj
+            {
+                searchword.Text = "";
+                MyHide();
+                keyJ.Start();
+                return;
+            }
             if (!isRename)//重命名的时候，可以移动光标
             {
                 searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
@@ -14336,6 +14344,11 @@ namespace DocearReminder
             hopeNote.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
             tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
             tagCloudControl.Height = 475 - tagCloudControl.Top;
+        }
+
+        private void keyJ_Tick(object sender, EventArgs e)
+        {
+            SendKeys.Send("{j}");
         }
     }
 

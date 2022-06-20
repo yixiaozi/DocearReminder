@@ -145,6 +145,7 @@ namespace DocearReminder
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.keyJ = new System.Windows.Forms.Timer(this.components);
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1461,6 +1462,11 @@ namespace DocearReminder
             this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
             this.hopeNote.TextChanged += new System.EventHandler(this.hopeNote_TextChanged);
             // 
+            // keyJ
+            // 
+            this.keyJ.Interval = 3000;
+            this.keyJ.Tick += new System.EventHandler(this.keyJ_Tick);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1694,6 +1700,7 @@ namespace DocearReminder
         private Timer titleTimer;
         private TextBox nodetreeSearch;
         private MyRichTextBox hopeNote;
+        private Timer keyJ;
     }
 }
 

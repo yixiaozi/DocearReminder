@@ -1,7 +1,7 @@
 # DocearReminder
 [![Join the chat at https://gitter.im/yixiaozi/DocearReminder](https://badges.gitter.im/yixiaozi/DocearReminder.svg)](https://gitter.im/yixiaozi/DocearReminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Docear是我使用了近十年的思维导图软件，在使用过程中，发现提醒功能只能在思维导图打开后才能提示。所以就写了一个工具在导图中寻找提醒任务，这就是这款软件的由来，而自从有了这款软件之后，我打开思维导图的次数少了很多。
+Docear思维导图软件，在使用过程中，发现提醒功能只能在思维导图打开后才能提示。所以就写了一个工具在导图中寻找提醒任务，这就是这款软件的由来，而自从有了这款软件之后，我打开思维导图的次数少了很多。
 
 这是一款能让思维导图更加系统化的工具，它集成了任务管理，番茄钟，日历视图，快速启动，文件检索，浏览器书签搜索，剪切板备份等诸多功能，它拥有相当详尽且加密的操作历史记录，积分奖励算法（比如完成一个任务加积分，取消或者推迟任务有扣分等），使用时间统计（总的使用时间，当日使用时间）。
 ***
@@ -40,7 +40,12 @@ Docear是我使用了近十年的思维导图软件，在使用过程中，发�
 5. 记录键盘，文件操作日志
 6. 鼠标控制键（按住Alt+   j ,k,u,l,u,o等键）
 
-## 软件截图
+### 六月更新
+1. 图表
+
+## [开发思维导图](DocearReminder.mm)
+
+# 软件截图
 
 ### 主窗口
 ![DocearReminderForm](Info/images/主窗口.png "主窗口")

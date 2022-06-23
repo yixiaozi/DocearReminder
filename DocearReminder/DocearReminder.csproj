@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\.files\DocearReminder\</OutputPath>
+    <OutputPath>..\..\..\yixiaozi\.files\DocearReminder\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -62,24 +62,30 @@
     <ApplicationManifest>DocearReminder.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.AcroPDFLib">
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AxInterop.AcroPDFLib.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.DSOFramer">
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AxInterop.DSOFramer.dll</HintPath>
+    </Reference>
     <Reference Include="Gma.UserActivityMonitor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Gma.UserActivityMonitor.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
     </Reference>
     <Reference Include="IrisSkin4, Version=2006.3.22.45, Culture=neutral, PublicKeyToken=127be25a6db25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\.files\DocearReminder\IrisSkin4.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
-      <HintPath>.\NAudio.dll</HintPath>
+      <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\有条不紊\Work\敏捷艾科\奥林巴斯\SPO\Develp\repos\CheckYunXiaoPnumberAndCount\CheckYunXiaoPnumberAndCount\CheckYunXiaoPnumberAndCount\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin">
-      <HintPath>bin\Debug\NPinyin.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPinyin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="ScottPlot, Version=4.1.33.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
@@ -300,23 +306,6 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="AxDSOFramer">
-      <Guid>{00460180-9E5E-11D5-B7C8-B8269041DD57}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="DSOFramer">
-      <Guid>{00460180-9E5E-11D5-B7C8-B8269041DD57}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>

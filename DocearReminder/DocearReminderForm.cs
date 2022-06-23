@@ -156,19 +156,19 @@ namespace DocearReminder
                 InitializeComponent();
                 InitVoice();
 
-                this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
-                fileSystemWatcher1.IncludeSubdirectories = true;
-                fileSystemWatcher1.NotifyFilter = NotifyFilters.LastWrite
-                             | NotifyFilters.FileName | NotifyFilters.DirectoryName;// NotifyFilters.LastAccess |
-                ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
-                this.fileSystemWatcher1.EnableRaisingEvents = true;
-                this.fileSystemWatcher1.SynchronizingObject = this;
-                this.fileSystemWatcher1.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Deleted);
-                this.fileSystemWatcher1.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
-                this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
-                this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Created);
-                this.fileSystemWatcher1.Path = ini.ReadString("path", "rootpath", "");
-                ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
+                //this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+                //fileSystemWatcher1.IncludeSubdirectories = true;
+                //fileSystemWatcher1.NotifyFilter = NotifyFilters.LastWrite
+                //             | NotifyFilters.FileName | NotifyFilters.DirectoryName;// NotifyFilters.LastAccess |
+                //((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
+                //this.fileSystemWatcher1.EnableRaisingEvents = true;
+                //this.fileSystemWatcher1.SynchronizingObject = this;
+                //this.fileSystemWatcher1.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Deleted);
+                //this.fileSystemWatcher1.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
+                //this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
+                //this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Created);
+                //this.fileSystemWatcher1.Path = ini.ReadString("path", "rootpath", "");
+                //((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
 
                 if (ini.ReadString("Skin", "src", "")!="")
                 {
@@ -2730,13 +2730,18 @@ namespace DocearReminder
                 else
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh, rect, StringFormat.GenericDefault);
+                    string taskname = ((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(3);
+                    if (taskname.Length > 100)
+                    {
+                        taskname = taskname.Substring(0, 100);
+                    }
                     if (((MyListBoxItemRemind)reminderList.Items[e.Index]).link==null|| ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
                     {
-                        e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(3), e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(taskname, e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
                     }
                     else
                     {
-                        e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(3), e.Font, Brushes.DeepSkyBlue, rectleft, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(taskname, e.Font, Brushes.DeepSkyBlue, rectleft, StringFormat.GenericDefault);
                     }
                     
                     ((MyListBoxItemRemind)reminderList.Items[e.Index]).IsShow = true;
@@ -4581,7 +4586,7 @@ namespace DocearReminder
                 {
                     string gitCommand = "git";
                     //string gitAddArgument = @"add -A";
-                    string gitCommitArgument = @"commit -a -m" + taskName + "@" + DateTime.Now.ToLongDateString();
+                    string gitCommitArgument = @"commit -a -m " + taskName;
                     //string gitPushArgument = @"push our_remote";
                     //System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
                     //Thread.Sleep(2000);
@@ -7425,6 +7430,8 @@ namespace DocearReminder
                                     link=link.Replace("/","\\");
                                     link=link.Replace(@"\\",@"\");
                                 }
+                                //将链接复制到剪切板
+                                Clipboard.SetText(link);
                                 System.Diagnostics.Process.Start(link);
                                 SaveLog("打开：    " + link);
                             }
@@ -11087,7 +11094,7 @@ namespace DocearReminder
                 searchword.Text = "";
                 playBackGround = !playBackGround;
             }
-            else if (searchword.Text.StartsWith("ga"))
+            else if (searchword.Text.ToLower().StartsWith("ga"))
             {
                 this.Close();
                 string gitCommand = "git";
@@ -11095,6 +11102,16 @@ namespace DocearReminder
                 System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
                 searchword.Text = "";
                 
+                return;
+            }
+            else if (searchword.Text.ToLower().StartsWith("gitpush"))
+            {
+                this.Close();
+                string gitCommand = "git";
+                string gitAddArgument = @"push";
+                System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
+                searchword.Text = "";
+
                 return;
             }
             else if (searchword.Text.ToLower().StartsWith("help"))

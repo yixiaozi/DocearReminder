@@ -119,35 +119,35 @@ namespace DocearReminder
             this.打开导图ToolStripMenuItem,
             this.番茄钟ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(181, 114);
+            this.Menu.Size = new System.Drawing.Size(133, 92);
             this.Menu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Menu_Closed);
             this.Menu.Opened += new System.EventHandler(this.Menu_Opened);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // commentToolStripMenuItem
             // 
             this.commentToolStripMenuItem.Name = "commentToolStripMenuItem";
-            this.commentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.commentToolStripMenuItem.Text = "Comment";
             this.commentToolStripMenuItem.Click += new System.EventHandler(this.commentToolStripMenuItem_Click);
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
             // 番茄钟ToolStripMenuItem
             // 
             this.番茄钟ToolStripMenuItem.Name = "番茄钟ToolStripMenuItem";
-            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.番茄钟ToolStripMenuItem.Text = "番茄钟";
             this.番茄钟ToolStripMenuItem.Click += new System.EventHandler(this.番茄钟ToolStripMenuItem_Click);
             // 
@@ -309,6 +309,8 @@ namespace DocearReminder
             // c_timeBlock
             // 
             this.c_timeBlock.AutoSize = true;
+            this.c_timeBlock.Checked = true;
+            this.c_timeBlock.CheckState = System.Windows.Forms.CheckState.Checked;
             this.c_timeBlock.Location = new System.Drawing.Point(826, 3);
             this.c_timeBlock.Name = "c_timeBlock";
             this.c_timeBlock.Size = new System.Drawing.Size(60, 16);

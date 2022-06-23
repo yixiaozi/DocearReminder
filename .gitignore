@@ -5,3 +5,6 @@ bin
 obj
 /.cr/personal/FavoritesList
 DocearReminderTodoist/Form1.cs
+DocearReminder/DocearReminder.csproj
+DocearReminder/DocearReminder.csproj
+*.csproj

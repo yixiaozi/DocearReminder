@@ -86,6 +86,7 @@ namespace DocearReminder
         public static string command = "ga;gc;";
         public static List<string> RecentOpenedMap = new List<string>();
         public static List<string> IconNodesSelected = new List<string>();
+        public static List<string> Xnodes = new List<string>();
         public static List<string> OpenedInRootSearch = new List<string>();
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
@@ -250,6 +251,7 @@ namespace DocearReminder
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
                 IconNodesSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
+                Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                 OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
@@ -1052,6 +1054,7 @@ namespace DocearReminder
                                             if (item.Attributes["TYPE"] != null && item.Attributes["TYPE"].Value == "NODE")
                                             {
                                                 filename = new HtmlToString().StripHTML(((System.Xml.XmlElement)item).InnerXml).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "");
+                                                string link = GetAttribute(node.ParentNode, "LINK");
                                                 if (filename != "")
                                                 {
                                                     nodeIconString += filename;
@@ -1067,6 +1070,8 @@ namespace DocearReminder
                                                     nodeIconString += node.ParentNode.Attributes["ID"].Value;
                                                     nodeIconString += "|";
                                                     nodeIconString += file.FullName;
+                                                    nodeIconString += "|";
+                                                    nodeIconString += link;
                                                     nodeIconString += "@";
                                                 }
 
@@ -1079,6 +1084,7 @@ namespace DocearReminder
                                         if (node.ParentNode.Attributes["TEXT"].Value != "")
                                         {
                                             string parentNodePath = GetFatherNodeName(node.ParentNode);
+                                            string link = GetAttribute(node.ParentNode, "LINK");
                                             nodesicon.Add(new node
                                             {
                                                 Text = node.ParentNode.Attributes["TEXT"].Value,
@@ -1087,8 +1093,7 @@ namespace DocearReminder
                                                 editDateTime = DateTime.Now,
                                                 Time = DateTime.Now,
                                                 IDinXML = node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "",
-                                                ParentNodePath = parentNodePath
-                                            });
+                                            }) ;
                                             filename = node.ParentNode.Attributes["TEXT"].Value.Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "");
                                             nodeIconString += filename;
                                             nodeIconString += "|";
@@ -1105,6 +1110,8 @@ namespace DocearReminder
                                             nodeIconString += file.FullName;
                                             nodeIconString += "|";
                                             nodeIconString += parentNodePath;
+                                            nodeIconString += "|";
+                                            nodeIconString += link;
                                             nodeIconString += "@";
                                         }
                                     }
@@ -1935,6 +1942,49 @@ namespace DocearReminder
                                 {
                                     IsShow = false;
                                 }
+                                if (Xnodes.Any(m => m.Contains(nodeid))&& reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
+                                {
+                                    if (taskName.ToLower() != "bin")
+                                    {
+                                        if (isZhuangbi)
+                                        {
+                                            string patten = @"(\S)";
+                                            Regex reg = new Regex(patten);
+                                            taskNameDis = reg.Replace(taskNameDis, "*");
+                                        }
+                                        reminderboxList.Add(new MyListBoxItemRemind
+                                        {
+                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Name = taskName,
+                                            Time = dt,
+                                            jinianDatetime = jiniantimeDT,
+                                            Value = path.Value,
+                                            IsShow = IsShow,
+                                            remindertype = GetAttribute(node.ParentNode, "REMINDERTYPE"),
+                                            rhours = MyToInt16(GetAttribute(node.ParentNode, "RHOUR")),
+                                            rdays = MyToInt16(GetAttribute(node.ParentNode, "RDAYS")),
+                                            rMonth = MyToInt16(GetAttribute(node.ParentNode, "RMONTH")),
+                                            rWeek = MyToInt16(GetAttribute(node.ParentNode, "RWEEK")),
+                                            rweeks = GetAttribute(node.ParentNode, "RWEEKS").ToCharArray(),
+                                            ryear = MyToInt16(GetAttribute(node.ParentNode, "RYEAR")),
+                                            rtaskTime = MyToInt16(GetAttribute(node.ParentNode, "TASKTIME")),
+                                            IsDaka = GetAttribute(node.ParentNode, "ISDAKA"),
+                                            IsView = GetAttribute(node.ParentNode, "ISVIEW"),
+                                            DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
+                                            level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                            ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
+                                            DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
+                                            editTime = editTime,
+                                            isEncrypted = isEncrypted,
+                                            IDinXML = GetAttribute(node.ParentNode, "ID"),
+                                            link = GetAttribute(node.ParentNode, "LINK"),
+                                            rootPath = rootpath.FullName,
+                                            ISReminderOnly = iSReminderOnly,
+                                            Content = ((System.Xml.XmlElement)node.ParentNode).InnerXml
+                                        });
+                                        IsShow = false;
+                                    }
+                                }
                                 if (IsShow)
                                 {
                                     if (taskName.ToLower() != "bin")
@@ -1974,7 +2024,7 @@ namespace DocearReminder
                                             rootPath = rootpath.FullName,
                                             ISReminderOnly = iSReminderOnly,
                                             Content = ((System.Xml.XmlElement)node.ParentNode).InnerXml
-                                    });
+                                        });
                                     }
                                 }
                             }
@@ -1993,6 +2043,7 @@ namespace DocearReminder
                     return;
                 }
                 reminderList.Items.Clear();
+                reminderListBox.Items.Clear();
                 System.Xml.XmlDocument x = new XmlDocument();
                 string currentPath = "";
                 if (mindmapornode.Text != "")
@@ -2333,6 +2384,12 @@ namespace DocearReminder
             {
                 reminderList.Items.Add(item);
             }
+            reminderListBox.Items.Clear();
+            foreach (MyListBoxItemRemind item in reminderboxList.OrderBy(m => m.Time))
+            {
+                reminderListBox.Items.Add(item);
+            }
+            Reminderlistboxchange();
             ////reminderList.Refresh();
             try
             {
@@ -2412,6 +2469,7 @@ namespace DocearReminder
                 }
             }
             SortReminderList();
+            reminderListBox.Refresh();
             ReminderListBox_SizeChanged(null, null);
         }
         bool isAutoChangeView = true;
@@ -8108,6 +8166,7 @@ namespace DocearReminder
                                 try
                                 {
                                     string link = GetAttribute(((XmlNode)nodetree.SelectedNode.Tag), "LINK");
+                                    Clipboard.SetText(link);
                                     if (IsURL(link))
                                     {
                                         Process.Start(link);
@@ -8124,6 +8183,7 @@ namespace DocearReminder
                                         link = link.Replace(@"\\", @"\");
                                         Process.Start(getFileUrlPath(link));
                                     }
+                                    MyHide();
                                 }
                                 catch (Exception)
                                 {
@@ -9744,6 +9804,16 @@ namespace DocearReminder
                         {
                             int index = reminderList.SelectedIndex;
                             reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
+                            //if (!Xnodes.Any(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML)))
+                            //{
+                            Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                            //}
+                            //else
+                            //{
+                            //    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                            //    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                            //}
+                            new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                             reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                             Reminderlistboxchange();
                             reminderList.Items.RemoveAt(reminderList.SelectedIndex);
@@ -9767,6 +9837,8 @@ namespace DocearReminder
                         {
                             int index = reminderListBox.SelectedIndex;
                             reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
+                            Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                            new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                             Reminderlistboxchange();
                             if (reminderListBox.Items.Count == 0)
@@ -9792,6 +9864,7 @@ namespace DocearReminder
                                 }
                             }
                         }
+                        Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                         return;
                     }
                     break;
@@ -11561,6 +11634,12 @@ namespace DocearReminder
                 if (e.KeyCode == Keys.Enter)
                 {
                     StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
+                    if (info.link!=null&& info.link != "")
+                    {
+                        Clipboard.SetText(info.link);
+                        searchword.Text = "";
+                        searchword.Focus();
+                    }
                     info.StationName_CN = info.StationName_CN.Replace("★","");
                     searchword.Text = taskname + "@@" + info.StationName_CN;
                     mindmapornode.Text = info.mindmapurl.Split('\\')[info.mindmapurl.Split('\\').Length - 1] + ">" + info.StationName_CN;
@@ -11575,7 +11654,7 @@ namespace DocearReminder
                     else
                     {
                         IconNodesSelected.RemoveAll(m=>m.Contains(info.nodeID));
-                        IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID +"|" + info.mindmapurl + "|" +info.fatherNodePath);
+                        IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID +"|" + info.mindmapurl + "|" +info.fatherNodePath + "|" + info.link);
                     }
                     new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
                 }
@@ -11641,9 +11720,13 @@ namespace DocearReminder
                                 {
                                     result.Add(new StationInfo() { StationName_CN = IconNodesSelected[i].Split('|')[0], StationName_EN = IconNodesSelected[i].Split('|')[1], StationName_JX = IconNodesSelected[i].Split('|')[2], nodeID = IconNodesSelected[i].Split('|')[3], mindmapurl = IconNodesSelected[i].Split('|')[4] });
                                 }
-                                else
+                                else if(IconNodesSelected[i].Split('|').Length == 6)
                                 {
                                     result.Add(new StationInfo() { StationName_CN = IconNodesSelected[i].Split('|')[0], StationName_EN = IconNodesSelected[i].Split('|')[1], StationName_JX = IconNodesSelected[i].Split('|')[2], nodeID = IconNodesSelected[i].Split('|')[3], mindmapurl = IconNodesSelected[i].Split('|')[4], fatherNodePath = IconNodesSelected[i].Split('|')[5] });
+                                }
+                                else
+                                {
+                                    result.Add(new StationInfo() { StationName_CN = IconNodesSelected[i].Split('|')[0], StationName_EN = IconNodesSelected[i].Split('|')[1], StationName_JX = IconNodesSelected[i].Split('|')[2], nodeID = IconNodesSelected[i].Split('|')[3], mindmapurl = IconNodesSelected[i].Split('|')[4], fatherNodePath = IconNodesSelected[i].Split('|')[5], link = IconNodesSelected[i].Split('|')[6] });
                                 }
                             }
                             catch (Exception)

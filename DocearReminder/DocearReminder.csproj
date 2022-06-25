@@ -123,7 +123,8 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="yixiaozi">
+    <Reference Include="yixiaozi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\yixiaozi.dll</HintPath>
     </Reference>
   </ItemGroup>

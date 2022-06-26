@@ -6737,10 +6737,19 @@ namespace DocearReminder
             //返回网页标题
             String title = Regex.Match(sb.ToString(), regex).ToString();
             title = Regex.Replace(title, " ", "");
-            //if (title.Length > 40)
-            //{
-            //    title = title.Substring(0, 30);
-            //}
+            //返回网页标题  
+            title = Regex.Replace(title, @"[\""]+", "");
+            if (title.Length > 50)
+            {
+                if (title.Contains('<'))
+                {
+                    title = title.Split('<')[0];
+                    return title;
+                }
+                return title.Substring(0, 49);
+            }
+            title = title.Replace("<title>", "").Replace("</title>", "");
+            title = Regex.Replace(title, @"((?=[\x21-\x7e]+)[^A-Za-z0-9])", "");
             try
             {
                 if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\"))
@@ -7929,11 +7938,19 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (searchword.Text.StartsWith("T"))
+                        else if (searchword.Text.StartsWith("T")|| searchword.Text.EndsWith("TT"))
                         {
                             try
                             {
-                                string taskname = searchword.Text.Substring(1);
+                                string taskname = "";
+                                if (searchword.Text.StartsWith("T"))
+                                {
+                                    taskname = searchword.Text.Substring(1);
+                                }
+                                else if (searchword.Text.EndsWith("TT"))
+                                {
+                                    taskname = searchword.Text.Substring(0, searchword.Text.Length-2);
+                                }
                                 Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true, 2));
                                 tomatoCount += 1;
                                 th.Start();
@@ -11999,7 +12016,10 @@ namespace DocearReminder
                 {
                     nodeFont = ((TreeView)sender).Font;
                 }
-
+                if (e.Node.Text.Length>50)
+                {
+                    e.Node.Text = e.Node.Text.Substring(0,50);
+                }
                 e.Graphics.DrawString(e.Node.Text, nodeFont, Brushes.Gray, Rectangle.Inflate(e.Node.Bounds, 4, 0));
             }
             else

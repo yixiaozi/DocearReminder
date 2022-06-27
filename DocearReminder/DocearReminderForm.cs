@@ -314,17 +314,24 @@ namespace DocearReminder
                 {
                     MaxJsonLength = Int32.MaxValue
                 };
-                FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
-                using (StreamReader sw = fi.OpenText())
+                FileInfo fi;
+                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json"))
                 {
-                    string s = sw.ReadToEnd();
-                    nodes = js.Deserialize<List<node>>(s);
+                    fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
+                    using (StreamReader sw = fi.OpenText())
+                    {
+                        string s = sw.ReadToEnd();
+                        nodes = js.Deserialize<List<node>>(s);
+                    }
                 }
-                fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
-                using (StreamReader sw = fi.OpenText())
+                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json"))
                 {
-                    string s = sw.ReadToEnd();
-                    allfiles = js.Deserialize<List<node>>(s);
+                    fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
+                    using (StreamReader sw = fi.OpenText())
+                    {
+                        string s = sw.ReadToEnd();
+                        allfiles = js.Deserialize<List<node>>(s);
+                    }
                 }
                 taskcount.Text = "0";
                 isRefreshMindmap = true;
@@ -5308,9 +5315,16 @@ namespace DocearReminder
                         }
                         if (node.Attributes["ID"].Value == selectedReminder.IDinXML)
                         {
+                            bool isadddate = false;
+                            string taskName = searchword.Text;
+                            if (taskName.StartsWith("."))
+                            {
+                                isadddate = true;
+                                taskName = taskName.Substring(1);
+                            }
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
-                            newNotetext.Value = searchword.Text;
+                            newNotetext.Value = taskName;
                             if (IsURL(newNotetext.Value))
                             {
                                 string title = GetWebTitle(newNotetext.Value);
@@ -5323,6 +5337,7 @@ namespace DocearReminder
                                     newNotetext.Value = title;
                                 }
                             }
+                            
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                             newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
@@ -5357,8 +5372,44 @@ namespace DocearReminder
                                 remindernode.AppendChild(remindernodeParameters);
                                 newNote.AppendChild(remindernode);
                             }
-                            node.AppendChild(newNote);
-                            SaveLog("添加子节点：" + searchword.Text + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+
+                            if (isadddate)
+                            {
+                                XmlNode root = node;
+                                if (!haschildNode(root, DateTime.Now.Year.ToString()))
+                                {
+                                    XmlNode yearNode = x.CreateElement("node");
+                                    XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                                    yearNodeValue.Value = DateTime.Now.Year.ToString();
+                                    yearNode.Attributes.Append(yearNodeValue);
+                                    XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+                                }
+                                XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
+                                if (!haschildNode(year, DateTime.Now.Month.ToString()))
+                                {
+                                    XmlNode monthNode = x.CreateElement("node");
+                                    XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                                    monthNodeValue.Value = DateTime.Now.Month.ToString();
+                                    monthNode.Attributes.Append(monthNodeValue);
+                                    XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+                                }
+                                XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
+                                if (!haschildNode(month, DateTime.Now.Day.ToString()))
+                                {
+                                    XmlNode dayNode = x.CreateElement("node");
+                                    XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                                    dayNodeValue.Value = DateTime.Now.Day.ToString();
+                                    dayNode.Attributes.Append(dayNodeValue);
+                                    XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+                                }
+                                XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
+                                day.AppendChild(newNote);
+                            }
+                            else
+                            {
+                                node.AppendChild(newNote);
+                            }
+                            SaveLog("添加子节点：" + taskName + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
                             x.Save(selectedReminder.Value);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                             th.Start();
@@ -12654,15 +12705,18 @@ namespace DocearReminder
                     System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images");
                     Clipboard.GetImage().Save((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".jpg").Replace(@"\\", @"\"));
                 }
-                if (log.Length > 5)
+                if (log != null)
                 {
-                    if (!logHistory.Contains(log))
+                    if (log.Length > 5)
                     {
-                        SaveLogClip(log);
-                        logHistory.Add(log);
-                        if (logHistory.Count > 20)
+                        if (!logHistory.Contains(log))
                         {
-                            logHistory.RemoveAt(0);
+                            SaveLogClip(log);
+                            logHistory.Add(log);
+                            if (logHistory.Count > 20)
+                            {
+                                logHistory.RemoveAt(0);
+                            }
                         }
                     }
                 }

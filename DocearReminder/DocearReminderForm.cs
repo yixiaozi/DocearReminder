@@ -34,6 +34,10 @@ using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Todoist.Net;
+using Todoist.Net.Models;
+using DayOfWeek = System.DayOfWeek;
+using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 
 namespace DocearReminder
 {
@@ -118,6 +122,7 @@ namespace DocearReminder
         bool isneedKeyUpEventWork = true;
 		private System.IO.FileSystemWatcher fileSystemWatcher1;
         public string usedTimeLog = "";
+        public string todoistKey = "";
         #endregion
         public DocearReminderForm()
         {
@@ -128,6 +133,8 @@ namespace DocearReminder
             SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
             try
             {
+                //创建桌面快捷方式（好像不会重复创建）
+                yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder",System.AppDomain.CurrentDomain.BaseDirectory+ "DocearReminder.exe");
                 SwitchToLanguageMode();
                 GetIniFile();
                 ReadBookmarks();
@@ -138,6 +145,7 @@ namespace DocearReminder
                 //频繁刷新导致界面闪烁解决方法我也不知道有没有用
                 pathArr.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 mindmapPath = ini.ReadString("path", "rootpath", "");
+                todoistKey= ini.ReadString("todoist", "key", "");
                 HookManager.KeyDown += HookManager_KeyDown;
                 HookManager.KeyUp += HookManager_KeyDown_saveKeyBoard;
                 this.DoubleBuffered = true;//设置本窗体
@@ -1135,6 +1143,65 @@ namespace DocearReminder
                 }
             }
         }
+        public void NewFiles(DirectoryInfo path)
+        {
+            string str1 = "node";
+            string str2 = "TEXT";
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            {
+                if (!noFiles.Contains(file.Name) && file.Name[0] != '~')
+                {
+                    try
+                    {
+                        System.Xml.XmlDocument x = new XmlDocument();
+                        x.Load(file.FullName);
+                        foreach (XmlNode node in x.GetElementsByTagName(str1))
+                        {
+                            if (node.Attributes[str2] == null || node.Attributes["ID"] == null)
+                            {
+                                continue;
+                            }
+                            if (node.Attributes[str2].Value != "")
+                            {
+                                string nodename = node.Attributes[str2].Value;//@"Folder|D|C:\下载";
+                                if (nodename.StartsWith("Folder|D"))
+                                {
+                                    DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
+                                    foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.TopDirectoryOnly))
+                                    {
+                                        string md5 = GetMD5HashFromFile(file1.FullName);
+                                        if (!node.InnerXml.Contains(md5))
+                                        {
+                                            AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
+                                        }
+                                    }
+                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                                    th.Start();
+                                }
+                                if (nodename.StartsWith("Folder|F"))
+                                {
+                                    DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
+                                    foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.AllDirectories))
+                                    {
+                                        string md5 = GetMD5HashFromFile(file.FullName);
+                                        if (!node.InnerXml.Contains(md5))
+                                        {
+                                            AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
+                                        }
+                                    }
+                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                                    th.Start();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+        }
+
         public void GetAllNodeIconout()
         {
             nodesicon.Clear();
@@ -1207,6 +1274,21 @@ namespace DocearReminder
             try
             {
                 Thread th = new Thread(() => GetAllNodeIconout())
+                {
+                    IsBackground = true
+                };
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        public void NewFiles()
+        {
+            try
+            {
+                Thread th = new Thread(() => NewFiles(rootrootpath))
                 {
                     IsBackground = true
                 };
@@ -3012,6 +3094,19 @@ namespace DocearReminder
                 {
                     isreminderlist = false;
                     reminderIndex = reminderListBox.SelectedIndex;
+                    reminderboxList.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
+                    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                    //添加去重
+                    List<string> xnodesRemoveSame = new List<string>();
+                    foreach (string item in Xnodes)
+                    {
+                        if (!xnodesRemoveSame.Contains(item))
+                        {
+                            xnodesRemoveSame.Add(item);
+                        }
+                    }
+                    Xnodes = xnodesRemoveSame;
+                    new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                 }
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
                 CompleteTask(selectedReminder);
@@ -5311,7 +5406,7 @@ namespace DocearReminder
                     {
                         if (node==null|| node.Attributes==null|| node.Attributes["ID"]==null)
                         {
-                            continue;
+                            continue; 
                         }
                         if (node.Attributes["ID"].Value == selectedReminder.IDinXML)
                         {
@@ -6161,6 +6256,150 @@ namespace DocearReminder
             {
             }
         }
+        public void AddFileTaskToMap(string mindmap, string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "")
+        {
+            if (taskName == "")
+            {
+                return;
+            }
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(mindmap);
+            XmlNode root = x.GetElementsByTagName("node").Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == rootNode);
+            XmlNode day = null;
+            if (path == "")
+            {
+                if (!haschildNode(root, createDate.Year.ToString()))
+                {
+                    XmlNode yearNode = x.CreateElement("node");
+                    XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                    yearNodeValue.Value = createDate.Year.ToString();
+                    yearNode.Attributes.Append(yearNodeValue);
+                    XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+                }
+                XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == createDate.Year.ToString());
+                if (!haschildNode(year, createDate.Month.ToString()))
+                {
+                    XmlNode monthNode = x.CreateElement("node");
+                    XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                    monthNodeValue.Value = createDate.Month.ToString();
+                    monthNode.Attributes.Append(monthNodeValue);
+                    XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+                }
+                XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == createDate.Month.ToString());
+                if (!haschildNode(month, createDate.Day.ToString()))
+                {
+                    XmlNode dayNode = x.CreateElement("node");
+                    XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                    dayNodeValue.Value = createDate.Day.ToString();
+                    dayNode.Attributes.Append(dayNodeValue);
+                    XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+                }
+                day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == createDate.Day.ToString());
+            }
+            else
+            {
+                day = addSubNodes(root, path);
+            }
+            XmlNode newNote = x.CreateElement("node");
+            XmlAttribute newNotetext = x.CreateAttribute("TEXT");
+            newNotetext.Value = taskName;
+            XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
+            newNoteCREATED.Value = (Convert.ToInt64((createDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+            XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
+            newNoteMODIFIED.Value = (Convert.ToInt64((createDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+            if (true)
+            {
+                XmlNode remindernode = x.CreateElement("hook");
+                XmlAttribute remindernodeName = x.CreateAttribute("NAME");
+                remindernodeName.Value = "plugins/TimeManagementReminder.xml";
+                remindernode.Attributes.Append(remindernodeName);
+                XmlNode remindernodeParameters = x.CreateElement("Parameters");
+                XmlAttribute remindernodeTime = x.CreateAttribute("REMINDUSERAT");
+                remindernodeTime.Value = (Convert.ToInt64((createDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                remindernodeParameters.Attributes.Append(remindernodeTime);
+                remindernode.AppendChild(remindernodeParameters);
+                newNote.AppendChild(remindernode);
+            }
+
+            XmlAttribute TASKLink = x.CreateAttribute("LINK");
+            TASKLink.Value = link;
+            newNote.Attributes.Append(TASKLink);
+
+            XmlAttribute MD5 = x.CreateAttribute("MD5");
+            MD5.Value = md5;
+            newNote.Attributes.Append(MD5);
+
+            newNote.Attributes.Append(newNotetext);
+            newNote.Attributes.Append(newNoteCREATED);
+            newNote.Attributes.Append(newNoteMODIFIED);
+            XmlAttribute TASKID = x.CreateAttribute("ID");
+            newNote.Attributes.Append(TASKID);
+            newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
+            day.AppendChild(newNote);
+            x.Save(mindmap);
+        }
+        public static string GetMD5HashFromFile(string fileName)
+        {
+            try
+            {
+                FileStream file = new FileStream(fileName, FileMode.Open);
+                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < retVal.Length; i++)
+                {
+                    sb.Append(retVal[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception("GetMD5HashFromFile() fail, error:" + ex.Message);
+            }
+        }
+        public XmlNode getchildNode(XmlNode node, string child)
+        {
+            foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
+            {
+                if (item.Attributes.Cast<XmlAttribute>().Any(m => m.Name == "TEXT"))
+                {
+                    if (item.Attributes["TEXT"].Value == child)
+                    {
+                        return item;
+                    }
+                }
+            }
+            return node;
+        }
+        public XmlNode addSubNodes(XmlNode root, string path)
+        {
+            XmlNode subnode = root;
+            foreach (string item in path.Split('\\'))
+            {
+                if (!item.Contains("."))
+                {
+                    if (!haschildNode(subnode, item))
+                    {
+                        XmlNode yearNode = subnode.OwnerDocument.CreateElement("node");
+                        XmlAttribute yearNodeValue = subnode.OwnerDocument.CreateAttribute("TEXT");
+                        yearNodeValue.Value = item;
+                        yearNode.Attributes.Append(yearNodeValue);
+                        XmlAttribute yearNodeTASKID = subnode.OwnerDocument.CreateAttribute("ID");
+                        yearNode.Attributes.Append(yearNodeTASKID);
+                        yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString();
+                        subnode.AppendChild(yearNode);
+                        subnode = yearNode;
+                    }
+                    else
+                    {
+                        subnode = getchildNode(subnode, item);
+                    }
+                }
+            }
+            return subnode;
+        }
         public void CancelTask(bool IsAddIcon = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -6179,6 +6418,17 @@ namespace DocearReminder
                     {
                         if (mindmapornode.Text == "" || (mindmapornode.Text != "" && !mindmapornode.Text.Contains(">")))
                         {
+                            try
+                            {
+                                if (node.Attributes["MD5"] != null && node.Attributes["MD5"].InnerText!= "")
+                                {
+                                    File.Delete(node.Attributes["LINK"].InnerText);
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            
                             foreach (XmlNode item in node.ChildNodes)
                             {
                                 if (item.Name == "hook")
@@ -7008,7 +7258,7 @@ namespace DocearReminder
         {
             return !(searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
         }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        private async void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             LeaveTime();
             if (!keyNotWork(e) && e.KeyCode != Keys.Enter && e.KeyCode != Keys.Escape && e.KeyCode != Keys.Down && e.KeyCode != Keys.F1 && e.KeyCode != Keys.F2 && e.KeyCode != Keys.F4 && e.KeyCode != Keys.F3 && e.KeyCode != Keys.F5 && e.KeyCode != Keys.F6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.F8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.F11 && e.KeyCode != Keys.F10 && e.KeyCode != Keys.F12)
@@ -7106,7 +7356,32 @@ namespace DocearReminder
                 case Keys.C:
                     if (ReminderListFocused())
                     {
-                        Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                        if (((MyListBoxItemRemind)reminderlistSelectedItem).link!="")
+                        {
+                            if (File.Exists(((MyListBoxItemRemind)reminderlistSelectedItem).link))
+                            {
+                                if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                                {
+                                    Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).link);
+                                }
+                                else
+                                {
+                                    string[] file = new string[1];
+                                    file[0] = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
+                                    DataObject dataObject = new DataObject();
+                                    dataObject.SetData(DataFormats.FileDrop, file);
+                                    Clipboard.SetDataObject(dataObject, true);
+                                }
+                            }
+                            else
+                            {
+                                Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).link);
+                            }
+                        }
+                        else
+                        {
+                            Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                        }
                         MyHide();
                     } else if (nodetree.Focused && nodetree.SelectedNode != null)
                     {
@@ -9272,6 +9547,15 @@ namespace DocearReminder
                                     return;
                                 }
                                 mindmapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                                //如果是文件的话，就打开文件所在的目录
+                                string link = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
+                                if (link !=null&&link != "")
+                                {
+                                    if (File.Exists(link))
+                                    {
+                                        mindmapPath = link;
+                                    }
+                                }
                             }
                             else if (mindmaplist.Focused)
                             {
@@ -9872,15 +10156,38 @@ namespace DocearReminder
                         {
                             int index = reminderList.SelectedIndex;
                             reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                            //if (!Xnodes.Any(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML)))
-                            //{
-                            Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
-                            //}
+                            if (todoistKey!=null)
+                            {
+                                try
+                                {
+                                    ITodoistClient client = new TodoistClient(todoistKey);
+                                    var quickAddItem = new QuickAddItem(((MyListBoxItemRemind)reminderlistSelectedItem).Name + " #yixiaozi");
+                                    var task = await client.Items.QuickAddAsync(quickAddItem);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+
+                            if (!Xnodes.Any(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML)))
+                            {
+                                Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                            }
                             //else
                             //{
                             //    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
                             //    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
                             //}
+                            //添加去重
+                            List<string> xnodesRemoveSame = new List<string>();
+                            foreach (string item in Xnodes)
+                            {
+                                if (!xnodesRemoveSame.Contains(item))
+                                {
+                                    xnodesRemoveSame.Add(item);
+                                }
+                            }
+                            Xnodes = xnodesRemoveSame;
                             new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                             reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                             Reminderlistboxchange();
@@ -9906,6 +10213,16 @@ namespace DocearReminder
                             int index = reminderListBox.SelectedIndex;
                             reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
                             Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                            //添加去重
+                            List<string> xnodesRemoveSame = new List<string>();
+                            foreach (string item in Xnodes)
+                            {
+                                if (!xnodesRemoveSame.Contains(item))
+                                {
+                                    xnodesRemoveSame.Add(item);
+                                }
+                            }
+                            Xnodes = xnodesRemoveSame;
                             new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                             Reminderlistboxchange();
@@ -11331,6 +11648,12 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 GetAllFilesJsonIconFile();
+                yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+            }
+            else if (searchword.Text.StartsWith("newfiles"))
+            {
+                searchword.Text = "";
+                NewFiles();
                 yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
             }
             else if (searchword.Text.StartsWith("showlog"))
@@ -14672,5 +14995,3 @@ public static class Extensions
         return XElement.Parse(source.OuterXml);
     }
 }
- 
-    

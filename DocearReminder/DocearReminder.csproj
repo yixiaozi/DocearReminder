@@ -80,9 +80,8 @@
     <Reference Include="NAudio">
       <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\有条不紊\Work\敏捷艾科\奥林巴斯\SPO\Develp\repos\CheckYunXiaoPnumberAndCount\CheckYunXiaoPnumberAndCount\CheckYunXiaoPnumberAndCount\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPinyin.dll</HintPath>
@@ -317,6 +316,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Todoist.Net\Todoist.Net.csproj">
+      <Project>{31F87E7E-C72E-4317-B799-E71F69DF7746}</Project>
+      <Name>Todoist.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

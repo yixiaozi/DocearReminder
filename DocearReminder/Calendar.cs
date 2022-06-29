@@ -1835,6 +1835,4 @@ namespace DocearReminder
         public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx,
             int cy, uint uFlags);
     }
-
-    
 }

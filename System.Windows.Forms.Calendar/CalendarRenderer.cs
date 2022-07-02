@@ -1076,7 +1076,7 @@ namespace System.Windows.Forms.Calendar
             int y = 0;
             bool yFound = false;
 
-            while (!yFound && y < m.GetLength(1)) //HACK: && y < m.GetLength(1) //This is Because of some bug, possible item not showing
+            while (!yFound && y < m.GetLength(1))
             {
                 yFound = true;
 
@@ -1094,7 +1094,7 @@ namespace System.Windows.Forms.Calendar
             }
 
 
-            if (y < m.GetLength(1)) //HACK: This if is because of same bug
+            if (y < m.GetLength(1))
             {
                 for (int i = startX; i <= endX; i++)
                 {

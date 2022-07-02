@@ -1490,6 +1490,9 @@ namespace DocearReminder
         //    }
         //}
         public static Reminder reminderObject = new Reminder();
+        /// <summary>
+        /// 刷新任务控件
+        /// </summary>
         public void RRReminderlist()
         {
             //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
@@ -2186,20 +2189,6 @@ namespace DocearReminder
                                 long unixTimeStamp = Convert.ToInt64(reminder);
                                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                 dt = startTime.AddMilliseconds(unixTimeStamp);
-                                //todo要显示任务的时间，暂时不改
-                                //try
-                                //{
-                                //    foreach (XmlNode item in node.ChildNodes)
-                                //    {
-                                //        if (item.Name == "nook")
-                                //        {
-
-                                //        }
-                                //    }
-                                //}
-                                //catch (Exception)
-                                //{
-                                //}
                                 //解决富文本的问题。
                                 string TextString = "";
                                 if (node.Attributes["TEXT"] == null)
@@ -4570,7 +4559,7 @@ namespace DocearReminder
                                     do
                                     {
                                         selectedReminder.Time = selectedReminder.Time.AddDays(1);
-                                        if (selectedReminder.Time.DayOfWeek.ToString() == "Sunday")//todo:按周推迟这里的逻辑还有问题
+                                        if (selectedReminder.Time.DayOfWeek.ToString() == "Sunday")
                                         {
                                             selectedReminder.Time = selectedReminder.Time.AddDays(selectedReminder.rWeek * 7);
                                         }
@@ -8444,7 +8433,6 @@ namespace DocearReminder
                             ShowMindmapFile();
                             showMindmapName = "";
                             renameMindMapFileID = "";
-                            //todo：选中子节点
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             this.Height = 880;
                             nodetree.Focus();
@@ -8515,7 +8503,6 @@ namespace DocearReminder
                         }
                         else
                         {
-                            //todo:Enter时候打开链接
                             if (nodetree.SelectedNode.ForeColor == Color.DeepSkyBlue)
                             {
                                 try
@@ -11235,7 +11222,6 @@ namespace DocearReminder
                         {
                             inTreeNodeAdd.ForeColor = Color.DeepSkyBlue;
                         }
-                        //TODO:给树视图添加链接  
                         if (xNode.HasChildNodes)
                         {
                             AddNode(xNode, inTreeNodeAdd, true);
@@ -14812,7 +14798,6 @@ namespace DocearReminder
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //todo:搜索树
                 //只需要遍历树的Tab就可以了
                 if (nodetreeSearch.Text.Trim() != "")
                 {

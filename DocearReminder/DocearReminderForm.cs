@@ -116,6 +116,9 @@ namespace DocearReminder
         bool selectedpath = true;
         public static UsedTimer  usedTimer = new UsedTimer();
         Guid currentUsedTimerId;
+        /// <summary>
+        /// 窗口活动时间
+        /// </summary>
         DateTime formActive;
         TimeSpan leavespan = new TimeSpan();
         bool isneedreminderlistrefresh = true;
@@ -146,6 +149,7 @@ namespace DocearReminder
                 pathArr.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 mindmapPath = ini.ReadString("path", "rootpath", "");
                 todoistKey= ini.ReadString("todoist", "key", "");
+                lockForm= ini.ReadString("appearance", "lock", "")== "true";
                 HookManager.KeyDown += HookManager_KeyDown;
                 HookManager.KeyUp += HookManager_KeyDown_saveKeyBoard;
                 this.DoubleBuffered = true;//设置本窗体
@@ -597,7 +601,6 @@ namespace DocearReminder
             isRefreshMindmap = false;
             shaixuanfuwei();
             RRReminderlist();
-
         }
 
         #region 窗体事件
@@ -2560,6 +2563,7 @@ namespace DocearReminder
             SortReminderList();
             reminderListBox.Refresh();
             ReminderListBox_SizeChanged(null, null);
+            reminderlistSelectedItem = null;//刷新后应该清空
         }
         bool isAutoChangeView = true;
         public void SortReminderList()
@@ -7256,7 +7260,7 @@ namespace DocearReminder
         }
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
+            return !(PathcomboBox.Focused||searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
         }
         private async void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -7776,6 +7780,10 @@ namespace DocearReminder
                     {
                         try
                         {
+                            if (reminderlistSelectedItem==null)
+                            {
+                                return;
+                            }
                             //最近文档
                             if (searchword.Text.ToLower().StartsWith("`") || searchword.Text.ToLower().StartsWith("·"))
                             {
@@ -7945,11 +7953,15 @@ namespace DocearReminder
                         {
                             lockForm = true;
                             searchword.Text = "";
+                            //保存锁定状态到配置文件
+                            ini.WriteString("appearance", "lock", "true");
                         }
                         else if (searchword.Text.ToLower().StartsWith("unlock"))
                         {
                             lockForm = false;
                             searchword.Text = "";
+                            //保存锁定状态到配置文件
+                            ini.WriteString("appearance", "lock", "false");
                         }
                         else if (searchword.Text.ToLower().StartsWith("o="))
                         {
@@ -10015,7 +10027,13 @@ namespace DocearReminder
                     }
                     break;
                 case Keys.Tab:
-                    if (searchword.Focused)
+                    //ShiftTab切换区域
+                    if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                    {
+                        PathcomboBox.DroppedDown = true;
+                        PathcomboBox.Focus();
+                    }
+                    else if (searchword.Focused)
                     {
                         reminderList.Focus();
                         reminderList.SelectedIndex = 0;

@@ -842,7 +842,8 @@ namespace DocearReminder
             this.PathcomboBox.Size = new System.Drawing.Size(231, 20);
             this.PathcomboBox.TabIndex = 114;
             this.PathcomboBox.Text = "rootPath";
-            this.PathcomboBox.SelectedIndexChanged += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
+            //this.PathcomboBox.SelectedIndexChanged += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
+            this.PathcomboBox.SelectionChangeCommitted += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
             // 
             // IsReminderOnlyCheckBox
             // 

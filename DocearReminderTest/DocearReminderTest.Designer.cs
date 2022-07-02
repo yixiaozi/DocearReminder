@@ -30,6 +30,7 @@ namespace DocearReminderTest
         private void InitializeComponent()
         {
             this.b_FolderStructure = new System.Windows.Forms.Button();
+            this.emailreceive = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // b_FolderStructure
@@ -42,11 +43,22 @@ namespace DocearReminderTest
             this.b_FolderStructure.UseVisualStyleBackColor = true;
             this.b_FolderStructure.Click += new System.EventHandler(this.b_FolderStructure_Click);
             // 
+            // emailreceive
+            // 
+            this.emailreceive.Location = new System.Drawing.Point(184, 35);
+            this.emailreceive.Name = "emailreceive";
+            this.emailreceive.Size = new System.Drawing.Size(95, 47);
+            this.emailreceive.TabIndex = 1;
+            this.emailreceive.Text = "接收邮件";
+            this.emailreceive.UseVisualStyleBackColor = true;
+            this.emailreceive.Click += new System.EventHandler(this.emailreceive_Click);
+            // 
             // DocearReminderTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.emailreceive);
             this.Controls.Add(this.b_FolderStructure);
             this.Name = "DocearReminderTest";
             this.Text = "DocearReminderTest";
@@ -57,6 +69,7 @@ namespace DocearReminderTest
         #endregion
 
         private System.Windows.Forms.Button b_FolderStructure;
+        private System.Windows.Forms.Button emailreceive;
     }
 }
 

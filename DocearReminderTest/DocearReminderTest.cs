@@ -230,11 +230,14 @@ namespace DocearReminderTest
         {
             // Command-line argument must be the SMTP host.
             SmtpClient client = new SmtpClient();
+            client.Host = "smtp.qq.com";
+            client.Port=587;
+            client.EnableSsl = true;
+            client.Credentials = new System.Net.NetworkCredential("1183597219@qq.com", "");
             // Specify the email sender.
             // Create a mailing address that includes a UTF8 character
             // in the display name.
-            MailAddress from = new MailAddress("1183597219@qq.com","Jane " + (char)0xD8 + " Clayton",
-            System.Text.Encoding.UTF8);
+            MailAddress from = new MailAddress("1183597219@qq.com","Jane " + (char)0xD8 + " Clayton",System.Text.Encoding.UTF8);
             // Set destinations for the email message.
             MailAddress to = new MailAddress("1183597219@qq.com");
             // Specify the message content.
@@ -262,7 +265,7 @@ namespace DocearReminderTest
             //    client.SendAsyncCancel();
             //}
             // Clean up.
-            message.Dispose();
+            //message.Dispose();
             Console.WriteLine("Goodbye.");
         }
         static bool mailSent = false;

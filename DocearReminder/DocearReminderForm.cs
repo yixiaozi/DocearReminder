@@ -432,6 +432,8 @@ namespace DocearReminder
                         Environment.NewLine+ "`recentopenfiles" +
                         Environment.NewLine+"others:clipse,clipf,clipF,showlog,tool,mindmaps,allicons,allnodes");
                     MoveOverInfoTip.SettingMutiTipInfo(dic);
+                    Thread thnewfies = new Thread(() => NewFiles());
+                    thnewfies.Start();
                 }
                 catch (Exception)
                 {
@@ -10015,6 +10017,12 @@ namespace DocearReminder
                 case Keys.T:
                     if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
                     {
+                        if (dateTimePicker.Value < DateTime.Today)
+                        {
+                            dateTimePicker.Value=dateTimePicker.Value.AddDays(DateTime.Today.Day- dateTimePicker.Value.Day);
+                            dateTimePicker.Value=dateTimePicker.Value.AddMonths(DateTime.Today.Month - dateTimePicker.Value.Month);
+                            dateTimePicker.Value=dateTimePicker.Value.AddYears(DateTime.Today.Year - dateTimePicker.Value.Year);
+                        }
                         dateTimePicker.Focus();
                     }
                     break;

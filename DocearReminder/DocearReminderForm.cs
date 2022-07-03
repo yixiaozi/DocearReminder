@@ -7894,6 +7894,7 @@ namespace DocearReminder
                                         {
                                             selectedpath = false;
                                             PathcomboBox.SelectedIndex = i;
+                                            PathcomboBox_SelectedIndexChanged(null,null);
                                             loadHopeNote();
                                             section = PathcomboBox.SelectedItem.ToString();
                                             break;
@@ -8921,6 +8922,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
+                            selectedpath = true;
                             if (PathcomboBox.SelectedIndex > 0)
                             {
                                 PathcomboBox.SelectedIndex--;
@@ -8929,6 +8931,7 @@ namespace DocearReminder
                             {
                                 PathcomboBox.SelectedIndex = PathcomboBox.Items.Count - 1;
                             }
+                            PathcomboBox_SelectedIndexChanged(null, null);
                         }
                         else if (ReminderListFocused())
                         {
@@ -9371,6 +9374,7 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
+                                selectedpath = true;
                                 if (PathcomboBox.SelectedIndex < PathcomboBox.Items.Count - 1)
                                 {
                                     PathcomboBox.SelectedIndex++;
@@ -9379,6 +9383,7 @@ namespace DocearReminder
                                 {
                                     PathcomboBox.SelectedIndex = 0;
                                 }
+                                PathcomboBox_SelectedIndexChanged(null,null);
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
@@ -12913,7 +12918,7 @@ namespace DocearReminder
         public static string section = "rootPath";//用于和日历同步
         private void PathcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!selectedpath)
+            if (!selectedpath&&sender!=null)
             {
                 selectedpath = true;
                 return;

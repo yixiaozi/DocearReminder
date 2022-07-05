@@ -802,7 +802,7 @@ namespace DocearReminder
                 LeaveTime();
                 if (leavespan >= new TimeSpan(0, 0, 60))
                 {
-                    usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt16(leavespan.TotalSeconds));
+                    usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt32(leavespan.TotalSeconds));
                 }
                 else
                 {
@@ -1437,7 +1437,7 @@ namespace DocearReminder
                         {
                             mindmaplist.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3), Value = file.FullName });
 
-                            taskcount.Text = (Convert.ToInt16(taskcount.Text) + number).ToString();
+                            taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
                         }
                     }
                     catch (Exception)
@@ -1687,7 +1687,7 @@ namespace DocearReminder
                                         jiniantimeDT = startTime.AddMilliseconds(unixTimeStamp);
                                         if (c_Jinian.Checked)
                                         {
-                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt16((DateTime.Now - jiniantimeDT).TotalDays));
+                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt32((DateTime.Now - jiniantimeDT).TotalDays));
                                         }
                                         else
                                         {
@@ -1696,7 +1696,7 @@ namespace DocearReminder
                                                 string EndDate = GetAttribute(node.ParentNode, "EndDate");
                                                 long unixTimeEndDate = Convert.ToInt64(EndDate);
                                                 endtimeDT = startTime.AddMilliseconds(unixTimeEndDate);
-                                                jinianriInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((endtimeDT - DateTime.Now).TotalDays)) +"]";
+                                                jinianriInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"]";
                                             }
                                         }
                                     }
@@ -1713,7 +1713,7 @@ namespace DocearReminder
                                     System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                     endtimeDT = startTime.AddMilliseconds(unixTimeStamp);
                                     EndDateInfo = " | [" + endtimeDT.ToString("yy-MM-dd") + "]";
-                                    EndDateInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt16((endtimeDT - DateTime.Now).TotalDays)) +"]";
+                                    EndDateInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"]";
                                 }
                                 //剩余打开次数
                                 string LeftDakaDays = "";
@@ -3803,15 +3803,15 @@ namespace DocearReminder
                 {
                     case "hour":
                         c_hour.Checked = true;
-                        n_days.Value = Convert.ToInt16(selectedReminder.rhours);
+                        n_days.Value = Convert.ToInt64(selectedReminder.rhours);
                         break;
                     case "day":
                         c_day.Checked = true;
-                        n_days.Value = Convert.ToInt16(selectedReminder.rdays);
+                        n_days.Value = Convert.ToInt64(selectedReminder.rdays);
                         break;
                     case "week":
                         c_week.Checked = true;
-                        n_days.Value = Convert.ToInt16(selectedReminder.rWeek);
+                        n_days.Value = Convert.ToInt64(selectedReminder.rWeek);
                         for (int i = 0; i < selectedReminder.rweeks.Length; i++)
                         {
                             switch (selectedReminder.rweeks[i])
@@ -3842,11 +3842,11 @@ namespace DocearReminder
                         break;
                     case "month":
                         c_month.Checked = true;
-                        n_days.Value = Convert.ToInt16(selectedReminder.rMonth);
+                        n_days.Value = Convert.ToInt64(selectedReminder.rMonth);
                         break;
                     case "year":
                         c_year.Checked = true;
-                        n_days.Value = Convert.ToInt16(selectedReminder.ryear);
+                        n_days.Value = Convert.ToInt64(selectedReminder.ryear);
                         break;
                     case "eb":
                         c_remember.Checked = true;
@@ -4600,7 +4600,7 @@ namespace DocearReminder
                         //    if (Convert.ToInt64(node.ParentNode.Attributes["TASKLEVEL"].Value) < 9)
                         //    {
                         //        node.ParentNode.Attributes["TASKLEVEL"].Value = (Convert.ToInt64(node.ParentNode.Attributes["TASKLEVEL"].Value) + 1).ToString();
-                        //        selectedReminder.level = Convert.ToInt16(node.ParentNode.Attributes["TASKLEVEL"].Value);
+                        //        selectedReminder.level = Convert.ToInt64(node.ParentNode.Attributes["TASKLEVEL"].Value);
                         //    }
                         //}
                         //catch (Exception)
@@ -5145,7 +5145,7 @@ namespace DocearReminder
                     foreach (Match m in Mc)
                     {
                         taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddMonths(Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 5)));
+                        taskTime = taskTime.AddMonths(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 5)));
                         break;
                     }
                     MatchCollection mc = Regex.Matches(taskName, @"[1-9]\d*m");
@@ -5161,7 +5161,7 @@ namespace DocearReminder
                     foreach (Match m in Yc)
                     {
                         taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddYears(Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1)));
+                        taskTime = taskTime.AddYears(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 1)));
                         break;
                     }
 
@@ -5169,21 +5169,21 @@ namespace DocearReminder
                     foreach (Match m in Dc)
                     {
                         taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddDays(Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1)));
+                        taskTime = taskTime.AddDays(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
                         break;
                     }
                     MatchCollection Hc = Regex.Matches(taskName, @"[1-9]\d*H");
                     foreach (Match m in Hc)
                     {
                         taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddHours(Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1)));
+                        taskTime = taskTime.AddHours(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
                         break;
                     }
                     Mc = Regex.Matches(taskName, @"[1-9]\d*M");
                     foreach (Match m in Mc)
                     {
                         taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddMinutes(Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1)));
+                        taskTime = taskTime.AddMinutes(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
                         break;
                     }
                     newNotetext.Value = taskName;
@@ -8256,7 +8256,7 @@ namespace DocearReminder
                                 foreach (Match m in mc)
                                 {
                                     taskname = taskname.Replace(m.Value, "");
-                                    tasktime = Convert.ToInt16(m.Value.Substring(0, m.Value.Length - 1));
+                                    tasktime = Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 1));
                                     break;
                                 }
                                 Thread th = new Thread(() => OpenFanQie(tasktime, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), false, 2));
@@ -10369,6 +10369,17 @@ namespace DocearReminder
 
         public bool ReminderListFocused()
         {
+            if (reminderList.Focused)
+            {
+                reminderlistSelectedItem= reminderList.SelectedItem;
+                return true;
+            }
+            else if (reminderListBox.Focused)
+            {
+                reminderlistSelectedItem = reminderListBox.SelectedItem;
+                return true;
+            }
+
             return reminderList.Focused || reminderListBox.Focused;
         }
         public void SetReminderOnly(MyListBoxItemRemind selectedReminder)//selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -10566,7 +10577,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            node.ParentNode.Attributes["LeftDakaDays"].Value = (Convert.ToInt16(node.ParentNode.Attributes["LeftDakaDays"].Value) + num).ToString();
+                            node.ParentNode.Attributes["LeftDakaDays"].Value = (Convert.ToInt64(node.ParentNode.Attributes["LeftDakaDays"].Value) + num).ToString();
                         }
                         x.Save(selectedReminder.Value);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
@@ -10903,8 +10914,8 @@ namespace DocearReminder
         {
             try
             {
-                fenshu.Text = (Convert.ToInt16(fenshu.Text) + n).ToString();
-                ini.WriteInt("info", "score", Convert.ToInt16(fenshu.Text) + n);
+                fenshu.Text = (Convert.ToInt64(fenshu.Text) + n).ToString();
+                ini.WriteInt("info", "score", Convert.ToInt32(fenshu.Text) + n);
             }
             catch (Exception)
             {

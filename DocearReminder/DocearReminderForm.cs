@@ -94,6 +94,8 @@ namespace DocearReminder
         public static List<string> OpenedInRootSearch = new List<string>();
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
+        public static List<string> AddTaskWithDate = new List<string>();
+        
         public static Color BackGroundColor = Color.White;
         bool isRefreshMindmap = false;
         public List<MyListBoxItemRemind> reminderboxList = new List<MyListBoxItemRemind>();
@@ -268,6 +270,7 @@ namespace DocearReminder
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
+                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
                 #region UsedTimer
                 fathernode.Text = "";
                 UsedTimerOnLoad();
@@ -4499,7 +4502,7 @@ namespace DocearReminder
             }
         }
 
-        public MyListBoxItemRemind DelayTask(MyListBoxItemRemind selectedReminder)
+        public MyListBoxItemRemind DelayTask(MyListBoxItemRemind selectedReminder,bool isDenyall=false)
         {
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(selectedReminder.Value);
@@ -4528,6 +4531,11 @@ namespace DocearReminder
                             //}
                             do
                             {
+                                if (isDenyall)
+                                {
+                                    isDenyall = false;
+                                    continue;
+                                }
                                 selectedReminder.Time = selectedReminder.Time.AddDays(1);
                             } while (selectedReminder.Time < DateTime.Today);
                         }
@@ -4553,6 +4561,11 @@ namespace DocearReminder
                                     }
                                     do
                                     {
+                                        if (isDenyall)
+                                        {
+                                            isDenyall = false;
+                                            continue;
+                                        }
                                         selectedReminder.Time = selectedReminder.Time.AddDays(selectedReminder.rdays);
                                     }
                                     while (selectedReminder.Time < DateTime.Today);//起码延迟到今天，而不是现在
@@ -4560,6 +4573,11 @@ namespace DocearReminder
                                 case "week":
                                     do
                                     {
+                                        if (isDenyall)
+                                        {
+                                            isDenyall = false;
+                                            continue;
+                                        }
                                         selectedReminder.Time = selectedReminder.Time.AddDays(1);
                                         if (selectedReminder.Time.DayOfWeek.ToString() == "Sunday")
                                         {
@@ -4575,6 +4593,11 @@ namespace DocearReminder
                                     }
                                     do
                                     {
+                                        if (isDenyall)
+                                        {
+                                            isDenyall = false;
+                                            continue;
+                                        }
                                         selectedReminder.Time = selectedReminder.Time.AddMonths(selectedReminder.rMonth);
                                     }
                                     while (selectedReminder.Time < DateTime.Today);
@@ -4587,6 +4610,11 @@ namespace DocearReminder
                                     }
                                     do
                                     {
+                                        if (isDenyall)
+                                        {
+                                            isDenyall = false;
+                                            continue;
+                                        }
                                         selectedReminder.Time = selectedReminder.Time.AddYears(selectedReminder.ryear);
                                     }
                                     while (selectedReminder.Time < DateTime.Today);
@@ -4722,7 +4750,7 @@ namespace DocearReminder
                 }
                 else
                 {
-                    AddNodeByID(istask, taskName);
+                    AddNodeByID(istask, taskName,nodeName);
                     SaveLog("Add节点名称：" + taskName + "  Map:  " + showMindmapName + "    节点：" + nodeName);
                     searchword.Text = "";
                     mindmapornode.Text = "";
@@ -5640,7 +5668,7 @@ namespace DocearReminder
                 RRReminderlist();
             }
         }
-        public void AddNodeByID(bool istask, string taskName)
+        public void AddNodeByID(bool istask, string taskName,string parent)
         {
             try
             {
@@ -5649,6 +5677,10 @@ namespace DocearReminder
                 {
                     isadddate = true;
                     taskName = taskName.Substring(1);
+                }
+                else if (AddTaskWithDate.Contains(parent))
+                {
+                    isadddate = true;
                 }
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(showMindmapName);
@@ -5996,7 +6028,7 @@ namespace DocearReminder
                 {
                     if (item.Time <= DateTime.Today)
                     {
-                        DelayTask(item);
+                        DelayTask(item,true);
                         string path = item.Value;
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                         th.Start();
@@ -8434,8 +8466,8 @@ namespace DocearReminder
                             ShowMindmap();
                             SelectTreeNode(nodetree.Nodes, renameMindMapFileID);
                             ShowMindmapFile();
-                            showMindmapName = "";
-                            renameMindMapFileID = "";
+                            //showMindmapName = "";//为什么要清空呢先取消试试
+                            //renameMindMapFileID = "";
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             this.Height = 880;
                             nodetree.Focus();
@@ -9135,9 +9167,20 @@ namespace DocearReminder
                     }
                     if (taskTime.Focused)
                     {
-                        if (taskTime.Value <= 718)
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            taskTime.Value += 5;
+
+                        }
+                        else
+                        {
+                            if (taskTime.Value < 5)
+                            {
+                                taskTime.Value += 1;
+                            }
+                            else if (taskTime.Value <= 718)
+                            {
+                                taskTime.Value += 5;
+                            }
                         }
                     }
                     else if (tasklevel.Focused)
@@ -9301,9 +9344,16 @@ namespace DocearReminder
                     }
                     if (taskTime.Focused)
                     {
-                        if (taskTime.Value >= 5)
+                        if (taskTime.Value > 5)
                         {
                             taskTime.Value -= 5;
+                        }
+                        else
+                        {
+                            if (taskTime.Value>1)
+                            {
+                                taskTime.Value -= 1;
+                            }
                         }
                     }
                     else if (tasklevel.Focused)
@@ -11302,7 +11352,7 @@ namespace DocearReminder
                 richTextSubNode.Clear();
 
                 //当任务长度大于某个长度时，将其显示在子节点框
-                if (((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
+                if (((MyListBoxItemRemind)reminderlistSelectedItem).Text!=null&&((MyListBoxItemRemind)reminderlistSelectedItem).Text.Length > 45)
                 {
                     richTextSubNode.AppendText((richTextSubNode.Text == "" ? "" : Environment.NewLine) + ((MyListBoxItemRemind)reminderlistSelectedItem).Name);
                     richTextSubNode.AppendText(Environment.NewLine);
@@ -11677,6 +11727,11 @@ namespace DocearReminder
                 searchword.Text = "";
                 GetAllFilesJsonIconFile();
                 yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+            }
+            else if (searchword.Text.StartsWith("addtaskdate"))
+            {
+                searchword.Text = "";
+                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
             }
             else if (searchword.Text.StartsWith("newfiles"))
             {
@@ -13729,6 +13784,11 @@ namespace DocearReminder
                 {
                     e.Graphics.FillRectangle(new SolidBrush(Color.Azure), rect);
                     mybsh = new SolidBrush(Color.Azure);
+                }
+                else if (zhongyao == -1)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Black), rect);
+                    mybsh = new SolidBrush(Color.Black);
                 }
                 else if (zhongyao == 2)
                 {

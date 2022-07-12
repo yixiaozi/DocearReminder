@@ -667,6 +667,7 @@ namespace DocearReminder
                 IsSelectReminder = false;
             }
             Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
+            thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
             //CalendarForm calander = new CalendarForm(mindmapPath);
             //calander.ShowDialog();
@@ -675,12 +676,14 @@ namespace DocearReminder
         public void showlog()
         {
             Thread thCalendarForm = new Thread(() => Application.Run(new Log()));
+            thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
             MyHide();
         }
         public void OpenSearch()
         {
             Thread thCalendarForm = new Thread(() => Application.Run(new Search()));
+            thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
             MyHide();
         }
@@ -5440,6 +5443,10 @@ namespace DocearReminder
                                 isadddate = true;
                                 taskName = taskName.Substring(1);
                             }
+                            else if (AddTaskWithDate.Contains(selectedReminder.Name))
+                            {
+                                isadddate = true;
+                            }
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                             newNotetext.Value = taskName;
@@ -8466,8 +8473,8 @@ namespace DocearReminder
                             ShowMindmap();
                             SelectTreeNode(nodetree.Nodes, renameMindMapFileID);
                             ShowMindmapFile();
-                            //showMindmapName = "";//为什么要清空呢先取消试试
-                            //renameMindMapFileID = "";
+                            showMindmapName = "";//为什么要清空呢先取消试试
+                            renameMindMapFileID = "";
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = true;
                             this.Height = 880;
                             nodetree.Focus();

@@ -45,6 +45,7 @@ namespace DocearReminder
             this.resultlistBox.TabIndex = 0;
             this.resultlistBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.resultlistBox_MouseClick);
             this.resultlistBox.DoubleClick += new System.EventHandler(this.resultlistBox_DoubleClick);
+            this.resultlistBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.resultlistBox_KeyUp);
             // 
             // keyword
             // 

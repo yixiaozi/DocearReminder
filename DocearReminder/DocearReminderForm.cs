@@ -38,6 +38,7 @@ using Todoist.Net;
 using Todoist.Net.Models;
 using DayOfWeek = System.DayOfWeek;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
+using System.Reflection;
 
 namespace DocearReminder
 {
@@ -660,6 +661,46 @@ namespace DocearReminder
                 UsedLogRenew();
             }
         }
+        /// 该函数设置由不同线程产生的窗口的显示状态
+        /// </summary>
+        /// <param name="hWnd">窗口句柄</param>
+        /// <param name="cmdShow">指定窗口如何显示。查看允许值列表，请查阅ShowWlndow函数的说明部分</param>
+        /// <returns>如果函数原来可见，返回值为非零；如果函数原来被隐藏，返回值为零</returns>
+        [DllImport("User32.dll")]
+        private static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+        /// <summary>
+        ///  该函数将创建指定窗口的线程设置到前台，并且激活该窗口。键盘输入转向该窗口，并为用户改各种可视的记号。
+        ///  系统给创建前台窗口的线程分配的权限稍高于其他线程。 
+        /// </summary>
+        /// <param name="hWnd">将被激活并被调入前台的窗口句柄</param>
+        /// <returns>如果窗口设入了前台，返回值为非零；如果窗口未被设入前台，返回值为零</returns>
+        [DllImport("User32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private const int SW_SHOWNOMAL = 1;
+        private static void HandleRunningInstance(Process instance)
+        {
+            ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);//显示
+            SetForegroundWindow(instance.MainWindowHandle);//当到最前端
+        }
+
+        private static Process RuningInstance()
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            Process[] Processes = Process.GetProcessesByName("CalendarForm");//currentProcess.ProcessName);
+            foreach (Process process in Processes)
+            {
+                if (true||process.Id != currentProcess.Id)
+                {
+                    if (Assembly.GetExecutingAssembly().Location.Replace("/", "\\")
+             == currentProcess.MainModule.FileName)
+                    {
+                        return process;
+                    }
+                }
+            }
+            return null;
+        }
+
         public void showcalander()
         {
             if (mindmaplist.Focused)
@@ -669,9 +710,20 @@ namespace DocearReminder
             Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
             thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
-            //CalendarForm calander = new CalendarForm(mindmapPath);
-            //calander.ShowDialog();
             MyHide();
+            //Process process = RuningInstance();
+            //if (process != null)
+            //{
+            //    HandleRunningInstance(process);
+            //    //System.Environment.Exit(1);
+            //}
+            //else
+            //{
+            //    Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
+            //    thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
+            //    thCalendarForm.Start();
+            //    MyHide();
+            //}
         }
         public void showlog()
         {
@@ -849,14 +901,17 @@ namespace DocearReminder
             formActive = DateTime.Now;
             leavespan = new TimeSpan(0, 0, 0);
             this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
-            if (this.Height <= 560)
-            {
-                reminderList.Focus();
-            }
-            else
-            {
-                nodetree.Focus();
-            }
+            //if (this.Height <= 560)
+            //{
+            //    if (!reminderListBox.Focused)
+            //    {
+            //        reminderList.Focus();
+            //    }
+            //}
+            //else
+            //{
+            //    nodetree.Focus();
+            //}
             try
             {
                 usedCount.Text = usedTimer.Count.ToString();
@@ -5542,9 +5597,16 @@ namespace DocearReminder
                             reminderSelectIndex = reminderList.SelectedIndex;
                             try
                             {
-                                isneedreminderlistrefresh = false;
-                                reminderList.SelectedIndex = reminderSelectIndex;
-                                reminderList.Focus();
+                                if (focusedList == 0)
+                                {
+                                    isneedreminderlistrefresh = false;
+                                    reminderList.SelectedIndex = reminderSelectIndex;
+                                    reminderList.Focus();
+                                }
+                                else
+                                {
+                                    reminderListBox.Focus();
+                                }
                             }
                             catch (Exception)
                             {
@@ -9585,7 +9647,14 @@ namespace DocearReminder
                             pictureBox1.Visible = false;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
                             this.Height = 545;showMindmapName="";
-                            reminderList.Focus();
+                            if (focusedList==0)
+                            {
+                                reminderList.Focus();
+                            }
+                            else
+                            {
+                                reminderListBox.Focus();
+                            }
                             Center();
                             //刷新一下任务
                             if (mindmapornode.Text!="")
@@ -9673,7 +9742,14 @@ namespace DocearReminder
                                 pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 this.Height = 545;showMindmapName="";
-                                reminderList.Focus();
+                                if (focusedList == 0)
+                                {
+                                    reminderList.Focus();
+                                }
+                                else
+                                {
+                                    reminderListBox.Focus();
+                                }
                             }
                         }
                         Center();
@@ -9907,6 +9983,7 @@ namespace DocearReminder
                                 {
                                     reminderListBox.Sorted = false;
                                     reminderListBox.Sorted = true;
+                                    reminderListBox.Refresh();
                                 }
                                 else
                                 {
@@ -11710,10 +11787,17 @@ namespace DocearReminder
                 if (searchword.Text.StartsWith("#"))
                 {
                     searchword.Text = searchword.Text.Replace("jjj", "");
-                    reminderList.Focus();
-                    if (reminderList.Items.Count > 0)
+                    if (focusedList == 0)
                     {
-                        reminderList.SelectedIndex = 0;
+                        reminderList.Focus();
+                        if (reminderList.Items.Count > 0)
+                        {
+                            reminderList.SelectedIndex = 0;
+                        }
+                    }
+                    else
+                    {
+                        reminderListBox.Focus();
                     }
                 }
                 else
@@ -14940,6 +15024,17 @@ namespace DocearReminder
         private void keyJ_Tick(object sender, EventArgs e)
         {
             SendKeys.Send("{j}");
+        }
+        public int focusedList = 0;
+
+        private void reminderListBox_Enter(object sender, EventArgs e)
+        {
+            focusedList = 1;
+        }
+
+        private void reminderList_Enter(object sender, EventArgs e)
+        {
+            focusedList = 0;
         }
     }
 

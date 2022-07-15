@@ -1262,6 +1262,10 @@ namespace DocearReminder
         {
             try
             {
+                if (c_lock.Checked)
+                {
+                    return;
+                }
                 if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
                 {
                     if (dayView1.HalfHourHeight == 20)

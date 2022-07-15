@@ -842,7 +842,6 @@ namespace DocearReminder
             this.PathcomboBox.Size = new System.Drawing.Size(231, 20);
             this.PathcomboBox.TabIndex = 114;
             this.PathcomboBox.Text = "rootPath";
-            //this.PathcomboBox.SelectedIndexChanged += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
             this.PathcomboBox.SelectionChangeCommitted += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
             // 
             // IsReminderOnlyCheckBox
@@ -1330,6 +1329,7 @@ namespace DocearReminder
             this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
             this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
             this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
+            this.reminderListBox.Enter += new System.EventHandler(this.reminderListBox_Enter);
             this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
             // reminderList
@@ -1351,6 +1351,7 @@ namespace DocearReminder
             this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
             this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
             this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
+            this.reminderList.Enter += new System.EventHandler(this.reminderList_Enter);
             this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
             this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 

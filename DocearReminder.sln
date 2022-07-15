@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todoist.Net", "Todoist.Net\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todoist.Net.Tests", "Todoist.Net.Tests\Todoist.Net.Tests.csproj", "{43D33ACB-6BF9-4E67-A1DD-4C3B171D477C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocearReminderTest", "DocearReminderTest\DocearReminderTest.csproj", "{54234738-4890-46AD-A709-EFA93B0B65FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocearReminderTest", "DocearReminderTest\DocearReminderTest.csproj", "{54234738-4890-46AD-A709-EFA93B0B65FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7918,7 +7918,8 @@ namespace DocearReminder
                                 string link = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
                                 if (link.StartsWith("."))
                                 {
-                                    string mindmapfolderPath = ((MyListBoxItemRemind)reminderlistSelectedItem).rootPath;
+                                    FileInfo file = new FileInfo(((MyListBoxItemRemind)reminderlistSelectedItem).Value);
+                                    string mindmapfolderPath = file.Directory.FullName;
                                     link =mindmapfolderPath +"\\"+ link;
                                     link=link.Replace("/","\\");
                                     link=link.Replace(@"\\",@"\");
@@ -7951,7 +7952,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
 
                         }
@@ -11823,6 +11824,11 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+            }
+            else if (searchword.Text.StartsWith("addtaskdatt"))
+            {
+                searchword.Text = "";
+                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
             }
             else if (searchword.Text.StartsWith("newfiles"))
             {

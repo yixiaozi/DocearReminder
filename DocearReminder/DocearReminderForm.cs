@@ -13987,7 +13987,10 @@ namespace DocearReminder
 
         private void dateTimePicker_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode==Keys.Escape)
+            {
+                reminderList.Focus();
+            }
         }
         private int leftIndex=0;
         private bool isSettingSyncWeek;

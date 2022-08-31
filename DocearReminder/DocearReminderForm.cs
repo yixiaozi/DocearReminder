@@ -15045,6 +15045,14 @@ namespace DocearReminder
         {
             focusedList = 0;
         }
+
+        private void 趋势ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockTrend()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
+        }
     }
 
     class MoveOverInfoTip

@@ -146,6 +146,7 @@ namespace DocearReminder
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
+            this.趋势ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -941,7 +942,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 334);
+            this.menu.Size = new System.Drawing.Size(212, 356);
             this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
@@ -1147,7 +1148,8 @@ namespace DocearReminder
             this.报表ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.时间快ToolStripMenuItem,
             this.使用记录ToolStripMenuItem,
-            this.键盘分析ToolStripMenuItem});
+            this.键盘分析ToolStripMenuItem,
+            this.趋势ToolStripMenuItem});
             this.报表ToolStripMenuItem.Name = "报表ToolStripMenuItem";
             this.报表ToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.报表ToolStripMenuItem.Text = "报表";
@@ -1155,21 +1157,21 @@ namespace DocearReminder
             // 时间快ToolStripMenuItem
             // 
             this.时间快ToolStripMenuItem.Name = "时间快ToolStripMenuItem";
-            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.时间快ToolStripMenuItem.Text = "时间快";
             this.时间快ToolStripMenuItem.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
             // 
             // 使用记录ToolStripMenuItem
             // 
             this.使用记录ToolStripMenuItem.Name = "使用记录ToolStripMenuItem";
-            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.使用记录ToolStripMenuItem.Text = "使用记录";
             this.使用记录ToolStripMenuItem.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
             // 
             // 键盘分析ToolStripMenuItem
             // 
             this.键盘分析ToolStripMenuItem.Name = "键盘分析ToolStripMenuItem";
-            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.键盘分析ToolStripMenuItem.Text = "键盘分析";
             this.键盘分析ToolStripMenuItem.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
@@ -1469,6 +1471,13 @@ namespace DocearReminder
             this.keyJ.Interval = 3000;
             this.keyJ.Tick += new System.EventHandler(this.keyJ_Tick);
             // 
+            // 趋势ToolStripMenuItem
+            // 
+            this.趋势ToolStripMenuItem.Name = "趋势ToolStripMenuItem";
+            this.趋势ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.趋势ToolStripMenuItem.Text = "趋势";
+            this.趋势ToolStripMenuItem.Click += new System.EventHandler(this.趋势ToolStripMenuItem_Click);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1703,6 +1712,7 @@ namespace DocearReminder
         private TextBox nodetreeSearch;
         private MyRichTextBox hopeNote;
         private Timer keyJ;
+        private ToolStripMenuItem 趋势ToolStripMenuItem;
     }
 }
 

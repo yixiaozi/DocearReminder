@@ -16,11 +16,12 @@ namespace DocearReminder
         public TimeBlockTrend()
         {
             InitializeComponent();
+            LoadChart();
         }
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
-
+            LoadChart();
         }
         /// <summary>
         /// https://scottplot.net/cookbook/4.1/
@@ -32,7 +33,7 @@ namespace DocearReminder
             formsPlot1.Configuration.ScrollWheelZoom = false;
             formsPlot1.Configuration.LeftClickDragPan = false;
             var plt = formsPlot1.Plot;
-            ReportDataCol reportData = new ReportDataCol();
+            List<ReminderItem> reuslt = new List<ReminderItem>();
             foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders)
             {
                 if (item.mindmap == "TimeBlock" && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
@@ -41,7 +42,7 @@ namespace DocearReminder
                     {
                         try//过滤字符串
                         {
-                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(searchword.Text)))
+                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" &&item.comment.Contains(searchword.Text)))
                             {
                                 continue;
                             }
@@ -61,47 +62,43 @@ namespace DocearReminder
                         }
                         catch (Exception)
                         {
+                            
                         }
                     }
-                    if (reportData.items.Exists(m => m.name == getFirst(item)))
-                    {
-                        reportData.items.First(m => m.name == getFirst(item)).value += item.tasktime;
-                        //是否应该更新下颜色呢？有必要影响效率吗？
-                    }
-                    else
-                    {
-                        reportData.items.Add(new ReportDataItem
-                        {
-                            name = getFirst(item),
-                            value = item.tasktime,
-                            color = Color.FromArgb(Int32.Parse(item.mindmapPath))
-                        }); ;
-                    }
+                    reuslt.Add(item);
+                    
                 }
             }
-            if (reportData.values.Length == 0)
+            if (reuslt.Count==0)
             {
                 return;
             }
-            var pie = plt.AddPie(reportData.values);
-            pie.SliceLabels = reportData.names;
-            if (comboBox1.SelectedIndex <= 0)
+            List<double> valueList = new List<double>();
+            List<double> daysList = new List<double>();
+            double all =0;
+            int i = 0;
+            foreach (IGrouping<double,ReminderItem> item in reuslt.OrderBy(m => m.time).GroupBy(m => Convert.ToDateTime(m.time.ToString("yyyy-MM-dd")).ToOADate()))
             {
-                pie.SliceFillColors = reportData.colors;
-                pie.SliceLabelColors = reportData.labelcolors;
+                double minute = 0;
+                foreach (ReminderItem ritem in item)
+                {
+                    minute += ritem.tasktime;
+                }
+                if (!emptyDay.Checked&&minute==0)
+                {
+                    continue;
+                }
+                valueList.Add(minute/60);
+                daysList.Add(item.Key);
+                all += (minute / 60);
+                i++;
             }
-            if (percent.Checked)
-            {
-                pie.ShowPercentages = true;
-            }
-            if (checkBox1.Checked)
-            {
-                pie.ShowValues = true;
-            }
-            if (checkBox2.Checked)
-            {
-                pie.ShowLabels = true;
-            }
+            
+            
+            plt.AddBar(valueList.ToArray(),daysList.ToArray());
+            label1.Text = "平均每天：" + (all / i).ToString("F") + "小时，总时长："+ (all).ToString("F") + "小时";
+            plt.XAxis.TickLabelFormat("M\\/dd", dateTimeFormat: true);
+  
             plt.Legend();
             formsPlot1.Refresh();
         }
@@ -117,72 +114,30 @@ namespace DocearReminder
                 return "异常分类";
             }
         }
-        public class ReportDataItem
+
+        private void searchword_TextChanged(object sender, EventArgs e)
         {
-            public string name { get; set; }
-            public string fullName { get; set; }
-            public double value { get; set; }
-            public Color color { get; set; }
+            LoadChart();
         }
-        public class ReportDataCol
+
+        private void startDt_ValueChanged(object sender, EventArgs e)
         {
-            public ReportDataCol()
-            {
-                items = new List<ReportDataItem>();
-            }
-            public List<ReportDataItem> items { get; set; }
-            public string[] names
-            {
-                get
-                {
-                    string[] _names = new string[items.Count];
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        _names[i] = items[i].name;
+            LoadChart();
+        }
 
-                    }
-                    return _names;
-                }
-            }
-            public double[] values
-            {
-                get
-                {
-                    double[] _values = new double[items.Count];
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        _values[i] = items[i].value;
+        private void endDT_ValueChanged(object sender, EventArgs e)
+        {
+            LoadChart();
+        }
 
-                    }
-                    return _values;
-                }
-            }
-            public Color[] colors
-            {
-                get
-                {
-                    Color[] _values = new Color[items.Count];
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        _values[i] = items[i].color;
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadChart();
+        }
 
-                    }
-                    return _values;
-                }
-            }
-            public Color[] labelcolors
-            {
-                get
-                {
-                    Color[] _values = new Color[items.Count];
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        _values[i] = Color.Black;
-
-                    }
-                    return _values;
-                }
-            }
+        private void emptyDay_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadChart();
         }
     }
 }

@@ -228,7 +228,7 @@ namespace DocearReminder
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
                 onlyZhouqi.Checked= ini.ReadString("config", "IsCycleOnly", "") == "true"; 
-                string birthday = ini.ReadString("info", "birthday", "");
+                
                 string scorestr = ini.ReadString("info", "score", "");
                 fenshu.Text = scorestr;
                 command = ini.ReadString("config", "command", "");
@@ -285,31 +285,7 @@ namespace DocearReminder
                 richTextSubNode.Height = 0;
                 try
                 {
-
-                    DateTime birthdayD = Convert.ToDateTime(birthday);
-                    TimeSpan diff = DateTime.Today - birthdayD;
-                    this.Text = ini.ReadString("info", "myword", ""); //"开心，高效，认真，专注";
-                    this.Text += ("   " + diff.TotalDays);
-                    int yeardiff = DateTime.Now.Year - birthdayD.Year;
-                    int monthdiff = DateTime.Now.Month - birthdayD.Month;
-                    if (monthdiff < 0)
-                    {
-                        yeardiff--;
-                        monthdiff += 12;
-                    }
-                    int daydiff = DateTime.Now.Day - birthdayD.Day;
-                    if (daydiff < 0)
-                    {
-                        monthdiff--;
-                        if (monthdiff < 0)
-                        {
-                            yeardiff--;
-                            monthdiff += 12;
-                        }
-                        daydiff += 30;
-                    }
-                    string birthString = (yeardiff.ToString() + "年" + (monthdiff != 0 ? monthdiff.ToString() + "月" : "") + (daydiff != 0 ? daydiff.ToString() + "天" : ""));
-                    this.Text += ("   " + birthString)+"  @  "+DateTime.Now.ToString("HH:mm");
+                    gettitle();
                     foreach (string item in calanderpath.Split(';'))
                     {
                         if (item != "")
@@ -449,6 +425,42 @@ namespace DocearReminder
             }
             titleTimer.Start();
             SaveLog("打开程序。");
+        }
+        public void gettitle()
+        {
+            string birthday = ini.ReadString("info", "birthday", "");
+            string loseweight = ini.ReadString("info", "loseweight", "");
+            string loseweighttarget = ini.ReadString("info", "loseweighttarget", "");
+            string leavechina = ini.ReadString("info", "leavechina", "");
+            DateTime birthdayD = Convert.ToDateTime(birthday);
+            TimeSpan diff = DateTime.Today - birthdayD;
+            this.Text = ini.ReadString("info", "myword", ""); //"开心，高效，认真，专注";
+            this.Text += ("   " + diff.TotalDays);
+            int yeardiff = DateTime.Now.Year - birthdayD.Year;
+            int monthdiff = DateTime.Now.Month - birthdayD.Month;
+            if (monthdiff < 0)
+            {
+                yeardiff--;
+                monthdiff += 12;
+            }
+            int daydiff = DateTime.Now.Day - birthdayD.Day;
+            if (daydiff < 0)
+            {
+                monthdiff--;
+                if (monthdiff < 0)
+                {
+                    yeardiff--;
+                    monthdiff += 12;
+                }
+                daydiff += 30;
+            }
+            string birthString = (yeardiff.ToString() + "年" + (monthdiff != 0 ? monthdiff.ToString() + "月" : "") + (daydiff != 0 ? daydiff.ToString() + "天" : ""));
+            //添加减肥目标 add lose weight target
+            DateTime loseWeightDate = Convert.ToDateTime(loseweight);
+            string loseWeightStr = (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget;
+            DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
+            string leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
+            this.Text += ("   " + birthString) + " |" + loseWeightStr + "|  {" + leaveChainaStr + "}  @  " + DateTime.Now.ToString("HH:mm");
         }
         /// <summary>
         /// 将Json格式的时间字符串替换为"yyyy-MM-dd HH:mm:ss"格式的字符串
@@ -710,6 +722,7 @@ namespace DocearReminder
             Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
             thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
+            gettitle();
             MyHide();
             //Process process = RuningInstance();
             //if (process != null)
@@ -4347,7 +4360,7 @@ namespace DocearReminder
                         bool isHashook = false;
                         foreach (XmlNode item in node.ChildNodes)
                         {
-                            if (item.Name == "hook" && !isHashook)
+                            if (item.Name == "hook" && !isHashook&&item.Attributes!=null&&item.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
                             {
                                 isHashook = true;
                                 item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();

@@ -730,10 +730,10 @@ namespace DocearReminder
 
                             m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                             m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                            if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
-                            {
-                                m_Appointment.Locked = true;
-                            }
+                            //if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
+                            //{
+                            //    m_Appointment.Locked = true;
+                            //}
                         }
                         catch (Exception)
                         {
@@ -1655,13 +1655,31 @@ namespace DocearReminder
                 {
                 }
                 
-                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + args.Comment.Substring(0,args.Comment.Length>=20?20: args.Comment.Length)) : "")+ editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")+ editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
         }
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        public string ToString20Lenght(string name)
+        {
+            string result="";
+            for (int i = 0; i < name.Length; i++)
+            {
+                if (i%20==0&&i!=0)
+                {
+                    result += name[i];
+                    result += Environment.NewLine;
+                }
+                else
+                {
+                    result += name[i];
+                }
+            }
+            return result;
         }
 
         private void toolTip2_Popup(object sender, PopupEventArgs e)

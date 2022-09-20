@@ -164,12 +164,12 @@ namespace DocearReminder
             DaysPercent.Text = ((float)totalDayhasValue / totalDay).ToString("P");
 
             totalTime.Text = (all).ToString("F") + "小时";//总时间
-            totalTimeEventDay.Text = (all / totalDayhasValue).ToString("F") + "小时";//每天平均时长（记录时间）
-            totalTimeEventDays.Text = (all / totalDay).ToString("F") + "小时";//每天平均时长（记录时间）
+            totalTimeEventDay.Text = ((float)all / totalDayhasValue).ToString("F") + "小时";//每天平均时长（记录时间）
+            totalTimeEventDays.Text = ((float)all / totalDay).ToString("F") + "小时";//每天平均时长（记录时间）
 
             totalcount1.Text = (totalCountValue).ToString("F") + "次";//总次数
             PerCountEveryDays.Text = ((float)totalCountValue / totalDayhasValue).ToString("F") + "次";//每天平均次数（记录时间）
-            PerCountEveryDay.Text = (totalCountValue / totalDay).ToString("F") + "次";//每天平均次数（记录时间）
+            PerCountEveryDay.Text = ((float)totalCountValue / totalDay).ToString("F") + "次";//每天平均次数（记录时间）
 
             remarksCount1.Text=remarksCount + "次";//备注总次数
             RemarkPercent.Text = ((float)remarksCount / totalCountValue).ToString("P");//每天平均次数（记录时间）

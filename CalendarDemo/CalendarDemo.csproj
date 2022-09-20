@@ -61,6 +61,12 @@
     <Compile Include="DemoForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DocearMonthView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocearMonthView.Designer.cs">
+      <DependentUpon>DocearMonthView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
@@ -70,6 +76,9 @@
     <EmbeddedResource Include="DemoForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocearMonthView.resx">
+      <DependentUpon>DocearMonthView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

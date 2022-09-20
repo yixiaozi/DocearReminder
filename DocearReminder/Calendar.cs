@@ -21,7 +21,6 @@ using static DocearReminder.DocearReminderForm;
 using yixiaozi.WinForm.Common;
 using yixiaozi.Windows;
 using yixiaozi.Security;
-
 namespace DocearReminder
 {
     public partial class CalendarForm : Form
@@ -322,7 +321,7 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="")
+        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="")
         {
             try
             {
@@ -334,8 +333,9 @@ namespace DocearReminder
                     mindmap = mindmapName,
                     ID = ID,
                     tasktime = tasktime,
-                    nameFull=tag!=null?tag.ToString():"",
-                    comment=comment
+                    nameFull = tag != null ? tag.ToString() : "",
+                    comment = comment,
+                    DetailComment = detailComment
                 });
             }
             catch (Exception)
@@ -640,6 +640,7 @@ namespace DocearReminder
                 };
                 string taskname = item.name;
                 string common = item.comment;
+                string detailCommon = item.DetailComment;
                 try//解决有点只保存结束时间的问题
                 {
                     if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
@@ -697,6 +698,7 @@ namespace DocearReminder
                     m_Appointment.Title = taskname;
                 }
                 m_Appointment.Comment = common;
+                m_Appointment.DetailComment = detailCommon;
                 if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
                 {
                     m_Appointment.Title += ("("+m_Appointment.Comment+")");
@@ -1686,26 +1688,29 @@ namespace DocearReminder
         {
 
         }
-        public static string ShowDialog(string text, string caption)
+        public static string ShowDialog(string text,string detailCommon, string caption)
         {
             isMenuShow = true;
             Form prompt = new Form()
             {
                 Width = 420,
-                Height = 210,
+                Height = 480,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 10, Width = 380,Height=100};
+            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 10, Width = 380,Height=60};
             textBox.Text = text;
-            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 130, DialogResult = DialogResult.OK };
+            RichTextBox detailCommonBox = new RichTextBox() { Left = 10, Top = 90, Width = 380, Height = 300 };
+            detailCommonBox.Text = detailCommon;
+            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 400, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { isMenuShow = false; prompt.Close(); };
             prompt.Controls.Add(textBox);
+            prompt.Controls.Add(detailCommonBox);
             prompt.Controls.Add(confirmation);
             prompt.AcceptButton = confirmation;
 
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text+"ulgniy"+detailCommonBox.Text : "";
         }
 
         private void commentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1713,16 +1718,23 @@ namespace DocearReminder
             string promptValue = "";
             if (dayView1.SelectedAppointment!=null)
             {
-                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", "编辑详细");
-                dayView1.SelectedAppointment.Comment = promptValue;
-                dayView1.Refresh();
+                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", "编辑详细");
+                if (promptValue != "")
+                {
+                    string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[0];
+                    string detail = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];
+                    dayView1.SelectedAppointment.Comment = common;
+                    dayView1.SelectedAppointment.DetailComment = detail;
+                    dayView1.Refresh();
+                    ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
+                    if (current != null)
+                    {
+                        current.comment = common;
+                        current.DetailComment = detail;
+                    }
+                    RefreshCalender();
+                }
             }
-            ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
-            if (current != null)
-            {
-                current.comment = promptValue;
-            }
-            RefreshCalender();
         }
 
         private void dayView1_KeyDown(object sender, KeyEventArgs e)

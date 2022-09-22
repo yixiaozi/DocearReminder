@@ -735,6 +735,10 @@ namespace DocearReminder
                 if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
                 {
                     m_Appointment.Title += ("("+m_Appointment.Comment+")");
+                    if (m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
+                    {
+                        m_Appointment.Title += "*";
+                    }
                 }
                 m_Appointment.value = item.mindmapPath;
                 m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
@@ -1802,7 +1806,7 @@ namespace DocearReminder
                 {
 
                 }
-                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, "±à¼­ÏêÏ¸");
+                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, dayView1.SelectedAppointment.Title.Split('(')[0]==""?"±à¼­ÏêÏ¸":dayView1.SelectedAppointment.Title.Split('(')[0]);
                 if (promptValue != "")
                 {
                     string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];

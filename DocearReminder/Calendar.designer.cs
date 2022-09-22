@@ -406,6 +406,8 @@ namespace DocearReminder
             // isview_c
             // 
             this.isview_c.AutoSize = true;
+            this.isview_c.Checked = true;
+            this.isview_c.CheckState = System.Windows.Forms.CheckState.Checked;
             this.isview_c.Location = new System.Drawing.Point(1194, 2);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);

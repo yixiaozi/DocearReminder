@@ -116,6 +116,8 @@ namespace DocearReminder
             int totalCountValue = 0;
             int remarksCount = 0;
             Int64 remarksWordsCount = 0;
+            int remarksDetails = 0;
+            Int64 remarksDetailsWordsCount = 0;
             foreach (IGrouping<double,ReminderItem> item in reuslt.OrderBy(m => m.time).GroupBy(m => Convert.ToDateTime(m.time.ToString("yyyy-MM-dd")).ToOADate()))
             {
                 double minute = 0;
@@ -127,6 +129,11 @@ namespace DocearReminder
                     {
                         remarksCount++;
                         remarksWordsCount += ritem.comment.Length;   
+                    }
+                    if (ritem.DetailComment != null && ritem.DetailComment != "")
+                    {
+                        remarksDetails++;
+                        remarksDetailsWordsCount += ritem.DetailComment.Length;
                     }
                     string timeblocktop = "";
                     try
@@ -206,7 +213,11 @@ namespace DocearReminder
 
             remarksCount1.Text=remarksCount + "次";//备注总次数
             RemarkPercent.Text = ((float)remarksCount / totalCountValue).ToString("P");//每天平均次数（记录时间）
-            label29.Text = ((float)remarksWordsCount / remarksCount).ToString("F") + "字";//每天平均次数（记录时间）
+            RemarkCount.Text = ((float)remarksWordsCount / remarksCount).ToString("F") + "字";//每天平均次数（记录时间）
+
+            remarksDetailCount.Text = remarksDetails + "次";//详细备注总次数
+            RemarkDetailPercent.Text = ((float)remarksDetails / totalCountValue).ToString("P");//详细每天平均次数（记录时间）
+            RemarkDetailCount.Text = ((float)remarksDetailsWordsCount / remarksDetails).ToString("F") + "字";//详细每天平均次数（记录时间）
 
             MaxDays.Text = maxDays + "天";
             PerMaxDays.Text = ((float)maxDays / maxList.Count).ToString("F") + "天";

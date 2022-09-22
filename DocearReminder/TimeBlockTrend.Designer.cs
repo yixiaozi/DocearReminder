@@ -43,11 +43,11 @@ namespace DocearReminder
             this.label40 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
+            this.RemarkDetailCount = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
+            this.RemarkDetailPercent = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
+            this.remarksDetailCount = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -73,7 +73,7 @@ namespace DocearReminder
             this.label5 = new System.Windows.Forms.Label();
             this.totalCount = new System.Windows.Forms.Label();
             this.totalTime = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.RemarkCount = new System.Windows.Forms.Label();
             this.RemarkPercentEvery = new System.Windows.Forms.Label();
             this.remarksCount1 = new System.Windows.Forms.Label();
             this.RemarkPercent = new System.Windows.Forms.Label();
@@ -175,11 +175,11 @@ namespace DocearReminder
             this.tableLayoutPanel1.Controls.Add(this.label40, 2, 6);
             this.tableLayoutPanel1.Controls.Add(this.label39, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.label38, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label37, 5, 5);
+            this.tableLayoutPanel1.Controls.Add(this.RemarkDetailCount, 5, 5);
             this.tableLayoutPanel1.Controls.Add(this.label36, 4, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label35, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.RemarkDetailPercent, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.label34, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label33, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.remarksDetailCount, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label32, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label25, 5, 3);
             this.tableLayoutPanel1.Controls.Add(this.label24, 4, 3);
@@ -205,7 +205,7 @@ namespace DocearReminder
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.totalCount, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.totalTime, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label29, 5, 4);
+            this.tableLayoutPanel1.Controls.Add(this.RemarkCount, 5, 4);
             this.tableLayoutPanel1.Controls.Add(this.RemarkPercentEvery, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.remarksCount1, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.RemarkPercent, 3, 4);
@@ -221,6 +221,7 @@ namespace DocearReminder
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(994, 139);
             this.tableLayoutPanel1.TabIndex = 16;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
@@ -285,65 +286,65 @@ namespace DocearReminder
             this.label38.TabIndex = 36;
             this.label38.Text = "                    ";
             // 
-            // label37
+            // RemarkDetailCount
             // 
-            this.label37.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(833, 99);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(125, 12);
-            this.label37.TabIndex = 35;
-            this.label37.Text = "                    ";
+            this.RemarkDetailCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RemarkDetailCount.AutoSize = true;
+            this.RemarkDetailCount.Location = new System.Drawing.Point(833, 99);
+            this.RemarkDetailCount.Name = "RemarkDetailCount";
+            this.RemarkDetailCount.Size = new System.Drawing.Size(125, 12);
+            this.RemarkDetailCount.TabIndex = 35;
+            this.RemarkDetailCount.Text = "                    ";
             // 
             // label36
             // 
             this.label36.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(701, 99);
+            this.label36.Location = new System.Drawing.Point(713, 99);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(125, 12);
+            this.label36.Size = new System.Drawing.Size(113, 12);
             this.label36.TabIndex = 34;
-            this.label36.Text = "                    ";
+            this.label36.Text = "详细备注平均字数：";
             // 
-            // label35
+            // RemarkDetailPercent
             // 
-            this.label35.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(499, 99);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(125, 12);
-            this.label35.TabIndex = 33;
-            this.label35.Text = "                    ";
+            this.RemarkDetailPercent.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RemarkDetailPercent.AutoSize = true;
+            this.RemarkDetailPercent.Location = new System.Drawing.Point(499, 99);
+            this.RemarkDetailPercent.Name = "RemarkDetailPercent";
+            this.RemarkDetailPercent.Size = new System.Drawing.Size(125, 12);
+            this.RemarkDetailPercent.TabIndex = 33;
+            this.RemarkDetailPercent.Text = "                    ";
             // 
             // label34
             // 
             this.label34.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(367, 99);
+            this.label34.Location = new System.Drawing.Point(403, 99);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(125, 12);
+            this.label34.Size = new System.Drawing.Size(89, 12);
             this.label34.TabIndex = 32;
-            this.label34.Text = "                    ";
+            this.label34.Text = "详细备注比率：";
             // 
-            // label33
+            // remarksDetailCount
             // 
-            this.label33.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(171, 99);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(125, 12);
-            this.label33.TabIndex = 31;
-            this.label33.Text = "                    ";
+            this.remarksDetailCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.remarksDetailCount.AutoSize = true;
+            this.remarksDetailCount.Location = new System.Drawing.Point(171, 99);
+            this.remarksDetailCount.Name = "remarksDetailCount";
+            this.remarksDetailCount.Size = new System.Drawing.Size(125, 12);
+            this.remarksDetailCount.TabIndex = 31;
+            this.remarksDetailCount.Text = "                    ";
             // 
             // label32
             // 
             this.label32.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(39, 99);
+            this.label32.Location = new System.Drawing.Point(75, 99);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(125, 12);
+            this.label32.Size = new System.Drawing.Size(89, 12);
             this.label32.TabIndex = 30;
-            this.label32.Text = "                    ";
+            this.label32.Text = "详细备注次数：";
             // 
             // label25
             // 
@@ -585,15 +586,15 @@ namespace DocearReminder
             this.totalTime.TabIndex = 5;
             this.totalTime.Text = "                    ";
             // 
-            // label29
+            // RemarkCount
             // 
-            this.label29.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(833, 80);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(125, 12);
-            this.label29.TabIndex = 27;
-            this.label29.Text = "                    ";
+            this.RemarkCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RemarkCount.AutoSize = true;
+            this.RemarkCount.Location = new System.Drawing.Point(833, 80);
+            this.RemarkCount.Name = "RemarkCount";
+            this.RemarkCount.Size = new System.Drawing.Size(125, 12);
+            this.RemarkCount.TabIndex = 27;
+            this.RemarkCount.Text = "                    ";
             // 
             // RemarkPercentEvery
             // 
@@ -709,15 +710,15 @@ namespace DocearReminder
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label RemarkDetailCount;
         private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label RemarkDetailPercent;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label remarksDetailCount;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label remarksCount1;
         private System.Windows.Forms.Label 备注次数;
-        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label RemarkCount;
         private System.Windows.Forms.Label RemarkPercentEvery;
         private System.Windows.Forms.Label RemarkPercent;
         private System.Windows.Forms.Label label26;

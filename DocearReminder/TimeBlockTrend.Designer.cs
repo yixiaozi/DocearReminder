@@ -80,6 +80,7 @@ namespace DocearReminder
             this.备注次数 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.Type = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,27 +93,27 @@ namespace DocearReminder
             // 
             // startDt
             // 
-            this.startDt.Location = new System.Drawing.Point(44, 13);
+            this.startDt.Location = new System.Drawing.Point(188, 13);
             this.startDt.Name = "startDt";
             this.startDt.Size = new System.Drawing.Size(172, 21);
             this.startDt.TabIndex = 1;
-            this.startDt.Value = DateTime.Today.AddDays(-7);
+            this.startDt.Value = new System.DateTime(2022, 9, 16, 0, 0, 0, 0);
             this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // endDT
             // 
-            this.endDT.Location = new System.Drawing.Point(233, 13);
+            this.endDT.Location = new System.Drawing.Point(366, 12);
             this.endDT.Name = "endDT";
             this.endDT.Size = new System.Drawing.Size(181, 21);
             this.endDT.TabIndex = 2;
-            this.endDT.Value = DateTime.Today;
+            this.endDT.Value = new System.DateTime(2022, 9, 23, 0, 0, 0, 0);
             this.endDT.ValueChanged += new System.EventHandler(this.endDT_ValueChanged);
             // 
             // searchword
             // 
-            this.searchword.Location = new System.Drawing.Point(616, 13);
+            this.searchword.Location = new System.Drawing.Point(705, 13);
             this.searchword.Name = "searchword";
-            this.searchword.Size = new System.Drawing.Size(322, 21);
+            this.searchword.Size = new System.Drawing.Size(233, 21);
             this.searchword.TabIndex = 3;
             this.searchword.TextChanged += new System.EventHandler(this.searchword_TextChanged);
             // 
@@ -149,7 +150,7 @@ namespace DocearReminder
             "浪费",
             "未分类",
             "音乐"});
-            this.comboBox1.Location = new System.Drawing.Point(432, 13);
+            this.comboBox1.Location = new System.Drawing.Point(553, 13);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(146, 20);
             this.comboBox1.TabIndex = 11;
@@ -654,11 +655,27 @@ namespace DocearReminder
             this.richTextBox1.TabIndex = 17;
             this.richTextBox1.Text = "";
             // 
+            // Type
+            // 
+            this.Type.FormattingEnabled = true;
+            this.Type.Items.AddRange(new object[] {
+            "时间块",
+            "金钱",
+            "进步",
+            "错误"});
+            this.Type.Location = new System.Drawing.Point(44, 12);
+            this.Type.Name = "Type";
+            this.Type.Size = new System.Drawing.Size(129, 20);
+            this.Type.TabIndex = 18;
+            this.Type.Text = "时间块";
+            this.Type.SelectedIndexChanged += new System.EventHandler(this.Type_SelectedIndexChanged);
+            // 
             // TimeBlockTrend
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1666, 621);
+            this.Controls.Add(this.Type);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.comboBox1);
@@ -728,5 +745,6 @@ namespace DocearReminder
         private System.Windows.Forms.Label totalCount;
         private System.Windows.Forms.Label totalTime;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ComboBox Type;
     }
 }

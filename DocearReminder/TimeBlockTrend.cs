@@ -45,9 +45,33 @@ namespace DocearReminder
             int totalDay = ((int)(endDT.Value - startDt.Value).TotalDays)+1;
             List<ReminderItem> reuslt = new List<ReminderItem>();
             richTextBox1.Text = "";
+            string type = "TimeBlock";
+            switch (Type.Text)
+            {
+                case "时间块":
+                    type = "TimeBlock";
+                    break;
+                case "金钱":
+                    type = "Money";
+                    break;
+                case "进步":
+                    type = "Progress";
+                    break;
+                case "错误":
+                    type = "Mistake";
+                    break;
+                default:
+                    type = "TimeBlock";
+                    break;
+            }
+            string danwei = "小时";
+            if (Type.Text=="金钱")
+            {
+                danwei = "元";
+            }
             foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders)
             {
-                if (item.mindmap == "TimeBlock" && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
+                if (item.mindmap == type && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
                 {
                     if (searchword.Text != "")
                     {
@@ -120,7 +144,14 @@ namespace DocearReminder
                 }
                 valueList.Add(minute/60);
                 daysList.Add(item.Key);
-                all += (minute / 60);
+                if (Type.Text == "金钱")
+                {
+                    all += minute;
+                }
+                else
+                {
+                    all += (minute / 60);
+                }
                 totalDayhasValue++;
             }
 
@@ -163,9 +194,9 @@ namespace DocearReminder
             totalDaysWithContent.Text = totalDayhasValue + "天";
             DaysPercent.Text = ((float)totalDayhasValue / totalDay).ToString("P");
 
-            totalTime.Text = (all).ToString("F") + "小时";//总时间
-            totalTimeEventDay.Text = ((float)all / totalDayhasValue).ToString("F") + "小时";//每天平均时长（记录时间）
-            totalTimeEventDays.Text = ((float)all / totalDay).ToString("F") + "小时";//每天平均时长（记录时间）
+            totalTime.Text = (all).ToString("F") + danwei;//总时间
+            totalTimeEventDay.Text = ((float)all / totalDayhasValue).ToString("F") + danwei;//每天平均时长（记录时间）
+            totalTimeEventDays.Text = ((float)all / totalDay).ToString("F") + danwei;//每天平均时长（记录时间）
 
             totalcount1.Text = (totalCountValue).ToString("F") + "次";//总次数
             PerCountEveryDays.Text = ((float)totalCountValue / totalDayhasValue).ToString("F") + "次";//每天平均次数（记录时间）
@@ -224,6 +255,11 @@ namespace DocearReminder
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadChart();
         }
     }
 }

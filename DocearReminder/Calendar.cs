@@ -682,21 +682,22 @@ namespace DocearReminder
                 }
                 catch (Exception e)
                 { }
-                if (ini.ReadString("appearance", "Calander15", "1")=="true"&&!c_15.Checked||c_fanqie.Checked || c_timeBlock.Checked)
+                //不再对任务进行时间设置，免得出问题
+                if (ini.ReadString("appearance", "Calander15", "1") == "true" && !c_15.Checked || c_fanqie.Checked || c_timeBlock.Checked)
+                {
+                    if (item.tasktime < 5)
+                    {
+                        item.tasktime = 5;
+                    }
+                }
+                else
                 {
                     if (item.tasktime < 15)
                     {
                         item.tasktime = 15;
                     }
                 }
-                else
-                {
-                    if (item.tasktime < 30)
-                    {
-                        item.tasktime = 30;
-                    }
-                }
-                    
+
                 m_Appointment.EndDate = item.time.AddMinutes(item.tasktime);
                 //if (logfile.Contains("fanqie"))
                 //{
@@ -1722,7 +1723,7 @@ namespace DocearReminder
                 {
                 }
                 
-                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")  +(args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + (args.Type != "金钱"? (args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString()):((args.EndDate - args.StartDate).TotalMinutes.ToString()+"元")) + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")  +(args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
         }
 
@@ -1734,17 +1735,21 @@ namespace DocearReminder
         public string ToString20Lenght(string name)
         {
             string result="";
-            for (int i = 0; i < name.Length; i++)
+            foreach (string item in name.Split('\n'))
             {
-                if (i%20==0&&i!=0)
+                for (int i = 0; i < item.Length; i++)
                 {
-                    result += name[i];
-                    result += Environment.NewLine;
+                    if (i % 20 == 0 && i != 0)
+                    {
+                        result += item[i];
+                        result += Environment.NewLine;
+                    }
+                    else
+                    {
+                        result += item[i];
+                    }
                 }
-                else
-                {
-                    result += name[i];
-                }
+                result += Environment.NewLine;
             }
             return result;
         }

@@ -1722,8 +1722,9 @@ namespace DocearReminder
                 catch (Exception)
                 {
                 }
-                
-                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + (args.Type != "金钱"? (args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString()):((args.EndDate - args.StartDate).TotalMinutes.ToString()+"元")) + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")  +(args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                string showresult = timeblocktop + args.Title.Split('(')[0] + Environment.NewLine + (args.Type != "金钱" ? (args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString()) : ((args.EndDate - args.StartDate).TotalMinutes.ToString() + "元")) + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "") + (args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo;
+                showresult = showresult.Replace(Environment.NewLine+ Environment.NewLine, Environment.NewLine);//去掉连续的换行
+                toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
         }
 
@@ -1771,17 +1772,18 @@ namespace DocearReminder
             };
             RichTextBox time = new RichTextBox() { Left = 10, Top = 10, Width = 380, Height = 30 };
             time.Text = timelong;
-            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 50, Width = 380,Height=30};
+            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 50, Width = 380, Height = 30 };
             textBox.Text = text;
             RichTextBox detailCommonBox = new RichTextBox() { Left = 10, Top = 90, Width = 380, Height = 300 };
             detailCommonBox.Text = detailCommon;
             Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 400, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { isMenuShow = false; prompt.Close(); };
-            prompt.Controls.Add(time);
             prompt.Controls.Add(textBox);
+            prompt.Controls.Add(time);
             prompt.Controls.Add(detailCommonBox);
             prompt.Controls.Add(confirmation);
             prompt.AcceptButton = confirmation;
+            textBox.Focus();
 
             return prompt.ShowDialog() == DialogResult.OK ? time.Text + "ulgniy"+textBox.Text+"ulgniy"+detailCommonBox.Text : "";
         }

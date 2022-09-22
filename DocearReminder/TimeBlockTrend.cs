@@ -77,7 +77,7 @@ namespace DocearReminder
                     {
                         try//过滤字符串
                         {
-                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" &&item.comment.Contains(searchword.Text)))
+                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" &&item.comment.Contains(searchword.Text)) && !(item.DetailComment != null && item.DetailComment != "" && item.DetailComment.Contains(searchword.Text)))
                             {
                                 continue;
                             }
@@ -142,15 +142,17 @@ namespace DocearReminder
                     }
                     richTextBox1.Text += (ritem.time.ToString("MM-dd HH:mm") + ">" + ritem.time.AddMinutes(ritem.tasktime).ToShortTimeString() + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != "" ? "(" : "") + ritem.DetailComment+ (ritem.DetailComment!= "" ? ")" : "") + Environment.NewLine);
                 }
-                valueList.Add(minute/60);
+                //valueList.Add(minute/60);
                 daysList.Add(item.Key);
                 if (Type.Text == "金钱")
                 {
+                    valueList.Add(minute);
                     all += minute;
                 }
                 else
                 {
                     all += (minute / 60);
+                    valueList.Add(minute/60);
                 }
                 totalDayhasValue++;
             }

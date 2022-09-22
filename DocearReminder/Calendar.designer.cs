@@ -65,6 +65,7 @@ namespace DocearReminder
             this.c_mistake = new System.Windows.Forms.CheckBox();
             this.c_lock = new System.Windows.Forms.CheckBox();
             this.isview_c = new System.Windows.Forms.CheckBox();
+            this.c_Money = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -91,7 +92,7 @@ namespace DocearReminder
             this.dayView1.Name = "dayView1";
             this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
             this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1250, 1000);
+            this.dayView1.Size = new System.Drawing.Size(1324, 1000);
             this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
             this.dayView1.StartHour = 0;
             this.dayView1.TabIndex = 0;
@@ -161,7 +162,7 @@ namespace DocearReminder
             this.panel1.Location = new System.Drawing.Point(0, 21);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1250, 1000);
+            this.panel1.Size = new System.Drawing.Size(1324, 1000);
             this.panel1.TabIndex = 1;
             // 
             // dateTimePicker1
@@ -345,7 +346,7 @@ namespace DocearReminder
             this.c_15.AutoSize = true;
             this.c_15.Checked = true;
             this.c_15.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_15.Location = new System.Drawing.Point(1186, 3);
+            this.c_15.Location = new System.Drawing.Point(1260, 1);
             this.c_15.Name = "c_15";
             this.c_15.Size = new System.Drawing.Size(48, 16);
             this.c_15.TabIndex = 35;
@@ -360,7 +361,7 @@ namespace DocearReminder
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(1044, 3);
+            this.c_done.Location = new System.Drawing.Point(1128, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
@@ -405,7 +406,7 @@ namespace DocearReminder
             // isview_c
             // 
             this.isview_c.AutoSize = true;
-            this.isview_c.Location = new System.Drawing.Point(1117, 3);
+            this.isview_c.Location = new System.Drawing.Point(1194, 2);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);
             this.isview_c.TabIndex = 36;
@@ -413,13 +414,25 @@ namespace DocearReminder
             this.isview_c.UseVisualStyleBackColor = true;
             this.isview_c.CheckedChanged += new System.EventHandler(this.isview_c_CheckedChanged);
             // 
+            // c_Money
+            // 
+            this.c_Money.AutoSize = true;
+            this.c_Money.Location = new System.Drawing.Point(1056, 3);
+            this.c_Money.Name = "c_Money";
+            this.c_Money.Size = new System.Drawing.Size(48, 16);
+            this.c_Money.TabIndex = 1;
+            this.c_Money.Text = "½ðÇ®";
+            this.c_Money.UseVisualStyleBackColor = true;
+            this.c_Money.CheckedChanged += new System.EventHandler(this.c_Money_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1246, 961);
+            this.ClientSize = new System.Drawing.Size(1320, 961);
+            this.Controls.Add(this.c_Money);
             this.Controls.Add(this.isview_c);
             this.Controls.Add(this.c_lock);
             this.Controls.Add(this.c_mistake);
@@ -498,6 +511,7 @@ namespace DocearReminder
         private CheckBox c_lock;
         private ToolStripMenuItem ·¬ÇÑÖÓToolStripMenuItem;
         private CheckBox isview_c;
+        private CheckBox c_Money;
     }
 }
 

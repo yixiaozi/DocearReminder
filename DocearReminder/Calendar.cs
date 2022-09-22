@@ -155,6 +155,12 @@ namespace DocearReminder
                     {
                         SearchNode(node, null);
                     }
+                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "金钱")
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("金钱", global::DocearReminder.Properties.Resources.square_ok, SetMoney);
+                        newMenu.BackColor = Color.Gray;
+                        SearchNode_Money(node, newMenu);
+                    }
                     else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("进步", global::DocearReminder.Properties.Resources.square_ok, SetProgress);
@@ -264,6 +270,32 @@ namespace DocearReminder
                             newMenu.Tag = GetFatherNodeName(Subnode);
                         }
                         SearchNode_mistake(Subnode, newMenu);
+                    }
+                }
+            }
+        }
+        public void SearchNode_Money(XmlNode node, ToolStripItem menuitem)
+        {
+            if (node.ChildNodes.Count > 0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null)
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu;
+                        if (menuitem == null)
+                        {
+                            newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetMoney);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        else
+                        {
+                            newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetMoney);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        SearchNode_Money(Subnode, newMenu);
                     }
                 }
             }
@@ -615,7 +647,7 @@ namespace DocearReminder
         {
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake")||(m.time>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&(!m.isview||(isview_c.Checked&& m.isview))&&!m.isCompleted));
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (m.time>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&(!m.isview||(isview_c.Checked&& m.isview))&&!m.isCompleted));
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
                 items = items.Where(m => !hasinworkfolder(m.mindmapPath));
@@ -725,7 +757,7 @@ namespace DocearReminder
                 {
                     m_Appointment.Color = System.Drawing.Color.White;
                     m_Appointment.BorderColor = System.Drawing.Color.White;
-                    if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress")
+                    if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress" || item.mindmap == "Money")
                     {
                         try
                         {
@@ -804,6 +836,15 @@ namespace DocearReminder
                         break;
                     case "TimeBlock":
                         m_Appointment.Type = "时间块";
+                        break;
+                    case "Progress":
+                        m_Appointment.Type = "进步";
+                        break;
+                    case "Mistake":
+                        m_Appointment.Type = "错误";
+                        break;
+                    case "Money":
+                        m_Appointment.Type = "金钱";
                         break;
                     default:
                         m_Appointment.Type = "任务";
@@ -1202,8 +1243,7 @@ namespace DocearReminder
                 ismovetask = false;
                 try
                 {
-                    //if (!c_timeBlock.Checked)//如果时时间块
-                    if (dayView1.SelectedAppointment.Type != "时间块")//如果时时间块
+                    if (dayView1.SelectedAppointment.Type != "时间块"&& dayView1.SelectedAppointment.Type != "进步"&& dayView1.SelectedAppointment.Type != "错误"&& dayView1.SelectedAppointment.Type != "金钱")
                     {
                         EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
                     }
@@ -1332,7 +1372,7 @@ namespace DocearReminder
                 {
                     try
                     {
-                        if (dayView1.SelectedAppointment.Type== "时间块")
+                        if (dayView1.SelectedAppointment.Type== "时间块" || dayView1.SelectedAppointment.Type == "进步" || dayView1.SelectedAppointment.Type == "错误" || dayView1.SelectedAppointment.Type == "金钱")
                         {
                             commentToolStripMenuItem_Click(null, null);
                         }
@@ -1464,6 +1504,31 @@ namespace DocearReminder
             m_Appointments.Add(m_Appointment);
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Mistake", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+        }
+        private void SetMoney(object sender, EventArgs e)
+        {
+
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart
+            };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            m_Appointment.Type = "Money";
+            string comment = "";
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+            }
+
+            //m_Appointment.Locked = true;
+            m_Appointments.Add(m_Appointment);
+            dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Money", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
         private void SetTimeBlockColor(object sender, EventArgs e)
         {
@@ -1657,7 +1722,7 @@ namespace DocearReminder
                 {
                 }
                 
-                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")+ editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                toolTip2.Show(timeblocktop+args.Title.Split('(')[0] + Environment.NewLine + args.StartDate.ToShortTimeString() + Environment.NewLine + args.EndDate.ToShortTimeString() + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "")  +(args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
         }
 
@@ -1688,7 +1753,7 @@ namespace DocearReminder
         {
 
         }
-        public static string ShowDialog(string text,string detailCommon, string caption)
+        public static string ShowDialog(string text,string detailCommon,string timelong, string caption)
         {
             isMenuShow = true;
             Form prompt = new Form()
@@ -1699,18 +1764,21 @@ namespace DocearReminder
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 10, Width = 380,Height=60};
+            RichTextBox time = new RichTextBox() { Left = 10, Top = 10, Width = 380, Height = 30 };
+            time.Text = timelong;
+            RichTextBox textBox = new RichTextBox() { Left = 10, Top = 50, Width = 380,Height=30};
             textBox.Text = text;
             RichTextBox detailCommonBox = new RichTextBox() { Left = 10, Top = 90, Width = 380, Height = 300 };
             detailCommonBox.Text = detailCommon;
             Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 400, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { isMenuShow = false; prompt.Close(); };
+            prompt.Controls.Add(time);
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(detailCommonBox);
             prompt.Controls.Add(confirmation);
             prompt.AcceptButton = confirmation;
 
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text+"ulgniy"+detailCommonBox.Text : "";
+            return prompt.ShowDialog() == DialogResult.OK ? time.Text + "ulgniy"+textBox.Text+"ulgniy"+detailCommonBox.Text : "";
         }
 
         private void commentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1718,19 +1786,46 @@ namespace DocearReminder
             string promptValue = "";
             if (dayView1.SelectedAppointment!=null)
             {
-                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", "编辑详细");
+                string timelong = "";
+                try
+                {
+                    timelong = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString();
+                }
+                catch (Exception)
+                {
+
+                }
+                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, "编辑详细");
                 if (promptValue != "")
                 {
-                    string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[0];
-                    string detail = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];
+                    string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];
+                    string detail = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[2];
+                    string time = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[0];
+                    int timeNum = 0;
+                    try
+                    {
+                        timeNum = Convert.ToInt16(time);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                     dayView1.SelectedAppointment.Comment = common;
                     dayView1.SelectedAppointment.DetailComment = detail;
+                    if (timeNum!=0)
+                    {
+                        dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.StartDate.AddMinutes(timeNum);
+                    }
                     dayView1.Refresh();
                     ReminderItem current = reminderObject.reminders.FirstOrDefault(m => m.ID == dayView1.SelectedAppointment.ID);
                     if (current != null)
                     {
                         current.comment = common;
                         current.DetailComment = detail;
+                        if (timeNum!=0)
+                        {
+                            current.tasktime = timeNum;
+                        }
                     }
                     RefreshCalender();
                 }
@@ -1824,6 +1919,10 @@ namespace DocearReminder
                 {
                     name = "错误";
                 }
+                else if (c_Money.Checked)
+                {
+                    name = "金钱";
+                }
                 else if (c_done.Checked)
                 {
                     name = "已完成";
@@ -1853,6 +1952,12 @@ namespace DocearReminder
         private void Menu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             isMenuShow = false;
+        }
+
+        private void c_Money_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+            UsedLogRenew();
         }
     }
     internal class User32

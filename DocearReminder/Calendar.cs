@@ -151,11 +151,7 @@ namespace DocearReminder
                 timeblockmm.Load(ini.ReadString("TimeBlock", "mindmap", ""));
                 foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
                 {
-                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
-                    {
-                        SearchNode(node, null);
-                    }
-                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "金钱")
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "金钱")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("金钱", global::DocearReminder.Properties.Resources.square_ok, SetMoney);
                         newMenu.BackColor = Color.Gray;
@@ -172,6 +168,10 @@ namespace DocearReminder
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("错误", global::DocearReminder.Properties.Resources.square_ok, SetMistake);
                         newMenu.BackColor = Color.Gray;
                         SearchNode_mistake(node, newMenu);
+                    }
+                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
+                    {
+                        SearchNode(node, null);
                     }
                 }
                 if (timeblockColors.Count > 0)

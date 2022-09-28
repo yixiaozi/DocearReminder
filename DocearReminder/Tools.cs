@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DocearReminder;
 using System.Web.Script.Serialization;
-using NPinyin;
 using System.Xml;
 using System.Threading;
 using System.Text.RegularExpressions;
-using System.Net;
 using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.Security;
-using yixiaozi.Net.HttpHelp;
 using yixiaozi.MyConvert;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DocearReminder
 {
@@ -629,5 +624,34 @@ namespace DocearReminder
             }
         }
         #endregion
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            ReminderItem current = DocearReminderForm.reminderObject.reminders.FirstOrDefault(m => m.name == "房租"&&m.tasktime>8000);
+            DateTime startdate = Convert.ToDateTime("2022-10-01");
+            DateTime enddate = Convert.ToDateTime("2022-12-31");
+            double dayCount = (enddate - startdate).TotalDays;
+            
+            if (current!=null)
+            {
+                int spendEveryday = Convert.ToInt32(current.tasktime / dayCount);
+                for (int i = 0; i < dayCount; i++)
+                {
+                    ReminderItem newitem = Clone(current);
+                    newitem.tasktime = spendEveryday;
+                    newitem.time = startdate.AddDays(i);
+                    DocearReminderForm.reminderObject.reminders.Add(newitem);
+                }
+            }
+            DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.name == "房租" && m.tasktime > 8000);
+        }
+        public static ReminderItem Clone(ReminderItem obj)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+            ms.Position = 0;
+            return (ReminderItem)(bf.Deserialize(ms)); ;
+        }
     }
 }

@@ -682,36 +682,11 @@ namespace DocearReminder
                 }
                 catch (Exception e)
                 { }
-                //不再对任务进行时间设置，免得出问题
-                if (ini.ReadString("appearance", "Calander15", "1") == "true" && !c_15.Checked || c_fanqie.Checked || c_timeBlock.Checked)
-                {
-                    if (item.tasktime < 5)
-                    {
-                        item.tasktime = 5;
-                    }
-                }
-                else
-                {
-                    if (item.tasktime < 15)
-                    {
-                        item.tasktime = 15;
-                    }
-                }
+                double time = item.tasktime;
+                
+                m_Appointment.taskTime = time;
+                m_Appointment.EndDate = item.time.AddMinutes(time);
 
-                m_Appointment.EndDate = item.time.AddMinutes(item.tasktime);
-                //if (logfile.Contains("fanqie"))
-                //{
-                //    DateTime dt = DateTime.Now;
-                //    if (item.comleteTime != null)
-                //    {
-                //        dt = Convert.ToDateTime(item.comleteTime);
-                //        if ((dt - item.time).TotalMinutes >= 20)
-                //        {
-                //            m_Appointment.EndDate = dt;
-                //        }
-                //        //taskname += ("(" + (dt - item.time).TotalMinutes.ToString("N0") + ")");
-                //    }
-                //}
                 if (isZhuangbi)
                 {
                     string patten = @"(\S)";

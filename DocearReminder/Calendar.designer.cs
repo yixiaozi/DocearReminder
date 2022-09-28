@@ -58,7 +58,6 @@ namespace DocearReminder
             this.c_timeBlock = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.c_fanqie = new System.Windows.Forms.CheckBox();
-            this.c_15 = new System.Windows.Forms.CheckBox();
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.c_done = new System.Windows.Forms.CheckBox();
             this.c_progress = new System.Windows.Forms.CheckBox();
@@ -341,18 +340,6 @@ namespace DocearReminder
             this.c_fanqie.UseVisualStyleBackColor = true;
             this.c_fanqie.CheckedChanged += new System.EventHandler(this.c_fanqie_CheckedChanged);
             // 
-            // c_15
-            // 
-            this.c_15.AutoSize = true;
-            this.c_15.Checked = true;
-            this.c_15.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_15.Location = new System.Drawing.Point(1260, 1);
-            this.c_15.Name = "c_15";
-            this.c_15.Size = new System.Drawing.Size(48, 16);
-            this.c_15.TabIndex = 35;
-            this.c_15.Text = "·Å´ó";
-            this.c_15.UseVisualStyleBackColor = true;
-            // 
             // toolTip2
             // 
             this.toolTip2.ShowAlways = true;
@@ -440,7 +427,6 @@ namespace DocearReminder
             this.Controls.Add(this.c_mistake);
             this.Controls.Add(this.c_progress);
             this.Controls.Add(this.c_done);
-            this.Controls.Add(this.c_15);
             this.Controls.Add(this.c_fanqie);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.c_timeBlock);
@@ -504,7 +490,6 @@ namespace DocearReminder
         private System.Windows.Forms.CheckBox c_timeBlock;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox c_fanqie;
-        private CheckBox c_15;
         private ToolTip toolTip2;
         private ToolStripMenuItem commentToolStripMenuItem;
         private CheckBox c_done;

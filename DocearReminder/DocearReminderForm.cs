@@ -8405,6 +8405,12 @@ namespace DocearReminder
                             {
                             }
                         }
+                        else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚"))
+                        {
+                            string task = searchword.Text.Replace("刚刚","");
+                            CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(),Color.GreenYellow.ToArgb().ToString(), 0,DateTime.Now, "FanQie", "");
+                            searchword.Text = "";
+                        }
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
                         {
                             searchword.Text = "";

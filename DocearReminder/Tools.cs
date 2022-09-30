@@ -653,5 +653,16 @@ namespace DocearReminder
             ms.Position = 0;
             return (ReminderItem)(bf.Deserialize(ms)); ;
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "FanQie" && m.tasktime<0))
+            {
+                if (item.comleteTime!=null)
+                {
+                    item.tasktime = (Convert.ToDateTime(item.comleteTime)- item.time).TotalMinutes;
+                }
+            }
+        }
     }
 }

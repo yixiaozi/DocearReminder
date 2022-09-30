@@ -105,7 +105,7 @@ namespace DocearReminder
             dayView1.SelectionChanged += new EventHandler(dayView1_SelectionChanged);
             //dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
             dayView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseMove);
-            timer1.Interval = 10000;
+            timer1.Interval = 60000;
             timer1.Start();
             try
             {
@@ -353,10 +353,31 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="")
+        public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="")
         {
             try
             {
+                if (tasktime==0)
+                {
+                    try
+                    {
+                        ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today&& m.time <= DateTime.Now&&(m.mindmap== "TimeBlock"|| m.mindmap == "FanQie")&&m.isCompleted==false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                        if (item != null)
+                        {
+                            taskTime = item.time.AddMinutes(item.tasktime);
+                            tasktime = (DateTime.Now - taskTime).TotalMinutes;
+                            if (tasktime<=1)
+                            {
+                                tasktime = 2;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        taskTime = DateTime.Now;
+                        tasktime = 30;
+                    }
+                }
                 reminderObject.reminders.Add(new ReminderItem
                 {
                     name = TaskName,
@@ -953,6 +974,18 @@ namespace DocearReminder
                             {
                                 numericUpDown1.Value++;
                             }
+                            if (dayView1.Focused|| (dayView1.SelectedAppointment!=null&&dayView1.SelectedAppointment.Type== "时间块"))
+                            {
+                                dayView1.SelectedAppointment.StartDate=dayView1.SelectedAppointment.StartDate.AddMinutes(-1);
+                                dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(-1);
+                                ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                                if (current != null)
+                                {
+                                    current.time = dayView1.SelectedAppointment.StartDate;
+                                    current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                                }
+                                dayView1.Refresh();
+                            }
                         }
                         break;
                     case Keys.Down:
@@ -973,12 +1006,38 @@ namespace DocearReminder
                             {
                                 numericUpDown1.Value--;
                             }
+                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            {
+                                dayView1.SelectedAppointment.StartDate = dayView1.SelectedAppointment.StartDate.AddMinutes(1);
+                                dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
+                                ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                                if (current != null)
+                                {
+                                    current.time = dayView1.SelectedAppointment.StartDate;
+                                    current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                                }
+                                dayView1.Refresh();
+                            }
                         }
                         break;
 
                     case Keys.Left:
                         if (c_lock.Checked)
                         {
+                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            {
+                                if ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes > 3)
+                                {
+                                    dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(-1);
+                                    ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                                    if (current != null)
+                                    {
+                                        current.time = dayView1.SelectedAppointment.StartDate;
+                                        current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                                    }
+                                    dayView1.Refresh();
+                                }
+                            }
                             return;
                         }
                         if (numericUpDown1.Value == 7&& dateTimePicker1.Value.DayOfWeek==DayOfWeek.Monday)
@@ -993,10 +1052,22 @@ namespace DocearReminder
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
                         }
+                        
                         break;
                     case Keys.Right:
                         if (c_lock.Checked)
                         {
+                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            {
+                                dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
+                                ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
+                                if (current != null)
+                                {
+                                    current.time = dayView1.SelectedAppointment.StartDate;
+                                    current.tasktime = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes;
+                                }
+                                dayView1.Refresh();
+                            }
                             return;
                         }
                         if (numericUpDown1.Value == 7)
@@ -1011,6 +1082,7 @@ namespace DocearReminder
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
                         }
+                        
                         break;
                     case Keys.S:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
@@ -1290,7 +1362,7 @@ namespace DocearReminder
                 }
                 if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
                 {
-                    if (dayView1.HalfHourHeight == 20)
+                    if (numericUpDown3.Value== 20)
                     {
                         return;
                     }
@@ -1311,19 +1383,19 @@ namespace DocearReminder
                 }
                 else
                 {
-                    if (dayView1.HalfHourHeight == 20)
+                    if (numericUpDown3.Value == 20)
                     {
                         dayView1.StartHour = 0;
                     }
                     if (e.Delta > 0)
                     {
-                        dayView1.HalfHourHeight += 2;
+                        numericUpDown3.Value += 2;
                     }
                     else
                     {
-                        if (dayView1.HalfHourHeight > 20)
+                        if (numericUpDown3.Value > 20)
                         {
-                            dayView1.HalfHourHeight -= 2;
+                            numericUpDown3.Value -= 2;
                         }
                     }
                 }
@@ -1333,6 +1405,7 @@ namespace DocearReminder
             {
                 dayView1.Refresh();
             }
+            
         }
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -1401,39 +1474,10 @@ namespace DocearReminder
 
         private void SetTimeBlock(object sender, EventArgs e)
         {
-
-            Appointment m_Appointment = new Appointment();
-            m_Appointment = new Appointment
-            {
-                StartDate = dayView1.SelectionStart
-            };
-            m_Appointment.EndDate = dayView1.SelectionEnd;
-            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
-            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
-            m_Appointment.ID = Guid.NewGuid().ToString();
-            m_Appointment.Type = "TimeBlock";
-            string comment = "";
-            string fanqieid = "";
-            if (dayView1.SelectedAppointment != null&&dayView1.SelectedAppointment.Type== "番茄钟")//切换颜色吧？
-            {
-                m_Appointment.StartDate = dayView1.SelectedAppointment.StartDate;
-                m_Appointment.EndDate = dayView1.SelectedAppointment.EndDate;
-                m_Appointment.Comment = dayView1.SelectedAppointment.Title;
-                comment = dayView1.SelectedAppointment.Title;
-                fanqieid = dayView1.SelectedAppointment.ID;
-                m_Appointments.Remove(dayView1.SelectedAppointment);
-            }
-            unchecked
-            {
-                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
-                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
-            }
-
-            //m_Appointment.Locked = true;
-            m_Appointments.Add(m_Appointment);
-            dayView1.Refresh();
-            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
-            SetFanQieComplete(fanqieid);
+            reminderObjectJsonAdd(((System.Windows.Forms.ToolStripItem)sender).Text, Guid.NewGuid().ToString(), ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString(), (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag,dayView1.SelectedAppointment.Title);
+            SetFanQieComplete(dayView1.SelectedAppointment.ID);
+            m_Appointments.Remove(dayView1.SelectedAppointment);
+            RefreshCalender();
         }
         private void SetProgress(object sender, EventArgs e)
         {
@@ -1545,32 +1589,44 @@ namespace DocearReminder
                         return item.Attributes["COLOR"].Value;
                     }
                 }
-                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ChildNodes)
+                if (node.ParentNode.ParentNode != null)
                 {
-                    if (item.Name == "edge")
+                    foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ChildNodes)
                     {
-                        return item.Attributes["COLOR"].Value;
+                        if (item.Name == "edge")
+                        {
+                            return item.Attributes["COLOR"].Value;
+                        }
                     }
-                }
-                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
-                {
-                    if (item.Name == "edge")
+                    if (node.ParentNode.ParentNode.ParentNode.ParentNode != null)
                     {
-                        return item.Attributes["COLOR"].Value;
-                    }
-                }
-                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
-                {
-                    if (item.Name == "edge")
-                    {
-                        return item.Attributes["COLOR"].Value;
-                    }
-                }
-                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
-                {
-                    if (item.Name == "edge")
-                    {
-                        return item.Attributes["COLOR"].Value;
+                        foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                        {
+                            if (item.Name == "edge")
+                            {
+                                return item.Attributes["COLOR"].Value;
+                            }
+                        }
+                        if (node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode != null)
+                        {
+                            foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                            {
+                                if (item.Name == "edge")
+                                {
+                                    return item.Attributes["COLOR"].Value;
+                                }
+                            }
+                            if (node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode != null)
+                            {
+                                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                                {
+                                    if (item.Name == "edge")
+                                    {
+                                        return item.Attributes["COLOR"].Value;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 return "#ffffff";
@@ -1603,7 +1659,6 @@ namespace DocearReminder
                     item.isCompleted = true;
                 }
                 m_Appointments.Remove(dayView1.SelectedAppointment);
-                dayView1.Refresh();
             }
             catch (Exception)
             {
@@ -1624,7 +1679,13 @@ namespace DocearReminder
 
         private void c_timeBlock_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshCalender();
+            if (c_timeBlock.Checked)
+            {
+                dayView1.StartHour = 0;
+                dayView1.HalfHourHeight = 20;
+                c_Money.Checked = false;
+                RefreshCalender();
+            }
             UsedLogRenew();
 
         }
@@ -1715,8 +1776,14 @@ namespace DocearReminder
         public string ToString20Lenght(string name)
         {
             string result="";
+            int maxLine = 5;
             foreach (string item in name.Split('\n'))
             {
+                maxLine--;
+                if (maxLine<0)
+                {
+                    break;
+                }
                 for (int i = 0; i < item.Length; i++)
                 {
                     if (i % 20 == 0 && i != 0)
@@ -1942,8 +2009,25 @@ namespace DocearReminder
 
         private void c_Money_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshCalender();
+            if (c_Money.Checked)
+            {
+                dayView1.StartHour = 0;
+                dayView1.HalfHourHeight = 70;
+                c_timeBlock.Checked = false;
+                RefreshCalender();
+            }
+            
             UsedLogRenew();
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            dayView1.HalfHourHeight = (int)numericUpDown3.Value;
+        }
+
+        private void Menu_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
     internal class User32

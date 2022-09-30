@@ -66,6 +66,10 @@ namespace DocearReminder
                 {
                     _fiveM = _fiveM.AddSeconds(1);
                     fanqietime.Text = _fiveM.Hour.ToString("00") + ":" + _fiveM.Minute.ToString("00") + ":" + _fiveM.Second.ToString("00");
+                    if (_fiveM.Second == 0)
+                    {
+                        addreminderlog(faneiguid);
+                    }
                 }
                 else
                 {
@@ -96,6 +100,10 @@ namespace DocearReminder
                         ISOver = true;
                     }
                     fanqietime.Text = _fiveM.Hour.ToString("00") + ":" + _fiveM.Minute.ToString("00") + ":" + _fiveM.Second.ToString("00");
+                    if ( _fiveM.Second == 0)
+                    {
+                        addreminderlog(faneiguid);
+                    }
                 }
             }
             catch (Exception ex)
@@ -185,7 +193,7 @@ namespace DocearReminder
                 if (item != null)
                 {
                     item.comleteTime = DateTime.Now;
-                    item.tasktime = (DateTime.Now - item.time.AddHours(8)).TotalMinutes;
+                    item.tasktime = (DateTime.Now - item.time).TotalMinutes;
                 }
             }
             catch (Exception)

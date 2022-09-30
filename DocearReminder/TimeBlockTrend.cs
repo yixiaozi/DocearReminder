@@ -150,9 +150,9 @@ namespace DocearReminder
                     string time = (ritem.time.ToString("MM-dd HH:mm") + ">" + ritem.time.AddMinutes(ritem.tasktime).ToShortTimeString());
                     if (Type.Text == "金钱")
                     {
-                        time = ritem.tasktime + "元";
+                        time = ritem.time.ToString("MM-dd") +" "+ ritem.tasktime + "元 ";
                     }
-                    richTextBox1.Text += (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "(" : "") + ritem.DetailComment+ (ritem.DetailComment!= "" ? ")" : "") + Environment.NewLine);
+                    richTextBox1.Text += (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "(" : "") + ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") + (ritem.DetailComment!= "" && ritem.DetailComment != null ? ")" : "") + Environment.NewLine);
                 }
                 //valueList.Add(minute/60);
                 daysList.Add(item.Key);

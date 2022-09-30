@@ -65,11 +65,13 @@ namespace DocearReminder
             this.c_lock = new System.Windows.Forms.CheckBox();
             this.isview_c = new System.Windows.Forms.CheckBox();
             this.c_Money = new System.Windows.Forms.CheckBox();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             this.SuspendLayout();
             // 
             // dayView1
@@ -91,7 +93,7 @@ namespace DocearReminder
             this.dayView1.Name = "dayView1";
             this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
             this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1324, 1000);
+            this.dayView1.Size = new System.Drawing.Size(1324, 862);
             this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
             this.dayView1.StartHour = 0;
             this.dayView1.TabIndex = 0;
@@ -119,35 +121,36 @@ namespace DocearReminder
             this.打开导图ToolStripMenuItem,
             this.番茄钟ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(133, 92);
+            this.Menu.Size = new System.Drawing.Size(181, 114);
             this.Menu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Menu_Closed);
+            this.Menu.Opening += new System.ComponentModel.CancelEventHandler(this.Menu_Opening);
             this.Menu.Opened += new System.EventHandler(this.Menu_Opened);
             // 
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // commentToolStripMenuItem
             // 
             this.commentToolStripMenuItem.Name = "commentToolStripMenuItem";
-            this.commentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.commentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.commentToolStripMenuItem.Text = "Comment";
             this.commentToolStripMenuItem.Click += new System.EventHandler(this.commentToolStripMenuItem_Click);
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
             // 番茄钟ToolStripMenuItem
             // 
             this.番茄钟ToolStripMenuItem.Name = "番茄钟ToolStripMenuItem";
-            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.番茄钟ToolStripMenuItem.Text = "番茄钟";
             this.番茄钟ToolStripMenuItem.Click += new System.EventHandler(this.番茄钟ToolStripMenuItem_Click);
             // 
@@ -161,7 +164,7 @@ namespace DocearReminder
             this.panel1.Location = new System.Drawing.Point(0, 21);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1324, 1000);
+            this.panel1.Size = new System.Drawing.Size(1324, 862);
             this.panel1.TabIndex = 1;
             // 
             // dateTimePicker1
@@ -198,7 +201,7 @@ namespace DocearReminder
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(570, 0);
+            this.button1.Location = new System.Drawing.Point(632, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(61, 21);
             this.button1.TabIndex = 23;
@@ -212,7 +215,7 @@ namespace DocearReminder
             // 
             // 截图
             // 
-            this.截图.Location = new System.Drawing.Point(637, 0);
+            this.截图.Location = new System.Drawing.Point(699, 0);
             this.截图.Name = "截图";
             this.截图.Size = new System.Drawing.Size(65, 21);
             this.截图.TabIndex = 24;
@@ -242,7 +245,7 @@ namespace DocearReminder
             this.workfolder_combox.FormattingEnabled = true;
             this.workfolder_combox.Items.AddRange(new object[] {
             "rootPath"});
-            this.workfolder_combox.Location = new System.Drawing.Point(269, 0);
+            this.workfolder_combox.Location = new System.Drawing.Point(331, 0);
             this.workfolder_combox.Name = "workfolder_combox";
             this.workfolder_combox.Size = new System.Drawing.Size(76, 20);
             this.workfolder_combox.TabIndex = 26;
@@ -251,7 +254,7 @@ namespace DocearReminder
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(445, 0);
+            this.textBox_searchwork.Location = new System.Drawing.Point(507, 0);
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(119, 21);
             this.textBox_searchwork.TabIndex = 28;
@@ -289,7 +292,7 @@ namespace DocearReminder
             "记录",
             "记忆",
             "所有"});
-            this.comboBox1.Location = new System.Drawing.Point(348, 0);
+            this.comboBox1.Location = new System.Drawing.Point(410, 0);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(91, 20);
             this.comboBox1.TabIndex = 30;
@@ -298,7 +301,7 @@ namespace DocearReminder
             // 
             // lockButton
             // 
-            this.lockButton.Location = new System.Drawing.Point(708, 0);
+            this.lockButton.Location = new System.Drawing.Point(770, 0);
             this.lockButton.Name = "lockButton";
             this.lockButton.Size = new System.Drawing.Size(52, 21);
             this.lockButton.TabIndex = 31;
@@ -311,7 +314,7 @@ namespace DocearReminder
             this.c_timeBlock.AutoSize = true;
             this.c_timeBlock.Checked = true;
             this.c_timeBlock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_timeBlock.Location = new System.Drawing.Point(826, 3);
+            this.c_timeBlock.Location = new System.Drawing.Point(888, 3);
             this.c_timeBlock.Name = "c_timeBlock";
             this.c_timeBlock.Size = new System.Drawing.Size(60, 16);
             this.c_timeBlock.TabIndex = 32;
@@ -321,7 +324,7 @@ namespace DocearReminder
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(765, 0);
+            this.button2.Location = new System.Drawing.Point(827, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(53, 23);
             this.button2.TabIndex = 33;
@@ -332,7 +335,9 @@ namespace DocearReminder
             // c_fanqie
             // 
             this.c_fanqie.AutoSize = true;
-            this.c_fanqie.Location = new System.Drawing.Point(885, 3);
+            this.c_fanqie.Checked = true;
+            this.c_fanqie.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.c_fanqie.Location = new System.Drawing.Point(947, 3);
             this.c_fanqie.Name = "c_fanqie";
             this.c_fanqie.Size = new System.Drawing.Size(48, 16);
             this.c_fanqie.TabIndex = 34;
@@ -348,7 +353,7 @@ namespace DocearReminder
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(1128, 3);
+            this.c_done.Location = new System.Drawing.Point(1190, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
@@ -359,7 +364,7 @@ namespace DocearReminder
             // c_progress
             // 
             this.c_progress.AutoSize = true;
-            this.c_progress.Location = new System.Drawing.Point(939, 2);
+            this.c_progress.Location = new System.Drawing.Point(1001, 2);
             this.c_progress.Name = "c_progress";
             this.c_progress.Size = new System.Drawing.Size(48, 16);
             this.c_progress.TabIndex = 1;
@@ -370,7 +375,7 @@ namespace DocearReminder
             // c_mistake
             // 
             this.c_mistake.AutoSize = true;
-            this.c_mistake.Location = new System.Drawing.Point(993, 2);
+            this.c_mistake.Location = new System.Drawing.Point(1055, 2);
             this.c_mistake.Name = "c_mistake";
             this.c_mistake.Size = new System.Drawing.Size(48, 16);
             this.c_mistake.TabIndex = 1;
@@ -383,7 +388,7 @@ namespace DocearReminder
             this.c_lock.AutoSize = true;
             this.c_lock.Checked = true;
             this.c_lock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_lock.Location = new System.Drawing.Point(222, 3);
+            this.c_lock.Location = new System.Drawing.Point(284, 3);
             this.c_lock.Name = "c_lock";
             this.c_lock.Size = new System.Drawing.Size(48, 16);
             this.c_lock.TabIndex = 1;
@@ -395,7 +400,7 @@ namespace DocearReminder
             this.isview_c.AutoSize = true;
             this.isview_c.Checked = true;
             this.isview_c.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isview_c.Location = new System.Drawing.Point(1194, 2);
+            this.isview_c.Location = new System.Drawing.Point(1256, 2);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);
             this.isview_c.TabIndex = 36;
@@ -406,7 +411,7 @@ namespace DocearReminder
             // c_Money
             // 
             this.c_Money.AutoSize = true;
-            this.c_Money.Location = new System.Drawing.Point(1056, 3);
+            this.c_Money.Location = new System.Drawing.Point(1118, 3);
             this.c_Money.Name = "c_Money";
             this.c_Money.Size = new System.Drawing.Size(48, 16);
             this.c_Money.TabIndex = 1;
@@ -414,13 +419,37 @@ namespace DocearReminder
             this.c_Money.UseVisualStyleBackColor = true;
             this.c_Money.CheckedChanged += new System.EventHandler(this.c_Money_CheckedChanged);
             // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Location = new System.Drawing.Point(234, 2);
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(31, 21);
+            this.numericUpDown3.TabIndex = 37;
+            this.numericUpDown3.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1320, 961);
+            this.ClientSize = new System.Drawing.Size(1320, 823);
+            this.Controls.Add(this.numericUpDown3);
             this.Controls.Add(this.c_Money);
             this.Controls.Add(this.isview_c);
             this.Controls.Add(this.c_lock);
@@ -461,6 +490,7 @@ namespace DocearReminder
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericOpacity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,6 +529,7 @@ namespace DocearReminder
         private ToolStripMenuItem 番茄钟ToolStripMenuItem;
         private CheckBox isview_c;
         private CheckBox c_Money;
+        private NumericUpDown numericUpDown3;
     }
 }
 

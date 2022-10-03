@@ -39,6 +39,7 @@ using Todoist.Net.Models;
 using DayOfWeek = System.DayOfWeek;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using System.Reflection;
+using NAudio.Wave;
 
 namespace DocearReminder
 {
@@ -96,7 +97,8 @@ namespace DocearReminder
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
         public static List<string> AddTaskWithDate = new List<string>();
-        
+        RecordController record = new RecordController();
+
         public static Color BackGroundColor = Color.White;
         bool isRefreshMindmap = false;
         public List<MyListBoxItemRemind> reminderboxList = new List<MyListBoxItemRemind>();
@@ -15093,6 +15095,19 @@ namespace DocearReminder
             MyHide();
             return;
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio");
+                record.StartRecord((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".wav").Replace(@"\\", @"\"));
+            }
+            else
+            {
+                record.StopRecord();
+            }
+        }
     }
 
     class MoveOverInfoTip
@@ -15239,5 +15254,46 @@ public static class Extensions
     public static XElement ToXELement(this XmlNode source)
     {
         return XElement.Parse(source.OuterXml);
+    }
+}
+public class RecordController
+{
+    public WaveIn mWavIn;
+    public WaveFileWriter mWavWriter;
+    /// <summary>
+    /// 开始录音
+    /// </summary>
+    /// <param name="filePath"></param>
+    public void StartRecord(string filePath)
+    {
+        mWavIn = new WaveIn();
+        mWavIn.DataAvailable += MWavIn_DataAvailable;
+        // mWavIn.RecordingStopped += MWavIn_RecordingStopped; 有冲突
+        mWavWriter = new WaveFileWriter(filePath, mWavIn.WaveFormat);
+        mWavIn.StartRecording();
+    }
+    /// <summary>
+    /// 停止录音
+    /// </summary>
+    public void StopRecord()
+    {
+        mWavIn?.StopRecording();
+        mWavIn?.Dispose();
+        mWavIn = null;
+        mWavWriter?.Close();
+        mWavWriter = null;
+    }
+    //这个方法在调用关闭时会有冲突
+    private void MWavIn_RecordingStopped(object sender, StoppedEventArgs e)
+    {
+        //mWavIn?.Dispose();
+        //mWavIn = null;
+        //mWavWriter?.Close();
+        //mWavWriter = null;
+    }
+    private void MWavIn_DataAvailable(object sender, WaveInEventArgs e)
+    {
+        mWavWriter.Write(e.Buffer, 0, e.BytesRecorded);
+        int secondsRecorded = (int)mWavWriter.Length / mWavWriter.WaveFormat.AverageBytesPerSecond;
     }
 }

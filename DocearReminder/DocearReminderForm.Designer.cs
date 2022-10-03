@@ -147,6 +147,7 @@ namespace DocearReminder
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1478,6 +1479,18 @@ namespace DocearReminder
             this.mindmaplist.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
             this.mindmaplist.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.checkBox1.Location = new System.Drawing.Point(1027, 51);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(13, 12);
+            this.checkBox1.TabIndex = 129;
+            this.checkBox1.TabStop = false;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1485,6 +1498,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
             this.Controls.Add(this.c_endtime);
@@ -1713,6 +1727,7 @@ namespace DocearReminder
         private MyRichTextBox hopeNote;
         private Timer keyJ;
         private ToolStripMenuItem 趋势ToolStripMenuItem;
+        private CheckBox checkBox1;
     }
 }
 

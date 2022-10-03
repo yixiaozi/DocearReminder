@@ -21,6 +21,8 @@ using static DocearReminder.DocearReminderForm;
 using yixiaozi.WinForm.Common;
 using yixiaozi.Windows;
 using yixiaozi.Security;
+using NAudio.Wave;
+
 namespace DocearReminder
 {
     public partial class CalendarForm : Form
@@ -2065,7 +2067,7 @@ namespace DocearReminder
             if (c_Money.Checked)
             {
                 dayView1.StartHour = 0;
-                dayView1.HalfHourHeight = 70;
+                dayView1.HalfHourHeight = 65;
                 c_timeBlock.Checked = false;
                 RefreshCalender();
             }

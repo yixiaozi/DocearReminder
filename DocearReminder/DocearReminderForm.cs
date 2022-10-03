@@ -12717,6 +12717,27 @@ namespace DocearReminder
             }
             return false;
         }
+        public static bool MyContains(string str, string arr)
+        {
+            if (arr==null||arr=="")
+            {
+                return true;
+            }
+            string[] arrr = arr.Replace("  "," ").Split(' ');
+            if (str == null || str == "" || arrr.Length == 0)
+            {
+                return true;
+            }
+            str = str.ToLower();
+            foreach (string item in arrr)
+            {
+                if (str.ToLower().Contains(item.ToLower().Trim()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public bool StringHasArrALL(string str, string[] arr)
         {
             if (str == null || str == "" || arr.Length == 0)

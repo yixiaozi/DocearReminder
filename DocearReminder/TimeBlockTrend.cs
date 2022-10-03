@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using yixiaozi.Model.DocearReminder;
-
+using static DocearReminder.DocearReminderForm;
 namespace DocearReminder
 {
     public partial class TimeBlockTrend : Form
@@ -73,13 +73,24 @@ namespace DocearReminder
             {
                 if (item.mindmap == type && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
                 {
-                    if (searchword.Text != "")
+                    if (textBox_searchwork.Text != "" || exclude.Text != "")
                     {
                         try//过滤字符串
                         {
-                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" &&item.comment.Contains(searchword.Text)) && !(item.DetailComment != null && item.DetailComment != "" && item.DetailComment.Contains(searchword.Text)))
+                            if (textBox_searchwork.Text != "")
                             {
-                                continue;
+                                if (!(MyContains(item.name, textBox_searchwork.Text)) && !(MyContains(item.mindmapPath, textBox_searchwork.Text)) && !(MyContains(item.nameFull, textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && MyContains(item.comment, textBox_searchwork.Text)) && !(item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, textBox_searchwork.Text)))
+                                {
+                                    continue;
+                                }
+                            }
+                            if (exclude.Text != "")
+                            {
+                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (item.comment != null && item.comment != "" && MyContains(item.comment, exclude.Text)) || (item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, exclude.Text)))
+
+                                {
+                                    continue;
+                                }
                             }
                         }
                         catch (Exception)
@@ -110,6 +121,7 @@ namespace DocearReminder
             }
             List<double> valueList = new List<double>();
             List<double> daysList = new List<double>();
+            List<int> countList = new List<int>();
             double all =0;
             int totalDayhasValue = 0;
 
@@ -121,8 +133,10 @@ namespace DocearReminder
             foreach (IGrouping<double,ReminderItem> item in reuslt.OrderBy(m => m.time).GroupBy(m => Convert.ToDateTime(m.time.ToString("yyyy-MM-dd")).ToOADate()))
             {
                 double minute = 0;
+                int count = 0;
                 foreach (ReminderItem ritem in item)
                 {
+                    count++;
                     minute += ritem.tasktime;
                     totalCountValue++;
                     if (ritem.comment!=null&&ritem.comment!="")
@@ -154,6 +168,7 @@ namespace DocearReminder
                     }
                     richTextBox1.Text += (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "(" : "") + ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") + (ritem.DetailComment!= "" && ritem.DetailComment != null ? ")" : "") + Environment.NewLine);
                 }
+                countList.Add(count);
                 //valueList.Add(minute/60);
                 daysList.Add(item.Key);
                 if (Type.Text == "金钱")
@@ -225,8 +240,13 @@ namespace DocearReminder
             RemarkDetailCount.Text = ((float)remarksDetailsWordsCount / remarksDetails).ToString("F") + "字";//详细每天平均次数（记录时间）
 
             MaxDays.Text = maxDays + "天";
-            PerMaxDays.Text = ((float)maxDays / maxList.Count).ToString("F") + "天";
             
+            PerMaxDays.Text = ((float)maxDays / maxList.Count).ToString("F") + "天";
+
+            mosthour.Text = valueList.OrderByDescending(m=>m).First() + "小时";
+            mostcount.Text= countList.OrderByDescending(m => m).First() + "次";
+
+
             plt.XAxis.TickLabelFormat("M\\/dd", dateTimeFormat: true);
   
             plt.Legend();
@@ -247,7 +267,7 @@ namespace DocearReminder
 
         private void searchword_TextChanged(object sender, EventArgs e)
         {
-            LoadChart();
+            
         }
 
         private void startDt_ValueChanged(object sender, EventArgs e)
@@ -278,6 +298,24 @@ namespace DocearReminder
         private void Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadChart();
+        }
+
+        private void textBox_searchwork_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    LoadChart();
+                    break;
+                case Keys.Shift:
+                    break;
+                case Keys.Control:
+                    break;
+                case Keys.Alt:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

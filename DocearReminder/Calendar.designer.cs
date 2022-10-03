@@ -66,6 +66,7 @@ namespace DocearReminder
             this.isview_c = new System.Windows.Forms.CheckBox();
             this.c_Money = new System.Windows.Forms.CheckBox();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.exclude = new System.Windows.Forms.TextBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -121,7 +122,7 @@ namespace DocearReminder
             this.打开导图ToolStripMenuItem,
             this.番茄钟ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(181, 114);
+            this.Menu.Size = new System.Drawing.Size(133, 92);
             this.Menu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Menu_Closed);
             this.Menu.Opening += new System.ComponentModel.CancelEventHandler(this.Menu_Opening);
             this.Menu.Opened += new System.EventHandler(this.Menu_Opened);
@@ -129,28 +130,28 @@ namespace DocearReminder
             // 完成ToolStripMenuItem
             // 
             this.完成ToolStripMenuItem.Name = "完成ToolStripMenuItem";
-            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.完成ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.完成ToolStripMenuItem.Text = "完成";
             this.完成ToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // commentToolStripMenuItem
             // 
             this.commentToolStripMenuItem.Name = "commentToolStripMenuItem";
-            this.commentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.commentToolStripMenuItem.Text = "Comment";
             this.commentToolStripMenuItem.Click += new System.EventHandler(this.commentToolStripMenuItem_Click);
             // 
             // 打开导图ToolStripMenuItem
             // 
             this.打开导图ToolStripMenuItem.Name = "打开导图ToolStripMenuItem";
-            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开导图ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.打开导图ToolStripMenuItem.Text = "打开导图";
             this.打开导图ToolStripMenuItem.Click += new System.EventHandler(this.打开导图ToolStripMenuItem_Click);
             // 
             // 番茄钟ToolStripMenuItem
             // 
             this.番茄钟ToolStripMenuItem.Name = "番茄钟ToolStripMenuItem";
-            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.番茄钟ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.番茄钟ToolStripMenuItem.Text = "番茄钟";
             this.番茄钟ToolStripMenuItem.Click += new System.EventHandler(this.番茄钟ToolStripMenuItem_Click);
             // 
@@ -201,7 +202,7 @@ namespace DocearReminder
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(632, 0);
+            this.button1.Location = new System.Drawing.Point(644, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(61, 21);
             this.button1.TabIndex = 23;
@@ -215,7 +216,7 @@ namespace DocearReminder
             // 
             // 截图
             // 
-            this.截图.Location = new System.Drawing.Point(699, 0);
+            this.截图.Location = new System.Drawing.Point(708, 0);
             this.截图.Name = "截图";
             this.截图.Size = new System.Drawing.Size(65, 21);
             this.截图.TabIndex = 24;
@@ -254,10 +255,11 @@ namespace DocearReminder
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(507, 0);
+            this.textBox_searchwork.Location = new System.Drawing.Point(484, 0);
             this.textBox_searchwork.Name = "textBox_searchwork";
-            this.textBox_searchwork.Size = new System.Drawing.Size(119, 21);
+            this.textBox_searchwork.Size = new System.Drawing.Size(75, 21);
             this.textBox_searchwork.TabIndex = 28;
+            this.textBox_searchwork.TextChanged += new System.EventHandler(this.textBox_searchwork_TextChanged);
             this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
             // 
             // numericOpacity
@@ -294,14 +296,14 @@ namespace DocearReminder
             "所有"});
             this.comboBox1.Location = new System.Drawing.Point(410, 0);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(91, 20);
+            this.comboBox1.Size = new System.Drawing.Size(68, 20);
             this.comboBox1.TabIndex = 30;
             this.comboBox1.Text = "任务";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_2);
             // 
             // lockButton
             // 
-            this.lockButton.Location = new System.Drawing.Point(770, 0);
+            this.lockButton.Location = new System.Drawing.Point(775, 0);
             this.lockButton.Name = "lockButton";
             this.lockButton.Size = new System.Drawing.Size(52, 21);
             this.lockButton.TabIndex = 31;
@@ -442,6 +444,15 @@ namespace DocearReminder
             0});
             this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
+            // exclude
+            // 
+            this.exclude.Location = new System.Drawing.Point(564, 0);
+            this.exclude.Name = "exclude";
+            this.exclude.Size = new System.Drawing.Size(75, 21);
+            this.exclude.TabIndex = 38;
+            this.exclude.TextChanged += new System.EventHandler(this.exclude_TextChanged);
+            this.exclude.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -449,6 +460,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1320, 823);
+            this.Controls.Add(this.exclude);
             this.Controls.Add(this.numericUpDown3);
             this.Controls.Add(this.c_Money);
             this.Controls.Add(this.isview_c);
@@ -530,6 +542,7 @@ namespace DocearReminder
         private CheckBox isview_c;
         private CheckBox c_Money;
         private NumericUpDown numericUpDown3;
+        private TextBox exclude;
     }
 }
 

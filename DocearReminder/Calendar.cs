@@ -361,7 +361,7 @@ namespace DocearReminder
                 {
                     try
                     {
-                        ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today&& m.time <= DateTime.Now&&(m.mindmap== "TimeBlock"|| m.mindmap == "FanQie")&&m.isCompleted==false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                        ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today&& m.time <= DateTime.Now&&(m.mindmap== "TimeBlock"|| (m.mindmap == "FanQie"&&m.name.Length!= 5))&& m.isCompleted==false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
                         if (item != null)
                         {
                             taskTime = item.time.AddMinutes(item.tasktime);
@@ -671,15 +671,26 @@ namespace DocearReminder
             IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (m.time>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&(!m.isview||(isview_c.Checked&& m.isview))&&!m.isCompleted));
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
-                items = items.Where(m => !hasinworkfolder(m.mindmapPath));
+                items = items.Where(m => m.mindmap == "FanQie"||!hasinworkfolder(m.mindmapPath));
             }
             foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
             {
                 try//过滤字符串
                 {
-                    if (!(item.name.Contains(textBox_searchwork.Text))&&!(item.mindmapPath.Contains(textBox_searchwork.Text)) && !(item.nameFull.Contains(textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(textBox_searchwork.Text)))
+                    if (textBox_searchwork.Text!="")
                     {
-                        continue;
+                        if (!(MyContains(item.name, textBox_searchwork.Text)) && !(MyContains(item.mindmapPath, textBox_searchwork.Text)) && !(MyContains(item.nameFull, textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && MyContains(item.comment, textBox_searchwork.Text)) && !(item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, textBox_searchwork.Text)))
+                        {
+                            continue;
+                        }
+                    }
+                    if (exclude.Text!="")
+                    {
+                        if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (item.comment != null && item.comment != "" && MyContains(item.comment, exclude.Text)) || (item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, exclude.Text)))
+
+                        {
+                            continue;
+                        }
                     }
                 }
                 catch (Exception)
@@ -765,10 +776,10 @@ namespace DocearReminder
 
                             m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                             m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                            //if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
-                            //{
-                            //    m_Appointment.Locked = true;
-                            //}
+                            if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
+                            {
+                                m_Appointment.Locked = true;
+                            }
                         }
                         catch (Exception)
                         {
@@ -834,6 +845,7 @@ namespace DocearReminder
                 {
                     case "FanQie":
                         m_Appointment.Type = "番茄钟";
+                        m_Appointment.Locked = true;
                         break;
                     case "TimeBlock":
                         m_Appointment.Type = "时间块";
@@ -1474,9 +1486,50 @@ namespace DocearReminder
 
         private void SetTimeBlock(object sender, EventArgs e)
         {
-            reminderObjectJsonAdd(((System.Windows.Forms.ToolStripItem)sender).Text, Guid.NewGuid().ToString(), ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString(), (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag,dayView1.SelectedAppointment.Title);
-            SetFanQieComplete(dayView1.SelectedAppointment.ID);
-            m_Appointments.Remove(dayView1.SelectedAppointment);
+
+
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart
+            };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            m_Appointment.Type = "TimeBlock";
+            string comment = "";
+            string fanqieid = "";
+            if (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "番茄钟")
+            {
+                m_Appointment.StartDate = dayView1.SelectedAppointment.StartDate;
+                m_Appointment.EndDate = dayView1.SelectedAppointment.EndDate;
+                m_Appointment.Comment = dayView1.SelectedAppointment.Title;
+                comment = dayView1.SelectedAppointment.Title;
+                fanqieid = dayView1.SelectedAppointment.ID;
+                m_Appointments.Remove(dayView1.SelectedAppointment);
+            }
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+            }
+
+            //m_Appointment.Locked = true;
+            m_Appointments.Add(m_Appointment);
+            //dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+            SetFanQieComplete(fanqieid);
+
+
+
+
+
+
+
+            //reminderObjectJsonAdd(((System.Windows.Forms.ToolStripItem)sender).Text, Guid.NewGuid().ToString(), ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString(), (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag,dayView1.SelectedAppointment.Title);
+            //SetFanQieComplete(dayView1.SelectedAppointment.ID);
+            //m_Appointments.Remove(dayView1.SelectedAppointment);
             RefreshCalender();
         }
         private void SetProgress(object sender, EventArgs e)
@@ -2026,6 +2079,16 @@ namespace DocearReminder
         }
 
         private void Menu_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void exclude_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox_searchwork_TextChanged(object sender, EventArgs e)
         {
 
         }

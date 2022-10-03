@@ -33,15 +33,15 @@ namespace DocearReminder
             this.formsPlot1 = new ScottPlot.FormsPlot();
             this.startDt = new System.Windows.Forms.DateTimePicker();
             this.endDT = new System.Windows.Forms.DateTimePicker();
-            this.searchword = new System.Windows.Forms.TextBox();
+            this.textBox_searchwork = new System.Windows.Forms.TextBox();
             this.SearchBtn = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label43 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
+            this.mostcount = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
+            this.mosthour = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.RemarkDetailCount = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
@@ -81,6 +81,7 @@ namespace DocearReminder
             this.label26 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Type = new System.Windows.Forms.ComboBox();
+            this.exclude = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +98,7 @@ namespace DocearReminder
             this.startDt.Name = "startDt";
             this.startDt.Size = new System.Drawing.Size(172, 21);
             this.startDt.TabIndex = 1;
-            this.startDt.Value = DateTime.Today.AddDays(-7);
+            this.startDt.Value = new System.DateTime(2022, 9, 23, 0, 0, 0, 0);
             this.startDt.ValueChanged += new System.EventHandler(this.startDt_ValueChanged);
             // 
             // endDT
@@ -106,16 +107,17 @@ namespace DocearReminder
             this.endDT.Name = "endDT";
             this.endDT.Size = new System.Drawing.Size(181, 21);
             this.endDT.TabIndex = 2;
-            this.endDT.Value = DateTime.Today.AddDays(1);
+            this.endDT.Value = new System.DateTime(2022, 10, 1, 0, 0, 0, 0);
             this.endDT.ValueChanged += new System.EventHandler(this.endDT_ValueChanged);
             // 
-            // searchword
+            // textBox_searchwork
             // 
-            this.searchword.Location = new System.Drawing.Point(705, 13);
-            this.searchword.Name = "searchword";
-            this.searchword.Size = new System.Drawing.Size(233, 21);
-            this.searchword.TabIndex = 3;
-            this.searchword.TextChanged += new System.EventHandler(this.searchword_TextChanged);
+            this.textBox_searchwork.Location = new System.Drawing.Point(705, 13);
+            this.textBox_searchwork.Name = "textBox_searchwork";
+            this.textBox_searchwork.Size = new System.Drawing.Size(138, 21);
+            this.textBox_searchwork.TabIndex = 3;
+            this.textBox_searchwork.TextChanged += new System.EventHandler(this.searchword_TextChanged);
+            this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
             // 
             // SearchBtn
             // 
@@ -171,9 +173,9 @@ namespace DocearReminder
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.21622F));
             this.tableLayoutPanel1.Controls.Add(this.label43, 5, 6);
             this.tableLayoutPanel1.Controls.Add(this.label42, 4, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label41, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.mostcount, 3, 6);
             this.tableLayoutPanel1.Controls.Add(this.label40, 2, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label39, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.mosthour, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.label38, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.RemarkDetailCount, 5, 5);
             this.tableLayoutPanel1.Controls.Add(this.label36, 4, 5);
@@ -246,45 +248,45 @@ namespace DocearReminder
             this.label42.TabIndex = 40;
             this.label42.Text = "                    ";
             // 
-            // label41
+            // mostcount
             // 
-            this.label41.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(499, 120);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(125, 12);
-            this.label41.TabIndex = 39;
-            this.label41.Text = "                    ";
+            this.mostcount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.mostcount.AutoSize = true;
+            this.mostcount.Location = new System.Drawing.Point(499, 120);
+            this.mostcount.Name = "mostcount";
+            this.mostcount.Size = new System.Drawing.Size(125, 12);
+            this.mostcount.TabIndex = 39;
+            this.mostcount.Text = "                    ";
             // 
             // label40
             // 
             this.label40.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(367, 120);
+            this.label40.Location = new System.Drawing.Point(427, 120);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(125, 12);
+            this.label40.Size = new System.Drawing.Size(65, 12);
             this.label40.TabIndex = 38;
-            this.label40.Text = "                    ";
+            this.label40.Text = "最多次数：";
             // 
-            // label39
+            // mosthour
             // 
-            this.label39.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(171, 120);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(125, 12);
-            this.label39.TabIndex = 37;
-            this.label39.Text = "                    ";
+            this.mosthour.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.mosthour.AutoSize = true;
+            this.mosthour.Location = new System.Drawing.Point(171, 120);
+            this.mosthour.Name = "mosthour";
+            this.mosthour.Size = new System.Drawing.Size(125, 12);
+            this.mosthour.TabIndex = 37;
+            this.mosthour.Text = "                    ";
             // 
             // label38
             // 
             this.label38.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(39, 120);
+            this.label38.Location = new System.Drawing.Point(105, 120);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(125, 12);
+            this.label38.Size = new System.Drawing.Size(59, 12);
             this.label38.TabIndex = 36;
-            this.label38.Text = "                    ";
+            this.label38.Text = "最多时长:";
             // 
             // RemarkDetailCount
             // 
@@ -671,17 +673,27 @@ namespace DocearReminder
             this.Type.Text = "时间块";
             this.Type.SelectedIndexChanged += new System.EventHandler(this.Type_SelectedIndexChanged);
             // 
+            // exclude
+            // 
+            this.exclude.Location = new System.Drawing.Point(849, 13);
+            this.exclude.Name = "exclude";
+            this.exclude.Size = new System.Drawing.Size(89, 21);
+            this.exclude.TabIndex = 19;
+            this.exclude.TextChanged += new System.EventHandler(this.searchword_TextChanged);
+            this.exclude.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
+            // 
             // TimeBlockTrend
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1666, 621);
+            this.Controls.Add(this.exclude);
             this.Controls.Add(this.Type);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.SearchBtn);
-            this.Controls.Add(this.searchword);
+            this.Controls.Add(this.textBox_searchwork);
             this.Controls.Add(this.endDT);
             this.Controls.Add(this.startDt);
             this.Controls.Add(this.formsPlot1);
@@ -699,16 +711,16 @@ namespace DocearReminder
         private ScottPlot.FormsPlot formsPlot1;
         private System.Windows.Forms.DateTimePicker startDt;
         private System.Windows.Forms.DateTimePicker endDT;
-        private System.Windows.Forms.TextBox searchword;
+        private System.Windows.Forms.TextBox textBox_searchwork;
         private System.Windows.Forms.Button SearchBtn;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label mostcount;
         private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label mosthour;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label RemarkDetailCount;
         private System.Windows.Forms.Label label36;
@@ -747,5 +759,6 @@ namespace DocearReminder
         private System.Windows.Forms.Label totalTime;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox Type;
+        private System.Windows.Forms.TextBox exclude;
     }
 }

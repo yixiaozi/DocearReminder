@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.WinForm.Common;
+using static DocearReminder.DocearReminderForm;
 
 namespace DocearReminder
 {
@@ -133,13 +134,24 @@ namespace DocearReminder
             {
                 if (item.mindmap == "TimeBlock" && item.time.Date >= startDt.Value && item.time.Date <= endDT.Value)
                 {
-                    if (searchword.Text != "")
+                    if (textBox_searchwork.Text != ""|| exclude.Text != "")
                     {
                         try//过滤字符串
                         {
-                            if (!(item.name.Contains(searchword.Text)) && !(item.mindmapPath.Contains(searchword.Text)) && !(item.nameFull.Contains(searchword.Text)) && !(item.comment != null && item.comment != "" && item.comment.Contains(searchword.Text)))
+                            if (textBox_searchwork.Text != "")
                             {
-                                continue;
+                                if (!(MyContains(item.name, textBox_searchwork.Text)) && !(MyContains(item.mindmapPath, textBox_searchwork.Text)) && !(MyContains(item.nameFull, textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && MyContains(item.comment, textBox_searchwork.Text)) && !(item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, textBox_searchwork.Text)))
+                                {
+                                    continue;
+                                }
+                            }
+                            if (exclude.Text != "")
+                            {
+                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (item.comment != null && item.comment != "" && MyContains(item.comment, exclude.Text)) || (item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, exclude.Text)))
+
+                                {
+                                    continue;
+                                }
                             }
                         }
                         catch (Exception)
@@ -222,7 +234,6 @@ namespace DocearReminder
 
         private void searchword_TextChanged(object sender, EventArgs e)
         {
-            LoadChart();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -278,7 +289,7 @@ namespace DocearReminder
                 //报表 - 键盘
                 //报表 - 使用记录
                 //所有
-                DocearReminderForm.usedTimer.NewOneTime(currentUsedTimerId, comboBox1.SelectedItem.ToString(), searchword.Text, "", "报表-时间块");
+                DocearReminderForm.usedTimer.NewOneTime(currentUsedTimerId, comboBox1.SelectedItem.ToString(), textBox_searchwork.Text, "", "报表-时间块");
             }
         }
         private void SaveUsedTimerFile(UsedTimer data)
@@ -296,5 +307,27 @@ namespace DocearReminder
         }
         #endregion
 
+        private void exclude_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox_searchwork_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    LoadChart();
+                    break;
+                case Keys.Shift:
+                    break;
+                case Keys.Control:
+                    break;
+                case Keys.Alt:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -12728,7 +12728,7 @@ namespace DocearReminder
             string[] arrr = arr.Replace("  "," ").Split(' ');
             if (str == null || str == "" || arrr.Length == 0)
             {
-                return true;
+                return false;
             }
             str = str.ToLower();
             foreach (string item in arrr)

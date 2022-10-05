@@ -138,16 +138,24 @@ namespace DocearReminder
                     {
                         try//过滤字符串
                         {
+                            if (item.comment == null)
+                            {
+                                item.comment = "";
+                            }
+                            if (item.DetailComment == null)
+                            {
+                                item.DetailComment = "";
+                            }
                             if (textBox_searchwork.Text != "")
                             {
-                                if (!(MyContains(item.name, textBox_searchwork.Text)) && !(MyContains(item.mindmapPath, textBox_searchwork.Text)) && !(MyContains(item.nameFull, textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && MyContains(item.comment, textBox_searchwork.Text)) && !(item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, textBox_searchwork.Text)))
+                                if (!(MyContains(item.name, textBox_searchwork.Text) || MyContains(item.mindmapPath, textBox_searchwork.Text) || MyContains(item.nameFull, textBox_searchwork.Text) || MyContains(item.comment, textBox_searchwork.Text) || MyContains(item.DetailComment, textBox_searchwork.Text)))
                                 {
                                     continue;
                                 }
                             }
                             if (exclude.Text != "")
                             {
-                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (item.comment != null && item.comment != "" && MyContains(item.comment, exclude.Text)) || (item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, exclude.Text)))
+                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (MyContains(item.comment, exclude.Text)) || (MyContains(item.DetailComment, exclude.Text)))
 
                                 {
                                     continue;

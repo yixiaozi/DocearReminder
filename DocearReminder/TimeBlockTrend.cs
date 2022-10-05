@@ -45,6 +45,7 @@ namespace DocearReminder
             int totalDay = ((int)(endDT.Value - startDt.Value).TotalDays)+1;
             List<ReminderItem> reuslt = new List<ReminderItem>();
             richTextBox1.Text = "";
+            string richTextBoxText = "";
             string type = "TimeBlock";
             switch (Type.Text)
             {
@@ -77,16 +78,24 @@ namespace DocearReminder
                     {
                         try//过滤字符串
                         {
+                            if (item.comment==null)
+                            {
+                                item.comment = "";
+                            }
+                            if (item.DetailComment == null)
+                            {
+                                item.DetailComment = "";
+                            }
                             if (textBox_searchwork.Text != "")
                             {
-                                if (!(MyContains(item.name, textBox_searchwork.Text)) && !(MyContains(item.mindmapPath, textBox_searchwork.Text)) && !(MyContains(item.nameFull, textBox_searchwork.Text)) && !(item.comment != null && item.comment != "" && MyContains(item.comment, textBox_searchwork.Text)) && !(item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, textBox_searchwork.Text)))
+                                if (!(MyContains(item.name, textBox_searchwork.Text) || MyContains(item.mindmapPath, textBox_searchwork.Text)||MyContains(item.nameFull, textBox_searchwork.Text) ||MyContains(item.comment, textBox_searchwork.Text) ||MyContains(item.DetailComment, textBox_searchwork.Text)))
                                 {
                                     continue;
                                 }
                             }
                             if (exclude.Text != "")
                             {
-                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (item.comment != null && item.comment != "" && MyContains(item.comment, exclude.Text)) || (item.DetailComment != null && item.DetailComment != "" && MyContains(item.DetailComment, exclude.Text)))
+                                if ((MyContains(item.name, exclude.Text)) || (MyContains(item.mindmapPath, exclude.Text)) || (MyContains(item.nameFull, exclude.Text)) || (MyContains(item.comment, exclude.Text)) || (MyContains(item.DetailComment, exclude.Text)))
 
                                 {
                                     continue;
@@ -166,7 +175,7 @@ namespace DocearReminder
                     {
                         time = ritem.time.ToString("MM-dd") +" "+ ritem.tasktime + "元 ";
                     }
-                    richTextBox1.Text += (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "(" : "") + ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") + (ritem.DetailComment!= "" && ritem.DetailComment != null ? ")" : "") + Environment.NewLine);
+                    richTextBoxText+= (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "("+ ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") +")":"") + Environment.NewLine);
                 }
                 countList.Add(count);
                 //valueList.Add(minute/60);
@@ -248,7 +257,7 @@ namespace DocearReminder
 
 
             plt.XAxis.TickLabelFormat("M\\/dd", dateTimeFormat: true);
-  
+            richTextBox1.Text = richTextBoxText;
             plt.Legend();
             formsPlot1.Refresh();
         }

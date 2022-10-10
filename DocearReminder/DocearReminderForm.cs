@@ -15108,6 +15108,14 @@ namespace DocearReminder
                 record.StopRecord();
             }
         }
+
+        private void 目标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new Target()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
+        }
     }
 
     class MoveOverInfoTip

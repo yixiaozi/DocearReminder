@@ -1761,20 +1761,7 @@ namespace DocearReminder
                                         long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
                                         System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                         jiniantimeDT = startTime.AddMilliseconds(unixTimeStamp);
-                                        if (c_Jinian.Checked)
-                                        {
-                                            jinianriInfo = " |" + GetTimeSpanStr(Convert.ToInt32((DateTime.Now - jiniantimeDT).TotalDays));
-                                        }
-                                        else
-                                        {
-                                            if (GetAttribute(node.ParentNode, "EndDate") != "")
-                                            {
-                                                string EndDate = GetAttribute(node.ParentNode, "EndDate");
-                                                long unixTimeEndDate = Convert.ToInt64(EndDate);
-                                                endtimeDT = startTime.AddMilliseconds(unixTimeEndDate);
-                                                jinianriInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"]";
-                                            }
-                                        }
+                                        jinianriInfo = " |Start:" + jiniantimeDT.ToString("yy-MM-dd") + ":" + GetTimeSpanStr(Convert.ToInt32((DateTime.Now - jiniantimeDT).TotalDays));
                                     }
                                     catch (Exception)
                                     {
@@ -1788,15 +1775,20 @@ namespace DocearReminder
                                     long unixTimeStamp = Convert.ToInt64(enddatetime);
                                     System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                     endtimeDT = startTime.AddMilliseconds(unixTimeStamp);
-                                    EndDateInfo = " | [" + endtimeDT.ToString("yy-MM-dd") + "]";
-                                    EndDateInfo += " |剩余天：[" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"]";
+                                    EndDateInfo = " |End To:" + endtimeDT.ToString("yy-MM-dd") + "";
+                                    EndDateInfo += ":" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"";
                                 }
                                 //剩余打开次数
                                 string LeftDakaDays = "";
                                 if (GetAttribute(node.ParentNode, "LeftDakaDays") != "")
                                 {
                                     LeftDakaDays = " | [" + GetAttribute(node.ParentNode, "LeftDakaDays") + "次]";
+                                    if (LeftDakaDays.Contains("[0次"))
+                                    {
+                                        LeftDakaDays = string.Empty;
+                                    }
                                 }
+                                
                                 bool IsShow = true;
                                 //if (ISLevel.Checked)
                                 //{
@@ -4313,7 +4305,7 @@ namespace DocearReminder
 
             }
         }
-        private void edittime_EndDate()
+        private void edittime_EndDate(bool setEndtime = true)
         {
             try
             {
@@ -4321,7 +4313,7 @@ namespace DocearReminder
                 {
                     reminderSelectIndex = reminderList.SelectedIndex;
                 }
-                EditTaskEndDate();
+                EditTaskEndDate(setEndtime);
                 reminderList.Focus();
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Time = dateTimePicker.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).level = (int)tasklevel.Value;
@@ -4400,7 +4392,7 @@ namespace DocearReminder
                 }
             }
         }
-        public void EditTaskEndDate()
+        public void EditTaskEndDate(bool setenddate)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
             System.Xml.XmlDocument x = new XmlDocument();
@@ -4417,17 +4409,29 @@ namespace DocearReminder
                 {
                     if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
                     {
-                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                        if (GetAttribute(node.FirstChild, "EndDate") != "")
+                        if (setenddate)
                         {
-                            node.FirstChild.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            if (GetAttribute(node.FirstChild, "EndDate") != "")
+                            {
+                                node.FirstChild.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            }
+                            else
+                            {
+                                //添加属性
+                                XmlAttribute TASKLEVEL = x.CreateAttribute("EndDate");
+                                node.ParentNode.Attributes.Append(TASKLEVEL);
+                                node.ParentNode.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            }
                         }
-                        else
+                        else//取消设置截止日期
                         {
-                            //添加属性
-                            XmlAttribute TASKLEVEL = x.CreateAttribute("EndDate");
-                            node.ParentNode.Attributes.Append(TASKLEVEL);
-                            node.ParentNode.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                            try
+                            {
+                                node.ParentNode.Attributes.Remove(node.ParentNode.Attributes["EndDate"]);
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                         x.Save(selectedReminder.Value);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
@@ -6579,11 +6583,11 @@ namespace DocearReminder
                 }
             }
         }
-        private void DaKa_btn_Click(object sender, EventArgs e)
+        private void Daka(bool setdakai=true)
         {
             try
             {
-                SetDaka();
+                SetDaka(setdakai);
                 string path = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
@@ -6599,11 +6603,11 @@ namespace DocearReminder
 
             }
         }
-        private void Jinian_btn_Click(object sender, EventArgs e)
+        private void setjinianfunction(bool setstartData=true)
         {
             try
             {
-                SetJinian();
+                SetJinian(setstartData);
                 string path = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
@@ -6622,7 +6626,7 @@ namespace DocearReminder
         #endregion
 
         #region 打卡
-        public void SetDaka()
+        public void SetDaka(bool setdakai = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
             System.Xml.XmlDocument x = new XmlDocument();
@@ -6638,7 +6642,7 @@ namespace DocearReminder
                 {
                     if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
                     {
-                        if (selectedReminder.IsDaka == "true")
+                        if (!setdakai)
                         {
                             node.ParentNode.Attributes["ISDAKA"].Value = "false";
                         }
@@ -6649,9 +6653,18 @@ namespace DocearReminder
                             BUILTIN.Value = "addition";
                             newElem.Attributes.Append(BUILTIN);
                             node.ParentNode.AppendChild(newElem);
-                            XmlAttribute ISDAKA = x.CreateAttribute("ISDAKA");
-                            ISDAKA.Value = "true";
-                            node.ParentNode.Attributes.Append(ISDAKA);
+                            
+                            if (node.ParentNode.Attributes["ISDAKA"] != null)
+                            {
+                                node.ParentNode.Attributes["ISDAKA"].Value = "true";
+                            }
+                            else
+                            {
+                                XmlAttribute IsJinian = x.CreateAttribute("ISDAKA");
+                                IsJinian.Value = "true";
+                                node.ParentNode.Attributes.Append(IsJinian);
+                            }
+
                             if (node.ParentNode.Attributes["DAKADAY"] == null)
                             {
                                 XmlAttribute DAKADAY = x.CreateAttribute("DAKADAY");
@@ -6661,7 +6674,7 @@ namespace DocearReminder
                             if (node.ParentNode.Attributes["LeftDakaDays"] == null)
                             {
                                 XmlAttribute DAKADAY = x.CreateAttribute("LeftDakaDays");
-                                DAKADAY.Value = "3";
+                                DAKADAY.Value = "0";
                                 node.ParentNode.Attributes.Append(DAKADAY);
                             }
                             if (node.ParentNode.Attributes["DAKADAYSr"] == null)
@@ -6683,7 +6696,7 @@ namespace DocearReminder
         }
 
         #endregion
-        public void SetJinian()
+        public void SetJinian(bool setstartData = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
             System.Xml.XmlDocument x = new XmlDocument();
@@ -6699,42 +6712,48 @@ namespace DocearReminder
                 {
                     if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
                     {
-                        if (node.ParentNode.Attributes["IsJinian"] != null && node.ParentNode.Attributes["IsJinian"].Value == "true")
-                        {
-                            node.ParentNode.Attributes["IsJinian"].Value = "false";
-                        }
-                        else
+                        if (setstartData)
                         {
                             XmlNode newElem = x.CreateElement("icon");
                             XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
                             BUILTIN.Value = "addition";
                             newElem.Attributes.Append(BUILTIN);
                             node.ParentNode.AppendChild(newElem);
-                            XmlAttribute IsJinian = x.CreateAttribute("IsJinian");
-                            IsJinian.Value = "true";
-                            node.ParentNode.Attributes.Append(IsJinian);
+                            if (node.ParentNode.Attributes["IsJinian"] != null)
+                            {
+                                node.ParentNode.Attributes["IsJinian"].Value = "true";
+                            }
+                            else
+                            {
+                                XmlAttribute IsJinian = x.CreateAttribute("IsJinian");
+                                IsJinian.Value = "true";
+                                node.ParentNode.Attributes.Append(IsJinian);
+                            }
+                            //时间
                             if (node.ParentNode.Attributes["JinianBeginTime"] == null)
                             {
                                 XmlAttribute JinianBeginTime = x.CreateAttribute("JinianBeginTime");
-                                JinianBeginTime.Value = node.FirstChild.Attributes["REMINDUSERAT"].Value;
+                                JinianBeginTime.Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                                 node.ParentNode.Attributes.Append(JinianBeginTime);
                             }
                             else
                             {
-                                node.ParentNode.Attributes["JinianBeginTime"].Value = node.FirstChild.Attributes["REMINDUSERAT"].Value;
+                                node.ParentNode.Attributes["JinianBeginTime"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             }
-                            //if (node.ParentNode.Attributes["DAKADAYSr"] == null)
-                            //{
-                            //    XmlAttribute DAKADAYS = x.CreateAttribute("DAKADAYS");
-                            //    DAKADAYS.Value = "";
-                            //    node.ParentNode.Attributes.Append(DAKADAYS);
-                            //}
                         }
+                        else
+                        {
+                            if (node.ParentNode.Attributes["IsJinian"] != null && node.ParentNode.Attributes["IsJinian"].Value == "true")
+                            {
+                                node.ParentNode.Attributes["IsJinian"].Value = "false";
+                            }
+                        }
+                        
                         x.Save(selectedReminder.Value);
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                 }
@@ -7877,7 +7896,7 @@ namespace DocearReminder
                 case Keys.E:
                     if (keyNotWork(e))
                     {
-                        ebcheckBox.Checked = !ebcheckBox.Checked;
+                        c_endtime.Checked = !c_endtime.Checked;//结束时间
                     }
                     break;
                 case Keys.End:
@@ -8732,8 +8751,27 @@ namespace DocearReminder
                     }
                     else if (e.Modifiers.CompareTo(Keys.Shift) == 0 && dateTimePicker.Focused)
                     {
-                        edittime_EndDate();
-                        //修改EndDate
+                       edittime_EndDate();
+                    }
+                    else if((int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Alt&& dateTimePicker.Focused)
+                    {
+                       edittime_EndDate(false);
+                    }
+                    else if (e.Modifiers.CompareTo(Keys.Control) == 0 && dateTimePicker.Focused)
+                    {
+                        setjinianfunction();
+                    }
+                    else if ((int)Control.ModifierKeys == (int)Keys.Control + (int)Keys.Alt&& dateTimePicker.Focused)
+                    {
+                        setjinianfunction(false);
+                    }
+                    else if (e.Modifiers.CompareTo(Keys.Control) == 0 && taskTime.Focused)
+                    {
+                        Daka();
+                    }
+                    else if (e.Modifiers.CompareTo(Keys.Shift) == 0 && taskTime.Focused)
+                    {
+                        Daka(false);
                     }
                     else if (dateTimePicker.Focused || taskTime.Focused || tasklevel.Focused)
                     {
@@ -9971,17 +10009,21 @@ namespace DocearReminder
                 case Keys.ProcessKey:
                     break;
                 case Keys.Q:
+                    //if (keyNotWork(e))
+                    //{
+                    //    showcalander();
+                    //}
                     if (keyNotWork(e))
                     {
-                        showcalander();
+                        ebcheckBox.Checked = !ebcheckBox.Checked;
                     }
                     break;
                 case Keys.R:
                     if (keyNotWork(e))
                     {
-                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        if (false)
                         {
-                            Jinian_btn_Click(null, null);
+                            
                         }
                         else
                         {
@@ -10433,7 +10475,6 @@ namespace DocearReminder
                     break;
                 case Keys.Y:
                     c_Jinian.Checked = !c_Jinian.Checked;
-                    //ShowSubNode();
                     break;
                 case Keys.Z:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)

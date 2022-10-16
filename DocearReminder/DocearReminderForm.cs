@@ -40,6 +40,16 @@ using DayOfWeek = System.DayOfWeek;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using System.Reflection;
 using NAudio.Wave;
+using AForge.Controls;
+using AForge.Video.DirectShow;
+using System.Windows.Media.Imaging;
+using System.Windows;
+using Clipboard = System.Windows.Forms.Clipboard;
+using IDataObject = System.Windows.Forms.IDataObject;
+using DataFormats = System.Windows.Forms.DataFormats;
+using DataObject = System.Windows.Forms.DataObject;
+using Size = System.Drawing.Size;
+using System.Drawing.Imaging;
 
 namespace DocearReminder
 {
@@ -134,7 +144,7 @@ namespace DocearReminder
         #endregion
         public DocearReminderForm()
         {
-            
+            InitializeComponent();
             formActive = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
@@ -171,8 +181,8 @@ namespace DocearReminder
                 addFanQieTimer.Tick += new EventHandler(AddFanQie);
                 addFanQieTimer.Start();
 
-                InitializeComponent();
                 InitVoice();
+                CameraTimer_Tick(null, null);
 
                 //this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
                 //fileSystemWatcher1.IncludeSubdirectories = true;
@@ -825,6 +835,7 @@ namespace DocearReminder
                 }
                 else
                 {
+                    CameraTimer_Tick(null, null);
                     int p = GetPosition();
                     DocearReminderForm.fanqiePosition[p] = true;
                     Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
@@ -4842,27 +4853,7 @@ namespace DocearReminder
             {
                 string filename = searchword.Text.Split('@')[1];
                 string taskName = searchword.Text.Split('@')[0];
-                if (filename.StartsWith("gc"))
-                {
-                    string gitCommand = "git";
-                    //string gitAddArgument = @"add -A";
-                    string gitCommitArgument = @"commit -a -m " + taskName;
-                    //string gitPushArgument = @"push our_remote";
-                    //System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
-                    //Thread.Sleep(2000);
-                    System.Diagnostics.Process.Start(gitCommand, gitCommitArgument);
-                    //System.Diagnostics.Process.Start(gitCommand, gitPushArgument);
-                    SaveLog("git commit:" + searchword.Text);
-                    if (searchword.Text.EndsWith("e"))
-                    {
-                        Application.Exit();
-                    }
-                    else
-                    {
-                        searchword.Text = "";
-                    }
-                    return;
-                }
+                
                 if (filename == "password")
                 {
                     DocearReminderForm.PassWord = taskName;
@@ -8097,11 +8088,33 @@ namespace DocearReminder
                             {
                                 string num = searchword.Text.Substring(2);
                                 this.Opacity = Convert.ToDouble(num);
+                                ini.WriteString("appearance", "Opacity", num);
                                 searchword.Text = "";
                             }
                             catch (Exception)
                             {
                             }
+                        }
+                        if (searchword.Text.ToLower().StartsWith("gc"))
+                        {
+                            string gitCommand = "git";
+                            //string gitAddArgument = @"add -A";
+                            string gitCommitArgument = @"commit -a -m " + searchword.Text.Substring(2);
+                            //string gitPushArgument = @"push our_remote";
+                            //System.Diagnostics.Process.Start(gitCommand, gitAddArgument);
+                            //Thread.Sleep(2000);
+                            System.Diagnostics.Process.Start(gitCommand, gitCommitArgument);
+                            //System.Diagnostics.Process.Start(gitCommand, gitPushArgument);
+                            SaveLog("git commit:" + searchword.Text);
+                            if (searchword.Text.EndsWith("e"))
+                            {
+                                Application.Exit();
+                            }
+                            else
+                            {
+                                searchword.Text = "";
+                            }
+                            return;
                         }
                         else if (searchword.Text.StartsWith("#"))
                         {
@@ -8429,7 +8442,23 @@ namespace DocearReminder
                         else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚"))
                         {
                             string task = searchword.Text.Replace("刚刚","");
-                            CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(),Color.GreenYellow.ToArgb().ToString(), 0,DateTime.Now, "FanQie", "");
+                            double tasktime = 0;
+                            try
+                            {
+                                MatchCollection mc = Regex.Matches(task, @"[1-9]\d*分钟");
+                                string minutes = "0";
+                                foreach (Match m in mc)
+                                {
+                                    task = task.Replace(m.Value, "");
+                                    minutes = m.Value.Substring(0, m.Value.Length - 2);
+                                    tasktime = Convert.ToDouble(minutes);
+                                    break;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(),Color.GreenYellow.ToArgb().ToString(), 0, DateTime.Now, "FanQie", "","","",tasktime);
                             searchword.Text = "";
                         }
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
@@ -10370,59 +10399,73 @@ namespace DocearReminder
                         //MyHide();
                         if (reminderList.Focused)
                         {
-                            int index = reminderList.SelectedIndex;
-                            reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                            if (todoistKey!=null)
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
+                                AddTaskWithDate.Add(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                                new TextListConverter().WriteListToTextFile(AddTaskWithDate, System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                AddTaskWithDate.Remove(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                                new TextListConverter().WriteListToTextFile(AddTaskWithDate, System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                            }
+                            else
+                            {
+                                int index = reminderList.SelectedIndex;
+                                reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
+                                if (todoistKey != null)
+                                {
+                                    try
+                                    {
+                                        ITodoistClient client = new TodoistClient(todoistKey);
+                                        var quickAddItem = new QuickAddItem(((MyListBoxItemRemind)reminderlistSelectedItem).Name + " #yixiaozi");
+                                        var task = await client.Items.QuickAddAsync(quickAddItem);
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                                }
+
+                                if (!Xnodes.Any(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML)))
+                                {
+                                    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                                }
+                                //else
+                                //{
+                                //    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                                //    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                                //}
+                                //添加去重
+                                List<string> xnodesRemoveSame = new List<string>();
+                                foreach (string item in Xnodes)
+                                {
+                                    if (!xnodesRemoveSame.Contains(item))
+                                    {
+                                        xnodesRemoveSame.Add(item);
+                                    }
+                                }
+                                Xnodes = xnodesRemoveSame;
+                                new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                                reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
+                                Reminderlistboxchange();
+                                reminderList.Items.RemoveAt(reminderList.SelectedIndex);
                                 try
                                 {
-                                    ITodoistClient client = new TodoistClient(todoistKey);
-                                    var quickAddItem = new QuickAddItem(((MyListBoxItemRemind)reminderlistSelectedItem).Name + " #yixiaozi");
-                                    var task = await client.Items.QuickAddAsync(quickAddItem);
+                                    if (reminderList.Items.Count - 1 >= index)
+                                    {
+                                        reminderList.SelectedIndex = index;
+                                    }
+                                    else
+                                    {
+                                        reminderList.SelectedIndex = index - 1;
+                                    }
                                 }
                                 catch (Exception)
                                 {
                                 }
                             }
-
-                            if (!Xnodes.Any(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML)))
-                            {
-                                Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
-                            }
-                            //else
-                            //{
-                            //    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
-                            //    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
-                            //}
-                            //添加去重
-                            List<string> xnodesRemoveSame = new List<string>();
-                            foreach (string item in Xnodes)
-                            {
-                                if (!xnodesRemoveSame.Contains(item))
-                                {
-                                    xnodesRemoveSame.Add(item);
-                                }
-                            }
-                            Xnodes = xnodesRemoveSame;
-                            new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
-                            reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                            Reminderlistboxchange();
-                            reminderList.Items.RemoveAt(reminderList.SelectedIndex);
-                            try
-                            {
-                                if (reminderList.Items.Count - 1 >= index)
-                                {
-                                    reminderList.SelectedIndex = index;
-                                }
-                                else
-                                {
-                                    reminderList.SelectedIndex = index - 1;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                            }
-                            
                         }
                         else if (reminderListBox.Focused)
                         {
@@ -10884,6 +10927,11 @@ namespace DocearReminder
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+            {
+                videoSourcePlayer1.SignalToStop();
+                videoSourcePlayer1.WaitForStop();
+            }
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 //是否取消close操作
@@ -13266,12 +13314,12 @@ namespace DocearReminder
                 iData = Clipboard.GetDataObject();
                 if (iData.GetDataPresent(DataFormats.Rtf))
                 {
-                    log = (string)iData.GetData(DataFormats.Text);
+                    log = (string)iData.GetData(DataFormats.StringFormat);
                     log = yixiaozi.StringHelper.ChineseStringUtility.ToSimplified(log);//切换成简体字
                 }
                 else if (iData.GetDataPresent(DataFormats.Text))
                 {
-                    log = (string)iData.GetData(DataFormats.Text);
+                    log = (string)iData.GetData(DataFormats.StringFormat);
                     log = yixiaozi.StringHelper.ChineseStringUtility.ToSimplified(log);//切换成简体字
                     Clipboard.SetDataObject(log);
                 }
@@ -14488,6 +14536,11 @@ namespace DocearReminder
 
         private void 推出F11ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+            {
+                videoSourcePlayer1.SignalToStop();
+                videoSourcePlayer1.WaitForStop();
+            }
             Application.Exit();
         }
 
@@ -15156,6 +15209,161 @@ namespace DocearReminder
             thCalendarForm.Start();
             MyHide();
             return;
+        }
+        //连接摄像头
+        public void CameraConn()
+        {
+            VideoCaptureDevice videoSource = new VideoCaptureDevice(new FilterInfoCollection(FilterCategory.VideoInputDevice)[0].MonikerString);
+            videoSource.DesiredFrameSize = new System.Drawing.Size(320, 240);
+            videoSource.DesiredFrameRate = 1;
+            videoSourcePlayer1.VideoSource = videoSource;
+            videoSourcePlayer1.Start();
+        }
+
+        public void CameraTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                CameraConn();
+                Thread.Sleep(5000);
+                if (videoSourcePlayer1.IsRunning)
+                {
+                    BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                                    videoSourcePlayer1.GetCurrentVideoFrame().GetHbitmap(),
+                                    IntPtr.Zero,
+                                     Int32Rect.Empty,
+                                    BitmapSizeOptions.FromEmptyOptions());
+                    PngBitmapEncoder pE = new PngBitmapEncoder();
+                    pE.Frames.Add(BitmapFrame.Create(bitmapSource));
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\Camera\\"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\Camera\\");
+                    }
+                    string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\Camera\\" + DateTime.Now.ToString("yyMMddHHmmss") + "A.jpg";
+                    picName=picName.Replace("\\\\","\\");
+                    if (File.Exists(picName))
+                    {
+                        File.Delete(picName);
+                    }
+                    using (Stream stream = File.Create(picName))
+                    {
+                        pE.Save(stream);
+                    }
+                    CompressImage(picName, picName.Replace("A.jpg", ".jpg"));
+                    File.Delete(picName);
+                    //拍照完成后关摄像头并刷新同时关窗体
+                    if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+                    {
+                        videoSourcePlayer1.SignalToStop();
+                        videoSourcePlayer1.WaitForStop();
+                    }
+                    //this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("摄像头异常：" + ex.Message);
+            }
+        }
+        /// <summary>
+        /// 无损压缩图片
+        /// </summary>
+        /// <param name="sFile">原图片地址</param>
+        /// <param name="dFile">压缩后保存图片地址</param>
+        /// <param name="flag">压缩质量（数字越小压缩率越高）1-100</param>
+        /// <param name="size">压缩后图片的最大大小</param>
+        /// <param name="sfsc">是否是第一次调用</param>
+        /// <returns></returns>
+        public static bool CompressImage(string sFile, string dFile, int flag = 90, int size = 300, bool sfsc = true)
+        {
+            //如果是第一次调用，原始图像的大小小于要压缩的大小，则直接复制文件，并且返回true
+            FileInfo firstFileInfo = new FileInfo(sFile);
+            if (sfsc == true && firstFileInfo.Length < size * 1024)
+            {
+                firstFileInfo.CopyTo(dFile);
+                return true;
+            }
+            Image iSource = Image.FromFile(sFile); ImageFormat tFormat = iSource.RawFormat;
+            int dHeight = iSource.Height / 2;
+            int dWidth = iSource.Width / 2;
+            int sW = 0, sH = 0;
+            //按比例缩放
+            Size tem_size = new Size(iSource.Width, iSource.Height);
+            if (tem_size.Width > dHeight || tem_size.Width > dWidth)
+            {
+                if ((tem_size.Width * dHeight) > (tem_size.Width * dWidth))
+                {
+                    sW = dWidth;
+                    sH = (dWidth * tem_size.Height) / tem_size.Width;
+                }
+                else
+                {
+                    sH = dHeight;
+                    sW = (tem_size.Width * dHeight) / tem_size.Height;
+                }
+            }
+            else
+            {
+                sW = tem_size.Width;
+                sH = tem_size.Height;
+            }
+
+            Bitmap ob = new Bitmap(dWidth, dHeight);
+            Graphics g = Graphics.FromImage(ob);
+
+            g.Clear(Color.WhiteSmoke);
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+            g.DrawImage(iSource, new Rectangle((dWidth - sW) / 2, (dHeight - sH) / 2, sW, sH), 0, 0, iSource.Width, iSource.Height, GraphicsUnit.Pixel);
+
+            g.Dispose();
+
+            //以下代码为保存图片时，设置压缩质量
+            EncoderParameters ep = new EncoderParameters();
+            long[] qy = new long[1];
+            qy[0] = flag;//设置压缩的比例1-100
+            EncoderParameter eParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, qy);
+            ep.Param[0] = eParam;
+
+            try
+            {
+                ImageCodecInfo[] arrayICI = ImageCodecInfo.GetImageEncoders();
+                ImageCodecInfo jpegICIinfo = null;
+                for (int x = 0; x < arrayICI.Length; x++)
+                {
+                    if (arrayICI[x].FormatDescription.Equals("JPEG"))
+                    {
+                        jpegICIinfo = arrayICI[x];
+                        break;
+                    }
+                }
+                if (jpegICIinfo != null)
+                {
+                    ob.Save(dFile, jpegICIinfo, ep);//dFile是压缩后的新路径
+                    FileInfo fi = new FileInfo(dFile);
+                    if (fi.Length > 1024 * size)
+                    {
+                        flag = flag - 10;
+                        CompressImage(sFile, dFile, flag, size, false);
+                    }
+                }
+                else
+                {
+                    ob.Save(dFile, tFormat);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                iSource.Dispose();
+                ob.Dispose();
+            }
         }
     }
 

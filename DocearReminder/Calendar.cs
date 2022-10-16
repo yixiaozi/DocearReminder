@@ -355,7 +355,7 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="")
+        public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="",double tasktime1=0)
         {
             try
             {
@@ -363,12 +363,24 @@ namespace DocearReminder
                 {
                     try
                     {
-                        ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today&& m.time <= DateTime.Now&&(m.mindmap== "TimeBlock"|| (m.mindmap == "FanQie"&&m.name.Length!= 5))&& m.isCompleted==false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
-                        if (item != null)
+                        if (tasktime1 == 0)
                         {
-                            taskTime = item.time.AddMinutes(item.tasktime);
-                            tasktime = (DateTime.Now - taskTime).TotalMinutes;
-                            if (tasktime<=1)
+                            ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                            if (item != null)
+                            {
+                                taskTime = item.time.AddMinutes(item.tasktime);
+                                tasktime = (DateTime.Now - taskTime).TotalMinutes;
+                                if (tasktime <= 1)
+                                {
+                                    tasktime = 2;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            taskTime = DateTime.Now.AddMinutes(0- tasktime1);
+                            tasktime = tasktime1;
+                            if (tasktime <= 1)
                             {
                                 tasktime = 2;
                             }
@@ -995,6 +1007,7 @@ namespace DocearReminder
                             if (numericUpDown1.Value < 14&&!c_lock.Checked)
                             {
                                 numericUpDown1.Value++;
+                                return;
                             }
                             if (dayView1.Focused|| (dayView1.SelectedAppointment!=null&&dayView1.SelectedAppointment.Type== "时间块"))
                             {
@@ -1027,6 +1040,7 @@ namespace DocearReminder
                             if (numericUpDown1.Value >= 2 && !c_lock.Checked)
                             {
                                 numericUpDown1.Value--;
+                                return;
                             }
                             if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
                             {
@@ -1509,13 +1523,24 @@ namespace DocearReminder
             m_Appointment.ID = Guid.NewGuid().ToString();
             m_Appointment.Type = "TimeBlock";
             string comment = "";
+            string commentDetail = "";
             string fanqieid = "";
             if (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "番茄钟")
             {
                 m_Appointment.StartDate = dayView1.SelectedAppointment.StartDate;
                 m_Appointment.EndDate = dayView1.SelectedAppointment.EndDate;
-                m_Appointment.Comment = dayView1.SelectedAppointment.Title;
-                comment = dayView1.SelectedAppointment.Title;
+                if (dayView1.SelectedAppointment.Title.Contains("|"))
+                {
+                    m_Appointment.Comment = dayView1.SelectedAppointment.Title.Split('|')[0];
+                    m_Appointment.DetailComment = dayView1.SelectedAppointment.Title.Split('|')[1];
+                    comment = dayView1.SelectedAppointment.Title.Split('|')[0];
+                    commentDetail = dayView1.SelectedAppointment.Title.Split('|')[1];
+                }
+                else
+                {
+                    m_Appointment.Comment = dayView1.SelectedAppointment.Title;
+                    comment = dayView1.SelectedAppointment.Title;
+                }
                 fanqieid = dayView1.SelectedAppointment.ID;
                 m_Appointments.Remove(dayView1.SelectedAppointment);
             }
@@ -1528,7 +1553,7 @@ namespace DocearReminder
             //m_Appointment.Locked = true;
             m_Appointments.Add(m_Appointment);
             //dayView1.Refresh();
-            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment, commentDetail);
             SetFanQieComplete(fanqieid);
 
 

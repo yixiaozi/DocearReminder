@@ -131,6 +131,10 @@ namespace OperateCamera
 
             return personImgPath;
         }
-        
+
+        private void tscbxCameras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

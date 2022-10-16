@@ -123,10 +123,11 @@ namespace DocearReminder
         {
             resultlistBox.Items.Clear();
             string word = keyword.Text;
-            foreach (result item in allresult.Where(m => m.words.Contains(word)).Take(50000))
-            {
-                resultlistBox.Items.Add(item);
-            }
+            resultlistBox.Items.AddRange(allresult.Where(m => m.words.Contains(word)).Take(50000).ToArray());
+            //foreach (result item in allresult.Where(m => m.words.Contains(word)).Take(50000))
+            //{
+            //    resultlistBox.Items.Add(item);
+            //}
         }
         public class result{
             public string words{get;set;}

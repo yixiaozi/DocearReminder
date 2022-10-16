@@ -63,6 +63,7 @@
             this.tscbxCameras.Name = "tscbxCameras";
             this.tscbxCameras.Size = new System.Drawing.Size(121, 20);
             this.tscbxCameras.TabIndex = 7;
+            this.tscbxCameras.SelectedIndexChanged += new System.EventHandler(this.tscbxCameras_SelectedIndexChanged);
             // 
             // btnConnect
             // 

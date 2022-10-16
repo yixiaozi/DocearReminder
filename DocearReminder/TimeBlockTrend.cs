@@ -69,6 +69,17 @@ namespace DocearReminder
             if (Type.Text=="金钱")
             {
                 danwei = "元";
+                label5.Text = "总花费：";
+                label16.Text = "平均每天花费（总天数）：";
+                label18.Text = "平均每天花费（记录天数）：";
+                label38.Text = "最多花费:";
+            }
+            else
+            {
+                label5.Text = "总时长：";
+                label16.Text = "平均每天时长（总天数）：";
+                label18.Text = "平均每天时长（记录天数）：";
+                label38.Text = "最多时长:";
             }
             foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders)
             {
@@ -252,7 +263,7 @@ namespace DocearReminder
             
             PerMaxDays.Text = ((float)maxDays / maxList.Count).ToString("F") + "天";
 
-            mosthour.Text = valueList.OrderByDescending(m=>m).First() + "小时";
+            mosthour.Text = valueList.OrderByDescending(m=>m).First() + danwei;
             mostcount.Text= countList.OrderByDescending(m => m).First() + "次";
 
 

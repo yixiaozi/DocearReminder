@@ -1525,13 +1525,14 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.reminderListBox);
+            this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.videoSourcePlayer1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
             this.Controls.Add(this.c_endtime);
             this.Controls.Add(this.c_speechcontrol);
-            this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.pictureBox1);
@@ -1570,7 +1571,6 @@ namespace DocearReminder
             this.Controls.Add(this.ebcheckBox);
             this.Controls.Add(this.IsReminderOnlyCheckBox);
             this.Controls.Add(this.tagCloudControl);
-            this.Controls.Add(this.reminderListBox);
             this.Controls.Add(this.reminderList);
             this.Controls.Add(this.searchword);
             this.Controls.Add(this.panel_clearSearchWord);

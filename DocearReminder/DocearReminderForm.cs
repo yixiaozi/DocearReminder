@@ -81,6 +81,7 @@ namespace DocearReminder
         public List<mindmapfile> mindmapfilesAll = new List<mindmapfile>();
         public List<node> nodes = new List<node>();
         public List<node> nodesicon = new List<node>();
+        public List<node> timeblocks = new List<node>();
         public List<node> allfiles = new List<node>();
         public int mindmapnumdesc = 0;
         private DirectoryInfo rootrootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
@@ -102,6 +103,9 @@ namespace DocearReminder
         public static string command = "ga;gc;";
         public static List<string> RecentOpenedMap = new List<string>();
         public static List<string> IconNodesSelected = new List<string>();
+        public static List<string> TimeBlockSelected = new List<string>();
+        string timeblockcolor = "";
+        string timeblockfather = "";
         public static List<string> Xnodes = new List<string>();
         public static List<string> OpenedInRootSearch = new List<string>();
         public static List<string> QuickOpenLog = new List<string>();
@@ -116,6 +120,7 @@ namespace DocearReminder
         string ebdefault = "";
         List<MyListBoxItemRemind> RemindersOtherPath = new List<MyListBoxItemRemind>();
         string nodeIconString = "";
+        string timeblockString = "";
         bool lockForm = false;
         bool isSearchFileOrNode = false;
         DirectoryInfo fileTreePath;
@@ -379,6 +384,7 @@ namespace DocearReminder
                 GetAllFilesJsonIconFile();
                 GetAllNodeJsonFile();
                 GetAllFilesJsonFile();
+                GetTimeBlock();
                 //添加提示信息
                 try
                 {
@@ -1235,6 +1241,138 @@ namespace DocearReminder
                 }
             }
         }
+        public void GetAllTimeBlock()
+        {
+            try
+            {
+                System.Xml.XmlDocument x = new XmlDocument();
+                x.Load(ini.ReadString("TimeBlock", "mindmap", ""));
+                List<string> contents = new List<string>();
+                foreach (XmlNode node in x.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
+                    {
+                        GetTimeBlockItem(node);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public void GetTimeBlockItem(XmlNode node)
+        {
+            if (node.ChildNodes.Count > 0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null && Subnode.Attributes["TEXT"].Value != "未分类")
+                    {
+                        string nodename=Subnode.Attributes["TEXT"].Value;
+                        string father = GetFatherNodeName(Subnode);
+                        string BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber)).ToArgb().ToString();
+                        timeblocks.Add(new node
+                        {
+                            Text = nodename,
+                            mindmapName = nodename,
+                            mindmapPath = father+"|"+nodename,
+                            IDinXML = node != null && node.Attributes != null && node.Attributes["ID"] != null ? node.Attributes["ID"].Value : "",
+                        });
+                        timeblockString += nodename;
+                        timeblockString += "|";
+                        timeblockString += Tools.GetFirstSpell(nodename);
+                        timeblockString += "|";
+                        timeblockString += Tools.ConvertToAllSpell(nodename);
+                        timeblockString += "|";
+                        timeblockString += Tools.GetFirstSpell(nodename);
+                        timeblockString += "|";
+                        timeblockString += "true";
+                        timeblockString += "|";
+                        timeblockString += father;
+                        timeblockString += "|";
+                        timeblockString += father+">"+nodename;
+                        timeblockString += "|";
+                        timeblockString += father + ">" + nodename;
+                        timeblockString += "|";
+                        timeblockString += BackColor;//link,记录颜色
+                        timeblockString += "@";
+                        GetTimeBlockItem(Subnode);
+                    }
+                }
+            }
+        }
+        public string GetColor(XmlNode node)
+        {
+            try
+            {
+                foreach (XmlNode item in node.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                foreach (XmlNode item in node.ParentNode.ParentNode.ChildNodes)
+                {
+                    if (item.Name == "edge")
+                    {
+                        return item.Attributes["COLOR"].Value;
+                    }
+                }
+                if (node.ParentNode.ParentNode != null)
+                {
+                    foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ChildNodes)
+                    {
+                        if (item.Name == "edge")
+                        {
+                            return item.Attributes["COLOR"].Value;
+                        }
+                    }
+                    if (node.ParentNode.ParentNode.ParentNode.ParentNode != null)
+                    {
+                        foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                        {
+                            if (item.Name == "edge")
+                            {
+                                return item.Attributes["COLOR"].Value;
+                            }
+                        }
+                        if (node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode != null)
+                        {
+                            foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                            {
+                                if (item.Name == "edge")
+                                {
+                                    return item.Attributes["COLOR"].Value;
+                                }
+                            }
+                            if (node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode != null)
+                            {
+                                foreach (XmlNode item in node.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ChildNodes)
+                                {
+                                    if (item.Name == "edge")
+                                    {
+                                        return item.Attributes["COLOR"].Value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return "#ffffff";
+            }
+            catch (Exception)
+            {
+                return "#ffffff";
+            }
+        }
         public void NewFiles(DirectoryInfo path)
         {
             string str1 = "node";
@@ -1319,6 +1457,40 @@ namespace DocearReminder
             }
             RecordLogallnodesicon(nodeIconString);
         }
+        public void GetTimeBlockOut()
+        {
+            timeblocks.Clear();
+            timeblockString = "";
+            GetAllTimeBlock();
+            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json"))
+            {
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json", "");
+            }
+            else
+            {
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json", "");
+            }
+            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt"))
+            {
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt", "");
+            }
+            else
+            {
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt", "");
+            }
+            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json");
+            JavaScriptSerializer js = new JavaScriptSerializer
+            {
+                MaxJsonLength = Int32.MaxValue
+            };
+            string json = js.Serialize(timeblocks);
+            using (StreamWriter sw = fi.AppendText())
+            {
+                sw.Write(json);
+            }
+            RecordTimeBlockJson(timeblockString);
+        }
+        
         public void GetAllNodeout()
         {
             if (nodes==null)
@@ -1376,6 +1548,22 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
         }
+        public void GetTimeBlock()
+        {
+            try
+            {
+                Thread th = new Thread(() => GetTimeBlockOut())
+                {
+                    IsBackground = true
+                };
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         public void NewFiles()
         {
             try
@@ -1465,6 +1653,14 @@ namespace DocearReminder
         public static void RecordLogallnodesicon(string Content)
         {
             string logSite = AppDomain.CurrentDomain.BaseDirectory + "\\allnodesicon.txt";//本地文件
+            StreamWriter sw = new StreamWriter(logSite, false, Encoding.GetEncoding("GB2312"));
+            sw.WriteLine(Content);
+            sw.Close();
+            sw.Dispose();
+        }
+        public static void RecordTimeBlockJson(string Content)
+        {
+            string logSite = AppDomain.CurrentDomain.BaseDirectory + "\\timeblock.txt";//本地文件
             StreamWriter sw = new StreamWriter(logSite, false, Encoding.GetEncoding("GB2312"));
             sw.WriteLine(Content);
             sw.Close();
@@ -4497,9 +4693,9 @@ namespace DocearReminder
                 }
             }
         }
-        public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false,int tasklevelNum=0)
+        public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false,int tasklevelNum=0,string timeblockName="",string timeblockfather="",string timeblockcolor="")
         {
-            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, fanqieCount, isnotDefault,tasklevelNum);
+            Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, fanqieCount, isnotDefault,tasklevelNum, timeblockName,timeblockfather,timeblockcolor);
             fanqie.ShowDialog();
         }
         public void OpenMenu()
@@ -8430,9 +8626,19 @@ namespace DocearReminder
                                 {
                                     taskname = searchword.Text.Substring(0, searchword.Text.Length-2);
                                 }
-                                Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true, 2));
+                                if (taskname.Contains("@"))
+                                {
+                                    string timeblockname = taskname.Split('@')[1];
+                                    taskname= taskname.Split('@')[0];
+                                    Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true, 2,timeblockname,timeblockfather,timeblockcolor));
+                                    th.Start();
+                                }
+                                else
+                                {
+                                    Thread th = new Thread(() => OpenFanQie(0, taskname, System.AppDomain.CurrentDomain.BaseDirectory, GetPosition(), true, 2));
+                                    th.Start();
+                                }
                                 tomatoCount += 1;
-                                th.Start();
                                 searchword.Text = "";
                             }
                             catch (Exception)
@@ -8441,7 +8647,14 @@ namespace DocearReminder
                         }
                         else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚"))
                         {
-                            string task = searchword.Text.Replace("刚刚","");
+                            string task = searchword.Text.Replace("刚刚","").Split('@')[0];
+                            string taskDetail = "";
+                            if (task.Contains("|"))
+                            {
+                                taskDetail = task.Split('|')[1];
+                                task = task.Split('|')[0];
+                            }
+                            string timeblockname= searchword.Text.Split('@')[1];
                             double tasktime = 0;
                             try
                             {
@@ -8458,7 +8671,14 @@ namespace DocearReminder
                             catch (Exception)
                             {
                             }
-                            CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(),Color.GreenYellow.ToArgb().ToString(), 0, DateTime.Now, "FanQie", "","","",tasktime);
+                            if (searchword.Text.Contains("@"))
+                            {
+                                CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, DateTime.Now, "TimeBlock", timeblockfather.Replace('>','|'), task, taskDetail, tasktime);
+                            }
+                            else
+                            {
+                                CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, DateTime.Now, "FanQie", "", "", taskDetail, tasktime);
+                            }
                             searchword.Text = "";
                         }
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
@@ -11930,6 +12150,12 @@ namespace DocearReminder
                 GetAllFilesJsonIconFile();
                 yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
             }
+            else if (searchword.Text.StartsWith("timeblock"))
+            {
+                searchword.Text = "";
+                GetTimeBlock();
+                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+            }
             else if (searchword.Text.StartsWith("addtaskdate"))
             {
                 searchword.Text = "";
@@ -12298,7 +12524,151 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" && searchword.Text.Contains("@@"))
+            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")) && searchword.Text.Contains("@"))//选择时间块
+            {
+                string taskname = "";
+                string type = "";
+                if (searchword.Text.ToLower().StartsWith("t"))
+                {
+                    type = "T";
+                    taskname =searchword.Text.Split('@')[0].Substring(1);
+                }
+                if (searchword.Text.ToLower().StartsWith("刚刚"))
+                {
+                    type = "刚刚";
+                    taskname= searchword.Text.Split('@')[0].Substring(2);
+                }
+                if (searchword.SelectionStart < taskname.Length)
+                {
+                    return;
+                }
+                string filename = searchword.Text.Split('@')[1];
+                searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
+                if (SearchText_suggest.SelectedItem != null && filename == (SearchText_suggest.SelectedItem as StationInfo).StationName_CN)
+                {
+                    SearchText_suggest.Visible = false;
+                    return;
+                }
+                if (e.KeyCode == Keys.Enter)
+                {
+                    StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
+                    if (info.link != null && info.link != "")
+                    {
+                        searchword.Text = "";
+                        searchword.Focus();
+                    }
+                    info.StationName_CN = info.StationName_CN.Replace("★", "");
+                    searchword.Text = type + taskname + "@" + info.StationName_CN;
+                    timeblockcolor = info.link;
+                    timeblockfather = info.nodeID;
+                    mindmapornode.Text = info.mindmapurl.Split('\\')[info.mindmapurl.Split('\\').Length - 1] + ">" + info.StationName_CN;
+                    showMindmapName = info.mindmapurl;
+                    renameMindMapFileID = info.nodeID;
+                    SearchText_suggest.Visible = false;
+                    searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
+                    if (!TimeBlockSelected.Any(m => m.Contains(info.nodeID)))
+                    {
+                        TimeBlockSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
+                    }
+                    else
+                    {
+                        TimeBlockSelected.RemoveAll(m => m.Contains(info.nodeID));
+                        TimeBlockSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath + "|" + info.link);
+                    }
+                    new TextListConverter().WriteListToTextFile(TimeBlockSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
+                }
+                else if (e.KeyCode == Keys.Delete)
+                {
+                    StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
+                    if (TimeBlockSelected.Any(m => m.Contains(info.nodeID)))
+                    {
+                        TimeBlockSelected.RemoveAll(m => m.Contains(info.nodeID));
+                        new TextListConverter().WriteListToTextFile(TimeBlockSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
+                    }
+                }
+                else
+                {
+                    if (filename != "")
+                    {
+                        IList<StationInfo> dataSource = StationInfo.GetTimeBlock(filename.Trim());
+                        //处理建议，去掉重复（重复的没有意义），曾经选择过的排列在上面
+                        for (int i = TimeBlockSelected.Count - 1; i > -1; i--)
+                        {
+                            if (dataSource.Count(m => m.StationName_CN == TimeBlockSelected[i].Split('|')[0]) > 0)
+                            {
+                                int index = dataSource.IndexOf(dataSource.FirstOrDefault(m => m.StationName_CN == TimeBlockSelected[i].Split('|')[0]));
+                                dataSource = Swap(dataSource, index);
+                                dataSource[0].StationName_CN = "★" + dataSource[0].StationName_CN;
+                            }
+                        }
+                        foreach (StationInfo item in dataSource.Where(m => m.StationName_CN.Length > 50))
+                        {
+                            item.StationName_CN = item.StationName_CN.Substring(0, 50);
+                        }
+                        if (dataSource.Count > 0)
+                        {
+                            SearchText_suggest.DataSource = dataSource;
+                            SearchText_suggest.DisplayMember = "StationName_CN";
+                            SearchText_suggest.ValueMember = "StationValue";
+                            SearchText_suggest.Visible = true;
+                        }
+                        else
+                        {
+                            SearchText_suggest.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        List<StationInfo> result = new List<StationInfo>();
+                        for (int i = TimeBlockSelected.Count - 1; i > -1; i--)
+                        {
+                            try
+                            {
+                                if (TimeBlockSelected[i].Split('|').Length <= 5)
+                                {
+                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4] });
+                                }
+                                else if (TimeBlockSelected[i].Split('|').Length == 6)
+                                {
+                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5] });
+                                }
+                                else
+                                {
+                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5], link = TimeBlockSelected[i].Split('|')[6] });
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                        SearchText_suggest.DataSource = result;
+                        SearchText_suggest.DisplayMember = "StationName_CN";
+                        SearchText_suggest.ValueMember = "StationValue";
+                        SearchText_suggest.Visible = true;
+                    }
+                }
+                if (SearchText_suggest.Visible)
+                {
+                    try
+                    {
+                        if (SearchText_suggest.SelectedItem != null)
+                        {
+                            mindmapSearch.Text = Path.GetFileName(((StationInfo)SearchText_suggest.SelectedItem).mindmapurl);
+                        }
+                        else
+                        {
+                            mindmapSearch.Text = "";
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        mindmapSearch.Text = "";
+                    }
+                }
+                SearchText_suggest.Height = SearchText_suggest.PreferredHeight; //12 * SearchText_suggest.Items.Count + 10;
+            }
+            else if (searchword.Text != "" && searchword.Text.Contains("@@"))
             {
                 string taskname = searchword.Text.Split('@')[0];
                 if (searchword.SelectionStart < taskname.Length)
@@ -12424,7 +12794,15 @@ namespace DocearReminder
                 {
                     try
                     {
-                        mindmapSearch.Text = Path.GetFileName(((StationInfo)SearchText_suggest.SelectedItem).mindmapurl);
+                        if (SearchText_suggest.SelectedItem != null)
+                        {
+                            mindmapSearch.Text = Path.GetFileName(((StationInfo)SearchText_suggest.SelectedItem).mindmapurl);
+                        }
+                        else
+                        {
+                            mindmapSearch.Text = "";
+                        }
+
                     }
                     catch (Exception)
                     {

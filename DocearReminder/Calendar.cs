@@ -1510,8 +1510,6 @@ namespace DocearReminder
 
         private void SetTimeBlock(object sender, EventArgs e)
         {
-
-
             Appointment m_Appointment = new Appointment();
             m_Appointment = new Appointment
             {
@@ -1538,8 +1536,18 @@ namespace DocearReminder
                 }
                 else
                 {
-                    m_Appointment.Comment = dayView1.SelectedAppointment.Title;
-                    comment = dayView1.SelectedAppointment.Title;
+                    if (dayView1.SelectedAppointment.DetailComment != null && dayView1.SelectedAppointment.DetailComment != "")
+                    {
+                        m_Appointment.Comment = dayView1.SelectedAppointment.Title;
+                        m_Appointment.DetailComment = dayView1.SelectedAppointment.DetailComment;
+                        comment = dayView1.SelectedAppointment.Title;
+                        commentDetail = dayView1.SelectedAppointment.DetailComment;
+                    }
+                    else
+                    {
+                        m_Appointment.Comment = dayView1.SelectedAppointment.Title;
+                        comment = dayView1.SelectedAppointment.Title;
+                    }
                 }
                 fanqieid = dayView1.SelectedAppointment.ID;
                 m_Appointments.Remove(dayView1.SelectedAppointment);

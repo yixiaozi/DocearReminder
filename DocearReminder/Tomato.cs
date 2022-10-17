@@ -21,7 +21,10 @@ namespace DocearReminder
         bool isnotdefault = false;
         private int _fanqieCount=0;
         string faneiguid;
-        public Tomato(DateTime fiveM,string name ,string mindmap, int fanqieCount,bool isADD=false,int taskLevel=0)
+        string _timeblockName = "";
+        string _timeblockfather = "";
+        string _timeblockcolor = "";
+        public Tomato(DateTime fiveM,string name ,string mindmap, int fanqieCount,bool isADD=false,int taskLevel=0, string timeblockName = "", string timeblockfather = "", string timeblockcolor = "")
         {
             if (fanqieCount>10)
             {
@@ -32,6 +35,9 @@ namespace DocearReminder
             {
                 isnotdefault = true;
             }
+            _timeblockcolor = timeblockcolor;
+            _timeblockName = timeblockName;
+            _timeblockfather = timeblockfather;
             _fanqieCount=fanqieCount;
             DocearReminderForm.fanqiePosition[_fanqieCount] = true;
             mindmapPath = mindmap;
@@ -169,15 +175,39 @@ namespace DocearReminder
         {
             try
             {
-                DocearReminderForm.reminderObject.reminders.Add(new ReminderItem
+                if (_timeblockName != "")
                 {
-                    name = TaskName,
-                    time = DateTime.Now,
-                    mindmapPath = mindmap,
-                    ID = ID,
-                    mindmap="FanQie",
-                    tasklevel= taskLevel
-                });
+                    string commondetail = "";
+                    if (TaskName.Contains('|'))
+                    {
+                        commondetail = TaskName.Split('|')[1];
+                        TaskName = TaskName.Split('|')[0];
+                    }
+                    DocearReminderForm.reminderObject.reminders.Add(new ReminderItem
+                    {
+                        name = _timeblockName,
+                        time = DateTime.Now,
+                        mindmapPath = _timeblockcolor,
+                        nameFull = _timeblockfather,
+                        comment = TaskName,
+                        DetailComment = commondetail,
+                        ID = ID,
+                        mindmap = "TimeBlock",
+                        tasklevel = taskLevel
+                    });
+                }
+                else
+                {
+                    DocearReminderForm.reminderObject.reminders.Add(new ReminderItem
+                    {
+                        name = TaskName,
+                        time = DateTime.Now,
+                        mindmapPath = mindmap,
+                        ID = ID,
+                        mindmap = "FanQie",
+                        tasklevel = taskLevel
+                    });
+                }
             }
             catch (Exception)
             {

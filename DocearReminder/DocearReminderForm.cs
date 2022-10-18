@@ -79,7 +79,7 @@ namespace DocearReminder
         public List<mindmapfile> mindmapfiles = new List<mindmapfile>();
         public List<String> remindmapsList = new List<String>();
         public List<mindmapfile> mindmapfilesAll = new List<mindmapfile>();
-        public List<node> nodes = new List<node>();
+        public static List<node> nodes = new List<node>();
         public List<node> nodesicon = new List<node>();
         public List<node> timeblocks = new List<node>();
         public List<node> allfiles = new List<node>();
@@ -1075,33 +1075,42 @@ namespace DocearReminder
                 {
                     try
                     {
-                        string str1 = "node";
-                        string str2 = "TEXT";
                         System.Xml.XmlDocument x = new XmlDocument();
                         x.Load(file.FullName);
                         string fileName = file.Name.Substring(0, file.Name.Length - 3);
                         List<string> contents = new List<string>();
-                        foreach (XmlNode node in x.GetElementsByTagName(str1))
+                        foreach (XmlNode node in x.GetElementsByTagName("node"))
                         {
                             try
                             {
-                                if (node.Attributes[str2]==null|| node.Attributes["ID"]==null)
+                                if (node.Attributes["TEXT"] ==null|| node.Attributes["ID"]==null)
                                 {
                                     continue;
                                 }
-                                if (node.Attributes[str2].Value != "")
+                                if (node.Attributes["TEXT"].Value != "")
                                 {
-                                    if (!contents.Contains(node.Attributes[str2].Value))
+                                    if (!contents.Contains(node.Attributes["TEXT"].Value))
                                     {
+                                        DateTime CREATEDdt = DateTime.Now;
+                                        DateTime MODIFIEDdt = DateTime.Now;
+                                        string CREATED = GetAttribute(node, "CREATED");
+                                        string MODIFIED = GetAttribute(node, "CREATED");
+                                        long unixTimeStampCREATED = Convert.ToInt64(CREATED);
+                                        long unixTimeStampMODIFIED = Convert.ToInt64(MODIFIED);
+                                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                        CREATEDdt = startTime.AddMilliseconds(unixTimeStampCREATED);
+                                        MODIFIEDdt = startTime.AddMilliseconds(unixTimeStampMODIFIED);
+
                                         nodes.Add(new node
                                         {
-                                            Text = node.Attributes[str2].Value,
+                                            Text = node.Attributes["TEXT"].Value,
                                             mindmapName = fileName,
                                             mindmapPath = file.FullName,
-                                            editDateTime = DateTime.Now,
-                                            Time = DateTime.Now,
+                                            editDateTime = MODIFIEDdt,
+                                            Time = CREATEDdt,
                                             IDinXML = node.Attributes["ID"].Value,
-                                        });
+                                            ParentNodePath= GetFatherNodeName(node)
+                                        });// CREATED = "1640347265596" MODIFIED = "1642748153418"
                                     }
                                 }
                             }
@@ -1113,19 +1122,28 @@ namespace DocearReminder
                         {
                             try
                             {
-                                if (node.Attributes[str2] == null)
+                                if (node.Attributes["TEXT"] == null)
                                 {
                                     continue;
                                 }
-                                if (!contents.Contains(node.Attributes[str2].Value))
+                                if (!contents.Contains(node.Attributes["TEXT"].Value))
                                 {
+                                    DateTime CREATEDdt = DateTime.Now;
+                                    DateTime MODIFIEDdt = DateTime.Now;
+                                    string CREATED = GetAttribute(node, "CREATED");
+                                    string MODIFIED = GetAttribute(node, "CREATED");
+                                    long unixTimeStampCREATED = Convert.ToInt64(CREATED);
+                                    long unixTimeStampMODIFIED = Convert.ToInt64(MODIFIED);
+                                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                    CREATEDdt = startTime.AddMilliseconds(unixTimeStampCREATED);
+                                    MODIFIEDdt = startTime.AddMilliseconds(unixTimeStampMODIFIED);
                                     nodes.Add(new node
                                     {
                                         Text = node.InnerText,
                                         mindmapName = fileName,
                                         mindmapPath = file.FullName,
-                                        editDateTime = DateTime.Now,
-                                        Time = DateTime.Now,
+                                        editDateTime = MODIFIEDdt,
+                                        Time = CREATEDdt,
                                         IDinXML = node.Attributes["ID"].Value
                                     });
                                 }
@@ -15742,6 +15760,14 @@ namespace DocearReminder
                 iSource.Dispose();
                 ob.Dispose();
             }
+        }
+
+        private void 导图分析ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new MindMapDataReport()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
         }
     }
 

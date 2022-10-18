@@ -176,6 +176,12 @@
     <Compile Include="Search.Designer.cs">
       <DependentUpon>Search.cs</DependentUpon>
     </Compile>
+    <Compile Include="MindMapDataReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MindMapDataReport.Designer.cs">
+      <DependentUpon>MindMapDataReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeBlockReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Search.resx">
       <DependentUpon>Search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MindMapDataReport.resx">
+      <DependentUpon>MindMapDataReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeBlockReport.resx">
       <DependentUpon>TimeBlockReport.cs</DependentUpon>

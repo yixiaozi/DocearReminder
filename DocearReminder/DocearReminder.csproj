@@ -94,6 +94,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\IrisSkin4.dll</HintPath>
     </Reference>
+    <Reference Include="LZStringCSharp, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\LZStringCSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
       <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>

@@ -422,7 +422,7 @@ namespace DocearReminder
                     {
                         MaxJsonLength = Int32.MaxValue
                     }.Serialize(reminderObject);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", DocearReminderForm.CompressToBase64(json));
                 }
             }
             catch (Exception)
@@ -1520,11 +1520,24 @@ namespace DocearReminder
         private void SetTimeBlock(object sender, EventArgs e)
         {
             Appointment m_Appointment = new Appointment();
-            m_Appointment = new Appointment
+            if ((dayView1.SelectionEnd-dayView1.SelectionStart).TotalMinutes>2)
             {
-                StartDate = dayView1.SelectionStart
-            };
-            m_Appointment.EndDate = dayView1.SelectionEnd;
+                m_Appointment.StartDate = dayView1.SelectionStart;
+                m_Appointment.EndDate = dayView1.SelectionEnd;
+            }
+            else
+            {
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                if (item != null)
+                {
+                    m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
+                }
+                else
+                {
+                    return;
+                }
+                m_Appointment.EndDate = DateTime.Now;
+            }
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();
@@ -1959,10 +1972,10 @@ namespace DocearReminder
                     string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];
                     string detail = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[2];
                     string time = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[0];
-                    int timeNum = 0;
+                    double timeNum = 0;
                     try
                     {
-                        timeNum = Convert.ToInt16(time);
+                        timeNum = Convert.ToDouble(time);
                     }
                     catch (Exception)
                     {

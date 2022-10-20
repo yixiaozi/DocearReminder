@@ -47,6 +47,7 @@ namespace DocearReminder
 
         public void LoadChart()
         {
+            #region 时间
             formsPlot1.Plot.Clear();
             formsPlot1.Configuration.AllowDroppedFramesWhileDragging = false;
             formsPlot1.Configuration.ScrollWheelZoom = false;
@@ -57,23 +58,25 @@ namespace DocearReminder
             List<int> countList = new List<int>();
             richTextBox1.Text = "";
             string content = "";
-            foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m=> MyContains(m.mindmapPath,textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName,textBox_mindmappath.Text)&& MyContains(m.ParentNodePath,fathernodename.Text)&& MyContains(m.Text,nodename.Text)&&(nodenameexc.Text!=""?!MyContains(m.Text,nodenameexc.Text):true)).OrderBy(m=>m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
+
+
+            foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
             {
                 double minute = 0;
                 foreach (node ritem in item)
                 {
-                    if (content.Length< numericUpDown2.Value)
+                    if (content.Length < numericUpDown2.Value)
                     {
                         content += (ritem.Time.ToString("yy-MM-dd hh:mm:ss FF |节点：") + ritem.Text + "|导图：" + ritem.mindmapName);
                         content += Environment.NewLine;
                     }
                     minute++;
                 }
-                if (minute>Convert.ToDouble(numericUpDown1.Value))
+                if (minute > Convert.ToDouble(numericUpDown1.Value))
                 {
                     minute = Convert.ToDouble(numericUpDown1.Value);
                 }
-                daysList.Add(item.Key);    
+                daysList.Add(item.Key);
                 valueList.Add(minute);
             }
             richTextBox1.Text = content;
@@ -81,9 +84,149 @@ namespace DocearReminder
             plt.XAxis.TickLabelFormat("yy-MM-dd", dateTimeFormat: true);
             plt.Legend();
             formsPlot1.Refresh();
+            #endregion
+
+            #region 时间
+            formsPlot3.Plot.Clear();
+            formsPlot3.Configuration.AllowDroppedFramesWhileDragging = false;
+            formsPlot3.Configuration.ScrollWheelZoom = false;
+            formsPlot3.Configuration.LeftClickDragPan = false;
+            var plt3 = formsPlot3.Plot;
+            List<double> valueList3 = new List<double>();
+            List<string> daysList3 = new List<string>();
+
+
+            foreach (IGrouping<int, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time.Hour).GroupBy(m => m.Time.Hour))
+            {
+                daysList3.Add(item.Key.ToString());
+                valueList3.Add(item.Count());
+            }
+            plt3.AddBar(valueList3.ToArray());
+            plt3.XTicks(daysList3.ToArray());
+            plt3.Legend();
+            formsPlot3.Refresh();
+            #endregion
+
+            #region 时间
+            formsPlot4.Plot.Clear();
+            formsPlot4.Configuration.AllowDroppedFramesWhileDragging = false;
+            formsPlot4.Configuration.ScrollWheelZoom = false;
+            formsPlot4.Configuration.LeftClickDragPan = false;
+            var plt4 = formsPlot4.Plot;
+            List<double> valueList4 = new List<double>();
+            List<string> daysList4 = new List<string>();
+
+            foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.Time.ToString("ddd")))
+            {
+                daysList4.Add(item.Key);
+                valueList4.Add(item.Count());
+            }
+            plt4.AddBar(valueList4.ToArray());
+            plt4.XTicks(daysList4.ToArray());
+            plt4.Legend();
+            formsPlot4.Refresh();
+            #endregion
+
+
+            #region 导图
+            formsPlot2.Plot.Clear();
+            formsPlot2.Configuration.AllowDroppedFramesWhileDragging = false;
+            formsPlot2.Configuration.ScrollWheelZoom = false;
+            formsPlot2.Configuration.LeftClickDragPan = false;
+            var plt2 = formsPlot2.Plot;
+            ReportDataCol reportData = new ReportDataCol();
+
+            foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.mindmapName))
+            {
+                reportData.items.Add(new ReportDataItem
+                {
+                    name = item.Key,
+                    value = item.Count()
+                });
+            }
+            if (reportData.values.Length == 0)
+            {
+                return;
+            }
+            var pie2 = plt2.AddPie(reportData.values);
+            pie2.SliceLabels = reportData.names;
+            //pie2.ShowPercentages = true;
+            //pie2.ShowValues = true;
+            pie2.ShowLabels = true;
+            //plt2.Legend();
+            formsPlot2.Refresh();
+            #endregion
+        }
+        public class ReportDataCol
+        {
+            public ReportDataCol()
+            {
+                items = new List<ReportDataItem>();
+            }
+            public List<ReportDataItem> items { get; set; }
+            public string[] names
+            {
+                get
+                {
+                    string[] _names = new string[items.Count];
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        _names[i] = items[i].name;
+
+                    }
+                    return _names;
+                }
+            }
+            public double[] values
+            {
+                get
+                {
+                    double[] _values = new double[items.Count];
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        _values[i] = items[i].value;
+
+                    }
+                    return _values;
+                }
+            }
+            public Color[] colors
+            {
+                get
+                {
+                    Color[] _values = new Color[items.Count];
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        _values[i] = items[i].color;
+
+                    }
+                    return _values;
+                }
+            }
+            public Color[] labelcolors
+            {
+                get
+                {
+                    Color[] _values = new Color[items.Count];
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        _values[i] = Color.Black;
+
+                    }
+                    return _values;
+                }
+            }
         }
 
-        
+        public class ReportDataItem
+        {
+            public string name { get; set; }
+            public string fullName { get; set; }
+            public double value { get; set; }
+            public Color color { get; set; }
+        }
+
+
         yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
 
         private void TimeBlockReport_Resize(object sender, EventArgs e)

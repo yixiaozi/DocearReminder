@@ -43,6 +43,9 @@ namespace DocearReminder
             this.nodename = new System.Windows.Forms.TextBox();
             this.nodenameexc = new System.Windows.Forms.TextBox();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.formsPlot2 = new ScottPlot.FormsPlot();
+            this.formsPlot3 = new ScottPlot.FormsPlot();
+            this.formsPlot4 = new ScottPlot.FormsPlot();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -50,9 +53,9 @@ namespace DocearReminder
             // formsPlot1
             // 
             this.formsPlot1.AutoSize = true;
-            this.formsPlot1.Location = new System.Drawing.Point(2, 43);
+            this.formsPlot1.Location = new System.Drawing.Point(2, 42);
             this.formsPlot1.Name = "formsPlot1";
-            this.formsPlot1.Size = new System.Drawing.Size(1189, 766);
+            this.formsPlot1.Size = new System.Drawing.Size(1160, 475);
             this.formsPlot1.TabIndex = 0;
             // 
             // textBox_mindmappath
@@ -87,7 +90,7 @@ namespace DocearReminder
             // 
             this.richTextBox1.Location = new System.Drawing.Point(1181, 68);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(591, 712);
+            this.richTextBox1.Size = new System.Drawing.Size(591, 785);
             this.richTextBox1.TabIndex = 13;
             this.richTextBox1.Text = "";
             // 
@@ -169,13 +172,37 @@ namespace DocearReminder
             0,
             0});
             // 
+            // formsPlot2
+            // 
+            this.formsPlot2.Location = new System.Drawing.Point(12, 527);
+            this.formsPlot2.Name = "formsPlot2";
+            this.formsPlot2.Size = new System.Drawing.Size(366, 354);
+            this.formsPlot2.TabIndex = 20;
+            // 
+            // formsPlot3
+            // 
+            this.formsPlot3.Location = new System.Drawing.Point(384, 527);
+            this.formsPlot3.Name = "formsPlot3";
+            this.formsPlot3.Size = new System.Drawing.Size(454, 354);
+            this.formsPlot3.TabIndex = 21;
+            // 
+            // formsPlot4
+            // 
+            this.formsPlot4.Location = new System.Drawing.Point(844, 527);
+            this.formsPlot4.Name = "formsPlot4";
+            this.formsPlot4.Size = new System.Drawing.Size(331, 354);
+            this.formsPlot4.TabIndex = 22;
+            // 
             // MindMapDataReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1784, 821);
+            this.ClientSize = new System.Drawing.Size(1784, 865);
+            this.Controls.Add(this.formsPlot4);
+            this.Controls.Add(this.formsPlot3);
+            this.Controls.Add(this.formsPlot2);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.nodenameexc);
             this.Controls.Add(this.nodename);
@@ -214,5 +241,8 @@ namespace DocearReminder
         private System.Windows.Forms.TextBox nodename;
         private System.Windows.Forms.TextBox nodenameexc;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private ScottPlot.FormsPlot formsPlot2;
+        private ScottPlot.FormsPlot formsPlot3;
+        private ScottPlot.FormsPlot formsPlot4;
     }
 }

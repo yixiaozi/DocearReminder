@@ -260,10 +260,10 @@ namespace DocearReminder
                 rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
                 {
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", new JavaScriptSerializer
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(new JavaScriptSerializer
                     {
                         MaxJsonLength = Int32.MaxValue
-                    }.Serialize(reminderObject));
+                    }.Serialize(reminderObject)));
                 }
                 else
                 {
@@ -275,7 +275,7 @@ namespace DocearReminder
                         {
                             MaxJsonLength = Int32.MaxValue
                         };
-                        reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(s)); 
+                        reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(s))); 
                     }
                 }
 
@@ -440,6 +440,90 @@ namespace DocearReminder
             }
             titleTimer.Start();
             SaveLog("打开程序。");
+        }
+        /// <summary>
+        /// 压缩成base64格式
+        /// </summary>
+        /// <param name="content">原文</param>
+        /// <returns></returns>
+        public static string CompressToBase64(string content)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(content))
+                {
+                    content = content.Trim();
+                    if (content.Length > 0)
+                    {
+                        content = LZStringCSharp.LZString.CompressToBase64(content);
+                    }
+                }
+            }
+            catch (Exception ex)
+            { }
+            return content;
+        }
+
+        /// <summary>
+        /// 从base64解压数据
+        /// </summary>
+        /// <param name="content">密文</param>
+        /// <returns></returns>
+        public static string DecompressFromBase64(string content)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(content))
+                {
+                    content = content.Trim();
+                    if (content.Length > 0)
+                    {
+                        if (IsBase64(content))
+                        {
+                            content = LZStringCSharp.LZString.DecompressFromBase64(content);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            { }
+            return content;
+        }
+        private static char[] base64CodeArray = new char[]
+        {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4',  '5', '6', '7', '8', '9', '+', '/', '='
+        };
+
+        /// <summary>
+        /// 是否base64字符串
+        /// </summary>
+        /// <param name="base64Str">要判断的字符串</param>
+        /// <param name="bytes">字符串转换成的字节数组</param>
+        /// <returns></returns>
+        public static bool IsBase64(string base64Str)
+        {
+            if (string.IsNullOrEmpty(base64Str))
+                return false;
+            else
+            {
+                if (base64Str.Contains(","))
+                    base64Str = base64Str.Split(',')[1];
+                if (base64Str.Length % 4 != 0)
+                    return false;
+                if (base64Str.Any(c => !base64CodeArray.Contains(c)))
+                    return false;
+            }
+            try
+            {
+                var bytes = Convert.FromBase64String(base64Str);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
         public void gettitle()
         {
@@ -863,7 +947,7 @@ namespace DocearReminder
                 {
                     MaxJsonLength = Int32.MaxValue
                 }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(json));
             }
             catch (Exception)
             {
@@ -2868,6 +2952,9 @@ namespace DocearReminder
             reminderList.Sorted = false;
             reminderList.Sorted = true;
             reminderList.Refresh();
+            reminderListBox.Sorted = false;
+            reminderListBox.Sorted = true;
+            reminderListBox.Refresh();
         }
         private void mindmaplist_DoubleClick(object sender, EventArgs e)
         {
@@ -5233,7 +5320,7 @@ namespace DocearReminder
                         }
 
                         //用树视图打开思维导图
-                        reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.name, Value = file.filePath, IDinXML = "GUID" };
+                        reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.name, Value = file.filePath, IDinXML = "" };
                         mindmapornode.Text = file.name;//进入查看子节点一样的逻辑，按w才能退出
                         ShowMindmap();
                         ShowMindmapFile();
@@ -8851,7 +8938,7 @@ namespace DocearReminder
                             }
 
                             //用树视图打开思维导图
-                            reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.Name, Value = file.FullName, IDinXML = "GUID" };
+                            reminderlistSelectedItem = new MyListBoxItemRemind() { Name = file.Name, Value = file.FullName, IDinXML = "" };
                             mindmapornode.Text = file.FullName;//进入查看子节点一样的逻辑，按w才能退出
                             ShowMindmap();
                             SelectTreeNode(nodetree.Nodes, renameMindMapFileID);
@@ -11196,7 +11283,7 @@ namespace DocearReminder
                 {
                     MaxJsonLength = Int32.MaxValue
                 }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(json));
             }
             catch (Exception)
             {
@@ -11612,6 +11699,8 @@ namespace DocearReminder
 
         public void ShowMindmap(bool isShowSub = false)
         {
+            lastEdit = DateTime.Now.AddYears(-10);
+            lastnodeID = "";
             fathernode.Visible = false;
             if (searchword.Text.StartsWith("#") || (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null))
             {
@@ -11671,6 +11760,10 @@ namespace DocearReminder
                             {
                                 SelectTreeNode(nodetree.Nodes, taskid);
                             }
+                            else if(lastnodeID != "")
+                            {
+                                SelectTreeNode(nodetree.Nodes, lastnodeID);
+                            }
                         }
                     }
                     catch (Exception) { }
@@ -11683,9 +11776,15 @@ namespace DocearReminder
                 {
                     SelectTreeNode(nodetree.Nodes, taskid);
                 }
+                else if(lastnodeID != "")
+                {
+                    SelectTreeNode(nodetree.Nodes, lastnodeID);
+                }
             }
 
         }
+        public DateTime lastEdit;
+        public string lastnodeID;
         /// <summary>
         /// Renders a node of XML into a TreeNode. Recursive if inside the node there are more child nodes.
         /// </summary>
@@ -11711,6 +11810,21 @@ namespace DocearReminder
                 }
                 if (isSubNode && xNode.Name == "node" && xNode.Attributes != null && xNode.Attributes["TEXT"] != null)
                 {
+                    //CREATED
+                    DateTime dt = DateTime.Now;
+                    string reminder = GetAttribute(xNode, "CREATED");
+                    if (reminder != "")
+                    {
+                        long unixTimeStamp = Convert.ToInt64(reminder);
+                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                        dt = startTime.AddMilliseconds(unixTimeStamp);
+                    }
+
+                    if (dt>=lastEdit)
+                    {
+                        lastEdit = dt;
+                        lastnodeID= GetAttribute(xNode, "ID");
+                    }
                     if (showMindmapName.EndsWith("\\"+xNode.Attributes["TEXT"].InnerText+".mm"))//必须和文件名完全一样才认为是根节点
                     {
                         AddNode(xNode, inTreeNode, true);
@@ -11724,15 +11838,6 @@ namespace DocearReminder
                         TreeNode inTreeNodeAdd;
                         if (inTreeNode.Text.StartsWith("Root"))
                         {
-                            //CREATED
-                            DateTime dt = DateTime.Now;
-                            string reminder = GetAttribute(xNode, "CREATED");
-                            if (reminder != "")
-                            {
-                                long unixTimeStamp = Convert.ToInt64(reminder);
-                                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                                dt = startTime.AddMilliseconds(unixTimeStamp);
-                            }
                             inTreeNodeAdd = nodetree.Nodes.Add(xNode.Attributes["ID"].Value, gettasktime(xNode) + (reminder != "" && inTreeNode.Text == "RootWithTime" ? dt.ToString("MMddHH ") : "") + xNode.Attributes["TEXT"].InnerText);
                         }
                         else

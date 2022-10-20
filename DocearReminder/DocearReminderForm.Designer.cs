@@ -123,6 +123,7 @@ namespace DocearReminder
             this.键盘分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.趋势ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.目标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导图分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.taskcount = new System.Windows.Forms.Label();
             this.mindmapornode = new System.Windows.Forms.Label();
@@ -151,7 +152,6 @@ namespace DocearReminder
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
-            this.导图分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -298,7 +298,7 @@ namespace DocearReminder
             // n_days
             // 
             this.n_days.ForeColor = System.Drawing.Color.Gray;
-            this.n_days.Location = new System.Drawing.Point(1117, 9);
+            this.n_days.Location = new System.Drawing.Point(1118, 9);
             this.n_days.Name = "n_days";
             this.n_days.Size = new System.Drawing.Size(35, 21);
             this.n_days.TabIndex = 20;
@@ -457,7 +457,7 @@ namespace DocearReminder
             0,
             0});
             this.taskTime.Name = "taskTime";
-            this.taskTime.Size = new System.Drawing.Size(35, 21);
+            this.taskTime.Size = new System.Drawing.Size(38, 21);
             this.taskTime.TabIndex = 15;
             this.taskTime.TabStop = false;
             this.taskTime.ValueChanged += new System.EventHandler(this.taskTime_ValueChanged);
@@ -534,7 +534,7 @@ namespace DocearReminder
             // tasklevel
             // 
             this.tasklevel.ForeColor = System.Drawing.Color.Gray;
-            this.tasklevel.Location = new System.Drawing.Point(1071, 9);
+            this.tasklevel.Location = new System.Drawing.Point(1072, 9);
             this.tasklevel.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -947,7 +947,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 356);
+            this.menu.Size = new System.Drawing.Size(212, 334);
             this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
@@ -1164,37 +1164,44 @@ namespace DocearReminder
             // 时间快ToolStripMenuItem
             // 
             this.时间快ToolStripMenuItem.Name = "时间快ToolStripMenuItem";
-            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.时间快ToolStripMenuItem.Text = "时间快";
             this.时间快ToolStripMenuItem.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
             // 
             // 使用记录ToolStripMenuItem
             // 
             this.使用记录ToolStripMenuItem.Name = "使用记录ToolStripMenuItem";
-            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.使用记录ToolStripMenuItem.Text = "使用记录";
             this.使用记录ToolStripMenuItem.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
             // 
             // 键盘分析ToolStripMenuItem
             // 
             this.键盘分析ToolStripMenuItem.Name = "键盘分析ToolStripMenuItem";
-            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.键盘分析ToolStripMenuItem.Text = "键盘分析";
             this.键盘分析ToolStripMenuItem.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
             // 趋势ToolStripMenuItem
             // 
             this.趋势ToolStripMenuItem.Name = "趋势ToolStripMenuItem";
-            this.趋势ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.趋势ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.趋势ToolStripMenuItem.Text = "趋势";
             this.趋势ToolStripMenuItem.Click += new System.EventHandler(this.趋势ToolStripMenuItem_Click);
             // 
             // 目标ToolStripMenuItem
             // 
             this.目标ToolStripMenuItem.Name = "目标ToolStripMenuItem";
-            this.目标ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.目标ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.目标ToolStripMenuItem.Text = "目标";
             this.目标ToolStripMenuItem.Click += new System.EventHandler(this.目标ToolStripMenuItem_Click);
+            // 
+            // 导图分析ToolStripMenuItem
+            // 
+            this.导图分析ToolStripMenuItem.Name = "导图分析ToolStripMenuItem";
+            this.导图分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.导图分析ToolStripMenuItem.Text = "导图分析";
+            this.导图分析ToolStripMenuItem.Click += new System.EventHandler(this.导图分析ToolStripMenuItem_Click);
             // 
             // taskcount
             // 
@@ -1519,13 +1526,6 @@ namespace DocearReminder
             this.CameraTimer.Enabled = true;
             this.CameraTimer.Interval = 3600000;
             this.CameraTimer.Tick += new System.EventHandler(this.CameraTimer_Tick);
-            // 
-            // 导图分析ToolStripMenuItem
-            // 
-            this.导图分析ToolStripMenuItem.Name = "导图分析ToolStripMenuItem";
-            this.导图分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.导图分析ToolStripMenuItem.Text = "导图分析";
-            this.导图分析ToolStripMenuItem.Click += new System.EventHandler(this.导图分析ToolStripMenuItem_Click);
             // 
             // DocearReminderForm
             // 

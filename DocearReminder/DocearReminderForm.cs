@@ -370,10 +370,7 @@ namespace DocearReminder
                 {
                     mindmaplist.SetItemChecked(i, true);
                 }
-                if (true)
-                {
-                    RRReminderlist();
-                }
+                RRReminderlist();
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Shift, Keys.Space, CallBack);
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
 
@@ -666,6 +663,14 @@ namespace DocearReminder
             //asc = new AutoSizeFormClass();
             //asc.controlAutoSize(this);
             Center();
+            if (this.Height==880)
+            {
+                fathernode.Visible = false;
+            }
+            else
+            {
+                fathernode.Visible = true;
+            }
         }
 
         private void DocearReminderForm_Load(object sender, EventArgs e)
@@ -847,6 +852,10 @@ namespace DocearReminder
                     Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
                     th.Start();
                 }
+            }
+            if (DateTime.Now.Minute == 41|| DateTime.Now.Minute == 11)
+            {
+                NewFiles();
             }
             try
             {
@@ -1078,7 +1087,7 @@ namespace DocearReminder
                         System.Xml.XmlDocument x = new XmlDocument();
                         x.Load(file.FullName);
                         string fileName = file.Name.Substring(0, file.Name.Length - 3);
-                        List<string> contents = new List<string>();
+                        List<string> contents = new List<string>();//todo:重复值，是否需要呢？
                         foreach (XmlNode node in x.GetElementsByTagName("node"))
                         {
                             try
@@ -1089,6 +1098,10 @@ namespace DocearReminder
                                 }
                                 if (node.Attributes["TEXT"].Value != "")
                                 {
+                                    if (node.Attributes["TEXT"].Value.Length<=4&& node.Attributes["TEXT"].Value.All(char.IsDigit))
+                                    {
+                                        continue;
+                                    }
                                     if (!contents.Contains(node.Attributes["TEXT"].Value))
                                     {
                                         DateTime CREATEDdt = DateTime.Now;
@@ -7640,7 +7653,7 @@ namespace DocearReminder
                     PlaySimpleSound("treeview");
                     if (ReminderListFocused() || reminderListBox.Focused || nodetree.Focused)
                     {
-                        if (this.Height != 888)
+                        if (this.Height != 880)
                         {
                             ShowMindmap(true);
                             ShowMindmapFile();
@@ -8434,82 +8447,82 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (searchword.Text.Contains(ini.ReadString("money", "cost", "")) || searchword.Text.Contains(ini.ReadString("money", "income", "")) || searchword.Text.Contains(ini.ReadString("money", "save", "")) || searchword.Text.Contains(ini.ReadString("money", "waste", "")))
-                        {
-                            bool ishasSound = false;
-                            if (searchword.Text.Contains(ini.ReadString("money", "save", "")))
-                            {
-                                PlaySimpleSound("save");
-                                ishasSound = true;
-                                searchword.Text = searchword.Text.Replace(ini.ReadString("money", "save", ""), ini.ReadString("money", "save", "") + ini.ReadString("money", "income", ""));
-                            }
-                            if (searchword.Text.Contains(ini.ReadString("money", "waste", "")))
-                            {
-                                PlaySimpleSound("waste");
-                                ishasSound = true;
-                                searchword.Text = searchword.Text.Replace(ini.ReadString("money", "waste", ""), ini.ReadString("money", "waste", "") + ini.ReadString("money", "cost", ""));
-                            }
-                            string taskName = searchword.Text;
-                            string account = ini.ReadString("money", "account", "");
-                            string currentAccount = "";
-                            string money = "0";
-                            bool isIncome = false;
-                            MatchCollection jc = Regex.Matches(taskName, ini.ReadString("money", "cost", "") + @"[1-9]\d*\.?\d*");
-                            foreach (Match m in jc)
-                            {
-                                taskName = taskName.Replace(m.Value, "");
-                                money = m.Value.Substring(2);
-                                break;
-                            }
-                            MatchCollection sr = Regex.Matches(taskName, ini.ReadString("money", "income", "") + @"[1-9]\d*\.?\d*");
-                            foreach (Match m in sr)
-                            {
-                                taskName = taskName.Replace(m.Value, "");
-                                money = m.Value.Substring(2);
-                                isIncome = true;
-                                break;
-                            }
-                            foreach (string item in account.Split(';'))
-                            {
-                                if (item == "")
-                                {
-                                    continue;
-                                }
-                                if (taskName.Contains(item))
-                                {
-                                    currentAccount = item;
-                                    taskName = taskName.Replace(currentAccount, "");
-                                }
-                            }
-                            if (!ishasSound)
-                            {
-                                if (isIncome)
-                                {
-                                    PlaySimpleSound("income");
-                                }
-                                else
-                                {
-                                    PlaySimpleSound("cost");
-                                }
-                            }
+                        //else if (searchword.Text.Contains(ini.ReadString("money", "cost", "")) || searchword.Text.Contains(ini.ReadString("money", "income", "")) || searchword.Text.Contains(ini.ReadString("money", "save", "")) || searchword.Text.Contains(ini.ReadString("money", "waste", "")))
+                        //{
+                        //    bool ishasSound = false;
+                        //    if (searchword.Text.Contains(ini.ReadString("money", "save", "")))
+                        //    {
+                        //        PlaySimpleSound("save");
+                        //        ishasSound = true;
+                        //        searchword.Text = searchword.Text.Replace(ini.ReadString("money", "save", ""), ini.ReadString("money", "save", "") + ini.ReadString("money", "income", ""));
+                        //    }
+                        //    if (searchword.Text.Contains(ini.ReadString("money", "waste", "")))
+                        //    {
+                        //        PlaySimpleSound("waste");
+                        //        ishasSound = true;
+                        //        searchword.Text = searchword.Text.Replace(ini.ReadString("money", "waste", ""), ini.ReadString("money", "waste", "") + ini.ReadString("money", "cost", ""));
+                        //    }
+                        //    string taskName = searchword.Text;
+                        //    string account = ini.ReadString("money", "account", "");
+                        //    string currentAccount = "";
+                        //    string money = "0";
+                        //    bool isIncome = false;
+                        //    MatchCollection jc = Regex.Matches(taskName, ini.ReadString("money", "cost", "") + @"[1-9]\d*\.?\d*");
+                        //    foreach (Match m in jc)
+                        //    {
+                        //        taskName = taskName.Replace(m.Value, "");
+                        //        money = m.Value.Substring(2);
+                        //        break;
+                        //    }
+                        //    MatchCollection sr = Regex.Matches(taskName, ini.ReadString("money", "income", "") + @"[1-9]\d*\.?\d*");
+                        //    foreach (Match m in sr)
+                        //    {
+                        //        taskName = taskName.Replace(m.Value, "");
+                        //        money = m.Value.Substring(2);
+                        //        isIncome = true;
+                        //        break;
+                        //    }
+                        //    foreach (string item in account.Split(';'))
+                        //    {
+                        //        if (item == "")
+                        //        {
+                        //            continue;
+                        //        }
+                        //        if (taskName.Contains(item))
+                        //        {
+                        //            currentAccount = item;
+                        //            taskName = taskName.Replace(currentAccount, "");
+                        //        }
+                        //    }
+                        //    if (!ishasSound)
+                        //    {
+                        //        if (isIncome)
+                        //        {
+                        //            PlaySimpleSound("income");
+                        //        }
+                        //        else
+                        //        {
+                        //            PlaySimpleSound("cost");
+                        //        }
+                        //    }
 
-                            AddMoney(ini.ReadString("money", "money", ""), currentAccount, money, isIncome, taskName);
-                            try
-                            {
-                                if (searchword.Text.Contains(ini.ReadString("money", "save", "")) || searchword.Text.Contains(ini.ReadString("money", "waste", "")))
-                                {
-                                    showMoneyLeft(ini.ReadString("money", "money", ""), "saveAccount");
-                                }
-                                else
-                                {
-                                    showMoneyLeft(ini.ReadString("money", "money", ""), "balanceAccount");
-                                }
-                            }
-                            catch (Exception)
-                            {
-                            }
-                            searchword.Text = "";
-                        }
+                        //    AddMoney(ini.ReadString("money", "money", ""), currentAccount, money, isIncome, taskName);
+                        //    try
+                        //    {
+                        //        if (searchword.Text.Contains(ini.ReadString("money", "save", "")) || searchword.Text.Contains(ini.ReadString("money", "waste", "")))
+                        //        {
+                        //            showMoneyLeft(ini.ReadString("money", "money", ""), "saveAccount");
+                        //        }
+                        //        else
+                        //        {
+                        //            showMoneyLeft(ini.ReadString("money", "money", ""), "balanceAccount");
+                        //        }
+                        //    }
+                        //    catch (Exception)
+                        //    {
+                        //    }
+                        //    searchword.Text = "";
+                        //}//取消赚钱
                         else if (searchword.Text.StartsWith("#"))
                         {
                             SearchFiles();
@@ -9972,6 +9985,7 @@ namespace DocearReminder
                             nodetree.Top = FileTreeView.Top = 506;
                             nodetree.Height = FileTreeView.Height = 322;
                             pictureBox1.Visible = false;
+                            fathernode.Visible = false;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
                             this.Height = 545;showMindmapName="";
                             if (focusedList==0)
@@ -11598,6 +11612,7 @@ namespace DocearReminder
 
         public void ShowMindmap(bool isShowSub = false)
         {
+            fathernode.Visible = false;
             if (searchword.Text.StartsWith("#") || (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null))
             {
                 return;
@@ -12001,6 +12016,69 @@ namespace DocearReminder
             if (searchword.Text.ToLower().Contains("exit"))
             {
                 Application.Exit();
+            }
+            else if (searchword.Text.StartsWith("paizhao"))//开始录音
+            {
+                CameraTimer_Tick(null, null);
+                searchword.Text = "";
+            }
+            else if (searchword.Text.StartsWith("luyinstart"))//开始录音
+            {
+                checkBox1.Checked = true;
+                searchword.Text = "";
+            }
+            else if (searchword.Text.StartsWith("luyinend"))//结束录音
+            {
+                checkBox1.Checked = false;
+                searchword.Text = "";
+            }
+            else if (searchword.Text.StartsWith("rtimeblock"))//打开时间块报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockReport()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.StartsWith("rkeyboard"))//打开键盘报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new KeyHours()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.StartsWith("rmindmap"))//打开导图分析报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new MindMapDataReport()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.StartsWith("rusetime"))//打开使用分析报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new UseTime()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.StartsWith("rtarget"))//打开目标报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new Target()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.StartsWith("rtrend"))//打开趋势报告
+            {
+                Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockTrend()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
             }
             else if (searchword.Text.StartsWith("rr"))
             {
@@ -15085,7 +15163,7 @@ namespace DocearReminder
         private void labeltaskinfo_Click(object sender, EventArgs e)
         {
             PlaySimpleSound("treeview");
-            if (this.Height == 888)
+            if (this.Height == 880)
             {
                 nodetree.Top = FileTreeView.Top = 506;
                 nodetree.Height = FileTreeView.Height = 322;
@@ -15677,6 +15755,12 @@ namespace DocearReminder
         {
             try
             {
+                //先关闭一次，避免被占用
+                if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+                {
+                    videoSourcePlayer1.SignalToStop();
+                    videoSourcePlayer1.WaitForStop();
+                }
                 CameraConn();
                 pingmu();
                 Thread.Sleep(4000);
@@ -15716,7 +15800,19 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-                MessageBox.Show("摄像头异常：" + ex.Message);
+                //MessageBox.Show("摄像头异常：" + ex.Message);
+                //异常时关闭
+                try
+                {
+                    if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+                    {
+                        videoSourcePlayer1.SignalToStop();
+                        videoSourcePlayer1.WaitForStop();
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
         /// <summary>

@@ -922,7 +922,7 @@ namespace DocearReminder
         {
             try
             {
-                if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString())
+                if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString()&& workfolder_combox.SelectedItem.ToString()!="All")
                 {
                     for (int i = 0; i < workfolder_combox.Items.Count; i++)
                     {

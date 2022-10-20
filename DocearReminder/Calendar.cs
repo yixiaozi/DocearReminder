@@ -418,6 +418,11 @@ namespace DocearReminder
                 if (item!=null)
                 {
                     item.mindmapPath = color.ToArgb().ToString();
+                    string json = new JavaScriptSerializer()
+                    {
+                        MaxJsonLength = Int32.MaxValue
+                    }.Serialize(reminderObject);
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", json);
                 }
             }
             catch (Exception)
@@ -786,82 +791,86 @@ namespace DocearReminder
                         continue;
                     }
                 }
-
-                if (zhongyao == 0)
+                m_Appointment.Color = System.Drawing.Color.White;
+                m_Appointment.BorderColor = System.Drawing.Color.White;
+                if (item.mindmap == "TimeBlock" || item.mindmap == "Mistake" || item.mindmap == "Progress" || item.mindmap == "Money")
                 {
-                    m_Appointment.Color = System.Drawing.Color.White;
-                    m_Appointment.BorderColor = System.Drawing.Color.White;
-                    if (item.mindmap== "TimeBlock"|| item.mindmap == "Mistake"||item.mindmap == "Progress" || item.mindmap == "Money")
+                    try
                     {
-                        try
-                        {
 
-                            m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                            m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                            if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
-                            {
-                                m_Appointment.Locked = true;
-                            }
-                        }
-                        catch (Exception)
+                        m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                        m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                        if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
                         {
+                            m_Appointment.Locked = true;
                         }
                     }
-                }
-                else if (zhongyao == 1)
-                {
-                    m_Appointment.Color = System.Drawing.Color.PowderBlue;
-                    m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
-                }
-                else if (zhongyao == 2)
-                {
-                    m_Appointment.Color = System.Drawing.Color.PowderBlue;
-                    m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
-                }
-                else if (zhongyao == 3)
-                {
-                    m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
-                    m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
-                }
-                else if (zhongyao == 4)
-                {
-                    m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
-                    m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
-                }
-                else if (zhongyao == 5)
-                {
-                    m_Appointment.Color = System.Drawing.Color.CadetBlue;
-                    m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
-                }
-                else if (zhongyao == 6)
-                {
-                    m_Appointment.Color = System.Drawing.Color.Gold;
-                    m_Appointment.BorderColor = System.Drawing.Color.Gold;
-                }
-                else if (zhongyao == 7)
-                {
-                    m_Appointment.Color = System.Drawing.Color.Orange;
-                    m_Appointment.BorderColor = System.Drawing.Color.Orange;
-                }
-                else if (zhongyao == 8)
-                {
-                    m_Appointment.Color = System.Drawing.Color.OrangeRed;
-                    m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
-                }
-                else if (zhongyao == 9)
-                {
-                    m_Appointment.Color = System.Drawing.Color.Crimson;
-                    m_Appointment.BorderColor = System.Drawing.Color.Crimson;
-                }
-                else if (zhongyao >= 10)
-                {
-                    m_Appointment.Color = System.Drawing.Color.Red;
-                    m_Appointment.BorderColor = System.Drawing.Color.Red;
+                    catch (Exception)
+                    {
+                    }
                 }
                 else
                 {
+                    if (zhongyao == 0)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.White;
+                        m_Appointment.BorderColor = System.Drawing.Color.White;
+                    }
+                    else if (zhongyao == 1)
+                    {
                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+                    else if (zhongyao == 2)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+                    else if (zhongyao == 3)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
+                    }
+                    else if (zhongyao == 4)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
+                    }
+                    else if (zhongyao == 5)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.CadetBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
+                    }
+                    else if (zhongyao == 6)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Gold;
+                        m_Appointment.BorderColor = System.Drawing.Color.Gold;
+                    }
+                    else if (zhongyao == 7)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Orange;
+                        m_Appointment.BorderColor = System.Drawing.Color.Orange;
+                    }
+                    else if (zhongyao == 8)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.OrangeRed;
+                        m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
+                    }
+                    else if (zhongyao == 9)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Crimson;
+                        m_Appointment.BorderColor = System.Drawing.Color.Crimson;
+                    }
+                    else if (zhongyao >= 10)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Red;
+                        m_Appointment.BorderColor = System.Drawing.Color.Red;
+                    }
+                    else
+                    {
+                        m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                        m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
                 }
                 switch (item.mindmap)
                 {
@@ -1009,7 +1018,7 @@ namespace DocearReminder
                                 numericUpDown1.Value++;
                                 return;
                             }
-                            if (dayView1.Focused|| (dayView1.SelectedAppointment!=null&&dayView1.SelectedAppointment.Type== "时间块"))
+                            if (dayView1.Focused&& (dayView1.SelectedAppointment!=null&&dayView1.SelectedAppointment.Type== "时间块"))
                             {
                                 dayView1.SelectedAppointment.StartDate=dayView1.SelectedAppointment.StartDate.AddMinutes(-1);
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(-1);
@@ -1042,7 +1051,7 @@ namespace DocearReminder
                                 numericUpDown1.Value--;
                                 return;
                             }
-                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
                             {
                                 dayView1.SelectedAppointment.StartDate = dayView1.SelectedAppointment.StartDate.AddMinutes(1);
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
@@ -1060,7 +1069,7 @@ namespace DocearReminder
                     case Keys.Left:
                         if (c_lock.Checked)
                         {
-                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
                             {
                                 if ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes > 3)
                                 {
@@ -1093,7 +1102,7 @@ namespace DocearReminder
                     case Keys.Right:
                         if (c_lock.Checked)
                         {
-                            if (dayView1.Focused || (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
                             {
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
                                 ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);

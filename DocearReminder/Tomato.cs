@@ -188,7 +188,7 @@ namespace DocearReminder
                         name = _timeblockName,
                         time = DateTime.Now,
                         mindmapPath = _timeblockcolor,
-                        nameFull = _timeblockfather,
+                        nameFull = _timeblockfather.Replace('>','|'),//已‘|’分割才能在统计中使用
                         comment = TaskName,
                         DetailComment = commondetail,
                         ID = ID,

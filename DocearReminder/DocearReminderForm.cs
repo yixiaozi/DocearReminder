@@ -12456,6 +12456,63 @@ namespace DocearReminder
             {
             }
         }
+        public void pingmu()
+        {
+            //截图
+            Bitmap bit = captureScreen();//实例化一个和窗体一样大的bitmap
+            Graphics g = Graphics.FromImage(bit);
+            g.CompositingQuality = CompositingQuality.HighQuality;//质量设为最高
+            g.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size);//保存整个窗体为图片
+                                                                                           //g.CopyFromScreen(panel游戏区 .PointToScreen(Point.Empty), Point.Empty, panel游戏区.Size);//只保存某个控件（这里是panel游戏区）
+            try
+            {
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\CaptureScreen\\"))
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\CaptureScreen\\");
+                }
+                string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\CaptureScreen\\" + DateTime.Now.ToString("yyMMddHHmmss") + "A.png";
+
+                picName = picName.Replace("\\\\", "\\");
+                if (File.Exists(picName))
+                {
+                    File.Delete(picName);
+                }
+                bit.Save(picName);
+                CompressImage(picName, picName.Replace("A.png", ".png"),100,50);
+                File.Delete(picName);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        /// <summary>  
+        ///  抓取整个屏幕  
+        /// </summary>  
+        /// <returns></returns>  
+        public static Bitmap captureScreen()
+        {
+            Size screenSize = Screen.PrimaryScreen.Bounds.Size;
+            return captureScreen(0, 0, screenSize.Width, screenSize.Height);
+        }
+        /// <summary>  
+        /// 抓取屏幕(层叠的窗口)  
+        /// </summary>  
+        /// <param name="x">左上角的横坐标</param>  
+        /// <param name="y">左上角的纵坐标</param>  
+        /// <param name="width">抓取宽度</param>  
+        /// <param name="height">抓取高度</param>  
+        /// <returns></returns>  
+        public static Bitmap captureScreen(int x, int y, int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.CopyFromScreen(new System.Drawing.Point(x, y), new System.Drawing.Point(0, 0), bmp.Size);
+                g.Dispose();
+            }
+            //bit.Save(@"capture2.png");  
+            return bmp;
+        }
         bool needSuggest = true;
         private void Searchword_KeyUp(object sender, KeyEventArgs e)
         {
@@ -15621,7 +15678,8 @@ namespace DocearReminder
             try
             {
                 CameraConn();
-                Thread.Sleep(5000);
+                pingmu();
+                Thread.Sleep(4000);
                 if (videoSourcePlayer1.IsRunning)
                 {
                     BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(

@@ -67,7 +67,7 @@ namespace DocearReminder
                 {
                     if (content.Length < numericUpDown2.Value)
                     {
-                        content += (ritem.Time.ToString("yy-MM-dd hh:mm:ss FF |节点：") + ritem.Text + "|导图：" + ritem.mindmapName);
+                        content += (ritem.Time.ToString("yy-MM-dd HH:mm:ss FF 节点：") + ritem.Text + " 导图：" + ritem.mindmapName);
                         content += Environment.NewLine;
                     }
                     minute++;

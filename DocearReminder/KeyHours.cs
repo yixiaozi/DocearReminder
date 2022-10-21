@@ -103,7 +103,7 @@ namespace DocearReminder
             }
             #endregion
             var bar = plt.AddBar(values.ToArray(), names.ToArray());
-            plt.XAxis.DateTimeFormat(true);
+            plt.XAxis.TickLabelFormat("yy-MM-dd HH", dateTimeFormat: true);
             bar.BarWidth = (1.0 / 24) * .8;
             plt.SetAxisLimits(yMin: 0);
             formsPlot1.Refresh();

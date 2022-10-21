@@ -152,6 +152,7 @@ namespace DocearReminder
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1527,6 +1528,17 @@ namespace DocearReminder
             this.CameraTimer.Interval = 3600000;
             this.CameraTimer.Tick += new System.EventHandler(this.CameraTimer_Tick);
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.checkBox2.Location = new System.Drawing.Point(1045, 35);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(13, 12);
+            this.checkBox2.TabIndex = 131;
+            this.checkBox2.TabStop = false;
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // DocearReminderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1534,6 +1546,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
@@ -1769,6 +1782,7 @@ namespace DocearReminder
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private Timer CameraTimer;
         private ToolStripMenuItem 导图分析ToolStripMenuItem;
+        private CheckBox checkBox2;
     }
 }
 

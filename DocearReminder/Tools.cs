@@ -664,5 +664,11 @@ namespace DocearReminder
                 }
             }
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "FanQie" && m.tasktime <= 3);
+            DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "TimeBlock" && m.tasktime <= 1);
+        }
     }
 }

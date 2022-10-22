@@ -45,7 +45,7 @@ namespace DocearReminder
             InitializeComponent();
             timerDefault.Interval = 1000;
             timerDefault.Start();
-            this.Text = name;
+            this.Text = name+ (_timeblockName!=""&& name!="" ? "@":"") + _timeblockName;
             this.Location = new System.Drawing.Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - 320, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - 120);
             positionTimer.Interval = 5000;
             positionTimer.Start();

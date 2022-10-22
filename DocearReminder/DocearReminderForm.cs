@@ -283,6 +283,7 @@ namespace DocearReminder
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
                 IconNodesSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
+                TimeBlockSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
                 Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                 OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
@@ -1387,7 +1388,7 @@ namespace DocearReminder
                     if (Subnode.Attributes["TEXT"] != null && Subnode.Attributes["TEXT"].Value != "未分类")
                     {
                         string nodename=Subnode.Attributes["TEXT"].Value;
-                        string father = GetFatherNodeName(Subnode);
+                        string father = GetFatherNodeName(Subnode).Replace(">","|").Replace("事件类别|","");
                         string BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber)).ToArgb().ToString();
                         timeblocks.Add(new node
                         {
@@ -1396,6 +1397,7 @@ namespace DocearReminder
                             mindmapPath = father+"|"+nodename,
                             IDinXML = node != null && node.Attributes != null && node.Attributes["ID"] != null ? node.Attributes["ID"].Value : "",
                         });
+                        //第几个是ID呢？
                         timeblockString += nodename;
                         timeblockString += "|";
                         timeblockString += Tools.GetFirstSpell(nodename);
@@ -1406,11 +1408,11 @@ namespace DocearReminder
                         timeblockString += "|";
                         timeblockString += "true";
                         timeblockString += "|";
+                        timeblockString += node != null && node.Attributes != null && node.Attributes["ID"] != null ? node.Attributes["ID"].Value : "";
+                        timeblockString += "|";
                         timeblockString += father;
                         timeblockString += "|";
-                        timeblockString += father+">"+nodename;
-                        timeblockString += "|";
-                        timeblockString += father + ">" + nodename;
+                        timeblockString += father;
                         timeblockString += "|";
                         timeblockString += BackColor;//link,记录颜色
                         timeblockString += "@";
@@ -12783,7 +12785,7 @@ namespace DocearReminder
                     info.StationName_CN = info.StationName_CN.Replace("★", "");
                     searchword.Text = type + taskname + "@" + info.StationName_CN;
                     timeblockcolor = info.link;
-                    timeblockfather = info.nodeID;
+                    timeblockfather = info.mindmapurl;
                     mindmapornode.Text = info.mindmapurl.Split('\\')[info.mindmapurl.Split('\\').Length - 1] + ">" + info.StationName_CN;
                     showMindmapName = info.mindmapurl;
                     renameMindMapFileID = info.nodeID;
@@ -12791,7 +12793,7 @@ namespace DocearReminder
                     searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
                     if (!TimeBlockSelected.Any(m => m.Contains(info.nodeID)))
                     {
-                        TimeBlockSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath);
+                        TimeBlockSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath + "|" + info.link);
                     }
                     else
                     {
@@ -12847,18 +12849,8 @@ namespace DocearReminder
                         {
                             try
                             {
-                                if (TimeBlockSelected[i].Split('|').Length <= 5)
-                                {
-                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4] });
-                                }
-                                else if (TimeBlockSelected[i].Split('|').Length == 6)
-                                {
-                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5] });
-                                }
-                                else
-                                {
-                                    result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5], link = TimeBlockSelected[i].Split('|')[6] });
-                                }
+                                 result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5], link = TimeBlockSelected[i].Split('|')[6] });
+                                
                             }
                             catch (Exception)
                             {

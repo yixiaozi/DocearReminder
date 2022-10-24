@@ -925,7 +925,7 @@ namespace DocearReminder
                 double time = 60;
 
                 m_Appointment.taskTime = time;
-                m_Appointment.EndDate = item.time.AddMinutes(time);
+                m_Appointment.EndDate = m_Appointment.StartDate.AddMinutes(time);
 
                 if (isZhuangbi)
                 {
@@ -947,7 +947,7 @@ namespace DocearReminder
                         m_Appointment.Title += "*";
                     }
                 }
-                m_Appointment.Title = taskname;
+                m_Appointment.Title = "Ωÿ÷π»’£∫"+taskname;
                 m_Appointment.value = item.mindmapPath;
                 m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
                 int zhongyao = item.tasklevel;
@@ -996,7 +996,7 @@ namespace DocearReminder
                 double time = 60;
 
                 m_Appointment.taskTime = time;
-                m_Appointment.StartDate = item.time.AddMinutes(time);
+                m_Appointment.StartDate = m_Appointment.StartDate.AddMinutes(time);
 
                 if (isZhuangbi)
                 {
@@ -1008,7 +1008,7 @@ namespace DocearReminder
                         common = reg.Replace(common, "*");
                     }
                 }
-                m_Appointment.Title = taskname;
+                m_Appointment.Title = "ºÕƒÓ»’£∫"+taskname;
                 m_Appointment.Comment = common;
                 m_Appointment.DetailComment = detailCommon;
                 if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")

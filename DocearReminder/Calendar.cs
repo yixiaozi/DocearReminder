@@ -44,7 +44,7 @@ namespace DocearReminder
         List<Color> timeblockColors = new List<Color>();
         //private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
-        public CalendarForm(string path,bool OpenNew=false)// 后期希望只显示当期文件夹的日历
+        public CalendarForm(string path, bool OpenNew = false)// 后期希望只显示当期文件夹的日历
         {
             //if (!OpenNew)
             //{
@@ -138,7 +138,7 @@ namespace DocearReminder
         }
         public void FreshMenu()
         {
-            for (int i = Menu.Items.Count-1; i > 0; i--)
+            for (int i = Menu.Items.Count - 1; i > 0; i--)
             {
                 string name = Menu.Items[i].Text;
                 if (name != "完成" && name != "Comment" && name != "打开导图" && name != "番茄钟")
@@ -200,7 +200,7 @@ namespace DocearReminder
             {
                 foreach (XmlNode Subnode in node.ChildNodes)
                 {
-                    if (Subnode.Attributes["TEXT"] != null&& Subnode.Attributes["TEXT"].Value!="未分类")
+                    if (Subnode.Attributes["TEXT"] != null && Subnode.Attributes["TEXT"].Value != "未分类")
                     {
                         System.Windows.Forms.ToolStripItem newMenu;
                         if (menuitem == null)
@@ -312,7 +312,7 @@ namespace DocearReminder
                     try
                     {
                         //去掉根节点
-                        if (node.ParentNode.ParentNode.Name == "map"|| node.ParentNode.Attributes["TEXT"].Value== "事件类别")
+                        if (node.ParentNode.ParentNode.Name == "map" || node.ParentNode.Attributes["TEXT"].Value == "事件类别")
                         {
                             break;
                         }
@@ -355,21 +355,21 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-        public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName,object tag=null,string comment="",string detailComment="",double tasktime1=0)
+        public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName, object tag = null, string comment = "", string detailComment = "", double timelong = 0)
         {
             try
             {
-                if (tasktime==0)
+                if (tasktime == 0)
                 {
                     try
                     {
-                        if (tasktime1 == 0)
+                        if (timelong == 0)
                         {
                             ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
                             if (item != null)
                             {
-                                taskTime = item.time.AddMinutes(item.tasktime);
-                                tasktime = (DateTime.Now - taskTime).TotalMinutes;
+                                DateTime taskTime2 = item.time.AddMinutes(item.tasktime);
+                                tasktime = (taskTime - taskTime2).TotalMinutes;
                                 if (tasktime <= 1)
                                 {
                                     tasktime = 2;
@@ -378,8 +378,8 @@ namespace DocearReminder
                         }
                         else
                         {
-                            taskTime = DateTime.Now.AddMinutes(0- tasktime1);
-                            tasktime = tasktime1;
+                            taskTime = taskTime.AddMinutes(0 - timelong);
+                            tasktime = timelong;
                             if (tasktime <= 1)
                             {
                                 tasktime = 2;
@@ -410,12 +410,12 @@ namespace DocearReminder
             }
 
         }
-        public void reminderObjectJsonTimeBlockColor(string ID,Color color)
+        public void reminderObjectJsonTimeBlockColor(string ID, Color color)
         {
             try
             {
-                ReminderItem item= reminderObject.reminders.FirstOrDefault(m=>m.ID==ID);
-                if (item!=null)
+                ReminderItem item = reminderObject.reminders.FirstOrDefault(m => m.ID == ID);
+                if (item != null)
                 {
                     item.mindmapPath = color.ToArgb().ToString();
                     string json = new JavaScriptSerializer()
@@ -550,7 +550,7 @@ namespace DocearReminder
             //测试是否变化
             foreach (Appointment m_App in m_Appointments)
             {
-                if (m_App.ID == lastId && m_App.Title != lastName&& !m_App.Title.Contains("("))
+                if (m_App.ID == lastId && m_App.Title != lastName && !m_App.Title.Contains("("))
                 {
                     Edit(true, m_App);
                     lastId = m_App.ID;
@@ -687,10 +687,10 @@ namespace DocearReminder
         {
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) &&m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie"&&!m.isCompleted&&!(m.name.Length==5&& m.name[2]==':'))|| (c_progress.Checked && m.mindmap == "Progress")|| (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (m.time>DateTime.Now&& m.mindmapPath.Contains(mindmappath)&&(!m.isview||(isview_c.Checked&& m.isview))&&!m.isCompleted));
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted));
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
-                items = items.Where(m => m.mindmap == "FanQie"||!hasinworkfolder(m.mindmapPath));
+                items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
             }
             foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
             {
@@ -723,7 +723,7 @@ namespace DocearReminder
                 catch (Exception)
                 {
                 }
-                    
+
 
                 m_Appointment = new Appointment
                 {
@@ -734,7 +734,7 @@ namespace DocearReminder
                 string detailCommon = item.DetailComment;
                 try//解决有点只保存结束时间的问题
                 {
-                    if (item.mindmap == "FanQie"&&item.tasktime==0&& item.comleteTime!=null)
+                    if (item.mindmap == "FanQie" && item.tasktime == 0 && item.comleteTime != null)
                     {
                         item.tasktime = ((TimeSpan)(item.comleteTime - item.time)).TotalMinutes;
                     }
@@ -742,7 +742,7 @@ namespace DocearReminder
                 catch (Exception e)
                 { }
                 double time = item.tasktime;
-                
+
                 m_Appointment.taskTime = time;
                 m_Appointment.EndDate = item.time.AddMinutes(time);
 
@@ -751,14 +751,14 @@ namespace DocearReminder
                     string patten = @"(\S)";
                     Regex reg = new Regex(patten);
                     taskname = reg.Replace(taskname, "*");
-                    if (common != null&& common != "")
+                    if (common != null && common != "")
                     {
                         common = reg.Replace(common, "*");
                     }
                 }
-                if (showfatchertimeblock&& item.mindmap == "TimeBlock")
+                if (showfatchertimeblock && item.mindmap == "TimeBlock")
                 {
-                    m_Appointment.Title =item.nameFull+ (item.nameFull!=null&& item.nameFull != ""? "|":"") + taskname;
+                    m_Appointment.Title = item.nameFull + (item.nameFull != null && item.nameFull != "" ? "|" : "") + taskname;
                 }
                 else
                 {
@@ -766,9 +766,9 @@ namespace DocearReminder
                 }
                 m_Appointment.Comment = common;
                 m_Appointment.DetailComment = detailCommon;
-                if (showcomment && m_Appointment.Comment!=null&& m_Appointment.Comment!="")
+                if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")
                 {
-                    m_Appointment.Title += ("("+m_Appointment.Comment+")");
+                    m_Appointment.Title += ("(" + m_Appointment.Comment + ")");
                     if (m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
                     {
                         m_Appointment.Title += "*";
@@ -800,7 +800,7 @@ namespace DocearReminder
 
                         m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
                         m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                        if (item.time < DateTime.Today.AddDays(-1))//时间块禁止编辑？一天以前的禁止编辑
+                        if (item.time < DateTime.Today.AddDays(-1)&&DateTime.Today.Day!=28&& DateTime.Today.Day != 29&& DateTime.Today.Day != 30&& DateTime.Today.Day != 31)//时间块禁止编辑？一天以前的禁止编辑,每个月最后几天允许编辑
                         {
                             m_Appointment.Locked = true;
                         }
@@ -897,7 +897,153 @@ namespace DocearReminder
                 m_Appointment.Tag = item;
                 m_Appointments.Add(m_Appointment);
             }
+            try
+            {
+                ShowJinian();
+                ShowEnd();
+            }
+            catch (Exception ex)
+            {
+            }
             dayView1.Refresh();
+        }
+        public void ShowEnd()
+        {
+            //m_Appointments = new List<Appointment>();
+            Appointment m_Appointment = new Appointment();
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted)&&m.EndDate!=null));
+            
+            foreach (ReminderItem item in items)
+            {
+                m_Appointment = new Appointment
+                {
+                    StartDate = (DateTime)item.EndDate
+                };
+                string taskname = item.name;
+                string common = item.comment;
+                string detailCommon = item.DetailComment;
+                double time = 60;
+
+                m_Appointment.taskTime = time;
+                m_Appointment.EndDate = item.time.AddMinutes(time);
+
+                if (isZhuangbi)
+                {
+                    string patten = @"(\S)";
+                    Regex reg = new Regex(patten);
+                    taskname = reg.Replace(taskname, "*");
+                    if (common != null && common != "")
+                    {
+                        common = reg.Replace(common, "*");
+                    }
+                }
+                m_Appointment.Comment = common;
+                m_Appointment.DetailComment = detailCommon;
+                if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")
+                {
+                    m_Appointment.Title += ("(" + m_Appointment.Comment + ")");
+                    if (m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
+                    {
+                        m_Appointment.Title += "*";
+                    }
+                }
+                m_Appointment.Title = taskname;
+                m_Appointment.value = item.mindmapPath;
+                m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
+                int zhongyao = item.tasklevel;
+                if (numericUpDown2.Value >= 0)
+                {
+                    if (zhongyao < numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (zhongyao > numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
+                m_Appointment.Color = System.Drawing.Color.Red;
+                m_Appointment.BorderColor = System.Drawing.Color.Red;
+                m_Appointment.Type = "结束日";
+                m_Appointment.Locked = true;
+                m_Appointment.Tag = item;
+                m_Appointments.Add(m_Appointment);
+            }
+            //dayView1.Refresh();
+        }
+        public void ShowJinian()
+        {
+            //m_Appointments = new List<Appointment>();
+            Appointment m_Appointment = new Appointment();
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted) && m.JinianDate != null));
+
+            foreach (ReminderItem item in items)
+            {
+                m_Appointment = new Appointment
+                {
+                    StartDate = (DateTime)item.JinianDate
+                };
+                if ((DateTime.Now - m_Appointment.StartDate).TotalDays > 30) ;
+                {
+                    m_Appointment.StartDate=m_Appointment.StartDate.AddYears(1);
+                }
+                string taskname = item.name;
+                string common = item.comment;
+                string detailCommon = item.DetailComment;
+                double time = 60;
+
+                m_Appointment.taskTime = time;
+                m_Appointment.StartDate = item.time.AddMinutes(time);
+
+                if (isZhuangbi)
+                {
+                    string patten = @"(\S)";
+                    Regex reg = new Regex(patten);
+                    taskname = reg.Replace(taskname, "*");
+                    if (common != null && common != "")
+                    {
+                        common = reg.Replace(common, "*");
+                    }
+                }
+                m_Appointment.Title = taskname;
+                m_Appointment.Comment = common;
+                m_Appointment.DetailComment = detailCommon;
+                if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")
+                {
+                    m_Appointment.Title += ("(" + m_Appointment.Comment + ")");
+                    if (m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
+                    {
+                        m_Appointment.Title += "*";
+                    }
+                }
+                m_Appointment.value = item.mindmapPath;
+                m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
+                int zhongyao = item.tasklevel;
+                if (numericUpDown2.Value >= 0)
+                {
+                    if (zhongyao < numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (zhongyao > numericUpDown2.Value)
+                    {
+                        continue;
+                    }
+                }
+                m_Appointment.Color = System.Drawing.Color.Red;
+                m_Appointment.BorderColor = System.Drawing.Color.Red;
+                m_Appointment.Type = "纪念日";
+                m_Appointment.Locked = true;
+                m_Appointment.Tag = item;
+                m_Appointments.Add(m_Appointment);
+            }
+            //dayView1.Refresh();
         }
         public void jietu()
         {

@@ -449,6 +449,7 @@ namespace DocearReminder
         /// <returns></returns>
         public static string CompressToBase64(string content)
         {
+            return content;
             try
             {
                 if (!string.IsNullOrEmpty(content))
@@ -472,6 +473,7 @@ namespace DocearReminder
         /// <returns></returns>
         public static string DecompressFromBase64(string content)
         {
+            return content;
             try
             {
                 if (!string.IsNullOrEmpty(content))
@@ -1982,8 +1984,10 @@ namespace DocearReminder
                             {
                                 string reminder = "";
                                 DateTime dt = DateTime.Now;
-                                DateTime jiniantimeDT = DateTime.Now;
-                                DateTime endtimeDT = DateTime.Now;
+                                DateTime jiniantimeDT = new DateTime() ;
+                                DateTime? jiniantimeDT1 = null;
+                                DateTime endtimeDT =new DateTime();
+                                DateTime? endtimeDT1 = null;
                                 if (node.InnerXml != "")
                                 {
                                     reminder = node.InnerXml.Split('\"')[1];
@@ -2003,6 +2007,41 @@ namespace DocearReminder
                                         System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                                         dt = startTime.AddMilliseconds(unixTimeStamp);
                                     }
+                                }
+                                //添加提醒到提醒清单
+                                string dakainfo = "";
+                                if (GetAttribute(node.ParentNode, "ISDAKA") == "true")
+                                {
+                                    dakainfo = " | " + GetAttribute(node.ParentNode, "DAKADAY");
+                                }
+                                //纪念日
+                                string jinianriInfo = "";
+                                if (GetAttribute(node.ParentNode, "IsJinian") == "true")
+                                {
+                                    try
+                                    {
+                                        string JinianBeginTime = GetAttribute(node.ParentNode, "JinianBeginTime");
+                                        long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
+                                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                        jiniantimeDT = startTime.AddMilliseconds(unixTimeStamp);
+                                        jiniantimeDT1 = startTime.AddMilliseconds(unixTimeStamp);
+                                        jinianriInfo = " |Start:" + jiniantimeDT.ToString("yy-MM-dd") + ":" + GetTimeSpanStr(Convert.ToInt32((DateTime.Now - jiniantimeDT).TotalDays));
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                                }
+                                //结束日
+                                string EndDateInfo = "";
+                                if (GetAttribute(node.ParentNode, "EndDate") != "")
+                                {
+                                    string enddatetime = GetAttribute(node.ParentNode, "EndDate");
+                                    long unixTimeStamp = Convert.ToInt64(enddatetime);
+                                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                                    endtimeDT = startTime.AddMilliseconds(unixTimeStamp);
+                                    endtimeDT1 = startTime.AddMilliseconds(unixTimeStamp);
+                                    EndDateInfo = " |End To:" + endtimeDT.ToString("yy-MM-dd") + "";
+                                    EndDateInfo += ":" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) + "";
                                 }
                                 int editTime = 0;
                                 string taskid = GetAttribute(node.ParentNode, "ID");
@@ -2043,6 +2082,8 @@ namespace DocearReminder
                                             item.ID = GetAttribute(node.ParentNode, "ID");
                                             item.isview = GetAttribute(node.ParentNode, "ISVIEW") == "true" || MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly"));
                                             item.isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb";
+                                            item.JinianDate = jiniantimeDT1;
+                                            item.EndDate = endtimeDT1;
                                         }
                                     }
                                 }
@@ -2067,44 +2108,14 @@ namespace DocearReminder
                                         mindmapPath = path.Value,
                                         ID = GetAttribute(node.ParentNode, "ID"),
                                         isview = GetAttribute(node.ParentNode, "ISVIEW") == "true" || MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly")),
-                                        isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb"
-                                    };
+                                        isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb",
+                                        JinianDate = jiniantimeDT1,
+                                        EndDate = endtimeDT1
+                                };
                                     reminderObject.reminders.Add(newitem);
                                     reminderObject.reminderCount += 1;
                                 }
-                                //添加提醒到提醒清单
-                                string dakainfo = "";
-                                if (GetAttribute(node.ParentNode, "ISDAKA") == "true")
-                                {
-                                    dakainfo = " | " + GetAttribute(node.ParentNode, "DAKADAY");
-                                }
-                                //纪念日
-                                string jinianriInfo = "";
-                                if (GetAttribute(node.ParentNode, "IsJinian") == "true")
-                                {
-                                    try
-                                    {
-                                        string JinianBeginTime = GetAttribute(node.ParentNode, "JinianBeginTime");
-                                        long unixTimeStamp = Convert.ToInt64(JinianBeginTime);
-                                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                                        jiniantimeDT = startTime.AddMilliseconds(unixTimeStamp);
-                                        jinianriInfo = " |Start:" + jiniantimeDT.ToString("yy-MM-dd") + ":" + GetTimeSpanStr(Convert.ToInt32((DateTime.Now - jiniantimeDT).TotalDays));
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                }
-                                //结束日
-                                string EndDateInfo = "";
-                                if (GetAttribute(node.ParentNode, "EndDate") != "")
-                                {
-                                    string enddatetime = GetAttribute(node.ParentNode, "EndDate");
-                                    long unixTimeStamp = Convert.ToInt64(enddatetime);
-                                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                                    endtimeDT = startTime.AddMilliseconds(unixTimeStamp);
-                                    EndDateInfo = " |End To:" + endtimeDT.ToString("yy-MM-dd") + "";
-                                    EndDateInfo += ":" + GetTimeSpanStr(Convert.ToInt32((endtimeDT - DateTime.Now).TotalDays)) +"";
-                                }
+                                
                                 //剩余打开次数
                                 string LeftDakaDays = "";
                                 if (GetAttribute(node.ParentNode, "LeftDakaDays") != "")
@@ -6209,9 +6220,9 @@ namespace DocearReminder
                                 }
                             }
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                            newNoteCREATED.Value = (Convert.ToInt64((TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - new System.DateTime(1970, 1, 1)).TotalMilliseconds)).ToString();
+                            newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
-                            newNoteMODIFIED.Value = (Convert.ToInt64((TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - new System.DateTime(1970, 1, 1)).TotalMilliseconds)).ToString();
+                            newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             newNote.Attributes.Append(newNotetext);
                             newNote.Attributes.Append(newNoteCREATED);
                             newNote.Attributes.Append(newNoteMODIFIED);
@@ -6246,9 +6257,9 @@ namespace DocearReminder
                                 }
                             }
                             XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                            newNoteCREATED.Value = (Convert.ToInt64((TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - new System.DateTime(1970, 1, 1)).TotalMilliseconds)).ToString();
+                            newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
-                            newNoteMODIFIED.Value = (Convert.ToInt64((TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - new System.DateTime(1970, 1, 1)).TotalMilliseconds)).ToString();
+                            newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             newNote.Attributes.Append(newNotetext);
                             newNote.Attributes.Append(newNoteCREATED);
                             newNote.Attributes.Append(newNoteMODIFIED);
@@ -8734,6 +8745,7 @@ namespace DocearReminder
                         {
                             string task = searchword.Text.Replace("刚刚","").Split('@')[0];
                             string taskDetail = "";
+                            DateTime dt = DateTime.Now;
                             if (task.Contains("|"))
                             {
                                 taskDetail = task.Split('|')[1];
@@ -8756,13 +8768,28 @@ namespace DocearReminder
                             catch (Exception)
                             {
                             }
+
+                            try
+                            {
+                                task=task.Replace("：",":");
+                                MatchCollection mc = Regex.Matches(task, @"\d\d:\d\d");
+                                foreach (Match m in mc)
+                                {
+                                    task = task.Replace(m.Value, "");
+                                    dt = DateTime.Today.AddHours(Convert.ToInt16(m.Value.Split(':')[0])).AddMinutes(Convert.ToInt16(m.Value.Split(':')[0]));
+                                    break;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
                             if (searchword.Text.Contains("@"))
                             {
-                                CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, DateTime.Now, "TimeBlock", timeblockfather.Replace('>','|'), task, taskDetail, tasktime);
+                                CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, dt, "TimeBlock", timeblockfather.Replace('>','|'), task, taskDetail, tasktime);
                             }
                             else
                             {
-                                CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, DateTime.Now, "FanQie", "", "", taskDetail, tasktime);
+                                CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, dt, "FanQie", "", "", taskDetail, tasktime);
                             }
                             searchword.Text = "";
                         }
@@ -12104,6 +12131,12 @@ namespace DocearReminder
                 checkBox1.Checked = false;
                 searchword.Text = "";
             }
+            else if (searchword.Text.StartsWith("jietu"))//截图快速
+            {
+                searchword.Text = "";
+                Jietu();
+                return;
+            }
             else if (searchword.Text.StartsWith("rtimeblock"))//打开时间块报告
             {
                 Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockReport()));
@@ -12620,7 +12653,7 @@ namespace DocearReminder
                 {
                     Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\CaptureScreen\\");
                 }
-                string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\CaptureScreen\\" + DateTime.Now.ToString("yyMMddHHmmss") + "A.png";
+                string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\CaptureScreen\\" + DateTime.Now.ToString("yyMMddHHmmss") + ".png";
 
                 picName = picName.Replace("\\\\", "\\");
                 if (File.Exists(picName))
@@ -12628,8 +12661,8 @@ namespace DocearReminder
                     File.Delete(picName);
                 }
                 bit.Save(picName);
-                CompressImage(picName, picName.Replace("A.png", ".png"),100,50);
-                File.Delete(picName);
+                //CompressImage(picName, picName.Replace("A.png", ".png"),100,50);
+                //File.Delete(picName);
             }
             catch (Exception)
             {
@@ -15839,7 +15872,7 @@ namespace DocearReminder
                     {
                         Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\Camera\\");
                     }
-                    string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\Camera\\" + DateTime.Now.ToString("yyMMddHHmmss") + "A.jpg";
+                    string picName = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\Camera\\" + DateTime.Now.ToString("yyMMddHHmmss") + ".jpg";
                     picName=picName.Replace("\\\\","\\");
                     if (File.Exists(picName))
                     {
@@ -15849,8 +15882,8 @@ namespace DocearReminder
                     {
                         pE.Save(stream);
                     }
-                    CompressImage(picName, picName.Replace("A.jpg", ".jpg"));
-                    File.Delete(picName);
+                    //CompressImage(picName, picName.Replace("A.jpg", ".jpg"));
+                    //File.Delete(picName);
                     //拍照完成后关摄像头并刷新同时关窗体
                     if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
                     {

@@ -59,7 +59,14 @@ namespace DocearReminder
             richTextBox1.Text = "";
             string content = "";
 
-
+            string timeFormat = "yy-MM-dd";
+            if ((end.Value-begin.Value).TotalDays>100)
+            {
+                timeFormat = "yy-MM-dd";
+            }else
+            {
+                timeFormat = "MM-dd";
+            }
             foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
             {
                 double minute = 0;
@@ -81,7 +88,7 @@ namespace DocearReminder
             }
             richTextBox1.Text = content;
             plt.AddBar(valueList.ToArray(), daysList.ToArray());
-            plt.XAxis.TickLabelFormat("yy-MM-dd", dateTimeFormat: true);
+            plt.XAxis.TickLabelFormat(timeFormat, dateTimeFormat: true);
             plt.Legend();
             formsPlot1.Refresh();
             #endregion

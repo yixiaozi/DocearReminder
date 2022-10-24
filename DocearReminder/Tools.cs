@@ -640,6 +640,7 @@ namespace DocearReminder
                     ReminderItem newitem = Clone(current);
                     newitem.tasktime = spendEveryday;
                     newitem.time = startdate.AddDays(i);
+                    newitem.ID = Guid.NewGuid().ToString();
                     DocearReminderForm.reminderObject.reminders.Add(newitem);
                 }
             }

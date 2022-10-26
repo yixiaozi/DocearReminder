@@ -1512,6 +1512,21 @@ namespace DocearReminder
                 return "#ffffff";
             }
         }
+        //public static void CopyValue(object origin, object target)
+        //{
+        //    System.Reflection.PropertyInfo[] properties = (target.GetType()).GetProperties();
+        //    System.Reflection.FieldInfo[] fields = (origin.GetType()).GetFields();
+        //    for (int i = 0; i < fields.Length; i++)
+        //    {
+        //        for (int j = 0; j < properties.Length; j++)
+        //        {
+        //            if (fields[i].Name == properties[j].Name && properties[j].CanWrite)
+        //            {
+        //                properties[j].SetValue(target, fields[i].GetValue(origin), null);
+        //            }
+        //        }
+        //    }
+        //}
         public void NewFiles(DirectoryInfo path)
         {
             string str1 = "node";
@@ -1523,8 +1538,11 @@ namespace DocearReminder
                     try
                     {
                         System.Xml.XmlDocument x = new XmlDocument();
+                        System.Xml.XmlDocument y = new XmlDocument();
                         x.Load(file.FullName);
-                        foreach (XmlNode node in x.GetElementsByTagName(str1))
+                        bool needsave = false;
+                        y=(XmlDocument)x.CloneNode(true);
+                        foreach (XmlNode node in y.GetElementsByTagName(str1))
                         {
                             if (node.Attributes[str2] == null || node.Attributes["ID"] == null)
                             {
@@ -1548,11 +1566,11 @@ namespace DocearReminder
                                             string md5 = GetMD5HashFromFile(file1.FullName)+file1.CreationTime.ToOADate().ToString();
                                             if (!node.InnerXml.Contains(md5))
                                             {
-                                                AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
+                                                needsave = true;
+                                                AddFileTaskToMap(x, file.FullName,nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
                                             }
                                         }
-                                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
-                                        th.Start();
+                                        
                                     }
                                     if (nodename.StartsWith("Folder|F"))
                                     {
@@ -1562,20 +1580,26 @@ namespace DocearReminder
                                             string md5 = GetMD5HashFromFile(file.FullName) + file1.CreationTime.ToOADate().ToString();
                                             if (!node.InnerXml.Contains(md5))
                                             {
-                                                AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
+                                                needsave = true;
+                                                AddFileTaskToMap(x, file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
                                             }
                                         }
-                                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
-                                        th.Start();
                                     }
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
+
                             }
                         }
+                        if (needsave)
+                        {
+                            x.Save(file.FullName);
+                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                            th.Start();
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -6693,14 +6717,12 @@ namespace DocearReminder
             {
             }
         }
-        public void AddFileTaskToMap(string mindmap, string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "")
+        public void AddFileTaskToMap(System.Xml.XmlDocument x,string mindmap,string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "")
         {
             if (taskName == "")
             {
                 return;
             }
-            System.Xml.XmlDocument x = new XmlDocument();
-            x.Load(mindmap);
             XmlNode root = x.GetElementsByTagName("node").Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == rootNode);
             XmlNode day = null;
             if (path == "")
@@ -6773,7 +6795,6 @@ namespace DocearReminder
             newNote.Attributes.Append(TASKID);
             newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
             day.AppendChild(newNote);
-            x.Save(mindmap);
         }
         public static string GetMD5HashFromFile(string fileName)
         {

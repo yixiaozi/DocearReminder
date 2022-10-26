@@ -1553,35 +1553,77 @@ namespace DocearReminder
                                 if (node.Attributes[str2].Value != "")
                                 {
                                     string nodename = node.Attributes[str2].Value;//@"Folder|D|C:\下载";
-                                    if (nodename.StartsWith("Folder|D"))
+                                    DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
+                                    string estr = "";
+                                    if (nodename.Split('|').Length > 3)
                                     {
-                                        DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
-                                        //string id = "";
-                                        //if (nodename.Split('|').Length>3)
-                                        //{
-                                        //    id=nodename.Split('|')[3];
-                                        //}
-                                        foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.TopDirectoryOnly))
+                                        estr = nodename.Split('|')[3];
+                                    }
+                                    string md5withDate = "";
+                                    if (nodename.Split('|').Length > 4)
+                                    {
+                                        md5withDate = nodename.Split('|')[4];
+                                    }
+                                    string toTask = "";
+                                    if (nodename.Split('|').Length > 5)
+                                    {
+                                        toTask = nodename.Split('|')[5];
+                                    }
+                                    bool toTaskbool = true;
+                                    if (toTask!="")
+                                    {
+                                        toTaskbool = false;
+                                    }
+                                    if (nodename.StartsWith("Folder|D"))
+                                    { 
+                                        foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.AllDirectories))
                                         {
-                                            string md5 = GetMD5HashFromFile(file1.FullName)+file1.CreationTime.ToOADate().ToString();
-                                            if (!node.InnerXml.Contains(md5))
+                                            if (file1.CreationTime<=DateTime.Today.AddDays(-7))
                                             {
-                                                needsave = true;
-                                                AddFileTaskToMap(x, file.FullName,nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
+                                                continue;
+                                            }
+                                            if (estr!=""&&MyContains(file1.FullName,estr.Split(';')))
+                                            {
+                                                continue;
+                                            }
+                                            try
+                                            {
+                                                string md5 = GetMD5HashFromFile(file1.FullName) + (md5withDate==""?file1.CreationTime.ToOADate().ToString():"") + file1.FullName;
+                                                if (!node.InnerXml.Contains(md5))
+                                                {
+                                                    needsave = true;
+                                                    AddFileTaskToMap(x, file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime,"", toTaskbool);
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
                                             }
                                         }
                                         
                                     }
                                     if (nodename.StartsWith("Folder|F"))
                                     {
-                                        DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
                                         foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.AllDirectories))
                                         {
-                                            string md5 = GetMD5HashFromFile(file.FullName) + file1.CreationTime.ToOADate().ToString();
-                                            if (!node.InnerXml.Contains(md5))
+                                            if (file1.CreationTime <= DateTime.Today.AddDays(-7))
                                             {
-                                                needsave = true;
-                                                AddFileTaskToMap(x, file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
+                                                continue;
+                                            }
+                                            if (estr != "" && MyContains(file1.FullName, estr.Split(';')))
+                                            {
+                                                continue;
+                                            }
+                                            try
+                                            {
+                                                string md5 = GetMD5HashFromFile(file1.FullName) + (md5withDate == "" ? file1.CreationTime.ToOADate().ToString() : "") + file1.FullName;
+                                                if (!node.InnerXml.Contains(md5))
+                                                {
+                                                    needsave = true;
+                                                    AddFileTaskToMap(x, file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length), toTaskbool);
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
                                             }
                                         }
                                     }
@@ -1908,7 +1950,7 @@ namespace DocearReminder
                             taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(file.FullName);
                     }
@@ -2507,6 +2549,11 @@ namespace DocearReminder
                                 if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
                                 {
                                     IsShow = false;
+                                }
+                                if (IsFileUrl(GetAttribute(node.ParentNode, "LINK").Replace("file:/", ""))&&!System.IO.File.Exists(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")))
+                                {
+                                    IsShow = false;
+                                    //continue;
                                 }
                                 if (Xnodes.Any(m => m.Contains(nodeid))&& reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
                                 {
@@ -6697,6 +6744,22 @@ namespace DocearReminder
                 {
                     if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == renameMindMapFileID)
                     {
+                        //修改文件的名字
+                        try
+                        {
+                            if (GetAttribute(node, "LINK")!="")
+                            {
+                                FileInfo file = new FileInfo(GetAttribute(node, "LINK").Replace("file:/",""));
+                                if (node.Attributes["TEXT"].InnerText == file.Name)
+                                {
+                                    file.MoveTo(file.DirectoryName+"\\"+taskName);
+                                    node.Attributes["LINK"].Value = "file:/" + file.DirectoryName + "\\" + taskName;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                         node.Attributes["TEXT"].InnerText = taskName;
                         x.Save(showMindmapName);
                         PlaySimpleSound("edittask");
@@ -6717,7 +6780,7 @@ namespace DocearReminder
             {
             }
         }
-        public void AddFileTaskToMap(System.Xml.XmlDocument x,string mindmap,string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "")
+        public void AddFileTaskToMap(System.Xml.XmlDocument x,string mindmap,string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "",bool toTaskbool=true)
         {
             if (taskName == "")
             {
@@ -6766,7 +6829,7 @@ namespace DocearReminder
             newNoteCREATED.Value = (Convert.ToInt64((createDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
             XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
             newNoteMODIFIED.Value = (Convert.ToInt64((createDate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-            if (true)
+            if (toTaskbool)
             {
                 XmlNode remindernode = x.CreateElement("hook");
                 XmlAttribute remindernodeName = x.CreateAttribute("NAME");
@@ -12172,7 +12235,7 @@ namespace DocearReminder
             catch (Exception)
             {
             }
-            if (searchword.Text.ToLower().Contains("exit"))
+            if (searchword.Text.ToLower().StartsWith("exit")|| searchword.Text.ToLower().EndsWith("exit"))
             {
                 Application.Exit();
             }
@@ -12216,6 +12279,26 @@ namespace DocearReminder
             else if (searchword.Text.StartsWith("rmindmap"))//打开导图分析报告
             {
                 Thread thCalendarForm = new Thread(() => Application.Run(new MindMapDataReport()));
+                thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.EndsWith("rmindmap"))//打开导图分析报告
+            {
+                string showday = searchword.Text.Replace("rmindmap","");
+                int showdays = 0;
+                if (showday!="")
+                {
+                    try
+                    {
+                        showdays = Convert.ToInt16(showday);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                Thread thCalendarForm = new Thread(() => Application.Run(new MindMapDataReport(showdays)));
                 thCalendarForm.Start();
                 MyHide();
                 searchword.Text = "";
@@ -12432,6 +12515,17 @@ namespace DocearReminder
                 searchword.Text = "";
                 NewFiles();
                 yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+            }
+            else if (searchword.Text.StartsWith("mvt"))//移动文件到指定目录
+            {
+                string foldername = searchword.Text.Substring(3);
+                if (ini.ReadStringDefault("movefile", foldername, "").Trim() != ""&&((MyListBoxItemRemind)reminderlistSelectedItem).link!=""&&IsFileUrl(((MyListBoxItemRemind)reminderlistSelectedItem).link))
+                {
+                    System.IO.File.Move(((MyListBoxItemRemind)reminderlistSelectedItem).link.Replace("file:/",""),ini.ReadStringDefault("movefile", foldername, "").Trim()+"\\"+new FileInfo(((MyListBoxItemRemind)reminderlistSelectedItem).link.Replace("file:/", "")).Name);
+                    searchword.Text = "";
+                    NewFiles();
+                    yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+                }
             }
             else if (searchword.Text.StartsWith("showlog"))
             {

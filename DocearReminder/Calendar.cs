@@ -899,8 +899,14 @@ namespace DocearReminder
             }
             try
             {
-                ShowJinian();
-                ShowEnd();
+                if (checkBox_jinian.Checked)
+                {
+                    ShowJinian();
+                }
+                if (checkBox_enddate.Checked)
+                {
+                    ShowEnd();
+                }
             }
             catch (Exception ex)
             {
@@ -1673,16 +1679,24 @@ namespace DocearReminder
             }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
                 }
                 else
                 {
-                    return;
+                    //return;
+                    m_Appointment.StartDate = DateTime.Today;
                 }
-                m_Appointment.EndDate = DateTime.Now;
+                if (dayView1.SelectionEnd < DateTime.Now)
+                {
+                    m_Appointment.EndDate = dayView1.SelectionEnd;
+                }
+                else
+                {
+                    m_Appointment.EndDate = DateTime.Now;
+                }
             }
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
@@ -2302,6 +2316,16 @@ namespace DocearReminder
         private void textBox_searchwork_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox_jinian_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+        }
+
+        private void checkBox_enddate_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
         }
     }
     internal class User32

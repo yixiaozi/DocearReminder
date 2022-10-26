@@ -20,10 +20,20 @@ namespace DocearReminder
 {
     public partial class MindMapDataReport : Form
     {
-        public MindMapDataReport()
+        int showDays = 0;
+        public MindMapDataReport(int show=0)
         {
+            showDays = show;
             InitializeComponent();
-
+            if (showDays==0)
+            {
+                begin.Value = DateTime.Today.AddDays(-30);
+            }
+            else
+            {
+                begin.Value = DateTime.Today.AddDays(0-showDays);
+            }
+            end.Value = DateTime.Today.AddDays(1);
             Center();
         }
 
@@ -40,8 +50,6 @@ namespace DocearReminder
         /// <param name="e"></param>
         private void TimeBlockReport_Load(object sender, EventArgs e)
         {
-            begin.Value = DateTime.Today.AddDays(-30);
-            end.Value = DateTime.Today.AddDays(1);
             LoadChart();
         }
 

@@ -67,6 +67,8 @@ namespace DocearReminder
             this.c_Money = new System.Windows.Forms.CheckBox();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.exclude = new System.Windows.Forms.TextBox();
+            this.checkBox_jinian = new System.Windows.Forms.CheckBox();
+            this.checkBox_enddate = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -94,7 +96,7 @@ namespace DocearReminder
             this.dayView1.Name = "dayView1";
             this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
             this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1324, 862);
+            this.dayView1.Size = new System.Drawing.Size(1466, 862);
             this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
             this.dayView1.StartHour = 0;
             this.dayView1.TabIndex = 0;
@@ -165,7 +167,7 @@ namespace DocearReminder
             this.panel1.Location = new System.Drawing.Point(0, 21);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1324, 862);
+            this.panel1.Size = new System.Drawing.Size(1466, 862);
             this.panel1.TabIndex = 1;
             // 
             // dateTimePicker1
@@ -453,13 +455,37 @@ namespace DocearReminder
             this.exclude.TextChanged += new System.EventHandler(this.exclude_TextChanged);
             this.exclude.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_searchwork_KeyUp);
             // 
+            // checkBox_jinian
+            // 
+            this.checkBox_jinian.AutoSize = true;
+            this.checkBox_jinian.Location = new System.Drawing.Point(1316, 2);
+            this.checkBox_jinian.Name = "checkBox_jinian";
+            this.checkBox_jinian.Size = new System.Drawing.Size(60, 16);
+            this.checkBox_jinian.TabIndex = 39;
+            this.checkBox_jinian.Text = "ºÕƒÓ»’";
+            this.checkBox_jinian.UseVisualStyleBackColor = true;
+            this.checkBox_jinian.CheckedChanged += new System.EventHandler(this.checkBox_jinian_CheckedChanged);
+            // 
+            // checkBox_enddate
+            // 
+            this.checkBox_enddate.AutoSize = true;
+            this.checkBox_enddate.Location = new System.Drawing.Point(1383, 2);
+            this.checkBox_enddate.Name = "checkBox_enddate";
+            this.checkBox_enddate.Size = new System.Drawing.Size(60, 16);
+            this.checkBox_enddate.TabIndex = 40;
+            this.checkBox_enddate.Text = "Ωÿ÷π»’";
+            this.checkBox_enddate.UseVisualStyleBackColor = true;
+            this.checkBox_enddate.CheckedChanged += new System.EventHandler(this.checkBox_enddate_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1320, 823);
+            this.ClientSize = new System.Drawing.Size(1462, 823);
+            this.Controls.Add(this.checkBox_enddate);
+            this.Controls.Add(this.checkBox_jinian);
             this.Controls.Add(this.exclude);
             this.Controls.Add(this.numericUpDown3);
             this.Controls.Add(this.c_Money);
@@ -543,6 +569,8 @@ namespace DocearReminder
         private CheckBox c_Money;
         private NumericUpDown numericUpDown3;
         private TextBox exclude;
+        private CheckBox checkBox_jinian;
+        private CheckBox checkBox_enddate;
     }
 }
 

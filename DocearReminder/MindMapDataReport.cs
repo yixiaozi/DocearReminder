@@ -47,122 +47,129 @@ namespace DocearReminder
 
         public void LoadChart()
         {
-            #region 时间
-            formsPlot1.Plot.Clear();
-            formsPlot1.Configuration.AllowDroppedFramesWhileDragging = false;
-            formsPlot1.Configuration.ScrollWheelZoom = false;
-            formsPlot1.Configuration.LeftClickDragPan = false;
-            var plt = formsPlot1.Plot;
-            List<double> valueList = new List<double>();
-            List<double> daysList = new List<double>();
-            List<int> countList = new List<int>();
-            richTextBox1.Text = "";
-            string content = "";
+            try
+            {
+                #region 时间
+                formsPlot1.Plot.Clear();
+                formsPlot1.Configuration.AllowDroppedFramesWhileDragging = false;
+                formsPlot1.Configuration.ScrollWheelZoom = false;
+                formsPlot1.Configuration.LeftClickDragPan = false;
+                var plt = formsPlot1.Plot;
+                List<double> valueList = new List<double>();
+                List<double> daysList = new List<double>();
+                List<int> countList = new List<int>();
+                richTextBox1.Text = "";
+                string content = "";
 
-            string timeFormat = "yy-MM-dd";
-            if ((end.Value-begin.Value).TotalDays>100)
-            {
-                timeFormat = "yy-MM-dd";
-            }else
-            {
-                timeFormat = "MM-dd";
-            }
-            foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
-            {
-                double minute = 0;
-                foreach (node ritem in item)
+                string timeFormat = "yy-MM-dd";
+                if ((end.Value - begin.Value).TotalDays > 100)
                 {
-                    if (content.Length < numericUpDown2.Value)
+                    timeFormat = "yy-MM-dd";
+                }
+                else
+                {
+                    timeFormat = "MM-dd";
+                }
+                foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
+                {
+                    double minute = 0;
+                    foreach (node ritem in item)
                     {
-                        content += (ritem.Time.ToString("yy-MM-dd HH:mm:ss FF 节点：") + ritem.Text + " 导图：" + ritem.mindmapName);
-                        content += Environment.NewLine;
+                        if (content.Length < numericUpDown2.Value)
+                        {
+                            content += (ritem.Time.ToString("yy-MM-dd HH:mm:ss FF 节点：") + ritem.Text.Replace("\n", "\n                      ") + " 导图：" + ritem.mindmapName);
+                            content += Environment.NewLine;
+                        }
+                        minute++;
                     }
-                    minute++;
+                    if (minute > Convert.ToDouble(numericUpDown1.Value))
+                    {
+                        minute = Convert.ToDouble(numericUpDown1.Value);
+                    }
+                    daysList.Add(item.Key);
+                    valueList.Add(minute);
                 }
-                if (minute > Convert.ToDouble(numericUpDown1.Value))
+                richTextBox1.Text = content;
+                plt.AddBar(valueList.ToArray(), daysList.ToArray());
+                plt.XAxis.TickLabelFormat(timeFormat, dateTimeFormat: true);
+                plt.Legend();
+                formsPlot1.Refresh();
+                #endregion
+
+                #region 时间
+                formsPlot3.Plot.Clear();
+                formsPlot3.Configuration.AllowDroppedFramesWhileDragging = false;
+                formsPlot3.Configuration.ScrollWheelZoom = false;
+                formsPlot3.Configuration.LeftClickDragPan = false;
+                var plt3 = formsPlot3.Plot;
+                List<double> valueList3 = new List<double>();
+                List<string> daysList3 = new List<string>();
+
+
+                foreach (IGrouping<int, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time.Hour).GroupBy(m => m.Time.Hour))
                 {
-                    minute = Convert.ToDouble(numericUpDown1.Value);
+                    daysList3.Add(item.Key.ToString());
+                    valueList3.Add(item.Count());
                 }
-                daysList.Add(item.Key);
-                valueList.Add(minute);
-            }
-            richTextBox1.Text = content;
-            plt.AddBar(valueList.ToArray(), daysList.ToArray());
-            plt.XAxis.TickLabelFormat(timeFormat, dateTimeFormat: true);
-            plt.Legend();
-            formsPlot1.Refresh();
-            #endregion
+                plt3.AddBar(valueList3.ToArray());
+                plt3.XTicks(daysList3.ToArray());
+                plt3.Legend();
+                formsPlot3.Refresh();
+                #endregion
 
-            #region 时间
-            formsPlot3.Plot.Clear();
-            formsPlot3.Configuration.AllowDroppedFramesWhileDragging = false;
-            formsPlot3.Configuration.ScrollWheelZoom = false;
-            formsPlot3.Configuration.LeftClickDragPan = false;
-            var plt3 = formsPlot3.Plot;
-            List<double> valueList3 = new List<double>();
-            List<string> daysList3 = new List<string>();
+                #region 时间
+                formsPlot4.Plot.Clear();
+                formsPlot4.Configuration.AllowDroppedFramesWhileDragging = false;
+                formsPlot4.Configuration.ScrollWheelZoom = false;
+                formsPlot4.Configuration.LeftClickDragPan = false;
+                var plt4 = formsPlot4.Plot;
+                List<double> valueList4 = new List<double>();
+                List<string> daysList4 = new List<string>();
 
-
-            foreach (IGrouping<int, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time.Hour).GroupBy(m => m.Time.Hour))
-            {
-                daysList3.Add(item.Key.ToString());
-                valueList3.Add(item.Count());
-            }
-            plt3.AddBar(valueList3.ToArray());
-            plt3.XTicks(daysList3.ToArray());
-            plt3.Legend();
-            formsPlot3.Refresh();
-            #endregion
-
-            #region 时间
-            formsPlot4.Plot.Clear();
-            formsPlot4.Configuration.AllowDroppedFramesWhileDragging = false;
-            formsPlot4.Configuration.ScrollWheelZoom = false;
-            formsPlot4.Configuration.LeftClickDragPan = false;
-            var plt4 = formsPlot4.Plot;
-            List<double> valueList4 = new List<double>();
-            List<string> daysList4 = new List<string>();
-
-            foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.Time.ToString("ddd")))
-            {
-                daysList4.Add(item.Key);
-                valueList4.Add(item.Count());
-            }
-            plt4.AddBar(valueList4.ToArray());
-            plt4.XTicks(daysList4.ToArray());
-            plt4.Legend();
-            formsPlot4.Refresh();
-            #endregion
-
-
-            #region 导图
-            formsPlot2.Plot.Clear();
-            formsPlot2.Configuration.AllowDroppedFramesWhileDragging = false;
-            formsPlot2.Configuration.ScrollWheelZoom = false;
-            formsPlot2.Configuration.LeftClickDragPan = false;
-            var plt2 = formsPlot2.Plot;
-            ReportDataCol reportData = new ReportDataCol();
-
-            foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.mindmapName))
-            {
-                reportData.items.Add(new ReportDataItem
+                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.Time.ToString("ddd")))
                 {
-                    name = item.Key,
-                    value = item.Count()
-                });
+                    daysList4.Add(item.Key);
+                    valueList4.Add(item.Count());
+                }
+                plt4.AddBar(valueList4.ToArray());
+                plt4.XTicks(daysList4.ToArray());
+                plt4.Legend();
+                formsPlot4.Refresh();
+                #endregion
+
+
+                #region 导图
+                formsPlot2.Plot.Clear();
+                formsPlot2.Configuration.AllowDroppedFramesWhileDragging = false;
+                formsPlot2.Configuration.ScrollWheelZoom = false;
+                formsPlot2.Configuration.LeftClickDragPan = false;
+                var plt2 = formsPlot2.Plot;
+                ReportDataCol reportData = new ReportDataCol();
+
+                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.mindmapName))
+                {
+                    reportData.items.Add(new ReportDataItem
+                    {
+                        name = item.Key,
+                        value = item.Count()
+                    });
+                }
+                if (reportData.values.Length == 0)
+                {
+                    return;
+                }
+                var pie2 = plt2.AddPie(reportData.values);
+                pie2.SliceLabels = reportData.names;
+                //pie2.ShowPercentages = true;
+                //pie2.ShowValues = true;
+                pie2.ShowLabels = true;
+                //plt2.Legend();
+                formsPlot2.Refresh();
+                #endregion
             }
-            if (reportData.values.Length == 0)
+            catch (Exception ex)
             {
-                return;
             }
-            var pie2 = plt2.AddPie(reportData.values);
-            pie2.SliceLabels = reportData.names;
-            //pie2.ShowPercentages = true;
-            //pie2.ShowValues = true;
-            pie2.ShowLabels = true;
-            //plt2.Legend();
-            formsPlot2.Refresh();
-            #endregion
         }
         public class ReportDataCol
         {
@@ -338,6 +345,11 @@ namespace DocearReminder
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             LoadChart();
+        }
+
+        private void nodenameexc_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

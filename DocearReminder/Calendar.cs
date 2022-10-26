@@ -986,7 +986,7 @@ namespace DocearReminder
                 {
                     StartDate = (DateTime)item.JinianDate
                 };
-                if ((DateTime.Now - m_Appointment.StartDate).TotalDays > 30) ;
+                while ((DateTime.Now - m_Appointment.StartDate).TotalDays > 30)
                 {
                     m_Appointment.StartDate=m_Appointment.StartDate.AddYears(1);
                 }
@@ -996,7 +996,7 @@ namespace DocearReminder
                 double time = 60;
 
                 m_Appointment.taskTime = time;
-                m_Appointment.StartDate = m_Appointment.StartDate.AddMinutes(time);
+                m_Appointment.EndDate = m_Appointment.StartDate.AddMinutes(time);
 
                 if (isZhuangbi)
                 {

@@ -936,11 +936,28 @@ namespace DocearReminder
                 }
                 else
                 {
+                    //每小时拍照
                     CameraTimer_Tick(null, null);
                     int p = GetPosition();
                     DocearReminderForm.fanqiePosition[p] = true;
                     Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
                     th.Start();
+                    //每小时刷新所有导图的数据
+                    GetAllNodeJsonFile();
+                    #region 刷新左侧文件，有问题
+                    //isRefreshMindmap = true;
+                    //LoadFile(rootpath);
+                    //for (int i = 0; i < mindmaplist.Items.Count; i++)
+                    //{
+                    //    mindmaplist.SetItemChecked(i, true);
+                    //    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
+                    //    if (unchkeckmindmap.Contains(file))
+                    //    {
+                    //        mindmaplist.SetItemChecked(i, false);
+                    //    }
+                    //}
+                    //isRefreshMindmap = false;
+                    #endregion
                 }
             }
             if (DateTime.Now.Minute == 41|| DateTime.Now.Minute == 11)
@@ -1513,37 +1530,48 @@ namespace DocearReminder
                             {
                                 continue;
                             }
-                            if (node.Attributes[str2].Value != "")
+                            try
                             {
-                                string nodename = node.Attributes[str2].Value;//@"Folder|D|C:\下载";
-                                if (nodename.StartsWith("Folder|D"))
+                                if (node.Attributes[str2].Value != "")
                                 {
-                                    DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
-                                    foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.TopDirectoryOnly))
+                                    string nodename = node.Attributes[str2].Value;//@"Folder|D|C:\下载";
+                                    if (nodename.StartsWith("Folder|D"))
                                     {
-                                        string md5 = GetMD5HashFromFile(file1.FullName);
-                                        if (!node.InnerXml.Contains(md5))
+                                        DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
+                                        //string id = "";
+                                        //if (nodename.Split('|').Length>3)
+                                        //{
+                                        //    id=nodename.Split('|')[3];
+                                        //}
+                                        foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.TopDirectoryOnly))
                                         {
-                                            AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
+                                            string md5 = GetMD5HashFromFile(file1.FullName)+file1.CreationTime.ToOADate().ToString();
+                                            if (!node.InnerXml.Contains(md5))
+                                            {
+                                                AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime);
+                                            }
                                         }
+                                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                                        th.Start();
                                     }
-                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
-                                    th.Start();
-                                }
-                                if (nodename.StartsWith("Folder|F"))
-                                {
-                                    DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
-                                    foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.AllDirectories))
+                                    if (nodename.StartsWith("Folder|F"))
                                     {
-                                        string md5 = GetMD5HashFromFile(file.FullName);
-                                        if (!node.InnerXml.Contains(md5))
+                                        DirectoryInfo path1 = new DirectoryInfo(nodename.Split('|')[2]);
+                                        foreach (FileInfo file1 in path1.GetFiles("*.*", SearchOption.AllDirectories))
                                         {
-                                            AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
+                                            string md5 = GetMD5HashFromFile(file.FullName) + file1.CreationTime.ToOADate().ToString();
+                                            if (!node.InnerXml.Contains(md5))
+                                            {
+                                                AddFileTaskToMap(file.FullName, nodename, file1.Name, file1.FullName, md5, file1.CreationTime, file1.FullName.Substring(path.FullName.Length));
+                                            }
                                         }
+                                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                                        th.Start();
                                     }
-                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
-                                    th.Start();
                                 }
+                            }
+                            catch (Exception)
+                            {
                             }
                         }
                     }
@@ -8456,19 +8484,19 @@ namespace DocearReminder
                             SetLink(searchword.Text.Substring(5));
                             searchword.Text = "";
                         }
-                        else if (searchword.Text.ToLower().StartsWith("g"))
+                        else if (searchword.Text.ToLower().StartsWith("ggg"))
                         {
                             try
                             {
-                                if (searchword.Text.Length == 2)
+                                if (searchword.Text.Length == 3)
                                 {
                                     searchword.Text = "";
                                     WriteTagFile();
                                 }
                                 else
                                 {
-                                    tagCloudControl.AddItem(searchword.Text.Substring(1));
-                                    SaveLog("添加Tag:    " + searchword.Text.Substring(1).Trim());
+                                    tagCloudControl.AddItem(searchword.Text.Substring(3));
+                                    SaveLog("添加Tag:    " + searchword.Text.Substring(3).Trim());
                                     searchword.Text = "";
                                     WriteTagFile();
                                     fenshuADD(1);

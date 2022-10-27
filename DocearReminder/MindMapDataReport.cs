@@ -20,12 +20,12 @@ namespace DocearReminder
 {
     public partial class MindMapDataReport : Form
     {
-        int showDays = 0;
-        public MindMapDataReport(int show=0)
+        int showDays = -1;
+        public MindMapDataReport(int show=-1)
         {
             showDays = show;
             InitializeComponent();
-            if (showDays==0)
+            if (showDays==-1)
             {
                 begin.Value = DateTime.Today.AddDays(-30);
             }

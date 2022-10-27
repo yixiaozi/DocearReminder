@@ -12287,7 +12287,7 @@ namespace DocearReminder
             else if (searchword.Text.EndsWith("rmindmap"))//打开导图分析报告
             {
                 string showday = searchword.Text.Replace("rmindmap","");
-                int showdays = 0;
+                int showdays = -1;
                 if (showday!="")
                 {
                     try

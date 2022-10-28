@@ -156,8 +156,6 @@ namespace DocearReminder
             SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
             try
             {
-                //创建桌面快捷方式（好像不会重复创建）
-                yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder",System.AppDomain.CurrentDomain.BaseDirectory+ "DocearReminder.exe");
                 SwitchToLanguageMode();
                 GetIniFile();
                 ReadBookmarks();
@@ -440,6 +438,11 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
             titleTimer.Start();
+            //创建桌面快捷方式（好像不会重复创建）
+            if (ini.ReadString("config", "CreateShortcutOnDesktop", "")=="ture")
+            {
+                yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder", System.AppDomain.CurrentDomain.BaseDirectory + "DocearReminder.exe");
+            }
             SaveLog("打开程序。");
         }
         /// <summary>
@@ -3046,7 +3049,7 @@ namespace DocearReminder
             //}
             
             hourLeft.Text = (24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60).ToString("N2");
-            pageinfo(task + "(" + isviewtask + ")|" + ctask + "(" + ebtask + ")|" + vtask + "|" + passtask);
+            setTaskInfo(task + "(" + isviewtask + ")|" + ctask + "(" + ebtask + ")|" + vtask + "|" + passtask);
             //如果没有非紧急任务，就显示其他任务
             if (IsReminderOnlyCheckBox.Checked && reminderList.Items.Count == 0)
             {
@@ -3073,6 +3076,9 @@ namespace DocearReminder
             reminderlistSelectedItem = null;//刷新后应该清空
         }
         bool isAutoChangeView = true;
+        /// <summary>
+        /// 刷新任务列表
+        /// </summary>
         public void SortReminderList()
         {
             reminderList.Sorted = false;
@@ -3082,6 +3088,11 @@ namespace DocearReminder
             reminderListBox.Sorted = true;
             reminderListBox.Refresh();
         }
+        /// <summary>
+        /// 导图栏双击打开思维导图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mindmaplist_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -3095,6 +3106,11 @@ namespace DocearReminder
 
             }
         }
+        /// <summary>
+        /// 任务栏双击打开思维导图，或者打开链接或者文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reminderlist_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -3253,33 +3269,11 @@ namespace DocearReminder
             }
             mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
         }
-        //删除全选按钮
-        //private void selectALL_Click(object sender, EventArgs e)
-        //{
-        //    if (selectALL.Text == @"全选")
-        //    {
-        //        for (int i = 0; i < mindmaplist.Items.Count; i++)
-        //        {
-        //            mindmaplist.SetItemChecked(i, true);
-        //        }
-        //        showtomorrow.Checked = false;
-        //        selectALL.Text = @"取消全选";
-        //    }
-        //    else
-        //    {
-        //        for (int i = 0; i < mindmaplist.Items.Count; i++)
-        //        {
-        //            mindmaplist.SetItemChecked(i, false);
-        //        }
-        //        reminder_yearafter.Checked = true;
-        //        selectALL.Text = @"全选";
-        //    }
-        //    if (true)
-        //    {
-        //        shaixuanfuwei();
-        //        ChangeReminder();
-        //    }
-        //}
+        /// <summary>
+        /// 任务栏渲染
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reminderlist_DrawItem(object sender, DrawItemEventArgs e)
         {
 
@@ -3417,7 +3411,12 @@ namespace DocearReminder
                 }
             }
         }
-        public void pageinfo(string info)
+
+        /// <summary>
+        /// 设置任务信息
+        /// </summary>
+        /// <param name="info"></param>
+        public void setTaskInfo(string info)
         {
             int remindCount = 0;
             int remindHours = 0;
@@ -3441,6 +3440,11 @@ namespace DocearReminder
             Hours.Text = ((float)remindHours / 60).ToString("N2");
             reminder_count.Text = remindCount.ToString();
         }
+        /// <summary>
+        /// 窗体双击，刷新任务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (true)
@@ -10215,7 +10219,7 @@ namespace DocearReminder
                             string mindmapPath = "";
                             if (ReminderListFocused())
                             {
-                                if (reminderList.SelectedIndex < 0)
+                                if (reminderList.SelectedIndex < 0&&reminderListBox.SelectedIndex<0)
                                 {
                                     return;
                                 }
@@ -10243,6 +10247,7 @@ namespace DocearReminder
                                 return;
                             }
                             System.Diagnostics.Process.Start(new System.IO.FileInfo(mindmapPath).Directory.FullName);
+                            MyHide();
                         }
                         else if (e.Modifiers.CompareTo(Keys.Alt) == 0) {
                             if (noterichTextBox.Focused)
@@ -12337,6 +12342,34 @@ namespace DocearReminder
                 searchword.Text = "";
                 mindmapornode.Text = "";
                 Load_Click(null, null);
+            }
+            else if (searchword.Text.StartsWith("NNN") || searchword.Text.EndsWith("NNN"))
+            {
+                searchword.Text = "";
+                //下面窗口设置一下
+                nodetree.Top = FileTreeView.Top = 506;
+                nodetree.Height = FileTreeView.Height = 322;
+                pictureBox1.Visible = false;
+                fathernode.Visible = false;
+                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
+                this.Height = 545; showMindmapName = "";
+                if (focusedList == 0)
+                {
+                    reminderList.Focus();
+                }
+                else
+                {
+                    reminderListBox.Focus();
+                }
+                Center();
+                //刷新一下任务
+                if (mindmapornode.Text != "")
+                {
+                    mindmapornode.Text = "";
+                    tasklevel.Value = 0;
+                    taskTime.Value = 0;
+                    RRReminderlist();
+                }
             }
             else if (searchword.Text.ToLower().StartsWith("clipse"))
             {

@@ -156,8 +156,14 @@ namespace DocearReminder
                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "金钱")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("金钱", global::DocearReminder.Properties.Resources.square_ok, SetMoney);
-                        newMenu.BackColor = Color.Gray;
+                        newMenu.BackColor = Color.Yellow;
                         SearchNode_Money(node, newMenu);
+                    }
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "卡路里")
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("卡路里", global::DocearReminder.Properties.Resources.square_ok, SetKA);
+                        newMenu.BackColor = Color.White;
+                        SearchNode_KA(node, newMenu);
                     }
                     else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
                     {
@@ -298,6 +304,32 @@ namespace DocearReminder
                             newMenu.Tag = GetFatherNodeName(Subnode);
                         }
                         SearchNode_Money(Subnode, newMenu);
+                    }
+                }
+            }
+        }
+        public void SearchNode_KA(XmlNode node, ToolStripItem menuitem)
+        {
+            if (node.ChildNodes.Count > 0)
+            {
+                foreach (XmlNode Subnode in node.ChildNodes)
+                {
+                    if (Subnode.Attributes["TEXT"] != null)
+                    {
+                        System.Windows.Forms.ToolStripItem newMenu;
+                        if (menuitem == null)
+                        {
+                            newMenu = this.Menu.Items.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetKA);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        else
+                        {
+                            newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(Subnode.Attributes["TEXT"].Value, global::DocearReminder.Properties.Resources.square_ok, SetKA);
+                            newMenu.BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber));
+                            newMenu.Tag = GetFatherNodeName(Subnode);
+                        }
+                        SearchNode_KA(Subnode, newMenu);
                     }
                 }
             }
@@ -1746,21 +1778,9 @@ namespace DocearReminder
                 m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
             }
 
-            //m_Appointment.Locked = true;
             m_Appointments.Add(m_Appointment);
-            //dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment, commentDetail);
             SetFanQieComplete(fanqieid);
-
-
-
-
-
-
-
-            //reminderObjectJsonAdd(((System.Windows.Forms.ToolStripItem)sender).Text, Guid.NewGuid().ToString(), ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString(), (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.StartDate, "TimeBlock", ((System.Windows.Forms.ToolStripItem)sender).Tag,dayView1.SelectedAppointment.Title);
-            //SetFanQieComplete(dayView1.SelectedAppointment.ID);
-            //m_Appointments.Remove(dayView1.SelectedAppointment);
             RefreshCalender();
         }
         private void SetProgress(object sender, EventArgs e)
@@ -1817,11 +1837,32 @@ namespace DocearReminder
         {
 
             Appointment m_Appointment = new Appointment();
-            m_Appointment = new Appointment
+            if ((dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes > 2)
             {
-                StartDate = dayView1.SelectionStart
-            };
-            m_Appointment.EndDate = dayView1.SelectionEnd;
+                m_Appointment.StartDate = dayView1.SelectionStart;
+                m_Appointment.EndDate = dayView1.SelectionEnd;
+            }
+            else
+            {
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now &&m.mindmap == "Money"&& m.isCompleted == false).OrderBy(m => m.time.AddMinutes(m.tasktime)).LastOrDefault();
+                if (item != null)
+                {
+                    m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
+                }
+                else
+                {
+                    //return;
+                    m_Appointment.StartDate = DateTime.Today;
+                }
+                if (dayView1.SelectionEnd < DateTime.Now)
+                {
+                    m_Appointment.EndDate = dayView1.SelectionEnd;
+                }
+                else
+                {
+                    m_Appointment.EndDate = DateTime.Now;
+                }
+            }
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();
@@ -1833,10 +1874,33 @@ namespace DocearReminder
                 m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
             }
 
-            //m_Appointment.Locked = true;
             m_Appointments.Add(m_Appointment);
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Money", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
+        }
+        private void SetKA(object sender, EventArgs e)
+        {
+
+            Appointment m_Appointment = new Appointment();
+            m_Appointment = new Appointment
+            {
+                StartDate = dayView1.SelectionStart
+            };
+            m_Appointment.EndDate = dayView1.SelectionEnd;
+            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
+            m_Appointment.ID = Guid.NewGuid().ToString();
+            m_Appointment.Type = "KA";
+            string comment = "";
+            unchecked
+            {
+                m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+                m_Appointment.BorderColor = ((System.Windows.Forms.ToolStripItem)sender).BackColor;
+            }
+
+            m_Appointments.Add(m_Appointment);
+            dayView1.Refresh();
+            reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "KA", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
         private void SetTimeBlockColor(object sender, EventArgs e)
         {

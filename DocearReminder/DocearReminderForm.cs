@@ -11332,9 +11332,13 @@ namespace DocearReminder
         }
         public static bool IsFileUrl(string str)
         {
-            if (Regex.IsMatch(str, @"(\w:\\)?([\w|.|:]*\\)?\w*\\{1}"))
+            if (str != "")
             {
-                return true;
+                str = str.Replace('/', '\\');
+                if (Regex.IsMatch(str, @"(\w:\\)?([\w|.|:]*\\)?\w*\\{1}"))
+                {
+                    return true;
+                }
             }
             return false;
         }

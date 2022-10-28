@@ -12328,7 +12328,7 @@ namespace DocearReminder
                 searchword.Text = "";
                 return;
             }
-            else if (searchword.Text.StartsWith("rr"))
+            else if (searchword.Text.StartsWith("rr")|| searchword.Text.EndsWith("rrr"))
             {
                 searchword.Text = "";
                 mindmapornode.Text = "";

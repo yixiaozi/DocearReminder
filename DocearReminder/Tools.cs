@@ -670,6 +670,18 @@ namespace DocearReminder
         {
             DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "FanQie" && m.tasktime <= 3);
             DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "TimeBlock" && m.tasktime <= 1);
+            List<string> GuidCollection = new List<string>();
+            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "TimeBlock"|| m.mindmap == "Money"))
+            {
+                if (GuidCollection.Contains(item.ID))
+                {
+                    item.ID= Guid.NewGuid().ToString();
+                }
+                else
+                {
+                    GuidCollection.Add(item.ID);
+                }
+            }
         }
     }
 }

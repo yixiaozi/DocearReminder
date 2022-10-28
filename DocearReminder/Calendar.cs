@@ -769,10 +769,10 @@ namespace DocearReminder
                 if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")
                 {
                     m_Appointment.Title += ("(" + m_Appointment.Comment + ")");
-                    if (m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
-                    {
-                        m_Appointment.Title += "*";
-                    }
+                }
+                if (showcomment && m_Appointment.DetailComment != null && m_Appointment.DetailComment != "")
+                {
+                    m_Appointment.Title += "*";
                 }
                 m_Appointment.value = item.mindmapPath;
                 m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
@@ -1677,9 +1677,14 @@ namespace DocearReminder
                 m_Appointment.StartDate = dayView1.SelectionStart;
                 m_Appointment.EndDate = dayView1.SelectionEnd;
             }
+            else if (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块")//方便设置时间块并行
+            {
+                m_Appointment.StartDate = dayView1.SelectedAppointment.StartDate;
+                m_Appointment.EndDate = dayView1.SelectedAppointment.EndDate;
+            }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time.AddMinutes(m.tasktime)).LastOrDefault();
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
@@ -1734,6 +1739,7 @@ namespace DocearReminder
                 fanqieid = dayView1.SelectedAppointment.ID;
                 m_Appointments.Remove(dayView1.SelectedAppointment);
             }
+
             unchecked
             {
                 m_Appointment.Color = ((System.Windows.Forms.ToolStripItem)sender).BackColor;

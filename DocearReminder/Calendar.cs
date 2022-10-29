@@ -83,15 +83,7 @@ namespace DocearReminder
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
             RefreshCalender();
             dayView1.AllowScroll = true;
-            DateTime startWeek = DateTime.Today;
-            if (startWeek.DayOfWeek.ToString("d") != "0")
-            {
-                startWeek = startWeek.AddDays(1 - Convert.ToInt32(startWeek.DayOfWeek.ToString("d")));
-            }
-            else
-            {
-                startWeek = startWeek.AddDays(-6);
-            }
+            SetMonday();
             try
             {
                 this.Opacity = Convert.ToDouble(ini.ReadString("appearance", "CalanderOpacity", "1"));
@@ -101,8 +93,6 @@ namespace DocearReminder
             catch (Exception)
             {
             }
-            dateTimePicker1.Value = startWeek;
-            dayView1.StartDate = startWeek;
             dayView1.NewAppointment += new NewAppointmentEventHandler(dayView1_NewAppointment);
             dayView1.SelectionChanged += new EventHandler(dayView1_SelectionChanged);
             //dayView1.ResolveAppointments += new ResolveAppointmentsEventHandler(this.dayView1_ResolveAppointments);
@@ -135,6 +125,21 @@ namespace DocearReminder
             dayView1.AllowInplaceEditing = false;
             dayView1.AllowNew = false;
             FreshMenu();
+        }
+        public void SetMonday()
+        {
+            DateTime startWeek = DateTime.Today;
+            if (startWeek.DayOfWeek.ToString("d") != "0")
+            {
+                startWeek = startWeek.AddDays(1 - Convert.ToInt32(startWeek.DayOfWeek.ToString("d")));
+            }
+            else
+            {
+                startWeek = startWeek.AddDays(-6);
+            }
+
+            dateTimePicker1.Value = startWeek;
+            dayView1.StartDate = startWeek;
         }
         public void FreshMenu()
         {
@@ -719,7 +724,7 @@ namespace DocearReminder
         {
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted));
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted));
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
                 items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
@@ -825,7 +830,7 @@ namespace DocearReminder
                 }
                 m_Appointment.Color = System.Drawing.Color.White;
                 m_Appointment.BorderColor = System.Drawing.Color.White;
-                if (item.mindmap == "TimeBlock" || item.mindmap == "Mistake" || item.mindmap == "Progress" || item.mindmap == "Money")
+                if (item.mindmap == "TimeBlock" || item.mindmap == "Mistake" || item.mindmap == "Progress" || item.mindmap == "Money" || item.mindmap == "KA")
                 {
                     try
                     {
@@ -921,6 +926,9 @@ namespace DocearReminder
                         break;
                     case "Money":
                         m_Appointment.Type = "金钱";
+                        break;
+                    case "KA":
+                        m_Appointment.Type = "卡路里";
                         break;
                     default:
                         m_Appointment.Type = "任务";
@@ -1202,7 +1210,7 @@ namespace DocearReminder
                                 numericUpDown1.Value++;
                                 return;
                             }
-                            if (dayView1.Focused&& (dayView1.SelectedAppointment!=null&&dayView1.SelectedAppointment.Type== "时间块"))
+                            if (dayView1.Focused&& (dayView1.SelectedAppointment!=null))
                             {
                                 dayView1.SelectedAppointment.StartDate=dayView1.SelectedAppointment.StartDate.AddMinutes(-1);
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(-1);
@@ -1235,7 +1243,7 @@ namespace DocearReminder
                                 numericUpDown1.Value--;
                                 return;
                             }
-                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null))
                             {
                                 dayView1.SelectedAppointment.StartDate = dayView1.SelectedAppointment.StartDate.AddMinutes(1);
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
@@ -1253,7 +1261,7 @@ namespace DocearReminder
                     case Keys.Left:
                         if (c_lock.Checked)
                         {
-                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null))
                             {
                                 if ((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes > 3)
                                 {
@@ -1286,7 +1294,7 @@ namespace DocearReminder
                     case Keys.Right:
                         if (c_lock.Checked)
                         {
-                            if (dayView1.Focused && (dayView1.SelectedAppointment != null && dayView1.SelectedAppointment.Type == "时间块"))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null))
                             {
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(1);
                                 ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
@@ -1524,7 +1532,7 @@ namespace DocearReminder
                 ismovetask = false;
                 try
                 {
-                    if (dayView1.SelectedAppointment.Type != "时间块"&& dayView1.SelectedAppointment.Type != "进步"&& dayView1.SelectedAppointment.Type != "错误"&& dayView1.SelectedAppointment.Type != "金钱")
+                    if (dayView1.SelectedAppointment.Type != "时间块"&& dayView1.SelectedAppointment.Type != "进步"&& dayView1.SelectedAppointment.Type != "错误"&& dayView1.SelectedAppointment.Type != "金钱" & dayView1.SelectedAppointment.Type != "卡路里")
                     {
                         EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
                     }
@@ -1878,19 +1886,56 @@ namespace DocearReminder
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Money", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
+        /// <summary>
+        /// 设置卡路里
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKA(object sender, EventArgs e)
         {
-
             Appointment m_Appointment = new Appointment();
             m_Appointment = new Appointment
             {
                 StartDate = dayView1.SelectionStart
             };
             m_Appointment.EndDate = dayView1.SelectionEnd;
-            m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            string Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
+            //Title = Title.Replace("：",":");
+            string nengliang = "";
+            double nengliangNum = 0;
+            string ggg = "";
+            double nenglaingMax = 0;
+            try
+            {
+                if (Title.Contains('|'))
+                {
+                    nengliang = Title.Split('|')[1];
+                    ggg = Title.Split('|')[2];
+                    Title = Title.Split('|')[0];
+                }
+                if (nengliang.Contains("kj"))
+                {
+                    nengliangNum = Convert.ToInt16(nengliang.Replace("kj", "")) / 4.184;
+                }
+                else
+                {
+                    nengliangNum = Convert.ToInt16(nengliang.Replace("kcal", ""));
+                }
+                nenglaingMax = nengliangNum * Convert.ToDouble(ggg)/10;
+            }
+            catch (Exception)
+            {
+            }
+            
+            if (nenglaingMax!=0)
+            {
+                m_Appointment.EndDate = dayView1.SelectionStart.AddMinutes(nenglaingMax);
+            }
+
+            m_Appointment.Title = Title;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();
-            m_Appointment.Type = "KA";
+            m_Appointment.Type = "卡路里";
             string comment = "";
             unchecked
             {
@@ -2032,6 +2077,7 @@ namespace DocearReminder
                 dayView1.StartHour = 0;
                 dayView1.HalfHourHeight = 20;
                 c_Money.Checked = false;
+                Ka_c.Checked = false;
                 RefreshCalender();
             }
             UsedLogRenew();
@@ -2040,7 +2086,18 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = DateTime.Today;
+            if(dateTimePicker1.Value == DateTime.Today)
+            {
+                dateTimePicker1.Value = DateTime.Today.AddDays(-1);
+            }
+            else if(dateTimePicker1.Value == DateTime.Today.AddDays(-1))
+            {
+                SetMonday();
+            }
+            else
+            {
+                dateTimePicker1.Value = DateTime.Today;
+            }
         }
 
         private void c_fanqie_CheckedChanged(object sender, EventArgs e)
@@ -2048,7 +2105,7 @@ namespace DocearReminder
             RefreshCalender();
             dayView1.StartDate = dayView1.StartDate;//用于刷新
         }
-
+        
         private void dayView1_AppointmentMouseHover(object sender, yixiaozi.WinForm.Control.DayView.AppointmentMouseHoverEventArgs args)
         {
             //基本不会运行
@@ -2110,7 +2167,23 @@ namespace DocearReminder
                 catch (Exception)
                 {
                 }
-                string showresult = timeblocktop + args.Title.Split('(')[0] + Environment.NewLine + (args.Type != "金钱" ? (args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString()) : ((args.EndDate - args.StartDate).TotalMinutes.ToString() + "元")) + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "") + (args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo;
+                string Title = "任务";
+                string info = "";
+                switch (args.Type)
+                {
+                    case "金钱":
+                        info = (args.EndDate - args.StartDate).TotalMinutes.ToString() + "元";
+                        break;
+                    case "卡路里":
+                        info = (args.EndDate - args.StartDate).TotalMinutes*10 + "千卡";
+                        info += Environment.NewLine;
+                        info += ((args.EndDate - args.StartDate).TotalMinutes * 10/9.46).ToString("F")+"克脂肪";
+                        break;
+                    default:
+                        info = args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString();
+                        break;
+                }
+                string showresult = timeblocktop + args.Title.Split('(')[0] + Environment.NewLine + info + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "") + (args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo;
                 showresult = showresult.Replace(Environment.NewLine+ Environment.NewLine, Environment.NewLine);//去掉连续的换行
                 toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
             }
@@ -2362,6 +2435,7 @@ namespace DocearReminder
                 dayView1.StartHour = 0;
                 dayView1.HalfHourHeight = 65;
                 c_timeBlock.Checked = false;
+                Ka_c.Checked = false;
                 RefreshCalender();
             }
             
@@ -2396,6 +2470,19 @@ namespace DocearReminder
         private void checkBox_enddate_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+        }
+
+        private void Ka_c_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Ka_c.Checked)
+            {
+                dayView1.StartHour = 0;
+                dayView1.HalfHourHeight = 40;
+                c_timeBlock.Checked = false;
+                c_Money.Checked = false;
+                RefreshCalender();
+            }
+            UsedLogRenew();
         }
     }
     internal class User32

@@ -69,6 +69,7 @@ namespace DocearReminder
             this.exclude = new System.Windows.Forms.TextBox();
             this.checkBox_jinian = new System.Windows.Forms.CheckBox();
             this.checkBox_enddate = new System.Windows.Forms.CheckBox();
+            this.Ka_c = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -357,7 +358,7 @@ namespace DocearReminder
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(1190, 3);
+            this.c_done.Location = new System.Drawing.Point(1193, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
@@ -368,7 +369,7 @@ namespace DocearReminder
             // c_progress
             // 
             this.c_progress.AutoSize = true;
-            this.c_progress.Location = new System.Drawing.Point(1001, 2);
+            this.c_progress.Location = new System.Drawing.Point(992, 3);
             this.c_progress.Name = "c_progress";
             this.c_progress.Size = new System.Drawing.Size(48, 16);
             this.c_progress.TabIndex = 1;
@@ -379,7 +380,7 @@ namespace DocearReminder
             // c_mistake
             // 
             this.c_mistake.AutoSize = true;
-            this.c_mistake.Location = new System.Drawing.Point(1055, 2);
+            this.c_mistake.Location = new System.Drawing.Point(1039, 2);
             this.c_mistake.Name = "c_mistake";
             this.c_mistake.Size = new System.Drawing.Size(48, 16);
             this.c_mistake.TabIndex = 1;
@@ -415,7 +416,7 @@ namespace DocearReminder
             // c_Money
             // 
             this.c_Money.AutoSize = true;
-            this.c_Money.Location = new System.Drawing.Point(1118, 3);
+            this.c_Money.Location = new System.Drawing.Point(1086, 3);
             this.c_Money.Name = "c_Money";
             this.c_Money.Size = new System.Drawing.Size(48, 16);
             this.c_Money.TabIndex = 1;
@@ -477,6 +478,17 @@ namespace DocearReminder
             this.checkBox_enddate.UseVisualStyleBackColor = true;
             this.checkBox_enddate.CheckedChanged += new System.EventHandler(this.checkBox_enddate_CheckedChanged);
             // 
+            // Ka_c
+            // 
+            this.Ka_c.AutoSize = true;
+            this.Ka_c.Location = new System.Drawing.Point(1132, 3);
+            this.Ka_c.Name = "Ka_c";
+            this.Ka_c.Size = new System.Drawing.Size(60, 16);
+            this.Ka_c.TabIndex = 41;
+            this.Ka_c.Text = "¿¨Â·Àï";
+            this.Ka_c.UseVisualStyleBackColor = true;
+            this.Ka_c.CheckedChanged += new System.EventHandler(this.Ka_c_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -484,6 +496,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1462, 823);
+            this.Controls.Add(this.Ka_c);
             this.Controls.Add(this.checkBox_enddate);
             this.Controls.Add(this.checkBox_jinian);
             this.Controls.Add(this.exclude);
@@ -571,6 +584,7 @@ namespace DocearReminder
         private TextBox exclude;
         private CheckBox checkBox_jinian;
         private CheckBox checkBox_enddate;
+        private CheckBox Ka_c;
     }
 }
 

@@ -224,12 +224,16 @@ namespace DocearReminder
                     {
                         time = ritem.time.ToString("MM-dd") +" "+ ritem.tasktime + "元 ";
                     }
-                    richTextBoxText+= (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "("+ ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") +")":"") + Environment.NewLine);
+                    else if (Type.Text == "卡路里")
+                    {
+                        time = ritem.time.ToString("MM-dd") + " " + ritem.tasktime + "千卡";
+                    }
+                    richTextBoxText += (time + timeblocktop + ritem.name + (ritem.comment!=""?"(":"") + ritem.comment + (ritem.comment != "" ? ")" : "") + (ritem.DetailComment != ""&& ritem.DetailComment!=null ? "("+ ritem.DetailComment.Replace(" ", "").Replace(Environment.NewLine, "") +")":"") + Environment.NewLine);
                 }
                 countList.Add(count);
                 //valueList.Add(minute/60);
                 daysList.Add(item.Key);
-                if (Type.Text == "金钱")
+                if (Type.Text == "金钱"|| Type.Text == "卡路里")
                 {
                     valueList.Add(minute);
                     all += minute;

@@ -1938,16 +1938,18 @@ namespace DocearReminder
                         if (number > 0)
                         {
                             string todayaddnodecount = "";
-                            todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
-                            if (todayaddnodecount=="0")
+                            if (nodes!=null)
                             {
-                                todayaddnodecount = "";
+                                todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
+                                if (todayaddnodecount == "0")
+                                {
+                                    todayaddnodecount = "";
+                                }
+                                else
+                                {
+                                    todayaddnodecount = "|" + todayaddnodecount;
+                                }
                             }
-                            else
-                            {
-                                todayaddnodecount = "|" + todayaddnodecount;
-                            }
-
                             mindmaplist.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3)+ todayaddnodecount, Value = file.FullName });
 
                             taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();

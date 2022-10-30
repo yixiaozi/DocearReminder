@@ -16,6 +16,8 @@ namespace DocearReminder
         public TimeBlockTrend()
         {
             InitializeComponent();
+            startDt.Value = Convert.ToDateTime(DateTime.Today.ToString("yyyy/MM/01"));
+            endDT.Value = DateTime.Today.AddDays(1);
             Center();
             LoadChart();
         }
@@ -55,6 +57,9 @@ namespace DocearReminder
                 case "金钱":
                     type = "Money";
                     break;
+                case "卡路里":
+                    type = "KA";
+                    break;
                 case "进步":
                     type = "Progress";
                     break;
@@ -73,6 +78,14 @@ namespace DocearReminder
                 label16.Text = "平均每天花费（总天数）：";
                 label18.Text = "平均每天花费（记录天数）：";
                 label38.Text = "最多花费:";
+            }
+            else if (Type.Text == "卡路里")
+            {
+                danwei = "克";
+                label5.Text = "总减重：";
+                label16.Text = "平均每天减重（总天数）：";
+                label18.Text = "平均每天减重（记录天数）：";
+                label38.Text = "最多减重:";
             }
             else
             {
@@ -117,6 +130,20 @@ namespace DocearReminder
                         {
                         }
                     }
+                    if (!SubClass.Checked)
+                    {
+                        if (item.nameFull != null && item.nameFull != "")
+                        {
+                            if (item.nameFull.Contains("收入"))
+                            {
+                                continue;
+                            }
+                            if (item.nameFull.Contains("消耗"))
+                            {
+                                continue;
+                            }
+                        }
+                    }
                     if (comboBox1.SelectedIndex > 0)
                     {
                         try//过滤分类
@@ -157,7 +184,18 @@ namespace DocearReminder
                 foreach (ReminderItem ritem in item)
                 {
                     count++;
-                    minute += ritem.tasktime;
+                    if (Type.Text == "金钱"&&ritem.nameFull.Contains("收入"))
+                    {
+                        minute -= ritem.tasktime;
+                    }
+                    else if (Type.Text == "卡路里"&&ritem.nameFull.Contains("消耗"))
+                    {
+                        minute -= ritem.tasktime;
+                    }
+                    else
+                    {
+                        minute += ritem.tasktime;
+                    }
                     totalCountValue++;
                     if (ritem.comment!=null&&ritem.comment!="")
                     {
@@ -236,7 +274,11 @@ namespace DocearReminder
                 maxList.Add(0);
                 maxCount = maxcurrent;
             }
-            
+            //卡路里切换成g
+            if (Type.Text == "卡路里")
+            {
+                all = all * 10 / 9.46;
+            }
             plt.AddBar(valueList.ToArray(),daysList.ToArray());
             
             totalDays.Text= totalDay + "天";
@@ -336,6 +378,11 @@ namespace DocearReminder
                 default:
                     break;
             }
+        }
+
+        private void SubClass_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadChart();
         }
     }
 }

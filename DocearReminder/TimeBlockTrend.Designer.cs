@@ -30,6 +30,7 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeBlockTrend));
             this.formsPlot1 = new ScottPlot.FormsPlot();
             this.startDt = new System.Windows.Forms.DateTimePicker();
             this.endDT = new System.Windows.Forms.DateTimePicker();
@@ -82,6 +83,7 @@ namespace DocearReminder
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Type = new System.Windows.Forms.ComboBox();
             this.exclude = new System.Windows.Forms.TextBox();
+            this.SubClass = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,14 +107,14 @@ namespace DocearReminder
             // 
             this.endDT.Location = new System.Drawing.Point(366, 12);
             this.endDT.Name = "endDT";
-            this.endDT.Size = new System.Drawing.Size(181, 21);
+            this.endDT.Size = new System.Drawing.Size(156, 21);
             this.endDT.TabIndex = 2;
             this.endDT.Value = new System.DateTime(2022, 10, 1, 0, 0, 0, 0);
             this.endDT.ValueChanged += new System.EventHandler(this.endDT_ValueChanged);
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(705, 13);
+            this.textBox_searchwork.Location = new System.Drawing.Point(680, 12);
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(138, 21);
             this.textBox_searchwork.TabIndex = 3;
@@ -121,9 +123,9 @@ namespace DocearReminder
             // 
             // SearchBtn
             // 
-            this.SearchBtn.Location = new System.Drawing.Point(944, 13);
+            this.SearchBtn.Location = new System.Drawing.Point(974, 13);
             this.SearchBtn.Name = "SearchBtn";
-            this.SearchBtn.Size = new System.Drawing.Size(94, 23);
+            this.SearchBtn.Size = new System.Drawing.Size(64, 23);
             this.SearchBtn.TabIndex = 4;
             this.SearchBtn.Text = "统计";
             this.SearchBtn.UseVisualStyleBackColor = true;
@@ -152,7 +154,7 @@ namespace DocearReminder
             "浪费",
             "未分类",
             "音乐"});
-            this.comboBox1.Location = new System.Drawing.Point(553, 13);
+            this.comboBox1.Location = new System.Drawing.Point(528, 13);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(146, 20);
             this.comboBox1.TabIndex = 11;
@@ -664,6 +666,7 @@ namespace DocearReminder
             this.Type.Items.AddRange(new object[] {
             "时间块",
             "金钱",
+            "卡路里",
             "进步",
             "错误"});
             this.Type.Location = new System.Drawing.Point(44, 12);
@@ -675,18 +678,30 @@ namespace DocearReminder
             // 
             // exclude
             // 
-            this.exclude.Location = new System.Drawing.Point(849, 13);
+            this.exclude.Location = new System.Drawing.Point(824, 12);
             this.exclude.Name = "exclude";
             this.exclude.Size = new System.Drawing.Size(89, 21);
             this.exclude.TabIndex = 19;
             this.exclude.TextChanged += new System.EventHandler(this.searchword_TextChanged);
             this.exclude.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
             // 
+            // SubClass
+            // 
+            this.SubClass.AutoSize = true;
+            this.SubClass.Location = new System.Drawing.Point(920, 16);
+            this.SubClass.Name = "SubClass";
+            this.SubClass.Size = new System.Drawing.Size(48, 16);
+            this.SubClass.TabIndex = 20;
+            this.SubClass.Text = "子类";
+            this.SubClass.UseVisualStyleBackColor = true;
+            this.SubClass.CheckedChanged += new System.EventHandler(this.SubClass_CheckedChanged);
+            // 
             // TimeBlockTrend
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1666, 621);
+            this.Controls.Add(this.SubClass);
             this.Controls.Add(this.exclude);
             this.Controls.Add(this.Type);
             this.Controls.Add(this.richTextBox1);
@@ -697,6 +712,7 @@ namespace DocearReminder
             this.Controls.Add(this.endDT);
             this.Controls.Add(this.startDt);
             this.Controls.Add(this.formsPlot1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TimeBlockTrend";
             this.Text = "TimeBlockTrend";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -760,5 +776,6 @@ namespace DocearReminder
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox Type;
         private System.Windows.Forms.TextBox exclude;
+        private System.Windows.Forms.CheckBox SubClass;
     }
 }

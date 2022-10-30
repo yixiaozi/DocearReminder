@@ -70,6 +70,7 @@ namespace DocearReminder
             this.checkBox_jinian = new System.Windows.Forms.CheckBox();
             this.checkBox_enddate = new System.Windows.Forms.CheckBox();
             this.Ka_c = new System.Windows.Forms.CheckBox();
+            this.subClass = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -97,7 +98,7 @@ namespace DocearReminder
             this.dayView1.Name = "dayView1";
             this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
             this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1466, 862);
+            this.dayView1.Size = new System.Drawing.Size(1508, 862);
             this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
             this.dayView1.StartHour = 0;
             this.dayView1.TabIndex = 0;
@@ -168,7 +169,7 @@ namespace DocearReminder
             this.panel1.Location = new System.Drawing.Point(0, 21);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1466, 862);
+            this.panel1.Size = new System.Drawing.Size(1508, 862);
             this.panel1.TabIndex = 1;
             // 
             // dateTimePicker1
@@ -331,7 +332,7 @@ namespace DocearReminder
             // 
             this.button2.Location = new System.Drawing.Point(827, 0);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(53, 23);
+            this.button2.Size = new System.Drawing.Size(53, 21);
             this.button2.TabIndex = 33;
             this.button2.Text = "今天";
             this.button2.UseVisualStyleBackColor = true;
@@ -489,13 +490,25 @@ namespace DocearReminder
             this.Ka_c.UseVisualStyleBackColor = true;
             this.Ka_c.CheckedChanged += new System.EventHandler(this.Ka_c_CheckedChanged);
             // 
+            // subClass
+            // 
+            this.subClass.AutoSize = true;
+            this.subClass.Location = new System.Drawing.Point(1450, 2);
+            this.subClass.Name = "subClass";
+            this.subClass.Size = new System.Drawing.Size(48, 16);
+            this.subClass.TabIndex = 42;
+            this.subClass.Text = "子类";
+            this.subClass.UseVisualStyleBackColor = true;
+            this.subClass.CheckedChanged += new System.EventHandler(this.subClass_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1462, 823);
+            this.ClientSize = new System.Drawing.Size(1504, 823);
+            this.Controls.Add(this.subClass);
             this.Controls.Add(this.Ka_c);
             this.Controls.Add(this.checkBox_enddate);
             this.Controls.Add(this.checkBox_jinian);
@@ -585,6 +598,7 @@ namespace DocearReminder
         private CheckBox checkBox_jinian;
         private CheckBox checkBox_enddate;
         private CheckBox Ka_c;
+        private CheckBox subClass;
     }
 }
 

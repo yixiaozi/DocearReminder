@@ -627,25 +627,80 @@ namespace DocearReminder
 
         private void button9_Click(object sender, EventArgs e)
         {
-            ReminderItem current = DocearReminderForm.reminderObject.reminders.FirstOrDefault(m => m.name == "房租"&&m.tasktime>8000);
-            DateTime startdate = Convert.ToDateTime("2022-10-01");
-            DateTime enddate = Convert.ToDateTime("2022-12-31");
-            double dayCount = (enddate - startdate).TotalDays;
-            
-            if (current!=null)
+            ReminderItem current = DocearReminderForm.reminderObject.reminders.FirstOrDefault(m => m.name == textBox1.Text&& m.tasktime>(double)numericUpDown1.Value);
+            DateTime startdate = dateTimePicker1.Value;
+            DateTime enddate = dateTimePicker2.Value;
+            if (checkBox2.Checked)
             {
-                int spendEveryday = Convert.ToInt32(current.tasktime / dayCount);
-                for (int i = 0; i < dayCount; i++)
+                double dayCount = (double)getWorkDaysNumber(startdate,enddate);
+                foreach (DateTime item in getWorkDaysr(startdate, enddate))
                 {
-                    ReminderItem newitem = Clone(current);
-                    newitem.tasktime = spendEveryday;
-                    newitem.time = startdate.AddDays(i);
-                    newitem.ID = Guid.NewGuid().ToString();
-                    DocearReminderForm.reminderObject.reminders.Add(newitem);
+                    if (current != null)
+                    {
+                        int spendEveryday = Convert.ToInt32(current.tasktime / dayCount);
+                        ReminderItem newitem = Clone(current);
+                        newitem.tasktime = spendEveryday;
+                        newitem.time = item;
+                        newitem.ID = Guid.NewGuid().ToString();
+                        DocearReminderForm.reminderObject.reminders.Add(newitem);
+                    }
                 }
             }
-            DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.name == "房租" && m.tasktime > 8000);
+            else
+            {
+                double dayCount = (enddate - startdate).TotalDays;
+                if (current != null)
+                {
+                    int spendEveryday = Convert.ToInt32(current.tasktime / dayCount);
+                    for (int i = 0; i < dayCount; i++)
+                    {
+                        ReminderItem newitem = Clone(current);
+                        newitem.tasktime = spendEveryday;
+                        newitem.time = startdate.AddDays(i);
+                        newitem.ID = Guid.NewGuid().ToString();
+                        DocearReminderForm.reminderObject.reminders.Add(newitem);
+                    }
+                }
+            }
+            
+            DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.name == textBox1.Text && m.tasktime > (double)numericUpDown1.Value);
         }
+
+        public int getWorkDaysNumber(DateTime satart,DateTime end)
+        {
+            int result = 0;
+            if (satart==null|| end == null||end<satart)
+            {
+                return 1;
+            }
+            while (satart<=end)
+            {
+                if (satart.DayOfWeek== DayOfWeek.Monday|| satart.DayOfWeek == DayOfWeek.Tuesday|| satart.DayOfWeek == DayOfWeek.Wednesday|| satart.DayOfWeek == DayOfWeek.Friday|| satart.DayOfWeek == DayOfWeek.Thursday)
+                {
+                    result++;
+                }
+                satart = satart.AddDays(1);
+            }
+            return result==0?1: result;
+        }
+        public List<DateTime> getWorkDaysr(DateTime start, DateTime end)
+        {
+            List<DateTime> result = new List<DateTime>();
+            if (start == null || end == null || end < start)
+            {
+                return result;
+            }
+            while (start <= end)
+            {
+                if (start.DayOfWeek == DayOfWeek.Monday || start.DayOfWeek == DayOfWeek.Tuesday || start.DayOfWeek == DayOfWeek.Wednesday || start.DayOfWeek == DayOfWeek.Friday || start.DayOfWeek == DayOfWeek.Thursday)
+                {
+                    result.Add(start);
+                }
+                start = start.AddDays(1);
+            }
+            return result;
+        }
+
         public static ReminderItem Clone(ReminderItem obj)
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -682,6 +737,11 @@ namespace DocearReminder
                     GuidCollection.Add(item.ID);
                 }
             }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = Convert.ToDateTime(dateTimePicker1.Value.ToString("yyyy/MM/dd"));
         }
     }
 }

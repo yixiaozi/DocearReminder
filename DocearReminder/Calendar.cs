@@ -935,6 +935,25 @@ namespace DocearReminder
                         break;
                 }
                 m_Appointment.Tag = item;
+                if (!subClass.Checked)
+                {
+                    if (item.nameFull != null && item.nameFull != "")
+                    {
+                        if (item.nameFull.Contains("收入"))
+                        {
+                            continue;
+                        }
+                        if (item.nameFull.Contains("消耗"))
+                        {
+                            continue;
+                        }
+                    }
+                }
+                if ((m_Appointment.EndDate- m_Appointment.StartDate).TotalHours>20)//一般不会有超过1200的支出或者收入吧
+                {
+                    m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
+                    m_Appointment.Color = Color.Black;
+                }
                 m_Appointments.Add(m_Appointment);
             }
             try
@@ -2155,7 +2174,7 @@ namespace DocearReminder
                 string timeblocktop = "";
                 try
                 {
-                    if (args.Type== "时间块")
+                    if (args.Type== "时间块"|| args.Type == "金钱"|| args.Type == "卡路里")
                     {
                         timeblocktop = ((ReminderItem)args.Tag).nameFull;
                         if (timeblocktop!="")
@@ -2436,6 +2455,7 @@ namespace DocearReminder
                 dayView1.HalfHourHeight = 65;
                 c_timeBlock.Checked = false;
                 Ka_c.Checked = false;
+                subClass.Checked = false;
                 RefreshCalender();
             }
             
@@ -2480,9 +2500,15 @@ namespace DocearReminder
                 dayView1.HalfHourHeight = 40;
                 c_timeBlock.Checked = false;
                 c_Money.Checked = false;
+                subClass.Checked = true;
                 RefreshCalender();
             }
             UsedLogRenew();
+        }
+
+        private void subClass_CheckedChanged(object sender, EventArgs e)
+        {
+            //RefreshCalender();
         }
     }
     internal class User32

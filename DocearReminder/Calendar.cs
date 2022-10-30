@@ -954,6 +954,12 @@ namespace DocearReminder
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
                     m_Appointment.Color = Color.Black;
                 }
+                if (m_Appointment.EndDate.Day>m_Appointment.StartDate.Day)
+                {
+                    m_Appointment.StartDate = Convert.ToDateTime(m_Appointment.StartDate.ToString("yyyy/MM/dd"));
+                    m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
+                    m_Appointment.Color = Color.Black;
+                }
                 m_Appointments.Add(m_Appointment);
             }
             try

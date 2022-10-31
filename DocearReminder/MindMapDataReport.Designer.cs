@@ -50,6 +50,7 @@ namespace DocearReminder
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.showtext = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -84,7 +85,7 @@ namespace DocearReminder
             // 
             this.button1.Location = new System.Drawing.Point(1518, 10);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(119, 23);
+            this.button1.Size = new System.Drawing.Size(63, 23);
             this.button1.TabIndex = 12;
             this.button1.Text = "分析";
             this.button1.UseVisualStyleBackColor = true;
@@ -122,14 +123,14 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(1643, 10);
+            this.numericUpDown1.Location = new System.Drawing.Point(1587, 10);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(63, 21);
+            this.numericUpDown1.Size = new System.Drawing.Size(55, 21);
             this.numericUpDown1.TabIndex = 16;
             this.numericUpDown1.Value = new decimal(new int[] {
             500,
@@ -162,7 +163,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericUpDown2.Location = new System.Drawing.Point(1712, 10);
+            this.numericUpDown2.Location = new System.Drawing.Point(1648, 10);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -234,6 +235,18 @@ namespace DocearReminder
             this.label4.TabIndex = 26;
             this.label4.Text = "节点排除：";
             // 
+            // showtext
+            // 
+            this.showtext.AutoSize = true;
+            this.showtext.Checked = true;
+            this.showtext.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showtext.Location = new System.Drawing.Point(1713, 12);
+            this.showtext.Name = "showtext";
+            this.showtext.Size = new System.Drawing.Size(72, 16);
+            this.showtext.TabIndex = 27;
+            this.showtext.Text = "显示文字";
+            this.showtext.UseVisualStyleBackColor = true;
+            // 
             // MindMapDataReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -241,6 +254,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1784, 865);
+            this.Controls.Add(this.showtext);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -294,5 +308,6 @@ namespace DocearReminder
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox showtext;
     }
 }

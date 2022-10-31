@@ -51,6 +51,7 @@ namespace DocearReminder
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.percent = new System.Windows.Forms.CheckBox();
+            this.Legend = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // formsPlot1
@@ -76,7 +77,7 @@ namespace DocearReminder
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(107, 21);
             this.dateTimePicker1.TabIndex = 2;
-            this.dateTimePicker1.Value = DateTime.Today;
+            this.dateTimePicker1.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label2
@@ -94,7 +95,7 @@ namespace DocearReminder
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(131, 21);
             this.dateTimePicker2.TabIndex = 4;
-            this.dateTimePicker2.Value = DateTime.Now;
+            this.dateTimePicker2.Value = new System.DateTime(2022, 11, 1, 4, 5, 2, 22);
             this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // section
@@ -213,7 +214,7 @@ namespace DocearReminder
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(1389, 15);
+            this.checkBox2.Location = new System.Drawing.Point(1385, 15);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(48, 16);
             this.checkBox2.TabIndex = 19;
@@ -224,7 +225,7 @@ namespace DocearReminder
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(1346, 15);
+            this.checkBox1.Location = new System.Drawing.Point(1331, 16);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(48, 16);
             this.checkBox1.TabIndex = 18;
@@ -237,13 +238,23 @@ namespace DocearReminder
             this.percent.AutoSize = true;
             this.percent.Checked = true;
             this.percent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.percent.Location = new System.Drawing.Point(1291, 15);
+            this.percent.Location = new System.Drawing.Point(1265, 15);
             this.percent.Name = "percent";
             this.percent.Size = new System.Drawing.Size(60, 16);
             this.percent.TabIndex = 17;
             this.percent.Text = "百分比";
             this.percent.UseVisualStyleBackColor = true;
             this.percent.CheckedChanged += new System.EventHandler(this.percent_CheckedChanged);
+            // 
+            // Legend
+            // 
+            this.Legend.AutoSize = true;
+            this.Legend.Location = new System.Drawing.Point(1440, 16);
+            this.Legend.Name = "Legend";
+            this.Legend.Size = new System.Drawing.Size(60, 16);
+            this.Legend.TabIndex = 20;
+            this.Legend.Text = "Legend";
+            this.Legend.UseVisualStyleBackColor = true;
             // 
             // UseTime
             // 
@@ -252,6 +263,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1511, 861);
+            this.Controls.Add(this.Legend);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.percent);
@@ -306,5 +318,6 @@ namespace DocearReminder
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox percent;
+        private System.Windows.Forms.CheckBox Legend;
     }
 }

@@ -170,7 +170,10 @@ namespace DocearReminder
                 pie2.SliceLabels = reportData.names;
                 //pie2.ShowPercentages = true;
                 //pie2.ShowValues = true;
-                pie2.ShowLabels = true;
+                if (showtext.Checked)
+                {
+                    pie2.ShowLabels = true;
+                }
                 //plt2.Legend();
                 formsPlot2.Refresh();
                 #endregion

@@ -218,7 +218,10 @@ namespace DocearReminder
             {
                 pie.ShowLabels = true;
             }
-            plt.Legend();
+            if (checkBox3.Checked)
+            {
+                plt.Legend();
+            }
             formsPlot1.Refresh();
         }
 
@@ -336,6 +339,11 @@ namespace DocearReminder
                 default:
                     break;
             }
+        }
+
+        private void formsPlot1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

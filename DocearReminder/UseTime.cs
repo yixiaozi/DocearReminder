@@ -233,7 +233,10 @@ namespace DocearReminder
                     {
                         pie.ShowLabels = true;
                     }
-                    plt.Legend();
+                    if (Legend.Checked)
+                    {
+                        plt.Legend();
+                    }
                     formsPlot4.Refresh();
                 }
                 catch (Exception)

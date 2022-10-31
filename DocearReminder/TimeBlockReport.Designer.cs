@@ -43,6 +43,7 @@ namespace DocearReminder
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.exclude = new System.Windows.Forms.TextBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // formsPlot1
@@ -52,6 +53,7 @@ namespace DocearReminder
             this.formsPlot1.Name = "formsPlot1";
             this.formsPlot1.Size = new System.Drawing.Size(906, 695);
             this.formsPlot1.TabIndex = 0;
+            this.formsPlot1.Load += new System.EventHandler(this.formsPlot1_Load);
             // 
             // label1
             // 
@@ -91,9 +93,9 @@ namespace DocearReminder
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(645, 16);
+            this.textBox_searchwork.Location = new System.Drawing.Point(693, 16);
             this.textBox_searchwork.Name = "textBox_searchwork";
-            this.textBox_searchwork.Size = new System.Drawing.Size(126, 21);
+            this.textBox_searchwork.Size = new System.Drawing.Size(78, 21);
             this.textBox_searchwork.TabIndex = 6;
             this.textBox_searchwork.TextChanged += new System.EventHandler(this.searchword_TextChanged);
             this.textBox_searchwork.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
@@ -121,7 +123,7 @@ namespace DocearReminder
             "浪费",
             "未分类",
             "音乐"});
-            this.comboBox1.Location = new System.Drawing.Point(530, 17);
+            this.comboBox1.Location = new System.Drawing.Point(585, 17);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(104, 20);
             this.comboBox1.TabIndex = 7;
@@ -174,6 +176,16 @@ namespace DocearReminder
             this.exclude.TextChanged += new System.EventHandler(this.exclude_TextChanged);
             this.exclude.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(526, 19);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(60, 16);
+            this.checkBox3.TabIndex = 12;
+            this.checkBox3.Text = "Legend";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // TimeBlockReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -181,6 +193,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(909, 739);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.exclude);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -217,5 +230,6 @@ namespace DocearReminder
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.TextBox exclude;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }

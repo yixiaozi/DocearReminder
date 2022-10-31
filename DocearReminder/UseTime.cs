@@ -79,6 +79,15 @@ namespace DocearReminder
                 bar.BarWidth = (1.0 / 24) * .8;
                 plt.SetAxisLimits(yMin: 0);
                 formsPlot1.Refresh();
+                string timeFormat = "yy-MM-dd";
+                if ((dateTimePicker1.Value - dateTimePicker2.Value).TotalDays > 100)
+                {
+                    timeFormat = "yy-MM-dd";
+                }
+                else
+                {
+                    timeFormat = "MM-dd";
+                }
                 try
                 {
 
@@ -110,7 +119,8 @@ namespace DocearReminder
                         formValues.Add(Math.Round(timeCount/60, 1));
                     }
                     var pie = plt.AddPie(formValues.ToArray());
-                    pie.SliceLabels = formNames.ToArray();
+                    //pie.SliceLabels = formNames.ToArray();
+                    plt.XAxis.TickLabelFormat(timeFormat, dateTimeFormat: true);
                     if (percent.Checked)
                     {
                         pie.ShowPercentages = true;
@@ -123,7 +133,10 @@ namespace DocearReminder
                     {
                         pie.ShowLabels = true;
                     }
-                    plt.Legend();
+                    if (Legend.Checked)
+                    {
+                        plt.Legend();
+                    }
                     formsPlot2.Refresh();
                 }
                 catch (Exception)
@@ -176,7 +189,10 @@ namespace DocearReminder
                     {
                         pie.ShowLabels = true;
                     }
-                    plt.Legend();
+                    if (Legend.Checked)
+                    {
+                        plt.Legend();
+                    }
                     formsPlot3.Refresh();
                 }
                 catch (Exception)

@@ -2115,7 +2115,7 @@ namespace DocearReminder
             {
                 dateTimePicker1.Value = DateTime.Today.AddDays(-1);
             }
-            else if(dateTimePicker1.Value == DateTime.Today.AddDays(-1))
+            else if(dateTimePicker1.Value == DateTime.Today.AddDays(-1)&& dateTimePicker1.Value.DayOfWeek!=DayOfWeek.Monday)
             {
                 SetMonday();
             }

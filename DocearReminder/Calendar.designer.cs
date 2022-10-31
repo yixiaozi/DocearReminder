@@ -185,7 +185,7 @@ namespace DocearReminder
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(117, 0);
             this.numericUpDown1.Maximum = new decimal(new int[] {
-            15,
+            9999,
             0,
             0,
             0});

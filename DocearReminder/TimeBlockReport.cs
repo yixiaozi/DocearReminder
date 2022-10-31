@@ -186,12 +186,18 @@ namespace DocearReminder
                     }
                     else
                     {
-                        reportData.items.Add(new ReportDataItem
+                        try
                         {
-                            name = getFirst(item),
-                            value = item.tasktime,
-                            color = Color.FromArgb(Int32.Parse(item.mindmapPath))
-                        }); ;
+                            reportData.items.Add(new ReportDataItem
+                            {
+                                name = getFirst(item),
+                                value = item.tasktime,
+                                color = Color.FromArgb(Int32.Parse(item.mindmapPath))
+                            });
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }

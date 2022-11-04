@@ -45,6 +45,7 @@ namespace DocearReminder
                 try
                 {
                     System.IO.File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\Setup.exe");
+                    System.IO.File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\Password.exe");
                 }
                 catch (Exception)
                 {

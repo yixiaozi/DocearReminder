@@ -146,6 +146,7 @@ namespace DocearReminder
 		private System.IO.FileSystemWatcher fileSystemWatcher1;
         public string usedTimeLog = "";
         public string todoistKey = "";
+        public bool Camera = false;
         #endregion
         public DocearReminderForm()
         {
@@ -242,7 +243,8 @@ namespace DocearReminder
                 ebconfig = Convert.ToInt32(ini.ReadString("config", "ebconfig", ""));
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
-                onlyZhouqi.Checked= ini.ReadString("config", "IsCycleOnly", "") == "true"; 
+                onlyZhouqi.Checked= ini.ReadString("config", "IsCycleOnly", "") == "true";
+                Camera = ini.ReadString("config", "IsCycleOnly", "") == "true"; 
                 
                 string scorestr = ini.ReadString("info", "score", "");
                 fenshu.Text = scorestr;
@@ -561,11 +563,17 @@ namespace DocearReminder
             }
             string birthString = (yeardiff.ToString() + "年" + (monthdiff != 0 ? monthdiff.ToString() + "月" : "") + (daydiff != 0 ? daydiff.ToString() + "天" : ""));
             //添加减肥目标 add lose weight target
-            DateTime loseWeightDate = Convert.ToDateTime(loseweight);
-            string loseWeightStr = (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget;
-            DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
-            string leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
-            this.Text += ("   " + birthString) + " |" + loseWeightStr + "|  {" + leaveChainaStr + "}  @  " + DateTime.Now.ToString("HH:mm");
+            try
+            {
+                DateTime loseWeightDate = Convert.ToDateTime(loseweight);
+                string loseWeightStr = (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget;
+                DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
+                string leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
+                this.Text += ("   " + birthString) + " |" + loseWeightStr + "|  {" + leaveChainaStr + "}  @  " + DateTime.Now.ToString("HH:mm");
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 将Json格式的时间字符串替换为"yyyy-MM-dd HH:mm:ss"格式的字符串
@@ -16041,6 +16049,10 @@ namespace DocearReminder
 
         public void CameraTimer_Tick(object sender, EventArgs e)
         {
+            if (!Camera)
+            {
+                return;
+            }
             try
             {
                 //先关闭一次，避免被占用

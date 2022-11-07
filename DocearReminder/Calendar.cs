@@ -369,20 +369,20 @@ namespace DocearReminder
             }
         }
 
-        yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
+        //yixiaozi.WinForm.Common.AutoSizeForm asc = new AutoSizeForm();
         private void MainPage_Load(object sender, EventArgs e)
         {
-            asc.controllInitializeSize(this);
+            //asc.controllInitializeSize(this);
             //this.Height = this.MaximumSize.Height;
             //this.Width = this.MaximumSize.Width;
             this.WindowState = FormWindowState.Maximized;
-            asc.controlAutoSize(this);
+            //asc.controlAutoSize(this);
             Center();
         }
 
         private void MainPage_SizeChanged(object sender, EventArgs e)
         {
-            asc.controlAutoSize(this);
+            //asc.controlAutoSize(this);
         }
 
         public void Center()
@@ -2515,6 +2515,16 @@ namespace DocearReminder
         private void subClass_CheckedChanged(object sender, EventArgs e)
         {
             //RefreshCalender();
+        }
+
+        private void view_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dayView1_Click(object sender, EventArgs e)
+        {
+
         }
     }
     internal class User32

@@ -71,6 +71,7 @@ namespace DocearReminder
             this.checkBox_enddate = new System.Windows.Forms.CheckBox();
             this.Ka_c = new System.Windows.Forms.CheckBox();
             this.subClass = new System.Windows.Forms.CheckBox();
+            this.view = new System.Windows.Forms.Button();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -98,7 +99,7 @@ namespace DocearReminder
             this.dayView1.Name = "dayView1";
             this.dayView1.SelectionEnd = new System.DateTime(2021, 12, 31, 0, 0, 0, 0);
             this.dayView1.SelectionStart = new System.DateTime(2021, 7, 16, 0, 0, 0, 0);
-            this.dayView1.Size = new System.Drawing.Size(1508, 862);
+            this.dayView1.Size = new System.Drawing.Size(1904, 1076);
             this.dayView1.StartDate = new System.DateTime(2021, 12, 27, 0, 0, 0, 0);
             this.dayView1.StartHour = 0;
             this.dayView1.TabIndex = 0;
@@ -113,6 +114,7 @@ namespace DocearReminder
             this.dayView1.AppointmentMouseLeave += new yixiaozi.WinForm.Control.DayView.AppointmentMouseLeaveEventHandler(this.dayView1_AppointmentMouseLeave);
             this.dayView1.AppointmentMouseMove += new yixiaozi.WinForm.Control.DayView.AppointmentMouseMoveEventHandler(this.dayView1_AppointmentMouseMove);
             this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
+            this.dayView1.Click += new System.EventHandler(this.dayView1_Click);
             this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
             this.dayView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dayView1_KeyDown);
             this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
@@ -169,12 +171,12 @@ namespace DocearReminder
             this.panel1.Location = new System.Drawing.Point(0, 21);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1508, 862);
+            this.panel1.Size = new System.Drawing.Size(1904, 1076);
             this.panel1.TabIndex = 1;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.CustomFormat = "MMÔÂdd dddd";
+            this.dateTimePicker1.CustomFormat = "MMÔÂdd";
             this.dateTimePicker1.Location = new System.Drawing.Point(0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(111, 21);
@@ -183,7 +185,7 @@ namespace DocearReminder
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(117, 0);
+            this.numericUpDown1.Location = new System.Drawing.Point(112, 0);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -206,7 +208,7 @@ namespace DocearReminder
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(644, 0);
+            this.button1.Location = new System.Drawing.Point(598, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(61, 21);
             this.button1.TabIndex = 23;
@@ -220,7 +222,7 @@ namespace DocearReminder
             // 
             // ½ØÍ¼
             // 
-            this.½ØÍ¼.Location = new System.Drawing.Point(708, 0);
+            this.½ØÍ¼.Location = new System.Drawing.Point(661, 0);
             this.½ØÍ¼.Name = "½ØÍ¼";
             this.½ØÍ¼.Size = new System.Drawing.Size(65, 21);
             this.½ØÍ¼.TabIndex = 24;
@@ -234,7 +236,7 @@ namespace DocearReminder
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(151, 0);
+            this.numericUpDown2.Location = new System.Drawing.Point(145, 0);
             this.numericUpDown2.Minimum = new decimal(new int[] {
             1,
             0,
@@ -250,7 +252,7 @@ namespace DocearReminder
             this.workfolder_combox.FormattingEnabled = true;
             this.workfolder_combox.Items.AddRange(new object[] {
             "rootPath"});
-            this.workfolder_combox.Location = new System.Drawing.Point(331, 0);
+            this.workfolder_combox.Location = new System.Drawing.Point(292, 0);
             this.workfolder_combox.Name = "workfolder_combox";
             this.workfolder_combox.Size = new System.Drawing.Size(76, 20);
             this.workfolder_combox.TabIndex = 26;
@@ -259,7 +261,7 @@ namespace DocearReminder
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(484, 0);
+            this.textBox_searchwork.Location = new System.Drawing.Point(443, 0);
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(75, 21);
             this.textBox_searchwork.TabIndex = 28;
@@ -273,7 +275,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericOpacity.Location = new System.Drawing.Point(188, 0);
+            this.numericOpacity.Location = new System.Drawing.Point(177, 0);
             this.numericOpacity.Minimum = new decimal(new int[] {
             10,
             0,
@@ -298,7 +300,7 @@ namespace DocearReminder
             "¼ÇÂ¼",
             "¼ÇÒä",
             "ËùÓÐ"});
-            this.comboBox1.Location = new System.Drawing.Point(410, 0);
+            this.comboBox1.Location = new System.Drawing.Point(372, 0);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(68, 20);
             this.comboBox1.TabIndex = 30;
@@ -307,7 +309,7 @@ namespace DocearReminder
             // 
             // lockButton
             // 
-            this.lockButton.Location = new System.Drawing.Point(775, 0);
+            this.lockButton.Location = new System.Drawing.Point(727, 0);
             this.lockButton.Name = "lockButton";
             this.lockButton.Size = new System.Drawing.Size(52, 21);
             this.lockButton.TabIndex = 31;
@@ -320,7 +322,7 @@ namespace DocearReminder
             this.c_timeBlock.AutoSize = true;
             this.c_timeBlock.Checked = true;
             this.c_timeBlock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_timeBlock.Location = new System.Drawing.Point(888, 3);
+            this.c_timeBlock.Location = new System.Drawing.Point(889, 3);
             this.c_timeBlock.Name = "c_timeBlock";
             this.c_timeBlock.Size = new System.Drawing.Size(60, 16);
             this.c_timeBlock.TabIndex = 32;
@@ -330,7 +332,7 @@ namespace DocearReminder
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(827, 0);
+            this.button2.Location = new System.Drawing.Point(780, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(53, 21);
             this.button2.TabIndex = 33;
@@ -359,7 +361,7 @@ namespace DocearReminder
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(1193, 3);
+            this.c_done.Location = new System.Drawing.Point(1199, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
@@ -381,7 +383,7 @@ namespace DocearReminder
             // c_mistake
             // 
             this.c_mistake.AutoSize = true;
-            this.c_mistake.Location = new System.Drawing.Point(1039, 2);
+            this.c_mistake.Location = new System.Drawing.Point(1043, 3);
             this.c_mistake.Name = "c_mistake";
             this.c_mistake.Size = new System.Drawing.Size(48, 16);
             this.c_mistake.TabIndex = 1;
@@ -394,7 +396,7 @@ namespace DocearReminder
             this.c_lock.AutoSize = true;
             this.c_lock.Checked = true;
             this.c_lock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_lock.Location = new System.Drawing.Point(284, 3);
+            this.c_lock.Location = new System.Drawing.Point(246, 3);
             this.c_lock.Name = "c_lock";
             this.c_lock.Size = new System.Drawing.Size(48, 16);
             this.c_lock.TabIndex = 1;
@@ -406,7 +408,7 @@ namespace DocearReminder
             this.isview_c.AutoSize = true;
             this.isview_c.Checked = true;
             this.isview_c.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isview_c.Location = new System.Drawing.Point(1256, 2);
+            this.isview_c.Location = new System.Drawing.Point(1264, 2);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);
             this.isview_c.TabIndex = 36;
@@ -417,7 +419,7 @@ namespace DocearReminder
             // c_Money
             // 
             this.c_Money.AutoSize = true;
-            this.c_Money.Location = new System.Drawing.Point(1086, 3);
+            this.c_Money.Location = new System.Drawing.Point(1089, 3);
             this.c_Money.Name = "c_Money";
             this.c_Money.Size = new System.Drawing.Size(48, 16);
             this.c_Money.TabIndex = 1;
@@ -432,7 +434,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericUpDown3.Location = new System.Drawing.Point(234, 2);
+            this.numericUpDown3.Location = new System.Drawing.Point(210, 2);
             this.numericUpDown3.Minimum = new decimal(new int[] {
             20,
             0,
@@ -450,7 +452,7 @@ namespace DocearReminder
             // 
             // exclude
             // 
-            this.exclude.Location = new System.Drawing.Point(564, 0);
+            this.exclude.Location = new System.Drawing.Point(521, 0);
             this.exclude.Name = "exclude";
             this.exclude.Size = new System.Drawing.Size(75, 21);
             this.exclude.TabIndex = 38;
@@ -460,7 +462,7 @@ namespace DocearReminder
             // checkBox_jinian
             // 
             this.checkBox_jinian.AutoSize = true;
-            this.checkBox_jinian.Location = new System.Drawing.Point(1316, 2);
+            this.checkBox_jinian.Location = new System.Drawing.Point(1326, 2);
             this.checkBox_jinian.Name = "checkBox_jinian";
             this.checkBox_jinian.Size = new System.Drawing.Size(60, 16);
             this.checkBox_jinian.TabIndex = 39;
@@ -471,7 +473,7 @@ namespace DocearReminder
             // checkBox_enddate
             // 
             this.checkBox_enddate.AutoSize = true;
-            this.checkBox_enddate.Location = new System.Drawing.Point(1383, 2);
+            this.checkBox_enddate.Location = new System.Drawing.Point(1391, 2);
             this.checkBox_enddate.Name = "checkBox_enddate";
             this.checkBox_enddate.Size = new System.Drawing.Size(60, 16);
             this.checkBox_enddate.TabIndex = 40;
@@ -482,7 +484,7 @@ namespace DocearReminder
             // Ka_c
             // 
             this.Ka_c.AutoSize = true;
-            this.Ka_c.Location = new System.Drawing.Point(1132, 3);
+            this.Ka_c.Location = new System.Drawing.Point(1137, 3);
             this.Ka_c.Name = "Ka_c";
             this.Ka_c.Size = new System.Drawing.Size(60, 16);
             this.Ka_c.TabIndex = 41;
@@ -493,7 +495,7 @@ namespace DocearReminder
             // subClass
             // 
             this.subClass.AutoSize = true;
-            this.subClass.Location = new System.Drawing.Point(1450, 2);
+            this.subClass.Location = new System.Drawing.Point(1454, 2);
             this.subClass.Name = "subClass";
             this.subClass.Size = new System.Drawing.Size(48, 16);
             this.subClass.TabIndex = 42;
@@ -501,13 +503,23 @@ namespace DocearReminder
             this.subClass.UseVisualStyleBackColor = true;
             this.subClass.CheckedChanged += new System.EventHandler(this.subClass_CheckedChanged);
             // 
+            // view
+            // 
+            this.view.Location = new System.Drawing.Point(833, 0);
+            this.view.Name = "view";
+            this.view.Size = new System.Drawing.Size(53, 21);
+            this.view.TabIndex = 43;
+            this.view.Text = "ÊÓÍ¼";
+            this.view.UseVisualStyleBackColor = true;
+            this.view.Click += new System.EventHandler(this.view_Click);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1504, 823);
+            this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.view);
             this.Controls.Add(this.subClass);
             this.Controls.Add(this.Ka_c);
             this.Controls.Add(this.checkBox_enddate);
@@ -539,10 +551,10 @@ namespace DocearReminder
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalendarForm";
             this.Opacity = 0.7D;
-            this.ShowIcon = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  ";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.UseTime_Activated);
             this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CalendarForm_FormClosed);
@@ -599,6 +611,7 @@ namespace DocearReminder
         private CheckBox checkBox_enddate;
         private CheckBox Ka_c;
         private CheckBox subClass;
+        private Button view;
     }
 }
 

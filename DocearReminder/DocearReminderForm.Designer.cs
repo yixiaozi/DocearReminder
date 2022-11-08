@@ -205,52 +205,52 @@ namespace DocearReminder
             // 
             this.reminder_week.AutoSize = true;
             this.reminder_week.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_week.Location = new System.Drawing.Point(886, 536);
+            this.reminder_week.Location = new System.Drawing.Point(1231, 46);
             this.reminder_week.Name = "reminder_week";
-            this.reminder_week.Size = new System.Drawing.Size(13, 12);
+            this.reminder_week.Size = new System.Drawing.Size(46, 16);
             this.reminder_week.TabIndex = 7;
             this.reminder_week.TabStop = false;
+            this.reminder_week.Text = "一周";
             this.reminder_week.UseVisualStyleBackColor = true;
-            this.reminder_week.Visible = false;
             this.reminder_week.CheckedChanged += new System.EventHandler(this.Reminder_week_CheckedChanged);
             // 
             // reminder_month
             // 
             this.reminder_month.AutoSize = true;
             this.reminder_month.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_month.Location = new System.Drawing.Point(899, 535);
+            this.reminder_month.Location = new System.Drawing.Point(1276, 46);
             this.reminder_month.Name = "reminder_month";
-            this.reminder_month.Size = new System.Drawing.Size(13, 12);
+            this.reminder_month.Size = new System.Drawing.Size(46, 16);
             this.reminder_month.TabIndex = 8;
             this.reminder_month.TabStop = false;
+            this.reminder_month.Text = "一月";
             this.reminder_month.UseVisualStyleBackColor = true;
-            this.reminder_month.Visible = false;
             this.reminder_month.CheckedChanged += new System.EventHandler(this.Reminder_month_CheckedChanged);
             // 
             // reminder_year
             // 
             this.reminder_year.AutoSize = true;
             this.reminder_year.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_year.Location = new System.Drawing.Point(915, 535);
+            this.reminder_year.Location = new System.Drawing.Point(1321, 46);
             this.reminder_year.Name = "reminder_year";
-            this.reminder_year.Size = new System.Drawing.Size(13, 12);
+            this.reminder_year.Size = new System.Drawing.Size(46, 16);
             this.reminder_year.TabIndex = 9;
             this.reminder_year.TabStop = false;
+            this.reminder_year.Text = "一年";
             this.reminder_year.UseVisualStyleBackColor = true;
-            this.reminder_year.Visible = false;
             this.reminder_year.CheckedChanged += new System.EventHandler(this.Reminder_year_CheckedChanged);
             // 
             // reminder_yearafter
             // 
             this.reminder_yearafter.AutoSize = true;
             this.reminder_yearafter.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_yearafter.Location = new System.Drawing.Point(872, 553);
+            this.reminder_yearafter.Location = new System.Drawing.Point(1370, 46);
             this.reminder_yearafter.Name = "reminder_yearafter";
-            this.reminder_yearafter.Size = new System.Drawing.Size(13, 12);
+            this.reminder_yearafter.Size = new System.Drawing.Size(46, 16);
             this.reminder_yearafter.TabIndex = 10;
             this.reminder_yearafter.TabStop = false;
+            this.reminder_yearafter.Text = "年后";
             this.reminder_yearafter.UseVisualStyleBackColor = true;
-            this.reminder_yearafter.Visible = false;
             this.reminder_yearafter.CheckedChanged += new System.EventHandler(this.Reminder_yearafter_CheckedChanged);
             // 
             // mindmaplist_count
@@ -497,26 +497,26 @@ namespace DocearReminder
             // 
             this.showcyclereminder.AutoSize = true;
             this.showcyclereminder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showcyclereminder.Location = new System.Drawing.Point(933, 582);
+            this.showcyclereminder.Location = new System.Drawing.Point(1185, 27);
             this.showcyclereminder.Name = "showcyclereminder";
-            this.showcyclereminder.Size = new System.Drawing.Size(13, 12);
+            this.showcyclereminder.Size = new System.Drawing.Size(70, 16);
             this.showcyclereminder.TabIndex = 43;
             this.showcyclereminder.TabStop = false;
+            this.showcyclereminder.Text = "显示周期";
             this.showcyclereminder.UseVisualStyleBackColor = true;
-            this.showcyclereminder.Visible = false;
             this.showcyclereminder.CheckedChanged += new System.EventHandler(this.showcyclereminder_CheckedChanged);
             // 
             // showtomorrow
             // 
             this.showtomorrow.AutoSize = true;
             this.showtomorrow.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showtomorrow.Location = new System.Drawing.Point(872, 535);
+            this.showtomorrow.Location = new System.Drawing.Point(1185, 46);
             this.showtomorrow.Name = "showtomorrow";
-            this.showtomorrow.Size = new System.Drawing.Size(13, 12);
+            this.showtomorrow.Size = new System.Drawing.Size(46, 16);
             this.showtomorrow.TabIndex = 44;
             this.showtomorrow.TabStop = false;
+            this.showtomorrow.Text = "明天";
             this.showtomorrow.UseVisualStyleBackColor = true;
-            this.showtomorrow.Visible = false;
             this.showtomorrow.CheckedChanged += new System.EventHandler(this.showtomorrow_CheckedChanged);
             // 
             // SearchText_suggest
@@ -525,7 +525,7 @@ namespace DocearReminder
             this.SearchText_suggest.Font = new System.Drawing.Font("宋体", 9.75F);
             this.SearchText_suggest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.SearchText_suggest.FormattingEnabled = true;
-            this.SearchText_suggest.Location = new System.Drawing.Point(259, 50);
+            this.SearchText_suggest.Location = new System.Drawing.Point(260, 50);
             this.SearchText_suggest.Name = "SearchText_suggest";
             this.SearchText_suggest.Size = new System.Drawing.Size(600, 95);
             this.SearchText_suggest.TabIndex = 83;
@@ -582,12 +582,12 @@ namespace DocearReminder
             this.afternoon.Checked = true;
             this.afternoon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.afternoon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.afternoon.Location = new System.Drawing.Point(1077, 605);
+            this.afternoon.Location = new System.Drawing.Point(1308, 9);
             this.afternoon.Name = "afternoon";
-            this.afternoon.Size = new System.Drawing.Size(13, 12);
+            this.afternoon.Size = new System.Drawing.Size(46, 16);
             this.afternoon.TabIndex = 72;
+            this.afternoon.Text = "下午";
             this.afternoon.UseVisualStyleBackColor = true;
-            this.afternoon.Visible = false;
             this.afternoon.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // day
@@ -596,12 +596,12 @@ namespace DocearReminder
             this.day.Checked = true;
             this.day.CheckState = System.Windows.Forms.CheckState.Checked;
             this.day.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.day.Location = new System.Drawing.Point(1064, 606);
+            this.day.Location = new System.Drawing.Point(1246, 9);
             this.day.Name = "day";
-            this.day.Size = new System.Drawing.Size(13, 12);
+            this.day.Size = new System.Drawing.Size(46, 16);
             this.day.TabIndex = 73;
+            this.day.Text = "白天";
             this.day.UseVisualStyleBackColor = true;
-            this.day.Visible = false;
             this.day.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // morning
@@ -610,12 +610,12 @@ namespace DocearReminder
             this.morning.Checked = true;
             this.morning.CheckState = System.Windows.Forms.CheckState.Checked;
             this.morning.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.morning.Location = new System.Drawing.Point(1050, 605);
+            this.morning.Location = new System.Drawing.Point(1185, 9);
             this.morning.Name = "morning";
-            this.morning.Size = new System.Drawing.Size(13, 12);
+            this.morning.Size = new System.Drawing.Size(46, 16);
             this.morning.TabIndex = 74;
+            this.morning.Text = "早上";
             this.morning.UseVisualStyleBackColor = true;
-            this.morning.Visible = false;
             this.morning.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // night
@@ -624,12 +624,12 @@ namespace DocearReminder
             this.night.Checked = true;
             this.night.CheckState = System.Windows.Forms.CheckState.Checked;
             this.night.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.night.Location = new System.Drawing.Point(1093, 605);
+            this.night.Location = new System.Drawing.Point(1370, 9);
             this.night.Name = "night";
-            this.night.Size = new System.Drawing.Size(13, 12);
+            this.night.Size = new System.Drawing.Size(46, 16);
             this.night.TabIndex = 75;
+            this.night.Text = "晚上";
             this.night.UseVisualStyleBackColor = true;
-            this.night.Visible = false;
             this.night.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // mindmapSearch
@@ -663,13 +663,13 @@ namespace DocearReminder
             this.onlyZhouqi.Checked = true;
             this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.onlyZhouqi.Location = new System.Drawing.Point(947, 582);
+            this.onlyZhouqi.Location = new System.Drawing.Point(1261, 27);
             this.onlyZhouqi.Name = "onlyZhouqi";
-            this.onlyZhouqi.Size = new System.Drawing.Size(13, 12);
+            this.onlyZhouqi.Size = new System.Drawing.Size(58, 16);
             this.onlyZhouqi.TabIndex = 89;
             this.onlyZhouqi.TabStop = false;
+            this.onlyZhouqi.Text = "只周期";
             this.onlyZhouqi.UseVisualStyleBackColor = true;
-            this.onlyZhouqi.Visible = false;
             this.onlyZhouqi.CheckedChanged += new System.EventHandler(this.onlyZhouqi_CheckedChanged);
             // 
             // nodetree
@@ -809,12 +809,12 @@ namespace DocearReminder
             // 
             this.ebcheckBox.AutoSize = true;
             this.ebcheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ebcheckBox.Location = new System.Drawing.Point(960, 582);
+            this.ebcheckBox.Location = new System.Drawing.Point(1370, 27);
             this.ebcheckBox.Name = "ebcheckBox";
-            this.ebcheckBox.Size = new System.Drawing.Size(13, 12);
+            this.ebcheckBox.Size = new System.Drawing.Size(46, 16);
             this.ebcheckBox.TabIndex = 111;
+            this.ebcheckBox.Text = "记忆";
             this.ebcheckBox.UseVisualStyleBackColor = true;
-            this.ebcheckBox.Visible = false;
             this.ebcheckBox.CheckedChanged += new System.EventHandler(this.ebcheckBox_CheckedChanged);
             // 
             // FileTreeView
@@ -855,12 +855,12 @@ namespace DocearReminder
             // 
             this.IsReminderOnlyCheckBox.AutoSize = true;
             this.IsReminderOnlyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(976, 582);
+            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(1325, 27);
             this.IsReminderOnlyCheckBox.Name = "IsReminderOnlyCheckBox";
-            this.IsReminderOnlyCheckBox.Size = new System.Drawing.Size(13, 12);
+            this.IsReminderOnlyCheckBox.Size = new System.Drawing.Size(46, 16);
             this.IsReminderOnlyCheckBox.TabIndex = 115;
+            this.IsReminderOnlyCheckBox.Text = "任务";
             this.IsReminderOnlyCheckBox.UseVisualStyleBackColor = true;
-            this.IsReminderOnlyCheckBox.Visible = false;
             // 
             // menu_mindmaps
             // 
@@ -1340,13 +1340,12 @@ namespace DocearReminder
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(927, 535);
+            this.pictureBox1.Location = new System.Drawing.Point(1185, 80);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(130, 155);
+            this.pictureBox1.Size = new System.Drawing.Size(231, 198);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 113;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
             // 
             // titleTimer
             // 
@@ -1392,7 +1391,7 @@ namespace DocearReminder
             this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
             this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.noterichTextBox.Location = new System.Drawing.Point(872, 506);
+            this.noterichTextBox.Location = new System.Drawing.Point(872, 505);
             this.noterichTextBox.Name = "noterichTextBox";
             this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.noterichTextBox.Size = new System.Drawing.Size(285, 322);
@@ -1445,7 +1444,7 @@ namespace DocearReminder
             this.reminderListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.reminderListBox.FormattingEnabled = true;
             this.reminderListBox.ItemHeight = 14;
-            this.reminderListBox.Location = new System.Drawing.Point(259, 171);
+            this.reminderListBox.Location = new System.Drawing.Point(260, 171);
             this.reminderListBox.Name = "reminderListBox";
             this.reminderListBox.Size = new System.Drawing.Size(600, 158);
             this.reminderListBox.TabIndex = 117;
@@ -1514,13 +1513,12 @@ namespace DocearReminder
             // 
             // videoSourcePlayer1
             // 
-            this.videoSourcePlayer1.Location = new System.Drawing.Point(960, 506);
+            this.videoSourcePlayer1.Location = new System.Drawing.Point(1185, 660);
             this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.Size = new System.Drawing.Size(383, 256);
+            this.videoSourcePlayer1.Size = new System.Drawing.Size(231, 167);
             this.videoSourcePlayer1.TabIndex = 130;
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
-            this.videoSourcePlayer1.Visible = false;
             // 
             // CameraTimer
             // 
@@ -1538,6 +1536,7 @@ namespace DocearReminder
             this.checkBox2.TabIndex = 131;
             this.checkBox2.TabStop = false;
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // DocearReminderForm
             // 
@@ -1545,7 +1544,7 @@ namespace DocearReminder
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1167, 846);
+            this.ClientSize = new System.Drawing.Size(1428, 923);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);

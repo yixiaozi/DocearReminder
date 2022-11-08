@@ -46,17 +46,16 @@ namespace DocearReminder
 
         public CalendarForm(string path, bool OpenNew = false)// 后期希望只显示当期文件夹的日历
         {
+            InitializeComponent();
             //if (!OpenNew)
             //{
             //    Center();
             //    this.Show();
             //    this.Activate();
             //}
-
             mindmappath = path;
             string logpass = ini.ReadString("password", "i", "");
             encryptlog = new Encrypt(logpass);
-            InitializeComponent();
             //if (ini.ReadString("Skin", "src", "") != "")
             //{
             //    skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
@@ -81,7 +80,6 @@ namespace DocearReminder
             int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
-            RefreshCalender();
             dayView1.AllowScroll = true;
             SetMonday();
             try
@@ -125,6 +123,7 @@ namespace DocearReminder
             dayView1.AllowInplaceEditing = false;
             dayView1.AllowNew = false;
             FreshMenu();
+            RefreshCalender();
         }
         public void SetMonday()
         {
@@ -146,7 +145,7 @@ namespace DocearReminder
             for (int i = Menu.Items.Count - 1; i > 0; i--)
             {
                 string name = Menu.Items[i].Text;
-                if (name != "完成" && name != "Comment" && name != "打开导图" && name != "番茄钟")
+                if (name != "完成" && name != "Comment" && name != "打开导图" && name != "番茄钟" && name != "解锁")
                 {
                     Menu.Items.RemoveAt(i);
                 }
@@ -702,6 +701,7 @@ namespace DocearReminder
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             dayView1.DaysToShow = (int)numericUpDown1.Value;
+            //RefreshCalender();
         }
 
 
@@ -713,6 +713,7 @@ namespace DocearReminder
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dayView1.StartDate = dateTimePicker1.Value;
+            RefreshCalender();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -724,7 +725,7 @@ namespace DocearReminder
         {
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted));
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => m.time>=dateTimePicker1.Value&& m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) && ((((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted)));
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
                 items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
@@ -952,13 +953,15 @@ namespace DocearReminder
                 if ((m_Appointment.EndDate- m_Appointment.StartDate).TotalHours>20)//一般不会有超过1200的支出或者收入吧
                 {
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
-                    m_Appointment.Color = Color.Black;
+                    m_Appointment.Color = Color.DarkRed;
+                    m_Appointment.Locked = true;
                 }
                 if (m_Appointment.EndDate.Day>m_Appointment.StartDate.Day)
                 {
                     m_Appointment.StartDate = Convert.ToDateTime(m_Appointment.StartDate.ToString("yyyy/MM/dd"));
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
-                    m_Appointment.Color = Color.Black;
+                    m_Appointment.Color = Color.DarkRed;
+                    m_Appointment.Locked = true;
                 }
                 m_Appointments.Add(m_Appointment);
             }
@@ -1153,6 +1156,7 @@ namespace DocearReminder
                 {
                     if (!isMenuShow)
                     {
+                        FreshMenu();
                         RefreshCalender();
                     }
                 }
@@ -1199,10 +1203,72 @@ namespace DocearReminder
 
         private void CalendarForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!Console.CapsLock && !islock)
+            //if (!Console.CapsLock && !islock)
+            if (!islock)
             {
                 switch (e.KeyCode)
                 {
+                    case Keys.Up:
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            this.Opacity += 0.05;
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (workfolder_combox.SelectedIndex > 0)
+                            {
+                                workfolder_combox.SelectedIndex--;
+                            }
+                        }
+                        break;
+                    case Keys.Down:
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            this.Opacity -= 0.05;
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (workfolder_combox.SelectedIndex < workfolder_combox.Items.Count - 1)
+                            {
+                                workfolder_combox.SelectedIndex++;
+                            }
+                        }
+                        break;
+
+                    case Keys.Left:
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (numericUpDown1.Value == 7 && dateTimePicker1.Value.DayOfWeek == DayOfWeek.Monday)
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
+                            }
+                            else if (numericUpDown1.Value == 14)
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-14);
+                            }
+                            else
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                            }
+                        }
+                        break;
+                    case Keys.Right:
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            if (numericUpDown1.Value == 7)
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
+                            }
+                            else if (numericUpDown1.Value == 14)
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(14);
+                            }
+                            else
+                            {
+                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
+                            }
+                        }
+                        break;
                     case Keys.Enter:
                         Edit(true);
                         break;
@@ -1397,6 +1463,9 @@ namespace DocearReminder
                         break;
                     case Keys.Delete:
                         toolStripMenuItem2_Click(null, null);
+                        break;
+                    case Keys.CapsLock:
+                        c_lock.Checked = !c_lock.Checked;
                         break;
                     default:
                         break;
@@ -1618,32 +1687,8 @@ namespace DocearReminder
         {
             try
             {
-                if (c_lock.Checked)
-                {
-                    return;
-                }
-                if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
-                {
-                    if (numericUpDown3.Value== 20)
-                    {
-                        return;
-                    }
-                    if (e.Delta > 0)
-                    {
-                        if (dayView1.StartHour < 12)
-                        {
-                            dayView1.StartHour += 1;
-                        }
-                    }
-                    else
-                    {
-                        if (dayView1.StartHour > 0)
-                        {
-                            dayView1.StartHour -= 1;
-                        }
-                    }
-                }
-                else
+                
+                if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
                 {
                     if (numericUpDown3.Value == 20)
                     {
@@ -1658,6 +1703,54 @@ namespace DocearReminder
                         if (numericUpDown3.Value > 20)
                         {
                             numericUpDown3.Value -= 2;
+                        }
+                    }
+                }
+                else
+                {
+                    if (c_lock.Checked)
+                    {
+                        if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                        {
+                            if (numericUpDown3.Value == 20)
+                            {
+                                return;
+                            }
+                            if (e.Delta > 0)
+                            {
+                                if (dayView1.StartHour < 18)
+                                {
+                                    dayView1.StartHour += 1;
+                                }
+                            }
+                            else
+                            {
+                                if (dayView1.StartHour > 0)
+                                {
+                                    dayView1.StartHour -= 1;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (numericUpDown3.Value == 20)
+                        {
+                            return;
+                        }
+                        if (e.Delta > 0)
+                        {
+                            if (dayView1.StartHour < 18)
+                            {
+                                dayView1.StartHour += 1;
+                            }
+                        }
+                        else
+                        {
+                            if (dayView1.StartHour > 0)
+                            {
+                                dayView1.StartHour -= 1;
+                            }
                         }
                     }
                 }
@@ -2525,6 +2618,11 @@ namespace DocearReminder
         private void dayView1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void 解锁ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dayView1.SelectedAppointment.Locked = false;
         }
     }
     internal class User32

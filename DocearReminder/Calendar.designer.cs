@@ -42,6 +42,7 @@ namespace DocearReminder
             this.commentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.¥Úø™µºÕºToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.∑¨«—÷”ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Ω‚À¯ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -92,6 +93,7 @@ namespace DocearReminder
             this.dayView1.ContextMenuStrip = this.Menu;
             this.dayView1.DaysToShow = 7;
             this.dayView1.Font = new System.Drawing.Font("ø¨ÃÂ", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dayView1.ForeColor = System.Drawing.Color.White;
             this.dayView1.HoverAppointment = null;
             this.dayView1.IsShowHover = true;
             this.dayView1.Location = new System.Drawing.Point(0, 0);
@@ -126,9 +128,10 @@ namespace DocearReminder
             this.ÕÍ≥…ToolStripMenuItem,
             this.commentToolStripMenuItem,
             this.¥Úø™µºÕºToolStripMenuItem,
-            this.∑¨«—÷”ToolStripMenuItem});
+            this.∑¨«—÷”ToolStripMenuItem,
+            this.Ω‚À¯ToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(133, 92);
+            this.Menu.Size = new System.Drawing.Size(133, 114);
             this.Menu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Menu_Closed);
             this.Menu.Opening += new System.ComponentModel.CancelEventHandler(this.Menu_Opening);
             this.Menu.Opened += new System.EventHandler(this.Menu_Opened);
@@ -160,6 +163,13 @@ namespace DocearReminder
             this.∑¨«—÷”ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.∑¨«—÷”ToolStripMenuItem.Text = "∑¨«—÷”";
             this.∑¨«—÷”ToolStripMenuItem.Click += new System.EventHandler(this.∑¨«—÷”ToolStripMenuItem_Click);
+            // 
+            // Ω‚À¯ToolStripMenuItem
+            // 
+            this.Ω‚À¯ToolStripMenuItem.Name = "Ω‚À¯ToolStripMenuItem";
+            this.Ω‚À¯ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.Ω‚À¯ToolStripMenuItem.Text = "Ω‚À¯";
+            this.Ω‚À¯ToolStripMenuItem.Click += new System.EventHandler(this.Ω‚À¯ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -252,7 +262,7 @@ namespace DocearReminder
             this.workfolder_combox.FormattingEnabled = true;
             this.workfolder_combox.Items.AddRange(new object[] {
             "rootPath"});
-            this.workfolder_combox.Location = new System.Drawing.Point(292, 0);
+            this.workfolder_combox.Location = new System.Drawing.Point(300, 0);
             this.workfolder_combox.Name = "workfolder_combox";
             this.workfolder_combox.Size = new System.Drawing.Size(76, 20);
             this.workfolder_combox.TabIndex = 26;
@@ -408,7 +418,7 @@ namespace DocearReminder
             this.isview_c.AutoSize = true;
             this.isview_c.Checked = true;
             this.isview_c.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isview_c.Location = new System.Drawing.Point(1264, 2);
+            this.isview_c.Location = new System.Drawing.Point(1264, 3);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);
             this.isview_c.TabIndex = 36;
@@ -434,7 +444,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.numericUpDown3.Location = new System.Drawing.Point(210, 2);
+            this.numericUpDown3.Location = new System.Drawing.Point(210, 0);
             this.numericUpDown3.Minimum = new decimal(new int[] {
             20,
             0,
@@ -462,7 +472,7 @@ namespace DocearReminder
             // checkBox_jinian
             // 
             this.checkBox_jinian.AutoSize = true;
-            this.checkBox_jinian.Location = new System.Drawing.Point(1326, 2);
+            this.checkBox_jinian.Location = new System.Drawing.Point(1326, 3);
             this.checkBox_jinian.Name = "checkBox_jinian";
             this.checkBox_jinian.Size = new System.Drawing.Size(60, 16);
             this.checkBox_jinian.TabIndex = 39;
@@ -473,7 +483,7 @@ namespace DocearReminder
             // checkBox_enddate
             // 
             this.checkBox_enddate.AutoSize = true;
-            this.checkBox_enddate.Location = new System.Drawing.Point(1391, 2);
+            this.checkBox_enddate.Location = new System.Drawing.Point(1391, 3);
             this.checkBox_enddate.Name = "checkBox_enddate";
             this.checkBox_enddate.Size = new System.Drawing.Size(60, 16);
             this.checkBox_enddate.TabIndex = 40;
@@ -495,7 +505,7 @@ namespace DocearReminder
             // subClass
             // 
             this.subClass.AutoSize = true;
-            this.subClass.Location = new System.Drawing.Point(1454, 2);
+            this.subClass.Location = new System.Drawing.Point(1454, 3);
             this.subClass.Name = "subClass";
             this.subClass.Size = new System.Drawing.Size(48, 16);
             this.subClass.TabIndex = 42;
@@ -546,7 +556,8 @@ namespace DocearReminder
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lockButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.ForeColor = System.Drawing.Color.Black;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalendarForm";
@@ -612,6 +623,7 @@ namespace DocearReminder
         private CheckBox Ka_c;
         private CheckBox subClass;
         private Button view;
+        private ToolStripMenuItem Ω‚À¯ToolStripMenuItem;
     }
 }
 

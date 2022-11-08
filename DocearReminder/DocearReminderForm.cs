@@ -83,7 +83,6 @@ namespace DocearReminder
         public List<node> nodesicon = new List<node>();
         public List<node> timeblocks = new List<node>();
         public List<node> allfiles = new List<node>();
-        public int mindmapnumdesc = 0;
         private DirectoryInfo rootrootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
         private DirectoryInfo rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
         public bool isInReminderlistSelect = false;
@@ -348,12 +347,15 @@ namespace DocearReminder
                 LoadFile(rootpath);
                 for (int i = 0; i < mindmaplist.Items.Count; i++)
                 {
+                    setmindmapcheck = true;
                     mindmaplist.SetItemChecked(i, true);
                     string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
                     if (unchkeckmindmap.Contains(file))
                     {
                         mindmaplist.SetItemChecked(i, false);
+                        mindmaplist.Refresh();
                     }
+                    setmindmapcheck = false;
                 }
                 isRefreshMindmap = false;
                 mindmaplist_backup = mindmaplis1.Items;
@@ -367,10 +369,6 @@ namespace DocearReminder
                     }
                 }
                 mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
-                {
-                    mindmaplist.SetItemChecked(i, true);
-                }
                 RRReminderlist();
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Shift, Keys.Space, CallBack);
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
@@ -5247,7 +5245,6 @@ namespace DocearReminder
                     filename = filename.Substring(0, filename.Length - 3);
                     mindmaplist.Items.Insert(0, new MyListBoxItem { Text = filename, Value = item });
                 }
-                mindmapnumdesc = mindmaplist.Items.Count;
                 for (int i = 0; i < mindmaplist.Items.Count; i++)
                 {
                     mindmaplist.SetItemChecked(i, true);
@@ -7509,11 +7506,6 @@ namespace DocearReminder
             }
             if (searchword.Text.StartsWith("*"))
             {
-                if (mindmapnumdesc > 0)
-                {
-                    mindmapnumdesc--;
-                    return;
-                }
                 if (searchword.Text.StartsWith("*"))
                 {
                     for (int i = 0; i < mindmaplist.Items.Count; i++)
@@ -11334,7 +11326,6 @@ namespace DocearReminder
                     mindmaplist.Items.Insert(0, new MyListBoxItem { Text = item.Split('\\')[item.Split('\\').Length - 1], Value = item });
                 }
             }
-            mindmapnumdesc = mindmaplist.Items.Count;
             for (int i = 0; i < mindmaplist.Items.Count; i++)
             {
                 mindmaplist.SetItemChecked(i, true);
@@ -12743,9 +12734,8 @@ namespace DocearReminder
 
         private void mindmaplist_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (mindmapnumdesc > 0)
+            if (setmindmapcheck)
             {
-                mindmapnumdesc--;
                 return;
             }
             if (searchword.Text.Contains("*"))
@@ -12775,6 +12765,10 @@ namespace DocearReminder
             {
                 return;
             }
+            if (setmindmapcheck)
+            {
+                return;
+            }
             for (int i = 0; i < mindmaplist.Items.Count; i++)
             {
                 if (((MyListBoxItem)mindmaplist.Items[i]).Value == "")
@@ -12801,25 +12795,15 @@ namespace DocearReminder
         }
         private void RichSubTest_Enter(object sender, EventArgs e)
         {
-            //if (richTextSubNode.Lines.Length > 12)
-            //{
-            //    
-            //}
         }
         private void RichSubTest_Leave(object sender, EventArgs e)
         {
-            //
         }
         private void RichSubTest_MouseHover(object sender, EventArgs e)
         {
-            //if (richTextSubNode.Lines.Length > 12)
-            //{
-            //    
-            //}
         }
         private void RichSubTest_MouseLeave(object sender, EventArgs e)
         {
-            //
         }
         private void Panel4_Paint(object sender, PaintEventArgs e)
         {
@@ -13455,12 +13439,15 @@ namespace DocearReminder
                 mindmaplist.Sorted = true;
                 for (int i = 0; i < mindmaplist.Items.Count; i++)
                 {
+                    setmindmapcheck = true;
                     mindmaplist.SetItemChecked(i, true);
                     string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
                     if (unchkeckmindmap.Contains(file))
                     {
                         mindmaplist.SetItemChecked(i, false);
+                        mindmaplist.Refresh();
                     }
+                    setmindmapcheck = false;
                 }
                 isRefreshMindmap = false;
                 return;
@@ -15998,6 +15985,7 @@ namespace DocearReminder
             SendKeys.Send("{j}");
         }
         public int focusedList = 0;
+        private bool setmindmapcheck=false;
 
         private void reminderListBox_Enter(object sender, EventArgs e)
         {

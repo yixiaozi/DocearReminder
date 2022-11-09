@@ -10203,7 +10203,6 @@ namespace DocearReminder
                             //下面窗口设置一下
                             nodetree.Top = FileTreeView.Top = nodetreeTop;
                             nodetree.Height = FileTreeView.Height = nodetreeHeight;
-                            //pictureBox1.Visible = false;
                             fathernode.Visible = false;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
                             this.Height = normalheight;showMindmapName="";
@@ -10265,7 +10264,6 @@ namespace DocearReminder
                             {
                                 nodetree.Top = FileTreeView.Top = nodetreeTop;
                                 nodetree.Height = FileTreeView.Height = nodetreeHeight;
-                                //pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 this.Height = normalheight;showMindmapName="";
                                 reminderList.Focus();
@@ -10300,7 +10298,6 @@ namespace DocearReminder
                                 //下面窗口设置一下
                                 nodetree.Top = FileTreeView.Top = nodetreeTop;
                                 nodetree.Height = FileTreeView.Height = nodetreeHeight;
-                                //pictureBox1.Visible = false;
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                                 this.Height = normalheight;showMindmapName="";
                                 if (focusedList == 0)
@@ -11770,7 +11767,6 @@ namespace DocearReminder
 
         private void FileTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //pictureBox1.Visible = false;//richTextBox.Visible = treeView1.Visible = webBrowser.Visible = axAcroPDF1.Visible = axFramerControl1.Visible = false;
             nodetree.Visible = true;
             try
             {
@@ -11789,14 +11785,7 @@ namespace DocearReminder
             //*.jpg,*.jpeg,*.bmp,*.gif,*.ico,*.png,*.tif,*.wmf
             else if (e.Node.Name.ToLower().EndsWith("jpg") || e.Node.Name.ToLower().EndsWith("gif") || e.Node.Name.ToLower().ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("png") || e.Node.Name.ToLower().EndsWith("jpeg") || e.Node.Name.ToLower().EndsWith("ico") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp"))
             {
-                nodetree.Visible = false;
                 pictureBox1.Image = Image.FromFile(e.Node.Name);
-                //pictureBox1.Left = 260;
-                //pictureBox1.Top = 9;
-                //pictureBox1.Height = 800;
-                //pictureBox1.Width = 897;
-                //pictureBox1.BringToFront();
-                //pictureBox1.Visible = true;
             }
             else if (e.Node.Name.ToLower().EndsWith("mm"))
             {
@@ -12359,7 +12348,6 @@ namespace DocearReminder
                 //下面窗口设置一下
                 nodetree.Top = FileTreeView.Top = nodetreeTop;
                 nodetree.Height = FileTreeView.Height = nodetreeHeight;
-                //pictureBox1.Visible = false;
                 fathernode.Visible = false;
                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
                 this.Height = normalheight; showMindmapName = "";
@@ -12934,8 +12922,6 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Left)
             {
-                pictureBox1.Dispose();
-                //pictureBox1.Visible = false; 
                 if (SearchText_suggest.SelectedIndex > 0)
                 {
                     SearchText_suggest.SelectedIndex--;
@@ -13545,7 +13531,6 @@ namespace DocearReminder
             //下面窗口设置一下
             nodetree.Top = FileTreeView.Top = nodetreeTop;
             nodetree.Height = FileTreeView.Height = nodetreeHeight;
-            //pictureBox1.Visible = false;
             this.Height = normalheight;showMindmapName="";
             reminderList.Focus();
             //Center();
@@ -15350,7 +15335,6 @@ namespace DocearReminder
         {
             nodetree.Top = FileTreeView.Top = nodetreeTop;
             nodetree.Height = FileTreeView.Height = nodetreeHeight;
-            //pictureBox1.Visible = false;
             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
             this.Height = normalheight;showMindmapName="";
             reminderList.Focus();
@@ -15463,7 +15447,6 @@ namespace DocearReminder
             {
                 nodetree.Top = FileTreeView.Top = nodetreeTop;
                 nodetree.Height = FileTreeView.Height = nodetreeHeight;
-                //pictureBox1.Visible = false;
                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible=nodetreeSearch.Visible = false;
                 this.Height = normalheight;showMindmapName="";
                 reminderList.Focus();

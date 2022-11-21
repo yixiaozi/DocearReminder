@@ -51,6 +51,7 @@ namespace DocearReminder
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.showtext = new System.Windows.Forms.CheckBox();
+            this.checkBox_showEdit = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -65,16 +66,16 @@ namespace DocearReminder
             // 
             // textBox_mindmappath
             // 
-            this.textBox_mindmappath.Location = new System.Drawing.Point(75, 16);
+            this.textBox_mindmappath.Location = new System.Drawing.Point(74, 18);
             this.textBox_mindmappath.Name = "textBox_mindmappath";
-            this.textBox_mindmappath.Size = new System.Drawing.Size(380, 21);
+            this.textBox_mindmappath.Size = new System.Drawing.Size(192, 21);
             this.textBox_mindmappath.TabIndex = 6;
             this.textBox_mindmappath.TextChanged += new System.EventHandler(this.searchword_TextChanged);
             this.textBox_mindmappath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_searchwork_KeyUp);
             // 
             // fathernodename
             // 
-            this.fathernodename.Location = new System.Drawing.Point(514, 15);
+            this.fathernodename.Location = new System.Drawing.Point(341, 20);
             this.fathernodename.Name = "fathernodename";
             this.fathernodename.Size = new System.Drawing.Size(175, 21);
             this.fathernodename.TabIndex = 11;
@@ -141,7 +142,7 @@ namespace DocearReminder
             // 
             // nodename
             // 
-            this.nodename.Location = new System.Drawing.Point(742, 15);
+            this.nodename.Location = new System.Drawing.Point(569, 19);
             this.nodename.Name = "nodename";
             this.nodename.Size = new System.Drawing.Size(192, 21);
             this.nodename.TabIndex = 17;
@@ -149,7 +150,7 @@ namespace DocearReminder
             // 
             // nodenameexc
             // 
-            this.nodenameexc.Location = new System.Drawing.Point(1004, 16);
+            this.nodenameexc.Location = new System.Drawing.Point(832, 17);
             this.nodenameexc.Name = "nodenameexc";
             this.nodenameexc.Size = new System.Drawing.Size(158, 21);
             this.nodenameexc.TabIndex = 18;
@@ -202,7 +203,7 @@ namespace DocearReminder
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 19);
+            this.label1.Location = new System.Drawing.Point(10, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 23;
@@ -211,7 +212,7 @@ namespace DocearReminder
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(461, 21);
+            this.label2.Location = new System.Drawing.Point(282, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 24;
@@ -220,7 +221,7 @@ namespace DocearReminder
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(695, 18);
+            this.label3.Location = new System.Drawing.Point(522, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 25;
@@ -229,7 +230,7 @@ namespace DocearReminder
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(938, 22);
+            this.label4.Location = new System.Drawing.Point(767, 22);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 26;
@@ -247,6 +248,17 @@ namespace DocearReminder
             this.showtext.Text = "显示文字";
             this.showtext.UseVisualStyleBackColor = true;
             // 
+            // checkBox_showEdit
+            // 
+            this.checkBox_showEdit.AutoSize = true;
+            this.checkBox_showEdit.Location = new System.Drawing.Point(1043, 21);
+            this.checkBox_showEdit.Name = "checkBox_showEdit";
+            this.checkBox_showEdit.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_showEdit.TabIndex = 28;
+            this.checkBox_showEdit.Text = "编辑时间";
+            this.checkBox_showEdit.UseVisualStyleBackColor = true;
+            this.checkBox_showEdit.CheckedChanged += new System.EventHandler(this.checkBox_showEdit_CheckedChanged);
+            // 
             // MindMapDataReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -254,6 +266,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1784, 865);
+            this.Controls.Add(this.checkBox_showEdit);
             this.Controls.Add(this.showtext);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -309,5 +322,6 @@ namespace DocearReminder
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox showtext;
+        private System.Windows.Forms.CheckBox checkBox_showEdit;
     }
 }

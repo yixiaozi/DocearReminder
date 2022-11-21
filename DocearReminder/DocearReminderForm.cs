@@ -577,11 +577,19 @@ namespace DocearReminder
             //添加减肥目标 add lose weight target
             try
             {
-                DateTime loseWeightDate = Convert.ToDateTime(loseweight);
-                string loseWeightStr = (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget;
-                DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
-                string leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
-                this.Text += ("   " + birthString) + " |" + loseWeightStr + "|  {" + leaveChainaStr + "}  @  " + DateTime.Now.ToString("HH:mm");
+                string loseWeightStr = "";
+                if (ini.ReadString("info", "showweight", "") == "true")
+                {
+                    DateTime loseWeightDate = Convert.ToDateTime(loseweight);
+                    loseWeightStr = " |" + (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget + "|";
+                }
+                string leaveChainaStr = "";
+                if (ini.ReadString("info", "showleavechina", "") == "true")
+                {
+                    DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
+                    leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
+                }
+                this.Text += ("   " + birthString) + loseWeightStr + leaveChainaStr + " @  " + DateTime.Now.ToString("HH:mm");
             }
             catch (Exception)
             {
@@ -1226,7 +1234,7 @@ namespace DocearReminder
                                         DateTime CREATEDdt = DateTime.Now;
                                         DateTime MODIFIEDdt = DateTime.Now;
                                         string CREATED = GetAttribute(node, "CREATED");
-                                        string MODIFIED = GetAttribute(node, "CREATED");
+                                        string MODIFIED = GetAttribute(node, "MODIFIED");
                                         long unixTimeStampCREATED = Convert.ToInt64(CREATED);
                                         long unixTimeStampMODIFIED = Convert.ToInt64(MODIFIED);
                                         System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
@@ -2567,7 +2575,6 @@ namespace DocearReminder
                                 if (IsFileUrl(GetAttribute(node.ParentNode, "LINK").Replace("file:/", ""))&&!System.IO.File.Exists(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")))
                                 {
                                     IsShow = false;
-                                    //continue;
                                 }
                                 if (Xnodes.Any(m => m.Contains(nodeid))&& reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
                                 {
@@ -2740,7 +2747,7 @@ namespace DocearReminder
                                 }
                                 reminderList.Items.Add(new MyListBoxItemRemind
                                 {
-                                    Text = dt.ToString("yyyy/MM/dd HH:mm  ") + TextString,
+                                    Text = dt.ToString("yyyy/MM/dd HH:mm")+ GetAttribute(node.ParentNode, "TASKTIME", 4) + "  " + TextString,
                                     Name = TextString,
                                     Time = dt,
                                     Value = currentPath,
@@ -2842,7 +2849,7 @@ namespace DocearReminder
                                 {
                                     reminderlistItems.Add(new MyListBoxItemRemind
                                     {
-                                        Text = dt.ToString("yy-MM-dd-HH:mm") + @"  " + taskNameDis + dakainfo,
+                                        Text = dt.ToString("yy-MM-dd-HH:mm") +GetAttribute(node.ParentNode, "TASKTIME", 4) +"  "+ taskNameDis + dakainfo,
                                         Name = taskName,
                                         Time = dt,
                                         Value = currentPath,
@@ -4389,13 +4396,16 @@ namespace DocearReminder
 
                 }
             }
-            for (int i = 0; i < mindmaplist.Items.Count; i++)
+            if (!c_ViewModel.Checked)
             {
-                if (selectedReminder.Value == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                for (int i = 0; i < mindmaplist.Items.Count; i++)
                 {
-                    IsSelectReminder = true;
-                    mindmaplist.SetSelected(i, true);
-                    return;
+                    if (selectedReminder.Value == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                    {
+                        IsSelectReminder = true;
+                        mindmaplist.SetSelected(i, true);
+                        return;
+                    }
                 }
             }
         }
@@ -9674,7 +9684,19 @@ namespace DocearReminder
                     {
                         if ((ReminderListFocused() && (reminderList.Items.Count != 0) || reminderListBox.Items.Count != 0))
                         {
-                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            if (c_ViewModel.Checked&&(int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Control)//查看模式快速切换导图
+                            {
+                                if (mindmaplist.SelectedIndex + 1 < mindmaplist.Items.Count)
+                                {
+                                    mindmaplist.SelectedIndex++;
+                                }
+                                else
+                                {
+                                    mindmaplist.SelectedIndex = 0;
+                                }
+                                RRReminderlist();
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
                                 if (tasklevel.Value < 100)
                                 {
@@ -9852,7 +9874,19 @@ namespace DocearReminder
                     {
                         if (ReminderListFocused())
                         {
-                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            if (c_ViewModel.Checked && (int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Control)//查看模式快速切换导图
+                            {
+                                if (mindmaplist.SelectedIndex > 0)
+                                {
+                                    mindmaplist.SelectedIndex--;
+                                }
+                                else
+                                {
+                                    mindmaplist.SelectedIndex = mindmaplist.Items.Count - 1;
+                                }
+                                RRReminderlist();
+                            }
+                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
                                 if (tasklevel.Value >= 0)
                                 {
@@ -10674,7 +10708,8 @@ namespace DocearReminder
                                 reminderList.SelectedIndex = -1;
                                 reminderSelectIndex = -1;
                                 IsSelectReminder = false;
-                                mindmaplist.Focus();
+                                //mindmaplist.Focus();
+                                RRReminderlist();
                             }
                         }
                     }
@@ -11344,6 +11379,10 @@ namespace DocearReminder
         }
         public static bool IsFileUrl(string str)
         {
+            if (IsUri(str))
+            {
+                return false;
+            }
             if (str != "")
             {
                 str = str.Replace('/', '\\');

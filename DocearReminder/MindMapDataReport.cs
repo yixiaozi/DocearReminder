@@ -78,7 +78,20 @@ namespace DocearReminder
                 {
                     timeFormat = "MM-dd";
                 }
-                foreach (IGrouping<double, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => Convert.ToDateTime(m.Time.ToString("yyyy-MM-dd")).ToOADate()))
+                IEnumerable<IGrouping<double,node>> result;
+                if (checkBox_showEdit.Checked)
+                {
+                    result = DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.editDateTime >= begin.Value && m.editDateTime <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.editDateTime).GroupBy(m => Convert.ToDateTime(m.editDateTime.ToString("yyyy-MM-dd")).ToOADate());
+                }
+                else
+                {
+                    result = DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && (checkBox_showEdit.Checked?m.editDateTime: m.Time) >= begin.Value && (checkBox_showEdit.Checked?m.editDateTime: m.Time) <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time)).GroupBy(m => Convert.ToDateTime((checkBox_showEdit.Checked?m.editDateTime: m.Time).ToString("yyyy-MM-dd")).ToOADate());
+                }
+                if (result==null)
+                {
+                    return;
+                }
+                foreach (IGrouping<double, node> item in result)
                 {
                     double minute = 0;
                     foreach (node ritem in item)
@@ -114,7 +127,7 @@ namespace DocearReminder
                 List<string> daysList3 = new List<string>();
 
 
-                foreach (IGrouping<int, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time.Hour).GroupBy(m => m.Time.Hour))
+                foreach (IGrouping<int, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && (checkBox_showEdit.Checked?m.editDateTime: m.Time) >= begin.Value && (checkBox_showEdit.Checked?m.editDateTime: m.Time) <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time).Hour).GroupBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time).Hour))
                 {
                     daysList3.Add(item.Key.ToString());
                     valueList3.Add(item.Count());
@@ -133,8 +146,10 @@ namespace DocearReminder
                 var plt4 = formsPlot4.Plot;
                 List<double> valueList4 = new List<double>();
                 List<string> daysList4 = new List<string>();
+                
+                    
 
-                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.Time.ToString("ddd")))
+                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && (checkBox_showEdit.Checked?m.editDateTime: m.Time) >= begin.Value && (checkBox_showEdit.Checked?m.editDateTime: m.Time) <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time)).GroupBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time).ToString("ddd")))
                 {
                     daysList4.Add(item.Key);
                     valueList4.Add(item.Count());
@@ -154,7 +169,7 @@ namespace DocearReminder
                 var plt2 = formsPlot2.Plot;
                 ReportDataCol reportData = new ReportDataCol();
 
-                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && m.Time >= begin.Value && m.Time <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => m.Time).GroupBy(m => m.mindmapName))
+                foreach (IGrouping<string, node> item in DocearReminderForm.nodes.Where(m => MyContains(m.mindmapPath, textBox_mindmappath.Text) && (checkBox_showEdit.Checked?m.editDateTime: m.Time) >= begin.Value && (checkBox_showEdit.Checked?m.editDateTime: m.Time) <= end.Value && MyContains(m.mindmapName, textBox_mindmappath.Text) && MyContains(m.ParentNodePath, fathernodename.Text) && MyContains(m.Text, nodename.Text) && (nodenameexc.Text != "" ? !MyContains(m.Text, nodenameexc.Text) : true)).OrderBy(m => (checkBox_showEdit.Checked?m.editDateTime: m.Time)).GroupBy(m => m.mindmapName))
                 {
                     reportData.items.Add(new ReportDataItem
                     {
@@ -361,6 +376,11 @@ namespace DocearReminder
         private void nodenameexc_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox_showEdit_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadChart();
         }
     }
 }

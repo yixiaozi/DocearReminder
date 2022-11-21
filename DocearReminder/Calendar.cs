@@ -726,6 +726,10 @@ namespace DocearReminder
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
             IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => m.time>=dateTimePicker1.Value&& m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) && ((((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted)));
+            if (mindmappath=="")//当所有的时候排除金钱
+            {
+                items = items.Where(m=>m.mindmap!="Money");
+            }
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
                 items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
@@ -1502,7 +1506,6 @@ namespace DocearReminder
                 dayView1.StartDate = dayView1.StartDate;//用于刷新
             }
             UsedLogRenew();
-
         }
 
         private void dayView1_SelectionChanged_1(object sender, EventArgs e)

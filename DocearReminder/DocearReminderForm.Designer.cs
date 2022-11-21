@@ -288,7 +288,6 @@ namespace DocearReminder
             this.dateTimePicker.MaxDate = new System.DateTime(2499, 12, 17, 0, 0, 0, 0);
             this.dateTimePicker.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.ShowUpDown = true;
             this.dateTimePicker.Size = new System.Drawing.Size(146, 20);
             this.dateTimePicker.TabIndex = 17;
             this.dateTimePicker.TabStop = false;
@@ -1659,7 +1658,6 @@ namespace DocearReminder
         private System.Windows.Forms.CheckBox reminder_yearafter;
         private System.Windows.Forms.Label mindmaplist_count;
         private System.Windows.Forms.Label reminder_count;
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.NumericUpDown n_days;
         private System.Windows.Forms.Button button_cycle;
         private System.Windows.Forms.CheckBox c_Monday;
@@ -1782,6 +1780,7 @@ namespace DocearReminder
         private Timer CameraTimer;
         private ToolStripMenuItem 导图分析ToolStripMenuItem;
         private CheckBox checkBox2;
+        private DateTimePicker dateTimePicker;
     }
 }
 

@@ -163,6 +163,7 @@ namespace DocearReminder
         public DocearReminderForm()
         {
             InitializeComponent();
+            pictureBox1.Height = 0;
             this.Width = middlewidth;
             formActive = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
@@ -11093,6 +11094,52 @@ namespace DocearReminder
                 }
             }
         }
+        public string getPicture(XmlNode FatherNode,string filename)
+        {
+            string result = "";
+            foreach (XmlNode node in FatherNode.ChildNodes)
+            {
+                try
+                {
+                    if (((System.Xml.XmlElement)node).Name=="hook"&&node.Attributes["NAME"].Value == "ExternalObject")
+                    {
+                        result = node.Attributes["URI"].Value;
+                        Directory.SetCurrentDirectory(new FileInfo(filename).Directory.FullName);
+                        result = System.IO.Path.GetFullPath(result);
+                        Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+                        piclink = result;
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return result;
+        }
+        public string getPictureByID(string id,string mindmap)
+        {
+            try
+            {
+                string result = "";
+                System.Xml.XmlDocument x = new XmlDocument();
+                x.Load(mindmap);
+                foreach (XmlNode node in x.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                    {
+                        result = getPicture(node, mindmap);
+                        piclink = result;
+                        break;
+                    }
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
 
         private void GetPassWord()
         {
@@ -12109,6 +12156,30 @@ namespace DocearReminder
                             {
                                 //显示父节点
                                 fathernode.Text = GetFatherNodeName(node);
+                                try
+                                {
+                                    string pictureUrl = getPicture(node, ((MyListBoxItemRemind)reminderlistSelectedItem).Value);
+                                    if (pictureUrl!="")
+                                    {
+                                        pictureBox1.Image = Image.FromFile(pictureUrl);
+                                        if(pictureBox1.Image.Height>= pictureBox1.Image.Width)
+                                        {
+                                            pictureBox1.Height = pictureBox1.MaximumSize.Height;
+                                        }
+                                        else
+                                        {
+                                            pictureBox1.Height =Convert.ToInt16(pictureBox1.MaximumSize.Height*(Convert.ToDouble(pictureBox1.Image.Height)/pictureBox1.Image.Width));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        pictureBox1.Height = 0;
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                        pictureBox1.Height = 0;
+                                }
                                 foreach (XmlNode subNode in node.ChildNodes)
                                 {
                                     if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
@@ -14067,6 +14138,7 @@ namespace DocearReminder
         public static string section = "rootPath";//用于和日历同步
         private void PathcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            pictureBox1.Height = 0;
             if (!selectedpath&&sender!=null)
             {
                 selectedpath = true;
@@ -14582,6 +14654,34 @@ namespace DocearReminder
 
         private void nodetree_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            //e.Node.Name  节点的ID
+            if (e.Node.Name != null)
+            {
+                try
+                {
+                    string pictureUrl = getPictureByID(e.Node.Name, showMindmapName);
+                    if (pictureUrl != "")
+                    {
+                        pictureBox1.Image = Image.FromFile(pictureUrl);
+                        if (pictureBox1.Image.Height >= pictureBox1.Image.Width)
+                        {
+                            pictureBox1.Height = pictureBox1.MaximumSize.Height;
+                        }
+                        else
+                        {
+                            pictureBox1.Height = Convert.ToInt16(pictureBox1.MaximumSize.Height * (Convert.ToDouble(pictureBox1.Image.Height) / pictureBox1.Image.Width));
+                        }
+                    }
+                    else
+                    {
+                        pictureBox1.Height = 0;
+                    }
+                }
+                catch (Exception)
+                {
+                    pictureBox1.Height = 0;
+                }
+            }
         }
 
         private void nodetree_MouseDown(object sender, MouseEventArgs e)
@@ -14942,7 +15042,8 @@ namespace DocearReminder
 
         private void richTextSubNode_SizeChanged(object sender, EventArgs e)
         {
-            hopeNote.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
+            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 0 : 0);
+            hopeNote.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 14 : 0);
             tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
             tagCloudControl.Height = 475 - tagCloudControl.Top;
         }
@@ -16250,6 +16351,169 @@ namespace DocearReminder
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+        string piclink = "";
+        private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(piclink);
+                MyHide();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void 打开文件夹ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new FileInfo(piclink).Directory.FullName);
+                MyHide();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new FileInfo(piclink).Directory.FullName);
+                MyHide();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void reminderList_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(selectedReminder.Value);
+            string taskName = selectedReminder.IDinXML;
+            System.Array arr = (System.Array)e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (XmlNode node in x.GetElementsByTagName("hook"))
+            {
+                try
+                {
+                    if (node.ParentNode.Attributes["ID"].Value == taskName)
+                    {
+                        foreach (string item in arr)
+                        {
+                            if (item.EndsWith("jpg") || item.EndsWith("png"))
+                            {
+                                DirectoryInfo dir = new FileInfo(selectedReminder.Value).Directory;
+                                System.IO.Directory.CreateDirectory(dir.FullName + "\\.images");
+                                string filename = dir.FullName + "\\.images" + "\\" + new FileInfo(item).Name;
+                                if (System.IO.File.Exists(filename))
+                                {
+                                    filename = filename.Replace(new FileInfo(item).Name, new FileInfo(item).Name.Replace(".",DateTime.Now.ToFileTimeUtc()+"."));
+                                    System.IO.File.Copy(item, filename);
+                                }
+                                else
+                                {
+                                    System.IO.File.Copy(item, filename);
+                                }
+                                if (getPicture(node.ParentNode, selectedReminder.Value) != "")//如果已经有图片
+                                {
+                                    foreach (XmlNode chilenode in node.ParentNode.ChildNodes)
+                                    {
+                                        if (((System.Xml.XmlElement)chilenode).Name == "hook" && chilenode.Attributes["NAME"].Value == "ExternalObject")
+                                        {
+                                            chilenode.Attributes["URI"].Value= ".images" + "/" + new FileInfo(filename).Name;
+                                            double size = 200.0 / Image.FromFile(filename).Width;
+                                            chilenode.Attributes["SIZE"].Value = size.ToString();
+                                            x.Save(selectedReminder.Value);
+                                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                                            th.Start();
+                                            return;
+                                        }
+                                    }
+                                }
+                                else//设置图片
+                                {
+                                    XmlNode newElem = x.CreateElement("hook");
+                                    XmlAttribute SIZE = x.CreateAttribute("SIZE");
+                                    double size = 200.0 / Image.FromFile(filename).Width;
+                                    SIZE.Value = size.ToString();
+                                    newElem.Attributes.Append(SIZE);
+                                    XmlAttribute NAME = x.CreateAttribute("NAME");
+                                    NAME.Value = "ExternalObject";
+                                    newElem.Attributes.Append(NAME);
+                                    XmlAttribute URI = x.CreateAttribute("URI");
+                                    URI.Value = ".images" + "/" + new FileInfo(filename).Name ;
+                                    newElem.Attributes.Append(URI);
+                                    node.ParentNode.AppendChild(newElem);
+                                    x.Save(selectedReminder.Value);
+                                    Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                                    th.Start();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+        string RelativePath(string absolutePath, string relativeTo)
+        {
+            //from - www.cnphp6.com
+
+            string[] absoluteDirectories = absolutePath.Split('\\');
+            string[] relativeDirectories = relativeTo.Split('\\');
+
+            //Get the shortest of the two paths
+            int length = absoluteDirectories.Length < relativeDirectories.Length ? absoluteDirectories.Length : relativeDirectories.Length;
+
+            //Use to determine where in the loop we exited
+            int lastCommonRoot = -1;
+            int index;
+
+            //Find common root
+            for (index = 0; index < length; index++)
+                if (absoluteDirectories[index] == relativeDirectories[index])
+                    lastCommonRoot = index;
+                else
+                    break;
+
+            //If we didn't find a common prefix then throw
+            if (lastCommonRoot == -1)
+                throw new ArgumentException("Paths do not have a common base");
+
+            //Build up the relative path
+            StringBuilder relativePath = new StringBuilder();
+
+            //Add on the ..
+            for (index = lastCommonRoot + 1; index < absoluteDirectories.Length; index++)
+                if (absoluteDirectories[index].Length > 0)
+                    relativePath.Append("..\\");
+
+            //Add on the folders
+            for (index = lastCommonRoot + 1; index < relativeDirectories.Length - 1; index++)
+                relativePath.Append(relativeDirectories[index] + "\\");
+            relativePath.Append(relativeDirectories[relativeDirectories.Length - 1]);
+
+            return relativePath.ToString();
+        }
+        private void reminderList_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.All;
+            }
+            else
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.None;
+            }
         }
     }
 

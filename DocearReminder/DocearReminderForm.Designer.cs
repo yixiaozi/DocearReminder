@@ -139,6 +139,9 @@ namespace DocearReminder
             this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.c_endtime = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.Menu_picture = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文件夹ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
@@ -153,6 +156,7 @@ namespace DocearReminder
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.删除图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -164,6 +168,7 @@ namespace DocearReminder
             this.menu.SuspendLayout();
             this.panel_clearSearchWord.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.Menu_picture.SuspendLayout();
             this.SuspendLayout();
             // 
             // searchword
@@ -1339,12 +1344,41 @@ namespace DocearReminder
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(1185, 68);
+            this.pictureBox1.ContextMenuStrip = this.Menu_picture;
+            this.pictureBox1.Location = new System.Drawing.Point(872, 165);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.MaximumSize = new System.Drawing.Size(285, 285);
+            this.pictureBox1.MinimumSize = new System.Drawing.Size(285, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(231, 198);
+            this.pictureBox1.Size = new System.Drawing.Size(285, 120);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 113;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
+            // 
+            // Menu_picture
+            // 
+            this.Menu_picture.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.打开文件夹ToolStripMenuItem1,
+            this.删除图片ToolStripMenuItem});
+            this.Menu_picture.Name = "Menu_picture";
+            this.Menu_picture.Size = new System.Drawing.Size(181, 92);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "打开图片";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_1);
+            // 
+            // 打开文件夹ToolStripMenuItem1
+            // 
+            this.打开文件夹ToolStripMenuItem1.Name = "打开文件夹ToolStripMenuItem1";
+            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件夹ToolStripMenuItem1.Text = "打开文件夹";
+            this.打开文件夹ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem1_Click);
             // 
             // titleTimer
             // 
@@ -1374,11 +1408,11 @@ namespace DocearReminder
             this.hopeNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
             this.hopeNote.ForeColor = System.Drawing.Color.Gray;
-            this.hopeNote.Location = new System.Drawing.Point(872, 165);
+            this.hopeNote.Location = new System.Drawing.Point(872, 291);
             this.hopeNote.MaximumSize = new System.Drawing.Size(285, 250);
             this.hopeNote.Name = "hopeNote";
             this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.hopeNote.Size = new System.Drawing.Size(285, 82);
+            this.hopeNote.Size = new System.Drawing.Size(285, 103);
             this.hopeNote.TabIndex = 128;
             this.hopeNote.Text = "";
             this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
@@ -1428,9 +1462,9 @@ namespace DocearReminder
             this.tagCloudControl.ControlTextFrame = false;
             this.tagCloudControl.ControlTextUnderline = false;
             this.tagCloudControl.ControlWidth = 298;
-            this.tagCloudControl.Location = new System.Drawing.Point(872, 253);
+            this.tagCloudControl.Location = new System.Drawing.Point(872, 400);
             this.tagCloudControl.Name = "tagCloudControl";
-            this.tagCloudControl.Size = new System.Drawing.Size(285, 215);
+            this.tagCloudControl.Size = new System.Drawing.Size(285, 68);
             this.tagCloudControl.TabIndex = 118;
             this.tagCloudControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlAdded);
             this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.TagCloudControl_ControlRemoved);
@@ -1456,6 +1490,7 @@ namespace DocearReminder
             // 
             // reminderList
             // 
+            this.reminderList.AllowDrop = true;
             this.reminderList.BackColor = System.Drawing.Color.White;
             this.reminderList.CausesValidation = false;
             this.reminderList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -1472,6 +1507,8 @@ namespace DocearReminder
             this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
             this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
             this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
+            this.reminderList.DragDrop += new System.Windows.Forms.DragEventHandler(this.reminderList_DragDrop);
+            this.reminderList.DragEnter += new System.Windows.Forms.DragEventHandler(this.reminderList_DragEnter);
             this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
             this.reminderList.Enter += new System.EventHandler(this.reminderList_Enter);
             this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
@@ -1537,8 +1574,15 @@ namespace DocearReminder
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // 删除图片ToolStripMenuItem
+            // 
+            this.删除图片ToolStripMenuItem.Name = "删除图片ToolStripMenuItem";
+            this.删除图片ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除图片ToolStripMenuItem.Text = "删除图片";
+            // 
             // DocearReminderForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -1627,6 +1671,7 @@ namespace DocearReminder
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.DocearReminderForm_Load);
             this.SizeChanged += new System.EventHandler(this.DocearReminderForm_SizeChanged);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.reminderList_DragDrop);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
@@ -1643,6 +1688,7 @@ namespace DocearReminder
             this.panel_clearSearchWord.ResumeLayout(false);
             this.panel_clearSearchWord.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Menu_picture.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1781,6 +1827,10 @@ namespace DocearReminder
         private ToolStripMenuItem 导图分析ToolStripMenuItem;
         private CheckBox checkBox2;
         private DateTimePicker dateTimePicker;
+        private ContextMenuStrip Menu_picture;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
+        private ToolStripMenuItem 删除图片ToolStripMenuItem;
     }
 }
 

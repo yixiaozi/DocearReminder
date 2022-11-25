@@ -844,7 +844,7 @@ namespace DocearReminder
                         m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
                         if (item.time < DateTime.Today.AddDays(-1)&&DateTime.Today.Day!=28&& DateTime.Today.Day != 29&& DateTime.Today.Day != 30&& DateTime.Today.Day != 31)//时间块禁止编辑？一天以前的禁止编辑,每个月最后几天允许编辑
                         {
-                            m_Appointment.Locked = true;
+                            //m_Appointment.Locked = true;
                         }
                     }
                     catch (Exception)
@@ -931,6 +931,7 @@ namespace DocearReminder
                         break;
                     case "Money":
                         m_Appointment.Type = "金钱";
+                        m_Appointment.Title += "(" + (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes + "元)";
                         break;
                     case "KA":
                         m_Appointment.Type = "卡路里";
@@ -957,14 +958,15 @@ namespace DocearReminder
                 if ((m_Appointment.EndDate- m_Appointment.StartDate).TotalHours>20)//一般不会有超过1200的支出或者收入吧
                 {
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
-                    m_Appointment.Color = Color.DarkRed;
+                    //m_Appointment.Color = Color.DarkRed;//使用默认颜色就可以了
                     m_Appointment.Locked = true;
+                    //如何把原来的值记录到时间块上呢？
                 }
                 if (m_Appointment.EndDate.Day>m_Appointment.StartDate.Day)
                 {
                     m_Appointment.StartDate = Convert.ToDateTime(m_Appointment.StartDate.ToString("yyyy/MM/dd"));
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
-                    m_Appointment.Color = Color.DarkRed;
+                    //m_Appointment.Color = Color.DarkRed;//使用默认颜色就可以了
                     m_Appointment.Locked = true;
                 }
                 m_Appointments.Add(m_Appointment);

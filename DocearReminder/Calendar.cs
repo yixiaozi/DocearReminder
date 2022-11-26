@@ -391,6 +391,19 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
+        /// <summary>
+        /// 添加时间块
+        /// </summary>
+        /// <param name="TaskName"></param>
+        /// <param name="ID"></param>
+        /// <param name="mindmap">导图或者颜色</param>
+        /// <param name="tasktime"></param>
+        /// <param name="taskTime"></param>
+        /// <param name="mindmapName"></param>
+        /// <param name="tag"></param>
+        /// <param name="comment"></param>
+        /// <param name="detailComment"></param>
+        /// <param name="timelong"></param>
         public static void reminderObjectJsonAdd(string TaskName, string ID, string mindmap, double tasktime, DateTime taskTime, string mindmapName, object tag = null, string comment = "", string detailComment = "", double timelong = 0)
         {
             try
@@ -406,6 +419,7 @@ namespace DocearReminder
                             {
                                 DateTime taskTime2 = item.time.AddMinutes(item.tasktime);
                                 tasktime = (taskTime - taskTime2).TotalMinutes;
+                                taskTime = taskTime2;
                                 if (tasktime <= 1)
                                 {
                                     tasktime = 2;
@@ -1835,7 +1849,7 @@ namespace DocearReminder
         private void SetTimeBlock(object sender, EventArgs e)
         {
             Appointment m_Appointment = new Appointment();
-            if ((dayView1.SelectionEnd-dayView1.SelectionStart).TotalMinutes>2)
+            if ((dayView1.SelectionEnd-dayView1.SelectionStart).TotalMinutes>2&& (dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes < 1000)
             {
                 m_Appointment.StartDate = dayView1.SelectionStart;
                 m_Appointment.EndDate = dayView1.SelectionEnd;
@@ -1859,7 +1873,14 @@ namespace DocearReminder
                 }
                 if (dayView1.SelectionEnd < DateTime.Now)
                 {
-                    m_Appointment.EndDate = dayView1.SelectionEnd;
+                    if (dayView1.SelectionEnd<m_Appointment.StartDate)
+                    {
+                        m_Appointment.EndDate = DateTime.Now;
+                    }
+                    else
+                    {
+                        m_Appointment.EndDate = dayView1.SelectionEnd;
+                    }
                 }
                 else
                 {

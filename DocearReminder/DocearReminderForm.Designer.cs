@@ -142,6 +142,7 @@ namespace DocearReminder
             this.Menu_picture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件夹ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
@@ -156,7 +157,6 @@ namespace DocearReminder
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.删除图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1364,21 +1364,27 @@ namespace DocearReminder
             this.打开文件夹ToolStripMenuItem1,
             this.删除图片ToolStripMenuItem});
             this.Menu_picture.Name = "Menu_picture";
-            this.Menu_picture.Size = new System.Drawing.Size(181, 92);
+            this.Menu_picture.Size = new System.Drawing.Size(137, 70);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "打开图片";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_1);
             // 
             // 打开文件夹ToolStripMenuItem1
             // 
             this.打开文件夹ToolStripMenuItem1.Name = "打开文件夹ToolStripMenuItem1";
-            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.打开文件夹ToolStripMenuItem1.Text = "打开文件夹";
             this.打开文件夹ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem1_Click);
+            // 
+            // 删除图片ToolStripMenuItem
+            // 
+            this.删除图片ToolStripMenuItem.Name = "删除图片ToolStripMenuItem";
+            this.删除图片ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.删除图片ToolStripMenuItem.Text = "删除图片";
             // 
             // titleTimer
             // 
@@ -1574,12 +1580,6 @@ namespace DocearReminder
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // 删除图片ToolStripMenuItem
-            // 
-            this.删除图片ToolStripMenuItem.Name = "删除图片ToolStripMenuItem";
-            this.删除图片ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.删除图片ToolStripMenuItem.Text = "删除图片";
-            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1667,6 +1667,7 @@ namespace DocearReminder
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.DocearReminderForm_Activated);
             this.Deactivate += new System.EventHandler(this.DocearReminderForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.DocearReminderForm_Load);

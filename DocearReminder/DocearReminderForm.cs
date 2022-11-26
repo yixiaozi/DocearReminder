@@ -756,8 +756,10 @@ namespace DocearReminder
         }
 
         #region 窗体事件
+        bool thisactive = true;
         private void DocearReminderForm_Deactivate(object sender, EventArgs e)
         {
+            thisactive = false;
             if (lockForm)
             {
 
@@ -801,7 +803,14 @@ namespace DocearReminder
         {
             if (this.Visible == true)
             {
-                MyHide();
+                if (thisactive)
+                {
+                    MyHide();
+                }
+                else
+                {
+                    this.Activate();
+                }
             }
             else
             {
@@ -1230,6 +1239,11 @@ namespace DocearReminder
                                     {
                                         continue;
                                     }
+                                    string father = GetFatherNodeName(node);
+                                    if (father.Contains("Folder|"))
+                                    {
+                                        continue;
+                                    }
                                     if (!contents.Contains(node.Attributes["TEXT"].Value))
                                     {
                                         DateTime CREATEDdt = DateTime.Now;
@@ -1250,7 +1264,7 @@ namespace DocearReminder
                                             editDateTime = MODIFIEDdt,
                                             Time = CREATEDdt,
                                             IDinXML = node.Attributes["ID"].Value,
-                                            ParentNodePath= GetFatherNodeName(node)
+                                            ParentNodePath= father
                                         });// CREATED = "1640347265596" MODIFIED = "1642748153418"
                                     }
                                 }
@@ -1428,7 +1442,8 @@ namespace DocearReminder
                     if (Subnode.Attributes["TEXT"] != null && Subnode.Attributes["TEXT"].Value != "未分类")
                     {
                         string nodename=Subnode.Attributes["TEXT"].Value;
-                        string father = GetFatherNodeName(Subnode).Replace(">","|").Replace("事件类别|","");
+                        //string father = GetFatherNodeName(Subnode).Replace(">","|").Replace("事件类别|","");
+                        string father = GetFatherNodeName(Subnode).Replace("事件类别>","");
                         string BackColor = Color.FromArgb(Int32.Parse((GetColor(Subnode).Replace("#", "ff")), System.Globalization.NumberStyles.HexNumber)).ToArgb().ToString();
                         timeblocks.Add(new node
                         {
@@ -1437,6 +1452,8 @@ namespace DocearReminder
                             mindmapPath = father+"|"+nodename,
                             IDinXML = node != null && node.Attributes != null && node.Attributes["ID"] != null ? node.Attributes["ID"].Value : "",
                         });
+                        //修改bug | xgbug | xiugaibug | xgbug | true | ID_1693863157 | 编程     | DocearReminder | 编程 | DocearReminder | -205
+                        //疫情    | yq    | yiqing    | yq    | true | ID_1614751649 | 事件类别 | 事件类别        | -10066330
                         //第几个是ID呢？
                         timeblockString += nodename;
                         timeblockString += "|";
@@ -11117,6 +11134,12 @@ namespace DocearReminder
             }
             return result;
         }
+        public void SetPicture(string filepath)
+        {
+            Stream s = File.Open(filepath, FileMode.Open);
+            pictureBox1.Image = Image.FromStream(s);
+            s.Close();
+        }
         public string getPictureByID(string id,string mindmap)
         {
             try
@@ -11871,7 +11894,8 @@ namespace DocearReminder
             //*.jpg,*.jpeg,*.bmp,*.gif,*.ico,*.png,*.tif,*.wmf
             else if (e.Node.Name.ToLower().EndsWith("jpg") || e.Node.Name.ToLower().EndsWith("gif") || e.Node.Name.ToLower().ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("png") || e.Node.Name.ToLower().EndsWith("jpeg") || e.Node.Name.ToLower().EndsWith("ico") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp") || e.Node.Name.ToLower().EndsWith("bmp"))
             {
-                pictureBox1.Image = Image.FromFile(e.Node.Name);
+                //pictureBox1.Image = Image.FromFile(e.Node.Name);
+                SetPicture(e.Node.Name);
             }
             else if (e.Node.Name.ToLower().EndsWith("mm"))
             {
@@ -12161,7 +12185,8 @@ namespace DocearReminder
                                     string pictureUrl = getPicture(node, ((MyListBoxItemRemind)reminderlistSelectedItem).Value);
                                     if (pictureUrl!="")
                                     {
-                                        pictureBox1.Image = Image.FromFile(pictureUrl);
+                                        SetPicture(pictureUrl);
+                                        //pictureBox1.Image = Image.FromFile(pictureUrl);
                                         if(pictureBox1.Image.Height>= pictureBox1.Image.Width)
                                         {
                                             pictureBox1.Height = pictureBox1.MaximumSize.Height;
@@ -12442,6 +12467,20 @@ namespace DocearReminder
             {
                 Thread thCalendarForm = new Thread(() => Application.Run(new TimeBlockTrend()));
                 thCalendarForm.Start();
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.ToLower().StartsWith("githome"))//打开Git
+            {
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory);
+                MyHide();
+                searchword.Text = "";
+                return;
+            }
+            else if (searchword.Text.ToLower().StartsWith("githubhome"))//打开Github
+            {
+                Process.Start("https://github.com/yixiaozi/DocearReminder");
                 MyHide();
                 searchword.Text = "";
                 return;
@@ -13086,17 +13125,17 @@ namespace DocearReminder
                     type = "刚刚";
                     taskname= searchword.Text.Split('@')[0].Substring(2);
                 }
-                if (searchword.SelectionStart < taskname.Length)
+                if (searchword.SelectionStart < searchword.Text.Length)
                 {
                     return;
                 }
                 string filename = searchword.Text.Split('@')[1];
                 searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
-                if (SearchText_suggest.SelectedItem != null && filename == (SearchText_suggest.SelectedItem as StationInfo).StationName_CN)
-                {
-                    SearchText_suggest.Visible = false;
-                    return;
-                }
+                //if (SearchText_suggest.SelectedItem != null && filename == (SearchText_suggest.SelectedItem as StationInfo).StationName_CN)
+                //{
+                //    SearchText_suggest.Visible = false;
+                //    return;
+                //}
                 if (e.KeyCode == Keys.Enter)
                 {
                     StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
@@ -14662,7 +14701,9 @@ namespace DocearReminder
                     string pictureUrl = getPictureByID(e.Node.Name, showMindmapName);
                     if (pictureUrl != "")
                     {
-                        pictureBox1.Image = Image.FromFile(pictureUrl);
+                        //pictureBox1.Image = Image.FromFile(pictureUrl);
+                        SetPicture(pictureUrl);
+
                         if (pictureBox1.Image.Height >= pictureBox1.Image.Width)
                         {
                             pictureBox1.Height = pictureBox1.MaximumSize.Height;
@@ -16514,6 +16555,11 @@ namespace DocearReminder
             {
                 e.Effect = System.Windows.Forms.DragDropEffects.None;
             }
+        }
+
+        private void DocearReminderForm_Activated(object sender, EventArgs e)
+        {
+            thisactive = true;
         }
     }
 

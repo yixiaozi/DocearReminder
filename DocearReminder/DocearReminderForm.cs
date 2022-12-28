@@ -2047,6 +2047,34 @@ namespace DocearReminder
         /// </summary>
         public void RRReminderlist()
         {
+            #region 显示时间块
+            if (showTimeBlock.Checked)
+            {
+                reminderList.Items.Clear();
+                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>=DateTime.Today).OrderBy(m=>m.time))
+                {
+                    reminderList.Items.Add(new MyListBoxItemRemind
+                    {
+                        Text = item.time.ToString("yyyy/MM/dd HH:mm") + item.tasktime+ "  " + item.name,
+                        Name = item.name,
+                        Time = item.time,
+                        Value = "TimeBlock",
+                        IsShow = true,
+                        remindertype = "",
+                        rhours = 0,
+                        rdays = 0,
+                        rMonth = 00,
+                        rWeek = 0,
+                        ryear = 0,
+                        rtaskTime = 0,
+                        IsDaka = "",
+                        IDinXML = item.ID,
+                        link = ""
+                    });
+                }
+                return;
+            }
+            #endregion
             //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
             //{
             //    mindmapSearch.Text = "";
@@ -2256,7 +2284,7 @@ namespace DocearReminder
                                         isEBType = GetAttribute(node.ParentNode, "REMINDERTYPE") == "eb",
                                         JinianDate = jiniantimeDT1,
                                         EndDate = endtimeDT1
-                                };
+                                    };
                                     reminderObject.reminders.Add(newitem);
                                     reminderObject.reminderCount += 1;
                                 }
@@ -9621,8 +9649,11 @@ namespace DocearReminder
                         {
                             try
                             {
-                                Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(((MyListBoxItemRemind)reminderlistSelectedItem).Name));
-                                th.Start();
+                                if (quietmode.Checked)
+                                {
+                                    Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(((MyListBoxItemRemind)reminderlistSelectedItem).Name));
+                                    th.Start();
+                                }
                             }
                             catch (Exception)
                             {
@@ -16560,6 +16591,11 @@ namespace DocearReminder
         private void DocearReminderForm_Activated(object sender, EventArgs e)
         {
             thisactive = true;
+        }
+        public static bool quietmodelbool = false;
+        private void quietmode_CheckedChanged(object sender, EventArgs e)
+        {
+            quietmodelbool = quietmode.Checked;
         }
     }
 

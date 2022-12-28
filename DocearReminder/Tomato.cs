@@ -52,9 +52,13 @@ namespace DocearReminder
             //添加一个番茄Json
             try
             {
-                //yixiaozi.Media.Audio.Audio.SpeakText(name);
-                Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(name));
-                th.Start();
+                if (DocearReminderForm.quietmodelbool)
+                {
+                    //yixiaozi.Media.Audio.Audio.SpeakText(name);
+                    Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(name));
+                    th.Start();
+                }
+
                 faneiguid = Guid.NewGuid().ToString();
                 addreminderlog(name, faneiguid, mindmap, taskLevel);
             }

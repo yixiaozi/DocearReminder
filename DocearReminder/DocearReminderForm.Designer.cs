@@ -157,6 +157,8 @@ namespace DocearReminder
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.quietmode = new System.Windows.Forms.CheckBox();
+            this.showTimeBlock = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1580,6 +1582,27 @@ namespace DocearReminder
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // quietmode
+            // 
+            this.quietmode.AutoSize = true;
+            this.quietmode.Location = new System.Drawing.Point(1185, 69);
+            this.quietmode.Name = "quietmode";
+            this.quietmode.Size = new System.Drawing.Size(72, 16);
+            this.quietmode.TabIndex = 132;
+            this.quietmode.Text = "安静模式";
+            this.quietmode.UseVisualStyleBackColor = true;
+            this.quietmode.CheckedChanged += new System.EventHandler(this.quietmode_CheckedChanged);
+            // 
+            // showTimeBlock
+            // 
+            this.showTimeBlock.AutoSize = true;
+            this.showTimeBlock.Location = new System.Drawing.Point(1263, 69);
+            this.showTimeBlock.Name = "showTimeBlock";
+            this.showTimeBlock.Size = new System.Drawing.Size(60, 16);
+            this.showTimeBlock.TabIndex = 133;
+            this.showTimeBlock.Text = "时间块";
+            this.showTimeBlock.UseVisualStyleBackColor = true;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1588,6 +1611,8 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.showTimeBlock);
+            this.Controls.Add(this.quietmode);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
@@ -1832,6 +1857,8 @@ namespace DocearReminder
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
         private ToolStripMenuItem 删除图片ToolStripMenuItem;
+        private CheckBox quietmode;
+        private CheckBox showTimeBlock;
     }
 }
 

@@ -317,7 +317,7 @@ namespace DocearReminder
                 richTextSubNode.Height = 0;
                 try
                 {
-                    gettitle();
+                    SetTitle();
                     foreach (string item in calanderpath.Split(';'))
                     {
                         if (item != "")
@@ -546,7 +546,8 @@ namespace DocearReminder
                 return false;
             }
         }
-        public void gettitle()
+
+        public void SetTitle()
         {
             string birthday = ini.ReadString("info", "birthday", "");
             string loseweight = ini.ReadString("info", "loseweight", "");
@@ -596,6 +597,7 @@ namespace DocearReminder
             {
             }
         }
+
         /// <summary>
         /// 将Json格式的时间字符串替换为"yyyy-MM-dd HH:mm:ss"格式的字符串
         /// </summary>
@@ -611,6 +613,7 @@ namespace DocearReminder
                 return dt.ToString("yyyy-MM-dd HH:mm:ss");
             });
         }
+
         private void UsedTimerOnLoad()
         {
             if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json"))
@@ -873,7 +876,7 @@ namespace DocearReminder
             Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
             thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
-            gettitle();
+            SetTitle();
             MyHide();
             //Process process = RuningInstance();
             //if (process != null)

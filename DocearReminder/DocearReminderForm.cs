@@ -200,7 +200,7 @@ namespace DocearReminder
                 addFanQieTimer.Start();
 
                 InitVoice();
-                CameraTimer_Tick(null, null);
+                //CameraTimer_Tick(null, null);//打开软件时截屏，其实没有必要
 
                 //this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
                 //fileSystemWatcher1.IncludeSubdirectories = true;
@@ -917,7 +917,7 @@ namespace DocearReminder
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
             List<string> name = new List<string>();
-            if (checkBox1.Checked)
+            if (StartRecordCheckBox.Checked)
             {
                 foreach (MyListBoxItemRemind selectedReminder in RemindersOtherPath.Distinct().Where(m => m.Time.DayOfYear == DateTime.Now.DayOfYear && m.Time.Year == DateTime.Now.Year && m.Time.Hour == DateTime.Now.Hour && m.Time.Minute == DateTime.Now.Minute))
                 {
@@ -974,14 +974,14 @@ namespace DocearReminder
             }
             if (DateTime.Now.Minute==0|| DateTime.Now.Minute == 15|| DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
             {
+                //每15分钟拍照
+                CameraTimer_Tick(null, null);
                 if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5||searchword.Focused||hopeNote.Focused|| nodetreeSearch.Focused)
                 {
 
                 }
                 else
                 {
-                    //每小时拍照
-                    CameraTimer_Tick(null, null);
                     int p = GetPosition();
                     DocearReminderForm.fanqiePosition[p] = true;
                     Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
@@ -1568,6 +1568,40 @@ namespace DocearReminder
         //        }
         //    }
         //}
+
+        public void EditMODIFIEDAndTaskName(XmlNode node,string TaskName)
+        {
+            try
+            {
+                if (node.Attributes["MODIFIEDLog"] ==null)
+                {
+                    XmlAttribute MODIFIEDLog = node.OwnerDocument.CreateAttribute("MODIFIEDLog");
+                    MODIFIEDLog.Value = node.Attributes["MODIFIED"].Value;
+                    node.Attributes.Append(MODIFIEDLog);
+                }
+                else
+                {
+                    node.Attributes["MODIFIEDLog"].Value += ">"+node.Attributes["MODIFIED"].Value;
+                }
+
+                if (node.Attributes["TEXTLOG"] == null)
+                {
+                    XmlAttribute TEXTLOG = node.OwnerDocument.CreateAttribute("TEXTLOG");
+                    TEXTLOG.Value = node.Attributes["TEXT"].InnerText;
+                    node.Attributes.Append(TEXTLOG);
+                }
+                else
+                {
+                    node.Attributes["TEXTLOG"].Value += ">" + node.Attributes["TEXT"].InnerText;
+                }
+                node.Attributes["MODIFIED"].Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                node.Attributes["TEXT"].InnerText = TaskName;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         public void NewFiles(DirectoryInfo path)
         {
             string str1 = "node";
@@ -6805,6 +6839,10 @@ namespace DocearReminder
                 return false;
             }
         }
+        /// <summary>
+        /// 编辑节点名称
+        /// </summary>
+        /// <param name="taskName"></param>
         public void RenameNodeByID(string taskName)
         {
             try
@@ -6833,7 +6871,8 @@ namespace DocearReminder
                         catch (Exception ex)
                         {
                         }
-                        node.Attributes["TEXT"].InnerText = taskName;
+                        EditMODIFIEDAndTaskName(node,taskName);
+
                         x.Save(showMindmapName);
                         PlaySimpleSound("edittask");
 
@@ -12416,19 +12455,19 @@ namespace DocearReminder
             {
                 Application.Exit();
             }
-            else if (searchword.Text.StartsWith("paizhao"))//开始录音
+            else if (searchword.Text.StartsWith("paizhao"))//开始拍照
             {
                 CameraTimer_Tick(null, null);
                 searchword.Text = "";
             }
             else if (searchword.Text.StartsWith("luyinstart"))//开始录音
             {
-                checkBox1.Checked = true;
+                StartRecordCheckBox.Checked = true;
                 searchword.Text = "";
             }
             else if (searchword.Text.StartsWith("luyinend"))//结束录音
             {
-                checkBox1.Checked = false;
+                StartRecordCheckBox.Checked = false;
                 searchword.Text = "";
             }
             else if (searchword.Text.StartsWith("jietu"))//截图快速
@@ -16218,7 +16257,7 @@ namespace DocearReminder
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (StartRecordCheckBox.Checked)
             {
                 System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio");
                 record.StartRecord((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".wav").Replace(@"\\", @"\"));

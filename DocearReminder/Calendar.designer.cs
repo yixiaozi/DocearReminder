@@ -73,6 +73,9 @@ namespace DocearReminder
             this.Ka_c = new System.Windows.Forms.CheckBox();
             this.subClass = new System.Windows.Forms.CheckBox();
             this.view = new System.Windows.Forms.Button();
+            this.CaptureScreen = new System.Windows.Forms.CheckBox();
+            this.JieTucheckBox = new System.Windows.Forms.CheckBox();
+            this.CameracheckBox = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -523,12 +526,48 @@ namespace DocearReminder
             this.view.UseVisualStyleBackColor = true;
             this.view.Click += new System.EventHandler(this.view_Click);
             // 
+            // CaptureScreen
+            // 
+            this.CaptureScreen.AutoSize = true;
+            this.CaptureScreen.Location = new System.Drawing.Point(1498, 2);
+            this.CaptureScreen.Name = "CaptureScreen";
+            this.CaptureScreen.Size = new System.Drawing.Size(72, 16);
+            this.CaptureScreen.TabIndex = 44;
+            this.CaptureScreen.Text = "∆¡ƒªΩÿ∆¡";
+            this.CaptureScreen.UseVisualStyleBackColor = true;
+            this.CaptureScreen.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
+            // JieTucheckBox
+            // 
+            this.JieTucheckBox.AutoSize = true;
+            this.JieTucheckBox.Location = new System.Drawing.Point(1567, 2);
+            this.JieTucheckBox.Name = "JieTucheckBox";
+            this.JieTucheckBox.Size = new System.Drawing.Size(48, 16);
+            this.JieTucheckBox.TabIndex = 45;
+            this.JieTucheckBox.Text = "ΩÿÕº";
+            this.JieTucheckBox.UseVisualStyleBackColor = true;
+            this.JieTucheckBox.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
+            // CameracheckBox
+            // 
+            this.CameracheckBox.AutoSize = true;
+            this.CameracheckBox.Location = new System.Drawing.Point(1612, 1);
+            this.CameracheckBox.Name = "CameracheckBox";
+            this.CameracheckBox.Size = new System.Drawing.Size(60, 16);
+            this.CameracheckBox.TabIndex = 46;
+            this.CameracheckBox.Text = "…„œÒÕ∑";
+            this.CameracheckBox.UseVisualStyleBackColor = true;
+            this.CameracheckBox.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.CameracheckBox);
+            this.Controls.Add(this.JieTucheckBox);
+            this.Controls.Add(this.CaptureScreen);
             this.Controls.Add(this.view);
             this.Controls.Add(this.subClass);
             this.Controls.Add(this.Ka_c);
@@ -622,6 +661,9 @@ namespace DocearReminder
         private CheckBox subClass;
         private Button view;
         private ToolStripMenuItem Ω‚À¯ToolStripMenuItem;
+        private CheckBox CaptureScreen;
+        private CheckBox JieTucheckBox;
+        private CheckBox CameracheckBox;
     }
 }
 

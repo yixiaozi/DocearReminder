@@ -737,6 +737,11 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
+            if (CaptureScreen.Checked|| JieTucheckBox.Checked|| CameracheckBox.Checked)
+            {
+                ShowCaptureScreen();
+                return;
+            }
             m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
             IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => m.time>=dateTimePicker1.Value&& m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) && ((((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted)));
@@ -1001,6 +1006,96 @@ namespace DocearReminder
             }
             dayView1.Refresh();
         }
+
+        public void ShowCaptureScreen()
+        {
+            //string Year = dayView1.StartDate.Year.ToString();
+            //string YearTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
+            //string Month = dayView1.StartDate.Month.ToString();
+            //string MonthTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
+            m_Appointments = new List<Appointment>();//«Âø’
+            Appointment m_Appointment = new Appointment();
+            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg")).ToList())
+            {
+                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images")))
+                {
+                    //string minute = file.Name.Substring(8, 2);
+                    //if (!"00,15,30,45".Contains(minute))
+                    //{
+                    //    file.Delete();
+                    //}
+
+                    DateTime dt = ConverStringToDate(file.Name);
+                    if (dt == DateTime.Today && file.Name.Substring(6, 2) != "00")
+                    {
+                        continue;
+                    }
+                    if (file.FullName.Contains("images"))
+                    {
+                        dt = dt.AddHours(8);
+                    }
+                    if (dt > dayView1.StartDate && dt < dayView1.StartDate.AddDays(dayView1.DaysToShow))
+                    {
+                        m_Appointment = new Appointment
+                        {
+                            StartDate = dt
+                        };
+                        m_Appointment.taskTime = 15;
+                        m_Appointment.EndDate = dt.AddMinutes(15);
+                        m_Appointment.Title = dt.ToString("HH:mm");
+                        //m_Appointment.Comment = common;
+                        //m_Appointment.DetailComment = detailCommon;
+                        m_Appointment.value = file.FullName;
+                        m_Appointment.ID = file.FullName;
+                        if (file.FullName.Contains("CaptureScreen"))
+                        {
+                            m_Appointment.Color = System.Drawing.Color.White;
+                            m_Appointment.BorderColor = System.Drawing.Color.White;
+                        }else if (file.FullName.Contains("Camera"))
+                        {
+                            m_Appointment.Color = System.Drawing.Color.Yellow;
+                            m_Appointment.BorderColor = System.Drawing.Color.Yellow;
+                        }
+                        else if (file.FullName.Contains("images"))
+                        {
+                            m_Appointment.Color = System.Drawing.Color.Green;
+                            m_Appointment.BorderColor = System.Drawing.Color.Green;
+                        }
+                        m_Appointment.Type = "∆¡ƒªΩÿÕº";
+                        m_Appointment.Locked = true;
+                        //m_Appointment.Tag = item;
+                        m_Appointments.Add(m_Appointment);
+                    }
+                }
+            }
+            dayView1.Refresh();
+        }
+        public DateTime ConverStringToDate(string str)
+        {
+            try
+            {
+                string year = "20" + str.Substring(0, 2);
+                string month = str.Substring(2, 2);
+                string day = str.Substring(4, 2);
+                string hour = str.Substring(6, 2);
+                string minute = str.Substring(8, 2);
+                if (str.Contains("-"))
+                {
+                    year = str.Substring(0, 4);
+                    month = str.Substring(5, 2);
+                    day = str.Substring(8, 2);
+                    hour = str.Substring(11, 2);
+                    minute = str.Substring(14, 2);
+                }
+                return Convert.ToDateTime(year+"/"+month+"/"+day+" "+hour+":"+minute);
+                
+            }
+            catch (Exception)
+            {
+                return DateTime.Today;
+            }
+        }
+
         public void ShowEnd()
         {
             //m_Appointments = new List<Appointment>();
@@ -2649,6 +2744,11 @@ namespace DocearReminder
         private void Ω‚À¯ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dayView1.SelectedAppointment.Locked = false;
+        }
+
+        private void CaptureScreen_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
         }
     }
     internal class User32

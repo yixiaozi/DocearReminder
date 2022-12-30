@@ -153,7 +153,7 @@ namespace DocearReminder
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.StartRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -655,7 +655,7 @@ namespace DocearReminder
             // 
             this.c_Jinian.AutoSize = true;
             this.c_Jinian.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Jinian.Location = new System.Drawing.Point(1005, 35);
+            this.c_Jinian.Location = new System.Drawing.Point(985, 35);
             this.c_Jinian.Name = "c_Jinian";
             this.c_Jinian.Size = new System.Drawing.Size(13, 12);
             this.c_Jinian.TabIndex = 86;
@@ -1325,10 +1325,11 @@ namespace DocearReminder
             // 
             this.c_speechcontrol.AutoSize = true;
             this.c_speechcontrol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_speechcontrol.Location = new System.Drawing.Point(986, 35);
+            this.c_speechcontrol.Location = new System.Drawing.Point(1187, 91);
             this.c_speechcontrol.Name = "c_speechcontrol";
-            this.c_speechcontrol.Size = new System.Drawing.Size(13, 12);
+            this.c_speechcontrol.Size = new System.Drawing.Size(70, 16);
             this.c_speechcontrol.TabIndex = 125;
+            this.c_speechcontrol.Text = "语音控制";
             this.c_speechcontrol.UseVisualStyleBackColor = true;
             this.c_speechcontrol.CheckedChanged += new System.EventHandler(this.c_speechcontrol_CheckedChanged);
             // 
@@ -1336,7 +1337,7 @@ namespace DocearReminder
             // 
             this.c_endtime.AutoSize = true;
             this.c_endtime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_endtime.Location = new System.Drawing.Point(1027, 35);
+            this.c_endtime.Location = new System.Drawing.Point(1005, 35);
             this.c_endtime.Name = "c_endtime";
             this.c_endtime.Size = new System.Drawing.Size(13, 12);
             this.c_endtime.TabIndex = 126;
@@ -1543,17 +1544,18 @@ namespace DocearReminder
             this.mindmaplist.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
             this.mindmaplist.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
             // 
-            // checkBox1
+            // StartRecordCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.checkBox1.Location = new System.Drawing.Point(1027, 51);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(13, 12);
-            this.checkBox1.TabIndex = 129;
-            this.checkBox1.TabStop = false;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.StartRecordCheckBox.AutoSize = true;
+            this.StartRecordCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.StartRecordCheckBox.Location = new System.Drawing.Point(1263, 91);
+            this.StartRecordCheckBox.Name = "StartRecordCheckBox";
+            this.StartRecordCheckBox.Size = new System.Drawing.Size(46, 16);
+            this.StartRecordCheckBox.TabIndex = 129;
+            this.StartRecordCheckBox.TabStop = false;
+            this.StartRecordCheckBox.Text = "录音";
+            this.StartRecordCheckBox.UseVisualStyleBackColor = true;
+            this.StartRecordCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // videoSourcePlayer1
             // 
@@ -1574,7 +1576,7 @@ namespace DocearReminder
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.checkBox2.Location = new System.Drawing.Point(1045, 35);
+            this.checkBox2.Location = new System.Drawing.Point(1325, 70);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(13, 12);
             this.checkBox2.TabIndex = 131;
@@ -1618,7 +1620,7 @@ namespace DocearReminder
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.videoSourcePlayer1);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.StartRecordCheckBox);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
             this.Controls.Add(this.c_endtime);
@@ -1846,7 +1848,7 @@ namespace DocearReminder
         private MyRichTextBox hopeNote;
         private Timer keyJ;
         private ToolStripMenuItem 趋势ToolStripMenuItem;
-        private CheckBox checkBox1;
+        private CheckBox StartRecordCheckBox;
         private ToolStripMenuItem 目标ToolStripMenuItem;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private Timer CameraTimer;

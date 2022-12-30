@@ -76,6 +76,7 @@ namespace DocearReminder
             this.CaptureScreen = new System.Windows.Forms.CheckBox();
             this.JieTucheckBox = new System.Windows.Forms.CheckBox();
             this.CameracheckBox = new System.Windows.Forms.CheckBox();
+            this.ShowNodes = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -559,12 +560,24 @@ namespace DocearReminder
             this.CameracheckBox.UseVisualStyleBackColor = true;
             this.CameracheckBox.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
+            // ShowNodes
+            // 
+            this.ShowNodes.AutoSize = true;
+            this.ShowNodes.Location = new System.Drawing.Point(1668, 1);
+            this.ShowNodes.Name = "ShowNodes";
+            this.ShowNodes.Size = new System.Drawing.Size(48, 16);
+            this.ShowNodes.TabIndex = 47;
+            this.ShowNodes.Text = "½Úµã";
+            this.ShowNodes.UseVisualStyleBackColor = true;
+            this.ShowNodes.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.ShowNodes);
             this.Controls.Add(this.CameracheckBox);
             this.Controls.Add(this.JieTucheckBox);
             this.Controls.Add(this.CaptureScreen);
@@ -664,6 +677,7 @@ namespace DocearReminder
         private CheckBox CaptureScreen;
         private CheckBox JieTucheckBox;
         private CheckBox CameracheckBox;
+        private CheckBox ShowNodes;
     }
 }
 

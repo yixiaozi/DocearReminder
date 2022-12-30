@@ -737,6 +737,11 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
+            if (ShowNodes.Checked)
+            {
+                ShowAllNodes();
+                return;
+            }
             if (CaptureScreen.Checked|| JieTucheckBox.Checked|| CameracheckBox.Checked)
             {
                 ShowCaptureScreen();
@@ -1067,6 +1072,36 @@ namespace DocearReminder
                         m_Appointments.Add(m_Appointment);
                     }
                 }
+            }
+            dayView1.Refresh();
+        }
+        public void ShowAllNodes()
+        {
+            //string Year = dayView1.StartDate.Year.ToString();
+            //string YearTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
+            //string Month = dayView1.StartDate.Month.ToString();
+            //string MonthTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
+            m_Appointments = new List<Appointment>();//清空
+            Appointment m_Appointment = new Appointment();
+            foreach (node nodeitem in DocearReminderForm.nodes.Where(m => m.Time > dayView1.StartDate && m.Time > dayView1.StartDate && m.Time < dayView1.StartDate.AddDays(dayView1.DaysToShow)))
+            {
+                m_Appointment = new Appointment
+                {
+                    StartDate = nodeitem.Time
+                };
+                m_Appointment.taskTime = 15;
+                m_Appointment.EndDate = nodeitem.Time.AddMinutes(15);
+                m_Appointment.Title = nodeitem.Text;
+                m_Appointment.Comment = nodeitem.mindmapName;
+                m_Appointment.DetailComment = nodeitem.ParentNodePath;
+                m_Appointment.value = nodeitem.mindmapPath;
+                m_Appointment.ID = nodeitem.IDinXML;
+                m_Appointment.Color = System.Drawing.Color.White;
+                m_Appointment.BorderColor = System.Drawing.Color.White;
+                m_Appointment.Type = "导图节点";
+                m_Appointment.Locked = true;
+                m_Appointment.Tag = nodeitem;
+                m_Appointments.Add(m_Appointment);
             }
             dayView1.Refresh();
         }

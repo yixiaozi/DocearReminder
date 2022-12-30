@@ -2098,7 +2098,7 @@ namespace DocearReminder
                         Time = item.time,
                         Value = "TimeBlock", 
                         IsShow = true,
-                        remindertype = "",
+                        remindertype = item.DetailComment,
                         rhours = 0,
                         rdays = 0,
                         rMonth = 00,
@@ -4286,7 +4286,12 @@ namespace DocearReminder
         private void reminderlist_SelectedIndexChanged(object sender, EventArgs e)
         {
             isSettingSyncWeek = false;
+            //if (showTimeBlock.Checked)//没有什么用
+            //{
+            //    //showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
+            //}
             reminderlistSelectedItem = reminderList.SelectedItem;
+            reminderSelectIndex = reminderList.SelectedIndex;
             if (reminderlistSelectedItem != null)
             {
                 isInReminderList = true;
@@ -4298,6 +4303,7 @@ namespace DocearReminder
             if (reminderListBox.Focused)
             {
                 reminderlistSelectedItem = reminderListBox.SelectedItem;
+                reminderSelectIndex = reminderListBox.SelectedIndex;
                 reminderList.SelectedIndex = -1;
             }
             else
@@ -4363,6 +4369,10 @@ namespace DocearReminder
             if (reminderListBox.Focused)
             {
                 reminderSelectIndex = reminderListBox.SelectedIndex;
+            }
+            else
+            {
+                reminderList.SelectedIndex = reminderSelectIndex;
             }
             if (reminderlistSelectedItem == null)
             {
@@ -4494,6 +4504,8 @@ namespace DocearReminder
                     }
                 }
             }
+            reminderList.Refresh();
+            reminderList.SelectedIndex = reminderSelectIndex;
         }
         private void button_cycle_Click(object sender, EventArgs e)
         {
@@ -8535,7 +8547,7 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
-                        if (isRenameTimeBlock)
+                        if (isRenameTimeBlock&& showTimeBlock.Checked)
                         {
                             //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
                             reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
@@ -8543,6 +8555,14 @@ namespace DocearReminder
                             RRReminderlist();
                             reminderList.SelectedIndex=reminderSelectIndex;
                             isRenameTimeBlock = false;
+                            return;
+                        }
+                        if (showTimeBlock.Checked)
+                        {
+                            reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).DetailComment+=((((MyListBoxItemRemind)reminderlistSelectedItem).remindertype!=""? Environment.NewLine:"")+searchword.Text);
+                            searchword.Text = "";
+                            RRReminderlist();
+                            reminderList.SelectedIndex = reminderSelectIndex;
                             return;
                         }
                         if (searchword.Text.StartsWith("path:"))
@@ -12392,6 +12412,19 @@ namespace DocearReminder
         {
             try
             {
+                if (showTimeBlock.Checked)
+                {
+                    //((MyListBoxItemRemind)reminderlistSelectedItem).remindertype
+                    if (((MyListBoxItemRemind)reminderlistSelectedItem).remindertype!="")
+                    {
+                        richTextSubNode.Clear();
+                        richTextSubNode.AppendText(((MyListBoxItemRemind)reminderlistSelectedItem).remindertype);
+                    }
+                    else
+                    {
+                        richTextSubNode.Clear();
+                    }
+                }
                 if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused || reminderlistSelectedItem == null)
                 {
                     return;

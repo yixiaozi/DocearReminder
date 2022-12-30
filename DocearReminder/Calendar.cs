@@ -1036,14 +1036,21 @@ namespace DocearReminder
                     //}
 
                     DateTime dt = ConverStringToDate(file.Name);
-                    if (dt == DateTime.Today && file.Name.Substring(6, 2) != "00")
+                    if (!file.FullName.Contains("html"))
                     {
-                        continue;
+                        if (dt == DateTime.Today && file.Name.Substring(6, 2) != "00")
+                        {
+                            continue;
+                        }
                     }
-                    if (file.FullName.Contains("images"))
+                    else
                     {
-                        dt = dt.AddHours(8);
+                        dt = file.CreationTime;
                     }
+                    //if (file.FullName.Contains("images"))不清楚怎么回事，有的截图时间没有问题，有的不行
+                    //{
+                    //    dt = dt.AddHours(8);
+                    //}
                     if (dt > dayView1.StartDate && dt < dayView1.StartDate.AddDays(dayView1.DaysToShow))
                     {
                         m_Appointment = new Appointment
@@ -1070,6 +1077,14 @@ namespace DocearReminder
                         {
                             m_Appointment.Color = System.Drawing.Color.Green;
                             m_Appointment.BorderColor = System.Drawing.Color.Green;
+                        }
+                        else if (file.FullName.Contains("html"))
+                        {
+                            m_Appointment.Color = System.Drawing.Color.Azure;
+                            m_Appointment.BorderColor = System.Drawing.Color.Azure;
+                            m_Appointment.Title = file.Name;
+                            m_Appointment.taskTime = 60;
+                            m_Appointment.EndDate = dt.AddMinutes(60);
                         }
                         m_Appointment.Type = "屏幕截图";
                         m_Appointment.Locked = true;

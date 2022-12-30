@@ -1604,6 +1604,7 @@ namespace DocearReminder
             this.showTimeBlock.TabIndex = 133;
             this.showTimeBlock.Text = "时间块";
             this.showTimeBlock.UseVisualStyleBackColor = true;
+            this.showTimeBlock.CheckedChanged += new System.EventHandler(this.ShowTimeBlockChange);
             // 
             // DocearReminderForm
             // 

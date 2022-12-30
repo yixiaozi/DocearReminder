@@ -97,6 +97,7 @@ namespace DocearReminder
         string renameMindMapFileIDParent = "";
         string renameMindMapFileID = "";
         bool isRename = false;
+        bool isRenameTimeBlock = false;
         List<string> pathArr = new List<string>();
         public static List<string> ignoreSuggest = new List<string>();
         public static string command = "ga;gc;";
@@ -2088,14 +2089,14 @@ namespace DocearReminder
             if (showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>=DateTime.Today).OrderBy(m=>m.time))
+                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>=DateTime.Today&& m.time <= DateTime.Today.AddDays(1)&&m.mindmap == "TimeBlock").OrderBy(m=>m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
-                        Text = item.time.ToString("yyyy/MM/dd HH:mm") + item.tasktime+ "  " + item.name,
+                        Text = item.time.ToString("   HH:mm") + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(),4)+ "  " + item.name+ (item.comment!=""?"(":"") +item.comment+ (item.comment != "" ? ")" : ""),
                         Name = item.name,
                         Time = item.time,
-                        Value = "TimeBlock",
+                        Value = "TimeBlock", 
                         IsShow = true,
                         remindertype = "",
                         rhours = 0,
@@ -2103,12 +2104,14 @@ namespace DocearReminder
                         rMonth = 00,
                         rWeek = 0,
                         ryear = 0,
-                        rtaskTime = 0,
-                        IsDaka = "",
+                        rtaskTime = Convert.ToInt16(item.tasktime),
+                        IsDaka = item.comment,
                         IDinXML = item.ID,
-                        link = ""
+                        link = "",
+                        level=item.tasklevel
                     });
                 }
+                reminderList.Focus();
                 return;
             }
             #endregion
@@ -4540,20 +4543,25 @@ namespace DocearReminder
                 }
                 string result = "";
                 result = node.Attributes[name].Value;
-                for (int i = result.Length; i < resultLenght; i++)
-                {
-                    result = " " + result;
-                }
-                if (resultLenght != 0 && result.Trim() == "0")
-                {
-                    result = result.Replace("0", " ");
-                }
+                result = FormatTimeLenght(result, resultLenght);
                 return result;
             }
             catch (Exception)
             {
                 return resultdefault;
             }
+        }
+        public string FormatTimeLenght(string result,int resultLenght)
+        {
+            for (int i = result.Length; i < resultLenght; i++)
+            {
+                result = " " + result;
+            }
+            if (resultLenght != 0 && result.Trim() == "0")
+            {
+                result = result.Replace("0", " ");
+            }
+            return result;
         }
         public string lenghtString(string result, int resultLenght = 0)
         {
@@ -8527,6 +8535,16 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
+                        if (isRenameTimeBlock)
+                        {
+                            //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
+                            reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
+                            searchword.Text = "";
+                            RRReminderlist();
+                            reminderList.SelectedIndex=reminderSelectIndex;
+                            isRenameTimeBlock = false;
+                            return;
+                        }
                         if (searchword.Text.StartsWith("path:"))
                         {
                             try
@@ -9366,7 +9384,31 @@ namespace DocearReminder
                     }
                     else if (dateTimePicker.Focused || taskTime.Focused || tasklevel.Focused)
                     {
-                        EditTime_Clic(null, null);
+                        if (dateTimePicker.Focused&&showTimeBlock.Checked)
+                        {
+                            reminderSelectIndex = reminderList.SelectedIndex;
+                            reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).time = dateTimePicker.Value;
+                            RRReminderlist();
+                            reminderList.SelectedIndex = reminderSelectIndex;
+                        }
+                        else if (taskTime.Focused && showTimeBlock.Checked)
+                        {
+                            reminderSelectIndex = reminderList.SelectedIndex;
+                            reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
+                            RRReminderlist();
+                            reminderList.SelectedIndex = reminderSelectIndex;
+                        }
+                        else if (tasklevel.Focused && showTimeBlock.Checked)
+                        {
+                            reminderSelectIndex = reminderList.SelectedIndex;
+                            reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
+                            RRReminderlist();
+                            reminderList.SelectedIndex = reminderSelectIndex;
+                        }
+                        else
+                        {
+                            EditTime_Clic(null, null);
+                        }
                     }
                     else if (n_days.Focused)
                     {
@@ -9716,17 +9758,29 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            isRename = true;
-                            reminderSelectIndex = reminderList.SelectedIndex;
-                            searchword.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
-                            renameTaskName = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
-                            showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
-                            if (mindmapornode.Text.Contains(">"))
+                            if (showTimeBlock.Checked)
                             {
-                                renameMindMapFileIDParent = renameMindMapFileID;
+                                isRenameTimeBlock = true;
+                                reminderSelectIndex = reminderList.SelectedIndex;
+                                searchword.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).IsDaka;
+                                renameTaskName = ((MyListBoxItemRemind)reminderlistSelectedItem).IsDaka;
+                                showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
+                                searchword.Focus();
                             }
-                            renameMindMapFileID = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
-                            searchword.Focus();
+                            else
+                            {
+                                isRename = true;
+                                reminderSelectIndex = reminderList.SelectedIndex;
+                                searchword.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
+                                renameTaskName = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
+                                showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                                if (mindmapornode.Text.Contains(">"))
+                                {
+                                    renameMindMapFileIDParent = renameMindMapFileID;
+                                }
+                                renameMindMapFileID = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
+                                searchword.Focus();
+                            }
                         }
                         else
                         {
@@ -9789,18 +9843,46 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                if (tasklevel.Value < 100)
+                                if (showTimeBlock.Checked)
                                 {
-                                    tasklevel.Value += 1;
-                                    EditTime_Clic(null, null);
+                                    if (tasklevel.Value < 100)
+                                    {
+                                        tasklevel.Value += 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
+                                        RRReminderlist();
+                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                    }
+                                }
+                                else
+                                {
+                                    if (tasklevel.Value < 100)
+                                    {
+                                        tasklevel.Value += 1;
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
-                                if (taskTime.Value < 700)
+                                if (showTimeBlock.Checked)
                                 {
-                                    taskTime.Value += 10;
-                                    EditTime_Clic(null, null);
+                                    if (taskTime.Value <= 240)
+                                    {
+                                        taskTime.Value += 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
+                                        RRReminderlist();
+                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                    }
+                                }
+                                else
+                                {
+                                    if (taskTime.Value < 700)
+                                    {
+                                        taskTime.Value += 10;
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
@@ -9979,18 +10061,46 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                if (tasklevel.Value >= 0)
+                                if (showTimeBlock.Checked)
                                 {
-                                    tasklevel.Value -= 1;
-                                    EditTime_Clic(null, null);
+                                    if (tasklevel.Value >= -10)
+                                    {
+                                        tasklevel.Value -= 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
+                                        RRReminderlist();
+                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                    }
+                                }
+                                else
+                                {
+                                    if (tasklevel.Value >= -10)
+                                    {
+                                        tasklevel.Value -= 1;
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
-                                if (taskTime.Value >= 10)
+                                if (showTimeBlock.Checked)
                                 {
-                                    taskTime.Value -= 10;
-                                    EditTime_Clic(null, null);
+                                    if (taskTime.Value >= 1)
+                                    {
+                                        taskTime.Value -= 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
+                                        RRReminderlist();
+                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                    }
+                                }
+                                else
+                                {
+                                    if (taskTime.Value >= 10)
+                                    {
+                                        taskTime.Value -= 10;
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
@@ -10322,6 +10432,10 @@ namespace DocearReminder
                 case Keys.N:
                     if (keyNotWork(e))
                     {
+                        if (showTimeBlock.Checked)
+                        {
+                            return;
+                        }
                         PlaySimpleSound("treeview");
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -10837,7 +10951,12 @@ namespace DocearReminder
                 case Keys.Subtract:
                     break;
                 case Keys.T:
-                    if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
+                    if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                    {
+                        showTimeBlock.Checked = !showTimeBlock.Checked;
+                        reminderList.Refresh();
+                    }
+                    else  if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
                     {
                         if (dateTimePicker.Value < DateTime.Today)
                         {
@@ -10972,6 +11091,11 @@ namespace DocearReminder
                         mindmapornode.Text = "";
                         tasklevel.Value = 0;
                         taskTime.Value = 0;
+                        RRReminderlist();
+                    }
+                    else if (showTimeBlock.Checked)
+                    {
+                        showTimeBlock.Checked = false;
                         RRReminderlist();
                     }
                     else
@@ -12744,6 +12868,11 @@ namespace DocearReminder
                 {
                 }
                 return;
+            }
+            else if (searchword.Text.ToLower().StartsWith("showtimeblock"))
+            {
+                searchword.Text = "";
+                showTimeBlock.Checked = !showTimeBlock.Checked;
             }
             else if (searchword.Text.StartsWith("deltemp"))
             {
@@ -16704,6 +16833,11 @@ namespace DocearReminder
         private void quietmode_CheckedChanged(object sender, EventArgs e)
         {
             quietmodelbool = quietmode.Checked;
+        }
+
+        private void ShowTimeBlockChange(object sender, EventArgs e)
+        {
+            RRReminderlist();
         }
     }
 

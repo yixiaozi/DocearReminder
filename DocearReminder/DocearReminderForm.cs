@@ -12008,13 +12008,13 @@ namespace DocearReminder
         public void ShowMindmap(bool isShowSub = false)
         {
             lastEdit = DateTime.Now.AddYears(-10);
+            string taskid = "";//节点ID，选中
             lastnodeID = "";
             fathernode.Visible = false;
             if (searchword.Text.StartsWith("#") || (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null))
             {
                 return;
             }
-            string taskid = "";
             string id = "";
             string rootname = "Root";
             if (ReminderListFocused()||searchword.Focused)
@@ -12066,7 +12066,8 @@ namespace DocearReminder
                             AddNode(parentNode, tNode, true);
                             if (taskid!="")
                             {
-                                SelectTreeNode(nodetree.Nodes, taskid);
+                                //寻找此节点后面的最晚的任务
+                                SelectTreeNodeBehindNode(nodetree.Nodes, taskid);
                             }
                             else if(lastnodeID != "")
                             {
@@ -12082,7 +12083,8 @@ namespace DocearReminder
                 AddNode(x.DocumentElement, tNode, true);
                 if (taskid != "")
                 {
-                    SelectTreeNode(nodetree.Nodes, taskid);
+                    SelectTreeNodeBehindNode(nodetree.Nodes, taskid);
+                    //SelectTreeNode(nodetree.Nodes, taskid);
                 }
                 else if(lastnodeID != "")
                 {
@@ -12091,6 +12093,12 @@ namespace DocearReminder
             }
 
         }
+
+
+
+
+
+
         public DateTime lastEdit;
         public string lastnodeID;
         /// <summary>
@@ -12196,6 +12204,64 @@ namespace DocearReminder
                 {
                 }
                 SelectTreeNode(item.Nodes, taskid);
+            }
+        }
+        public void SelectTreeNodeBehindNode(TreeNodeCollection node, string taskid)
+        {
+            foreach (TreeNode item in node)
+            {
+                try
+                {
+                    if (item.Name == (taskid))
+                    {
+                        if (item.Nodes.Count==0)
+                        {
+                            nodetree.SelectedNode = item;
+                            nodetree.SelectedNode.Expand();//展开当前节点
+                            return;
+                        }
+                        else
+                        {
+                            lastEdit = DateTime.Today.AddYears(-10);
+                            lastnodeID = "";
+                            FindLastEditNode(item.Nodes);
+                            SelectTreeNode(item.Nodes, lastnodeID);//展开当前节点
+                        }
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                SelectTreeNodeBehindNode(item.Nodes, taskid);
+            }
+        }
+        public void FindLastEditNode(TreeNodeCollection node)
+        {
+            foreach (TreeNode item in node)
+            {
+                try
+                {
+                    //CREATED
+                    DateTime dt = DateTime.Now;
+                    string reminder = GetAttribute((XmlNode)item.Tag, "CREATED");
+                    if (reminder != "")
+                    {
+                        long unixTimeStamp = Convert.ToInt64(reminder);
+                        System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                        dt = startTime.AddMilliseconds(unixTimeStamp);
+                    }
+
+                    if (dt >= lastEdit)
+                    {
+                        lastEdit = dt;
+                        lastnodeID = GetAttribute((XmlNode)item.Tag, "ID");
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                FindLastEditNode(item.Nodes);
             }
         }
         public void ShowSubNode()

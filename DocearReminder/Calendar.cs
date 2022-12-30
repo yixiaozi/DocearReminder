@@ -737,12 +737,17 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
+            if (AllFile.Checked)
+            {
+                ShowAllFile();
+                return;
+            }
             if (ShowNodes.Checked)
             {
                 ShowAllNodes();
                 return;
             }
-            if (CaptureScreen.Checked|| JieTucheckBox.Checked|| CameracheckBox.Checked)
+            if (CaptureScreen.Checked|| JieTucheckBox.Checked|| CameracheckBox.Checked||HTML.Checked)
             {
                 ShowCaptureScreen();
                 return;
@@ -1020,9 +1025,9 @@ namespace DocearReminder
             //string MonthTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
             m_Appointments = new List<Appointment>();//清空
             Appointment m_Appointment = new Appointment();
-            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg")).ToList())
+            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg") || file.Name.ToLower().EndsWith(".html")).ToList())
             {
-                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images")))
+                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images"))|| (HTML.Checked && file.FullName.Contains("html")))
                 {
                     //string minute = file.Name.Substring(8, 2);
                     //if (!"00,15,30,45".Contains(minute))
@@ -2784,6 +2789,46 @@ namespace DocearReminder
         private void CaptureScreen_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
+        }
+
+        private void AllFile_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
+        }
+        public void ShowAllFile()
+        {
+            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
+            string NewFileExtension = ini.ReadString("path", "NewFileExtension", "");
+            m_Appointments = new List<Appointment>();//清空
+            Appointment m_Appointment = new Appointment();
+            foreach (FileInfo file in new DirectoryInfo(ini.ReadString("path", "rootpath", "")).GetFiles("*.*", SearchOption.AllDirectories).Where(file => NewFileExtension.Contains(file.Extension)).ToList())
+            {
+                if(!file.FullName.Contains(AppDomain.CurrentDomain.BaseDirectory)&& !file.FullName.Contains(".git") && !file.FullName.Contains("_data"))
+                {
+                    DateTime dt = file.CreationTime;
+                    if (dt > dayView1.StartDate && dt < dayView1.StartDate.AddDays(dayView1.DaysToShow))
+                    {
+                        m_Appointment = new Appointment
+                        {
+                            StartDate = dt
+                        };
+                        m_Appointment.taskTime = 23;
+                        m_Appointment.EndDate = dt.AddMinutes(23);
+                        m_Appointment.Title = file.Name;
+                        m_Appointment.Comment = file.FullName;
+                        m_Appointment.DetailComment = "";
+                        m_Appointment.value = file.FullName;
+                        m_Appointment.ID = file.FullName;
+                        m_Appointment.Color = System.Drawing.Color.Yellow;
+                        m_Appointment.BorderColor = System.Drawing.Color.Yellow;
+                        m_Appointment.Type = "新文件";
+                        m_Appointment.Locked = true;
+                        //m_Appointment.Tag = item;
+                        m_Appointments.Add(m_Appointment);
+                    }
+                }
+            }
+            dayView1.Refresh();
         }
     }
     internal class User32

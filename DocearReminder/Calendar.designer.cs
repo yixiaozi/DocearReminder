@@ -77,6 +77,8 @@ namespace DocearReminder
             this.JieTucheckBox = new System.Windows.Forms.CheckBox();
             this.CameracheckBox = new System.Windows.Forms.CheckBox();
             this.ShowNodes = new System.Windows.Forms.CheckBox();
+            this.AllFile = new System.Windows.Forms.CheckBox();
+            this.HTML = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -563,7 +565,7 @@ namespace DocearReminder
             // ShowNodes
             // 
             this.ShowNodes.AutoSize = true;
-            this.ShowNodes.Location = new System.Drawing.Point(1668, 1);
+            this.ShowNodes.Location = new System.Drawing.Point(1721, 1);
             this.ShowNodes.Name = "ShowNodes";
             this.ShowNodes.Size = new System.Drawing.Size(48, 16);
             this.ShowNodes.TabIndex = 47;
@@ -571,12 +573,36 @@ namespace DocearReminder
             this.ShowNodes.UseVisualStyleBackColor = true;
             this.ShowNodes.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
+            // AllFile
+            // 
+            this.AllFile.AutoSize = true;
+            this.AllFile.Location = new System.Drawing.Point(1775, 1);
+            this.AllFile.Name = "AllFile";
+            this.AllFile.Size = new System.Drawing.Size(72, 16);
+            this.AllFile.TabIndex = 48;
+            this.AllFile.Text = "所有文件";
+            this.AllFile.UseVisualStyleBackColor = true;
+            this.AllFile.CheckedChanged += new System.EventHandler(this.AllFile_CheckedChanged);
+            // 
+            // HTML
+            // 
+            this.HTML.AutoSize = true;
+            this.HTML.Location = new System.Drawing.Point(1667, 1);
+            this.HTML.Name = "HTML";
+            this.HTML.Size = new System.Drawing.Size(48, 16);
+            this.HTML.TabIndex = 49;
+            this.HTML.Text = "网页";
+            this.HTML.UseVisualStyleBackColor = true;
+            this.HTML.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.HTML);
+            this.Controls.Add(this.AllFile);
             this.Controls.Add(this.ShowNodes);
             this.Controls.Add(this.CameracheckBox);
             this.Controls.Add(this.JieTucheckBox);
@@ -678,6 +704,8 @@ namespace DocearReminder
         private CheckBox JieTucheckBox;
         private CheckBox CameracheckBox;
         private CheckBox ShowNodes;
+        private CheckBox AllFile;
+        private CheckBox HTML;
     }
 }
 

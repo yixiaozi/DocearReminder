@@ -737,7 +737,7 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
-            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked)
+            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked||ShowClipboard.Checked)
             {
                 m_Appointments = new List<Appointment>();
                 if (AllFile.Checked)
@@ -748,7 +748,7 @@ namespace DocearReminder
                 {
                     ShowAllNodes();
                 }
-                if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked)
+                if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked|| ShowClipboard.Checked)
                 {
                     ShowCaptureScreen();
                 }
@@ -1022,9 +1022,9 @@ namespace DocearReminder
             //string MonthTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
             //m_Appointments = new List<Appointment>();//清空
             Appointment m_Appointment = new Appointment();
-            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg") || file.Name.ToLower().EndsWith(".html")).ToList())
+            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg") || file.Name.ToLower().EndsWith(".html")|| file.Name.ToLower().EndsWith(".txt")).ToList())
             {
-                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images"))|| (HTML.Checked && file.FullName.Contains("html")))
+                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images"))|| (HTML.Checked && file.FullName.Contains("html"))||(ShowClipboard.Checked&&file.FullName.EndsWith(".txt")))
                 {
                     //string minute = file.Name.Substring(8, 2);
                     //if (!"00,15,30,45".Contains(minute))
@@ -1033,7 +1033,30 @@ namespace DocearReminder
                     //}
 
                     DateTime dt = ConverStringToDate(file.Name);
-                    if (!file.FullName.Contains("html"))
+
+                    if (file.FullName.EndsWith(".txt"))//剪切板文件
+                    {
+                        //.*\d.\\\d.\d*\.txt
+                        string patten = @".*\d.\\\d.\d*\.txt";
+                        Regex reg = new Regex(patten);
+                        if (!reg.IsMatch(file.FullName))//判断是不是剪切板文件
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                string[] split = file.FullName.Split('\\');
+                                dt = Convert.ToDateTime(split[split.Length-3]+"/"+ split[split.Length - 2]+ "/"+split[split.Length - 1].Split('.')[0]+" 1:1");
+                            }
+                            catch (Exception)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    else if (!file.FullName.Contains("html")) 
                     {
                         if (dt == DateTime.Today && file.Name.Substring(6, 2) != "00")
                         {
@@ -1050,48 +1073,137 @@ namespace DocearReminder
                     //}
                     if (dt > dayView1.StartDate && dt < dayView1.StartDate.AddDays(dayView1.DaysToShow))
                     {
-                        m_Appointment = new Appointment
+                        if (file.FullName.EndsWith(".txt"))//剪切板文件，要显示里面的内容，所以单独分支
                         {
-                            StartDate = dt
-                        };
-                        m_Appointment.taskTime = 15;
-                        m_Appointment.EndDate = dt.AddMinutes(15);
-                        m_Appointment.Title = dt.ToString("HH:mm");
-                        //m_Appointment.Comment = common;
-                        //m_Appointment.DetailComment = detailCommon;
-                        m_Appointment.value = file.FullName;
-                        m_Appointment.ID = file.FullName;
-                        if (file.FullName.Contains("CaptureScreen"))
-                        {
-                            m_Appointment.Color = System.Drawing.Color.White;
-                            m_Appointment.BorderColor = System.Drawing.Color.White;
-                        }else if (file.FullName.Contains("Camera"))
-                        {
-                            m_Appointment.Color = System.Drawing.Color.Yellow;
-                            m_Appointment.BorderColor = System.Drawing.Color.Yellow;
+                            ShowClipboardOfTxt(file.FullName);
                         }
-                        else if (file.FullName.Contains("images"))
+                        else
                         {
-                            m_Appointment.Color = System.Drawing.Color.Green;
-                            m_Appointment.BorderColor = System.Drawing.Color.Green;
+                            m_Appointment = new Appointment
+                            {
+                                StartDate = dt
+                            };
+                            m_Appointment.taskTime = 15;
+                            m_Appointment.EndDate = dt.AddMinutes(15);
+                            m_Appointment.Title = dt.ToString("HH:mm");
+                            //m_Appointment.Comment = common;
+                            //m_Appointment.DetailComment = detailCommon;
+                            m_Appointment.value = file.FullName;
+                            m_Appointment.ID = file.FullName;
+                            if (file.FullName.Contains("CaptureScreen"))
+                            {
+                                m_Appointment.Color = System.Drawing.Color.White;
+                                m_Appointment.BorderColor = System.Drawing.Color.White;
+                            }
+                            else if (file.FullName.Contains("Camera"))
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Yellow;
+                                m_Appointment.BorderColor = System.Drawing.Color.Yellow;
+                            }
+                            else if (file.FullName.Contains("images"))
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Green;
+                                m_Appointment.BorderColor = System.Drawing.Color.Green;
+                            }
+                            else if (file.FullName.Contains("html"))
+                            {
+                                m_Appointment.Color = System.Drawing.Color.BlueViolet;
+                                m_Appointment.BorderColor = System.Drawing.Color.BlueViolet;
+                                m_Appointment.Title = file.Name;
+                                m_Appointment.taskTime = 60;
+                                m_Appointment.EndDate = dt.AddMinutes(60);
+                            }
+                            m_Appointment.Type = "屏幕截图";
+                            m_Appointment.Locked = true;
+                            //m_Appointment.Tag = item;
+                            m_Appointments.Add(m_Appointment);
                         }
-                        else if (file.FullName.Contains("html"))
-                        {
-                            m_Appointment.Color = System.Drawing.Color.BlueViolet;
-                            m_Appointment.BorderColor = System.Drawing.Color.BlueViolet;
-                            m_Appointment.Title = file.Name;
-                            m_Appointment.taskTime = 60;
-                            m_Appointment.EndDate = dt.AddMinutes(60);
-                        }
-                        m_Appointment.Type = "屏幕截图";
-                        m_Appointment.Locked = true;
-                        //m_Appointment.Tag = item;
-                        m_Appointments.Add(m_Appointment);
                     }
                 }
             }
             dayView1.Refresh();
         }
+
+        private void ShowClipboardOfTxt(string fileName)
+        {
+            if (fileName.Contains("File") || fileName.Contains("key"))
+            {
+                return;
+            }
+            const Int32 BufferSize = 128;
+            using (var fileStream = File.OpenRead(fileName))
+            {
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                {
+                    String line;
+                    string time = "";//时间判断，如果和timenew不一致，说明是下一个记录
+                    string timenew = "";//新的时间，每次更新
+                    string Content = "";
+                    DateTime dt=DateTime.Now;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        if (line.Trim() == "")
+                        {
+                            continue;
+                        }
+                        try
+                        {
+                            if (line.StartsWith("20"))
+                            {
+                                timenew = line.Substring(0, 20);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+
+                        try
+                        {
+                            dt = Convert.ToDateTime(timenew.Trim());
+                            if (timenew!=time)
+                            {
+                                time = timenew;//更新time
+                                //使用Content添加一条，因为这是新的一条了，要把Content内容保存。
+                               ClipboardAddCalanderItem(Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content.Split(new string[] { Environment.NewLine },StringSplitOptions.None)[0], Content, dt, fileName);
+                                Content = line.Substring(20);
+                            }
+                            else//如果一样的话
+                            {
+                                Content += (Environment.NewLine+ line);
+                            }
+                            //result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
+                        }
+                        catch (Exception)//如果不是时间
+                        {
+                            Content += (Environment.NewLine + line);
+                        }
+                    }
+                    //添加最后一条
+                    ClipboardAddCalanderItem(Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content, dt, fileName);
+                }
+            }
+        }
+        public void ClipboardAddCalanderItem(string Title,string Common,String CommonDetail,DateTime dt,string fullname)
+        {
+            Appointment m_Appointment = new Appointment
+            {
+                StartDate = dt
+            };
+            m_Appointment.taskTime = 15;
+            m_Appointment.EndDate = dt.AddMinutes(15);
+            m_Appointment.Title = GetZhuangbiStr(Title);
+            m_Appointment.Comment = Common;
+            m_Appointment.DetailComment = CommonDetail;
+            m_Appointment.value = fullname;
+            m_Appointment.ID = "";
+            m_Appointment.Color = System.Drawing.Color.Orange;
+            m_Appointment.BorderColor = System.Drawing.Color.Orange;
+            m_Appointment.Type = "剪切板";
+            m_Appointment.Locked = true;
+            m_Appointment.Tag = null;
+            m_Appointments.Add(m_Appointment);
+        }
+
         public void ShowAllNodes()
         {
             //string Year = dayView1.StartDate.Year.ToString();
@@ -1113,8 +1225,8 @@ namespace DocearReminder
                 m_Appointment.DetailComment = nodeitem.ParentNodePath;
                 m_Appointment.value = nodeitem.mindmapPath;
                 m_Appointment.ID = nodeitem.IDinXML;
-                m_Appointment.Color = System.Drawing.Color.Blue;
-                m_Appointment.BorderColor = System.Drawing.Color.Blue;
+                m_Appointment.Color = System.Drawing.Color.CadetBlue;
+                m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
                 m_Appointment.Type = "导图节点";
                 m_Appointment.Locked = true;
                 m_Appointment.Tag = nodeitem;
@@ -1309,6 +1421,11 @@ namespace DocearReminder
         {
             try
             {
+                if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked || ShowClipboard.Checked)
+                {
+                    //当在查看文件时，不更新，因为需要计算量比较大（需要读取磁盘）
+                    return;
+                }
                 if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString()&& workfolder_combox.SelectedItem.ToString()!="All")
                 {
                     for (int i = 0; i < workfolder_combox.Items.Count; i++)
@@ -2803,10 +2920,6 @@ namespace DocearReminder
             RefreshCalender();
         }
 
-        private void AllFile_CheckedChanged(object sender, EventArgs e)
-        {
-            RefreshCalender();
-        }
         public void ShowAllFile()
         {
             IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");

@@ -79,6 +79,7 @@ namespace DocearReminder
             this.ShowNodes = new System.Windows.Forms.CheckBox();
             this.AllFile = new System.Windows.Forms.CheckBox();
             this.HTML = new System.Windows.Forms.CheckBox();
+            this.ShowClipboard = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -565,7 +566,7 @@ namespace DocearReminder
             // ShowNodes
             // 
             this.ShowNodes.AutoSize = true;
-            this.ShowNodes.Location = new System.Drawing.Point(1721, 1);
+            this.ShowNodes.Location = new System.Drawing.Point(1771, 1);
             this.ShowNodes.Name = "ShowNodes";
             this.ShowNodes.Size = new System.Drawing.Size(48, 16);
             this.ShowNodes.TabIndex = 47;
@@ -576,13 +577,13 @@ namespace DocearReminder
             // AllFile
             // 
             this.AllFile.AutoSize = true;
-            this.AllFile.Location = new System.Drawing.Point(1775, 1);
+            this.AllFile.Location = new System.Drawing.Point(1816, 1);
             this.AllFile.Name = "AllFile";
             this.AllFile.Size = new System.Drawing.Size(72, 16);
             this.AllFile.TabIndex = 48;
             this.AllFile.Text = "所有文件";
             this.AllFile.UseVisualStyleBackColor = true;
-            this.AllFile.CheckedChanged += new System.EventHandler(this.AllFile_CheckedChanged);
+            this.AllFile.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
             // HTML
             // 
@@ -595,12 +596,24 @@ namespace DocearReminder
             this.HTML.UseVisualStyleBackColor = true;
             this.HTML.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
+            // ShowClipboard
+            // 
+            this.ShowClipboard.AutoSize = true;
+            this.ShowClipboard.Location = new System.Drawing.Point(1711, 1);
+            this.ShowClipboard.Name = "ShowClipboard";
+            this.ShowClipboard.Size = new System.Drawing.Size(60, 16);
+            this.ShowClipboard.TabIndex = 50;
+            this.ShowClipboard.Text = "剪切板";
+            this.ShowClipboard.UseVisualStyleBackColor = true;
+            this.ShowClipboard.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.ShowClipboard);
             this.Controls.Add(this.HTML);
             this.Controls.Add(this.AllFile);
             this.Controls.Add(this.ShowNodes);
@@ -706,6 +719,7 @@ namespace DocearReminder
         private CheckBox ShowNodes;
         private CheckBox AllFile;
         private CheckBox HTML;
+        private CheckBox ShowClipboard;
     }
 }
 

@@ -80,6 +80,7 @@ namespace DocearReminder
             this.AllFile = new System.Windows.Forms.CheckBox();
             this.HTML = new System.Windows.Forms.CheckBox();
             this.ShowClipboard = new System.Windows.Forms.CheckBox();
+            this.ActionLog = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -339,7 +340,7 @@ namespace DocearReminder
             this.c_timeBlock.AutoSize = true;
             this.c_timeBlock.Checked = true;
             this.c_timeBlock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_timeBlock.Location = new System.Drawing.Point(889, 3);
+            this.c_timeBlock.Location = new System.Drawing.Point(886, 3);
             this.c_timeBlock.Name = "c_timeBlock";
             this.c_timeBlock.Size = new System.Drawing.Size(60, 16);
             this.c_timeBlock.TabIndex = 32;
@@ -362,7 +363,7 @@ namespace DocearReminder
             this.c_fanqie.AutoSize = true;
             this.c_fanqie.Checked = true;
             this.c_fanqie.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.c_fanqie.Location = new System.Drawing.Point(947, 3);
+            this.c_fanqie.Location = new System.Drawing.Point(942, 3);
             this.c_fanqie.Name = "c_fanqie";
             this.c_fanqie.Size = new System.Drawing.Size(48, 16);
             this.c_fanqie.TabIndex = 34;
@@ -378,7 +379,7 @@ namespace DocearReminder
             // c_done
             // 
             this.c_done.AutoSize = true;
-            this.c_done.Location = new System.Drawing.Point(1199, 3);
+            this.c_done.Location = new System.Drawing.Point(1173, 3);
             this.c_done.Name = "c_done";
             this.c_done.Size = new System.Drawing.Size(60, 16);
             this.c_done.TabIndex = 1;
@@ -389,7 +390,7 @@ namespace DocearReminder
             // c_progress
             // 
             this.c_progress.AutoSize = true;
-            this.c_progress.Location = new System.Drawing.Point(992, 3);
+            this.c_progress.Location = new System.Drawing.Point(985, 3);
             this.c_progress.Name = "c_progress";
             this.c_progress.Size = new System.Drawing.Size(48, 16);
             this.c_progress.TabIndex = 1;
@@ -400,7 +401,7 @@ namespace DocearReminder
             // c_mistake
             // 
             this.c_mistake.AutoSize = true;
-            this.c_mistake.Location = new System.Drawing.Point(1043, 3);
+            this.c_mistake.Location = new System.Drawing.Point(1027, 3);
             this.c_mistake.Name = "c_mistake";
             this.c_mistake.Size = new System.Drawing.Size(48, 16);
             this.c_mistake.TabIndex = 1;
@@ -425,7 +426,7 @@ namespace DocearReminder
             this.isview_c.AutoSize = true;
             this.isview_c.Checked = true;
             this.isview_c.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isview_c.Location = new System.Drawing.Point(1264, 3);
+            this.isview_c.Location = new System.Drawing.Point(1230, 3);
             this.isview_c.Name = "isview_c";
             this.isview_c.Size = new System.Drawing.Size(60, 16);
             this.isview_c.TabIndex = 36;
@@ -436,7 +437,7 @@ namespace DocearReminder
             // c_Money
             // 
             this.c_Money.AutoSize = true;
-            this.c_Money.Location = new System.Drawing.Point(1089, 3);
+            this.c_Money.Location = new System.Drawing.Point(1070, 3);
             this.c_Money.Name = "c_Money";
             this.c_Money.Size = new System.Drawing.Size(48, 16);
             this.c_Money.TabIndex = 1;
@@ -479,7 +480,7 @@ namespace DocearReminder
             // checkBox_jinian
             // 
             this.checkBox_jinian.AutoSize = true;
-            this.checkBox_jinian.Location = new System.Drawing.Point(1326, 3);
+            this.checkBox_jinian.Location = new System.Drawing.Point(1285, 3);
             this.checkBox_jinian.Name = "checkBox_jinian";
             this.checkBox_jinian.Size = new System.Drawing.Size(60, 16);
             this.checkBox_jinian.TabIndex = 39;
@@ -490,7 +491,7 @@ namespace DocearReminder
             // checkBox_enddate
             // 
             this.checkBox_enddate.AutoSize = true;
-            this.checkBox_enddate.Location = new System.Drawing.Point(1391, 3);
+            this.checkBox_enddate.Location = new System.Drawing.Point(1339, 3);
             this.checkBox_enddate.Name = "checkBox_enddate";
             this.checkBox_enddate.Size = new System.Drawing.Size(60, 16);
             this.checkBox_enddate.TabIndex = 40;
@@ -501,7 +502,7 @@ namespace DocearReminder
             // Ka_c
             // 
             this.Ka_c.AutoSize = true;
-            this.Ka_c.Location = new System.Drawing.Point(1137, 3);
+            this.Ka_c.Location = new System.Drawing.Point(1113, 3);
             this.Ka_c.Name = "Ka_c";
             this.Ka_c.Size = new System.Drawing.Size(60, 16);
             this.Ka_c.TabIndex = 41;
@@ -512,7 +513,7 @@ namespace DocearReminder
             // subClass
             // 
             this.subClass.AutoSize = true;
-            this.subClass.Location = new System.Drawing.Point(1454, 3);
+            this.subClass.Location = new System.Drawing.Point(1395, 3);
             this.subClass.Name = "subClass";
             this.subClass.Size = new System.Drawing.Size(48, 16);
             this.subClass.TabIndex = 42;
@@ -533,7 +534,7 @@ namespace DocearReminder
             // CaptureScreen
             // 
             this.CaptureScreen.AutoSize = true;
-            this.CaptureScreen.Location = new System.Drawing.Point(1498, 2);
+            this.CaptureScreen.Location = new System.Drawing.Point(1440, 3);
             this.CaptureScreen.Name = "CaptureScreen";
             this.CaptureScreen.Size = new System.Drawing.Size(72, 16);
             this.CaptureScreen.TabIndex = 44;
@@ -544,7 +545,7 @@ namespace DocearReminder
             // JieTucheckBox
             // 
             this.JieTucheckBox.AutoSize = true;
-            this.JieTucheckBox.Location = new System.Drawing.Point(1567, 2);
+            this.JieTucheckBox.Location = new System.Drawing.Point(1511, 3);
             this.JieTucheckBox.Name = "JieTucheckBox";
             this.JieTucheckBox.Size = new System.Drawing.Size(48, 16);
             this.JieTucheckBox.TabIndex = 45;
@@ -555,7 +556,7 @@ namespace DocearReminder
             // CameracheckBox
             // 
             this.CameracheckBox.AutoSize = true;
-            this.CameracheckBox.Location = new System.Drawing.Point(1612, 1);
+            this.CameracheckBox.Location = new System.Drawing.Point(1558, 3);
             this.CameracheckBox.Name = "CameracheckBox";
             this.CameracheckBox.Size = new System.Drawing.Size(60, 16);
             this.CameracheckBox.TabIndex = 46;
@@ -566,7 +567,7 @@ namespace DocearReminder
             // ShowNodes
             // 
             this.ShowNodes.AutoSize = true;
-            this.ShowNodes.Location = new System.Drawing.Point(1771, 1);
+            this.ShowNodes.Location = new System.Drawing.Point(1780, 3);
             this.ShowNodes.Name = "ShowNodes";
             this.ShowNodes.Size = new System.Drawing.Size(48, 16);
             this.ShowNodes.TabIndex = 47;
@@ -577,7 +578,7 @@ namespace DocearReminder
             // AllFile
             // 
             this.AllFile.AutoSize = true;
-            this.AllFile.Location = new System.Drawing.Point(1816, 1);
+            this.AllFile.Location = new System.Drawing.Point(1824, 3);
             this.AllFile.Name = "AllFile";
             this.AllFile.Size = new System.Drawing.Size(72, 16);
             this.AllFile.TabIndex = 48;
@@ -588,7 +589,7 @@ namespace DocearReminder
             // HTML
             // 
             this.HTML.AutoSize = true;
-            this.HTML.Location = new System.Drawing.Point(1667, 1);
+            this.HTML.Location = new System.Drawing.Point(1612, 3);
             this.HTML.Name = "HTML";
             this.HTML.Size = new System.Drawing.Size(48, 16);
             this.HTML.TabIndex = 49;
@@ -599,7 +600,7 @@ namespace DocearReminder
             // ShowClipboard
             // 
             this.ShowClipboard.AutoSize = true;
-            this.ShowClipboard.Location = new System.Drawing.Point(1711, 1);
+            this.ShowClipboard.Location = new System.Drawing.Point(1655, 3);
             this.ShowClipboard.Name = "ShowClipboard";
             this.ShowClipboard.Size = new System.Drawing.Size(60, 16);
             this.ShowClipboard.TabIndex = 50;
@@ -607,12 +608,24 @@ namespace DocearReminder
             this.ShowClipboard.UseVisualStyleBackColor = true;
             this.ShowClipboard.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
+            // ActionLog
+            // 
+            this.ActionLog.AutoSize = true;
+            this.ActionLog.Location = new System.Drawing.Point(1708, 3);
+            this.ActionLog.Name = "ActionLog";
+            this.ActionLog.Size = new System.Drawing.Size(72, 16);
+            this.ActionLog.TabIndex = 51;
+            this.ActionLog.Text = "²Ù×÷¼ÇÂ¼";
+            this.ActionLog.UseVisualStyleBackColor = true;
+            this.ActionLog.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.ActionLog);
             this.Controls.Add(this.ShowClipboard);
             this.Controls.Add(this.HTML);
             this.Controls.Add(this.AllFile);
@@ -720,6 +733,7 @@ namespace DocearReminder
         private CheckBox AllFile;
         private CheckBox HTML;
         private CheckBox ShowClipboard;
+        private CheckBox ActionLog;
     }
 }
 

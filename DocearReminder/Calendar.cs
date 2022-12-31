@@ -22,6 +22,7 @@ using yixiaozi.WinForm.Common;
 using yixiaozi.Windows;
 using yixiaozi.Security;
 using NAudio.Wave;
+using System.Security.Cryptography;
 
 namespace DocearReminder
 {
@@ -737,7 +738,7 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
-            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked||ShowClipboard.Checked)
+            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked||ShowClipboard.Checked||ActionLog.Checked)
             {
                 m_Appointments = new List<Appointment>();
                 if (AllFile.Checked)
@@ -747,6 +748,10 @@ namespace DocearReminder
                 if (ShowNodes.Checked)
                 {
                     ShowAllNodes();
+                }
+                if (ActionLog.Checked)
+                {
+                    ShowActionLog();
                 }
                 if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked|| ShowClipboard.Checked)
                 {
@@ -1014,6 +1019,104 @@ namespace DocearReminder
             dayView1.Refresh();
         }
 
+        private void ShowActionLog()
+        {
+            GetLog();
+        }
+
+        public void GetLog()
+        {
+            string fileName = System.AppDomain.CurrentDomain.BaseDirectory + "log.txt";
+            GetFileLog(fileName);
+            try
+            {
+                foreach (string item in System.IO.Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory + @"\log"))
+                {
+                    if (item.EndsWith("txt"))
+                    {
+                        GetFileLog(item);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public void GetFileLog(string fileName)
+        {
+            const Int32 BufferSize = 128;
+            using (var fileStream = File.OpenRead(fileName))
+            {
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                {
+                    String line;
+                    DateTime dt = DateTime.Now.AddYears(-5);
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        if (line.Length > 10 && !line.Contains("程序开启"))
+                        {
+                            if (line.StartsWith("***"))
+                            {
+                                line = DecryptStringlog(line);
+                            }
+                            if (line.Length > 21)
+                            {
+                                string timeString = line.Substring(0, 21);
+                                try
+                                {
+                                    dt = Convert.ToDateTime(timeString.Trim());
+                                }
+                                catch (Exception)
+                                {
+                                }
+                                ActionLogAddCalanderItem(line,"", line, dt,fileName);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        #region 数据加密解密
+
+        private const string initVector = "yixiaoziyixiaozi";
+        private const int keysize = 256;
+        static string logpass = "niqishihenhao";
+        public static string DecryptStringlog(string cipherText)
+        {
+            try
+            {
+                if (logpass == "")
+                {
+                    return "";
+                }
+                cipherText = cipherText.Substring(3, cipherText.Length - 6);
+                byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
+                byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
+                PasswordDeriveBytes password = new PasswordDeriveBytes(logpass, null);
+                byte[] keyBytes = password.GetBytes(keysize / 8);
+                RijndaelManaged symmetricKey = new RijndaelManaged
+                {
+                    Mode = CipherMode.CBC
+                };
+                ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+                MemoryStream memoryStream = new MemoryStream(cipherTextBytes);
+                CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+                byte[] plainTextBytes = new byte[cipherTextBytes.Length];
+                int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                memoryStream.Close();
+                cryptoStream.Close();
+                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+        #endregion
+
         public void ShowCaptureScreen()
         {
             //string Year = dayView1.StartDate.Year.ToString();
@@ -1203,6 +1306,26 @@ namespace DocearReminder
             m_Appointment.Tag = null;
             m_Appointments.Add(m_Appointment);
         }
+        public void ActionLogAddCalanderItem(string Title, string Common, String CommonDetail, DateTime dt, string fullname)
+        {
+            Appointment m_Appointment = new Appointment
+            {
+                StartDate = dt
+            };
+            m_Appointment.taskTime = 15;
+            m_Appointment.EndDate = dt.AddMinutes(15);
+            m_Appointment.Title = GetZhuangbiStr(Title);
+            m_Appointment.Comment = Common;
+            m_Appointment.DetailComment = CommonDetail;
+            m_Appointment.value = fullname;
+            m_Appointment.ID = "";
+            m_Appointment.Color = System.Drawing.Color.Orange;
+            m_Appointment.BorderColor = System.Drawing.Color.Orange;
+            m_Appointment.Type = "操作日志";
+            m_Appointment.Locked = true;
+            m_Appointment.Tag = null;
+            m_Appointments.Add(m_Appointment);
+        }
 
         public void ShowAllNodes()
         {
@@ -1225,8 +1348,8 @@ namespace DocearReminder
                 m_Appointment.DetailComment = nodeitem.ParentNodePath;
                 m_Appointment.value = nodeitem.mindmapPath;
                 m_Appointment.ID = nodeitem.IDinXML;
-                m_Appointment.Color = System.Drawing.Color.CadetBlue;
-                m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
+                m_Appointment.Color = System.Drawing.Color.White;
+                m_Appointment.BorderColor = System.Drawing.Color.White;
                 m_Appointment.Type = "导图节点";
                 m_Appointment.Locked = true;
                 m_Appointment.Tag = nodeitem;

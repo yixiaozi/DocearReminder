@@ -9009,7 +9009,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚"))
+                        else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚") || searchword.Text.Contains("刚刚@"))
                         {
                             string task = searchword.Text.Replace("刚刚","").Split('@')[0];
                             string taskDetail = "";
@@ -13412,7 +13412,7 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")) && searchword.Text.Contains("@"))//选择时间块
+            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")) && searchword.Text.Contains("@"))//选择时间块
             {
                 string taskname = "";
                 string type = "";
@@ -13421,10 +13421,10 @@ namespace DocearReminder
                     type = "T";
                     taskname =searchword.Text.Split('@')[0].Substring(1);
                 }
-                if (searchword.Text.ToLower().StartsWith("刚刚"))
+                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@"))
                 {
                     type = "刚刚";
-                    taskname= searchword.Text.Split('@')[0].Substring(2);
+                    taskname = searchword.Text.Split('@')[0].Replace("刚刚","").Replace("刚刚", "");
                 }
                 if (searchword.SelectionStart < searchword.Text.Length)
                 {

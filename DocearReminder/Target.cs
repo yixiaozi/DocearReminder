@@ -412,6 +412,7 @@ namespace DocearReminder
             startDt.Value = Convert.ToDateTime(item.Value.Split('|')[4]);
             endDT.Value = Convert.ToDateTime(item.Value.Split('|')[5]);
             target= item.Value.Split('|')[6];
+            LoadChart();
         }
     }
 }

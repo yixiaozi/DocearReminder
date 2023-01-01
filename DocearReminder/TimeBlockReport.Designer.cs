@@ -93,7 +93,7 @@ namespace DocearReminder
             // 
             // textBox_searchwork
             // 
-            this.textBox_searchwork.Location = new System.Drawing.Point(693, 16);
+            this.textBox_searchwork.Location = new System.Drawing.Point(699, 16);
             this.textBox_searchwork.Name = "textBox_searchwork";
             this.textBox_searchwork.Size = new System.Drawing.Size(78, 21);
             this.textBox_searchwork.TabIndex = 6;
@@ -123,7 +123,7 @@ namespace DocearReminder
             "浪费",
             "未分类",
             "音乐"});
-            this.comboBox1.Location = new System.Drawing.Point(585, 17);
+            this.comboBox1.Location = new System.Drawing.Point(587, 17);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(104, 20);
             this.comboBox1.TabIndex = 7;

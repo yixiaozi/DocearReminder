@@ -146,19 +146,20 @@ namespace DocearReminder
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
-            this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
-            this.noterichTextBox = new yixiaozi.WinForm.Control.MyRichTextBox();
-            this.richTextSubNode = new yixiaozi.WinForm.Control.MyRichTextBox();
-            this.tagCloudControl = new yixiaozi.WinForm.Control.TagCloud.TagCloudControl();
-            this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
-            this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
-            this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.StartRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.quietmode = new System.Windows.Forms.CheckBox();
             this.showTimeBlock = new System.Windows.Forms.CheckBox();
+            this.noterichTextBox = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.richTextSubNode = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.tagCloudControl = new yixiaozi.WinForm.Control.TagCloud.TagCloudControl();
+            this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
+            this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
+            this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
+            this.TimeBlockDate = new System.Windows.Forms.DateTimePicker();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1411,139 +1412,6 @@ namespace DocearReminder
             this.keyJ.Interval = 3000;
             this.keyJ.Tick += new System.EventHandler(this.keyJ_Tick);
             // 
-            // hopeNote
-            // 
-            this.hopeNote.BackColor = System.Drawing.Color.White;
-            this.hopeNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.hopeNote.ForeColor = System.Drawing.Color.Gray;
-            this.hopeNote.Location = new System.Drawing.Point(872, 291);
-            this.hopeNote.MaximumSize = new System.Drawing.Size(285, 250);
-            this.hopeNote.Name = "hopeNote";
-            this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.hopeNote.Size = new System.Drawing.Size(285, 103);
-            this.hopeNote.TabIndex = 128;
-            this.hopeNote.Text = "";
-            this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
-            this.hopeNote.TextChanged += new System.EventHandler(this.hopeNote_TextChanged);
-            // 
-            // noterichTextBox
-            // 
-            this.noterichTextBox.BackColor = System.Drawing.Color.White;
-            this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.noterichTextBox.Location = new System.Drawing.Point(872, 505);
-            this.noterichTextBox.Name = "noterichTextBox";
-            this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.noterichTextBox.Size = new System.Drawing.Size(285, 322);
-            this.noterichTextBox.TabIndex = 119;
-            this.noterichTextBox.Text = "";
-            this.noterichTextBox.TextChanged += new System.EventHandler(this.noterichTextBox_TextChanged);
-            this.noterichTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.noterichTextBox_KeyUp);
-            // 
-            // richTextSubNode
-            // 
-            this.richTextSubNode.BackColor = System.Drawing.Color.White;
-            this.richTextSubNode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextSubNode.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.richTextSubNode.ForeColor = System.Drawing.Color.Gray;
-            this.richTextSubNode.Location = new System.Drawing.Point(872, 69);
-            this.richTextSubNode.MaximumSize = new System.Drawing.Size(285, 250);
-            this.richTextSubNode.Name = "richTextSubNode";
-            this.richTextSubNode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextSubNode.Size = new System.Drawing.Size(285, 90);
-            this.richTextSubNode.TabIndex = 99;
-            this.richTextSubNode.Text = "";
-            this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
-            this.richTextSubNode.TextChanged += new System.EventHandler(this.RichTextSubNode_TextChanged);
-            this.richTextSubNode.Enter += new System.EventHandler(this.RichSubTest_Enter);
-            this.richTextSubNode.Leave += new System.EventHandler(this.RichSubTest_Leave);
-            this.richTextSubNode.MouseLeave += new System.EventHandler(this.RichSubTest_MouseLeave);
-            this.richTextSubNode.MouseHover += new System.EventHandler(this.RichSubTest_MouseHover);
-            // 
-            // tagCloudControl
-            // 
-            this.tagCloudControl.AllowDrop = true;
-            this.tagCloudControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagCloudControl.ControlBackColor = System.Drawing.Color.White;
-            this.tagCloudControl.ControlHeight = 183;
-            this.tagCloudControl.ControlTextFrame = false;
-            this.tagCloudControl.ControlTextUnderline = false;
-            this.tagCloudControl.ControlWidth = 298;
-            this.tagCloudControl.Location = new System.Drawing.Point(872, 400);
-            this.tagCloudControl.Name = "tagCloudControl";
-            this.tagCloudControl.Size = new System.Drawing.Size(285, 68);
-            this.tagCloudControl.TabIndex = 118;
-            this.tagCloudControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlAdded);
-            this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.TagCloudControl_ControlRemoved);
-            // 
-            // reminderListBox
-            // 
-            this.reminderListBox.BackColor = System.Drawing.Color.White;
-            this.reminderListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.reminderListBox.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.reminderListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.reminderListBox.FormattingEnabled = true;
-            this.reminderListBox.ItemHeight = 14;
-            this.reminderListBox.Location = new System.Drawing.Point(260, 171);
-            this.reminderListBox.Name = "reminderListBox";
-            this.reminderListBox.Size = new System.Drawing.Size(600, 158);
-            this.reminderListBox.TabIndex = 117;
-            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ReminderlistBox_DrawItem);
-            this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
-            this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
-            this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
-            this.reminderListBox.Enter += new System.EventHandler(this.reminderListBox_Enter);
-            this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
-            // 
-            // reminderList
-            // 
-            this.reminderList.AllowDrop = true;
-            this.reminderList.BackColor = System.Drawing.Color.White;
-            this.reminderList.CausesValidation = false;
-            this.reminderList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.reminderList.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.reminderList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.reminderList.FormattingEnabled = true;
-            this.reminderList.HorizontalScrollbar = true;
-            this.reminderList.ItemHeight = 14;
-            this.reminderList.Location = new System.Drawing.Point(260, 342);
-            this.reminderList.Name = "reminderList";
-            this.reminderList.Size = new System.Drawing.Size(600, 130);
-            this.reminderList.Sorted = true;
-            this.reminderList.TabIndex = 3;
-            this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
-            this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
-            this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
-            this.reminderList.DragDrop += new System.Windows.Forms.DragEventHandler(this.reminderList_DragDrop);
-            this.reminderList.DragEnter += new System.Windows.Forms.DragEventHandler(this.reminderList_DragEnter);
-            this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
-            this.reminderList.Enter += new System.EventHandler(this.reminderList_Enter);
-            this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
-            this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
-            // 
-            // mindmaplist
-            // 
-            this.mindmaplist.BackColor = System.Drawing.Color.White;
-            this.mindmaplist.CausesValidation = false;
-            this.mindmaplist.DrawFocusedIndicator = false;
-            this.mindmaplist.Font = new System.Drawing.Font("宋体", 9.5F);
-            this.mindmaplist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.mindmaplist.FormattingEnabled = true;
-            this.mindmaplist.Location = new System.Drawing.Point(10, 51);
-            this.mindmaplist.Margin = new System.Windows.Forms.Padding(0);
-            this.mindmaplist.Name = "mindmaplist";
-            this.mindmaplist.Size = new System.Drawing.Size(233, 424);
-            this.mindmaplist.Sorted = true;
-            this.mindmaplist.TabIndex = 1;
-            this.mindmaplist.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.mindmaplist_ItemCheck);
-            this.mindmaplist.SelectedIndexChanged += new System.EventHandler(this.mindmaplist_SelectedIndexChanged);
-            this.mindmaplist.DoubleClick += new System.EventHandler(this.mindmaplist_DoubleClick);
-            this.mindmaplist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mindmaplist_MouseDown);
-            this.mindmaplist.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
-            this.mindmaplist.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
-            // 
             // StartRecordCheckBox
             // 
             this.StartRecordCheckBox.AutoSize = true;
@@ -1598,13 +1466,154 @@ namespace DocearReminder
             // showTimeBlock
             // 
             this.showTimeBlock.AutoSize = true;
-            this.showTimeBlock.Location = new System.Drawing.Point(1263, 69);
+            this.showTimeBlock.Location = new System.Drawing.Point(1356, 114);
             this.showTimeBlock.Name = "showTimeBlock";
             this.showTimeBlock.Size = new System.Drawing.Size(60, 16);
             this.showTimeBlock.TabIndex = 133;
             this.showTimeBlock.Text = "时间块";
             this.showTimeBlock.UseVisualStyleBackColor = true;
             this.showTimeBlock.CheckedChanged += new System.EventHandler(this.ShowTimeBlockChange);
+            // 
+            // noterichTextBox
+            // 
+            this.noterichTextBox.BackColor = System.Drawing.Color.White;
+            this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
+            this.noterichTextBox.Location = new System.Drawing.Point(872, 505);
+            this.noterichTextBox.Name = "noterichTextBox";
+            this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.noterichTextBox.Size = new System.Drawing.Size(285, 322);
+            this.noterichTextBox.TabIndex = 119;
+            this.noterichTextBox.Text = "";
+            this.noterichTextBox.TextChanged += new System.EventHandler(this.noterichTextBox_TextChanged);
+            this.noterichTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.noterichTextBox_KeyUp);
+            // 
+            // hopeNote
+            // 
+            this.hopeNote.BackColor = System.Drawing.Color.White;
+            this.hopeNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.hopeNote.ForeColor = System.Drawing.Color.Gray;
+            this.hopeNote.Location = new System.Drawing.Point(872, 291);
+            this.hopeNote.MaximumSize = new System.Drawing.Size(285, 250);
+            this.hopeNote.Name = "hopeNote";
+            this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.hopeNote.Size = new System.Drawing.Size(285, 103);
+            this.hopeNote.TabIndex = 128;
+            this.hopeNote.Text = "";
+            this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
+            this.hopeNote.TextChanged += new System.EventHandler(this.hopeNote_TextChanged);
+            // 
+            // richTextSubNode
+            // 
+            this.richTextSubNode.BackColor = System.Drawing.Color.White;
+            this.richTextSubNode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextSubNode.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.richTextSubNode.ForeColor = System.Drawing.Color.Gray;
+            this.richTextSubNode.Location = new System.Drawing.Point(872, 69);
+            this.richTextSubNode.MaximumSize = new System.Drawing.Size(285, 250);
+            this.richTextSubNode.Name = "richTextSubNode";
+            this.richTextSubNode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextSubNode.Size = new System.Drawing.Size(285, 90);
+            this.richTextSubNode.TabIndex = 99;
+            this.richTextSubNode.Text = "";
+            this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
+            this.richTextSubNode.TextChanged += new System.EventHandler(this.RichTextSubNode_TextChanged);
+            this.richTextSubNode.Enter += new System.EventHandler(this.RichSubTest_Enter);
+            this.richTextSubNode.Leave += new System.EventHandler(this.RichSubTest_Leave);
+            this.richTextSubNode.MouseLeave += new System.EventHandler(this.RichSubTest_MouseLeave);
+            this.richTextSubNode.MouseHover += new System.EventHandler(this.RichSubTest_MouseHover);
+            // 
+            // tagCloudControl
+            // 
+            this.tagCloudControl.AllowDrop = true;
+            this.tagCloudControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tagCloudControl.ControlBackColor = System.Drawing.Color.White;
+            this.tagCloudControl.ControlHeight = 183;
+            this.tagCloudControl.ControlTextFrame = false;
+            this.tagCloudControl.ControlTextUnderline = false;
+            this.tagCloudControl.ControlWidth = 298;
+            this.tagCloudControl.Location = new System.Drawing.Point(872, 400);
+            this.tagCloudControl.Name = "tagCloudControl";
+            this.tagCloudControl.Size = new System.Drawing.Size(285, 68);
+            this.tagCloudControl.TabIndex = 118;
+            this.tagCloudControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlAdded);
+            this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.TagCloudControl_ControlRemoved);
+            // 
+            // reminderList
+            // 
+            this.reminderList.AllowDrop = true;
+            this.reminderList.BackColor = System.Drawing.Color.White;
+            this.reminderList.CausesValidation = false;
+            this.reminderList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.reminderList.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.reminderList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.reminderList.FormattingEnabled = true;
+            this.reminderList.HorizontalScrollbar = true;
+            this.reminderList.ItemHeight = 14;
+            this.reminderList.Location = new System.Drawing.Point(260, 342);
+            this.reminderList.Name = "reminderList";
+            this.reminderList.Size = new System.Drawing.Size(600, 130);
+            this.reminderList.Sorted = true;
+            this.reminderList.TabIndex = 3;
+            this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
+            this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
+            this.reminderList.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
+            this.reminderList.DragDrop += new System.Windows.Forms.DragEventHandler(this.reminderList_DragDrop);
+            this.reminderList.DragEnter += new System.Windows.Forms.DragEventHandler(this.reminderList_DragEnter);
+            this.reminderList.DoubleClick += new System.EventHandler(this.Reminderlist_DoubleClick);
+            this.reminderList.Enter += new System.EventHandler(this.reminderList_Enter);
+            this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
+            this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
+            // 
+            // mindmaplist
+            // 
+            this.mindmaplist.BackColor = System.Drawing.Color.White;
+            this.mindmaplist.CausesValidation = false;
+            this.mindmaplist.DrawFocusedIndicator = false;
+            this.mindmaplist.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.mindmaplist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.mindmaplist.FormattingEnabled = true;
+            this.mindmaplist.Location = new System.Drawing.Point(10, 51);
+            this.mindmaplist.Margin = new System.Windows.Forms.Padding(0);
+            this.mindmaplist.Name = "mindmaplist";
+            this.mindmaplist.Size = new System.Drawing.Size(233, 424);
+            this.mindmaplist.Sorted = true;
+            this.mindmaplist.TabIndex = 1;
+            this.mindmaplist.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.mindmaplist_ItemCheck);
+            this.mindmaplist.SelectedIndexChanged += new System.EventHandler(this.mindmaplist_SelectedIndexChanged);
+            this.mindmaplist.DoubleClick += new System.EventHandler(this.mindmaplist_DoubleClick);
+            this.mindmaplist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mindmaplist_MouseDown);
+            this.mindmaplist.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
+            this.mindmaplist.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
+            // 
+            // reminderListBox
+            // 
+            this.reminderListBox.BackColor = System.Drawing.Color.White;
+            this.reminderListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.reminderListBox.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.reminderListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.reminderListBox.FormattingEnabled = true;
+            this.reminderListBox.ItemHeight = 14;
+            this.reminderListBox.Location = new System.Drawing.Point(260, 171);
+            this.reminderListBox.Name = "reminderListBox";
+            this.reminderListBox.Size = new System.Drawing.Size(600, 158);
+            this.reminderListBox.TabIndex = 117;
+            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ReminderlistBox_DrawItem);
+            this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
+            this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
+            this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
+            this.reminderListBox.Enter += new System.EventHandler(this.reminderListBox_Enter);
+            this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
+            // 
+            // TimeBlockDate
+            // 
+            this.TimeBlockDate.Location = new System.Drawing.Point(1187, 113);
+            this.TimeBlockDate.Name = "TimeBlockDate";
+            this.TimeBlockDate.Size = new System.Drawing.Size(151, 21);
+            this.TimeBlockDate.TabIndex = 134;
+            this.TimeBlockDate.ValueChanged += new System.EventHandler(this.TimeBlockDate_ValueChanged);
             // 
             // DocearReminderForm
             // 
@@ -1614,6 +1623,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.quietmode);
             this.Controls.Add(this.checkBox2);
@@ -1862,6 +1872,7 @@ namespace DocearReminder
         private ToolStripMenuItem 删除图片ToolStripMenuItem;
         private CheckBox quietmode;
         private CheckBox showTimeBlock;
+        private DateTimePicker TimeBlockDate;
     }
 }
 

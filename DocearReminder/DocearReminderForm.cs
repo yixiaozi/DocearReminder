@@ -243,6 +243,7 @@ namespace DocearReminder
                 nodetree.DrawMode = TreeViewDrawMode.OwnerDrawText;
                 FileTreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
                 mindmaplist.DrawMode = DrawMode.OwnerDrawVariable;
+                TimeBlockDate.Value = DateTime.Today;
                 reminderList.Top = 51;
                 reminderListBox.Top = 51;
                 mindmaplist.DisplayMember = "Text";
@@ -2089,7 +2090,7 @@ namespace DocearReminder
             if (showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>=DateTime.Today&& m.time <= DateTime.Today.AddDays(1)&&m.mindmap == "TimeBlock").OrderBy(m=>m.time))
+                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value && m.time <= TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock").OrderBy(m=>m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
@@ -7919,7 +7920,7 @@ namespace DocearReminder
         }
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused||searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || (noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
+            return !(PathcomboBox.Focused||searchword.Focused|| nodetreeSearch.Focused|| hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused||(noterichTextBox.Focused&& !(e.Modifiers.CompareTo(Keys.Alt) == 0&&e.KeyCode==Keys.N)));
         }
         private async void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -8557,7 +8558,7 @@ namespace DocearReminder
                             isRenameTimeBlock = false;
                             return;
                         }
-                        if (showTimeBlock.Checked)
+                        if (showTimeBlock.Checked&&!searchword.Text.Contains("刚刚")&& !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
                         {
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).DetailComment+=((((MyListBoxItemRemind)reminderlistSelectedItem).remindertype!=""? Environment.NewLine:"")+searchword.Text);
                             searchword.Text = "";
@@ -9448,6 +9449,10 @@ namespace DocearReminder
                         {
                             reminderList.Focus();
                         }
+                        else if (TimeBlockDate.Focused)
+                        {
+                            reminderList.Focus();
+                        }
                         else if (noterichTextBox.Focused)
                         {
                             nodetree.Focus();
@@ -9907,10 +9912,21 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                if (dateTimePicker.Value != null)
+                                if (showTimeBlock.Checked)
                                 {
-                                    dateTimePicker.Value = dateTimePicker.Value.AddHours(1);
-                                    EditTime_Clic(null, null);
+                                    if (TimeBlockDate.Value != null)
+                                    {
+                                        TimeBlockDate.Value = TimeBlockDate.Value.AddDays(1);
+                                        RRReminderlist();
+                                    }
+                                }
+                                else
+                                {
+                                    if (dateTimePicker.Value != null)
+                                    {
+                                        dateTimePicker.Value = dateTimePicker.Value.AddHours(1);
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else
@@ -10125,10 +10141,21 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                if (dateTimePicker.Value != null)
+                                if (showTimeBlock.Checked)
                                 {
-                                    dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
-                                    EditTime_Clic(null, null);
+                                    if (TimeBlockDate.Value != null)
+                                    {
+                                        TimeBlockDate.Value = TimeBlockDate.Value.AddDays(-1);
+                                        RRReminderlist();
+                                    }
+                                }
+                                else
+                                {
+                                    if (dateTimePicker.Value != null)
+                                    {
+                                        dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
+                                        EditTime_Clic(null, null);
+                                    }
                                 }
                             }
                             else
@@ -10978,13 +11005,21 @@ namespace DocearReminder
                     }
                     else  if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
                     {
-                        if (dateTimePicker.Value < DateTime.Today)
+                        if (showTimeBlock.Checked&& e.Modifiers.CompareTo(Keys.Shift) == 0)//暂时保持简单吧，用Ctrl+JK来设置每天
                         {
-                            dateTimePicker.Value=dateTimePicker.Value.AddDays(DateTime.Today.Day- dateTimePicker.Value.Day);
-                            dateTimePicker.Value=dateTimePicker.Value.AddMonths(DateTime.Today.Month - dateTimePicker.Value.Month);
-                            dateTimePicker.Value=dateTimePicker.Value.AddYears(DateTime.Today.Year - dateTimePicker.Value.Year);
+                            TimeBlockDate.Focus();
                         }
-                        dateTimePicker.Focus();
+                        else
+                        {
+                            if (dateTimePicker.Value < DateTime.Today)
+                            {
+                                dateTimePicker.Value = dateTimePicker.Value.AddDays(DateTime.Today.Day - dateTimePicker.Value.Day);
+                                dateTimePicker.Value = dateTimePicker.Value.AddMonths(DateTime.Today.Month - dateTimePicker.Value.Month);
+                                dateTimePicker.Value = dateTimePicker.Value.AddYears(DateTime.Today.Year - dateTimePicker.Value.Year);
+                            }
+                            dateTimePicker.Focus();
+                        }
+                        
                     }
                     break;
                 case Keys.Tab:
@@ -16871,6 +16906,12 @@ namespace DocearReminder
         private void ShowTimeBlockChange(object sender, EventArgs e)
         {
             RRReminderlist();
+        }
+
+        private void TimeBlockDate_ValueChanged(object sender, EventArgs e)
+        {
+            RRReminderlist();
+            TimeBlockDate.Focus();//继续选中
         }
     }
 

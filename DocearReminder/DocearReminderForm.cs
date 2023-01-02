@@ -8548,7 +8548,7 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
-                        if (isRenameTimeBlock&& showTimeBlock.Checked)
+                        if (isRenameTimeBlock&& showTimeBlock.Checked && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))
                         {
                             //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
                             reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
@@ -8560,6 +8560,7 @@ namespace DocearReminder
                         }
                         if (showTimeBlock.Checked&&!searchword.Text.Contains("刚刚")&& !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
                         {
+                            isRenameTimeBlock = false;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).DetailComment+=((((MyListBoxItemRemind)reminderlistSelectedItem).remindertype!=""? Environment.NewLine:"")+searchword.Text);
                             searchword.Text = "";
                             RRReminderlist();
@@ -9441,6 +9442,9 @@ namespace DocearReminder
                 case Keys.Escape:
                     if (!keyNotWork(e))
                     {
+                        #region 将一些值清空
+                        isRenameTimeBlock = false;
+                        #endregion
                         if (searchword.Focused && c_ViewModel.Checked)
                         {
                             mindmaplist.Focus();

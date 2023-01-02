@@ -8548,7 +8548,7 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
-                        if (isRenameTimeBlock&& showTimeBlock.Checked && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))
+                        if (isRenameTimeBlock&& showTimeBlock.Checked && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//重命名，也就是修改备注的时候
                         {
                             //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
                             reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
@@ -8566,6 +8566,11 @@ namespace DocearReminder
                             RRReminderlist();
                             reminderList.SelectedIndex = reminderSelectIndex;
                             return;
+                        }
+                        if (showTimeBlock.Checked&&(searchword.Text.Contains("@")))
+                        {
+                            //不管有没有敲击刚刚，则添加刚刚两个字在最前面
+                            searchword.Text ="刚刚"+ searchword.Text;
                         }
                         if (searchword.Text.StartsWith("path:"))
                         {
@@ -9062,6 +9067,11 @@ namespace DocearReminder
                                 CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, dt, "FanQie", "", "", taskDetail, tasktime);
                             }
                             searchword.Text = "";
+                            if (showTimeBlock.Checked)//若是是时间块模式，可以直接刷新
+                            {
+                                RRReminderlist();
+                                reminderList.Focus();
+                            }
                         }
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
                         {
@@ -13451,7 +13461,7 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")) && searchword.Text.Contains("@"))//选择时间块
+            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")||showTimeBlock.Checked) && searchword.Text.Contains("@"))//选择时间块
             {
                 string taskname = "";
                 string type = "";
@@ -13460,10 +13470,10 @@ namespace DocearReminder
                     type = "T";
                     taskname =searchword.Text.Split('@')[0].Substring(1);
                 }
-                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@"))
+                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@")|| showTimeBlock.Checked)
                 {
                     type = "刚刚";
-                    taskname = searchword.Text.Split('@')[0].Replace("刚刚","").Replace("刚刚", "");
+                    taskname = searchword.Text.Split('@')[0].Replace("刚刚","").Replace("刚刚", "").Replace("刚刚", "").Replace("刚刚", "");
                 }
                 if (searchword.SelectionStart < searchword.Text.Length)
                 {

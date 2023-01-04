@@ -549,7 +549,7 @@ namespace DocearReminder
             0,
             0});
             this.tasklevel.Minimum = new decimal(new int[] {
-            1,
+            100000,
             0,
             0,
             -2147483648});

@@ -850,14 +850,14 @@ namespace DocearReminder
                 m_Appointment.value = item.mindmapPath;
                 m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
                 int zhongyao = item.tasklevel;
-                if (numericUpDown2.Value >= 0)
+                if (numericUpDown2.Value > 0)
                 {
                     if (zhongyao < numericUpDown2.Value)
                     {
                         continue;
                     }
                 }
-                else
+                else if (numericUpDown2.Value < 0)
                 {
                     if (zhongyao > numericUpDown2.Value)
                     {

@@ -6725,6 +6725,10 @@ namespace DocearReminder
             try
             {
                 int reminderIndex = reminderList.SelectedIndex;
+                if (reminderListBox.Focused)
+                {
+                    reminderIndex = reminderListBox.SelectedIndex;
+                }
                 CancelTask(IsAddIcon);
                 string path = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
@@ -6732,16 +6736,49 @@ namespace DocearReminder
                 //shaixuanfuwei();
                 //ChangeReminder();
                 PlaySimpleSound("deny");
-                reminderList.Items.RemoveAt(reminderIndex);
-                reminderList.SelectedIndex = reminderIndex;
+                if (reminderList.Focused)
+                {
+                    reminderList.Items.RemoveAt(reminderIndex);
+                    reminderList.SelectedIndex = reminderIndex;
+                }
+                else if (reminderListBox.Focused)
+                {
+                    reminderboxList.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
+                    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
+                    //添加去重
+                    List<string> xnodesRemoveSame = new List<string>();
+                    foreach (string item in Xnodes)
+                    {
+                        if (!xnodesRemoveSame.Contains(item))
+                        {
+                            xnodesRemoveSame.Add(item);
+                        }
+                    }
+                    Xnodes = xnodesRemoveSame;
+                    new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+
+                    reminderListBox.Items.RemoveAt(reminderIndex);
+                    Reminderlistboxchange();
+                    reminderListBox.SelectedIndex = reminderIndex;
+                }
+                
             }
             catch (Exception)
             {
-                if (reminderList.Items.Count > 0)
+                if (reminderList.Focused)
                 {
-                    reminderList.SetSelected(0, true);
+                    if (reminderList.Items.Count > 0)
+                    {
+                        reminderList.SetSelected(0, true);
+                    }
+                }else if (reminderListBox.Focused)
+                {
+                    Reminderlistboxchange();
+                    if (reminderListBox.Items.Count > 0)
+                    {
+                        reminderListBox.SetSelected(0, true);
+                    }
                 }
-
             }
         }
         public void RemoveMyListBoxItemRemind()

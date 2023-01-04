@@ -10715,7 +10715,7 @@ namespace DocearReminder
                 case Keys.N:
                     if (keyNotWork(e))
                     {
-                        if (showTimeBlock.Checked)
+                        if (showTimeBlock.Checked||ShowMoney.Checked||ShowKA.Checked)
                         {
                             return;
                         }
@@ -11384,16 +11384,15 @@ namespace DocearReminder
                 case Keys.VolumeUp:
                     break;
                 case Keys.W:
-                    if (mindmapornode.Text != "")
+                    if (showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked)
+                    {
+                        showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
+                        reminderList.Refresh();
+                    }else  if (mindmapornode.Text != "")
                     {
                         mindmapornode.Text = "";
                         tasklevel.Value = 0;
                         taskTime.Value = 0;
-                        RRReminderlist();
-                    }
-                    else if (showTimeBlock.Checked)
-                    {
-                        showTimeBlock.Checked = false;
                         RRReminderlist();
                     }
                     else
@@ -13180,7 +13179,7 @@ namespace DocearReminder
                 }
                 return;
             }
-            else if (searchword.Text.ToLower().StartsWith("showtimeblock")|| searchword.Text.ToLower().StartsWith("stb"))
+            else if (searchword.Text.ToLower().StartsWith("showtimeblock")|| searchword.Text.ToLower().StartsWith("showtb"))
             {
                 searchword.Text = "";
                 showTimeBlock.Checked = !showTimeBlock.Checked;

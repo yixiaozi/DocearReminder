@@ -160,6 +160,10 @@ namespace DocearReminder
             this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.TimeBlockDate = new System.Windows.Forms.DateTimePicker();
+            this.ShowMoney = new System.Windows.Forms.CheckBox();
+            this.MoneyDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.KADateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.ShowKA = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1615,6 +1619,44 @@ namespace DocearReminder
             this.TimeBlockDate.TabIndex = 134;
             this.TimeBlockDate.ValueChanged += new System.EventHandler(this.TimeBlockDate_ValueChanged);
             // 
+            // ShowMoney
+            // 
+            this.ShowMoney.AutoSize = true;
+            this.ShowMoney.Location = new System.Drawing.Point(1356, 148);
+            this.ShowMoney.Name = "ShowMoney";
+            this.ShowMoney.Size = new System.Drawing.Size(48, 16);
+            this.ShowMoney.TabIndex = 135;
+            this.ShowMoney.Text = "金钱";
+            this.ShowMoney.UseVisualStyleBackColor = true;
+            this.ShowMoney.CheckedChanged += new System.EventHandler(this.ShowMoney_CheckedChanged);
+            // 
+            // MoneyDateTimePicker
+            // 
+            this.MoneyDateTimePicker.Location = new System.Drawing.Point(1187, 143);
+            this.MoneyDateTimePicker.Name = "MoneyDateTimePicker";
+            this.MoneyDateTimePicker.Size = new System.Drawing.Size(151, 21);
+            this.MoneyDateTimePicker.TabIndex = 136;
+            this.MoneyDateTimePicker.ValueChanged += new System.EventHandler(this.MoneyDateTimePicker_ValueChanged);
+            // 
+            // KADateTimePicker
+            // 
+            this.KADateTimePicker.Location = new System.Drawing.Point(1187, 171);
+            this.KADateTimePicker.Name = "KADateTimePicker";
+            this.KADateTimePicker.Size = new System.Drawing.Size(151, 21);
+            this.KADateTimePicker.TabIndex = 137;
+            this.KADateTimePicker.ValueChanged += new System.EventHandler(this.KADateTimePicker_ValueChanged);
+            // 
+            // ShowKA
+            // 
+            this.ShowKA.AutoSize = true;
+            this.ShowKA.Location = new System.Drawing.Point(1356, 171);
+            this.ShowKA.Name = "ShowKA";
+            this.ShowKA.Size = new System.Drawing.Size(60, 16);
+            this.ShowKA.TabIndex = 138;
+            this.ShowKA.Text = "卡路里";
+            this.ShowKA.UseVisualStyleBackColor = true;
+            this.ShowKA.CheckedChanged += new System.EventHandler(this.ShowKA_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1623,6 +1665,10 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.ShowKA);
+            this.Controls.Add(this.KADateTimePicker);
+            this.Controls.Add(this.MoneyDateTimePicker);
+            this.Controls.Add(this.ShowMoney);
             this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.quietmode);
@@ -1873,6 +1919,10 @@ namespace DocearReminder
         private CheckBox quietmode;
         private CheckBox showTimeBlock;
         private DateTimePicker TimeBlockDate;
+        private CheckBox ShowMoney;
+        private DateTimePicker MoneyDateTimePicker;
+        private DateTimePicker KADateTimePicker;
+        private CheckBox ShowKA;
     }
 }
 

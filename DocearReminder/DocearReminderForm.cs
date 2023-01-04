@@ -244,6 +244,8 @@ namespace DocearReminder
                 FileTreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
                 mindmaplist.DrawMode = DrawMode.OwnerDrawVariable;
                 TimeBlockDate.Value = DateTime.Today;
+                MoneyDateTimePicker.Value = DateTime.Today;
+                KADateTimePicker.Value = DateTime.Today;
                 reminderList.Top = 51;
                 reminderListBox.Top = 51;
                 mindmaplist.DisplayMember = "Text";
@@ -2110,6 +2112,63 @@ namespace DocearReminder
                         IDinXML = item.ID,
                         link = "",
                         level=item.tasklevel
+                    });
+                }
+                reminderList.Focus();
+                return;
+            }
+            else if (ShowMoney.Checked)
+            {
+                reminderList.Items.Clear();
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value && m.time <= MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money").OrderBy(m => m.time))
+                {
+                    reminderList.Items.Add(new MyListBoxItemRemind
+                    {
+                        Text = item.time.ToString("   ") + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "元  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
+                        Name = item.name,
+                        Time = item.time,
+                        Value = "Money",
+                        IsShow = true,
+                        remindertype = item.DetailComment,
+                        rhours = 0,
+                        rdays = 0,
+                        rMonth = 00,
+                        rWeek = 0,
+                        ryear = 0,
+                        rtaskTime = Convert.ToInt16(item.tasktime),
+                        IsDaka = item.comment,
+                        IDinXML = item.ID,
+                        link = "",
+                        level = item.tasklevel
+                    });
+                }
+                reminderList.Focus();
+                return;
+            }
+            else if (ShowKA.Checked)
+            {
+                reminderList.Items.Clear();
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value && m.time <= KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA").OrderBy(m => m.time))
+                {
+                    reminderList.Items.Add(new MyListBoxItemRemind
+                    {
+                        Text = item.time.ToString("   ") + FormatTimeLenght(Convert.ToInt16(item.tasktime * 10 / 9.46).ToString(), 4) + "克脂肪  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
+                        //((args.EndDate - args.StartDate).TotalMinutes * 10/9.46).ToString("F")+"克脂肪"
+                        Name = item.name,
+                        Time = item.time,
+                        Value = "TimeBlock",
+                        IsShow = true,
+                        remindertype = item.DetailComment,
+                        rhours = 0,
+                        rdays = 0,
+                        rMonth = 00,
+                        rWeek = 0,
+                        ryear = 0,
+                        rtaskTime = Convert.ToInt16(item.tasktime),
+                        IsDaka = item.comment,
+                        IDinXML = item.ID,
+                        link = "",
+                        level = item.tasklevel
                     });
                 }
                 reminderList.Focus();
@@ -10522,7 +10581,11 @@ namespace DocearReminder
                 case Keys.M:
                     if (keyNotWork(e))
                     {
-                        if (ReminderListFocused()|| dateTimePicker.Focused || tasklevel.Focused)
+                        if (e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            ShowMoney.Checked = !ShowMoney.Checked;
+                        }
+                        else if (ReminderListFocused()|| dateTimePicker.Focused || tasklevel.Focused)
                         {
                             taskTime.Focus();
                         }
@@ -11016,20 +11079,27 @@ namespace DocearReminder
                         }
                         else
                         {
-                            c_ViewModel.Checked = !c_ViewModel.Checked;
-                            if (!c_ViewModel.Checked)
+                            if (e.Modifiers.CompareTo(Keys.Control) == 0)//瘦的意思，这样好记点
                             {
-                                shaixuanfuwei();
-                                RRReminderlist();
-                                reminderList.Focus();
+                                ShowKA.Checked = !ShowKA.Checked;
                             }
                             else
                             {
-                                reminderList.SelectedIndex = -1;
-                                reminderSelectIndex = -1;
-                                IsSelectReminder = false;
-                                //mindmaplist.Focus();
-                                RRReminderlist();
+                                c_ViewModel.Checked = !c_ViewModel.Checked;
+                                if (!c_ViewModel.Checked)
+                                {
+                                    shaixuanfuwei();
+                                    RRReminderlist();
+                                    reminderList.Focus();
+                                }
+                                else
+                                {
+                                    reminderList.SelectedIndex = -1;
+                                    reminderSelectIndex = -1;
+                                    IsSelectReminder = false;
+                                    //mindmaplist.Focus();
+                                    RRReminderlist();
+                                }
                             }
                         }
                     }
@@ -13083,7 +13153,19 @@ namespace DocearReminder
                 GetAllFilesJsonIconFile();
                 yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
             }
-            else if (searchword.Text.StartsWith("timeblock"))
+            else if (searchword.Text.ToLower().StartsWith("timeblock"))
+            {
+                searchword.Text = "";
+                GetTimeBlock();
+                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+            }
+            else if (searchword.Text.ToLower().StartsWith("moneym"))
+            {
+                searchword.Text = "";
+                GetTimeBlock();
+                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+            }
+            else if (searchword.Text.ToLower().StartsWith("kaka"))
             {
                 searchword.Text = "";
                 GetTimeBlock();
@@ -16974,13 +17056,57 @@ namespace DocearReminder
 
         private void ShowTimeBlockChange(object sender, EventArgs e)
         {
-            RRReminderlist();
+            if (showTimeBlock.Checked)
+            {
+                RRReminderlist();
+                ShowMoney.Checked = ShowKA.Checked = false;
+            }
+            IFNoCheckedRRR();
         }
 
         private void TimeBlockDate_ValueChanged(object sender, EventArgs e)
         {
             RRReminderlist();
             TimeBlockDate.Focus();//继续选中
+        }
+
+        private void ShowMoney_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ShowMoney.Checked)
+            {
+                RRReminderlist();
+                showTimeBlock.Checked = ShowKA.Checked = false;
+            }
+            IFNoCheckedRRR();
+        }
+
+        private void ShowKA_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ShowKA.Checked)
+            {
+                RRReminderlist();
+                showTimeBlock.Checked = ShowMoney.Checked = false;
+            }
+            IFNoCheckedRRR();
+        }
+        public void IFNoCheckedRRR()
+        {
+            if (!ShowKA.Checked&& !showTimeBlock.Checked&& !ShowMoney.Checked)
+            {
+                RRReminderlist();
+            }
+        }
+
+        private void MoneyDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RRReminderlist();
+            MoneyDateTimePicker.Focus();//继续选中
+        }
+
+        private void KADateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RRReminderlist();
+            KADateTimePicker.Focus();//继续选中
         }
     }
 

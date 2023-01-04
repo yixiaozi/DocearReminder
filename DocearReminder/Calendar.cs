@@ -738,7 +738,7 @@ namespace DocearReminder
         }
         public void RefreshCalender()
         {
-            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked||ShowClipboard.Checked||ActionLog.Checked)
+            if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked || ShowClipboard.Checked || ActionLog.Checked)
             {
                 m_Appointments = new List<Appointment>();
                 if (AllFile.Checked)
@@ -757,12 +757,26 @@ namespace DocearReminder
                 {
                     ShowCaptureScreen();
                 }
-               return;
+                return;
             }
             m_Appointments = new List<Appointment>();
-            Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => m.time>=dateTimePicker1.Value&& m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) && ((((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath)) && m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" && m.mindmap != "Mistake" && !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked && !c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked) || (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) || (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted && !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") || (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") || (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked&&m.time > DateTime.Now && m.mindmapPath.Contains(mindmappath) && (!m.isview || (isview_c.Checked && m.isview)) && !m.isCompleted)));
-            if (mindmappath=="")//当所有的时候排除金钱
+            //拆解一下下面的判断逻辑
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m =>
+                m.time >= dateTimePicker1.Value &&
+                m.time <= dateTimePicker1.Value.AddDays((double) numericUpDown1.Value) &&
+                (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath) &&
+                  m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" &&
+                  m.mindmap != "Mistake" && !c_timeBlock.Checked) ||
+                 (c_timeBlock.Checked && m.mindmap == "TimeBlock") || (c_done.Checked && m.isCompleted) ||
+                 (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted &&
+                  !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") ||
+                 (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") ||
+                 (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked && m.time > DateTime.Now &&
+                                                         m.mindmapPath.Contains(mindmappath) &&
+                                                         (!m.isview || (isview_c.Checked && m.isview)) &&
+                                                         !m.isCompleted)));
+            //&& !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked &&!c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked
+            if (mindmappath == "")//当所有的时候排除金钱
             {
                 items = items.Where(m=>m.mindmap!="Money");
             }
@@ -803,7 +817,7 @@ namespace DocearReminder
                 }
 
 
-                m_Appointment = new Appointment
+                var m_Appointment = new Appointment
                 {
                     StartDate = item.time
                 };
@@ -2611,8 +2625,19 @@ namespace DocearReminder
                 Ka_c.Checked = false;
                 RefreshCalender();
             }
-            UsedLogRenew();
 
+            CheckboxAlldisabled();
+            UsedLogRenew();
+        }
+
+        public void CheckboxAlldisabled()
+        {
+            if (!c_timeBlock.Checked&&!c_Money.Checked&&!Ka_c.Checked)
+            {
+                dayView1.StartHour = 0;
+                dayView1.HalfHourHeight = 20;
+                RefreshCalender();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -2970,7 +2995,8 @@ namespace DocearReminder
                 subClass.Checked = false;
                 RefreshCalender();
             }
-            
+
+            CheckboxAlldisabled();
             UsedLogRenew();
         }
 
@@ -3015,6 +3041,8 @@ namespace DocearReminder
                 subClass.Checked = true;
                 RefreshCalender();
             }
+
+            CheckboxAlldisabled();
             UsedLogRenew();
         }
 

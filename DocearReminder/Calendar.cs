@@ -2598,8 +2598,9 @@ namespace DocearReminder
                 }
                 m_Appointments.Remove(dayView1.SelectedAppointment);
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 
@@ -2608,7 +2609,6 @@ namespace DocearReminder
             try
             {
                 System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
-
             }
             catch (Exception)
             {

@@ -2114,6 +2114,8 @@ namespace DocearReminder
                         level=item.tasklevel
                     });
                 }
+                //更新简要信息
+                UpdateSummary();
                 reminderList.Focus();
                 return;
             }
@@ -2142,6 +2144,8 @@ namespace DocearReminder
                         level = item.tasklevel
                     });
                 }
+                //更新简要信息
+                UpdateSummary();
                 reminderList.Focus();
                 return;
             }
@@ -2171,6 +2175,8 @@ namespace DocearReminder
                         level = item.tasklevel
                     });
                 }
+                //更新简要信息
+                UpdateSummary();
                 reminderList.Focus();
                 return;
             }
@@ -3239,6 +3245,28 @@ namespace DocearReminder
             ReminderListBox_SizeChanged(null, null);
             reminderlistSelectedItem = null;//刷新后应该清空
         }
+
+        private void UpdateSummary()
+        {
+            if (showTimeBlock.Checked)
+            {
+                int actionNumber = 0;
+                double hours = 0;
+                double hoursLeft = 0;
+                //遍历reminderlist
+                foreach (MyListBoxItemRemind item in reminderList.Items)
+                {
+                    actionNumber++;
+                    hours += item.rtaskTime;
+                }
+                reminder_count.Text = actionNumber.ToString();
+                labeltaskinfo.Text = (hours / 60).ToString("F1") + "小时";
+                hoursLeft = 24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60;
+                hourLeft.Text =  hoursLeft.ToString("F1") + "小时";
+                Hours.Text = fathernode.Text= "";
+            }
+        }
+
         bool isAutoChangeView = true;
         /// <summary>
         /// 刷新任务列表
@@ -9891,6 +9919,26 @@ namespace DocearReminder
                                     reminderList.SelectedIndex = reminderList.Items.Count - 1;
                                 }
                             }
+                            else if (ShowMoney.Checked)
+                            {
+                                MoneyDateTimePicker.Value = MoneyDateTimePicker.Value.AddDays(-1);
+                                RRReminderlist();
+                                reminderList.Focus();
+                                if (reminderList.Items.Count > 0)
+                                {
+                                    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                }
+                            }
+                            else if (ShowKA.Checked)
+                            {
+                                KADateTimePicker.Value = KADateTimePicker.Value.AddDays(-1);
+                                RRReminderlist();
+                                reminderList.Focus();
+                                if (reminderList.Items.Count > 0)
+                                {
+                                    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                }
+                            }
                             else
                             {
                                 selectedpath = true;
@@ -10498,6 +10546,26 @@ namespace DocearReminder
                                 if (showTimeBlock.Checked)
                                 {
                                     TimeBlockDate.Value = TimeBlockDate.Value.AddDays(1);
+                                    RRReminderlist();
+                                    reminderList.Focus();
+                                    if (reminderList.Items.Count > 0)
+                                    {
+                                        reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                    }
+                                }
+                                else if (ShowMoney.Checked)
+                                {
+                                    MoneyDateTimePicker.Value = MoneyDateTimePicker.Value.AddDays(1);
+                                    RRReminderlist();
+                                    reminderList.Focus();
+                                    if (reminderList.Items.Count > 0)
+                                    {
+                                        reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                    }
+                                }
+                                else if (ShowKA.Checked)
+                                {
+                                    KADateTimePicker.Value = KADateTimePicker.Value.AddDays(1);
                                     RRReminderlist();
                                     reminderList.Focus();
                                     if (reminderList.Items.Count > 0)

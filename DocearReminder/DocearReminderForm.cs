@@ -111,6 +111,7 @@ namespace DocearReminder
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
         public static List<string> AddTaskWithDate = new List<string>();
+        public static DateTime TimeBlocklastTime = DateTime.Today;
         RecordController record = new RecordController();
 
         public static Color BackGroundColor = Color.White;
@@ -463,6 +464,7 @@ namespace DocearReminder
                 yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder", System.AppDomain.CurrentDomain.BaseDirectory + "DocearReminder.exe");
             }
             SaveLog("打开程序。");
+            SetTimeBlockLasTime();
         }
         /// <summary>
         /// 压缩成base64格式
@@ -2083,6 +2085,12 @@ namespace DocearReminder
         //    }
         //}
         public static Reminder reminderObject = new Reminder();
+        public void SetTimeBlockLasTime()
+        {
+            //将TimeBlockLastTime设置
+            TimeBlocklastTime = reminderObject.reminders.Where(m => m.time<DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").time;
+            TimeBlocklastTime = TimeBlocklastTime.AddMinutes(reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").tasktime);
+        }
         /// <summary>
         /// 刷新任务控件
         /// </summary>
@@ -2092,7 +2100,7 @@ namespace DocearReminder
             if (showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value && m.time <= TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock").OrderBy(m=>m.time))
+                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value && m.time < TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock"&&(searchword.Text==""||(searchword.Text!=""&&(m.name.Contains(searchword.Text)|| m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m=>m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
@@ -2110,10 +2118,11 @@ namespace DocearReminder
                         rtaskTime = Convert.ToInt16(item.tasktime),
                         IsDaka = item.comment,
                         IDinXML = item.ID,
-                        link = "",
+                        link = item.nameFull,
                         level=item.tasklevel
                     });
                 }
+                SetTimeBlockLasTime();
                 //更新简要信息
                 UpdateSummary();
                 reminderList.Focus();
@@ -2122,7 +2131,7 @@ namespace DocearReminder
             else if (ShowMoney.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value && m.time <= MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money").OrderBy(m => m.time))
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value && m.time < MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money" && (searchword.Text == "" || (searchword.Text != "" && (m.name.Contains(searchword.Text) || m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m => m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
@@ -2140,7 +2149,7 @@ namespace DocearReminder
                         rtaskTime = Convert.ToInt16(item.tasktime),
                         IsDaka = item.comment,
                         IDinXML = item.ID,
-                        link = "",
+                        link = item.nameFull,
                         level = item.tasklevel
                     });
                 }
@@ -2152,7 +2161,7 @@ namespace DocearReminder
             else if (ShowKA.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value && m.time <= KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA").OrderBy(m => m.time))
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value && m.time < KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA" && (searchword.Text == "" || (searchword.Text != "" && (m.name.Contains(searchword.Text) || m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m => m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
@@ -2171,7 +2180,7 @@ namespace DocearReminder
                         rtaskTime = Convert.ToInt16(item.tasktime),
                         IsDaka = item.comment,
                         IDinXML = item.ID,
-                        link = "",
+                        link = item.nameFull,
                         level = item.tasklevel
                     });
                 }
@@ -3253,6 +3262,8 @@ namespace DocearReminder
                 int actionNumber = 0;
                 double hours = 0;
                 double hoursLeft = 0;
+                double max = 24 * 60 * 10;
+                double min = -24 * 60 * 10;
                 //遍历reminderlist
                 foreach (MyListBoxItemRemind item in reminderList.Items)
                 {
@@ -3500,6 +3511,51 @@ namespace DocearReminder
                 }
                 else if (zhongyao == -1)
                 {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
+                }
+                else if (zhongyao == -2)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(211, 211, 211)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(211, 211, 211));
+                }
+                else if (zhongyao == -3)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(192, 192, 192)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(192, 192, 192));
+                }
+                else if (zhongyao == -4)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(169, 169, 169)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(169, 169, 169));
+                }
+                else if (zhongyao == -5)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 128)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(128, 128, 128));
+                }
+                else if (zhongyao == -6)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(105, 105, 105)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(105, 105, 105));
+                }
+                else if (zhongyao == -7)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, 85, 85)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(85, 85, 85));
+                }
+                else if (zhongyao == -8)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(65, 65, 65)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(65, 65, 65));
+                }
+                else if (zhongyao == -9)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(48, 48, 48)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(48, 48, 48));
+                }
+                else if (zhongyao <= -10)
+                {
                     e.Graphics.FillRectangle(new SolidBrush(Color.Black), rect);
                     mybsh = new SolidBrush(Color.Black);
                 }
@@ -3582,7 +3638,7 @@ namespace DocearReminder
                     {
                         taskname = taskname.Substring(0, 100);
                     }
-                    if (((MyListBoxItemRemind)reminderList.Items[e.Index]).link==null|| ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
+                    if (showTimeBlock.Checked||((MyListBoxItemRemind)reminderList.Items[e.Index]).link==null|| ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
                     {
                         e.Graphics.DrawString(taskname, e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
                     }
@@ -9224,6 +9280,7 @@ namespace DocearReminder
                                 RRReminderlist();
                                 reminderList.Focus();
                             }
+                            SetTimeBlockLasTime();
                         }
                         else if (searchword.Text.StartsWith("@@"))//这个是干嘛的？没有看懂,放着吧，应该是避免所选节点为空
                         {
@@ -11243,6 +11300,7 @@ namespace DocearReminder
                 case Keys.T:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
+                        mindmapornode.Text = "";
                         showTimeBlock.Checked = !showTimeBlock.Checked;
                         reminderList.Refresh();
                     }
@@ -11386,20 +11444,22 @@ namespace DocearReminder
                 case Keys.W:
                     if (showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked)
                     {
+                        mindmapornode.Text = "";
                         showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
                         reminderList.Refresh();
-                    }else  if (mindmapornode.Text != "")
+                        return;
+                    }
+                    else if (mindmapornode.Text != "")
                     {
                         mindmapornode.Text = "";
                         tasklevel.Value = 0;
                         taskTime.Value = 0;
-                        RRReminderlist();
                     }
                     else
                     {
                         showwaittask = !showwaittask;
-                        RRReminderlist();
                     }
+                    RRReminderlist();
                     break;
                 case Keys.X:
                     if (keyNotWork(e))
@@ -12689,7 +12749,7 @@ namespace DocearReminder
         {
             try
             {
-                if (showTimeBlock.Checked)
+                if (showTimeBlock.Checked||ShowMoney.Checked||ShowKA.Checked)
                 {
                     //((MyListBoxItemRemind)reminderlistSelectedItem).remindertype
                     if (((MyListBoxItemRemind)reminderlistSelectedItem).remindertype!="")
@@ -12701,6 +12761,8 @@ namespace DocearReminder
                     {
                         richTextSubNode.Clear();
                     }
+                    //显示时间块的分类
+                    fathernode.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
                 }
                 if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused || reminderlistSelectedItem == null)
                 {
@@ -13179,7 +13241,7 @@ namespace DocearReminder
                 }
                 return;
             }
-            else if (searchword.Text.ToLower().StartsWith("showtimeblock")|| searchword.Text.ToLower().StartsWith("showtb"))
+            else if (searchword.Text.ToLower().StartsWith("showtimeblock")|| searchword.Text.ToLower().StartsWith("showtb")|| searchword.Text.ToLower().StartsWith("ttt"))
             {
                 searchword.Text = "";
                 showTimeBlock.Checked = !showTimeBlock.Checked;
@@ -13702,7 +13764,7 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")||showTimeBlock.Checked) && searchword.Text.Contains("@"))//选择时间块
+            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")||(showTimeBlock.Checked&& !searchword.Text.StartsWith(" ")))&& searchword.Text.Contains("@"))//选择时间块,如果开始是空格，就不认为是时间块状态
             {
                 string taskname = "";
                 string type = "";
@@ -15594,6 +15656,51 @@ namespace DocearReminder
                 }
                 else if (zhongyao == -1)
                 {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
+                }
+                else if (zhongyao == -2)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(211, 211, 211)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(211, 211, 211));
+                }
+                else if (zhongyao == -3)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(192, 192, 192)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(192, 192, 192));
+                }
+                else if (zhongyao == -4)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(169, 169, 169)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(169, 169, 169));
+                }
+                else if (zhongyao == -5)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 128)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(128, 128, 128));
+                }
+                else if (zhongyao == -6)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(105, 105, 105)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(105, 105, 105));
+                }
+                else if (zhongyao == -7)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, 85, 85)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(85, 85, 85));
+                }
+                else if (zhongyao == -8)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(65, 65, 65)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(65, 65, 65));
+                }
+                else if (zhongyao == -9)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(48, 48, 48)), rect);
+                    mybsh = new SolidBrush(Color.FromArgb(48, 48, 48));
+                }
+                else if (zhongyao <= -10)
+                {
                     e.Graphics.FillRectangle(new SolidBrush(Color.Black), rect);
                     mybsh = new SolidBrush(Color.Black);
                 }
@@ -16619,7 +16726,7 @@ namespace DocearReminder
 
         private void titleTimer_Tick(object sender, EventArgs e)
         {
-            this.Text=this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
+            this.Text=this.Text.Split('@')[0] + "@未记录时间："+(DateTime.Now-TimeBlocklastTime).ToString(@"hh\:mm\:ss") +"   现在时间："+ DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void menu_Opening(object sender, System.ComponentModel.CancelEventArgs e)

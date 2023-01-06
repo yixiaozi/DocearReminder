@@ -252,7 +252,7 @@ namespace System.Windows.Forms.Calendar
             
 
             _itemsDateFormat = "dd/MMM";
-            _itemsTimeFormat = "hh:mm tt";
+            _itemsTimeFormat = "HH:mm tt";
             _allowItemEdit = true;
             _allowNew = true;
             _allowItemResize = true;
@@ -396,7 +396,7 @@ namespace System.Windows.Forms.Calendar
         /// <summary>
         /// Gets or sets the format in which time is shown in the items, when applicable
         /// </summary>
-        [DefaultValue("hh:mm tt")]
+        [DefaultValue("HH:mm tt")]
         public string ItemsTimeFormat
         {
             get { return _itemsTimeFormat; }

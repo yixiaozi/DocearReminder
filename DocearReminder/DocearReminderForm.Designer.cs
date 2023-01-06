@@ -164,6 +164,7 @@ namespace DocearReminder
             this.MoneyDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.KADateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.ShowKA = new System.Windows.Forms.CheckBox();
+            this.timeblockcheck = new System.Windows.Forms.Label();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -277,7 +278,7 @@ namespace DocearReminder
             // reminder_count
             // 
             this.reminder_count.AutoSize = true;
-            this.reminder_count.Location = new System.Drawing.Point(329, 483);
+            this.reminder_count.Location = new System.Drawing.Point(310, 483);
             this.reminder_count.Name = "reminder_count";
             this.reminder_count.Size = new System.Drawing.Size(11, 12);
             this.reminder_count.TabIndex = 12;
@@ -489,7 +490,7 @@ namespace DocearReminder
             // hourLeft
             // 
             this.hourLeft.AutoSize = true;
-            this.hourLeft.Location = new System.Drawing.Point(560, 483);
+            this.hourLeft.Location = new System.Drawing.Point(502, 483);
             this.hourLeft.Name = "hourLeft";
             this.hourLeft.Size = new System.Drawing.Size(11, 12);
             this.hourLeft.TabIndex = 14;
@@ -498,7 +499,7 @@ namespace DocearReminder
             // Hours
             // 
             this.Hours.AutoSize = true;
-            this.Hours.Location = new System.Drawing.Point(512, 483);
+            this.Hours.Location = new System.Drawing.Point(459, 483);
             this.Hours.Name = "Hours";
             this.Hours.Size = new System.Drawing.Size(11, 12);
             this.Hours.TabIndex = 13;
@@ -1256,7 +1257,7 @@ namespace DocearReminder
             // fathernode
             // 
             this.fathernode.AutoSize = true;
-            this.fathernode.Location = new System.Drawing.Point(629, 483);
+            this.fathernode.Location = new System.Drawing.Point(552, 483);
             this.fathernode.Name = "fathernode";
             this.fathernode.Size = new System.Drawing.Size(41, 12);
             this.fathernode.TabIndex = 120;
@@ -1266,7 +1267,7 @@ namespace DocearReminder
             // 
             this.labeltaskinfo.AutoSize = true;
             this.labeltaskinfo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labeltaskinfo.Location = new System.Drawing.Point(390, 483);
+            this.labeltaskinfo.Location = new System.Drawing.Point(346, 483);
             this.labeltaskinfo.Name = "labeltaskinfo";
             this.labeltaskinfo.Size = new System.Drawing.Size(11, 12);
             this.labeltaskinfo.TabIndex = 121;
@@ -1657,6 +1658,16 @@ namespace DocearReminder
             this.ShowKA.UseVisualStyleBackColor = true;
             this.ShowKA.CheckedChanged += new System.EventHandler(this.ShowKA_CheckedChanged);
             // 
+            // timeblockcheck
+            // 
+            this.timeblockcheck.AutoSize = true;
+            this.timeblockcheck.Location = new System.Drawing.Point(625, 484);
+            this.timeblockcheck.Name = "timeblockcheck";
+            this.timeblockcheck.Size = new System.Drawing.Size(65, 12);
+            this.timeblockcheck.TabIndex = 139;
+            this.timeblockcheck.Text = "时间块检查";
+            this.timeblockcheck.Click += new System.EventHandler(this.timeblockcheck_Click);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1665,6 +1676,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.timeblockcheck);
             this.Controls.Add(this.ShowKA);
             this.Controls.Add(this.KADateTimePicker);
             this.Controls.Add(this.MoneyDateTimePicker);
@@ -1923,6 +1935,7 @@ namespace DocearReminder
         private DateTimePicker MoneyDateTimePicker;
         private DateTimePicker KADateTimePicker;
         private CheckBox ShowKA;
+        private Label timeblockcheck;
     }
 }
 

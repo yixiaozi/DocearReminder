@@ -465,6 +465,7 @@ namespace DocearReminder
             }
             SaveLog("打开程序。");
             SetTimeBlockLasTime();
+            timeblockcheck.Text = "";
         }
         /// <summary>
         /// 压缩成base64格式
@@ -638,7 +639,7 @@ namespace DocearReminder
             }
             currentUsedTimerId = Guid.NewGuid();
             usedCount.Text = usedTimer.Count.ToString();
-            usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
+            usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
             todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
             UsedLogRenew(true,false);
         }
@@ -828,7 +829,7 @@ namespace DocearReminder
                 isInReminderlistSelect = false;
                 MyShow();
                 usedCount.Text = usedTimer.Count.ToString();
-                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
+                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
                 todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
                 UsedLogRenew();
             }
@@ -1102,7 +1103,7 @@ namespace DocearReminder
             try
             {
                 usedCount.Text = usedTimer.Count.ToString();
-                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
+                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
                 todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
             }
             catch (Exception)
@@ -2096,6 +2097,9 @@ namespace DocearReminder
         /// </summary>
         public void RRReminderlist()
         {
+            //清空值
+            timeblockcheck.Text = "";
+
             #region 显示时间块
             if (showTimeBlock.Checked)
             {
@@ -3259,22 +3263,52 @@ namespace DocearReminder
         {
             if (showTimeBlock.Checked)
             {
-                int actionNumber = 0;
+                Double actionNumber = 0;
                 double hours = 0;
                 double hoursLeft = 0;
-                double max = 24 * 60 * 10;
-                double min = -24 * 60 * 10;
+                double max = (DateTime.Now-DateTime.Today).TotalMinutes * 10;
+                double min = -(DateTime.Now - DateTime.Today).TotalMinutes * 10;
+                if (TimeBlockDate.Value!=DateTime.Today)
+                {
+                    max = min = 24 * 60 * 10;
+                }
+                //down
+                double down = 0;
+                int downcount = 0;
+                //up
+                double up = 0;
+                int upcount = 0;
+                double all = up+down;
+                int qingxuCount = 0;
                 //遍历reminderlist
                 foreach (MyListBoxItemRemind item in reminderList.Items)
                 {
                     actionNumber++;
                     hours += item.rtaskTime;
+                    if (item.level>0)
+                    {
+                        up += item.rtaskTime*item.level;
+                        qingxuCount++;
+                        upcount++;
+                    }
+                    else if (item.level<0)
+                    {
+                        down += item.rtaskTime * item.level;
+                        qingxuCount++;
+                        downcount++;
+                    }
+                    else
+                    {
+
+                    }
                 }
+
                 reminder_count.Text = actionNumber.ToString();
-                labeltaskinfo.Text = (hours / 60).ToString("F1") + "小时";
+                labeltaskinfo.Text = (hours / 60).ToString("F1") + "小时"+"   "+ hoursLeft.ToString("F1") + "小时";
                 hoursLeft = 24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60;
-                hourLeft.Text =  hoursLeft.ToString("F1") + "小时";
+                hourLeft.Text =  "";
                 Hours.Text = fathernode.Text= "";
+                timeblockcheck.Text = up.ToString("F0") +" "+ down.ToString("F0") + "=" + (up + down).ToString("F0") + " 满意度：" + (upcount / actionNumber).ToString("P") + "|" + (up / max).ToString("P") + " 糟糕度：" + (downcount / actionNumber).ToString("P") + "|" + (down / min).ToString("P") +" 总："+ ((upcount-downcount )/ actionNumber).ToString("P")+"|"+ ((up + down)/max).ToString("P") + " 情绪比："+(qingxuCount/actionNumber).ToString("P");
             }
         }
 
@@ -8744,7 +8778,7 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
-                        if (isRenameTimeBlock&& showTimeBlock.Checked && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//重命名，也就是修改备注的时候
+                        if (isRenameTimeBlock&& (showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//重命名，也就是修改备注的时候
                         {
                             //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
                             reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
@@ -8754,7 +8788,7 @@ namespace DocearReminder
                             isRenameTimeBlock = false;
                             return;
                         }
-                        if (showTimeBlock.Checked&&!searchword.Text.Contains("刚刚")&& !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
+                        if ((showTimeBlock.Checked&&!searchword.Text.StartsWith(" "))&&!searchword.Text.Contains("刚刚")&& !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
                         {
                             if (reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).comment=="")//如果时间块上还没有设置备注，就直接设置备注，而不是添加详细信息
                             {
@@ -8775,10 +8809,15 @@ namespace DocearReminder
                                 return;
                             }
                         }
-                        if (showTimeBlock.Checked&&(searchword.Text.Contains("@")))
+                        if ((showTimeBlock.Checked && !searchword.Text.StartsWith(" "))&&(searchword.Text.Contains("@")))
                         {
                             //不管有没有敲击刚刚，则添加刚刚两个字在最前面
                             searchword.Text ="刚刚"+ searchword.Text;
+                        }
+                        //去掉前面的空格
+                        while (searchword.Text.StartsWith(" "))
+                        {
+                            searchword.Text = searchword.Text.Substring(1);
                         }
                         if (searchword.Text.StartsWith("path:"))
                         {
@@ -12762,7 +12801,7 @@ namespace DocearReminder
                         richTextSubNode.Clear();
                     }
                     //显示时间块的分类
-                    fathernode.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
+                    Hours.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).link;
                 }
                 if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("！") || searchword.Text.StartsWith("·") || searchword.Text.StartsWith("~") || nodetree.Focused || FileTreeView.Focused || reminderlistSelectedItem == null)
                 {
@@ -14948,7 +14987,7 @@ namespace DocearReminder
                 else if (Clipboard.ContainsImage())
                 {
                     System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images");
-                    Clipboard.GetImage().Save((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".jpg").Replace(@"\\", @"\"));
+                    Clipboard.GetImage().Save((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "images" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".jpg").Replace(@"\\", @"\"));
                 }
                 if (log != null)
                 {
@@ -16885,7 +16924,7 @@ namespace DocearReminder
             if (StartRecordCheckBox.Checked)
             {
                 System.IO.Directory.CreateDirectory(clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio");
-                record.StartRecord((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".wav").Replace(@"\\", @"\"));
+                record.StartRecord((clipordFilePath + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "radio" + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".wav").Replace(@"\\", @"\"));
             }
             else
             {
@@ -17318,6 +17357,11 @@ namespace DocearReminder
         {
             RRReminderlist();
             KADateTimePicker.Focus();//继续选中
+        }
+
+        private void timeblockcheck_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

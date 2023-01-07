@@ -639,7 +639,7 @@ namespace DocearReminder
             }
             currentUsedTimerId = Guid.NewGuid();
             usedCount.Text = usedTimer.Count.ToString();
-            usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
+            usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
             todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
             UsedLogRenew(true,false);
         }
@@ -829,7 +829,7 @@ namespace DocearReminder
                 isInReminderlistSelect = false;
                 MyShow();
                 usedCount.Text = usedTimer.Count.ToString();
-                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
+                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
                 todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
                 UsedLogRenew();
             }
@@ -1103,7 +1103,7 @@ namespace DocearReminder
             try
             {
                 usedCount.Text = usedTimer.Count.ToString();
-                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.HH\:mm\:ss");
+                usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
                 todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
             }
             catch (Exception)
@@ -2104,11 +2104,24 @@ namespace DocearReminder
             if (showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value && m.time < TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock"&&(searchword.Text==""||(searchword.Text!=""&&(m.name.Contains(searchword.Text)|| m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m=>m.time))
+                int beginDateDiff = 0;
+                string searchWords = searchword.Text;
+                if (searchword.Text!=""&& searchword.Text.Contains(" "))
+                {
+                    try
+                    {
+                        beginDateDiff = Convert.ToInt32(searchword.Text.Split(' ')[1]);
+                        searchWords = searchword.Text.Split(' ')[0];
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value.AddDays(0-beginDateDiff) && m.time < TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock"&&(searchword.Text==""||(searchword.Text!=""&&(m.name.SafeToString().Contains(searchWords)|| m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m=>m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
-                        Text = item.time.ToString("   HH:mm") + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(),4)+ "  " + item.name+ (item.comment!=""?"(":"") +item.comment+ (item.comment != "" ? ")" : ""),
+                        Text = (searchWords == "" ? item.time.ToString("    HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(),4)+ "  " + item.name+ (item.comment!=""?"(":"") +item.comment+ (item.comment != "" ? ")" : ""),
                         Name = item.name,
                         Time = item.time,
                         Value = "TimeBlock", 
@@ -2135,11 +2148,24 @@ namespace DocearReminder
             else if (ShowMoney.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value && m.time < MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money" && (searchword.Text == "" || (searchword.Text != "" && (m.name.Contains(searchword.Text) || m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m => m.time))
+                int beginDateDiff = 0;
+                string searchWords = searchword.Text;
+                if (searchword.Text != "" && searchword.Text.Contains(" "))
+                {
+                    try
+                    {
+                        beginDateDiff = Convert.ToInt32(searchword.Text.Split(' ')[1]);
+                        searchWords = searchword.Text.Split(' ')[0];
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
-                        Text = item.time.ToString("   ") + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "元  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
+                        Text = (searchWords == "" ? item.time.ToString("   HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "元  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
                         Name = item.name,
                         Time = item.time,
                         Value = "Money",
@@ -2165,11 +2191,24 @@ namespace DocearReminder
             else if (ShowKA.Checked)
             {
                 reminderList.Items.Clear();
-                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value && m.time < KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA" && (searchword.Text == "" || (searchword.Text != "" && (m.name.Contains(searchword.Text) || m.comment.Contains(searchword.Text) || m.DetailComment.Contains(searchword.Text) || m.nameFull.Contains(searchword.Text))))).OrderBy(m => m.time))
+                int beginDateDiff = 0;
+                string searchWords = searchword.Text;
+                if (searchword.Text != "" && searchword.Text.Contains(" "))
+                {
+                    try
+                    {
+                        beginDateDiff = Convert.ToInt32(searchword.Text.Split(' ')[1]);
+                        searchWords = searchword.Text.Split(' ')[0];
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
-                        Text = item.time.ToString("   ") + FormatTimeLenght(Convert.ToInt16(item.tasktime * 10 / 9.46).ToString(), 4) + "克脂肪  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
+                        Text = (searchWords==""?item.time.ToString("   HH:mm") :item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime * 10 / 9.46).ToString(), 4) + "克脂肪  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : ""),
                         //((args.EndDate - args.StartDate).TotalMinutes * 10/9.46).ToString("F")+"克脂肪"
                         Name = item.name,
                         Time = item.time,

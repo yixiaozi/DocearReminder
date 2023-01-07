@@ -312,6 +312,11 @@ namespace DocearReminder
             // 
             this.n_days.ForeColor = System.Drawing.Color.Gray;
             this.n_days.Location = new System.Drawing.Point(1118, 9);
+            this.n_days.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.n_days.Name = "n_days";
             this.n_days.Size = new System.Drawing.Size(35, 21);
             this.n_days.TabIndex = 20;
@@ -465,7 +470,7 @@ namespace DocearReminder
             0});
             this.taskTime.Location = new System.Drawing.Point(1027, 9);
             this.taskTime.Maximum = new decimal(new int[] {
-            720,
+            100000,
             0,
             0,
             0});

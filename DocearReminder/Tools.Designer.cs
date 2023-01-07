@@ -53,6 +53,7 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.MoodInport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -298,12 +299,23 @@
             0,
             0});
             // 
+            // MoodInport
+            // 
+            this.MoodInport.Location = new System.Drawing.Point(685, 200);
+            this.MoodInport.Name = "MoodInport";
+            this.MoodInport.Size = new System.Drawing.Size(111, 30);
+            this.MoodInport.TabIndex = 34;
+            this.MoodInport.Text = "MoodNotes";
+            this.MoodInport.UseVisualStyleBackColor = true;
+            this.MoodInport.Click += new System.EventHandler(this.MoodInport_Click);
+            // 
             // Tools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(813, 318);
+            this.Controls.Add(this.MoodInport);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.dateTimePicker2);
@@ -369,5 +381,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button MoodInport;
     }
 }

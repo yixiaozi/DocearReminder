@@ -8362,6 +8362,12 @@ namespace DocearReminder
                 case Keys.C:
                     if (ReminderListFocused())
                     {
+                        if (showTimeBlock.Checked || ShowMoney.Checked || ShowKA.Checked)
+                        {
+                            Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).IsDaka);
+                            MyHide();
+                            return;
+                        }
                         if (((MyListBoxItemRemind)reminderlistSelectedItem).link!="")
                         {
                             if (File.Exists(((MyListBoxItemRemind)reminderlistSelectedItem).link))
@@ -8386,7 +8392,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
+                           Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
                         }
                         MyHide();
                     } else if (nodetree.Focused && nodetree.SelectedNode != null)

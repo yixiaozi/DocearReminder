@@ -1340,6 +1340,7 @@ namespace DocearReminder
                         {
                             try
                             {
+                                //图标文件
                                 if (node.Attributes["BUILTIN"].Value != ""&& node.Attributes["BUILTIN"].Value != "button_ok")
                                 {
                                     string filename = "";
@@ -1370,6 +1371,7 @@ namespace DocearReminder
                                                     nodeIconString += link;
                                                     nodeIconString += "@";
                                                 }
+                                                contents.Add(node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "");//可能会让没有ID的节点不显示，但是如果没有就不需要呀!
 
                                                 break;
                                             }
@@ -1409,6 +1411,91 @@ namespace DocearReminder
                                             nodeIconString += "|";
                                             nodeIconString += link;
                                             nodeIconString += "@";
+                                        }
+                                        contents.Add(node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "");//可能会让没有ID的节点不显示，但是如果没有就不需要呀!
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                        //将当前任务也添加进去，这样做方便
+                        foreach (XmlNode node in x.GetElementsByTagName("hook"))
+                        {
+                            try
+                            {
+                                if (node.Attributes["NAME"].Value != "" && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
+                                {
+                                    string filename = "";
+                                    if (node.ParentNode.Attributes["TEXT"] == null)
+                                    {
+                                        foreach (XmlNode item in node.ParentNode.ChildNodes)
+                                        {
+                                            if (item.Attributes["TYPE"] != null && item.Attributes["TYPE"].Value == "NODE")
+                                            {
+                                                filename = new HtmlToString().StripHTML(((System.Xml.XmlElement)item).InnerXml).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "");
+                                                string link = GetAttribute(node.ParentNode, "LINK");
+                                                if (filename != "")
+                                                {
+                                                    nodeIconString += filename;
+                                                    nodeIconString += "|";
+                                                    nodeIconString += Tools.GetFirstSpell(filename);
+                                                    nodeIconString += "|";
+                                                    nodeIconString += Tools.ConvertToAllSpell(filename);
+                                                    nodeIconString += "|";
+                                                    nodeIconString += Tools.GetFirstSpell(filename);
+                                                    nodeIconString += "|";
+                                                    nodeIconString += "true";
+                                                    nodeIconString += "|";
+                                                    nodeIconString += node.ParentNode.Attributes["ID"].Value;
+                                                    nodeIconString += "|";
+                                                    nodeIconString += file.FullName;
+                                                    nodeIconString += "|";
+                                                    nodeIconString += link;
+                                                    nodeIconString += "@";
+                                                }
+                                                contents.Add(node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "");//可能会让没有ID的节点不显示，但是如果没有就不需要呀!
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else if (!contents.Contains(node.ParentNode.Attributes["TEXT"].Value))
+                                    {
+                                        if (node.ParentNode.Attributes["TEXT"].Value != "")
+                                        {
+                                            string parentNodePath = GetFatherNodeName(node.ParentNode);
+                                            string link = GetAttribute(node.ParentNode, "LINK");
+                                            nodesicon.Add(new node
+                                            {
+                                                Text = node.ParentNode.Attributes["TEXT"].Value,
+                                                mindmapName = fileName,
+                                                mindmapPath = file.FullName,
+                                                editDateTime = DateTime.Now,
+                                                Time = DateTime.Now,
+                                                IDinXML = node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "",
+                                            });
+                                            filename = node.ParentNode.Attributes["TEXT"].Value.Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "");
+                                            nodeIconString += filename;
+                                            nodeIconString += "|";
+                                            nodeIconString += Tools.GetFirstSpell(filename);
+                                            nodeIconString += "|";
+                                            nodeIconString += Tools.ConvertToAllSpell(filename);
+                                            nodeIconString += "|";
+                                            nodeIconString += Tools.GetFirstSpell(filename);
+                                            nodeIconString += "|";
+                                            nodeIconString += "true";
+                                            nodeIconString += "|";
+                                            nodeIconString += node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "";
+                                            nodeIconString += "|";
+                                            nodeIconString += file.FullName;
+                                            nodeIconString += "|";
+                                            nodeIconString += parentNodePath;
+                                            nodeIconString += "|";
+                                            nodeIconString += link;
+                                            nodeIconString += "@";
+                                            contents.Add(node.ParentNode != null && node.ParentNode.Attributes != null && node.ParentNode.Attributes["ID"] != null ? node.ParentNode.Attributes["ID"].Value : "");//可能会让没有ID的节点不显示，但是如果没有就不需要呀!
                                         }
                                     }
                                 }
@@ -13480,6 +13567,10 @@ namespace DocearReminder
                 DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
                 {
+                    if (file.Name.StartsWith("`"))
+                    {
+                        continue;
+                    }
                     if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)
                     {
                         mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });

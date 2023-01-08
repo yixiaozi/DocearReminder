@@ -409,7 +409,7 @@ namespace DocearReminder
         {
             try
             {
-                if (tasktime == 0)
+                if (tasktime == 0)//如果没有记录时常，需要计算开始时间
                 {
                     try
                     {
@@ -418,9 +418,14 @@ namespace DocearReminder
                             ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
                             if (item != null)
                             {
-                                DateTime taskTime2 = item.time.AddMinutes(item.tasktime);
-                                tasktime = (taskTime - taskTime2).TotalMinutes;
-                                taskTime = taskTime2;
+                                DateTime endtime = item.time.AddMinutes(item.tasktime);
+                                //如果endTime小于当天时间，则设置为当天时间
+                                if (endtime < DateTime.Today)
+                                {
+                                    endtime = DateTime.Today;
+                                }
+                                tasktime = (taskTime - endtime).TotalMinutes;
+                                taskTime = endtime;
                                 if (tasktime <= 1)
                                 {
                                     tasktime = 2;

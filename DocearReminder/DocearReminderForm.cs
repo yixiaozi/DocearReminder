@@ -3434,7 +3434,11 @@ namespace DocearReminder
                 hoursLeft = 24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60;
                 hourLeft.Text =  "";
                 Hours.Text = fathernode.Text= "";
-                timeblockcheck.Text = up.ToString("F0") +" "+ down.ToString("F0") + "=" + (up + down).ToString("F0") + " 满意度：" + (upcount / actionNumber).ToString("P") + "|" + (up / max).ToString("P") + " 糟糕度：" + (downcount / actionNumber).ToString("P") + "|" + (down / min).ToString("P") +" 总："+ ((upcount-downcount )/ actionNumber).ToString("P")+"|"+ ((up + down)/max).ToString("P") + " 情绪比："+(qingxuCount/actionNumber).ToString("P");
+                if (actionNumber==0)
+                {
+                    actionNumber = 1;
+                }
+                timeblockcheck.Text = up.ToString("F0") + (down==0?" ":"") + (down == 0?"":down.ToString("F0")) + "=" + (up + down).ToString("F0") + " 满意度：" + (upcount / actionNumber).ToString("P1") + "|" + (up / max).ToString("P1") + " 糟糕度：" + (downcount / actionNumber).ToString("P1") + "|" + (down / min).ToString("P1") +" 总："+ ((upcount-downcount )/ actionNumber).ToString("P1")+"|"+ ((up + down)/max).ToString("P1") + " 情绪比："+(qingxuCount/actionNumber).ToString("P1");
             }
         }
 
@@ -11613,6 +11617,7 @@ namespace DocearReminder
                 case Keys.VolumeUp:
                     break;
                 case Keys.W:
+                    searchword.Text = "";
                     if (showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked)
                     {
                         mindmapornode.Text = "";

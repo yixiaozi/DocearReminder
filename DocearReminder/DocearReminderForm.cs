@@ -8957,15 +8957,20 @@ namespace DocearReminder
                                 return;
                             }
                         }
-                        if ((showTimeBlock.Checked && !searchword.Text.StartsWith(" "))&&(searchword.Text.Contains("@")))
+                        if (((showTimeBlock.Checked && !searchword.Text.StartsWith(" "))&&(searchword.Text.Contains("@")))|| searchword.Text.Contains(" @"))
                         {
                             //不管有没有敲击刚刚，则添加刚刚两个字在最前面
                             searchword.Text ="刚刚"+ searchword.Text;
                         }
+
                         //去掉前面的空格
                         while (searchword.Text.StartsWith(" "))
                         {
                             searchword.Text = searchword.Text.Substring(1);
+                        }
+                        if (searchword.Text.Contains(" @"))
+                        {
+                            searchword.Text = searchword.Text.Replace(" @", "@");
                         }
                         if (searchword.Text.StartsWith("path:"))
                         {
@@ -13965,10 +13970,10 @@ namespace DocearReminder
                     type = "T";
                     taskname =searchword.Text.Split('@')[0].Substring(1);
                 }
-                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@")|| showTimeBlock.Checked)
+                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@")|| searchword.Text.ToLower().Contains(" @") || showTimeBlock.Checked)
                 {
                     type = "刚刚";
-                    taskname = searchword.Text.Split('@')[0].Replace("刚刚","").Replace("刚刚", "").Replace("刚刚", "").Replace("刚刚", "");
+                    taskname = searchword.Text.Split('@')[0].Replace("刚刚","").Replace("刚刚", "").Replace("刚刚", "").Replace("刚刚", "").Replace(" ","");
                 }
                 if (searchword.SelectionStart < searchword.Text.Length)
                 {

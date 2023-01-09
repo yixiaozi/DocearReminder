@@ -165,6 +165,7 @@ namespace DocearReminder
             this.KADateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.ShowKA = new System.Windows.Forms.CheckBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
+            this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1681,6 +1682,16 @@ namespace DocearReminder
             this.timeblockcheck.Text = "时间块检查";
             this.timeblockcheck.Click += new System.EventHandler(this.timeblockcheck_Click);
             // 
+            // tagList
+            // 
+            this.tagList.BackColor = System.Drawing.Color.White;
+            this.tagList.ForeColor = System.Drawing.Color.DarkGray;
+            this.tagList.Location = new System.Drawing.Point(1187, 198);
+            this.tagList.Name = "tagList";
+            this.tagList.Size = new System.Drawing.Size(229, 274);
+            this.tagList.TabIndex = 140;
+            this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1689,6 +1700,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.tagList);
             this.Controls.Add(this.timeblockcheck);
             this.Controls.Add(this.ShowKA);
             this.Controls.Add(this.KADateTimePicker);
@@ -1949,6 +1961,7 @@ namespace DocearReminder
         private DateTimePicker KADateTimePicker;
         private CheckBox ShowKA;
         private Label timeblockcheck;
+        private FerretLib.WinForms.Controls.TagListControl tagList;
     }
 }
 

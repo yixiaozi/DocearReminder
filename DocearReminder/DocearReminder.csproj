@@ -86,6 +86,9 @@
     <Reference Include="AxInterop.DSOFramer">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AxInterop.DSOFramer.dll</HintPath>
     </Reference>
+    <Reference Include="FerretLib.WinForms, Version=1.0.0.26422, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FerretLib.WinForms.0.4\lib\FerretLib.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Gma.UserActivityMonitor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>

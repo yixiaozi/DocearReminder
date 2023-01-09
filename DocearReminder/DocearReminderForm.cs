@@ -50,6 +50,7 @@ using DataFormats = System.Windows.Forms.DataFormats;
 using DataObject = System.Windows.Forms.DataObject;
 using Size = System.Drawing.Size;
 using System.Drawing.Imaging;
+using FerretLib.WinForms.Controls;
 
 namespace DocearReminder
 {
@@ -13033,11 +13034,24 @@ namespace DocearReminder
                                 {
                                         pictureBox1.Height = 0;
                                 }
+                                List<string> mytags = new List<string>();
+                                tagList.Tags = mytags;
                                 foreach (XmlNode subNode in node.ChildNodes)
                                 {
                                     if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
                                     {
                                         subNodesInfo+=(subNode.Attributes["TEXT"].Value+Environment.NewLine);
+                                    }
+
+                                    //如果TYPE等于DETAILS显示节点Tag
+                                    if(subNode.Attributes != null && subNode.Attributes["TYPE"] != null && subNode.Attributes["TYPE"].Value == "DETAILS")
+                                    {
+                                        string tagStr = new HtmlToString().StripHTML((subNode.InnerText).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "")); ;
+                                        if (tagStr!="")
+                                        {
+                                            mytags.AddRange(tagStr.Split('#'));
+                                            tagList.Tags = mytags;
+                                        }
                                     }
                                 }
                             }

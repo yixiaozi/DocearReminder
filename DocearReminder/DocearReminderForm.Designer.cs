@@ -321,6 +321,7 @@ namespace DocearReminder
             this.n_days.Size = new System.Drawing.Size(35, 21);
             this.n_days.TabIndex = 20;
             this.n_days.TabStop = false;
+            this.n_days.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // button_cycle
             // 
@@ -479,6 +480,7 @@ namespace DocearReminder
             this.taskTime.TabIndex = 15;
             this.taskTime.TabStop = false;
             this.taskTime.ValueChanged += new System.EventHandler(this.taskTime_ValueChanged);
+            this.taskTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // fenshu
             // 
@@ -568,6 +570,7 @@ namespace DocearReminder
             this.tasklevel.TabIndex = 48;
             this.tasklevel.TabStop = false;
             this.tasklevel.ValueChanged += new System.EventHandler(this.tasklevel_ValueChanged);
+            this.tasklevel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // c_hour
             // 
@@ -1514,6 +1517,7 @@ namespace DocearReminder
             this.hopeNote.Text = "";
             this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
             this.hopeNote.TextChanged += new System.EventHandler(this.hopeNote_TextChanged);
+            this.hopeNote.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // richTextSubNode
             // 
@@ -1531,6 +1535,7 @@ namespace DocearReminder
             this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
             this.richTextSubNode.TextChanged += new System.EventHandler(this.RichTextSubNode_TextChanged);
             this.richTextSubNode.Enter += new System.EventHandler(this.RichSubTest_Enter);
+            this.richTextSubNode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             this.richTextSubNode.Leave += new System.EventHandler(this.RichSubTest_Leave);
             this.richTextSubNode.MouseLeave += new System.EventHandler(this.RichSubTest_MouseLeave);
             this.richTextSubNode.MouseHover += new System.EventHandler(this.RichSubTest_MouseHover);
@@ -1624,6 +1629,7 @@ namespace DocearReminder
             this.TimeBlockDate.Size = new System.Drawing.Size(151, 21);
             this.TimeBlockDate.TabIndex = 134;
             this.TimeBlockDate.ValueChanged += new System.EventHandler(this.TimeBlockDate_ValueChanged);
+            this.TimeBlockDate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // ShowMoney
             // 
@@ -1643,6 +1649,7 @@ namespace DocearReminder
             this.MoneyDateTimePicker.Size = new System.Drawing.Size(151, 21);
             this.MoneyDateTimePicker.TabIndex = 136;
             this.MoneyDateTimePicker.ValueChanged += new System.EventHandler(this.MoneyDateTimePicker_ValueChanged);
+            this.MoneyDateTimePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // KADateTimePicker
             // 
@@ -1651,6 +1658,7 @@ namespace DocearReminder
             this.KADateTimePicker.Size = new System.Drawing.Size(151, 21);
             this.KADateTimePicker.TabIndex = 137;
             this.KADateTimePicker.ValueChanged += new System.EventHandler(this.KADateTimePicker_ValueChanged);
+            this.KADateTimePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // ShowKA
             // 

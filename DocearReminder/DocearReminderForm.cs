@@ -2175,9 +2175,20 @@ namespace DocearReminder
         public static Reminder reminderObject = new Reminder();
         public void SetTimeBlockLasTime()
         {
-            //将TimeBlockLastTime设置
-            TimeBlocklastTime = reminderObject.reminders.Where(m => m.time<DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").time;
-            TimeBlocklastTime = TimeBlocklastTime.AddMinutes(reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").tasktime);
+            //避免reminderObject为空
+            if (reminderObject == null || reminderObject.reminders == null||reminderObject.reminders.Count==0)
+            {
+                return;
+            }
+            try
+            {
+                //将TimeBlockLastTime设置
+                TimeBlocklastTime = reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").time;
+                TimeBlocklastTime = TimeBlocklastTime.AddMinutes(reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").tasktime);
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 刷新任务控件
@@ -2185,7 +2196,9 @@ namespace DocearReminder
         public void RRReminderlist()
         {
             //清空值
-            timeblockcheck.Text = "";
+            timeblockcheck.Text = Hours.Text = fathernode.Text= "";
+
+            SetTimeBlockLasTime();
 
             #region 显示时间块
             if (showTimeBlock.Checked)
@@ -2226,7 +2239,6 @@ namespace DocearReminder
                         level=item.tasklevel
                     });
                 }
-                SetTimeBlockLasTime();
                 //更新简要信息
                 UpdateSummary();
                 reminderList.Focus();
@@ -13944,7 +13956,7 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")||(showTimeBlock.Checked&& !searchword.Text.StartsWith(" ")))&& searchword.Text.Contains("@"))//选择时间块,如果开始是空格，就不认为是时间块状态
+            if (searchword.Text != "" &&(searchword.Text.ToLower().StartsWith("t")|| searchword.Text.ToLower().StartsWith("刚刚")|| searchword.Text.ToLower().EndsWith("刚刚")|| searchword.Text.ToLower().Contains("刚刚@")|| searchword.Text.ToLower().Contains(" @") || (showTimeBlock.Checked&& !searchword.Text.StartsWith(" ")))&& searchword.Text.Contains("@"))//选择时间块,如果开始是空格，就不认为是时间块状态
             {
                 string taskname = "";
                 string type = "";
@@ -16660,11 +16672,16 @@ namespace DocearReminder
 
         private void noterichTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                if (e.Modifiers.CompareTo(Keys.Control) == 0|| e.Modifiers.CompareTo(Keys.Shift) == 0) {
+                if (e.Modifiers.CompareTo(Keys.Control) == 0 || e.Modifiers.CompareTo(Keys.Shift) == 0)
+                {
                     nodetree.Focus();
                 }
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                nodetree.Focus();
             }
         }
 
@@ -16916,7 +16933,28 @@ namespace DocearReminder
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+            try
+            {
+                //只需要遍历树的Tab就可以了
+                if (nodetreeSearch.Text.Trim() != "")
+                {
+                    SearchTreeNode(nodetree.Nodes, nodetreeSearch.Text.Trim());
+                    SearchTreeNode(FileTreeView.Nodes, nodetreeSearch.Text.Trim());
+                }
+                else
+                {
+                    nodetree.CollapseAll();
+                    FileTreeView.CollapseAll();
+                }
+                if (nodetree.Top != nodetreeTopTop)
+                {
+                    nodetree.Top = FileTreeView.Top = nodetreeTopTop;
+                    nodetree.Height = FileTreeView.Height = nodeTreeHeightMax;
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public void SearchTreeNode(TreeNodeCollection nodes,string searchWorld)
@@ -17003,6 +17041,10 @@ namespace DocearReminder
                     nodetree.Top = FileTreeView.Top = nodetreeTopTop;
                     nodetree.Height = FileTreeView.Height = nodeTreeHeightMax;
                 }
+                nodetree.Focus();
+            }
+            else if (e.KeyCode==Keys.Escape)
+            {
                 nodetree.Focus();
             }
         }

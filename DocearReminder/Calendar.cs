@@ -33,7 +33,6 @@ namespace DocearReminder
         string[] noFolder = new string[] { };
         string CalendarImagePath = "";
         List<string> workfolders = new List<string>();
-        private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         bool ismovetask = false;
         [DllImport("User32.dll")]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -3082,7 +3081,6 @@ namespace DocearReminder
 
         public void ShowAllFile()
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             string NewFileExtension = ini.ReadString("path", "NewFileExtension", "");
             //m_Appointments = new List<Appointment>();//Çå¿Õ
             Appointment m_Appointment = new Appointment();

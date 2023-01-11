@@ -16,6 +16,7 @@ using yixiaozi.Security;
 using yixiaozi.MyConvert;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections;
+using static DocearReminder.DocearReminderForm;
 
 namespace DocearReminder
 {
@@ -40,7 +41,6 @@ namespace DocearReminder
             Reminder reminderObject = new Reminder();
             Reminder reminderObjectBACKUP = new Reminder();
             FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             using (StreamReader sw = fi.OpenText())
             {
@@ -79,7 +79,6 @@ namespace DocearReminder
 
         private void deletetemp_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             int deleteCount = 0;
             foreach (FileInfo file in path.GetFiles("~*.mm", SearchOption.AllDirectories))
@@ -134,7 +133,6 @@ namespace DocearReminder
 
         private void createsuggest_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -187,7 +185,6 @@ namespace DocearReminder
         }
         public static void createsuggest_fun()
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -317,7 +314,6 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
@@ -449,7 +445,6 @@ namespace DocearReminder
         private void button4_Click(object sender, EventArgs e)
         {
             return;
-            //IniFile ini = new IniFile(@"./config.ini");
             //DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             //foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             //{
@@ -492,7 +487,6 @@ namespace DocearReminder
         //所有links建议文件
         private void button5_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
 
             List<string> usedSuggest = new List<string>();
@@ -553,7 +547,6 @@ namespace DocearReminder
 
         private void button8_Click(object sender, EventArgs e)
         {
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             List<string> names = new List<string>();
             string result = "";
@@ -748,8 +741,8 @@ namespace DocearReminder
 
         private void MoodInport_Click(object sender, EventArgs e)
         {
-            string filename = @"E:\yixiaozi\有条不紊\Backup\Moodnotes Journal Report\MoodnotesReport.csv";
-            string MoondNodesMap = @"E:\yixiaozi\目标\个人\修为\Moodnotes.mm";
+            string filename = ini.ReadString("path", "MoodnotesReport", "");
+            string MoondNodesMap = ini.ReadString("path", "Moodnotes", "");
             DataTable dt = OpenCSV(filename);
             //添加到时间块中
             System.Xml.XmlDocument x = new XmlDocument();
@@ -758,7 +751,7 @@ namespace DocearReminder
             DateTime oldeditdate = DateTime.Now;
             string oldlevel = "";
             //倒叙遍历dt.Rows
-            for (int i = dt.Rows.Count-1;  i>0; i--)
+            for (int i = dt.Rows.Count-1;  i>=0; i--)
             {
                 DataRow item = dt.Rows[i];
                 string createdate = item[1].ToString().Replace("\"","");//"06/01/2023 19:38"
@@ -770,25 +763,30 @@ namespace DocearReminder
                 DateTime Edittime=DateTime.Now;
                 try
                 {
-                    Createtime = Convert.ToDateTime(createdate);
-                    Edittime = Convert.ToDateTime(editdate);
-                    //调换月份和日期
-                    Createtime = new DateTime(Createtime.Year, Createtime.Day, Createtime.Month, Createtime.Hour, Createtime.Minute, Createtime.Second);
-                    Edittime = new DateTime(Edittime.Year, Edittime.Day, Edittime.Month, Edittime.Hour, Edittime.Minute, Edittime.Second);
+                    //这里的月份和日期是反的，格式为：16/05/2017 05:33 应该为05/16/2017 05:33
+                    Createtime = Convert.ToDateTime(createdate.Substring(3, 2) + "/" + createdate.Substring(0, 2) + "/" + createdate.Substring(6, 4) + " " + createdate.Substring(11, 5));
+                    Edittime = Convert.ToDateTime(editdate.Substring(3, 2) + "/" + editdate.Substring(0, 2) + "/" + editdate.Substring(6, 4) + " " + editdate.Substring(11, 5));
+                    
+                    //Createtime = Convert.ToDateTime(createdate);
+                    //Edittime = Convert.ToDateTime(editdate);
+                    ////调换月份和日期
+                    //Createtime = new DateTime(Createtime.Year, Createtime.Day, Createtime.Month, Createtime.Hour, Createtime.Minute, Createtime.Second);
+                    //Edittime = new DateTime(Edittime.Year, Edittime.Day, Edittime.Month, Edittime.Hour, Edittime.Minute, Edittime.Second);
                     oldCreateDate = Createtime;
                     oldeditdate = Edittime;
                     oldlevel = level;
                 }
                 catch (Exception)//一旦没有时间，即使换行引起的
                 {
+                    oldCreateDate=oldCreateDate.AddSeconds(1);
                     Createtime = oldCreateDate;
                     Edittime = oldeditdate;
                     level = oldlevel;
-                    taskName = createdate;
+                    taskName = item[0].ToString();
                 }
                 XmlNode root = x.GetElementsByTagName("node")[0]; ;
 
-                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmssMoodnotesReport")))
+                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss")+ "MoodnotesReport") && !x.OuterXml.Contains(taskName))
                 {
                     XmlNode newNote = x.CreateElement("node");
                     XmlAttribute newNotetext = x.CreateAttribute("TEXT");
@@ -802,7 +800,7 @@ namespace DocearReminder
                     newNote.Attributes.Append(newNoteMODIFIED);
                     XmlAttribute TASKID = x.CreateAttribute("ID");
                     newNote.Attributes.Append(TASKID);
-                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmssMoodnotesReport");//用创建时间确定唯一
+                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss")+ "MoodnotesReport";//用创建时间确定唯一
                     XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                     newNote.Attributes.Append(TASKLEVEL);
                     newNote.Attributes["TASKLEVEL"].Value = level.ToString();

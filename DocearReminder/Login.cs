@@ -4,13 +4,12 @@ using yixiaozi.Config;
 using yixiaozi.Security;
 using System.Data.SQLite;
 using System.Collections.Generic;
-
+using static DocearReminder.DocearReminderForm;
 namespace DocearReminder
 {
     public partial class Form1 : Form
     {
-        IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
-
+        private static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         int errorcount = 2;
         bool isfirstload = true;
         public Form1()
@@ -113,7 +112,6 @@ namespace DocearReminder
             {
                 return;
             }
-            IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (checkBox1.Checked)
             {

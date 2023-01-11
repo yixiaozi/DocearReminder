@@ -15,7 +15,6 @@ namespace DocearReminder
 {
     public partial class Target : Form
     {
-        private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         public string target = "";
         public Target()
         {

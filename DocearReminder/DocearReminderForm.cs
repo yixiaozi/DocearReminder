@@ -69,7 +69,7 @@ namespace DocearReminder
         SoundPlayer simpleSound = new SoundPlayer();
         public static bool[] fanqiePosition = new bool[(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - 30) / 120];
         private HotKeys hotKeys = new HotKeys();
-        private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
+        public static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         private string[] noFolder = new string[] { };
         private string[] noFiles = new string[] { };
         private CustomCheckedListBox mindmaplis1 = new CustomCheckedListBox();

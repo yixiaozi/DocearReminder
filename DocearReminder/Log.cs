@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.WinForm.Common;
+using static DocearReminder.DocearReminderForm;
 
 namespace DocearReminder
 {
@@ -22,7 +23,6 @@ namespace DocearReminder
     {
         List<result> logs = new List<result>();
         static string logpass = "niqishihenhao";
-        private IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"config.ini");
         public Log()
         {
             InitializeComponent();

@@ -3443,8 +3443,8 @@ namespace DocearReminder
                 }
 
                 reminder_count.Text = actionNumber.ToString();
-                labeltaskinfo.Text = (hours / 60).ToString("F1") + "小时"+"   "+ hoursLeft.ToString("F1") + "小时";
                 hoursLeft = 24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60;
+                labeltaskinfo.Text = (hours / 60).ToString("F1") + "小时"+"   "+ hoursLeft.ToString("F1") + "小时";
                 hourLeft.Text =  "";
                 Hours.Text = fathernode.Text= "";
                 if (actionNumber==0)

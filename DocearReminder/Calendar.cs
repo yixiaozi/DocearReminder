@@ -415,7 +415,7 @@ namespace DocearReminder
                     {
                         if (timelong == 0)
                         {
-                            ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time).LastOrDefault();//查找最后一个就行了不计算时长了
+                            ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();//查找最后一个就行了不计算时长了
                             if (item != null)
                             {
                                 DateTime endtime = item.time.AddMinutes(item.tasktime);
@@ -839,6 +839,10 @@ namespace DocearReminder
                 catch (Exception e)
                 { }
                 double time = item.tasktime;
+                if (time==0)
+                {
+                    time = 30;//默认显示30分钟
+                }
 
                 m_Appointment.taskTime = time;
                 m_Appointment.EndDate = item.time.AddMinutes(time);
@@ -2267,7 +2271,7 @@ namespace DocearReminder
             }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.time.AddMinutes(m.tasktime)).LastOrDefault();
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
@@ -2402,7 +2406,7 @@ namespace DocearReminder
             }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now &&m.mindmap == "Money"&& m.isCompleted == false).OrderBy(m => m.time.AddMinutes(m.tasktime)).LastOrDefault();
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now &&m.mindmap == "Money"&& m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);

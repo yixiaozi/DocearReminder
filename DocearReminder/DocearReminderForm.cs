@@ -2184,8 +2184,8 @@ namespace DocearReminder
             try
             {
                 //将TimeBlockLastTime设置
-                TimeBlocklastTime = reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").time;
-                TimeBlocklastTime = TimeBlocklastTime.AddMinutes(reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.time).LastOrDefault(m => m.mindmap == "TimeBlock").tasktime);
+                TimeBlocklastTime = reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.TimeEnd).LastOrDefault(m => m.mindmap == "TimeBlock").TimeEnd;
+                //TimeBlocklastTime = TimeBlocklastTime.AddMinutes(reminderObject.reminders.Where(m => m.time < DateTime.Now).OrderBy(m => m.TimeEnd).LastOrDefault(m => m.mindmap == "TimeBlock").tasktime);
             }
             catch (Exception)
             {
@@ -8306,6 +8306,7 @@ namespace DocearReminder
                         if (IsReminderOnlyCheckBox.Checked)
                         {
                             IsReminderOnlyCheckBox.Checked = false;
+                            shaixuanfuwei();
                             RRReminderlist();
                         }
                         else

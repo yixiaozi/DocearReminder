@@ -739,7 +739,7 @@ namespace DocearReminder
         }
         #region MoodNotes
 
-        private void MoodInport_Click(object sender, EventArgs e)
+        private void MoodImport_Click(object sender, EventArgs e)
         {
             string filename = ini.ReadString("path", "MoodnotesReport", "");
             string MoondNodesMap = ini.ReadString("path", "Moodnotes", "");
@@ -751,6 +751,7 @@ namespace DocearReminder
             DateTime oldeditdate = DateTime.Now;
             string oldlevel = "";
             //倒叙遍历dt.Rows
+            List<string> lastWords = new List<string>();
             for (int i = dt.Rows.Count-1;  i>=0; i--)
             {
                 DataRow item = dt.Rows[i];
@@ -761,28 +762,23 @@ namespace DocearReminder
 
                 DateTime Createtime=DateTime.Now;
                 DateTime Edittime=DateTime.Now;
+                bool isLastWord = false;
                 try
                 {
                     //这里的月份和日期是反的，格式为：16/05/2017 05:33 应该为05/16/2017 05:33
                     Createtime = Convert.ToDateTime(createdate.Substring(3, 2) + "/" + createdate.Substring(0, 2) + "/" + createdate.Substring(6, 4) + " " + createdate.Substring(11, 5));
                     Edittime = Convert.ToDateTime(editdate.Substring(3, 2) + "/" + editdate.Substring(0, 2) + "/" + editdate.Substring(6, 4) + " " + editdate.Substring(11, 5));
                     
-                    //Createtime = Convert.ToDateTime(createdate);
-                    //Edittime = Convert.ToDateTime(editdate);
-                    ////调换月份和日期
-                    //Createtime = new DateTime(Createtime.Year, Createtime.Day, Createtime.Month, Createtime.Hour, Createtime.Minute, Createtime.Second);
-                    //Edittime = new DateTime(Edittime.Year, Edittime.Day, Edittime.Month, Edittime.Hour, Edittime.Minute, Edittime.Second);
                     oldCreateDate = Createtime;
                     oldeditdate = Edittime;
                     oldlevel = level;
                 }
                 catch (Exception)//一旦没有时间，即使换行引起的
                 {
-                    oldCreateDate=oldCreateDate.AddSeconds(1);
-                    Createtime = oldCreateDate;
-                    Edittime = oldeditdate;
-                    level = oldlevel;
                     taskName = item[0].ToString();
+                    isLastWord = true;
+                    lastWords.Add(taskName);
+                    continue;
                 }
                 XmlNode root = x.GetElementsByTagName("node")[0]; ;
 
@@ -833,15 +829,159 @@ namespace DocearReminder
                             XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
                         }
                         XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == Createtime.Day.ToString());
+                        if (!haschildNode(month, Createtime.ToString("HH:mm")))
+                        {
+                            XmlNode timeNode = x.CreateElement("node");
+                            XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                            dayNodeValue.Value = Createtime.ToString("HH:mm");
+                            timeNode.Attributes.Append(dayNodeValue);
+                            XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); timeNode.Attributes.Append(dayNodeTASKID); timeNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); day.AppendChild(timeNode);
+                        }
+                        XmlNode time = day.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == Createtime.ToString("HH:mm"));
+
+                        if (isLastWord)
+                        {
+                            //什么都不做
+                        }
+                        else
+                        {
+                            time.AppendChild(newNote);
+                            if (lastWords.Count >= 0)
+                            {
+                                lastWords.Reverse();
+                                //将lastWords倒序插入，并且清空
+                                foreach (var lastWordItem in lastWords)
+                                {
+                                    XmlNode newNoteLastWord = x.CreateElement("node");
+                                    XmlAttribute lastWordItemA = x.CreateAttribute("TEXT");
+                                    lastWordItemA.Value = lastWordItem;
+                                    newNoteLastWord.Attributes.Append(lastWordItemA);
+                                    newNoteLastWord.Attributes.Append(newNoteCREATED);
+                                    newNoteLastWord.Attributes.Append(newNoteMODIFIED);
+                                    newNoteLastWord.Attributes.Append(TASKID);
+                                    newNoteLastWord.Attributes["ID"].Value = newNoteLastWord.Attributes["ID"].Value+"SubWords";
+                                    newNoteLastWord.Attributes.Append(TASKLEVEL);
+                                    newNoteLastWord.Attributes["TASKLEVEL"].Value = level.ToString();
+                                    time.AppendChild(newNoteLastWord);
+                                }
+                                lastWords.Clear();
+                            }
+                        }
+                    }
+                }
+                else//如果已经有了，子节点就清空
+                {
+                    lastWords.Clear();
+                }
+            }
+            x.Save(MoondNodesMap);
+            yixiaozi.Model.DocearReminder.Helper.ConvertFile(MoondNodesMap);
+            //打开文件MoodNodesMap
+            System.Diagnostics.Process.Start(MoondNodesMap);
+        }
+        private void DiigoImport_Click(object sender, EventArgs e)
+        {
+            string filename = ini.ReadString("path", "DiigoReport", "");
+            string DiigoMap = ini.ReadString("path", "Diigo", "");
+            DataTable dt = OpenCSV(filename);
+            //添加到时间块中
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(DiigoMap);
+            DateTime oldCreateDate =DateTime.Now;
+            DateTime oldcreatedate = DateTime.Now;
+            string oldlevel = "";
+            //倒叙遍历dt.Rows
+            for (int i = dt.Rows.Count-1;  i>=0; i--)
+            {
+                DataRow item = dt.Rows[i];
+                string createdate = item[6].ToString().Replace("\"","");//2023/1/12 4:18
+                string level = "0";
+                string taskName = item[0].ToString().Replace("\"", "");
+                string tasklink = item[1].ToString().Replace("\"", "");
+                string tasktags = item[2].ToString().Replace("\"", "");
+                string taskdescription = item[3].ToString().Replace("\"", "");
+                string taskcomments = item[4].ToString().Replace("\"", "");
+                string taskannotations = item[5].ToString().Replace("\"", "");
+
+                DateTime Createtime=DateTime.Now;
+                DateTime Edittime=DateTime.Now;
+                try
+                {
+                    //这里的月份和日期是反的，格式为：16/05/2017 05:33 应该为05/16/2017 05:33
+                    Createtime = Convert.ToDateTime(createdate.Substring(3, 2) + "/" + createdate.Substring(0, 2) + "/" + createdate.Substring(6, 4) + " " + createdate.Substring(11, 5));
+                    Edittime = Convert.ToDateTime(createdate.Substring(3, 2) + "/" + createdate.Substring(0, 2) + "/" + createdate.Substring(6, 4) + " " + createdate.Substring(11, 5));
+                    
+                    oldCreateDate = Createtime;
+                    oldcreatedate = Edittime;
+                    oldlevel = level;
+                }
+                catch (Exception)//一旦没有时间，即使换行引起的
+                {
+                    oldCreateDate=oldCreateDate.AddSeconds(1);
+                    Createtime = oldCreateDate;
+                    Edittime = oldcreatedate;
+                    level = oldlevel;
+                    taskName = item[0].ToString();
+                }
+                XmlNode root = x.GetElementsByTagName("node")[0]; ;
+
+                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss")+ "DiigoReport") && !x.OuterXml.Contains(taskName))
+                {
+                    XmlNode newNote = x.CreateElement("node");
+                    XmlAttribute newNotetext = x.CreateAttribute("TEXT");
+                    newNotetext.Value = taskName;
+                    XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
+                    newNoteCREATED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1,1))).TotalMilliseconds)).ToString();
+                    XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
+                    newNoteMODIFIED.Value = (Convert.ToInt64((Edittime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                    newNote.Attributes.Append(newNotetext);
+                    newNote.Attributes.Append(newNoteCREATED);
+                    newNote.Attributes.Append(newNoteMODIFIED);
+                    XmlAttribute TASKID = x.CreateAttribute("ID");
+                    newNote.Attributes.Append(TASKID);
+                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss")+ "DiigoReport";//用创建时间确定唯一
+                    XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
+                    newNote.Attributes.Append(TASKLEVEL);
+                    newNote.Attributes["TASKLEVEL"].Value = level.ToString();
+                    if (true)
+                    {
+                        if (!haschildNode(root, Createtime.Year.ToString()))
+                        {
+                            XmlNode yearNode = x.CreateElement("node");
+                            XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                            yearNodeValue.Value = Createtime.Year.ToString();
+                            yearNode.Attributes.Append(yearNodeValue);
+                            XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+                        }
+                        XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == Createtime.Year.ToString());
+                        if (!haschildNode(year, Createtime.Month.ToString()))
+                        {
+                            XmlNode monthNode = x.CreateElement("node");
+                            XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                            monthNodeValue.Value = Createtime.Month.ToString();
+                            monthNode.Attributes.Append(monthNodeValue);
+                            XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+                        }
+                        XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == Createtime.Month.ToString());
+                        if (!haschildNode(month, Createtime.Day.ToString()))
+                        {
+                            XmlNode dayNode = x.CreateElement("node");
+                            XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                            dayNodeValue.Value = Createtime.Day.ToString();
+                            dayNode.Attributes.Append(dayNodeValue);
+                            XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+                        }
+                        XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == Createtime.Day.ToString());
                         day.AppendChild(newNote);
                     }
                 }
             }
-            x.Save(MoondNodesMap);
-            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(MoondNodesMap));
+            x.Save(DiigoMap);
+            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(DiigoMap));
             th.Start();
             return;
         }
+        
         public bool haschildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
@@ -1009,6 +1149,5 @@ namespace DocearReminder
             return true;
         }
         #endregion
-        
     }
 }

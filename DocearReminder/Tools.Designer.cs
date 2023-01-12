@@ -54,6 +54,7 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.MoodInport = new System.Windows.Forms.Button();
+            this.DiigoImport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -307,7 +308,17 @@
             this.MoodInport.TabIndex = 34;
             this.MoodInport.Text = "MoodNotes";
             this.MoodInport.UseVisualStyleBackColor = true;
-            this.MoodInport.Click += new System.EventHandler(this.MoodInport_Click);
+            this.MoodInport.Click += new System.EventHandler(this.MoodImport_Click);
+            // 
+            // DiigoImport
+            // 
+            this.DiigoImport.Location = new System.Drawing.Point(693, 252);
+            this.DiigoImport.Name = "DiigoImport";
+            this.DiigoImport.Size = new System.Drawing.Size(103, 21);
+            this.DiigoImport.TabIndex = 35;
+            this.DiigoImport.Text = "Diigo";
+            this.DiigoImport.UseVisualStyleBackColor = true;
+            this.DiigoImport.Click += new System.EventHandler(this.DiigoImport_Click);
             // 
             // Tools
             // 
@@ -315,6 +326,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(813, 318);
+            this.Controls.Add(this.DiigoImport);
             this.Controls.Add(this.MoodInport);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.checkBox2);
@@ -382,5 +394,6 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button MoodInport;
+        private System.Windows.Forms.Button DiigoImport;
     }
 }

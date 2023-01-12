@@ -81,6 +81,7 @@ namespace DocearReminder
             this.HTML = new System.Windows.Forms.CheckBox();
             this.ShowClipboard = new System.Windows.Forms.CheckBox();
             this.ActionLog = new System.Windows.Forms.CheckBox();
+            this.TimeBlockColor = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -624,12 +625,22 @@ namespace DocearReminder
             this.ActionLog.UseVisualStyleBackColor = true;
             this.ActionLog.CheckedChanged += new System.EventHandler(this.CaptureScreen_CheckedChanged);
             // 
+            // TimeBlockColor
+            // 
+            this.TimeBlockColor.AutoSize = true;
+            this.TimeBlockColor.Location = new System.Drawing.Point(911, 0);
+            this.TimeBlockColor.Name = "TimeBlockColor";
+            this.TimeBlockColor.Size = new System.Drawing.Size(15, 14);
+            this.TimeBlockColor.TabIndex = 52;
+            this.TimeBlockColor.UseVisualStyleBackColor = true;
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.TimeBlockColor);
             this.Controls.Add(this.ActionLog);
             this.Controls.Add(this.ShowClipboard);
             this.Controls.Add(this.HTML);
@@ -739,6 +750,7 @@ namespace DocearReminder
         private CheckBox HTML;
         private CheckBox ShowClipboard;
         private CheckBox ActionLog;
+        private CheckBox TimeBlockColor;
     }
 }
 

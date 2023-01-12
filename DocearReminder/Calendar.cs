@@ -23,6 +23,8 @@ using yixiaozi.Windows;
 using yixiaozi.Security;
 using NAudio.Wave;
 using System.Security.Cryptography;
+using System.Windows;
+using Size = System.Drawing.Size;
 
 namespace DocearReminder
 {
@@ -892,9 +894,115 @@ namespace DocearReminder
                 {
                     try
                     {
-
-                        m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
-                        m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                        if (!TimeBlockColor.Checked)
+                        {
+                            m_Appointment.Color = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                            m_Appointment.BorderColor = Color.FromArgb(Int32.Parse(item.mindmapPath));
+                        }
+                        else
+                        {
+                            if (zhongyao == 0)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.White;
+                                m_Appointment.BorderColor = System.Drawing.Color.White;
+                            }
+                            else if (zhongyao == 1)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                            }
+                            else if (zhongyao == -1)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(220, 220, 220);
+                            }
+                            else if (zhongyao == -2)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(211, 211, 211);
+                            }
+                            else if (zhongyao == -3)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(192, 192, 192);
+                            }
+                            else if (zhongyao == -4)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(169, 169, 169);
+                            }
+                            else if (zhongyao == -5)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(128, 128, 128);
+                            }
+                            else if (zhongyao == -6)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(105, 105, 105);
+                            }
+                            else if (zhongyao == -7)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(85, 85, 85);
+                            }
+                            else if (zhongyao == -8)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(65, 65, 65);
+                            }
+                            else if (zhongyao == -9)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(48, 48, 48);
+                            }
+                            else if (zhongyao <= -10)
+                            {
+                                m_Appointment.Color = m_Appointment.BorderColor = Color.Black;
+                            }
+                            else if (zhongyao == 2)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                            }
+                            else if (zhongyao == 3)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.LightSkyBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.LightSkyBlue;
+                            }
+                            else if (zhongyao == 4)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.DeepSkyBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.DeepSkyBlue;
+                            }
+                            else if (zhongyao == 5)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.CadetBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.CadetBlue;
+                            }
+                            else if (zhongyao == 6)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Gold;
+                                m_Appointment.BorderColor = System.Drawing.Color.Gold;
+                            }
+                            else if (zhongyao == 7)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Orange;
+                                m_Appointment.BorderColor = System.Drawing.Color.Orange;
+                            }
+                            else if (zhongyao == 8)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.OrangeRed;
+                                m_Appointment.BorderColor = System.Drawing.Color.OrangeRed;
+                            }
+                            else if (zhongyao == 9)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Crimson;
+                                m_Appointment.BorderColor = System.Drawing.Color.Crimson;
+                            }
+                            else if (zhongyao >= 10)
+                            {
+                                m_Appointment.Color = System.Drawing.Color.Red;
+                                m_Appointment.BorderColor = System.Drawing.Color.Red;
+                            }
+                            else
+                            {
+                                m_Appointment.Color = System.Drawing.Color.PowderBlue;
+                                m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                            }
+                        }
+                        
                         if (item.time < DateTime.Today.AddDays(-1)&&DateTime.Today.Day!=28&& DateTime.Today.Day != 29&& DateTime.Today.Day != 30&& DateTime.Today.Day != 31)//时间块禁止编辑？一天以前的禁止编辑,每个月最后几天允许编辑
                         {
                             //m_Appointment.Locked = true;
@@ -915,6 +1023,46 @@ namespace DocearReminder
                     {
                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+                    else if (zhongyao == -1)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(220, 220, 220);
+                    }
+                    else if (zhongyao == -2)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(211, 211, 211);
+                    }
+                    else if (zhongyao == -3)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(192, 192, 192);
+                    }
+                    else if (zhongyao == -4)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(169, 169, 169);
+                    }
+                    else if (zhongyao == -5)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(128, 128, 128);
+                    }
+                    else if (zhongyao == -6)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(105, 105, 105);
+                    }
+                    else if (zhongyao == -7)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(85, 85, 85);
+                    }
+                    else if (zhongyao == -8)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(65, 65, 65);
+                    }
+                    else if (zhongyao == -9)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(48, 48, 48);
+                    }
+                    else if (zhongyao <= -10)
+                    {
+                        m_Appointment.Color = m_Appointment.BorderColor =Color.Black;
                     }
                     else if (zhongyao == 2)
                     {

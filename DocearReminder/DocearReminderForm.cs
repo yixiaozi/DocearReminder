@@ -11281,13 +11281,26 @@ namespace DocearReminder
                 case Keys.ProcessKey:
                     break;
                 case Keys.Q:
-                    //if (keyNotWork(e))
-                    //{
-                    //    showcalander();
-                    //}
                     if (keyNotWork(e))
                     {
-                        ebcheckBox.Checked = !ebcheckBox.Checked;
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                        {
+                            showcalander();
+                        }
+                        else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        {
+                            ebcheckBox.Checked = !ebcheckBox.Checked;
+                        }
+                        else if(e.Modifiers.CompareTo(Keys.Control) == 0)
+                        {
+                            showcalander();
+                        }
+                        else
+                        {
+                            mindmapornode.Text = "";
+                            showTimeBlock.Checked = !showTimeBlock.Checked;
+                            reminderList.Refresh();
+                        }
                     }
                     break;
                 case Keys.R:

@@ -1095,6 +1095,10 @@ namespace DocearReminder
         public void MyShow()
         {
             keyJ.Stop();
+            if (this.Height<maxheight)//把高度自动调整一下，免得看到不是固定高度难受
+            {
+                this.Height = normalheight;
+            }
             Center();
             this.Show();
             this.Activate();

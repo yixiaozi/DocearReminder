@@ -2196,6 +2196,16 @@ namespace DocearReminder
             {
             }
         }
+        public void ReminderListSelectedIndex(int index)
+        {
+            try
+            {
+                reminderList.SelectedIndex=index;
+            }
+            catch (Exception)
+            {
+            }
+        }
         /// <summary>
         /// 刷新任务控件
         /// </summary>
@@ -3337,13 +3347,13 @@ namespace DocearReminder
                 if (reminderList.Items.Count> reminderSelectIndex)
                 {
                     isneedreminderlistrefresh = false;
-                    reminderList.SelectedIndex = reminderSelectIndex;
+                    ReminderListSelectedIndex( reminderSelectIndex);
                     isneedreminderlistrefresh = true;
                 }
                 else
                 {
                     isneedreminderlistrefresh = false;
-                    reminderList.SelectedIndex = 0;
+                    ReminderListSelectedIndex( 0);
                     isneedreminderlistrefresh = true;
                 }
             }
@@ -4081,13 +4091,13 @@ namespace DocearReminder
                     reminderList.Items.RemoveAt(reminderIndex);
                     if (reminderIndex <= reminderList.Items.Count - 1)//1,0 0>=0
                     {
-                        reminderList.SelectedIndex = reminderIndex;
+                        ReminderListSelectedIndex( reminderIndex);
                     }
                     else
                     {
                         try//完成的是最后一个的时候
                         {
-                            reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                            ReminderListSelectedIndex( reminderList.Items.Count - 1);
                         }
                         catch (Exception)
                         {
@@ -4708,7 +4718,7 @@ namespace DocearReminder
             }
             else
             {
-                reminderList.SelectedIndex = reminderSelectIndex;
+                ReminderListSelectedIndex( reminderSelectIndex);
             }
             if (reminderlistSelectedItem == null)
             {
@@ -4843,7 +4853,7 @@ namespace DocearReminder
             if (reminderList.Focused)
             {
                 reminderList.Refresh();
-                reminderList.SelectedIndex = reminderSelectIndex;
+                ReminderListSelectedIndex(reminderSelectIndex);
             }
             
         }
@@ -5207,7 +5217,7 @@ namespace DocearReminder
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Text = newName((MyListBoxItemRemind)(reminderlistSelectedItem)).Text;
                 if (reminderList.SelectedIndex != -1)
                 {
-                    reminderList.SelectedIndex = reminderSelectIndex;
+                    ReminderListSelectedIndex( reminderSelectIndex);
                     reminderList.Focus();
                     reminderList.Refresh();
                 }
@@ -5242,7 +5252,7 @@ namespace DocearReminder
                 tasklevel.Value = 0;
                 reminderList.Sorted = false;
                 SortReminderList();
-                reminderList.SelectedIndex = reminderSelectIndex;
+                ReminderListSelectedIndex( reminderSelectIndex);
                 reminderlist_SelectedIndexChanged(null, null);
             }
             catch (Exception)
@@ -5485,7 +5495,7 @@ namespace DocearReminder
                 th.Start();
                 reminderList.Refresh();
                 reminderList.Items.RemoveAt(reminderIndex);
-                reminderList.SelectedIndex = reminderIndex;
+                ReminderListSelectedIndex( reminderIndex);
                 fenshuADD(1);// -selectedReminder.level);
             }
             catch (Exception)
@@ -6517,7 +6527,7 @@ namespace DocearReminder
                                 if (focusedList == 0)
                                 {
                                     isneedreminderlistrefresh = false;
-                                    reminderList.SelectedIndex = reminderSelectIndex;
+                                    ReminderListSelectedIndex(reminderSelectIndex);
                                     reminderList.Focus();
                                 }
                                 else
@@ -7017,7 +7027,7 @@ namespace DocearReminder
                 if (reminderList.Focused)
                 {
                     reminderList.Items.RemoveAt(reminderIndex);
-                    reminderList.SelectedIndex = reminderIndex;
+                    ReminderListSelectedIndex( reminderIndex);
                 }
                 else if (reminderListBox.Focused)
                 {
@@ -7069,7 +7079,7 @@ namespace DocearReminder
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
                 reminderList.Items.RemoveAt(reminderIndex);
-                reminderList.SelectedIndex = reminderIndex;
+                ReminderListSelectedIndex( reminderIndex);
             }
             catch (Exception)
             {
@@ -8471,7 +8481,7 @@ namespace DocearReminder
                                 reminderSelectIndex = reminderList.SelectedIndex;
                                 reminderObject.reminders.RemoveAll(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                             catch (Exception)
                             {
@@ -8486,7 +8496,7 @@ namespace DocearReminder
                             {
                                 reminderList.Items.RemoveAt(reminderIndex);
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderIndex;
+                                ReminderListSelectedIndex( reminderIndex);
                             }
                             catch (Exception)
                             {
@@ -8511,7 +8521,7 @@ namespace DocearReminder
                                     }
                                 }
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderIndex;
+                                ReminderListSelectedIndex( reminderIndex);
                             }
                             catch (Exception)
                             {
@@ -8577,13 +8587,13 @@ namespace DocearReminder
                             else
                             {
                                 IsSelectReminder = true;
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                                 reminderList.Focus();
                                 if (reminderList.SelectedIndex < 0 || reminderList.SelectedIndex > reminderList.Items.Count - 1)
                                 {
                                     try
                                     {
-                                        reminderList.SelectedIndex = 0;
+                                        ReminderListSelectedIndex( 0);
                                     }
                                     catch (Exception)
                                     {
@@ -8704,7 +8714,7 @@ namespace DocearReminder
                         RRReminderlist();
                         try
                         {
-                            reminderList.SelectedIndex = 0;
+                            ReminderListSelectedIndex( 0);
                         }
                         catch (Exception)
                         {
@@ -8962,7 +8972,7 @@ namespace DocearReminder
                                 reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).comment = searchword.Text;
                                 searchword.Text = "";
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                                 isRenameTimeBlock = false;
                                 return;
                             }
@@ -8972,7 +8982,7 @@ namespace DocearReminder
                                 reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).DetailComment += ((((MyListBoxItemRemind)reminderlistSelectedItem).remindertype != "" ? Environment.NewLine : "") + searchword.Text);
                                 searchword.Text = "";
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                                 return;
                             }
                         }
@@ -9501,7 +9511,7 @@ namespace DocearReminder
                             //reminderList.Focus();
                             //if (reminderList.Items.Count > 0)
                             //{
-                            //    reminderList.SelectedIndex = 0;
+                            //    ReminderListSelectedIndex( 0;
                             //}
                             //只显示当前导图的任务
                             FileInfo file = new FileInfo(showMindmapName);
@@ -9843,7 +9853,7 @@ namespace DocearReminder
                             RRReminderlist();
                             if (reminderList.Items.Count> reminderSelectIndex)
                             {
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                         }
                         else if (taskTime.Focused && showTimeBlock.Checked)
@@ -9853,7 +9863,7 @@ namespace DocearReminder
                             RRReminderlist();
                             if (reminderList.Items.Count > reminderSelectIndex)
                             {
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                         }
                         else if (tasklevel.Focused && showTimeBlock.Checked)
@@ -9863,7 +9873,7 @@ namespace DocearReminder
                             RRReminderlist();
                             if (reminderList.Items.Count > reminderSelectIndex)
                             {
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                         }
                         else
@@ -9923,7 +9933,7 @@ namespace DocearReminder
                                 reminderList.Focus();
                                 if (reminderList.Items.Count > 0)
                                 {
-                                    reminderList.SelectedIndex = 0;
+                                    ReminderListSelectedIndex( 0);
                                 }
                             }
                             else if (searchword.Text.StartsWith("#"))
@@ -9931,14 +9941,14 @@ namespace DocearReminder
                                 searchword.Text = "";
                                 reminderList.Focus();
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                             else
                             {
                                 searchword.Text = "";
                                 reminderList.Focus();
                                 RRReminderlist();
-                                reminderList.SelectedIndex = reminderSelectIndex;
+                                ReminderListSelectedIndex( reminderSelectIndex);
                             }
                         }
                     }
@@ -10193,7 +10203,7 @@ namespace DocearReminder
                                 reminderList.Focus();
                                 if (reminderList.Items.Count>0)
                                 {
-                                    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                    ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                 }
                             }
                             else if (ShowMoney.Checked)
@@ -10203,7 +10213,7 @@ namespace DocearReminder
                                 reminderList.Focus();
                                 if (reminderList.Items.Count > 0)
                                 {
-                                    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                    ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                 }
                             }
                             else if (ShowKA.Checked)
@@ -10213,7 +10223,7 @@ namespace DocearReminder
                                 reminderList.Focus();
                                 if (reminderList.Items.Count > 0)
                                 {
-                                    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                    ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                 }
                             }
                             else
@@ -10355,7 +10365,8 @@ namespace DocearReminder
                                         {
                                             RRReminderlist();
                                         }
-                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                        
+                                        ReminderListSelectedIndex( reminderSelectIndex);
                                     }
                                 }
                                 else
@@ -10380,7 +10391,7 @@ namespace DocearReminder
                                         {
                                             RRReminderlist();
                                         }
-                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                        ReminderListSelectedIndex( reminderSelectIndex);
                                     }
                                 }
                                 else
@@ -10425,12 +10436,12 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = 0;
-                                            reminderList.SelectedIndex = -1;
+                                            ReminderListSelectedIndex( -1);
                                         }
                                         else
                                         {
                                             reminderList.Focus();
-                                            reminderList.SelectedIndex = 0;
+                                            ReminderListSelectedIndex( 0);
                                             reminderListBox.SelectedIndex = -1;
                                             reminderListBox.Refresh();
                                         }
@@ -10448,7 +10459,7 @@ namespace DocearReminder
                                         if (reminderList.Items.Count > 0)
                                         {
                                             reminderList.Focus();
-                                            reminderList.SelectedIndex = 0;
+                                            ReminderListSelectedIndex( 0);
                                             reminderListBox.SelectedIndex = -1;
                                             reminderList.Refresh();
                                         }
@@ -10456,7 +10467,7 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = 0;
-                                            reminderList.SelectedIndex = -1;
+                                            ReminderListSelectedIndex( -1);
                                         }
                                     }
                                     reminderListBox.Refresh();
@@ -10590,7 +10601,7 @@ namespace DocearReminder
                                         {
                                             RRReminderlist();
                                         }
-                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                        ReminderListSelectedIndex( reminderSelectIndex);
                                     }
                                 }
                                 else
@@ -10615,7 +10626,7 @@ namespace DocearReminder
                                         {
                                             RRReminderlist();
                                         }
-                                        reminderList.SelectedIndex = reminderSelectIndex;
+                                        ReminderListSelectedIndex( reminderSelectIndex);
                                     }
                                 }
                                 else
@@ -10660,13 +10671,13 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = reminderListBox.Items.Count - 1;
-                                            reminderList.SelectedIndex = -1;
+                                            ReminderListSelectedIndex( -1);
                                             reminderListBox.Refresh();
                                         }
                                         else
                                         {
                                             reminderList.Focus();
-                                            reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                            ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                             reminderListBox.SelectedIndex = -1;
                                         }
                                     }
@@ -10683,7 +10694,7 @@ namespace DocearReminder
                                         if (reminderList.Items.Count > 0)
                                         {
                                             reminderList.Focus();
-                                            reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                            ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                             reminderListBox.SelectedIndex = -1;
                                             reminderList.Refresh();
                                         }
@@ -10691,7 +10702,7 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = reminderListBox.Items.Count - 1;
-                                            reminderList.SelectedIndex = -1;
+                                            ReminderListSelectedIndex( -1);
                                         }
                                     }
                                     reminderListBox.Refresh();
@@ -10839,7 +10850,7 @@ namespace DocearReminder
                                     reminderList.Focus();
                                     if (reminderList.Items.Count > 0)
                                     {
-                                        reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                        ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                     }
                                 }
                                 else if (ShowMoney.Checked)
@@ -10849,7 +10860,7 @@ namespace DocearReminder
                                     reminderList.Focus();
                                     if (reminderList.Items.Count > 0)
                                     {
-                                        reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                        ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                     }
                                 }
                                 else if (ShowKA.Checked)
@@ -10859,7 +10870,7 @@ namespace DocearReminder
                                     reminderList.Focus();
                                     if (reminderList.Items.Count > 0)
                                     {
-                                        reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                                        ReminderListSelectedIndex( reminderList.Items.Count - 1);
                                     }
                                 }
                                 else
@@ -11380,11 +11391,11 @@ namespace DocearReminder
                                     {
                                         if (reminderIndex > reminderList.Items.Count - 1)
                                         {
-                                            reminderList.SelectedIndex = 0;
+                                            ReminderListSelectedIndex( 0);
                                         }
                                         else
                                         {
-                                            reminderList.SelectedIndex = reminderIndex;
+                                            ReminderListSelectedIndex( reminderIndex);
                                         }
                                     }
                                     catch (Exception)
@@ -11469,7 +11480,7 @@ namespace DocearReminder
                         {
                             if (reminderList.SelectedIndex < 0)
                             {
-                                reminderList.SelectedIndex = 0;
+                                ReminderListSelectedIndex( 0);
                             }
                         }
                         catch (Exception)
@@ -11501,7 +11512,7 @@ namespace DocearReminder
                                 }
                                 else
                                 {
-                                    reminderList.SelectedIndex = -1;
+                                    ReminderListSelectedIndex( -1);
                                     reminderSelectIndex = -1;
                                     IsSelectReminder = false;
                                     //mindmaplist.Focus();
@@ -11578,7 +11589,7 @@ namespace DocearReminder
                     else if (searchword.Focused)
                     {
                         reminderList.Focus();
-                        reminderList.SelectedIndex = 0;
+                        ReminderListSelectedIndex( 0);
                     }
                     break;
                 case Keys.U:
@@ -11629,7 +11640,7 @@ namespace DocearReminder
                             reminderList.Refresh();
                             //if (reminderList.SelectedIndex==0)
                             //{
-                            //    reminderList.SelectedIndex = reminderList.Items.Count - 1;
+                            //    ReminderListSelectedIndex( reminderList.Items.Count - 1;
                             //}
                         }
                         else if (nodetree.Focused)
@@ -11780,11 +11791,11 @@ namespace DocearReminder
                                 {
                                     if (reminderList.Items.Count - 1 >= index)
                                     {
-                                        reminderList.SelectedIndex = index;
+                                        ReminderListSelectedIndex( index);
                                     }
                                     else
                                     {
-                                        reminderList.SelectedIndex = index - 1;
+                                        ReminderListSelectedIndex( index - 1);
                                     }
                                 }
                                 catch (Exception)
@@ -11813,7 +11824,7 @@ namespace DocearReminder
                             if (reminderListBox.Items.Count == 0)
                             {
                                 reminderList.Focus();
-                                reminderList.SelectedIndex = 0;
+                                ReminderListSelectedIndex( 0);
                             }
                             else
                             {
@@ -11857,7 +11868,7 @@ namespace DocearReminder
                         RRReminderlist();
                         if (selectindex < reminderList.Items.Count - 1)
                         {
-                            reminderList.SelectedIndex = selectindex;
+                            ReminderListSelectedIndex( selectindex);
                         }
                     }
 
@@ -13240,11 +13251,11 @@ namespace DocearReminder
                 {
                     if (reminderList.Items.Count >= i + 1)
                     {
-                        reminderList.SelectedIndex = i;
+                        ReminderListSelectedIndex( i);
                         return;
                     }
                     //会自动加1的
-                    //reminderlist.SelectedIndex = i;
+                    //ReminderListSelectedIndex( i;
                     //return;
                 }
             }
@@ -13554,7 +13565,7 @@ namespace DocearReminder
                         reminderList.Focus();
                         if (reminderList.Items.Count > 0)
                         {
-                            reminderList.SelectedIndex = 0;
+                            ReminderListSelectedIndex( 0);
                         }
                     }
                     else
@@ -13652,7 +13663,7 @@ namespace DocearReminder
                 denyAll_Click(null, null);
                 if (reminderList.Items.Count > 0)
                 {
-                    reminderList.SelectedIndex = 0;
+                    ReminderListSelectedIndex( 0);
                 }
                 reminderList.Focus();
                 isneedKeyUpEventWork = false;
@@ -15559,7 +15570,7 @@ namespace DocearReminder
                 reminderList.ContextMenuStrip = null;
                 if (posindex >= 0 && posindex < reminderList.Items.Count)
                 {
-                    reminderList.SelectedIndex = posindex;
+                    ReminderListSelectedIndex( posindex);
                     menu_reminderlist.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
                 }
                 else
@@ -15575,7 +15586,7 @@ namespace DocearReminder
                 reminderList.ContextMenuStrip = null;
                 if (posindex >= 0 && posindex < reminderList.Items.Count)
                 {
-                    //reminderList.SelectedIndex = posindex;
+                    //ReminderListSelectedIndex( posindex;
                     //menu_reminderlist.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
                 }
                 else
@@ -16440,7 +16451,7 @@ namespace DocearReminder
             }
             else
             {
-                reminderList.SelectedIndex = -1;
+                ReminderListSelectedIndex( -1);
                 reminderSelectIndex = -1;
                 IsSelectReminder = false;
                 mindmaplist.Focus();
@@ -16508,7 +16519,7 @@ namespace DocearReminder
             {
                 reminderList.Items.RemoveAt(reminderIndex);
                 RRReminderlist();
-                reminderList.SelectedIndex = reminderIndex;
+                ReminderListSelectedIndex( reminderIndex);
             }
             catch (Exception)
             {
@@ -16524,7 +16535,7 @@ namespace DocearReminder
             RRReminderlist();
             if (selectindex < reminderList.Items.Count - 1)
             {
-                reminderList.SelectedIndex = selectindex;
+                ReminderListSelectedIndex( selectindex);
             }
         }
 
@@ -16545,7 +16556,7 @@ namespace DocearReminder
                 if (reminderListBox.Items.Count == 0)
                 {
                     reminderList.Focus();
-                    reminderList.SelectedIndex = 0;
+                    ReminderListSelectedIndex( 0);
                 }
             }
         }

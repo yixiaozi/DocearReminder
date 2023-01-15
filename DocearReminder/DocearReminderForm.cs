@@ -2225,6 +2225,10 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m=>m.time>= TimeBlockDate.Value.AddDays(0-beginDateDiff) && m.time < TimeBlockDate.Value.AddDays(1)&&m.mindmap == "TimeBlock"&&(searchword.Text==""||(searchword.Text!=""&&(m.name.SafeToString().Contains(searchWords)|| m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m=>m.time))
                 {
+                    if (OnlyLevel.Checked&&item.tasklevel!=0)
+                    {
+                        continue;
+                    }
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
                         Text = (searchWords == "" ? item.time.ToString("    HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(),4)+ "  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : "") + (item.DetailComment != null && item.DetailComment != "" ? "*" : ""),
@@ -2268,6 +2272,10 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= MoneyDateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
+                    if (OnlyLevel.Checked && item.tasklevel != 0)
+                    {
+                        continue;
+                    }
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
                         Text = (searchWords == "" ? item.time.ToString("   HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "元  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : "") + (item.DetailComment != null && item.DetailComment != "" ? "*" : ""),
@@ -2311,6 +2319,10 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= KADateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
+                    if (OnlyLevel.Checked && item.tasklevel != 0)
+                    {
+                        continue;
+                    }
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
                         Text = (searchWords==""?item.time.ToString("   HH:mm") :item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime * 10 / 9.46).ToString(), 4) + "克脂肪  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : "") + (item.DetailComment != null && item.DetailComment != "" ? "*" : ""),
@@ -10339,7 +10351,10 @@ namespace DocearReminder
                                         tasklevel.Value += 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
-                                        RRReminderlist();
+                                        if (!OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
                                         reminderList.SelectedIndex = reminderSelectIndex;
                                     }
                                 }
@@ -10361,7 +10376,10 @@ namespace DocearReminder
                                         taskTime.Value += 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
-                                        RRReminderlist();
+                                        if (!OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
                                         reminderList.SelectedIndex = reminderSelectIndex;
                                     }
                                 }
@@ -10568,7 +10586,10 @@ namespace DocearReminder
                                         tasklevel.Value -= 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
-                                        RRReminderlist();
+                                        if (!OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
                                         reminderList.SelectedIndex = reminderSelectIndex;
                                     }
                                 }
@@ -10590,7 +10611,10 @@ namespace DocearReminder
                                         taskTime.Value -= 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
-                                        RRReminderlist();
+                                        if (!OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
                                         reminderList.SelectedIndex = reminderSelectIndex;
                                     }
                                 }
@@ -11666,9 +11690,12 @@ namespace DocearReminder
                     searchword.Text = "";
                     if (showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked)
                     {
-                        mindmapornode.Text = "";
-                        showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
-                        reminderList.Refresh();
+                        //切换OnlyLevel
+                        OnlyLevel.Checked = !OnlyLevel.Checked;
+                        RRReminderlist();
+                        //mindmapornode.Text = "";
+                        //showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
+                        //reminderList.Refresh();
                         return;
                     }
                     else if (mindmapornode.Text != "")

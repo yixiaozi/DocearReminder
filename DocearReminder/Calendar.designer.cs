@@ -633,6 +633,7 @@ namespace DocearReminder
             this.TimeBlockColor.Size = new System.Drawing.Size(15, 14);
             this.TimeBlockColor.TabIndex = 52;
             this.TimeBlockColor.UseVisualStyleBackColor = true;
+            this.TimeBlockColor.CheckedChanged += new System.EventHandler(this.c_timeBlock_CheckedChanged);
             // 
             // CalendarForm
             // 

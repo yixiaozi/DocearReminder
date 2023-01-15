@@ -166,6 +166,7 @@ namespace DocearReminder
             this.ShowKA = new System.Windows.Forms.CheckBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
+            this.OnlyLevel = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1635,7 +1636,7 @@ namespace DocearReminder
             // ShowMoney
             // 
             this.ShowMoney.AutoSize = true;
-            this.ShowMoney.Location = new System.Drawing.Point(1356, 148);
+            this.ShowMoney.Location = new System.Drawing.Point(1356, 129);
             this.ShowMoney.Name = "ShowMoney";
             this.ShowMoney.Size = new System.Drawing.Size(48, 16);
             this.ShowMoney.TabIndex = 135;
@@ -1664,7 +1665,7 @@ namespace DocearReminder
             // ShowKA
             // 
             this.ShowKA.AutoSize = true;
-            this.ShowKA.Location = new System.Drawing.Point(1356, 171);
+            this.ShowKA.Location = new System.Drawing.Point(1356, 148);
             this.ShowKA.Name = "ShowKA";
             this.ShowKA.Size = new System.Drawing.Size(60, 16);
             this.ShowKA.TabIndex = 138;
@@ -1692,6 +1693,16 @@ namespace DocearReminder
             this.tagList.TabIndex = 140;
             this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
             // 
+            // OnlyLevel
+            // 
+            this.OnlyLevel.AutoSize = true;
+            this.OnlyLevel.Location = new System.Drawing.Point(1356, 171);
+            this.OnlyLevel.Name = "OnlyLevel";
+            this.OnlyLevel.Size = new System.Drawing.Size(60, 16);
+            this.OnlyLevel.TabIndex = 141;
+            this.OnlyLevel.Text = "只等级";
+            this.OnlyLevel.UseVisualStyleBackColor = true;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1700,6 +1711,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.OnlyLevel);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.timeblockcheck);
             this.Controls.Add(this.ShowKA);
@@ -1962,6 +1974,7 @@ namespace DocearReminder
         private CheckBox ShowKA;
         private Label timeblockcheck;
         private FerretLib.WinForms.Controls.TagListControl tagList;
+        private CheckBox OnlyLevel;
     }
 }
 

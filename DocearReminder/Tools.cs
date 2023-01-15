@@ -1234,7 +1234,7 @@ namespace DocearReminder
             {
                 if (i < reminders.Count - 1)
                 {
-                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 2&& (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes>0)
+                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 5&& (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes>0)
                     {
                         reminders[i].tasktime=(reminders[i + 1].time- reminders[i].time).TotalMinutes;
                         //如果任务reminders[i]跨天了，就将结束时间设为23:59:59

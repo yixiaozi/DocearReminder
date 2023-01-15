@@ -9829,21 +9829,30 @@ namespace DocearReminder
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).time = dateTimePicker.Value;
                             RRReminderlist();
-                            reminderList.SelectedIndex = reminderSelectIndex;
+                            if (reminderList.Items.Count> reminderSelectIndex)
+                            {
+                                reminderList.SelectedIndex = reminderSelectIndex;
+                            }
                         }
                         else if (taskTime.Focused && showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
                             RRReminderlist();
-                            reminderList.SelectedIndex = reminderSelectIndex;
+                            if (reminderList.Items.Count > reminderSelectIndex)
+                            {
+                                reminderList.SelectedIndex = reminderSelectIndex;
+                            }
                         }
                         else if (tasklevel.Focused && showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
                             RRReminderlist();
-                            reminderList.SelectedIndex = reminderSelectIndex;
+                            if (reminderList.Items.Count > reminderSelectIndex)
+                            {
+                                reminderList.SelectedIndex = reminderSelectIndex;
+                            }
                         }
                         else
                         {

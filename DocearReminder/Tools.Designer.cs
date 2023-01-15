@@ -55,6 +55,7 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.MoodInport = new System.Windows.Forms.Button();
             this.DiigoImport = new System.Windows.Forms.Button();
+            this.timeblockduiqi = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -320,12 +321,23 @@
             this.DiigoImport.UseVisualStyleBackColor = true;
             this.DiigoImport.Click += new System.EventHandler(this.DiigoImport_Click);
             // 
+            // timeblockduiqi
+            // 
+            this.timeblockduiqi.Location = new System.Drawing.Point(393, 133);
+            this.timeblockduiqi.Name = "timeblockduiqi";
+            this.timeblockduiqi.Size = new System.Drawing.Size(118, 23);
+            this.timeblockduiqi.TabIndex = 36;
+            this.timeblockduiqi.Text = "时间块对齐";
+            this.timeblockduiqi.UseVisualStyleBackColor = true;
+            this.timeblockduiqi.Click += new System.EventHandler(this.timeblockduiqi_Click);
+            // 
             // Tools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(813, 318);
+            this.Controls.Add(this.timeblockduiqi);
             this.Controls.Add(this.DiigoImport);
             this.Controls.Add(this.MoodInport);
             this.Controls.Add(this.numericUpDown1);
@@ -395,5 +407,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button MoodInport;
         private System.Windows.Forms.Button DiigoImport;
+        private System.Windows.Forms.Button timeblockduiqi;
     }
 }

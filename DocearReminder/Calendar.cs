@@ -2421,7 +2421,15 @@ namespace DocearReminder
                 ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
                 if (item != null)
                 {
-                    m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
+                    m_Appointment.StartDate = item.TimeEnd;
+                    if (m_Appointment.StartDate < DateTime.Today&& dayView1.SelectionEnd > DateTime.Today)//如果今天还没有过，处理开始时间为今天
+                    {
+                        m_Appointment.StartDate = DateTime.Today;
+                    }
+                    if (item.time<DateTime.Today&& item.time < DateTime.Today)
+                    {
+                        item.tasktime = (DateTime.Today - item.time).TotalMinutes - 1;
+                    }
                 }
                 else
                 {

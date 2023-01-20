@@ -1702,6 +1702,7 @@ namespace DocearReminder
             this.OnlyLevel.TabIndex = 141;
             this.OnlyLevel.Text = "只等级";
             this.OnlyLevel.UseVisualStyleBackColor = true;
+            this.OnlyLevel.CheckedChanged += new System.EventHandler(this.OnlyLevel_CheckedChanged);
             // 
             // DocearReminderForm
             // 

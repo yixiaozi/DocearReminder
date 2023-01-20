@@ -2220,6 +2220,7 @@ namespace DocearReminder
             if (showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
+                reminderListBox.Visible = false;
                 int beginDateDiff = 0;
                 string searchWords = searchword.Text;
                 if (searchword.Text!=""&& searchword.Text.Contains(" "))
@@ -2262,11 +2263,11 @@ namespace DocearReminder
                 //更新简要信息
                 UpdateSummary();
                 reminderList.Focus();
-                return;
             }
             else if (ShowMoney.Checked)
             {
                 reminderList.Items.Clear();
+                reminderListBox.Visible = false;
                 int beginDateDiff = 0;
                 string searchWords = searchword.Text;
                 if (searchword.Text != "" && searchword.Text.Contains(" "))
@@ -2309,11 +2310,11 @@ namespace DocearReminder
                 //更新简要信息
                 UpdateSummary();
                 reminderList.Focus();
-                return;
             }
             else if (ShowKA.Checked)
             {
                 reminderList.Items.Clear();
+                reminderListBox.Visible = false;
                 int beginDateDiff = 0;
                 string searchWords = searchword.Text;
                 if (searchword.Text != "" && searchword.Text.Contains(" "))
@@ -2357,6 +2358,15 @@ namespace DocearReminder
                 //更新简要信息
                 UpdateSummary();
                 reminderList.Focus();
+            }
+            Reminderlistboxchange();
+            if ((showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
+            {
+                if (OnlyLevel.Checked)
+                {
+                    OnlyLevel.Checked = false;
+                    RRReminderlist();
+                }
                 return;
             }
             #endregion
@@ -11703,7 +11713,6 @@ namespace DocearReminder
                     {
                         //切换OnlyLevel
                         OnlyLevel.Checked = !OnlyLevel.Checked;
-                        RRReminderlist();
                         //mindmapornode.Text = "";
                         //showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
                         //reminderList.Refresh();
@@ -15885,7 +15894,7 @@ namespace DocearReminder
         }
         public void Reminderlistboxchange()
         {
-            if (reminderListBox.Items.Count > 0)
+            if (reminderListBox.Items.Count > 0&&!(showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked))
             {
                 reminderListBox.Height = reminderListBox.PreferredHeight;
                 reminderListBox.Visible = true;
@@ -17628,6 +17637,11 @@ namespace DocearReminder
         }
 
         private void timeblockcheck_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnlyLevel_CheckedChanged(object sender, EventArgs e)
         {
 
         }

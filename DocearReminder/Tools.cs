@@ -25,7 +25,7 @@ namespace DocearReminder
         public Tools()
         {
             InitializeComponent();
-            checkBox1.Checked=DocearReminderForm.isZhuangbi ;
+            checkBox1.Checked = DocearReminderForm.isZhuangbi;
             Center();
         }
         public void Center()
@@ -48,7 +48,7 @@ namespace DocearReminder
                 var serializer = new JavaScriptSerializer();
                 reminderObject = serializer.Deserialize<Reminder>(s);
                 reminderObjectBACKUP.reminders.AddRange(reminderObject.reminders.Where(m => m.isCompleted));
-                for (int i = reminderObject.reminders.Count()-1; i >=0 ; i--)
+                for (int i = reminderObject.reminders.Count() - 1; i >= 0; i--)
                 {
                     if (reminderObject.reminders[i].isCompleted)
                     {
@@ -56,14 +56,15 @@ namespace DocearReminder
                     }
                 }
             }
-            SaveJson(reminderObject, System.AppDomain.CurrentDomain.BaseDirectory +@"\reminder.json");
+            SaveJson(reminderObject, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
             SaveJson(reminderObjectBACKUP, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminderjson\" + DateTime.Now.ToString("yyyyMMddMMss") + ".json");
             this.Close();
         }
-        public void SaveJson(Reminder jsonObject, string path) {
+        public void SaveJson(Reminder jsonObject, string path)
+        {
             if (!System.IO.File.Exists(path))
             {
-                File.Create(path).Dispose() ;
+                File.Create(path).Dispose();
             }
             else
             {
@@ -86,9 +87,9 @@ namespace DocearReminder
                 file.Delete();
                 deleteCount++;
             }
-            if (deleteCount>0)
+            if (deleteCount > 0)
             {
-                MessageBox.Show("delete temp file count:"+deleteCount.ToString());
+                MessageBox.Show("delete temp file count:" + deleteCount.ToString());
             }
             foreach (FileInfo file in path.GetFiles("*.MM", SearchOption.AllDirectories))
             {
@@ -99,7 +100,7 @@ namespace DocearReminder
 
         private void setPWD_Click(object sender, EventArgs e)
         {
-            DocearReminderForm.PassWord=pwd.Text;
+            DocearReminderForm.PassWord = pwd.Text;
             pwd.Text = "";
             this.Close();
         }
@@ -107,7 +108,7 @@ namespace DocearReminder
         private void Decrypt_Click(object sender, EventArgs e)
         {
             Encrypt encrypt = new Encrypt(DocearReminderForm.PassWord);
-            pwd.Text= encrypt.DecryptString(pwd.Text);
+            pwd.Text = encrypt.DecryptString(pwd.Text);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -128,7 +129,7 @@ namespace DocearReminder
             catch (Exception)
             {
             }
-            
+
         }
 
         private void createsuggest_Click(object sender, EventArgs e)
@@ -185,7 +186,7 @@ namespace DocearReminder
         }
         public static void createsuggest_fun()
         {
-            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             string content = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
@@ -206,11 +207,11 @@ namespace DocearReminder
                 {
                     if (item != "")
                     {
-                        if (ini.ReadString("path", item, "")!="")
+                        if (ini.ReadString("path", item, "") != "")
                         {
                             if (!ini.ReadString("path", item, "").Contains(ini.ReadString("path", "rootpath", "")))
                             {
-                                DirectoryInfo pathout = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", item, ""))); 
+                                DirectoryInfo pathout = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", item, "")));
                                 foreach (FileInfo file in pathout.GetFiles("*.mm", SearchOption.AllDirectories))
                                 {
                                     string filename = Path.GetFileNameWithoutExtension(file.FullName);
@@ -234,7 +235,7 @@ namespace DocearReminder
             RecordLog(content);
             StationInfo.StationData = null;
         }
-        
+
         public static void RecordLog(string Content)
         {
             string logSite = AppDomain.CurrentDomain.BaseDirectory + "mindmaps.txt";//本地文件
@@ -433,14 +434,14 @@ namespace DocearReminder
             catch (Exception)
             {
             }
-            
+
         }
         public bool isURL(string url)
         {
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
             return Regex.IsMatch(url, matchStr);
         }
-        
+
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -506,7 +507,7 @@ namespace DocearReminder
                         {
                             if (node.Attributes != null && node.Attributes["TEXT"] != null && node.Attributes["LINK"] != null && isURL(node.Attributes["LINK"].Value))
                             {
-                                usedSuggest.Add(new HtmlToString().StripHTML(node.Attributes["TEXT"].Value).Replace("\r","").Replace("\n", "").Replace("\t", "").Replace("|", "") + "|"+ new HtmlToString().StripHTML(node.Attributes["LINK"].Value));
+                                usedSuggest.Add(new HtmlToString().StripHTML(node.Attributes["TEXT"].Value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("|", "") + "|" + new HtmlToString().StripHTML(node.Attributes["LINK"].Value));
                             }
                         }
                         catch (Exception)
@@ -529,7 +530,7 @@ namespace DocearReminder
             //如果选中颜色，单击“确定”按钮则改变文本框的文本颜色
             if (dr == DialogResult.OK)
             {
-                DocearReminderForm.BackGroundColor= colorDialog1.Color;
+                DocearReminderForm.BackGroundColor = colorDialog1.Color;
             }
         }
 
@@ -547,7 +548,7 @@ namespace DocearReminder
 
         private void button8_Click(object sender, EventArgs e)
         {
-            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
             List<string> names = new List<string>();
             string result = "";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -555,7 +556,7 @@ namespace DocearReminder
                 string filename = Path.GetFileNameWithoutExtension(file.FullName);
                 if (names.Contains(filename))
                 {
-                    result+=(file.FullName+Environment.NewLine);
+                    result += (file.FullName + Environment.NewLine);
                 }
                 else
                 {
@@ -586,7 +587,7 @@ namespace DocearReminder
             if (newid || currentUsedTimerId == null)
             {
                 DocearReminderForm.usedTimer.SetEndDate(currentUsedTimerId);
-                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)){IsBackground = true};
+                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)) { IsBackground = true };
                 currentUsedTimerId = Guid.NewGuid();
             }
             //添加一个新的记录
@@ -621,12 +622,12 @@ namespace DocearReminder
 
         private void button9_Click(object sender, EventArgs e)
         {
-            ReminderItem current = DocearReminderForm.reminderObject.reminders.FirstOrDefault(m => m.name == textBox1.Text&& m.tasktime>(double)numericUpDown1.Value);
+            ReminderItem current = DocearReminderForm.reminderObject.reminders.FirstOrDefault(m => m.name == textBox1.Text && m.tasktime > (double)numericUpDown1.Value);
             DateTime startdate = dateTimePicker1.Value;
             DateTime enddate = dateTimePicker2.Value;
             if (checkBox2.Checked)
             {
-                double dayCount = (double)getWorkDaysNumber(startdate,enddate);
+                double dayCount = (double)getWorkDaysNumber(startdate, enddate);
                 foreach (DateTime item in getWorkDaysr(startdate, enddate))
                 {
                     if (current != null)
@@ -656,26 +657,26 @@ namespace DocearReminder
                     }
                 }
             }
-            
+
             DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.name == textBox1.Text && m.tasktime > (double)numericUpDown1.Value);
         }
 
-        public int getWorkDaysNumber(DateTime satart,DateTime end)
+        public int getWorkDaysNumber(DateTime satart, DateTime end)
         {
             int result = 0;
-            if (satart==null|| end == null||end<satart)
+            if (satart == null || end == null || end < satart)
             {
                 return 1;
             }
-            while (satart<=end)
+            while (satart <= end)
             {
-                if (satart.DayOfWeek== DayOfWeek.Monday|| satart.DayOfWeek == DayOfWeek.Tuesday|| satart.DayOfWeek == DayOfWeek.Wednesday|| satart.DayOfWeek == DayOfWeek.Friday|| satart.DayOfWeek == DayOfWeek.Thursday)
+                if (satart.DayOfWeek == DayOfWeek.Monday || satart.DayOfWeek == DayOfWeek.Tuesday || satart.DayOfWeek == DayOfWeek.Wednesday || satart.DayOfWeek == DayOfWeek.Friday || satart.DayOfWeek == DayOfWeek.Thursday)
                 {
                     result++;
                 }
                 satart = satart.AddDays(1);
             }
-            return result==0?1: result;
+            return result == 0 ? 1 : result;
         }
         public List<DateTime> getWorkDaysr(DateTime start, DateTime end)
         {
@@ -706,11 +707,11 @@ namespace DocearReminder
 
         private void button10_Click(object sender, EventArgs e)
         {
-            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "FanQie" && m.tasktime<0))
+            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "FanQie" && m.tasktime < 0))
             {
-                if (item.comleteTime!=null)
+                if (item.comleteTime != null)
                 {
-                    item.tasktime = (Convert.ToDateTime(item.comleteTime)- item.time).TotalMinutes;
+                    item.tasktime = (Convert.ToDateTime(item.comleteTime) - item.time).TotalMinutes;
                 }
             }
         }
@@ -720,11 +721,11 @@ namespace DocearReminder
             DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "FanQie" && m.tasktime < 3);
             DocearReminderForm.reminderObject.reminders.RemoveAll(m => m.mindmap == "TimeBlock" && m.tasktime <= 1);
             List<string> GuidCollection = new List<string>();
-            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "TimeBlock"|| m.mindmap == "Money"))
+            foreach (ReminderItem item in DocearReminderForm.reminderObject.reminders.Where(m => m.mindmap == "TimeBlock" || m.mindmap == "Money"))
             {
                 if (GuidCollection.Contains(item.ID))
                 {
-                    item.ID= Guid.NewGuid().ToString();
+                    item.ID = Guid.NewGuid().ToString();
                 }
                 else
                 {
@@ -747,28 +748,28 @@ namespace DocearReminder
             //添加到时间块中
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(MoondNodesMap);
-            DateTime oldCreateDate =DateTime.Now;
+            DateTime oldCreateDate = DateTime.Now;
             DateTime oldeditdate = DateTime.Now;
             string oldlevel = "";
             //倒叙遍历dt.Rows
             List<string> lastWords = new List<string>();
-            for (int i = dt.Rows.Count-1;  i>=0; i--)
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 DataRow item = dt.Rows[i];
-                string createdate = item[1].ToString().Replace("\"","");//"06/01/2023 19:38"
-                string editdate = item[2].ToString().Replace("\"", "");;
+                string createdate = item[1].ToString().Replace("\"", "");//"06/01/2023 19:38"
+                string editdate = item[2].ToString().Replace("\"", ""); ;
                 string level = item[3].ToString().Replace("\"", "");
                 string taskName = item[5].ToString().Replace("\"", "");
 
                 bool isLastWord = false;
                 DateTime Createtime = DateTime.Now;
-                DateTime Edittime=DateTime.Now;
+                DateTime Edittime = DateTime.Now;
                 try
                 {
                     //这里的月份和日期是反的，格式为：16/05/2017 05:33 应该为05/16/2017 05:33
                     Createtime = Convert.ToDateTime(createdate.Substring(3, 2) + "/" + createdate.Substring(0, 2) + "/" + createdate.Substring(6, 4) + " " + createdate.Substring(11, 5));
                     Edittime = Convert.ToDateTime(editdate.Substring(3, 2) + "/" + editdate.Substring(0, 2) + "/" + editdate.Substring(6, 4) + " " + editdate.Substring(11, 5));
-                    
+
                     oldCreateDate = Createtime;
                     oldeditdate = Edittime;
                     oldlevel = level;
@@ -782,13 +783,13 @@ namespace DocearReminder
                 }
                 XmlNode root = x.GetElementsByTagName("node")[0]; ;
 
-                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss")+ "MoodnotesReport") && !x.OuterXml.Contains(taskName))
+                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss") + "MoodnotesReport") && !x.OuterXml.Contains(taskName))
                 {
                     XmlNode newNote = x.CreateElement("node");
                     XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                     newNotetext.Value = taskName;
                     XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                    newNoteCREATED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1,1))).TotalMilliseconds)).ToString();
+                    newNoteCREATED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                     XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
                     newNoteMODIFIED.Value = (Convert.ToInt64((Edittime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                     newNote.Attributes.Append(newNotetext);
@@ -796,7 +797,7 @@ namespace DocearReminder
                     newNote.Attributes.Append(newNoteMODIFIED);
                     XmlAttribute TASKID = x.CreateAttribute("ID");
                     newNote.Attributes.Append(TASKID);
-                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss")+ "MoodnotesReport";//用创建时间确定唯一
+                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss") + "MoodnotesReport";//用创建时间确定唯一
                     XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                     newNote.Attributes.Append(TASKLEVEL);
                     newNote.Attributes["TASKLEVEL"].Value = level.ToString();
@@ -864,7 +865,7 @@ namespace DocearReminder
                                     newNoteLastWord.Attributes.Append(newNoteMODIFIED1);
                                     XmlAttribute TASKID1 = x.CreateAttribute("ID");
                                     newNoteLastWord.Attributes.Append(TASKID1);
-                                    newNoteLastWord.Attributes["ID"].Value = Guid.NewGuid().ToString()+"SubWords";
+                                    newNoteLastWord.Attributes["ID"].Value = Guid.NewGuid().ToString() + "SubWords";
                                     newNoteLastWord.Attributes.Append(TASKLEVEL);
                                     newNoteLastWord.Attributes["TASKLEVEL"].Value = level.ToString();
                                     time.AppendChild(newNoteLastWord);
@@ -892,7 +893,7 @@ namespace DocearReminder
             string[] lines = File.ReadAllLines(filename);
             for (int i = 1; i < lines.Length; i++)
             {
-                if (lines[i].EndsWith("\"")&& lines[i].Length>30)//","2023-01-12 04:08:19"避免时间的末尾
+                if (lines[i].EndsWith("\"") && lines[i].Length > 30)//","2023-01-12 04:08:19"避免时间的末尾
                 {
                     lines[i] = lines[i];
                 }
@@ -917,14 +918,14 @@ namespace DocearReminder
             //添加到时间块中
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(DiigoMap);
-            DateTime oldCreateDate =DateTime.Now;
+            DateTime oldCreateDate = DateTime.Now;
             DateTime oldcreatedate = DateTime.Now;
             List<string> lastWords = new List<string>();
             //倒叙遍历dt.Rows
-            for (int i = dt.Rows.Count-1;  i>=0; i--)
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 DataRow item = dt.Rows[i];
-                string createdate = item[6].ToString().Replace("\"","");//2023/1/12 4:18
+                string createdate = item[6].ToString().Replace("\"", "");//2023/1/12 4:18
                 string level = "0";
                 string taskName = item[0].ToString().Replace("\"", "");
                 string tasklink = item[1].ToString();
@@ -949,13 +950,13 @@ namespace DocearReminder
                 }
                 XmlNode root = x.GetElementsByTagName("node")[0]; ;
 
-                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss")+ "DiigoReport"))
+                if (!x.OuterXml.Contains(Createtime.ToString("yyyyMMddHHmmss") + "DiigoReport"))
                 {
                     XmlNode newNote = x.CreateElement("node");
                     XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                     newNotetext.Value = taskName;
                     XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
-                    newNoteCREATED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1,1))).TotalMilliseconds)).ToString();
+                    newNoteCREATED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                     XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
                     newNoteMODIFIED.Value = (Convert.ToInt64((Createtime - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                     newNote.Attributes.Append(newNotetext);
@@ -963,7 +964,7 @@ namespace DocearReminder
                     newNote.Attributes.Append(newNoteMODIFIED);
                     XmlAttribute TASKID = x.CreateAttribute("ID");
                     newNote.Attributes.Append(TASKID);
-                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss")+ "DiigoReport";//用创建时间确定唯一
+                    newNote.Attributes["ID"].Value = Createtime.ToString("yyyyMMddHHmmss") + "DiigoReport";//用创建时间确定唯一
                     XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                     newNote.Attributes.Append(TASKLEVEL);
                     newNote.Attributes["TASKLEVEL"].Value = level.ToString();
@@ -1016,11 +1017,11 @@ namespace DocearReminder
                         else
                         {
                             time.AppendChild(newNote);
-                            if (taskannotations!="")
+                            if (taskannotations != "")
                             {
 
                             }
-                            
+
                             if (lastWords.Count >= 0)
                             {
                                 lastWords.Reverse();
@@ -1055,7 +1056,7 @@ namespace DocearReminder
             System.Diagnostics.Process.Start(DiigoMap);
             return;
         }
-        
+
         public bool haschildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
@@ -1120,7 +1121,7 @@ namespace DocearReminder
                     DataRow dr = dt.NewRow();
                     for (int j = 0; j < columnCount; j++)
                     {
-                        if (j<aryLine.Length)
+                        if (j < aryLine.Length)
                         {
                             dr[j] = aryLine[j];
                         }
@@ -1228,19 +1229,19 @@ namespace DocearReminder
         {
             //遍历reminderObject.reminders，如果下一个的开始时间小于上一个的结束时间10分钟以内，就把下一个的开始时间改为上一个的结束时间
             //获取所有时间块
-            List<ReminderItem> reminders =  reminderObject.reminders.Where(m => m.mindmap == "TimeBlock").OrderBy(m => m.time).ToList();
-            
+            List<ReminderItem> reminders = reminderObject.reminders.Where(m => m.mindmap == "TimeBlock").OrderBy(m => m.time).ToList();
+
             for (int i = 0; i < reminders.Count; i++)
             {
                 if (i < reminders.Count - 1)
                 {
-                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 10&& (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes>0)
+                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 10 && (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes > 0)
                     {
-                        reminders[i].tasktime=(reminders[i + 1].time- reminders[i].time).TotalMinutes;
+                        reminders[i].tasktime = (reminders[i + 1].time - reminders[i].time).TotalMinutes;
                         //如果任务reminders[i]跨天了，就将结束时间设为23:59:59
                         if (reminders[i].TimeEnd.Date != reminders[i].time.Date)
                         {
-                            reminders[i].tasktime= (reminders[i].time.Date.AddHours(23).AddMinutes(59).AddSeconds(59)- reminders[i].time).TotalMinutes;
+                            reminders[i].tasktime = (reminders[i].time.Date.AddHours(23).AddMinutes(59).AddSeconds(59) - reminders[i].time).TotalMinutes;
                         }
                     }
                     //如果reminders[i]结束时间大于晚上11点46分，就将结束时间设为晚上11点59分

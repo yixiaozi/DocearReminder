@@ -737,11 +737,11 @@ namespace DocearReminder
             dayView1.StartDate = dateTimePicker1.Value;
             RefreshCalender();
         }
-        public static bool FreshCalendarBool=false;
+        public static bool FreshCalendarBool = false;
 
         public void button1_Click_1(object sender, EventArgs e)
         {
-            DocearReminder.Tools.timeblockduiqi_Click(null,null);
+            DocearReminder.Tools.timeblockduiqi_Click(null, null);
             FreshMenu();
             RefreshCalender();
         }
@@ -762,7 +762,7 @@ namespace DocearReminder
                 {
                     ShowActionLog();
                 }
-                if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked|| ShowClipboard.Checked)
+                if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowClipboard.Checked)
                 {
                     ShowCaptureScreen();
                 }
@@ -772,7 +772,7 @@ namespace DocearReminder
             //拆解一下下面的判断逻辑
             IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m =>
                 m.time >= dateTimePicker1.Value &&
-                m.time <= dateTimePicker1.Value.AddDays((double) numericUpDown1.Value) &&
+                m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) &&
                 (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath) &&
                   m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" &&
                   m.mindmap != "Mistake" && !c_timeBlock.Checked) ||
@@ -787,7 +787,7 @@ namespace DocearReminder
             //&& !c_timeBlock.Checked && !c_fanqie.Checked && !c_done.Checked &&!c_progress.Checked && !c_mistake.Checked && !c_Money.Checked && !Ka_c.Checked
             if (mindmappath == "")//当所有的时候排除金钱
             {
-                items = items.Where(m=>m.mindmap!="Money");
+                items = items.Where(m => m.mindmap != "Money");
             }
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
@@ -843,7 +843,7 @@ namespace DocearReminder
                 catch (Exception e)
                 { }
                 double time = item.tasktime;
-                if (time==0)
+                if (time == 0)
                 {
                     time = 30;//默认显示30分钟
                 }
@@ -1005,8 +1005,8 @@ namespace DocearReminder
                                 m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
                             }
                         }
-                        
-                        if (item.time < DateTime.Today.AddDays(-1)&&DateTime.Today.Day!=28&& DateTime.Today.Day != 29&& DateTime.Today.Day != 30&& DateTime.Today.Day != 31)//时间块禁止编辑？一天以前的禁止编辑,每个月最后几天允许编辑
+
+                        if (item.time < DateTime.Today.AddDays(-1) && DateTime.Today.Day != 28 && DateTime.Today.Day != 29 && DateTime.Today.Day != 30 && DateTime.Today.Day != 31)//时间块禁止编辑？一天以前的禁止编辑,每个月最后几天允许编辑
                         {
                             //m_Appointment.Locked = true;
                         }
@@ -1029,43 +1029,43 @@ namespace DocearReminder
                     }
                     else if (zhongyao == -1)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(220, 220, 220);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(220, 220, 220);
                     }
                     else if (zhongyao == -2)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(211, 211, 211);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(211, 211, 211);
                     }
                     else if (zhongyao == -3)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(192, 192, 192);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(192, 192, 192);
                     }
                     else if (zhongyao == -4)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(169, 169, 169);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(169, 169, 169);
                     }
                     else if (zhongyao == -5)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(128, 128, 128);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(128, 128, 128);
                     }
                     else if (zhongyao == -6)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(105, 105, 105);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(105, 105, 105);
                     }
                     else if (zhongyao == -7)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(85, 85, 85);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(85, 85, 85);
                     }
                     else if (zhongyao == -8)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(65, 65, 65);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(65, 65, 65);
                     }
                     else if (zhongyao == -9)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.FromArgb(48, 48, 48);
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.FromArgb(48, 48, 48);
                     }
                     else if (zhongyao <= -10)
                     {
-                        m_Appointment.Color = m_Appointment.BorderColor =Color.Black;
+                        m_Appointment.Color = m_Appointment.BorderColor = Color.Black;
                     }
                     else if (zhongyao == 2)
                     {
@@ -1159,14 +1159,14 @@ namespace DocearReminder
                         }
                     }
                 }
-                if ((m_Appointment.EndDate- m_Appointment.StartDate).TotalHours>20)//一般不会有超过1200的支出或者收入吧
+                if ((m_Appointment.EndDate - m_Appointment.StartDate).TotalHours > 20)//一般不会有超过1200的支出或者收入吧
                 {
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
                     //m_Appointment.Color = Color.DarkRed;//使用默认颜色就可以了
                     m_Appointment.Locked = true;
                     //如何把原来的值记录到时间块上呢？
                 }
-                if (m_Appointment.EndDate.Day>m_Appointment.StartDate.Day)
+                if (m_Appointment.EndDate.Day > m_Appointment.StartDate.Day)
                 {
                     m_Appointment.StartDate = Convert.ToDateTime(m_Appointment.StartDate.ToString("yyyy/MM/dd"));
                     m_Appointment.EndDate = m_Appointment.StartDate.AddHours(3);
@@ -1243,7 +1243,7 @@ namespace DocearReminder
                                 catch (Exception)
                                 {
                                 }
-                                ActionLogAddCalanderItem(line,"", line, dt,fileName);
+                                ActionLogAddCalanderItem(line, "", line, dt, fileName);
                             }
                         }
                     }
@@ -1298,9 +1298,9 @@ namespace DocearReminder
             //string MonthTo = dayView1.StartDate.AddDays(dayView1.DaysToShow).Month.ToString();
             //m_Appointments = new List<Appointment>();//清空
             Appointment m_Appointment = new Appointment();
-            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg") || file.Name.ToLower().EndsWith(".html")|| file.Name.ToLower().EndsWith(".txt")).ToList())
+            foreach (FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.*", SearchOption.AllDirectories).Where(file => file.Name.ToLower().EndsWith(".png") || file.Name.ToLower().EndsWith(".jpg") || file.Name.ToLower().EndsWith(".html") || file.Name.ToLower().EndsWith(".txt")).ToList())
             {
-                if ((CaptureScreen.Checked&&file.FullName.Contains("CaptureScreen"))|| (CameracheckBox.Checked && file.FullName.Contains("Camera")) || ( JieTucheckBox.Checked && file.FullName.Contains("images"))|| (HTML.Checked && file.FullName.Contains("html"))||(ShowClipboard.Checked&&file.FullName.EndsWith(".txt")))
+                if ((CaptureScreen.Checked && file.FullName.Contains("CaptureScreen")) || (CameracheckBox.Checked && file.FullName.Contains("Camera")) || (JieTucheckBox.Checked && file.FullName.Contains("images")) || (HTML.Checked && file.FullName.Contains("html")) || (ShowClipboard.Checked && file.FullName.EndsWith(".txt")))
                 {
                     //string minute = file.Name.Substring(8, 2);
                     //if (!"00,15,30,45".Contains(minute))
@@ -1324,7 +1324,7 @@ namespace DocearReminder
                             try
                             {
                                 string[] split = file.FullName.Split('\\');
-                                dt = Convert.ToDateTime(split[split.Length-3]+"/"+ split[split.Length - 2]+ "/"+split[split.Length - 1].Split('.')[0]+" 1:1");
+                                dt = Convert.ToDateTime(split[split.Length - 3] + "/" + split[split.Length - 2] + "/" + split[split.Length - 1].Split('.')[0] + " 1:1");
                             }
                             catch (Exception)
                             {
@@ -1332,7 +1332,7 @@ namespace DocearReminder
                             }
                         }
                     }
-                    else if (!file.FullName.Contains("html")) 
+                    else if (!file.FullName.Contains("html"))
                     {
                         if (dt == DateTime.Today && file.Name.Substring(6, 2) != "00")
                         {
@@ -1415,7 +1415,7 @@ namespace DocearReminder
                     string time = "";//时间判断，如果和timenew不一致，说明是下一个记录
                     string timenew = "";//新的时间，每次更新
                     string Content = "";
-                    DateTime dt=DateTime.Now;
+                    DateTime dt = DateTime.Now;
                     while ((line = streamReader.ReadLine()) != null)
                     {
                         if (line.Trim() == "")
@@ -1436,16 +1436,16 @@ namespace DocearReminder
                         try
                         {
                             dt = Convert.ToDateTime(timenew.Trim());
-                            if (timenew!=time)
+                            if (timenew != time)
                             {
                                 time = timenew;//更新time
-                                //使用Content添加一条，因为这是新的一条了，要把Content内容保存。
-                               ClipboardAddCalanderItem(Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content.Split(new string[] { Environment.NewLine },StringSplitOptions.None)[0], Content, dt, fileName);
+                                               //使用Content添加一条，因为这是新的一条了，要把Content内容保存。
+                                ClipboardAddCalanderItem(Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0], Content, dt, fileName);
                                 Content = line.Substring(20);
                             }
                             else//如果一样的话
                             {
-                                Content += (Environment.NewLine+ line);
+                                Content += (Environment.NewLine + line);
                             }
                             //result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
                         }
@@ -1459,7 +1459,7 @@ namespace DocearReminder
                 }
             }
         }
-        public void ClipboardAddCalanderItem(string Title,string Common,String CommonDetail,DateTime dt,string fullname)
+        public void ClipboardAddCalanderItem(string Title, string Common, String CommonDetail, DateTime dt, string fullname)
         {
             Appointment m_Appointment = new Appointment
             {
@@ -1547,8 +1547,8 @@ namespace DocearReminder
                     hour = str.Substring(11, 2);
                     minute = str.Substring(14, 2);
                 }
-                return Convert.ToDateTime(year+"/"+month+"/"+day+" "+hour+":"+minute);
-                
+                return Convert.ToDateTime(year + "/" + month + "/" + day + " " + hour + ":" + minute);
+
             }
             catch (Exception)
             {
@@ -1569,8 +1569,8 @@ namespace DocearReminder
         {
             //m_Appointments = new List<Appointment>();
             Appointment m_Appointment = new Appointment();
-            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted)&&m.EndDate!=null));
-            
+            IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m => ((!m.isCompleted) && m.EndDate != null));
+
             foreach (ReminderItem item in items)
             {
                 m_Appointment = new Appointment
@@ -1601,7 +1601,7 @@ namespace DocearReminder
                         m_Appointment.Title += "*";
                     }
                 }
-                m_Appointment.Title = "截止日："+taskname;
+                m_Appointment.Title = "截止日：" + taskname;
                 m_Appointment.value = item.mindmapPath;
                 m_Appointment.ID = item.ID != null ? item.ID.ToString() : "";
                 int zhongyao = item.tasklevel;
@@ -1642,7 +1642,7 @@ namespace DocearReminder
                 };
                 while ((DateTime.Now - m_Appointment.StartDate).TotalDays > 30)
                 {
-                    m_Appointment.StartDate=m_Appointment.StartDate.AddYears(1);
+                    m_Appointment.StartDate = m_Appointment.StartDate.AddYears(1);
                 }
                 string taskname = item.name;
                 string common = item.comment;
@@ -1657,7 +1657,7 @@ namespace DocearReminder
                 {
                     common = GetZhuangbiStr(common);
                 }
-                m_Appointment.Title = "纪念日："+taskname;
+                m_Appointment.Title = "纪念日：" + taskname;
                 m_Appointment.Comment = common;
                 m_Appointment.DetailComment = detailCommon;
                 if (showcomment && m_Appointment.Comment != null && m_Appointment.Comment != "")
@@ -1722,11 +1722,11 @@ namespace DocearReminder
                     //当在查看文件时，不更新，因为需要计算量比较大（需要读取磁盘）
                     return;
                 }
-                if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString()&& workfolder_combox.SelectedItem.ToString()!="All")
+                if (DocearReminderForm.section != workfolder_combox.SelectedItem.ToString() && workfolder_combox.SelectedItem.ToString() != "All")
                 {
                     for (int i = 0; i < workfolder_combox.Items.Count; i++)
                     {
-                        if (workfolder_combox.Items[i].ToString()==DocearReminderForm.section)
+                        if (workfolder_combox.Items[i].ToString() == DocearReminderForm.section)
                         {
                             workfolder_combox.SelectedIndex = i;
                         }
@@ -1876,14 +1876,14 @@ namespace DocearReminder
                         }
                         else
                         {
-                            if (numericUpDown1.Value < 14&&!c_lock.Checked)
+                            if (numericUpDown1.Value < 14 && !c_lock.Checked)
                             {
                                 numericUpDown1.Value++;
                                 return;
                             }
-                            if (dayView1.Focused&& (dayView1.SelectedAppointment!=null))
+                            if (dayView1.Focused && (dayView1.SelectedAppointment != null))
                             {
-                                dayView1.SelectedAppointment.StartDate=dayView1.SelectedAppointment.StartDate.AddMinutes(-1);
+                                dayView1.SelectedAppointment.StartDate = dayView1.SelectedAppointment.StartDate.AddMinutes(-1);
                                 dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.EndDate.AddMinutes(-1);
                                 ReminderItem current = reminderObject.reminders.FirstOrDefault(m => !m.isCompleted && m.mindmapPath.Contains(dayView1.SelectedAppointment.value) && m.ID == dayView1.SelectedAppointment.ID);
                                 if (current != null)
@@ -1948,7 +1948,7 @@ namespace DocearReminder
                             }
                             return;
                         }
-                        if (numericUpDown1.Value == 7&& dateTimePicker1.Value.DayOfWeek==DayOfWeek.Monday)
+                        if (numericUpDown1.Value == 7 && dateTimePicker1.Value.DayOfWeek == DayOfWeek.Monday)
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
                         }
@@ -1960,7 +1960,7 @@ namespace DocearReminder
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
                         }
-                        
+
                         break;
                     case Keys.Right:
                         if (c_lock.Checked)
@@ -1990,7 +1990,7 @@ namespace DocearReminder
                         {
                             dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
                         }
-                        
+
                         break;
                     case Keys.S:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
@@ -2205,7 +2205,7 @@ namespace DocearReminder
                 ismovetask = false;
                 try
                 {
-                    if (dayView1.SelectedAppointment.Type != "时间块"&& dayView1.SelectedAppointment.Type != "进步"&& dayView1.SelectedAppointment.Type != "错误"&& dayView1.SelectedAppointment.Type != "金钱" & dayView1.SelectedAppointment.Type != "卡路里")
+                    if (dayView1.SelectedAppointment.Type != "时间块" && dayView1.SelectedAppointment.Type != "进步" && dayView1.SelectedAppointment.Type != "错误" && dayView1.SelectedAppointment.Type != "金钱" & dayView1.SelectedAppointment.Type != "卡路里")
                     {
                         EditTask(dayView1.SelectedAppointment.value, dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.StartDate, (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes, dayView1.SelectedAppointment.Title);
                     }
@@ -2266,7 +2266,7 @@ namespace DocearReminder
         {
             try
             {
-                
+
                 if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
                 {
                     if (numericUpDown3.Value == 20)
@@ -2339,7 +2339,7 @@ namespace DocearReminder
             {
                 dayView1.Refresh();
             }
-            
+
         }
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -2359,7 +2359,7 @@ namespace DocearReminder
                 {
                     try
                     {
-                        if (dayView1.SelectedAppointment.Type== "时间块" || dayView1.SelectedAppointment.Type == "进步" || dayView1.SelectedAppointment.Type == "错误" || dayView1.SelectedAppointment.Type == "金钱")
+                        if (dayView1.SelectedAppointment.Type == "时间块" || dayView1.SelectedAppointment.Type == "进步" || dayView1.SelectedAppointment.Type == "错误" || dayView1.SelectedAppointment.Type == "金钱")
                         {
                             commentToolStripMenuItem_Click(null, null);
                         }
@@ -2387,7 +2387,7 @@ namespace DocearReminder
         }
         bool islock = true;
         private bool showfatchertimeblock;
-        private bool showcomment=true;
+        private bool showcomment = true;
         private int lastX;
         private int lastY;
         private bool nomoretooltip;
@@ -2409,7 +2409,7 @@ namespace DocearReminder
         private void SetTimeBlock(object sender, EventArgs e)
         {
             Appointment m_Appointment = new Appointment();
-            if ((dayView1.SelectionEnd-dayView1.SelectionStart).TotalMinutes>2&& (dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes < 1000)
+            if ((dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes > 2 && (dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes < 1000)
             {
                 m_Appointment.StartDate = dayView1.SelectionStart;
                 m_Appointment.EndDate = dayView1.SelectionEnd;
@@ -2425,11 +2425,11 @@ namespace DocearReminder
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.TimeEnd;
-                    if (m_Appointment.StartDate < DateTime.Today&& dayView1.SelectionEnd > DateTime.Today)//如果今天还没有过，处理开始时间为今天
+                    if (m_Appointment.StartDate < DateTime.Today && dayView1.SelectionEnd > DateTime.Today)//如果今天还没有过，处理开始时间为今天
                     {
                         m_Appointment.StartDate = DateTime.Today;
                     }
-                    if (item.time<DateTime.Today&& item.time < DateTime.Today)
+                    if (item.time < DateTime.Today && item.time < DateTime.Today)
                     {
                         item.tasktime = (DateTime.Today - item.time).TotalMinutes - 1;
                     }
@@ -2441,7 +2441,7 @@ namespace DocearReminder
                 }
                 if (dayView1.SelectionEnd < DateTime.Now)
                 {
-                    if (dayView1.SelectionEnd<m_Appointment.StartDate)
+                    if (dayView1.SelectionEnd < m_Appointment.StartDate)
                     {
                         m_Appointment.EndDate = DateTime.Now;
                     }
@@ -2564,7 +2564,7 @@ namespace DocearReminder
             }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now &&m.mindmap == "Money"&& m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
+                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && m.mindmap == "Money" && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.time.AddMinutes(item.tasktime);
@@ -2633,13 +2633,13 @@ namespace DocearReminder
                 {
                     nengliangNum = Convert.ToInt16(nengliang.Replace("kcal", ""));
                 }
-                nenglaingMax = nengliangNum * Convert.ToDouble(ggg)/10;
+                nenglaingMax = nengliangNum * Convert.ToDouble(ggg) / 10;
             }
             catch (Exception)
             {
             }
-            
-            if (nenglaingMax!=0)
+
+            if (nenglaingMax != 0)
             {
                 m_Appointment.EndDate = dayView1.SelectionStart.AddMinutes(nenglaingMax);
             }
@@ -2758,8 +2758,8 @@ namespace DocearReminder
         {
             try
             {
-                ReminderItem item= reminderObject.reminders.FirstOrDefault(m => m.ID == id);
-                if (item!=null)
+                ReminderItem item = reminderObject.reminders.FirstOrDefault(m => m.ID == id);
+                if (item != null)
                 {
                     item.isCompleted = true;
                 }
@@ -2799,7 +2799,7 @@ namespace DocearReminder
 
         public void CheckboxAlldisabled()
         {
-            if (!c_timeBlock.Checked&&!c_Money.Checked&&!Ka_c.Checked)
+            if (!c_timeBlock.Checked && !c_Money.Checked && !Ka_c.Checked)
             {
                 dayView1.StartHour = 0;
                 dayView1.HalfHourHeight = 20;
@@ -2809,11 +2809,11 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(dateTimePicker1.Value == DateTime.Today)
+            if (dateTimePicker1.Value == DateTime.Today)
             {
                 dateTimePicker1.Value = DateTime.Today.AddDays(-1);
             }
-            else if(dateTimePicker1.Value == DateTime.Today.AddDays(-1)&& dateTimePicker1.Value.DayOfWeek!=DayOfWeek.Monday)
+            else if (dateTimePicker1.Value == DateTime.Today.AddDays(-1) && dateTimePicker1.Value.DayOfWeek != DayOfWeek.Monday)
             {
                 SetMonday();
             }
@@ -2828,7 +2828,7 @@ namespace DocearReminder
             RefreshCalender();
             dayView1.StartDate = dayView1.StartDate;//用于刷新
         }
-        
+
         private void dayView1_AppointmentMouseHover(object sender, yixiaozi.WinForm.Control.DayView.AppointmentMouseHoverEventArgs args)
         {
             //基本不会运行
@@ -2855,17 +2855,17 @@ namespace DocearReminder
                 string editinfo = "";
                 try
                 {
-                    if (args != null&& args.Tag!=null&& ((ReminderItem)args.Tag).editCount > 0)
+                    if (args != null && args.Tag != null && ((ReminderItem)args.Tag).editCount > 0)
                     {
                         editinfo += Environment.NewLine;
-                        editinfo += ("编辑次数:"+ ((ReminderItem)args.Tag).editCount);
+                        editinfo += ("编辑次数:" + ((ReminderItem)args.Tag).editCount);
                         editinfo += Environment.NewLine;
                         int count = 0;
                         foreach (DateTime item in ((ReminderItem)args.Tag).editTime)
                         {
-                            editinfo += (item.ToString("MM月dd-HH:mm")+";");
+                            editinfo += (item.ToString("MM月dd-HH:mm") + ";");
                             count++;
-                            if (count%5==0)
+                            if (count % 5 == 0)
                             {
                                 editinfo += Environment.NewLine;
                             }
@@ -2878,10 +2878,10 @@ namespace DocearReminder
                 string timeblocktop = "";
                 try
                 {
-                    if (args.Type== "时间块"|| args.Type == "金钱"|| args.Type == "卡路里")
+                    if (args.Type == "时间块" || args.Type == "金钱" || args.Type == "卡路里")
                     {
                         timeblocktop = ((ReminderItem)args.Tag).nameFull;
-                        if (timeblocktop!="")
+                        if (timeblocktop != "")
                         {
                             timeblocktop += "|";
                         }
@@ -2898,17 +2898,17 @@ namespace DocearReminder
                         info = (args.EndDate - args.StartDate).TotalMinutes.ToString() + "元";
                         break;
                     case "卡路里":
-                        info = (args.EndDate - args.StartDate).TotalMinutes*10 + "千卡";
+                        info = (args.EndDate - args.StartDate).TotalMinutes * 10 + "千卡";
                         info += Environment.NewLine;
-                        info += ((args.EndDate - args.StartDate).TotalMinutes * 10/9.46).ToString("F")+"克脂肪";
+                        info += ((args.EndDate - args.StartDate).TotalMinutes * 10 / 9.46).ToString("F") + "克脂肪";
                         break;
                     default:
                         info = args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString();
                         break;
                 }
                 string showresult = timeblocktop + args.Title.Split('(')[0] + Environment.NewLine + info + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "") + (args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo;
-                showresult = showresult.Replace(Environment.NewLine+ Environment.NewLine, Environment.NewLine);//去掉连续的换行
-                toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X-this.Left + 1, Control.MousePosition.Y-this.Top + 1), int.MaxValue);
+                showresult = showresult.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);//去掉连续的换行
+                toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X - this.Left + 1, Control.MousePosition.Y - this.Top + 1), int.MaxValue);
             }
         }
 
@@ -2919,12 +2919,12 @@ namespace DocearReminder
 
         public string ToString20Lenght(string name)
         {
-            string result="";
+            string result = "";
             int maxLine = 5;
             foreach (string item in name.Split('\n'))
             {
                 maxLine--;
-                if (maxLine<0)
+                if (maxLine < 0)
                 {
                     break;
                 }
@@ -2949,7 +2949,7 @@ namespace DocearReminder
         {
 
         }
-        public static string ShowDialog(string text,string detailCommon,string timelong, string caption)
+        public static string ShowDialog(string text, string detailCommon, string timelong, string caption)
         {
             isMenuShow = true;
             Form prompt = new Form()
@@ -2966,7 +2966,7 @@ namespace DocearReminder
             textBox.Text = text;
             RichTextBox detailCommonBox = new RichTextBox() { Left = 10, Top = 90, Width = 380, Height = 300 };
             detailCommonBox.Text = detailCommon;
-            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300,Height=30, Top = 400, DialogResult = DialogResult.OK };
+            Button confirmation = new Button() { Text = "Ok", Left = 50, Width = 300, Height = 30, Top = 400, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { isMenuShow = false; prompt.Close(); };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(time);
@@ -2975,13 +2975,13 @@ namespace DocearReminder
             prompt.AcceptButton = confirmation;
             textBox.Focus();
 
-            return prompt.ShowDialog() == DialogResult.OK ? time.Text + "ulgniy"+textBox.Text+"ulgniy"+detailCommonBox.Text : "";
+            return prompt.ShowDialog() == DialogResult.OK ? time.Text + "ulgniy" + textBox.Text + "ulgniy" + detailCommonBox.Text : "";
         }
 
         private void commentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string promptValue = "";
-            if (dayView1.SelectedAppointment!=null)
+            if (dayView1.SelectedAppointment != null)
             {
                 string timelong = "";
                 try
@@ -2992,7 +2992,7 @@ namespace DocearReminder
                 {
 
                 }
-                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, dayView1.SelectedAppointment.Title.Split('(')[0]==""?"编辑详细":dayView1.SelectedAppointment.Title.Split('(')[0]);
+                promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, dayView1.SelectedAppointment.Title.Split('(')[0] == "" ? "编辑详细" : dayView1.SelectedAppointment.Title.Split('(')[0]);
                 if (promptValue != "")
                 {
                     string common = Regex.Split(promptValue, @"ulgniy", RegexOptions.IgnoreCase)[1];
@@ -3009,7 +3009,7 @@ namespace DocearReminder
                     }
                     dayView1.SelectedAppointment.Comment = common;
                     dayView1.SelectedAppointment.DetailComment = detail;
-                    if (timeNum!=0)
+                    if (timeNum != 0)
                     {
                         dayView1.SelectedAppointment.EndDate = dayView1.SelectedAppointment.StartDate.AddMinutes(timeNum);
                     }
@@ -3019,7 +3019,7 @@ namespace DocearReminder
                     {
                         current.comment = common;
                         current.DetailComment = detail;
-                        if (timeNum!=0)
+                        if (timeNum != 0)
                         {
                             current.tasktime = timeNum;
                         }
@@ -3059,7 +3059,7 @@ namespace DocearReminder
         {
             try
             {
-                Thread th = new Thread(() => OpenFanQie(Convert.ToInt32((dayView1.SelectedAppointment.EndDate-dayView1.SelectedAppointment.StartDate).TotalMinutes), dayView1.SelectedAppointment.Title, dayView1.SelectedAppointment.value, GetPosition()));
+                Thread th = new Thread(() => OpenFanQie(Convert.ToInt32((dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes), dayView1.SelectedAppointment.Title, dayView1.SelectedAppointment.value, GetPosition()));
                 tomatoCount += 1;
                 th.Start();
             }
@@ -3091,7 +3091,7 @@ namespace DocearReminder
             if (newid || currentUsedTimerId == null)
             {
                 DocearReminderForm.usedTimer.SetEndDate(currentUsedTimerId);
-                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)){IsBackground = true};
+                Thread th = new Thread(() => DocearReminderForm.SaveUsedTimerFile(DocearReminderForm.usedTimer)) { IsBackground = true };
                 th.Start();
                 currentUsedTimerId = Guid.NewGuid();
             }
@@ -3245,7 +3245,7 @@ namespace DocearReminder
             Appointment m_Appointment = new Appointment();
             foreach (FileInfo file in new DirectoryInfo(ini.ReadString("path", "rootpath", "")).GetFiles("*.*", SearchOption.AllDirectories).Where(file => NewFileExtension.Contains(file.Extension)).ToList())
             {
-                if(!file.FullName.Contains(AppDomain.CurrentDomain.BaseDirectory)&& !file.FullName.Contains(".git") && !file.FullName.Contains("_data"))
+                if (!file.FullName.Contains(AppDomain.CurrentDomain.BaseDirectory) && !file.FullName.Contains(".git") && !file.FullName.Contains("_data"))
                 {
                     DateTime dt = file.CreationTime;
                     if (dt > dayView1.StartDate && dt < dayView1.StartDate.AddDays(dayView1.DaysToShow))

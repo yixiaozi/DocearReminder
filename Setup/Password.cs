@@ -29,7 +29,7 @@ namespace Password
             ini.WriteString("password", "a", encrypt.EncryptString(textBox4.Text));
             ini.WriteString("password", "d", encrypt.EncryptString(textBox5.Text));
             string delfolder = "";
-            foreach (string item in richTextBox1.Text.Split(new char[] {'\r','\n'}))
+            foreach (string item in richTextBox1.Text.Split(new char[] { '\r', '\n' }))
             {
                 delfolder += (item + ";");
             }

@@ -12366,6 +12366,7 @@ namespace DocearReminder
             catch (Exception)
             {
             }
+            notifyIcon1.Dispose();
             SaveLog("关闭程序。");
         }
         //private void fenlei_CheckedChanged(object sender, EventArgs e)

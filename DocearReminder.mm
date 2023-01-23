@@ -1,7 +1,7 @@
-<map version="docear 1.1" project="16C5A4D5F9CCXC0FOHL2I08P8IR4IBXQ9WBF" project_last_home="file:/C:/Users/wangy/Docear/projects/My%20Thesis/" dcr_id="1614697869313_un0uj146n98bpkz8cr2psb2z">
+<map version="docear 1.1" dcr_id="1614697869313_un0uj146n98bpkz8cr2psb2z" project="16C5A4D5F9CCXC0FOHL2I08P8IR4IBXQ9WBF" project_last_home="file:/C:/Users/wangy/Docear/projects/My%20Thesis/">
   <!--To view this file, download Docear - The Academic Literature Suite from http://www.docear.org -->
   <node TEXT="DocearReminder" FOLDED="false" ID="ID_1492747377" CREATED="1614697869250" MODIFIED="1614697869252">
-    <hook NAME="AutomaticEdgeColor" COUNTER="10" />
+    <hook NAME="AutomaticEdgeColor" COUNTER="11" />
     <hook NAME="MapStyle">
       <properties show_note_icons="true" />
       <map_styles>
@@ -3147,9 +3147,9 @@
           <node TEXT="&#x4EE5;&#x653F;&#x6CBB;&#x6587;&#x4EF6;&#x5939;&#x4E3A;&#x5355;&#x72EC;&#x7684;&#x6D4B;&#x8BD5;&#x9879;&#x76EE;&#xFF0C;&#x4EE5;&#x65B9;&#x4FBF;&#x6D4B;&#x8BD5;&#x54EA;&#x91CC;&#x6709;&#x914D;&#x7F6E;&#x95EE;&#x9898;" ID="7db543a1-c33e-4ccf-aacc-ce61949e2c3a" CREATED="1640473730585" MODIFIED="1640473730585" TASKTIME="100" TASKLEVEL="1">
             <icon BUILTIN="button_ok" />
           </node>
-          <node TEXT="&#x5199;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x7684;HTML&#x5DE5;&#x5177;" ID="f96e491e-94ff-4831-819d-b5444bc1d3b2" CREATED="1640476203627" MODIFIED="1640476203627" TASKTIME="200" TASKLEVEL="5" ISVIEW="false">
+          <node TEXT="&#x5199;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x7684;HTML&#x5DE5;&#x5177;" ID="f96e491e-94ff-4831-819d-b5444bc1d3b2" CREATED="1640476203627" MODIFIED="1640476203627" ISVIEW="false" TASKTIME="89" TASKLEVEL="5">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655250603000" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1673695803000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
           <node TEXT="&#x5C06;&#x64AD;&#x653E;&#x8BED;&#x97F3;&#x5F02;&#x6B65;" ID="eadf4303-667d-43bd-8fa5-e670522b0d3d" CREATED="1640477223002" MODIFIED="1640477223002" TASKLEVEL="2" TASKTIME="15">
@@ -3207,25 +3207,22 @@
           <node TEXT="&#x7EDF;&#x8BA1;&#x5B50;&#x4EFB;&#x52A1;&#x4E2A;&#x6570;&#xFF0C;&#x6216;&#x8005;&#x63A7;&#x5236;&#xFF0C;&#x663E;&#x793A;&#xFF1F;" ID="961d6cda-01cb-4af1-ae43-7632e640003d" CREATED="1640652476277" MODIFIED="1640652476277" TASKTIME="30" TASKLEVEL="1" ISVIEW="true">
             <icon BUILTIN="button_cancel" />
           </node>
-          <node TEXT="&#x5236;&#x4F5C;&#x4E00;&#x4E2A;&#x6807;&#x7B7E;&#x6811;&#xFF0C;&#x5206;&#x522B;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x6587;&#x4EF6;&#xFF0C;&#x6839;&#x7AD9;&#x70B9;&#xFF0C;&#x5B50;&#x7AD9;&#x70B9;&#x3002;" ID="b40c9157-0413-4047-81b8-f2830bb49e64" CREATED="1640652630132" MODIFIED="1640652630132" TASKTIME="184" TASKLEVEL="10" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655299230132" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x5236;&#x4F5C;&#x4E00;&#x4E2A;&#x6807;&#x7B7E;&#x6811;&#xFF0C;&#x5206;&#x522B;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x6587;&#x4EF6;&#xFF0C;&#x6839;&#x7AD9;&#x70B9;&#xFF0C;&#x5B50;&#x7AD9;&#x70B9;&#x3002;" ID="b40c9157-0413-4047-81b8-f2830bb49e64" CREATED="1640652630132" MODIFIED="1640652630132" ISVIEW="false" ISReminderOnly="True" TASKTIME="184" TASKLEVEL="10">
+            <icon BUILTIN="button_cancel" />
             <node TEXT="&#x592A;&#x96BE;&#x4E86;&#xFF0C;&#x5F88;&#x5E9E;&#x5927;&#x7684;&#x5DE5;&#x7A0B;&#xFF0C;&#x4E0D;&#x8FC7;&#x76EE;&#x524D;&#x6CA1;&#x6709;&#x9700;&#x6C42;" ID="0e986a92-aa0e-4e47-96a2-74b292736c27" CREATED="1644916037422" MODIFIED="1644916037422" TASKLEVEL="1" />
+            <node TEXT="&#x6709;&#x641C;&#x7D22;&#xFF0C;&#x5C31;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x770B;&#x5427;&#xFF0C;&#x5B8C;&#x4E0D;&#x6210;&#x7684;&#x5F88;&#x591A;&#x4EFB;&#x52A1;&#x6839;&#x672C;&#x4E0D;&#x5408;&#x9002;&#xFF0C;&#x522B;&#x7740;&#x6025;&#x505A;&#xFF0C;&#x7B49;&#x7B49;" ID="0396d37b-6a07-4706-94b9-0e5240c3bd5c" CREATED="1666133470735" MODIFIED="1666133470735" TASKLEVEL="1" />
           </node>
-          <node TEXT="&#x4ECA;&#x540E;&#x5F00;&#x53D1;&#x5728;&#x624B;&#x673A;&#x4E0A;&#x7684;APP" ID="997ed5c8-8026-4298-bab3-79215748c7b7" CREATED="1640652671289" MODIFIED="1640652671289" ISVIEW="true" TASKTIME="38" TASKLEVEL="1">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1658247671000" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x4ECA;&#x540E;&#x5F00;&#x53D1;&#x5728;&#x624B;&#x673A;&#x4E0A;&#x7684;APP" ID="997ed5c8-8026-4298-bab3-79215748c7b7" CREATED="1640652671289" MODIFIED="1640652671289" ISVIEW="false" TASKTIME="38" TASKLEVEL="1" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
             <node TEXT="&#x9700;&#x8981;&#x627E;&#x4E2A;&#x5730;&#x65B9;&#x5B58;&#x653E;json&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x663E;&#x793A;" ID="8887f74e-7f9a-4702-ba53-b9b1509db02d" CREATED="1644915755014" MODIFIED="1644915755014" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x65E5;&#x5386;&#x6DFB;&#x52A0;&#x53F3;&#x51FB;&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x7684;&#x8BDD;&#xFF0C;&#x6539;&#x540D;&#x548C;&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;&#x7684;&#x95EE;&#x9898;&#x90FD;&#x53EF;&#x4EE5;&#x77ED;&#x6682;&#x89E3;&#x51B3;" ID="66169f13-2548-4e2d-b385-23eb59870080" CREATED="1640653342606" MODIFIED="1640653342606" TASKLEVEL="1" TASKTIME="57">
             <icon BUILTIN="button_ok" />
           </node>
-          <node TEXT="&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#xFF0C;&#x4E0D;&#x505A;&#x66F4;&#x591A;&#x5347;&#x7EA7;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;&#x65E2;&#x7136;&#x53EF;&#x4EE5;&#x7528;&#x8FD8;&#x662F;&#x4EE5;&#x7528;&#x4E3A;&#x4E3B;" ID="407a83a3-da80-4011-abb7-3812f74bdb52" CREATED="1640653479497" MODIFIED="1640653479497" TASKLEVEL="1" REMINDERTYPE="eb" RDAYS="5" RWEEK="" RMONTH="" RWEEKS="" RYEAR="" RHOUR="" TASKTIME="55" EBSTRING="30000000">
+          <node TEXT="&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#xFF0C;&#x4E0D;&#x505A;&#x66F4;&#x591A;&#x5347;&#x7EA7;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;&#x65E2;&#x7136;&#x53EF;&#x4EE5;&#x7528;&#x8FD8;&#x662F;&#x4EE5;&#x7528;&#x4E3A;&#x4E3B;" ID="407a83a3-da80-4011-abb7-3812f74bdb52" CREATED="1640653479497" MODIFIED="1640653479497" TASKLEVEL="1" REMINDERTYPE="eb" RDAYS="5" RWEEK="" RMONTH="" RWEEKS="" RYEAR="" RHOUR="" TASKTIME="55" EBSTRING="80000000">
             <icon BUILTIN="revision" />
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1654468985989" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1673584535277" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
           <node TEXT="&#x70B9;&#x51FB;&#x65E5;&#xFF0C;&#x5468;&#xFF0C;&#x5E74;&#x7B49; &#xFF0C;&#x9ED8;&#x8BA4;&#x5468;&#x671F;&#x8BBE;&#x7F6E;&#x6210;1" ID="7aabb6f8-8bb0-4563-89f5-8fd98f03602c" CREATED="1640653531345" MODIFIED="1640653531345" TASKLEVEL="1" TASKTIME="30">
@@ -3385,7 +3382,7 @@
       </node>
     </node>
     <node TEXT="2022" FOLDED="true" POSITION="right" ID="57a988ac-bef8-40f6-9e43-c26ec39fd3e3" CREATED="1641593357658" MODIFIED="1641593357658">
-      <node TEXT="1" ID="04d431a8-9686-4829-87f6-b51277448312" CREATED="1641593357658" MODIFIED="1641593357658">
+      <node TEXT="1" FOLDED="true" ID="04d431a8-9686-4829-87f6-b51277448312" CREATED="1641593357658" MODIFIED="1641593357658">
         <node TEXT="1" ID="d696c404-ac27-4f4a-ae08-2d7f34f5ced9" CREATED="1641593357658" MODIFIED="1641593357658">
           <node TEXT="&#x6DFB;&#x52A0;&#x5B50;&#x8282;&#x70B9;&#x540E;&#xFF0C;&#x9009;&#x4E2D;&#x4EFB;&#x52A1;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x8F93;&#x5165;&#x6846;" ID="b63a9b64-1444-436b-b8c1-795f9389bfe6" CREATED="1641024504567" MODIFIED="1641024504567" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -3409,7 +3406,7 @@
           <node TEXT="&#x4F7F;&#x7528;CHM&#x7F16;&#x5199;&#x64CD;&#x4F5C;&#x8BF4;&#x660E;" ID="c78fe276-b479-4e70-be46-a5d26c3f48fa" CREATED="1641168705439" MODIFIED="1641168705439" REMINDERTYPE="day" RDAYS="20" RWEEK="" RMONTH="" RWEEKS="" RYEAR="" RHOUR="" TASKTIME="20" TASKLEVEL="4">
             <icon BUILTIN="revision" />
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655424705439" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1673482305000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
           <node TEXT="&#x756A;&#x8304;&#x949F;&#x6DFB;&#x52A0;&#x53F3;&#x952E;&#x5B8C;&#x6210;&#xFF0C;&#x7EE7;&#x7EED;" ID="1edfe3d5-ef1b-48bc-9a66-f78ec4a1495d" CREATED="1641171068062" MODIFIED="1641171068062" TASKLEVEL="1" TASKTIME="0">
@@ -3555,7 +3552,7 @@
           </node>
         </node>
       </node>
-      <node TEXT="2" ID="72bb305d-405f-4f2a-ba18-8889cb4e606e" CREATED="1645262374324" MODIFIED="1645262374324">
+      <node TEXT="2" FOLDED="true" ID="72bb305d-405f-4f2a-ba18-8889cb4e606e" CREATED="1645262374324" MODIFIED="1645262374324">
         <node TEXT="10" ID="03da3f67-9a30-46d4-bc99-58166c6c018e" CREATED="1645262374324" MODIFIED="1645262374324">
           <node TEXT="&#x5C06;&#x662F;&#x5426;&#x53EA;&#x6709;&#x5468;&#x671F;&#x5199;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x91CC;&#x9762;" ID="969b06bf-cf4b-4835-a11e-f5e3dc4970c9" CREATED="1644474701182" MODIFIED="1644474701182" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -3617,7 +3614,7 @@
             <icon BUILTIN="clock" />
             <icon BUILTIN="revision" />
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655797591617" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1675237591000" PERIOD="1" UNIT="DAY" />
             </hook>
             <node TEXT="&#x8F93;&#x5165;&#x6CD5;&#x6709;&#x65F6;&#x5019;&#x5C31;&#x53EA;&#x80FD;&#x7528;&#x82F1;&#x6587;&#x4E86;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x4E3A;&#x4EC0;&#x4E48;" ID="af471126-e7d6-42c9-8ace-06fd22bf9e4d" CREATED="1644996969176" MODIFIED="1644996969176">
               <icon BUILTIN="button_ok" />
@@ -3653,12 +3650,10 @@
           <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x8BB0;&#x5F55;" ID="95ad6ef0-52bd-476e-996c-82fddc1e7e6c" CREATED="1645025752469" MODIFIED="1645025752469" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
           </node>
-          <node TEXT="&#x76EE;&#x6807;&#x4E0E;&#x7EDF;&#x8BA1;" ID="243c5ea2-b412-4f8b-897a-e33d03154afa" CREATED="1645025769877" MODIFIED="1645025769877" JinianBeginTime="1645025769877" IsJinian="true" ISReminderOnly="False" TASKTIME="120" TASKLEVEL="10">
+          <node TEXT="&#x76EE;&#x6807;&#x4E0E;&#x7EDF;&#x8BA1;" ID="243c5ea2-b412-4f8b-897a-e33d03154afa" CREATED="1645025769877" MODIFIED="1645025769877" JinianBeginTime="1645025769877" IsJinian="true" ISReminderOnly="True" TASKTIME="120" TASKLEVEL="10">
             <icon BUILTIN="addition" />
             <icon BUILTIN="addition" />
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655566569000" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
           </node>
         </node>
         <node TEXT="17" ID="f40aba35-9073-431a-8007-11851b126df0" CREATED="1645262374324" MODIFIED="1645262374324">
@@ -3732,10 +3727,11 @@
           </node>
         </node>
         <node TEXT="24" ID="2bf20f8b-a46d-4583-a17f-7fd5a3b22ed7" CREATED="1655992983819" MODIFIED="1655992983819">
-          <node TEXT="&#x7528;&#x6570;&#x636E;&#x5E93;&#x8BB0;&#x5F55;&#x4E0B;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;" ID="d351237b-3ba3-4486-b5ab-9bc7c1073348" CREATED="1645663931141" MODIFIED="1645663931141" TASKTIME="0" TASKLEVEL="1" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655254331000" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x7528;&#x6570;&#x636E;&#x5E93;&#x8BB0;&#x5F55;&#x4E0B;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;" ID="d351237b-3ba3-4486-b5ab-9bc7c1073348" CREATED="1645663931141" MODIFIED="1645663931141" ISVIEW="false" TASKLEVEL="10" TASKTIME="120">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="codeproject.com/articles/746191/sqlite-helper-csharp" ID="b44dfeff-0de2-472c-84bd-29d89022f8fc" CREATED="1656376779909" MODIFIED="1656376779909" />
+            <node TEXT="SQLiteHelperCCodeProject" ID="24547e3a-4ba8-404a-a2aa-ef119a50f3fd" CREATED="1656376790259" MODIFIED="1656376790259" LINK="https://www.codeproject.com/articles/746191/sqlite-helper-csharp" />
+            <node TEXT="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x5176;&#x5B9E;&#x6587;&#x4EF6;&#x7684;&#x64CD;&#x4F5C;&#x8BB0;&#x5F55;&#x76F4;&#x63A5;&#x770B;git&#x7684;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x4E0D;&#x662F;&#x5417;&#xFF1F;&#x4E0D;&#x8FC7;&#x4E5F;&#x5B66;&#x4E86;&#x4E2A;&#x6280;&#x80FD;&#x5427;" ID="5692ecb3-6a61-4fb7-85bf-3308e0000bf9" CREATED="1672630330677" MODIFIED="1672630330677" TASKLEVEL="1" />
           </node>
         </node>
         <node TEXT="25" ID="0f094437-46c4-4c33-9034-3ea947c0de7c" CREATED="1655992983819" MODIFIED="1655992983819">
@@ -3796,7 +3792,7 @@
           </node>
         </node>
       </node>
-      <node TEXT="3" ID="4f6ac6d9-2162-4112-bf5a-827bc52e914d" CREATED="1655992983819" MODIFIED="1655992983819">
+      <node TEXT="3" FOLDED="true" ID="4f6ac6d9-2162-4112-bf5a-827bc52e914d" CREATED="1655992983819" MODIFIED="1655992983819">
         <node TEXT="1" ID="5f771e91-c196-4025-a65e-690c0adb459f" CREATED="1655992983819" MODIFIED="1655992983819">
           <node TEXT="&#x65E5;&#x5386;&#x4E2D;&#x6253;&#x5F00;&#x756A;&#x8304;&#x949F;" ID="6ffc394a-7001-44a4-a4f4-b48def65717a" CREATED="1646097678569" MODIFIED="1646097678569" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -3836,9 +3832,9 @@
           <node TEXT="&#x8BBE;&#x7F6E;&#x5B8C;&#x5907;&#x6CE8;&#x540E;&#xFF0C;&#x5237;&#x65B0;&#x4E0B;&#x65E5;&#x5386;" ID="07721b14-5292-441f-814e-904f3053526a" CREATED="1646435641231" MODIFIED="1646435641231" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
           </node>
-          <node TEXT="&#x5F55;&#x5236;&#x4E00;&#x4E2A;&#x6559;&#x5B66;&#x89C6;&#x9891;" ID="869d3525-093a-4712-b790-75413a6ac6e9" CREATED="1646467584064" MODIFIED="1646467584064" TASKTIME="0" TASKLEVEL="1">
+          <node TEXT="&#x5F55;&#x5236;&#x4E00;&#x4E2A;&#x6559;&#x5B66;&#x89C6;&#x9891;" ID="869d3525-093a-4712-b790-75413a6ac6e9" CREATED="1646467584064" MODIFIED="1646467584064" TASKTIME="20" TASKLEVEL="1" ISVIEW="true">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1657008384000" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1657958784000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
           <node TEXT="&#x6DFB;&#x52A0;&#x9501;&#x5B9A;&#x89C6;&#x56FE;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x65E5;&#x5386;" ID="081be298-b46c-4a1a-83c2-9b2b573d10b8" CREATED="1646470236371" MODIFIED="1646470236371" TASKLEVEL="1" TASKTIME="0">
@@ -3852,17 +3848,16 @@
           </node>
         </node>
         <node TEXT="7" ID="25ce1c08-a10e-463b-8af0-ec4300ca396f" CREATED="1655992983820" MODIFIED="1655992983820">
-          <node TEXT="&#x5C06;Docear&#x7684;&#x52A0;&#x5BC6;&#xFF0C;&#x89E3;&#x5BC6;&#x7B97;&#x6CD5;&#x627E;&#x5230;" ID="f51841fc-c03d-44aa-aa14-21ae10429e6a" CREATED="1646633874699" MODIFIED="1646633874699" ISReminderOnly="False" TASKTIME="40" TASKLEVEL="5">
+          <node TEXT="&#x5C06;Docear&#x7684;&#x52A0;&#x5BC6;&#xFF0C;&#x89E3;&#x5BC6;&#x7B97;&#x6CD5;&#x627E;&#x5230;" ID="f51841fc-c03d-44aa-aa14-21ae10429e6a" CREATED="1646633874699" MODIFIED="1646633874699" ISReminderOnly="True" TASKTIME="60" TASKLEVEL="10">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655533074000" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1671171474000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
         </node>
         <node TEXT="8" ID="91ff8c8e-a771-4665-a77a-a4cf7caf7836" CREATED="1655992983820" MODIFIED="1655992983820">
           <node TEXT="&#x89E3;&#x51B3;Json&#x6587;&#x4EF6;&#x5927;&#x7684;&#x95EE;&#x9898;&#xFF0C;reminder.json&#x548C;UsedTimer.json" ID="f2de83cc-7d9c-4797-9291-f687422e609a" CREATED="1646711718126" MODIFIED="1646711718126" TASKTIME="64" TASKLEVEL="1">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655798118000" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5E94;&#x8BE5;&#x7B97;&#x662F;&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#x4E86;&#xFF0C;&#x53EA;&#x662F;&#x5199;&#x7684;&#x8BDD;&#x95EE;&#x9898;&#x4E0D;&#x5927;" ID="92b0bba6-2b42-4927-af72-757511721506" CREATED="1656116203371" MODIFIED="1656116203371" TASKLEVEL="1" />
           </node>
         </node>
         <node TEXT="9" ID="740ffc6a-09e5-4cae-a397-abefb033bd60" CREATED="1655992983821" MODIFIED="1655992983821">
@@ -3924,10 +3919,8 @@
           </node>
         </node>
         <node TEXT="23" ID="29c591bb-57da-4a27-97a4-241809fe56b2" CREATED="1655992983821" MODIFIED="1655992983821">
-          <node TEXT="&#x5982;&#x4F55;&#x63A5;&#x6536;&#x547D;&#x4EE4;&#xFF0C;&#x6253;&#x5F00;&#x5B50;&#x7A97;&#x53E3;&#xFF1F;" ID="fae843cb-68e8-4f86-baf4-4c7a8d3d6dd7" CREATED="1648024020379" MODIFIED="1648024020379" TASKTIME="30" TASKLEVEL="10" ISVIEW="true">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1654244820000" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x5982;&#x4F55;&#x63A5;&#x6536;&#x547D;&#x4EE4;&#xFF0C;&#x6253;&#x5F00;&#x5B50;&#x7A97;&#x53E3;&#xFF1F;" ID="fae843cb-68e8-4f86-baf4-4c7a8d3d6dd7" CREATED="1648024020379" MODIFIED="1648024020379" TASKTIME="30" TASKLEVEL="10" ISVIEW="false" ISReminderOnly="True">
+            <icon BUILTIN="button_cancel" />
           </node>
         </node>
         <node TEXT="25" ID="fdea5de7-73d1-45a7-b2a1-c7f42bf83d79" CREATED="1655992983821" MODIFIED="1655992983821">
@@ -3944,10 +3937,8 @@
           </node>
         </node>
         <node TEXT="29" ID="1b7750a9-da77-4793-b00c-8e9a84da0dc1" CREATED="1655992983821" MODIFIED="1655992983821">
-          <node TEXT="&#x65F6;&#x95F4;&#x5FEB;&#x7684;&#x8D8B;&#x52BF;&#x56FE;" ID="8870c804-b970-4732-ab3c-22b9f9c1b186" CREATED="1648516901306" MODIFIED="1648516901306" TASKTIME="0" TASKLEVEL="1" ISReminderOnly="True">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655254301000" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x65F6;&#x95F4;&#x5FEB;&#x7684;&#x8D8B;&#x52BF;&#x56FE;" ID="8870c804-b970-4732-ab3c-22b9f9c1b186" CREATED="1648516901306" MODIFIED="1648516901306" ISReminderOnly="True" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
             <node TEXT="&#x611F;&#x89C9;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#x5427;" ID="636780cf-6b6b-403b-a810-83f5aa491412" CREATED="1652987950229" MODIFIED="1652987950229" TASKLEVEL="1" />
             <node TEXT="&#x8FD8;&#x6CA1;&#x60F3;&#x597D;&#x8981;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#xFF0C;&#x770B;&#x6765;&#x60F3;&#x6CD5;&#x6700;&#x91CD;&#x8981;" ID="54b9f37f-c933-4ec2-b574-5517dd16fc2a" CREATED="1654463375167" MODIFIED="1654463375167" TASKLEVEL="1" />
           </node>
@@ -3966,7 +3957,7 @@
           </node>
         </node>
       </node>
-      <node TEXT="4" ID="20d57cf9-9e42-49a7-9d09-a8070a57226e" CREATED="1655992983822" MODIFIED="1655992983822">
+      <node TEXT="4" FOLDED="true" ID="20d57cf9-9e42-49a7-9d09-a8070a57226e" CREATED="1655992983822" MODIFIED="1655992983822">
         <node TEXT="5" ID="ec5176e7-f5c4-4881-b7f7-42de0d94b4ce" CREATED="1655992983822" MODIFIED="1655992983822">
           <node TEXT="&#x53CC;&#x51FB;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x6253;&#x5F00;&#x6279;&#x6CE8;" ID="bd8d556f-4494-476b-8efb-356923fe84e5" CREATED="1649158630641" MODIFIED="1649158630641" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -4009,7 +4000,7 @@
           </node>
         </node>
       </node>
-      <node TEXT="5" ID="a0c7efa4-6167-40f4-8570-1dbb1aa25772" CREATED="1655992983822" MODIFIED="1655992983822">
+      <node TEXT="5" FOLDED="true" ID="a0c7efa4-6167-40f4-8570-1dbb1aa25772" CREATED="1655992983822" MODIFIED="1655992983822">
         <node TEXT="2" ID="2e351971-14a0-480b-a52a-320cc914ecf3" CREATED="1655992983822" MODIFIED="1655992983822">
           <node TEXT="&#x5982;&#x679C;&#x662F;&#x65F6;&#x95F4;&#xFF0C;&#x5219;&#x4E0D;&#x8BB0;&#x5F55;&#x756A;&#x8304;&#x949F;" ID="0ac26f80-9d74-4788-b1a7-6275b06c65fe" CREATED="1651429961019" MODIFIED="1651429961019" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -4062,9 +4053,8 @@
             <icon BUILTIN="button_ok" />
           </node>
           <node TEXT="&#x5EFA;&#x8BAE;&#x597D;&#x50CF;&#x6709;&#x70B9;&#x95EE;&#x9898;&#xFF0C;&#x6700;&#x65B0;&#x7684;&#x4E0D;&#x518D;&#x6700;&#x4E0A;&#x9762;" ID="245135dc-de18-4e5d-898d-ef65df1f4da3" CREATED="1651570368900" MODIFIED="1651570368900" TASKLEVEL="1" TASKTIME="0" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655285568900" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x91CD;&#x590D;&#x95EE;&#x9898;&#x8BB0;&#x5F55;" ID="62fb531e-3d25-426e-960f-0bf1e2df13dd" CREATED="1656116295509" MODIFIED="1656116295509" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x54C8;&#x54C8;&#x54C8;&#xFF0C;&#x539F;&#x6765;&#x4EE5;.&#x6216;&#x8005;&#x7A7A;&#x683C;&#x5F00;&#x59CB;&#x5C31;&#x53EF;&#x4EE5;&#x521B;&#x5EFA;&#x4EFB;&#x52A1;&#x4E86;" ID="ce5fcae1-15d8-429b-b5a4-fc6b7432e73f" CREATED="1651570831163" MODIFIED="1651570831163" TASKLEVEL="1" TASKTIME="0" />
           <node TEXT="&#x7C98;&#x8D34;&#x5B8C;&#x7F51;&#x5740;&#x540E;&#x4F1A;&#x5F88;&#x6162;&#xFF0C;&#x89E3;&#x51B3;&#x4E00;&#x4E0B;" ID="d9392ac6-bceb-4a92-8fed-fad3b75e8cf3" CREATED="1651573420414" MODIFIED="1651573420414" TASKTIME="40" TASKLEVEL="1" ISVIEW="false">
@@ -4088,9 +4078,7 @@
         </node>
         <node TEXT="5" ID="efc9ee8b-5e6f-4133-a8c1-a6dc2950d0f0" CREATED="1655992983823" MODIFIED="1655992983823">
           <node TEXT="&#x505A;&#x4E00;&#x4E2A;&#x81EA;&#x52A8;&#x5B89;&#x6392;&#x5403;&#x4EC0;&#x4E48;&#x7684;&#x5DE5;&#x5177;" ID="6241495c-ebd5-4e4f-af1f-d587b1c8ad8a" CREATED="1651704175893" MODIFIED="1651704175893" ISReminderOnly="False" TASKTIME="90" TASKLEVEL="9">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655505775000" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_cancel" />
           </node>
         </node>
         <node TEXT="7" ID="0628e151-6b75-424d-8d9e-1cd8eed98c9c" CREATED="1655992983823" MODIFIED="1655992983823">
@@ -4098,10 +4086,12 @@
             <icon BUILTIN="button_ok" />
             <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x592A;&#x597D;&#x4E86;" ID="86b529c6-7880-44d6-baca-3d08c75526fe" CREATED="1654184797377" MODIFIED="1654184797377" TASKLEVEL="1" />
           </node>
-          <node TEXT="&#x5EFA;&#x8BAE;&#x7684;&#x6392;&#x5E8F;&#x786E;&#x5B9E;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x6E05;&#x695A;&#x4E3A;&#x4EC0;&#x4E48;&#x3002;&#x5E78;&#x4E8F;&#x52A0;&#x4E0A;&#x7B26;&#x53F7;&#x80FD;&#x770B;&#x51FA;&#x6765;&#x4E86;" ID="a66edd08-fafd-460e-b156-84735c7c1864" CREATED="1651934974548" MODIFIED="1651934974548" TASKTIME="30" TASKLEVEL="1" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655304574548" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x5EFA;&#x8BAE;&#x7684;&#x6392;&#x5E8F;&#x786E;&#x5B9E;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x6E05;&#x695A;&#x4E3A;&#x4EC0;&#x4E48;&#x3002;&#x5E78;&#x4E8F;&#x52A0;&#x4E0A;&#x7B26;&#x53F7;&#x80FD;&#x770B;&#x51FA;&#x6765;&#x4E86;" ID="a66edd08-fafd-460e-b156-84735c7c1864" CREATED="1651934974548" MODIFIED="1651934974548" ISVIEW="false" TASKTIME="30" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6682;&#x65F6;&#x89E3;&#x51B3;&#x4E0D;&#x4E86;" ID="cf124b4a-fb94-4540-9f58-decf6465a407" CREATED="1656116268320" MODIFIED="1656116268320" TASKLEVEL="1" />
+            <node TEXT="&#x80FD;&#x627E;&#x5230;&#x5417;&#xFF1F;" ID="401b1589-6bda-4431-8c36-9f7f0f9b505c" CREATED="1657902058399" MODIFIED="1657902058399" TASKLEVEL="1" />
+            <node TEXT="dfdfds" ID="90041109-c1e6-44d8-84da-c7b21d6be90f" CREATED="1657902076301" MODIFIED="1657902076301" TASKLEVEL="1" />
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x7BA1;&#x4E86;" ID="2b5fe83e-ce6a-4038-9141-bd544a86c54a" CREATED="1657903290186" MODIFIED="1657903290186" TASKLEVEL="1" />
           </node>
         </node>
         <node TEXT="8" ID="beac1bfc-be7c-4176-875c-dc72c94bb1b9" CREATED="1655992983824" MODIFIED="1655992983824">
@@ -4159,7 +4149,7 @@
           </node>
         </node>
       </node>
-      <node TEXT="6" ID="4b0e13de-61a1-4be3-a310-bf2a76460749" CREATED="1655992983824" MODIFIED="1655992983824">
+      <node TEXT="6" FOLDED="true" ID="4b0e13de-61a1-4be3-a310-bf2a76460749" CREATED="1655992983824" MODIFIED="1655992983824">
         <node TEXT="2" ID="fc5a22c0-597d-4c0d-9f94-89852a26f8a9" CREATED="1655992983824" MODIFIED="1655992983824">
           <node TEXT="&#x5C06;6&#x91CC;&#x7684;&#x4EFB;&#x52A1;&#x6392;&#x9664;&#x51FA;&#x53BB;" ID="a8eafd4a-0349-482f-9430-2ab14b597a37" CREATED="1654138282972" MODIFIED="1654138282972" TASKTIME="30" TASKLEVEL="1">
             <icon BUILTIN="button_ok" />
@@ -4183,9 +4173,8 @@
         </node>
         <node TEXT="4" ID="51fb0377-4718-4eca-9b5b-0dbc99d30720" CREATED="1655992983824" MODIFIED="1655992983824">
           <node TEXT="&#x662F;&#x4E0D;&#x662F;&#x8981;&#x5347;&#x7EA7;&#x4E00;&#x4E0B;&#x6807;&#x7B7E;&#x7CFB;&#x7EDF;&#x5462;&#xFF1F;" ID="4600b9d6-4e46-49c7-a70f-e3553b7b009b" CREATED="1654303657452" MODIFIED="1654303657452" TASKLEVEL="1" TASKTIME="0" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655254057452" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6CA1;&#x6709;&#x592A;&#x597D;&#x7684;&#x4E3B;&#x610F;&#xFF0C;&#x5176;&#x5B9E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x6807;&#x7B7E;&#x4E0D;&#x662F;&#x5417;&#xFF1F;" ID="76ef3942-2f5e-44ec-823e-c2cacedd97f9" CREATED="1656115993187" MODIFIED="1656115993187" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x5B8C;&#x6210;&#x81EA;&#x5DF1;&#x4E86;&#x76EE;&#x6807;&#x8BA1;&#x5212;&#x5427;&#xFF0C;&#x56E0;&#x4E3A;&#x5F88;&#x591A;&#x4EFB;&#x52A1;&#x5176;&#x5B9E;&#x90FD;&#x662F;&#x7ED9;&#x76EE;&#x6807;&#x505A;&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x5F88;&#x6CA1;&#x5FC5;&#x8981;&#x4E5F;&#x5F88;&#x70E6;" ID="6bd002fb-a02d-43ad-8c30-feb090cb5e9e" CREATED="1654304211212" MODIFIED="1654304211212" TASKLEVEL="1" TASKTIME="0">
             <icon BUILTIN="button_ok" />
@@ -4205,9 +4194,9 @@
           </node>
         </node>
         <node TEXT="6" ID="1255d6fb-676c-4876-9251-c0735a18a902" CREATED="1655992983824" MODIFIED="1655992983824">
-          <node TEXT="&#x4EFB;&#x52A1;&#x6570;&#x600E;&#x4E48;&#x8FD8;&#x80FD;&#x662F;&#x8D1F;&#x6570;&#x5462;&#xFF0C;&#x54C8;&#x54C8;" ID="827dc65a-8002-45b8-9919-b0ec59b5f557" CREATED="1654463691769" MODIFIED="1654463691769" TASKLEVEL="1" TASKTIME="0" ISReminderOnly="False" ISVIEW="true">
+          <node TEXT="&#x4EFB;&#x52A1;&#x6570;&#x600E;&#x4E48;&#x8FD8;&#x80FD;&#x662F;&#x8D1F;&#x6570;&#x5462;&#xFF0C;&#x54C8;&#x54C8;" ID="827dc65a-8002-45b8-9919-b0ec59b5f557" CREATED="1654463691769" MODIFIED="1654463691769" ISReminderOnly="False" TASKTIME="20" TASKLEVEL="1" ISVIEW="true">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1654463691769" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1657919691000" PERIOD="1" UNIT="DAY" />
             </hook>
             <node TEXT="&#x8FD9;&#x91CC;&#x6709;&#x70B9;&#x4E71;&#xFF0C;&#x54C8;&#x54C8;&#x54C8;" ID="44f77dad-813f-4799-a14b-77d0bffdf727" CREATED="1654464122377" MODIFIED="1654464122377" TASKLEVEL="1" />
             <node TEXT="&#x641C;&#x7D22;&#x8FD9;&#x4E2A;&#xFF1A;passtask++;" ID="762c3bc5-c5dd-4d4e-bb95-d31923e1928a" CREATED="1654464150141" MODIFIED="1654464150141" TASKLEVEL="1" />
@@ -4228,10 +4217,8 @@
             <icon BUILTIN="button_ok" />
             <node TEXT="=o=0.8" ID="1f8cb821-3ff7-4dd9-96c9-6a7e7ec1b244" CREATED="1654637567091" MODIFIED="1654637567091" TASKLEVEL="1" />
           </node>
-          <node TEXT="&#x771F;&#x60F3;&#x7ED9;&#x6811;&#x89C6;&#x56FE;&#x6DFB;&#x52A0;&#x4E0A;&#x56FE;&#x6807;&#xFF0C;&#x90A3;&#x6837;&#x53EF;&#x4EE5;&#x5C31;&#x597D;&#x4E86;" ID="4ceb41d0-32eb-4bb5-a8a4-ecc0f5e957e6" CREATED="1654494347142" MODIFIED="1654494347142" TASKTIME="134" TASKLEVEL="7">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655500547000" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x771F;&#x60F3;&#x7ED9;&#x6811;&#x89C6;&#x56FE;&#x6DFB;&#x52A0;&#x4E0A;&#x56FE;&#x6807;&#xFF0C;&#x90A3;&#x6837;&#x53EF;&#x4EE5;&#x5C31;&#x597D;&#x4E86;" ID="4ceb41d0-32eb-4bb5-a8a4-ecc0f5e957e6" CREATED="1654494347142" MODIFIED="1654494347142" ISVIEW="false" TASKTIME="184" TASKLEVEL="7">
+            <icon BUILTIN="button_cancel" />
           </node>
           <node TEXT="&#x6709;&#x4E00;&#x4E9B;&#x5BFC;&#x56FE;&#xFF0C;&#x6253;&#x5F00;&#x5DE6;&#x4FA7;&#x7684;&#x6587;&#x4EF6;&#x6811;&#x7684;&#x65F6;&#x5019;&#x592A;&#x6162;&#x4E86;&#xFF0C;&#x80FD;&#x4E0D;&#x80FD;&#x4F18;&#x5316;&#x4E00;&#x4E0B;" ID="c00ff693-e03d-4f79-abbb-1f8cbba222e9" CREATED="1654494369763" MODIFIED="1654494369763" TASKLEVEL="1" TASKTIME="20" ISVIEW="true">
             <icon BUILTIN="button_ok" />
@@ -4245,9 +4232,8 @@
             <node TEXT="&#x539F;&#x6765;&#x662F;&#x5224;&#x65AD;&#x6761;&#x4EF6;&#x7684;&#x95EE;&#x9898;" ID="1ae9faa9-0401-4ce5-a7ba-9c172bd37f83" CREATED="1654643642195" MODIFIED="1654643642195" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x6309;&#x5468;&#x63A8;&#x8FDF;&#x8FD9;&#x91CC;&#x7684;&#x903B;&#x8F91;&#x8FD8;&#x6709;&#x95EE;&#x9898;" ID="7c95c7a1-0171-4e8f-a45a-48651b00d6aa" CREATED="1654645505264" MODIFIED="1654645505264" TASKTIME="30" TASKLEVEL="4" ISVIEW="false">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655282705000" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5148;&#x8FD9;&#x6837;&#x5427;&#xFF0C;&#x53CD;&#x6B63;&#x4E5F;&#x4E0D;&#x600E;&#x4E48;&#x7ECF;&#x5E38;&#x7528;" ID="28aa4a1f-3d70-48ca-9635-a7a8443f260a" CREATED="1656116315006" MODIFIED="1656116315006" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x5C06;remind.json&#x4E5F;&#x6539;&#x6210;&#x53D8;&#x91CF;&#xFF1F;&#x90A3;&#x6837;&#x901F;&#x5EA6;&#x5C31;&#x4F1A;&#x5F88;&#x5FEB;&#x4E86;&#xFF0C;&#x907F;&#x514D;&#x6B63;&#x5728;&#x4F7F;&#x7528;&#x7684;&#x95EE;&#x9898;" ID="9f0098a8-06a2-4f86-b6fe-59adbb00b0ee" CREATED="1654661839084" MODIFIED="1654661839084" TASKLEVEL="8" TASKTIME="45">
             <icon BUILTIN="button_ok" />
@@ -4275,18 +4261,16 @@
             <icon BUILTIN="button_ok" />
             <node TEXT="&#x53EF;&#x4EE5;&#x5199;&#x51FA;&#x6765;&#xFF0C;&#x4F46;&#x662F;&#x4F5C;&#x7528;&#x4E0D;&#x5927;&#x5427;" ID="a1c6689d-e55b-4d75-b5c8-cd8a868a42f6" CREATED="1655178764559" MODIFIED="1655178764559" TASKLEVEL="1" />
           </node>
-          <node TEXT="&#x6DFB;&#x52A0;Todoist&#x652F;&#x6301;" ID="8df748bf-8b33-466d-ada4-ad89ca78e1d2" CREATED="1655181408103" MODIFIED="1655181408103" TASKLEVEL="10" TASKTIME="60">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655267808103" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="&#x6DFB;&#x52A0;Todoist&#x652F;&#x6301;" ID="8df748bf-8b33-466d-ada4-ad89ca78e1d2" CREATED="1655181408103" MODIFIED="1655181408103" TASKTIME="60" TASKLEVEL="8">
+            <icon BUILTIN="button_ok" />
           </node>
           <node TEXT="isZhuangbi&#x65F6;&#x5019;&#xFF0C;&#x5BB9;&#x6613;&#x4FDD;&#x5B58;&#x6210;*&#x53F7;" ID="04b295f0-03cf-42ff-b8a8-89b04d4d681b" CREATED="1655184470086" MODIFIED="1655184470086" TASKLEVEL="1">
             <icon BUILTIN="button_ok" />
             <node TEXT="&#x5DF2;&#x7ECF;&#x597D;&#x4E86;" ID="4e14a259-aa18-4b80-8208-088942d14f2b" CREATED="1655184787155" MODIFIED="1655184787155" TASKLEVEL="1" />
           </node>
-          <node TEXT="&#x65E5;&#x5386;&#x6DFB;&#x52A0;&#x952E;&#x76D8;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x7528;&#x9F20;&#x6807;&#x70B9;&#x6765;&#x70B9;&#x53BB;&#x4E86;" ID="45ed4dcc-9ff7-4f54-8872-932fa9a9d07f" CREATED="1655185759991" MODIFIED="1655185759991" TASKLEVEL="10" TASKTIME="90">
+          <node TEXT="&#x65E5;&#x5386;&#x6DFB;&#x52A0;&#x952E;&#x76D8;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x7528;&#x9F20;&#x6807;&#x70B9;&#x6765;&#x70B9;&#x53BB;&#x4E86;" ID="45ed4dcc-9ff7-4f54-8872-932fa9a9d07f" CREATED="1655185759991" MODIFIED="1655185759991" TASKTIME="90" TASKLEVEL="10" ISReminderOnly="False" ISVIEW="true">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655297359991" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1657889359000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
           <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#xFF0C;&#x6392;&#x9664;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x5F53;&#x67E5;&#x627E;mm&#x6587;&#x4EF6;&#x7684;&#x65F6;&#x5019;&#x8DF3;&#x8FC7;" ID="c99b46db-16ad-4b82-ac32-4d833ddfb929" CREATED="1655197504206" MODIFIED="1655197504206" TASKLEVEL="1" TASKTIME="0">
@@ -4304,22 +4288,20 @@
           </node>
         </node>
         <node TEXT="16" ID="9f2ed5c8-6f97-4166-9d85-2052ade4d129" CREATED="1655992983825" MODIFIED="1655992983825">
-          <node TEXT="OUTLOOK&#x592A;&#x96BE;&#x7528;&#x4E86;&#xFF0C;&#x60F3;&#x91CD;&#x65B0;&#x5199;&#x4E00;&#x4E2A;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x6C9F;&#x901A;&#x8FC7;&#x529F;&#x80FD;&#x3002;" ID="0c715011-9abb-431e-8e7b-841e8cdc2cd7" CREATED="1655351722053" MODIFIED="1655351722053" TASKLEVEL="1" TASKTIME="0">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655351722053" PERIOD="1" UNIT="DAY" />
-            </hook>
+          <node TEXT="OUTLOOK&#x592A;&#x96BE;&#x7528;&#x4E86;&#xFF0C;&#x60F3;&#x91CD;&#x65B0;&#x5199;&#x4E00;&#x4E2A;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x6C9F;&#x901A;&#x8FC7;&#x529F;&#x80FD;&#x3002;" ID="0c715011-9abb-431e-8e7b-841e8cdc2cd7" CREATED="1655351722053" MODIFIED="1655351722053" ISVIEW="false" TASKTIME="60" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5B89;&#x88C5;&#x4E00;&#x4E2A;firefox" ID="b5552760-8ede-406f-9f97-439376a6ab0f" CREATED="1657543799276" MODIFIED="1657543799276" TASKLEVEL="1" />
+            <node TEXT="&#x8FD8;&#x662F;&#x7B97;&#x5566;&#x5427;&#xFF0C;&#x4E0D;&#x592A;&#x597D;&#x5F04;&#x554A;&#xFF0C;&#x4E0D;&#x641E;&#x592A;&#x590D;&#x6742;&#x4E86;" ID="07f30708-6245-43f7-ba2f-7e39098aa8b2" CREATED="1657903451811" MODIFIED="1657903451811" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x7247;&#x5C31;&#x6700;&#x597D;&#x4E86;" ID="6a56a25b-8944-41f9-b8f6-16b365b1a001" CREATED="1655354029338" MODIFIED="1655354029338" TASKLEVEL="1" TASKTIME="0">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655354029338" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4EE5;&#x540E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x4EE5;&#x6587;&#x5B57;&#x4E3A;&#x4E3B;&#xFF0C;&#x56FE;&#x7247;&#x6700;&#x540E;&#x5C31;&#x4E0D;&#x8981;&#x6709;&#x4E86;" ID="8f3e8eb6-46e5-4b2a-80cc-3e34cda8e861" CREATED="1656115932112" MODIFIED="1656115932112" TASKLEVEL="1" />
           </node>
         </node>
         <node TEXT="19" ID="8c60bf14-115d-426c-b4aa-b719cf218770" CREATED="1655992983825" MODIFIED="1655992983825">
           <node TEXT="&#x6A21;&#x62DF;&#x6309;J&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x7528;&#x4E00;&#x76F4;&#x6309;&#x4E86;" ID="e03e3c8c-c7c5-4af5-a718-8050475ea227" CREATED="1655592221685" MODIFIED="1655592221685" TASKLEVEL="1" TASKTIME="0">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655592221685" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x52A0;&#x4E0A;&#x4E86;&#xFF0C;&#x5F88;&#x5F3A;&#xFF0C;&#x5F88;&#x4E0D;&#x9519;" ID="b00733b0-27d4-4429-aba3-9fac527ea5b8" CREATED="1656110203526" MODIFIED="1656110203526" TASKLEVEL="1" />
           </node>
         </node>
         <node TEXT="23" ID="d63b0b6b-ce64-4d26-b012-882b77b0fb70" CREATED="1655992983826" MODIFIED="1655992983826">
@@ -4330,19 +4312,1066 @@
             <icon BUILTIN="button_ok" />
           </node>
           <node TEXT="&#x5C06;X&#x91CC;&#x9762;&#x7684;&#x653E;&#x5230;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x91CC;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x533A;&#x5206;&#x5E93;&#x4E86;" ID="a60d1ca9-7e63-48dc-b8f2-16c2d0daf108" CREATED="1655980426768" MODIFIED="1655980426768" TASKLEVEL="1" TASKTIME="0">
-            <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655980426768" PERIOD="1" UNIT="DAY" />
-            </hook>
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E00;&#x904D;&#x4FEE;&#x6539;&#x4E00;&#x904D;&#x6D4B;&#x8BD5;&#xFF0C;&#x8111;&#x5B50;&#x4E0D;&#x6E05;&#x695A;&#x8FD8;&#x771F;&#x4E0D;&#x884C;" ID="57bc2534-625b-4750-8808-edba09972cd6" CREATED="1656114190726" MODIFIED="1656114190726" TASKLEVEL="1" />
+            <node TEXT="&#x6682;&#x65F6;&#x5148;&#x8FD9;&#x6837;&#x628A;" ID="ffdfa0ca-18f5-4f4d-91a0-e2cc13baaa04" CREATED="1656114305938" MODIFIED="1656114305938" TASKLEVEL="1" />
           </node>
           <node TEXT="&#x5982;&#x679C;&#x8282;&#x70B9;&#x662F;&#x94FE;&#x63A5;&#xFF0C;&#x76F4;&#x63A5;&#x6253;&#x5F00;" ID="c8289c67-6535-47cc-ba03-141fe6f2d4fe" CREATED="1655992939566" MODIFIED="1655992939566" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6709;&#x70B9;&#x96BE;" ID="8dcd0360-836f-4459-869c-b34d65b504ac" CREATED="1656109929666" MODIFIED="1656109929666" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x7F51;&#x7AD9;&#x7684;&#x56FE;&#x7247;&#x6CA1;&#x6709;&#x4E86;&#xFF1F;" ID="2dc5e0e0-ca6f-4806-b2fa-fc400566895f" CREATED="1655993220145" MODIFIED="1655993220145" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x53EF;&#x80FD;&#x662F;&#x7F51;&#x7EDC;&#x4E0D;&#x597D;&#x5427;&#xFF0C;&#x770B;&#x6765;&#x5E94;&#x8BE5;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x56FE;&#x5E8A;" ID="aae5fec7-6bfd-4fa8-9852-a309ea82b830" CREATED="1655994335611" MODIFIED="1655994335611" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="24" ID="2a7f7789-151d-4202-bf77-02f6fe4eef0b" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x5176;&#x5B9E;&#x4EFB;&#x52A1;&#x7BA1;&#x7406;&#x8981;&#x89E3;&#x51B3;&#x7684;&#x662F;&#x6211;&#x4EEC;&#x7684;&#x5927;&#x8111;&#x548C;&#x5DE5;&#x5177;&#x76F4;&#x63A5;&#x7684;&#x540C;&#x6B65;&#x95EE;&#x9898;" ID="1d9de857-cabb-40b3-b759-7890a9e6f450" CREATED="1656057349661" MODIFIED="1656057349661" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="25" ID="f82c342c-3b87-468f-a91f-8cb1c0cca684" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="Talk:Embeddingmindmaps-FreeMind" ID="1da5bdfc-0213-48bf-b4a3-d0b71c706f0c" CREATED="1656105595066" MODIFIED="1656105595066" LINK="http://freemind.sourceforge.net/wiki/index.php/Talk:Embedding_mind_maps" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x4FEE;&#x6539;root&#x7684;&#x5237;&#x65B0;&#x6A21;&#x5F0F;&#x5462;&#xFF1F;&#x8FD8;&#x662F;&#x522B;&#x4E86;" ID="90de6766-038f-4cd9-b9f3-2292e6adef04" CREATED="1656115442252" MODIFIED="1656115442252" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;&#x4EE3;&#x7801;&#x5F7B;&#x5E95;&#x770B;&#x4E00;&#x904D;&#xFF0C;&#x6574;&#x7406;&#xFF0C;&#x770B;&#x770B;&#x5982;&#x4F55;&#x4F18;&#x5316;&#x548C;&#x5199;&#x6CE8;&#x91CA;&#x3002;" ID="c9f6fd3b-7c0a-4eea-9ec8-8b0eb530331a" CREATED="1656137754066" MODIFIED="1656137754066" REMINDERTYPE="day" RDAYS="5" RWEEK="" RMONTH="" RWEEKS="" RYEAR="" RHOUR="" TASKTIME="40" TASKLEVEL="5">
+            <icon BUILTIN="revision" />
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655992939566" PERIOD="1" UNIT="DAY" />
+              <Parameters REMINDUSERAT="1673504154000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="2022" ID="ef53a93c-3cf6-4351-a827-fa2c2942b19d" CREATED="1669388196067" MODIFIED="1669388196067">
+              <node TEXT="10" ID="83f8bd18-1e57-46f9-abe7-bd946c009cc8" CREATED="1669388196067" MODIFIED="1669388196067">
+                <node TEXT="28" ID="1721704c-197d-44e8-b521-dda55094e656" CREATED="1669388196067" MODIFIED="1669388196067">
+                  <node TEXT="&#x4F18;&#x5316;&#x4EE3;&#x7801;&#x6700;&#x70E6;&#x4E86;&#xFF0C;&#x9664;&#x975E;&#x6709;&#x5FC5;&#x8981;&#xFF0C;&#x4E0D;&#x4F18;&#x5316;" ID="60891fef-cb26-4a77-9c8b-cbd43f1a03ac" CREATED="1666947050221" MODIFIED="1666947050221" TASKLEVEL="1" />
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
+        <node TEXT="26" ID="d125c75c-46cc-447d-96d4-7d5e6d575c96" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x76D1;&#x63A7;&#x6587;&#x4EF6;&#x5939;" ID="ab7c5f59-7e60-4494-a46c-1401373bc8d8" CREATED="1656184871493" MODIFIED="1656184871493" TASKTIME="120" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4EE5;&#x7ED3;&#x6784;" ID="56fe9c22-02f2-4f62-93c4-9e567c8d106a" CREATED="1656193396530" MODIFIED="1656193396530" />
+            <node TEXT="&#x4EE5;&#x4E8B;&#x4EF6;" ID="349f88df-aff5-4091-9fa2-47cecf996508" CREATED="1656193405166" MODIFIED="1656193405166">
+              <node TEXT="&#x597D;&#x50CF;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;" ID="f5e2cd51-67b5-4c94-b7f5-507d157a2254" CREATED="1656193417080" MODIFIED="1656193417080" />
+            </node>
+            <node TEXT="&#x5DF2;&#x7ECF;&#x505A;&#x597D;&#x4E86;" ID="c75981f0-8ead-4f81-9f43-d0180419c6f4" CREATED="1656464079848" MODIFIED="1656464079848" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;X&#x91CC;&#x9762;&#x7684;&#xFF0C;&#x5B58;&#x5165;&#x5230;todoist&#x91CC;&#x9762;&#x53BB;" ID="88d7b3ac-1eb5-4b82-a558-6b0879be67b5" CREATED="1656195206057" MODIFIED="1656195206057" TASKTIME="0" TASKLEVEL="6">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x52A0;&#x4E86;&#xFF0C;&#x5176;&#x5B9E;&#x633A;&#x5BB9;&#x6613;&#x7684;" ID="ee8b4afc-adfc-4bd8-b3b5-5b6ca455ebdf" CREATED="1656519313068" MODIFIED="1656519313068" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;TT&#x5728;&#x7ED3;&#x5C3E;&#x7684;&#x8BDD;&#xFF0C;&#x4E5F;&#x5F00;&#x59CB;&#x756A;&#x8304;&#x949F;" ID="6dc322b4-932f-4c91-9f5e-6f3147659c8b" CREATED="1656198106773" MODIFIED="1656198106773" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x83B7;&#x53D6;title&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x6F0F;&#x6D1E;" ID="900c50d8-6708-4340-ab0a-e24b55f74bcd" CREATED="1656202109812" MODIFIED="1656202109812" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x4F18;&#x5316;&#x4E86;&#xFF0C;&#x5E94;&#x8BE5;&#x6CA1;&#x95EE;&#x9898;&#x4E86;&#xFF0C;&#x6709;&#x95EE;&#x9898;&#x518D;&#x8BF4;" ID="e82614d0-1a56-4a67-bd55-4650ff73c3ba" CREATED="1656227666300" MODIFIED="1656227666300" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x5FEB;&#x901F;&#x8BB0;&#x5F55;&#xFF1F;&#x53EF;&#x4EE5;&#x4E0B;&#x62C9;&#x9009;&#x62E9;&#xFF1F;" ID="b898629d-12ac-4e80-a556-8e120562f052" CREATED="1656228208226" MODIFIED="1656228208226" TASKTIME="30" TASKLEVEL="1" ISReminderOnly="False" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1657869808000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6709;&#x70B9;&#x96BE;&#x54E6;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="1c1de1f7-a654-4191-b1b4-235fdea50667" CREATED="1656842503915" MODIFIED="1656842503915" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="27" ID="e8b90ed5-70f4-4bfd-8357-e9f15d14eb3c" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x5982;&#x4F55;&#x80FD;&#x8BA9;&#x5B50;&#x8282;&#x70B9;&#x6309;&#x7167;&#x65E5;&#x671F;&#x6DFB;&#x52A0;&#x5462;&#xFF1F;" ID="84ceec48-e635-4d42-b7e2-551bf310daca" CREATED="1656291339486" MODIFIED="1656291339486" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="2022" ID="58dda19e-e223-46c0-9cdd-a1a7dbfcb1b8" CREATED="1656846244056" MODIFIED="1656846244056">
+              <node TEXT="6" ID="6f1bcabb-e292-481a-82ae-9a9fa5f5821a" CREATED="1656846244056" MODIFIED="1656846244056">
+                <node TEXT="27" ID="0b5bdfac-a5ac-43df-b1c4-456a2da34234" CREATED="1656846244056" MODIFIED="1656846244056">
+                  <node TEXT="&#x5DF2;&#x7ECF;&#x597D;&#x4E86;" ID="91ef7f79-5670-4c0b-9d8e-6859a9c6969d" CREATED="1656328740869" MODIFIED="1656328740869" TASKLEVEL="1" />
+                </node>
+              </node>
+            </node>
+          </node>
+          <node TEXT="allfi,allno.json&#x65E0;&#x6CD5;&#x627E;&#x5230;&#xFF0C;&#x62A5;&#x9519;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4E0D;&#x884C;&#x963F;" ID="8072aa0d-c0e3-445f-b19a-9332163483bf" CREATED="1656291529842" MODIFIED="1656291529842" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5176;&#x5B9E;&#x8FD8;&#x633A;&#x559C;&#x6B22;lockm&#x6A21;&#x5F0F;&#x7684;&#xFF0C;&#x6BD5;&#x7ADF;&#x6709;&#x5173;&#x95ED;&#x7A97;&#x53E3;&#x4E5F;&#x4E0D;&#x662F;&#x591A;&#x96BE;&#x7684;&#x4E8B;" ID="372ec821-301b-4c2b-891f-8512ccfd1c12" CREATED="1656291828078" MODIFIED="1656291828078" TASKLEVEL="1" TASKTIME="0" />
+          <node TEXT="&#x524D;&#x9762;&#x52A0;.&#xFF0C;&#x540E;&#x9762;&#x52A0;.&#x7528;&#x6CD5;&#x8981;&#x8BB0;&#x4F4F;&#x54E6;" ID="d89627c0-2651-4bdf-915b-50cf37ca06ba" CREATED="1656328846046" MODIFIED="1656328846046" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="28" ID="9ff82eba-8645-4213-95fd-f897bfe560df" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x6700;&#x540E;&#x4E00;&#x4E2A;x&#x600E;&#x4E48;&#x5C31;&#x8FD9;&#x4E48;&#x96BE;&#x5462;&#xFF1F;" ID="a355de8a-b62d-4123-87de-e6bc4bb1769d" CREATED="1656380119167" MODIFIED="1656380119167" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x539F;&#x6765;&#x5199;list&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x95EE;&#x9898;" ID="b4031829-e221-4c24-ad4c-4b1eba91451d" CREATED="1656503858612" MODIFIED="1656503858612" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="29" ID="086aca9b-afd4-4621-9553-ce1c4929278f" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x6309;c&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x526A;&#x5207;" ID="efe51d6f-15a7-4f35-90af-622cc3088da5" CREATED="1656457633562" MODIFIED="1656457633562" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x76F4;&#x63A5;&#x590D;&#x5236;&#xFF0C;&#x5DF2;&#x7ECF;&#x6DFB;&#x52A0;&#x4E86;&#xFF0C;Shift&#x662F;&#x590D;&#x5236;&#x8DEF;&#x5F84;" ID="77d18ed7-950e-47e0-9d52-ea13d0118c60" CREATED="1656504651254" MODIFIED="1656504651254" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x4F55;&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x5F52;&#x6863;&#x64CD;&#x4F5C;&#x5462;&#xFF1F;" ID="5557b87f-0646-4c86-83fe-0ece12d5adfe" CREATED="1656460216097" MODIFIED="1656460216097" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x5220;&#x9664;&#x4E86;&#xFF0C;&#x5C31;&#x8FD9;&#x6837;&#x5427;&#xFF0C;&#x4E0D;&#x5F04;&#x592A;&#x590D;&#x6742;&#x4E86;" ID="e44ac5f8-c228-46fc-9fab-7afdb9034840" CREATED="1656733628548" MODIFIED="1656733628548" TASKLEVEL="1" />
+          </node>
+          <node TEXT="Ctrl+n&#x5982;&#x679C;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x5939;" ID="6b5289ef-a2ce-43ea-b566-0670e96fb287" CREATED="1656463890111" MODIFIED="1656463890111" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="30" ID="dbe24822-2d7a-4e6b-a9a0-2c9454a5ee37" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x5C06;todoist&#x7684;key&#x653E;&#x5230;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5F53;&#x4E2D;&#x53BB;&#xFF0C;&#x518D;&#x6DFB;&#x52A0;try" ID="67c8e5c1-9cb0-427f-86b6-18d38369770a" CREATED="1656519290590" MODIFIED="1656519290590" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x518D;box&#x4E2D;&#x7684;&#x5B8C;&#x6210;&#x4E0D;&#x4E86;&#xFF1F;" ID="ab629820-2172-4cf4-a001-63ed7b9deb9a" CREATED="1656519348956" MODIFIED="1656519348956" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="clock" />
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;" ID="1d7f89e8-6975-47fa-a33d-0b67e57daef5" CREATED="1656522009137" MODIFIED="1656522009137" TASKLEVEL="1" />
+          </node>
+          <node TEXT="dddddd" ID="32467545-61c2-4ed8-a55b-bac780622565" CREATED="1656521872878" MODIFIED="1656521872878" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="3454543" ID="2c752cad-5f4c-4e8b-88b4-d331ebb19c61" CREATED="1656521912791" MODIFIED="1656521912791" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="7" ID="73f202e8-bfab-476f-85bf-f97817b0e4b8" CREATED="1656846244056" MODIFIED="1656846244056">
+        <node TEXT="2" ID="f6b39780-b7dd-4270-85c0-37308914f32d" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="&#x5B9A;&#x671F;&#x62CD;&#x7167;" ID="e7c8440b-7cbb-47ba-98fa-010d8121d6ff" CREATED="1656724529553" MODIFIED="1656724529553" TASKTIME="180" TASKLEVEL="7">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x7ED9;&#x7167;&#x7247;&#x52A0;&#x5BC6;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x7B97;&#x522B;&#x4EBA;&#x62FF;&#x5230;&#x6587;&#x4EF6;&#x4E5F;&#x770B;&#x4E0D;&#x5230;" ID="ed9f9b98-5939-4f73-a16b-82a7add8786b" CREATED="1656724565681" MODIFIED="1656724565681" />
+            <node TEXT="&#x4E0D;&#x9700;&#x8981;&#x4E86;&#x5427;&#xFF0C;&#x4F55;&#x5FC5;&#x5462;&#xFF0C;&#x4E0D;&#x662F;&#x5417;&#xFF1F;" ID="5cb106c3-146a-4428-b2b5-971121b36f9c" CREATED="1659950362274" MODIFIED="1659950362274" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x6807;&#x5FD7;&#xFF0C;&#x5C06;&#x542B;&#x6709;&#x56FE;&#x6807;&#x7684;&#x653E;&#x8FDB;&#x53BB;" ID="cbc1eedd-91ed-4ebb-a8e8-38e88ba15882" CREATED="1656726121315" MODIFIED="1656726121315" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x83B7;&#x53D6;&#x6309;&#x7167;&#x65F6;&#x95F4;&#x6DFB;&#x52A0;&#x7684;&#x4EFB;&#x52A1;&#x7684;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x6309;&#x7167;&#x65F6;&#x95F4;&#x987A;&#x5E8F;&#x5012;&#x5E8F;" ID="b4af069d-14a1-4d7f-bc57-a4748e6cee89" CREATED="1656738925021" MODIFIED="1656738925021" TASKTIME="60" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x7528;&#x4E86;&#xFF0C;&#x76F4;&#x63A5;&#x7528;&#x6811;&#x89C6;&#x56FE;&#x597D;&#x4E86;&#xFF0C;&#x53CD;&#x6B63;&#x90A3;&#x4E2A;&#x4E5F;&#x5F88;&#x5C11;&#x7528;" ID="ab30235c-73eb-464c-b848-4e06f4df658e" CREATED="1657903426928" MODIFIED="1657903426928" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;newfiles" ID="4540075f-afd5-4f87-9157-1c3423866d8a" CREATED="1656763648614" MODIFIED="1656763648614" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="3" ID="8c468c1f-6433-4b60-baae-5c882b2d2575" CREATED="1656846244056" MODIFIED="1656846244056">
+          <node TEXT="cHowtoconvertJSONtoXMLorXMLtoJSONStackOverflow" ID="75039eb9-6dec-46e8-b7d8-7b10c3de4503" CREATED="1656832155246" MODIFIED="1656832155246" LINK="https://stackoverflow.com/questions/814001/how-to-convert-json-to-xml-or-xml-to-json" TASKTIME="90" TASKLEVEL="1" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="cSmtpClientwithGmailStackOverflow" ID="3f8513bd-cae5-463e-8e28-133ff25479c1" CREATED="1656832174390" MODIFIED="1656832174390" LINK="https://stackoverflow.com/questions/9801224/smtpclient-with-gmail" TASKTIME="60" TASKLEVEL="1" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x8981;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#xFF0C;&#x5C31;&#x628A;&#x65F6;&#x95F4;&#x6539;&#x4E3A;&#x73B0;&#x5728;&#x7684;&#x65E5;&#x671F;" ID="0333394a-f04a-4b35-a6cc-a7c7e779b9b4" CREATED="1656842546860" MODIFIED="1656842546860" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;DLL&#x4E5F;&#x5D4C;&#x5957;&#x8FDB;&#x53BB;" ID="989b7851-8dc7-4b70-a8b8-eb35d0ee3ae0" CREATED="1656846502728" MODIFIED="1656846502728" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x597D;&#x50CF;&#x4E0D;&#x884C;&#xFF0C;&#x5C31;&#x8FD9;&#x6837;&#x5427;" ID="d177e91a-88c2-478f-8431-256201f2b3e7" CREATED="1656848203741" MODIFIED="1656848203741" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="6" ID="f9c343ba-0014-4d08-bada-6b5a41ee96f2" CREATED="1657274048189" MODIFIED="1657274048189">
+          <node TEXT="&#x7ED9;&#x8282;&#x70B9;&#x6DFB;&#x52A0;&#x6253;&#x5F00;&#x6B21;&#x6570;&#xFF0C;&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;&#x6B21;&#x6570;&#xFF0C;&#x7B49;&#x6570;&#x636E;" ID="40bf4e9d-d75f-4e6c-82b4-7c809ce56dfc" CREATED="1657067235722" MODIFIED="1657067235722" TASKTIME="110" TASKLEVEL="1" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1657931235000" PERIOD="1" UNIT="DAY" />
             </hook>
           </node>
-          <node TEXT="&#x7F51;&#x7AD9;&#x7684;&#x56FE;&#x7247;&#x6CA1;&#x6709;&#x4E86;&#xFF1F;" CREATED="1655993220145" MODIFIED="1655993220145" TASKLEVEL="1" TASKTIME="0" ID="2dc5e0e0-ca6f-4806-b2fa-fc400566895f">
+        </node>
+        <node TEXT="10" ID="1358d7f0-eaad-4f3b-b61c-ad0e24e3a0ac" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x7F16;&#x8F91;&#x5B50;&#x8282;&#x70B9;&#x8FD8;&#x6709;&#x95EE;&#x9898;" ID="b6e654cf-36f9-42e4-983f-cb7d1832cdea" CREATED="1657397217886" MODIFIED="1657397217886" TASKTIME="20" TASKLEVEL="4">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x4F55;&#x79FB;&#x52A8;&#x4EFB;&#x52A1;&#x5230;&#x5176;&#x4ED6;&#x5BFC;&#x56FE;&#x5462;&#xFF1F;" ID="b37d7f62-d23b-49f3-9519-137cc930b321" CREATED="1657452605989" MODIFIED="1657452605989" TASKLEVEL="1" TASKTIME="0" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="11" ID="2ba56e85-660b-4d21-a925-a96ece649631" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x6709;&#x4E00;&#x4E9B;&#x8282;&#x70B9;&#xFF0C;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x4E8B;&#x4EF6;&#x6536;&#x7EB3;&#x5427;&#xFF1F;&#x8FD8;&#x662F;&#x600E;&#x4E48;&#x529E;" ID="10af3e3c-86a5-42d6-845e-80ae394b7099" CREATED="1657497528426" MODIFIED="1657497528426" TASKTIME="0" TASKLEVEL="9">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6682;&#x65F6;&#x8FD9;&#x6837;&#x5427;&#xFF0C;addtaskdate&#x66F4;&#x65B0;" ID="bdf6af01-b223-48ee-ab2c-40183ef5ac36" CREATED="1657546241496" MODIFIED="1657546241496" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x663E;&#x793A;&#x65E5;&#x5386;&#xFF0C;&#x53EA;&#x663E;&#x793A;&#x4E00;&#x4E2A;&#xFF0C;&#x9650;&#x5236;&#x603B;&#x662F;&#x6253;&#x5F00;&#x591A;&#x4E2A;&#xFF0C;&#x5F88;&#x6709;&#x95EE;&#x9898;" ID="7c5bbe95-05fc-4b48-b22e-6d6c7c67eed6" CREATED="1657502195795" MODIFIED="1657502195795" ISVIEW="true" TASKTIME="70" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x8FD8;&#x633A;&#x96BE;&#x89E3;&#x51B3;&#x7684;&#xFF0C;&#x6628;&#x5929;&#x89E3;&#x51B3;&#x4E86;&#x597D;&#x4E45;&#xFF0C;&#x5148;&#x8FD9;&#x6837;&#x5427;&#xFF0C;&#x6216;&#x8005;&#x63A8;&#x8FDF;&#x5230;&#x4E00;&#x4E24;&#x4E2A;&#x6708;&#x4EE5;&#x540E;&#x3002;" ID="03f612f0-82b9-4169-a084-37fc39817d87" CREATED="1657941609681" MODIFIED="1657941609681" TASKLEVEL="1" />
+            <node TEXT="&#x903B;&#x8F91;&#x5DF2;&#x7ECF;&#x5199;&#x597D;&#x4E86;&#xFF0C;&#x662F;&#x756A;&#x8304;&#x5BFC;&#x81F4;&#x7684;&#xFF0C;&#x5F88;&#x68D2;" ID="1c91d252-09a5-48cf-9f7f-ef4bce608a5c" CREATED="1673146164127" MODIFIED="1673146164127" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x4F4E;&#x4E8E;&#x5341;&#x5206;&#x949F;&#x7684;&#x8BDD;&#xFF0C;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#xFF0C;&#x5F00;&#x59CB;&#x4EE5;5&#x5206;&#x949F;&#x8BA1;&#x7B97;&#xFF0C;&#x4F4E;&#x4E8E;5&#x5219;&#x4E00;&#x5206;&#x949F;" ID="8fc95c62-d109-4d36-8a40-13c93f625ff3" CREATED="1657502287733" MODIFIED="1657502287733" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x63A8;&#x8FDF;&#x7684;&#x8BDD;&#xFF0C;&#x611F;&#x89C9;&#x5982;&#x679C;&#x662F;&#x4E4B;&#x524D;&#x7684;&#xFF0C;&#x5E94;&#x8BE5;&#x63A8;&#x8FDF;&#x5230;&#x4ECA;&#x5929;&#x554A;&#xFF0C;&#x4E0D;&#x662F;&#x5417;&#xFF1F;" ID="13ebffbf-8e87-432d-a80d-364ae6a7261c" CREATED="1657503267116" MODIFIED="1657503267116" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x622A;&#x56FE;&#x8282;&#x70B9;&#xFF0C;&#x7F16;&#x8F91;&#x6811;&#x89C6;&#x56FE;&#x5931;&#x6548;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;&#x4EC0;&#x4E48;&#x5F15;&#x8D77;&#x7684;" ID="17a348b0-6c3b-4f43-92e7-39e96b0d0082" CREATED="1657504842331" MODIFIED="1657504842331" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x77E5;&#x9053;&#x4EC0;&#x4E48;&#x73B0;&#x8C61;&#x4E86;&#x3002;&#x3002;&#x3002;" ID="ba89bc3f-2c9f-420e-98df-df3a67d59db5" CREATED="1657543646556" MODIFIED="1657543646556" TASKLEVEL="1" />
+            <node TEXT="&#x4FEE;&#x6539;&#x4E86;&#xFF0C;&#x770B;&#x770B;&#x540E;&#x7EED;&#x6709;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#x5427;" ID="6a0e0be5-735c-46b9-a9e5-f097550fbe16" CREATED="1657545979631" MODIFIED="1657545979631" TASKLEVEL="1" />
+          </node>
+          <node TEXT="box&#x91CC;&#x9762;&#x7684;&#x989C;&#x8272;&#x597D;&#x50CF;&#x6709;&#x95EE;&#x9898;" ID="8822d1fa-9c76-41a4-8379-768686f09bf5" CREATED="1657505084437" MODIFIED="1657505084437" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="mindmaplist&#x91CC;&#x9762;J&#x4E0D;&#x80FD;&#x7528;&#xFF0C;&#x53EA;&#x80FD;k" ID="b12ad108-102e-4794-b632-d72d9dddd460" CREATED="1657509691339" MODIFIED="1657509691339" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="box&#x4E2D;&#x989C;&#x8272;&#x4E2D;-1&#x7684;&#x9ED1;&#x8272;&#x6CA1;&#x6709;&#x9ED8;&#x8BA4;&#x663E;&#x793A;" ID="641f7ba7-fb85-47e0-8432-2a14e2ff5617" CREATED="1657509969191" MODIFIED="1657509969191" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5FEB;&#x7684;&#x590D;&#x5236;&#x7C98;&#x8D34;" ID="ef79e11f-0e0c-41c1-97a7-9f879a90eb1a" CREATED="1657519067422" MODIFIED="1657519067422" TASKTIME="180" TASKLEVEL="8">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;&#x6BCF;&#x5929;&#x90FD;&#x662F;&#x65B0;&#x7684;" ID="ebd45aa6-b278-4f98-a1dc-3992db7fdfc3" CREATED="1664520613558" MODIFIED="1664520613558" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="12" ID="a57d7251-1427-42b6-93f6-8702578c3cfd" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x5173;&#x952E;&#x8BCD;&#x641C;&#x7D22;&#x529F;&#x80FD;&#xFF0C;&#x770B;&#x90A3;&#x4E9B;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x6BD4;&#x8F83;&#x591A;" ID="bd89be20-ccb7-4b84-8aaf-757d7225ad8b" CREATED="1657579060974" MODIFIED="1657579060974" ISVIEW="true" TASKTIME="60" TASKLEVEL="4">
             <hook NAME="plugins/TimeManagementReminder.xml">
-              <Parameters REMINDUSERAT="1655993220145" />
+              <Parameters REMINDUSERAT="1657579060974" PERIOD="1" UNIT="DAY" />
             </hook>
+          </node>
+        </node>
+        <node TEXT="13" ID="46c12cb2-0fc4-416a-b3bd-dc7ccef069e9" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x65E5;&#x5386;&#x9501;&#x5B9A;&#x7684;&#x65F6;&#x5019;&#x4E5F;&#x7981;&#x6B62;&#x6EDA;&#x8F6E;&#x548C;&#x7F29;&#x653E;" ID="27e4c629-7c76-49c1-a23e-1f135bc3a75a" CREATED="1657676495103" MODIFIED="1657676495103" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="14" ID="9222d622-b7e8-4587-8249-4368b22d6915" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x663E;&#x793A;&#x7A97;&#x53E3;&#x540E;&#xFF0C;&#x4F1A;&#x627E;&#x4E0D;&#x5230;&#x6240;&#x9009;&#x7684;box&#x4E2D;&#x7684;&#x6761;&#x76EE;" ID="372f7a9d-a511-4077-a050-555bc154b90b" CREATED="1657757591883" MODIFIED="1657757591883" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="16" ID="f77be348-6925-44fc-8660-8ba0eefb273f" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x6709;&#x65F6;&#x5019;&#x611F;&#x89C9;&#x633A;&#x5947;&#x602A;&#x7684;&#xFF0C;&#x66FE;&#x7ECF;&#x5F88;&#x60F3;&#x8981;&#x7684;&#x4E00;&#x4E2A;&#x529F;&#x80FD;&#x66FE;&#x7ECF;&#x4E00;&#x76F4;&#x6CA1;&#x5B8C;&#x6210;&#xFF0C;&#x540E;&#x6765;&#x56E0;&#x4E3A;&#x5176;&#x4ED6;&#x4E8B;&#x5C31;&#x83AB;&#x540D;&#x5947;&#x5999;&#x5B8C;&#x6210;&#x4E86;&#x3002;" ID="1ce61fc4-a994-4acc-9abc-6cc4e0b3f1e8" CREATED="1657928447145" MODIFIED="1657928447145" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x54C8;&#x54C8;&#xFF0C;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x554A;&#xFF0C;&#x8EAB;&#x4F53;&#x4F1A;&#x8BB0;&#x4F4F;&#x4F60;&#x7684;&#x6BCF;&#x4E2A;&#x60F3;&#x6CD5;&#xFF0C;&#x603B;&#x6709;&#x4E00;&#x5929;&#x4F60;&#x4F1A;&#x5B8C;&#x6210;&#x7684;&#x3002;" ID="4ff5d78f-0f6e-4220-98c2-be70a4999f32" CREATED="1657941571950" MODIFIED="1657941571950" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="27" ID="2710a612-5b30-4f2e-aebd-299c169f8d7e" CREATED="1665468833348" MODIFIED="1665468833348">
+          <node TEXT="&#x65F6;&#x95F4;&#x6846;&#xFF0C;&#x6309;esc&#x6CA1;&#x6709;&#x53CD;&#x5E94;" ID="1e05e6f2-7721-4c4a-9983-76ecc936e459" CREATED="1658906976767" MODIFIED="1658906976767" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="8" ID="1262def6-8b5b-4e73-a2c5-66d6b869bb72" CREATED="1665468833349" MODIFIED="1665468833349">
+        <node TEXT="25" ID="a99b4ae0-90d1-4581-8ecf-f11097bc9c4a" CREATED="1665468833349" MODIFIED="1665468833349">
+          <node TEXT="&#x6DFB;&#x52A0;&#x91CD;&#x8981;&#x7D27;&#x6025;&#x7684;&#x533A;&#x5206;" ID="d0184747-fc57-445b-86f6-28758d32dba2" CREATED="1661385130661" MODIFIED="1661385130661" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x5F53;&#x53EA;&#x6709;&#x4E24;&#x884C;&#x65F6;&#xFF0C;&#x4E5F;&#x6539;&#x53D8;&#x4E0B;&#x6587;&#x5B57;&#x7684;&#x5927;&#x5C0F;" ID="546d909f-f913-4487-b171-26e36308ea10" CREATED="1661389142964" MODIFIED="1661389142964" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="9" ID="e42e84a5-a308-4c84-9f1e-9a5f2ce191d1" CREATED="1665468833349" MODIFIED="1665468833349">
+        <node TEXT="11" ID="88a02fc2-2858-4c77-92d1-1b338bdbe846" CREATED="1665468833349" MODIFIED="1665468833349">
+          <node TEXT="&#x663E;&#x793A;&#x5012;&#x8BA1;&#x65F6;&#xFF1F;" ID="8b383012-d9d0-4b56-b41c-846a2ff736ed" CREATED="1662885417864" MODIFIED="1662885417864" TASKTIME="20" TASKLEVEL="12" EndDate="1666003017000">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x597D;&#x50CF;&#x6709;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x77E5;&#x9053;&#x600E;&#x4E48;&#x7528;&#x4E86;" ID="456a5500-930b-4b9f-a1eb-e08ba40365d4" CREATED="1663122539899" MODIFIED="1663122539899" TASKLEVEL="1" />
+            <node TEXT="&#x622A;&#x6B62;&#x65F6;&#x95F4;&#xFF0C;Shift+enter" ID="0e8de0b3-3907-4ffe-b0dc-5236049f277d" CREATED="1665880430323" MODIFIED="1665880430323" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x7D66;head&#x6DFB;&#x52A0;&#x65E5;&#x671F;" ID="5f10dd04-ecc1-4994-9d57-3e9684d6c71c" CREATED="1662888748944" MODIFIED="1662888748944" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x6DFB;&#x52A0;&#x4E86;" ID="0bbae244-32d6-4818-91f0-5ccf490b705e" CREATED="1663122016606" MODIFIED="1663122016606" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="12" ID="3163646d-54fb-483d-9441-35182fe8e69f" CREATED="1665468833349" MODIFIED="1665468833349">
+          <node TEXT="&#x89E3;&#x51B3;23&#x70B9;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5757;&#x7684;&#x95EE;&#x9898;" ID="f9d166c3-f80a-44d6-be55-80f83e6be96c" CREATED="1662943021600" MODIFIED="1662943021600" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#x4E86;" ID="8dfd18c0-ab03-40f0-807a-476210f96148" CREATED="1664520624441" MODIFIED="1664520624441" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x7ED9;&#x81EA;&#x5DF1;&#x7684;&#x65F6;&#x95F4;&#x8BB0;&#x5F55;&#x6DFB;&#x52A0;&#x8BA1;&#x5206;&#x7CFB;&#x7EDF;&#xFF0C;&#x8BC4;&#x4F30;&#x6BCF;&#x4E2A;&#x884C;&#x4E3A;&#xFF0C;&#x5E76;&#x8BA1;&#x7B97;&#x6BCF;&#x65E5;&#x5F97;&#x5206;&#x3002;" ID="228951f4-537e-44d2-9571-c1a5e8f63653" CREATED="1662943036801" MODIFIED="1662943036801" TASKLEVEL="1" TASKTIME="90">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x597D;&#x50CF;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x7528;&#xFF0C;&#x7EDF;&#x8BA1;&#x529F;&#x80FD;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;" ID="dbbe732b-9ca6-4102-94ea-88561d8e5a18" CREATED="1665053358350" MODIFIED="1665053358350" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x8DDF;&#x8282;&#x70B9;&#xFF0C;&#x4FEE;&#x6539;&#x4E0D;&#x4E86;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x4E2A;&#x5F97;&#x89E3;&#x51B3;&#x4E00;&#x4E0B;" ID="f491e108-5eb2-43ec-9f92-70b476ef013d" CREATED="1662943083780" MODIFIED="1662943083780" TASKTIME="15" TASKLEVEL="5">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="14" ID="dad1ea26-79ed-4c1a-b71f-666ae507ee19" CREATED="1665468833349" MODIFIED="1665468833349">
+          <node TEXT="&#x4F18;&#x5316;&#x8D8B;&#x52BF;&#xFF0C;&#x6DFB;&#x52A0;&#x51E0;&#x4E2A;&#x6307;&#x6807;" ID="2cf6f073-fd46-4609-9b62-a83ec3ee1330" CREATED="1663121338792" MODIFIED="1663121338792" TASKTIME="60" TASKLEVEL="7">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x603B;&#x5929;&#x6570;&#xFF0C;&#x5305;&#x542B;&#x7684;&#x5929;&#x6570;" ID="09e94165-bb75-4769-895d-9bb438043729" CREATED="1663121627071" MODIFIED="1663121627071" />
+            <node TEXT="&#x603B;&#x6B21;&#x6570;&#xFF0C;&#x5E73;&#x5747;&#x6BCF;&#x5929;&#x6B21;&#x6570;*2" ID="1f1dda23-5610-488a-bcd9-ed1cc8976bf0" CREATED="1663121655031" MODIFIED="1663121655031" />
+            <node TEXT="&#x603B;&#x65F6;&#x95F4;&#xFF0C;&#x5E73;&#x5747;&#x6BCF;&#x5929;&#x65F6;&#x95F4;&#xFF0C;&#x603B;&#x4F53;&#x5E73;&#x5747;&#x6BCF;&#x5929;&#x65F6;&#x95F4;" ID="2e2de676-7abd-4354-898d-abdc2efc03aa" CREATED="1663121670668" MODIFIED="1663121670668" />
+            <node TEXT="&#x6700;&#x591A;&#x8FDE;&#x7EED;&#x5929;&#x6570;&#xFF0C;&#x5E73;&#x5747;&#x8FDE;&#x7EED;&#x5929;&#x6570;&#xFF0C;&#x7528;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x4E60;&#x60EF;&#x662F;&#x5426;&#x517B;&#x6210;" ID="0d0e08e0-0701-4a5c-87e7-467a86f9c117" CREATED="1663121780962" MODIFIED="1663121780962" />
+            <node TEXT="&#x5C06;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;&#x663E;&#x793A;&#x5728;&#x53F3;&#x65B9;" ID="6d1015f4-8412-4440-b6f3-7311e6204267" CREATED="1663121804917" MODIFIED="1663121804917" />
+            <node TEXT="&#x5305;&#x542B;&#x8BE6;&#x7EC6;&#x8BB0;&#x5F55;&#x7684;&#x6BD4;&#x7387;&#xFF0C;&#x5E73;&#x5747;&#x591A;&#x5C11;&#x4E2A;&#x5B57;" ID="cf938bb3-d5c5-453d-9078-5d7db252b172" CREATED="1663121845325" MODIFIED="1663121845325" />
+          </node>
+          <node TEXT="&#x6587;&#x5B57;&#x7684;&#x5927;&#x5C0F;&#x6700;&#x540E;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x8BA1;&#x7B97;&#xFF0C;&#x76EE;&#x524D;&#x7684;&#x903B;&#x8F91;&#x592A;&#x7B80;&#x5355;" ID="60f4cd4b-e20f-4c82-bf96-a02b63becf10" CREATED="1663122115018" MODIFIED="1663122115018" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x7A0D;&#x5FAE;&#x5199;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x597D;&#x591A;&#x4E86;" ID="0134a6fc-a9a7-4a96-8326-c258bdc0ff56" CREATED="1663882415741" MODIFIED="1663882415741" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#x7684;&#x6708;&#x8BD5;&#x56FE;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x89C2;&#x770B;&#x5230;&#x6708;&#x4EFB;&#x52A1;" ID="dbe944cc-13e6-4b78-9427-15426d0f1bec" CREATED="1663124644982" MODIFIED="1663124644982" TASKTIME="205" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1677803644000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x9700;&#x8981;" ID="ee0d85dd-26d2-403f-97c8-af1f53eb7b46" CREATED="1672415533205" MODIFIED="1672415533205" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x67E5;&#x627E;&#x4EFB;&#x52A1;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x5B50;&#x4EFB;&#x52A1;&#xFF0C;&#x663E;&#x793A;&#x5230;&#x53F3;&#x9762;" ID="029d8171-6a7a-46ea-8cde-ffaaf40a821f" CREATED="1663129355365" MODIFIED="1663129355365" TASKLEVEL="1" TASKTIME="30">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="20" ID="cf89b145-0d28-4e4b-be3f-ca7b8b321915" CREATED="1665468833350" MODIFIED="1665468833350">
+          <node TEXT="&#x7ED9;&#x65F6;&#x95F4;&#x5757;&#x6DFB;&#x52A0;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x4E0D;&#x7136;&#x5F88;&#x591A;&#x4E1C;&#x897F;&#x90FD;&#x5199;&#x4E0D;&#x4E0B;" ID="8832d98f-d663-490a-b1fb-180e8006a4af" CREATED="1663637092203" MODIFIED="1663637092203" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="23" ID="b56eab00-648a-4c20-a881-344ebd0bb558" CREATED="1665468833350" MODIFIED="1665468833350">
+          <node TEXT="&#x5361;&#x8DEF;&#x91CC;&#x8BA1;&#x7B97;" ID="80e68dc7-df97-406c-a85e-c0ca9bf99303" CREATED="1663939708763" MODIFIED="1663939708763" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x8D8B;&#x52BF;&#x7684;&#x6240;&#x6709;&#x7C7B;&#x522B;&#xFF0C;&#x662F;&#x5199;&#x6B7B;&#x7684;&#xFF0C;&#x8981;&#x6539;&#x6210;&#x52A8;&#x6001;&#x7684;" ID="dc96acdb-2147-4aee-9fb1-b06bf8382d1c" CREATED="1663940687721" MODIFIED="1663940687721" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1680270287000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x5427;&#xFF0C;&#x53CD;&#x6B63;&#x76EE;&#x524D;&#x4E0D;&#x4F1A;&#x6709;&#x53D8;&#x5316;&#x7684;" ID="bb509352-8424-43b7-8498-219353e055ee" CREATED="1664524520254" MODIFIED="1664524520254" TASKLEVEL="1" />
+            <node TEXT="&#x8FD9;&#x4E2A;&#x62A5;&#x8868;&#x5F88;&#x5C11;&#x7528;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="70298dd7-ad03-4cba-a085-2b615e7cc180" CREATED="1672452995734" MODIFIED="1672452995734" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x6392;&#x9664;" ID="08fd4a70-fff7-4801-aa7b-dfebe2a7bc0a" CREATED="1663946206650" MODIFIED="1663946206650" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="26" ID="cfa3ef1f-f26f-4cc8-af31-56cae44ae891" CREATED="1665468833350" MODIFIED="1665468833350">
+          <node TEXT="&#x8D8B;&#x52BF;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x8FD8;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x6539;&#x6210;&#x81EA;&#x52A8;&#x7684;" ID="1c0d7a93-fcd7-4c08-b0a8-3f4b752a6f5e" CREATED="1664155442157" MODIFIED="1664155442157" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x53F3;&#x4FA7;&#x8BE6;&#x7EC6;&#x8BB0;&#x5F55;&#x7684;&#x7A7A;&#x767D;&#x600E;&#x4E48;&#x56DE;&#x4E8B;&#xFF1F;&#x8FD8;&#x6709;&#x8FDB;&#x53BB;&#x6539;&#x6210;&#x5143;" ID="28d3ac33-fbfb-4857-9966-36505dcbb071" CREATED="1664155503547" MODIFIED="1664155503547" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x76EE;&#x6807;&#x7684;&#x8BBE;&#x8BA1;" ID="705c88f0-3506-4749-b82b-c3d4a0a38a69" CREATED="1664155753320" MODIFIED="1664155753320" TASKTIME="90" TASKLEVEL="5">
+            <icon BUILTIN="clock" />
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;" ID="7f7d565f-e258-4528-8fd2-44a5e3ec3c06" CREATED="1664155841097" MODIFIED="1664155841097" />
+            <node TEXT="&#x76EE;&#x6807;&#x65F6;&#x957F;" ID="36cd7bcc-72d7-4da7-8958-7eaae5705e85" CREATED="1664155872124" MODIFIED="1664155872124" />
+            <node TEXT="&#x5F00;&#x59CB;&#x65F6;&#x95F4;" ID="cea8656f-12a9-44a7-9d6d-88ea1d0c520c" CREATED="1664155882314" MODIFIED="1664155882314" />
+            <node TEXT="&#x622A;&#x81F3;&#x65F6;&#x95F4;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x8BBE;&#x7F6E;" ID="ffe69668-866a-4ff4-9078-7c6919e85e63" CREATED="1664155891122" MODIFIED="1664155891122" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x82B1;&#x8D39;&#x622A;&#x6B62;&#x65E5;&#xFF0C;&#x5E76;&#x4E14;&#x62C6;&#x5206;&#x5F00;" ID="0e594379-aac8-463c-94ab-71ba8cce2d46" CREATED="1664157970722" MODIFIED="1664157970723" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x76EE;&#x524D;&#x5DF2;&#x7ECF;&#x901A;&#x8FC7;&#x5199;&#x4EE3;&#x7801;&#x7684;&#x65B9;&#x5F0F;&#x6DFB;&#x52A0;&#x4E86;&#xFF0C;&#x800C;&#x4E14;&#x76EE;&#x524D;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x591A;&#x4E2A;&#x7684;&#x8BDD;&#xFF0C;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x8D39;&#x52B2;&#x7684;" ID="f09672e1-0cf4-4cb5-8c37-f8e28c658730" CREATED="1665885487711" MODIFIED="1665885487711" TASKLEVEL="1" />
+            <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x7A97;&#x4F53;&#x5427;&#xFF0C;&#x4E0D;&#x5728;Tools&#x91CC;&#x9762;&#x6DFB;&#x52A0;&#x4E86;" ID="d094c050-b93a-4bb6-85e4-938b6d3bb369" CREATED="1666946266165" MODIFIED="1666946266166" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E86;&#x5206;&#x671F;&#xFF0C;&#x5C31;&#x663E;&#x793A;&#x6210;&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;" ID="1c11cb25-5716-4172-97ae-bb023160adb3" CREATED="1664158063118" MODIFIED="1664158063118" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x91D1;&#x94B1;&#x662F;&#x4E0D;&#x662F;&#x5E94;&#x8BE5;&#x9501;&#x8D77;&#x6765;&#xFF0C;&#x7981;&#x6B62;&#x62D6;&#x52A8;&#x5462;&#xFF1F;" ID="07875922-0cb1-4a39-b2e0-a3311ab1f95f" CREATED="1664158087853" MODIFIED="1664158087853" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x62C6;&#x5206;&#x540E;&#x62C6;&#x6210;&#x5B9E;&#x9645;&#x7684;&#x6761;&#x6570;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF0C;&#x7ED3;&#x675F;&#x65F6;&#x95F4;" ID="0944b7ba-70fa-4110-be79-37898bc029c8" CREATED="1664158865953" MODIFIED="1664158865953" />
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x5C0F;&#x4E8E;&#x5341;&#x4E94;&#x5206;&#x949F;&#xFF0C;&#x5C31;&#x628A;&#x6587;&#x5B57;&#x53BB;&#x6389;&#x5427;" ID="d858fde5-8334-4cde-a26e-44bbcdf6e801" CREATED="1664159422465" MODIFIED="1664159422465" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x6392;&#x9664;&#x6309;&#x94AE;&#xFF0C;&#x5C06;&#x5176;&#x9690;&#x85CF;&#x6216;&#x8005;&#x4E0D;&#x663E;&#x793A;&#xFF0C;&#x53EA;&#x663E;&#x793A;&#x989C;&#x8272;&#x5FEB;" ID="110cf678-25ab-4783-8a09-dc67af48c72f" CREATED="1664159581187" MODIFIED="1664159581187" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6CA1;&#x7406;&#x89E3;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x5F53;&#x65F6;&#x60F3;&#x8981;&#x4EC0;&#x4E48;&#x4E86;" ID="0dacf32a-8318-4966-911b-fa59877d3b4c" CREATED="1664520402877" MODIFIED="1664520402877" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x89E3;&#x51B3;tips&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8BE6;&#x60C5;&#x592A;&#x957F;&#x7684;&#x95EE;&#x9898;" ID="727999aa-19b8-42fe-955b-4a812d2a8133" CREATED="1664172671222" MODIFIED="1664172671222" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="27" ID="0a56f325-6933-43fd-bab3-068da53ebe03" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x6700;&#x9AD8;&#x6BCF;&#x5929;&#x591A;&#x4E45;&#xFF0C;&#x6700;&#x9AD8;&#x6BCF;&#x5929;&#x591A;&#x5C11;&#x6B21;" ID="b584030e-26c8-432e-b120-1508715e9cb3" CREATED="1664242383334" MODIFIED="1664242383334" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="28" ID="81ff4f86-db63-4f86-8690-3eb21bd91f52" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x5C06;&#x8FB9;&#x6846;&#x989C;&#x8272;&#xFF0C;&#x8BBE;&#x7F6E;&#x6210;&#x548C;&#x8272;&#x5757;&#x4E00;&#x81F4;&#x7684;" ID="8b862fea-7aa4-443d-bc60-08fdc8768ef7" CREATED="1664334377000" MODIFIED="1664334377000" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="30" ID="1b817f6c-4f8e-4fa8-8194-c33e38e0def2" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x756A;&#x8304;&#x949F;&#x6539;&#x53D8;&#x6210;&#x65F6;&#x95F4;&#x5757;" ID="025defbd-5b72-492d-9ef1-3a3daaa8a68d" CREATED="1664506631242" MODIFIED="1664506631242" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6D4B;&#x8BD5;&#x4E00;&#x4E0B;" ID="2b3fa6f1-6e60-4592-ba29-fa51fbfdd8d7" CREATED="1664510097297" MODIFIED="1664510097297" TASKLEVEL="1" />
+            <node TEXT="&#x6682;&#x65F6;&#x5C31;&#x8FD9;&#x6837;&#x5427;" ID="bba97acb-719b-48b5-913d-827c6b602b09" CREATED="1664510108408" MODIFIED="1664510108408" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6D4B;&#x8BD5;&#x4E00;&#x4E0B;&#x756A;&#x8304;&#x949F;" ID="e43abdfd-6ba7-40ce-ae3c-a0fea6cb53a1" CREATED="1664510694985" MODIFIED="1664510694985" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x521A;&#x521A;&#x7684;&#x547D;&#x4EE4;&#x52C7;&#x4E8E;&#x6DFB;&#x52A0;&#x756A;&#x8304;&#x949F;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x80FD;&#x8BB0;&#x5F55;&#x521A;&#x624D;&#x518D;&#x5E72;&#x4EC0;&#x4E48;&#x4E86;" ID="b516d921-409a-431c-b1a5-378590e39c47" CREATED="1664516795147" MODIFIED="1664516795147" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x592A;&#x597D;&#x7528;&#x4E86;&#xFF0C;&#x592A;&#x597D;&#x4E86;" ID="2d81afa1-f399-4eed-a0cd-24c019b8e7a1" CREATED="1664520363032" MODIFIED="1664520363032" TASKLEVEL="1" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="10" ID="edc21bbd-3195-4289-a153-95520df57b92" CREATED="1665468833351" MODIFIED="1665468833351">
+        <node TEXT="2" ID="fff57c16-8df5-417c-8fae-7625643c5804" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x6DFB;&#x52A0;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x903B;&#x8F91;" ID="13513826-2d8c-4697-b45d-d8b7d3c7bc0d" CREATED="1664720615155" MODIFIED="1664720615155" TASKTIME="60" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x611F;&#x8C22;" ID="a3efe787-e6e5-4e06-9fce-c30a63f79ed8" CREATED="1666131807579" MODIFIED="1666131807579" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="4" ID="3947d8cc-51a9-4173-84a7-c1e2ef009437" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x4E00;&#x534A;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4FEE;&#x6539;&#x5B57;&#x4F53;" ID="9c706b03-b2df-4a2d-a660-d0abc5da7df6" CREATED="1664847224543" MODIFIED="1664847224543" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="7" ID="deaf2205-b1dd-47a9-afa9-2aa43f2fd415" CREATED="1665468833351" MODIFIED="1665468833351">
+          <node TEXT="&#x7269;&#x8D28;&#x89C4;&#x5212;" ID="0a089486-3040-4a19-9f07-f3180d923626" CREATED="1665123127096" MODIFIED="1665123127096" TASKTIME="90" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673417527000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x597D;&#x50CF;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x5FC5;&#x8981;&#x5427;" ID="dc35f455-ac32-48ce-afe3-8bad4fac6918" CREATED="1667137537448" MODIFIED="1667137537448" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="9" ID="63d4d8a6-705e-4b72-b3da-65e8a6012ff4" CREATED="1665468833352" MODIFIED="1665468833352">
+          <node TEXT="&#x53D1;&#x73B0;&#x5BCC;&#x6587;&#x672C;&#x5C31;&#x4E0D;&#x56DE;&#x51FA;&#x73B0;&#x5728;&#x5B50;&#x8282;&#x70B9;&#x91CC;&#x4E86;" ID="c9928ea6-0d78-4c29-8837-322821d707d1" CREATED="1665297060140" MODIFIED="1665297060140" TASKLEVEL="1" TASKTIME="50">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;&#xFF0C;&#x6CA1;&#x4EC0;&#x4E48;&#x5FC5;&#x8981;&#x6027;" ID="9440f90c-1380-4b99-a560-d5a6b832d5e4" CREATED="1667137594599" MODIFIED="1667137594599" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5347;&#x7EA7;&#x521A;&#x521A;&#x7684;&#x89C4;&#x5219;&#x5728;&#x91CC;&#x9762;&#x6DFB;&#x52A0;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#x5FEB;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x80FD;&#x7701;&#x533A;&#x4E86;&#x4E00;&#x4E9B;&#x9EBB;&#x70E6;" ID="b076f707-efca-4b51-b2b5-a4b2c5f10cd0" CREATED="1665297924246" MODIFIED="1665297924246" TASKTIME="0" TASKLEVEL="6">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E0B;&#x62C9;&#x9009;&#x62E9;&#x4E86;&#xFF0C;&#x8FD9;&#x6837;&#x66F4;&#x51C6;&#x786E;&#x4E9B;" ID="162f9f59-1c27-4d7c-a9e3-b2d3a1756531" CREATED="1666133602406" MODIFIED="1666133602406" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x80FD;&#x628A;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#x5FEB;&#x6DFB;&#x52A0;&#x597D;&#xFF0C;&#x81EA;&#x5DF1;&#x5C31;&#x518D;&#x4E5F;&#x4E0D;&#x7528;&#x52FE;&#x52FE;&#x753B;&#x753B;&#x4E86;&#xFF0C;&#x4E13;&#x6CE8;&#x4E8E;&#x5185;&#x5BB9;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x90A3;&#x5C31;&#x592A;&#x68D2;&#x4E86;,&#x52A0;&#x6CB9;&#xFF0C;&#x5C3D;&#x5FEB;&#x5B8C;&#x6210;" ID="cbb16b5e-065c-4827-9651-b79acf6a8827" CREATED="1665301475871" MODIFIED="1665301475871" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x7528;&#x81EA;&#x52A8;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0B;&#x62C9;&#x89E3;&#x51B3;&#x4E86;&#xFF0C;&#x4E5F;&#x5F88;&#x68D2;" ID="0780c8c5-9870-4acd-8a6b-aa04da604488" CREATED="1666129613458" MODIFIED="1666129613458" TASKLEVEL="1" />
+            <node TEXT="&#x6709;&#x4E9B;&#x4EFB;&#x52A1;&#x4E4B;&#x6240;&#x4EE5;&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x5176;&#x5B9E;&#x5E76;&#x4E0D;&#x662F;&#x5F88;&#x597D;&#x7684;&#x65B9;&#x6848;" ID="c3ddbe55-4f5a-4671-88dd-978158d6e437" CREATED="1666129633268" MODIFIED="1666129633268" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x521A;&#x521A;&#x5341;&#x5206;&#x949F;&#x51E0;&#x5206;&#x949F;&#x4E4B;&#x7C7B;&#x7684;&#x5173;&#x952E;&#x5B57;&#x641C;&#x7D22;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x5F97;&#x8BBE;&#x7F6E;&#x591A;&#x4E2A;&#x91CD;&#x590D;&#x7684;&#x4EFB;&#x52A1;&#x4E86;&#xFF0C;&#x5F88;&#x68D2;" ID="fbc3ec1b-6a6b-4a65-aec2-6a7ec57c57b7" CREATED="1665301781345" MODIFIED="1665301781345" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="10" ID="4b604853-759a-4f26-af80-c34fd9a7997d" CREATED="1665468833353" MODIFIED="1665468833353">
+          <node TEXT="&#x6BCF;&#x5341;&#x4E94;&#x5206;&#x949F;&#xFF0C;&#x62CD;&#x7167;&#xFF0C;&#x5224;&#x65AD;&#x81EA;&#x5DF1;&#x662F;&#x5426;&#x5728;&#x7535;&#x8111;&#x524D;&#xFF08;&#x952E;&#x76D8;&#x8BB0;&#x5F55;&#x6700;&#x540E;&#x65F6;&#x95F4;)" ID="7f99111b-53f0-450a-bcea-30a6e5156868" CREATED="1665382410831" MODIFIED="1665382410831" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="c&#x65E0;&#x635F;&#x9AD8;&#x8D28;&#x91CF;&#x538B;&#x7F29;&#x56FE;&#x7247;&#x4EE3;&#x7801;&#x773E;&#x5C0B;&#x535A;&#x5BA2;&#x56ED;" ID="7b033a70-da1d-4bcf-b676-4a5ff9c72453" CREATED="1665383432931" MODIFIED="1665383432931" LINK="https://www.cnblogs.com/ZXdeveloper/p/6841878.html" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;OperateCamera&#x6DFB;&#x52A0;&#x5230;&#x9879;&#x76EE;&#xFF0C;&#x7136;&#x540E;&#x6DFB;&#x52A0;&#x5B9A;&#x65F6;&#x62CD;&#x7167;&#x529F;&#x80FD;" ID="34e67731-05b8-4658-b83c-9d5c1afc3928" CREATED="1665386343094" MODIFIED="1665386343094" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="16" ID="e31f32ec-6cf4-4075-8ecf-b5af963bce46" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x6DFB;&#x52A0;&#x5C4F;&#x5E55;&#x81EA;&#x52A8;&#x622A;&#x56FE;" ID="d796c3ca-5aed-4bd2-a678-5b6bd5ebce9e" CREATED="1665888534708" MODIFIED="1665888534708" TASKTIME="0" TASKLEVEL="8">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E5F;&#x662F;15&#x5206;&#x949F;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4FDD;&#x5B58;&#x5230;CaptureScreen&#x91CC;&#x9762;" ID="ec6279d0-96eb-4841-8c24-c9e21b865b7c" CREATED="1666129570540" MODIFIED="1666129570540" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x4EE5;T&#x5F00;&#x59CB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F00;&#x59CB;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x5757;&#x4E86;&#x3002;&#x8FD9;&#x6837;&#x505A;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4FEE;&#x6539;&#x70B9;&#x7279;&#x522B;&#x591A;" ID="e5ea7163-843a-41ec-97f2-389891651fa3" CREATED="1665889159083" MODIFIED="1665889159083" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="button_ok" />
+            <node TEXT="TimeBlockData" ID="942400b4-1753-4e18-be67-648cfbce7591" CREATED="1666037487376" MODIFIED="1666037487376" />
+            <node TEXT="timeblock.json" ID="c7957102-9a76-4680-999b-6e2de314ea93" CREATED="1666037549812" MODIFIED="1666037549812" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x5F88;&#x68D2;&#xFF0C;&#x6709;&#x95EE;&#x9898;&#x518D;&#x4FEE;&#x590D;&#x5427;&#xFF0C;&#x4E3B;&#x4F53;&#x505A;&#x5B8C;&#x4E86;" ID="6c9f32e1-b87a-4a1e-99c2-51a0d50cb685" CREATED="1666133549375" MODIFIED="1666133549375" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x83B7;&#x53D6;&#x6700;&#x540E;&#x7684;&#x903B;&#x8F91;&#x597D;&#x50CF;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6709;&#x65F6;&#x5019;&#x5E76;&#x5217;&#x7684;&#x90A3;&#x79CD;&#x5224;&#x65AD;&#x4E0D;&#x51C6;" ID="c2d519ea-f240-4676-bccf-a61943abdfa8" CREATED="1665923443120" MODIFIED="1665923443120" TASKLEVEL="5" TASKTIME="76">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6682;&#x65F6;&#x5148;&#x4E0D;&#x8003;&#x8651;&#x7279;&#x6B8A;&#x7684;&#x60C5;&#x51B5;&#x5427;&#xFF0C;&#x6682;&#x65F6;&#x5148;&#x8FD9;&#x6837;&#x5427;" ID="2658c391-7128-4d06-ad0c-1c00ad70f264" CREATED="1666036486021" MODIFIED="1666036486021" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="18" ID="e8ab2bb0-03cc-4c75-83a9-4210160b8117" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x95F4;&#x7EDF;&#x8BA1;" ID="cca3fe5f-3b80-440e-a648-048a7b6f42a4" CREATED="1666036147337" MODIFIED="1666036147337" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x57FA;&#x672C;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x6709;&#x95EE;&#x9898;&#x5355;&#x72EC;&#x7EF4;&#x62A4;&#x5427;" ID="61ac913a-9966-4c03-91da-f1b174079c1e" CREATED="1666128653815" MODIFIED="1666128653815" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5207;&#x6362;&#x989C;&#x8272;&#x4E0D;&#x6210;&#x529F;&#xFF0C;&#x4F30;&#x8BA1;&#x662F;&#x6CA1;&#x66F4;&#x65B0;" ID="a3d05b36-9c94-40ed-8dbf-af4eb8354688" CREATED="1666063256582" MODIFIED="1666063256582" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x539F;&#x6765;&#x662F;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E;&#x4E86;&#x7B49;&#x7EA7;&#xFF0C;&#x5DF2;&#x7ECF;&#x4FEE;&#x6539;&#x4E86;&#x989C;&#x8272;&#x7684;&#x663E;&#x793A;&#x903B;&#x8F91;&#xFF0C;&#x6CA1;&#x95EE;&#x9898;&#x4E86;" ID="3b85cbe7-515c-4b1d-b2bc-2bdeb437c468" CREATED="1666131834533" MODIFIED="1666131834533" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65B0;&#x589E;&#x52A0;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x989C;&#x8272;&#x662F;&#x4E0D;&#x5BF9;&#x7684;&#xFF0C;&#x5F88;&#x5947;&#x602A;" ID="2afe2af3-5b62-4f70-b756-849438de71bb" CREATED="1666063278347" MODIFIED="1666063278347" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x597D;&#x50CF;&#x4E5F;&#x6CA1;&#x95EE;&#x9898;&#xFF0C;&#x518D;&#x770B;&#x770B;" ID="a34a2446-6696-4c12-bdcb-1014ca2c931a" CREATED="1666131848923" MODIFIED="1666131848923" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x7236;&#x7C7B;&#x522B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C06;&#x5C16;&#x62EC;&#x53F7;&#x6539;&#x4E3A;&#x7AD6;&#x7EBF;" ID="85b59f58-ee17-4467-a09c-489f0b822551" CREATED="1666064013691" MODIFIED="1666064013691" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="19" ID="4a0072c7-a1ef-4725-9560-5412c9b4ca3c" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x5C06;&#x6570;&#x636E;&#x91CC;&#x7684;&gt;&#x66FF;&#x6362;&#x6389;&#xFF0C;&#x4E0D;&#x7740;&#x6025;&#xFF0C;&#x4EE5;&#x540E;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x518D;&#x66FF;&#x6362;" ID="0b54c598-6146-45d5-ac70-851d91b6f2ef" CREATED="1666132022665" MODIFIED="1666132022665" TASKTIME="32" TASKLEVEL="1" ISReminderOnly="True" ISVIEW="false">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x9009;&#x62E9;&#x8FC7;&#x7684;&#xFF0C;&#x8FD8;&#x6CA1;&#x6709;&#x5B8C;&#x5584;" ID="de5e9342-ef05-45fa-80f5-e8d6ded584ee" CREATED="1666141464734" MODIFIED="1666141464734" TASKTIME="30" TASKLEVEL="6">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="20" ID="d696d028-1e7f-410a-999b-b79d393634cb" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x5728;&#x5BFC;&#x56FE;&#x5206;&#x6790;&#x91CC;&#x6DFB;&#x52A0;&#x4E0A;&#x5BFC;&#x56FE;&#x7684;&#x5360;&#x6BD4;&#x5206;&#x6790;" ID="d7acb1ee-9722-4c0c-a382-02b902481a46" CREATED="1666238520792" MODIFIED="1666238520792" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x56FE;&#x6807;&#x7684;&#x6587;&#x5B57;&#x5927;&#x5C0F;&#x4E0D;&#x77E5;&#x9053;&#x600E;&#x4E48;&#x8C03;&#x6574;&#xFF0C;&#x597D;&#x96BE;&#x53D7;" ID="a36a15dc-cf2d-49a8-9411-a73801cc5b1f" CREATED="1666277339216" MODIFIED="1666277339216" TASKTIME="80" TASKLEVEL="3" ISReminderOnly="True">
+              <hook NAME="plugins/TimeManagementReminder.xml">
+                <Parameters REMINDUSERAT="1668869339000" PERIOD="1" UNIT="DAY" />
+              </hook>
+            </node>
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x6807;&#x7B7E;&#x529F;&#x80FD;&#xFF0C;&#x8FD8;&#x662F;&#x5728;&#x4EFB;&#x52A1;&#x4E2D;&#x76F4;&#x63A5;&#x5199;&#x5462;&#xFF1F;" ID="469737ef-5715-45fa-9087-66aa797038ec" CREATED="1666239794434" MODIFIED="1666239794434" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;shouru&#xFF0C;&#x529F;&#x80FD;&#xFF0C;&#x8FD9;&#x6837;&#x501F;&#x94B1;&#xFF0C;&#x9000;&#x8D27;&#xFF0C;&#x793C;&#x7269;&#xFF0C;&#x4EBA;&#x60C5;&#xFF0C;&#x7B49;&#x90FD;&#x53EF;&#x4EE5;&#x8BB0;&#x5F55;&#x4E86;" ID="b01a9a60-624d-4d07-860e-8898fa2f03a1" CREATED="1666239961420" MODIFIED="1666239961420" TASKTIME="60" TASKLEVEL="10" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x5199;&#x5B8C;&#x4E86;" ID="6942e361-835d-4826-afca-7ae2da8ca963" CREATED="1667137826868" MODIFIED="1667137826868" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x5361;&#x8DEF;&#x91CC;&#x8BB0;&#x5F55;&#xFF0C;&#x5E76;&#x8BA1;&#x7B97;&#x4F53;&#x91CD;" ID="fb59699f-f451-4f49-9c35-53e14922e559" CREATED="1666242377080" MODIFIED="1666242377080" TASKTIME="90" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x6444;&#x50CF;&#x5934;&#x62CD;&#x7167;&#x5982;&#x679C;&#x9519;&#x8BEF;&#x5C31;&#x76F4;&#x63A5;&#x5173;&#x95ED;&#x6444;&#x50CF;&#x5934;&#x597D;&#x4E86;" ID="d0e985ff-312c-4e93-a01c-bdde06ddfa9f" CREATED="1666242419691" MODIFIED="1666242419691" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x9501;&#x5C4F;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x663E;&#x793A;&#x53E5;&#x67C4;&#x65E0;&#x6548;" ID="e0e236ca-c844-4766-b399-305649ae19dc" CREATED="1666255810710" MODIFIED="1666255810710" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x7EAA;&#x5FF5;&#x65E5;&#xFF0C;&#x622A;&#x6B62;&#x65E5;&#x90FD;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF0C;&#x76F4;&#x89C2;&#xFF0C;&#x65B9;&#x4FBF;" ID="21d90d68-27b2-4d6f-9ade-3be3c2e232e6" CREATED="1666242626862" MODIFIED="1666242626862" TASKTIME="40" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5728;&#x6240;&#x6709;&#x8282;&#x70B9;&#x7684;&#x83B7;&#x53D6;&#x4E2D;&#x6DFB;&#x52A0;&#x5BF9;&#x5168;&#x90E8;&#x662F;&#x6570;&#x5B57;&#xFF0C;&#x4E14;&#x957F;&#x5EA6;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E;4&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x907F;&#x514D;&#x90A3;&#x4E9B;&#x5E74;&#x4EFD;&#x7684;&#x8FDB;&#x5165;&#x5230;&#x91CC;&#x9762;&#x9020;&#x6210;&#x7EDF;&#x8BA1;&#x5931;&#x6548;" ID="2afcb5ef-132f-4b19-bd0a-d6abc2d85cda" CREATED="1666244781146" MODIFIED="1666244781146" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C55;&#x5F00;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x7684;&#x65F6;&#x5019;&#x6DFB;&#x52A0;&#x52A8;&#x4F5C;&#xFF0C;&#x628A;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x9009;&#x4E2D;&#x8FD9;&#x6837;&#x80FD;&#x907F;&#x514D;&#x9700;&#x8981;&#x9009;&#x62E9;&#x7684;&#x95EE;&#x9898;" ID="8fce8652-5653-41e2-a02b-00b1b8b683c4" CREATED="1666244882560" MODIFIED="1666244882560" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x67E5;&#x627E;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6216;&#x8005;&#x663E;&#x793A;&#x67E5;&#x627E;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x628A;&#x7236;&#x8282;&#x70B9;&#x9690;&#x85CF;&#x6389;" ID="60a4846c-1567-4f75-b8da-82ef9d988588" CREATED="1666245185922" MODIFIED="1666245185922" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x9690;&#x85CF;&#x4E86;" ID="0f67f23e-4381-40ea-a95f-ffbdb87eb475" CREATED="1666277421000" MODIFIED="1666277421000" TASKLEVEL="1" />
+            <node TEXT="&#x90FD;&#x4E0D;&#x77E5;&#x9053;&#x600E;&#x4E48;&#x505A;&#x5230;&#x7684;&#xFF0C;&#x4E0D;&#x8FC7;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;" ID="a71dd658-c35e-42aa-b0d2-0f07651d1c9c" CREATED="1666277434431" MODIFIED="1666277434431" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x6CA1;&#x6709;&#x6CA1;&#x6709;&#x9009;&#x4E2D;&#xFF0C;&#x6216;&#x8005;&#x53EA;&#x6709;&#x4E00;&#x5206;&#x949F;&#xFF0C;&#x5219;&#x81EA;&#x52A8;&#x5F00;&#x59CB;&#x8BA1;&#x7B97;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x7684;&#x65F6;&#x95F4;&#x5230;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x6837;&#x80FD;&#x8282;&#x7701;&#x5F88;&#x591A;&#x65F6;&#x95F4;" ID="4f1af8d6-baf6-4588-a5f4-6cb83ad60b09" CREATED="1666245811121" MODIFIED="1666245811121" TASKTIME="30" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x770B;&#x4F3C;&#x5F88;&#x590D;&#x6742;&#xFF0C;&#x5176;&#x5B9E;&#x5F88;&#x5FEB;&#x5C31;&#x89E3;&#x51B3;&#x4E86;" ID="eeb6b10e-f899-42e2-b1d2-dfb57a25ebeb" CREATED="1666278721999" MODIFIED="1666278721999" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x65F6;&#x95F4;&#x53BB;&#x6389;&#xFF0C;&#x7EDF;&#x8BA1;&#x6BCF;&#x5929;&#x4EC0;&#x4E48;&#x65F6;&#x95F4;&#x6BD4;&#x8F83;&#x591A;&#xFF0C;&#x5E76;&#x7EDF;&#x8BA1;&#x661F;&#x671F;&#xFF0C;&#x770B;&#x54EA;&#x5929;&#x6BD4;&#x8F83;&#x591A;" ID="af64c60f-707b-435c-9d3b-e7c356db0df3" CREATED="1666246039492" MODIFIED="1666246039492" TASKTIME="40" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x665A;&#x4E0A;&#x5199;&#x56DB;&#x4E2A;&#x5C0F;&#x65F6;&#x7A0B;&#x5E8F;" ID="67495f16-6ae5-4dce-8eaf-38d3aa144e70" CREATED="1666246610175" MODIFIED="1666246610175" TASKTIME="240" TASKLEVEL="4">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x680F;&#x8981;&#x957F;&#x4E00;&#x70B9;&#x70B9;" ID="2b5d5819-364f-411c-9d6f-8b959b7ac23a" CREATED="1666246714238" MODIFIED="1666246714238" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#x4E2D;&#x5982;&#x679C;&#x662F;All&#xFF0C;&#x4E0D;&#x81EA;&#x52A8;&#x5207;&#x6362;" ID="31624c5c-572b-4af9-95bc-9cd861ac7700" CREATED="1666247357261" MODIFIED="1666247357261" TASKTIME="10" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x628A;&#x65F6;&#x95F4;&#x5FEB;&#x4E2D;&#xFF0C;&#x65F6;&#x95F4;&#x4E3A;0&#x7684;&#x5220;&#x6389;&#xFF0C;&#x5E94;&#x8BE5;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x5386;&#x53F2;&#x6570;&#x636E;" ID="abe682ed-dab8-4d4e-829e-29038ab0046f" CREATED="1666247837965" MODIFIED="1666247837965" TASKTIME="30" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x7ED9;&#x51E0;&#x4E2A;&#x62A5;&#x8868;&#x6DFB;&#x52A0;&#x547D;&#x4EE4;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x7528;&#x603B;&#x662F;&#x7528;&#x9F20;&#x6807;&#x70B9;&#x6765;&#x70B9;&#x53BB;&#x4E86;" ID="bae8ee59-aa28-4dec-9aa8-6fe3a3cee77a" CREATED="1666249674311" MODIFIED="1666249674311" TASKTIME="10" TASKLEVEL="8">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="rtimeblock" ID="e99a3a5b-43f0-4475-8095-f5e08217213a" CREATED="1666250730903" MODIFIED="1666250730903" TASKLEVEL="1" />
+            <node TEXT="rkeyboard" ID="16fa5565-bcaa-4d8d-bfe9-7c107c8cd2fb" CREATED="1666250745281" MODIFIED="1666250745281" TASKLEVEL="1" />
+            <node TEXT="rmindmap" ID="026ae2cc-1852-4dca-82f0-8d3b3b5050a7" CREATED="1666250756168" MODIFIED="1666250756168" TASKLEVEL="1" />
+            <node TEXT="rusetime" ID="afa39417-85e3-4be4-bfd9-35d2f9636954" CREATED="1666250773391" MODIFIED="1666250773391" TASKLEVEL="1" />
+            <node TEXT="rtarget" ID="6295c2af-6bab-48fd-8da4-5dc541db8e97" CREATED="1666250809426" MODIFIED="1666250809426" TASKLEVEL="1" />
+            <node TEXT="rtrend" ID="ced0a4f4-0827-4296-86e9-1bb6787968a6" CREATED="1666250832997" MODIFIED="1666250832997" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x53D1;&#x73B0;box&#x91CC;&#x9762;&#x7684;&#x4EFB;&#x52A1;&#x5237;&#x65B0;&#x540E;&#x4E0D;&#x4F1A;&#x81EA;&#x52A8;&#x6839;&#x636E;&#x65F6;&#x95F4;&#x6392;&#x5E8F;" ID="68dbba5b-cc25-40a7-aef1-79a88efb19d6" CREATED="1666250505123" MODIFIED="1666250505123" TASKTIME="20" TASKLEVEL="4">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5199;remind.js&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x538B;&#x7F29;&#x4E00;&#x4E0B;&#x5427;&#xFF0C;&#x7136;&#x540E;&#x52A0;&#x5BC6;&#x4E00;&#x4E0B;&#xFF0C;&#x8FD9;&#x6837;&#x522B;&#x4EBA;&#x5C31;&#x5F7B;&#x5E95;&#x8BFB;&#x4E0D;&#x61C2;&#x4E86;" ID="ec58b25d-164a-4c5b-9c23-7314be20700a" CREATED="1666252666621" MODIFIED="1666252666621" TASKTIME="30" TASKLEVEL="5">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x538B;&#x7F29;&#x4E86;&#xFF0C;&#x522B;&#x4EBA;&#x5DF2;&#x7ECF;&#x8BFB;&#x4E0D;&#x61C2;&#x4E86;&#xFF0C;&#x6682;&#x65F6;&#x4E0D;&#x8003;&#x8651;&#x52A0;&#x5BC6;&#xFF0C;&#x8003;&#x8651;&#x6548;&#x7387;" ID="4f59baaa-403d-47f5-8514-8ff1351424e9" CREATED="1666282182206" MODIFIED="1666282182206" TASKLEVEL="1" />
+            <node TEXT="&#x8FD8;&#x9700;&#x8981;&#x52A0;&#x5BC6;&#x4E0B;" ID="b688296b-86c7-471e-b092-ada716e81200" CREATED="1666282215278" MODIFIED="1666282215278" TASKTIME="0" TASKLEVEL="1">
+              <icon BUILTIN="button_ok" />
+              <node TEXT="&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="eb3283db-beb6-4583-9d0e-898d2b15e83a" CREATED="1672406149006" MODIFIED="1672406149006" TASKLEVEL="1" />
+            </node>
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x547D;&#x4EE4;luyinstart,luyinend" ID="0cbe8a05-3ef8-4fe6-8541-2f0322e43c3b" CREATED="1666253865181" MODIFIED="1666253865181" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5B9A;&#x671F;&#x5237;&#x65B0;&#x4E00;&#x4E0B;&#x6587;&#x4EF6;&#x5217;&#x8868;&#xFF0C;&#x6BCF;&#x6B21;&#x90FD;&#x5FD8;&#x8BB0;&#x5237;&#x65B0;" ID="35f4f3b6-3271-4e9c-94a3-0fd1707ef7f0" CREATED="1666258045097" MODIFIED="1666258045097" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="41,11&#x5206;&#x949F;&#x7684;&#x65F6;&#x5019;&#x5237;&#x65B0;" ID="909d7f74-85d3-4452-86ce-37660494f68e" CREATED="1666265475318" MODIFIED="1666265475318" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="22" ID="c6189d04-5223-4722-b9ce-dcc0d20e2b31" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x7F16;&#x8F91;&#x8BE6;&#x7EC6;&#xFF0C;&#x9700;&#x8981;&#x4F18;&#x5316;&#x4E0B;&#xFF0C;&#x56E0;&#x4E3A;&#x6709;&#x65F6;&#x5019;&#x4F1A;&#x81EA;&#x52A8;&#x5237;&#x65B0;" ID="45dee6fe-444a-43dc-9b9d-724586cffd55" CREATED="1666396918163" MODIFIED="1666396918163" ISReminderOnly="True" TASKTIME="50" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x8BB0;&#x5F97;&#x4E86;" ID="dd9b3397-725a-464e-990c-bf3b5e678ad9" CREATED="1668549284314" MODIFIED="1668549284314" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x4F18;&#x5316;trend&#x91CC;&#x9762;&#x7684;&#x663E;&#x793A;" ID="b9733091-f95e-4b01-baa3-390eee10ff86" CREATED="1666396944260" MODIFIED="1666396944260" TASKLEVEL="1" TASKTIME="0" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="24" ID="a8b2dd8b-d71d-4f90-bd4c-4582c7ce26c1" CREATED="1666597752911" MODIFIED="1666597752911">
+          <node TEXT="&#x6DFB;&#x52A0;&#x521A;&#x521A;&#x7684;&#x622A;&#x81F3;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x65E2;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x65F6;&#x957F;&#x53C8;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x5206;&#x949F;&#x4E4B;&#x7C7B;&#x7684;&#x4E86;" ID="0faaf320-5364-42e1-9da0-f29543ced1ae" CREATED="1666573011560" MODIFIED="1666573011560" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x628A;&#x4EFB;&#x52A1;&#xFF0C;&#x548C;&#x4E00;&#x4E9B;&#x6307;&#x6807;&#x653E;&#x5230;&#x5DE6;&#x4FA7;" ID="98c1bd1f-79ea-4a9f-9983-6f9e954391ac" CREATED="1666573736417" MODIFIED="1666573736417" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DE6;&#x4FA7;&#x6CA1;&#x6709;&#x5730;&#x65B9;" ID="ba2da775-a263-4230-ad3d-d149dd016b40" CREATED="1666613357580" MODIFIED="1666613357580" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x7ED3;&#x675F;&#x65E5;&#x7684;&#x663E;&#x793A;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x600E;&#x4E48;&#x663E;&#x793A;New Appointment&#x5462;&#xFF1F;" ID="fa173095-c470-4a6d-9c43-ff0e5a8c111a" CREATED="1666574348980" MODIFIED="1666574348980" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#x5BB6;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x663E;&#x793A;&#x4E0D;&#x51FA;&#x6765;&#x5462;&#xFF1F;" ID="3b69b9a3-03ed-425f-8c62-d23d4803757d" CREATED="1666613346574" MODIFIED="1666613346574" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6709;&#x65F6;&#x5019;&#x4F1A;&#x5237;&#x65B0;&#x4E0D;&#x51FA;&#x4EFB;&#x52A1;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x4E3A;&#x4EC0;&#x4E48;" ID="89d56268-c459-4a10-811d-d99f276ad1d5" CREATED="1666575599439" MODIFIED="1666575599439" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x628A;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x5B50;&#x8282;&#x70B9;&#x6839;&#x636E;&#x65F6;&#x95F4;&#x5F52;&#x7C7B;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x6709;&#x65F6;&#x5019;&#x9700;&#x8981;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x7D27;&#x6025;" ID="d2242353-c1de-49c4-9147-4d1ada90dca0" CREATED="1666576095140" MODIFIED="1666576095140" TASKLEVEL="1" TASKTIME="45">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x624B;&#x52A8;&#x590D;&#x5236;&#x4E00;&#x4E0B;&#x5427;&#xFF0C;&#x4E0D;&#x6298;&#x817E;&#x4E86;&#xFF0C;&#x611F;&#x89C9;&#x633A;&#x96BE;&#x5199;&#x7684;" ID="3595e91a-9975-43e2-b042-63b4747b7167" CREATED="1672406388130" MODIFIED="1672406388130" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x623F;&#x79DF;&#x62C6;&#x5206;&#x7684;&#x65F6;&#x5019;&#xFF0C;ID&#x6CA1;&#x6709;&#x53D8;&#x66F4;&#x5BFC;&#x81F4;ID&#x552F;&#x4E00;&#x5F88;&#x5BB9;&#x6613;&#x51FA;&#x73B0;&#x95EE;&#x9898;" ID="443c84d9-7940-4104-86c6-933caeabbf6b" CREATED="1666576354388" MODIFIED="1666576354388" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6BCF;&#x4E2A;&#x6708;&#x7684;&#x6700;&#x540E;&#x4E24;&#x5929;&#xFF0C;&#x5141;&#x8BB8;&#x7F16;&#x8F91;&#x6240;&#x6709;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x56E0;&#x4E3A;&#x8981;&#x7EDF;&#x8BA1;&#x4E00;&#x4E2A;&#x6708;&#x7684;&#x65F6;&#x95F4;&#x5FEB;" ID="ca0a2c79-f13d-4934-986f-36f8eeee264c" CREATED="1666576416231" MODIFIED="1666576416231" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5728;&#x6811;&#x89C6;&#x56FE;&#x91CC;&#x6DFB;&#x52A0;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x65F6;&#x95F4;&#x7684;&#x65F6;&#x533A;&#x4E0D;&#x5BF9;" ID="b0e095aa-e5d1-464d-a9bb-40dab7c7f9ec" CREATED="1666578168542" MODIFIED="1666578168542" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6D4B;&#x8BD5;&#x4E00;&#x4E0B;&#x65F6;&#x533A;" ID="becebb3f-7060-4df9-81b2-77fdf8480274" CREATED="1666612623871" MODIFIED="1666612623871" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x667A;&#x80FD;&#x70B9;&#x7684;&#x65F6;&#x95F4;&#x663E;&#x793A;&#xFF0C;&#x5E74;&#xFF0C;&#x6708;&#xFF0C;&#x5C0F;&#x65F6;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x663E;&#x793A;" ID="ce411ff0-1255-4473-8a39-ef1c670bab91" CREATED="1666580353699" MODIFIED="1666580353699" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x5FEB;&#x6377;&#x547D;&#x4EE4;jietu" ID="60dd0222-bd1d-4b40-9f53-0dbb5ceb867e" CREATED="1666595764789" MODIFIED="1666595764789" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x628A;&#x684C;&#x9762;&#x622A;&#x56FE;&#x7684;&#x56FE;&#x7247;&#x538B;&#x7F29;&#x53BB;&#x6389;" ID="1431014b-2316-4898-bd25-20327adbc144" CREATED="1666595791315" MODIFIED="1666595791315" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;moodenode&#x5BFC;&#x5165;&#x5230;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x91CC;&#x9762;&#xFF0C;&#x5F88;&#x4E0D;&#x9519;&#x7684;&#x4E3B;&#x610F;&#xFF0C;&#x52A0;&#x6CB9;" ID="fbb3b690-051b-4bb1-89da-4a66a0d19b12" CREATED="1666597743169" MODIFIED="1672630518554" TASKTIME="60" TASKLEVEL="6">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5982;&#x4F55;&#x907F;&#x514D;&#x91CD;&#x590D;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x95EE;&#x9898;" ID="597ee725-c4e2-45d4-a8c4-7e15ce0feb67" CREATED="1668549394640" MODIFIED="1668549394640" TASKLEVEL="1" />
+            <node TEXT="&#x76F4;&#x63A5;&#x5B58;&#x5230;&#x56FA;&#x5B9A;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5199;&#x4E2A;&#x65B9;&#x6CD5;&#x5BFC;&#x5165;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x5F88;&#x4E0D;&#x9519;" ID="6b589e9c-2d2c-49ae-9f00-4f23d6a6c57e" CREATED="1672630468622" MODIFIED="1672630468622" TASKLEVEL="1" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x5F88;&#x68D2;" ID="33db93ca-da31-4e46-9745-62f9570b0b3e" CREATED="1673145948122" MODIFIED="1673145948122" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x628A;&#x65B0;&#x8282;&#x70B9;&#x524D;&#x4E94;&#x540D;&#x663E;&#x793A;&#x5728;&#x5DE6;&#x4FA7;&#xFF0C;&#x597D;&#x4E0D;&#x597D;" ID="5761c174-cad6-44d6-b4fa-7f43d4fcaf2a" CREATED="1666616334383" MODIFIED="1666616334383" TASKTIME="0" TASKLEVEL="5">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="233, 424" ID="860ef9a8-3441-4ddf-a103-c294d7484c4b" CREATED="1666616487622" MODIFIED="1666616487622" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5199;&#x4E00;&#x4E2A;&#x7EAA;&#x5FF5;&#x65E5;&#xFF0C;&#x622A;&#x6B62;&#x65E5;&#x671F;&#x7684;&#x89C6;&#x56FE;&#xFF0C;&#x90A3;&#x6837;&#x5C31;&#x80FD;&#x66F4;&#x52A0;&#x76F4;&#x89C2;&#x4E86;" ID="31b4ae5d-f3f7-4d3e-8627-f225f6c85fbf" CREATED="1666620466319" MODIFIED="1666620466319" TASKTIME="60" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x6DFB;&#x52A0;&#x4E86;&#xFF0C;&#x5B8C;&#x5584;&#x4E00;&#x4E0B;&#x5C31;&#x597D;&#x4E86;&#x6CA1;&#x5FC5;&#x8981;&#x91CD;&#x65B0;&#x5199;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x8BF4;" ID="1f2d829b-4a60-43ed-9acf-75bb74bd025b" CREATED="1667137658929" MODIFIED="1667137658929" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="25" ID="ac564ee7-9564-4310-8770-c8176c60977e" CREATED="1669388196073" MODIFIED="1669388196073">
+          <node TEXT="&#x7ED9;&#x5BFC;&#x56FE;&#x5206;&#x6790;&#x6DFB;&#x52A0;&#x603B;&#x6570;&#xFF0C;&#x7B49;&#xFF0C;&#x6807;&#x9898;&#x4E5F;&#x5F97;&#x6539;&#x5BF9;" ID="db75fade-b732-4e02-af72-0ed9f96d17cc" CREATED="1666656006978" MODIFIED="1666656006978" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="26" ID="17a91baf-01cf-4fd3-a2cc-7e7255707c2a" CREATED="1669388196073" MODIFIED="1669388196073">
+          <node TEXT="&#x5C06;&#x6587;&#x4EF6;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E3A;&#x53EA;&#x6709;&#x5F53;&#x524D;&#x7535;&#x8111;&#x663E;&#x793A;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x5176;&#x4ED6;&#x7535;&#x8111;&#x663E;&#x793A;&#x4E5F;&#x6CA1;&#x6709;&#x610F;&#x4E49;&#xFF0C;&#x4E0D;&#x662F;&#x5417;&#xFF1F;" ID="22ce23a7-c63a-4ca1-b395-483ae15d422d" CREATED="1666746956422" MODIFIED="1666746956422" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6BCF;&#x4E2A;&#x5C0F;&#x65F6;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x4E00;&#x4E0B;Allnode&#xFF0C;&#x7136;&#x540E;&#x66F4;&#x65B0;&#x4E00;&#x4E0B;&#x5DE6;&#x4FA7;&#x5BFC;&#x56FE;&#x7684;&#x6570;&#x91CF;" ID="6ddfa595-aa5b-406a-b32c-647726e9ec45" CREATED="1666747201820" MODIFIED="1666747201820" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x65B9;&#x6CD5;GetAllNodeJsonFile();" ID="394a82c0-29e0-4800-b359-d8207424217b" CREATED="1666758023560" MODIFIED="1666758023560" TASKLEVEL="1" />
+            <node TEXT="&#x4E0D;&#x66F4;&#x65B0;&#x5DE6;&#x4FA7;&#x6570;&#x91CF;&#x4E86;&#x5427;&#xFF1F;" ID="dd4d843d-187e-4c3e-9949-563e0457fcab" CREATED="1666758152559" MODIFIED="1666758152559" TASKLEVEL="1">
+              <node TEXT="&#x5DF2;&#x7ECF;&#x6DFB;&#x52A0;&#x4E86;&#xFF0C;&#x4E00;&#x4F1A;&#x6D4B;&#x8BD5;&#x4E00;&#x4E0B;&#x6548;&#x679C;" ID="299cb574-f558-4dfc-a577-eb8ea37fb7d8" CREATED="1666758650146" MODIFIED="1666758650146" />
+            </node>
+          </node>
+          <node TEXT="&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x4E3A;&#x4EC0;&#x4E48;&#x6CA1;&#x6709;&#x663E;&#x793A;&#x51FA;&#x6765;&#x5462;&#xFF1F;" ID="d2090c30-4ac6-44de-9d5e-7112512d3633" CREATED="1666754078528" MODIFIED="1666754078528" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x662F;&#x5426;&#x663E;&#x793A;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF0C;&#x622A;&#x81F3;&#x65F6;&#x95F4;&#x7684;&#x5F00;&#x5173;" ID="568d2967-d04e-40af-b9dd-340540a7b9e4" CREATED="1666754158736" MODIFIED="1666754158736" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5BFC;&#x56FE;&#x5206;&#x6790;&#x6DFB;&#x52A0;&#x53C2;&#x6570;" ID="c4e39f0c-0301-471b-ab80-dd66f3cb8384" CREATED="1666754304649" MODIFIED="1666754304649" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x7ED9;&#x5BFC;&#x56FE;&#x5206;&#x6790;&#x4E0A;&#x9762;&#x6DFB;&#x52A0;&#x6587;&#x5B57;&#x8BF4;&#x660E;&#x5427;" ID="3f0027b4-0285-474b-af2f-f46bdc4c8dc7" CREATED="1666754387103" MODIFIED="1666754387103" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5BFC;&#x56FE;&#x5206;&#x6790;&#x8BE6;&#x60C5;&#x91CC;&#x9762;&#x683C;&#x5F0F;&#x4F18;&#x5316;&#x4E00;&#x4E0B;" ID="c38ce45b-d937-4e5a-80e5-5aebbfb1b526" CREATED="1666754407255" MODIFIED="1666754407255" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x4EE5;G&#x5F00;&#x5934;&#x8BBE;&#x7F6E;&#x4EFB;&#x52A1;&#x592A;&#x50BB;&#x4E86;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x4E2D;&#x62DB;" ID="d8f03291-0592-4fa6-9a2f-10044fadaa22" CREATED="1666758073253" MODIFIED="1666758073253" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4EE5;&#x540E;&#x6309;ggg&#x4E86;&#xFF0C;ggg&#x4E3A;&#x4FDD;&#x5B58;&#x4E66;&#x7B7E;" ID="b13f304e-2ab6-48c7-ab17-1a7117e5b736" CREATED="1666761179372" MODIFIED="1666761179372" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x66F4;&#x65B0;&#x6587;&#x4EF6;&#x5939;&#x8FD8;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x600E;&#x4E48;&#x786E;&#x5B9A;&#x673A;&#x5668;&#x5462;&#xFF1F;" ID="7967f00d-d0e3-4caa-82e7-7a64ad3a0028" CREATED="1666765321058" MODIFIED="1666765321058" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6587;&#x4EF6;&#x722C;&#x53D6;&#x529F;&#x80FD;&#xFF0C;&#x5F88;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6293;&#x53D6;&#x5927;&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x4F55;&#x4E0D;&#x8BBE;&#x7F6E;&#x4EFB;&#x52A1;" ID="ba38b63d-484a-4ad8-9e04-32fa07284798" CREATED="1666771322388" MODIFIED="1666771322388" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x7684;&#xFF0C;&#x597D;&#x50CF;&#x53C8;&#x83B7;&#x53D6;&#x4E86;&#x4E00;&#x904D;" ID="ed65f6ee-f1eb-42af-88b6-325cedaf6619" CREATED="1666771339518" MODIFIED="1666771339518" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x56E0;&#x4E3A;&#x83B7;&#x53D6;MD5&#x7684;&#x6587;&#x4EF6;&#x9519;&#x4E86;" ID="18bcbe0a-9273-4e0f-915f-49de0767c0a2" CREATED="1666785914560" MODIFIED="1666785914560" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x6587;&#x4EF6;&#x94FE;&#x63A5;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8BE5;&#x6587;&#x4EF6;&#x5219;&#x4E0D;&#x663E;&#x793A;&#x51FA;&#x6765;&#x3002;&#x8FD9;&#x6837;&#x5C31;&#x80FD;&#x907F;&#x514D;&#x4E0D;&#x540C;&#x7535;&#x8111;&#x7684;&#x95EE;&#x9898;&#x4E86;" ID="ee7c8e8a-20b7-4814-a2fe-f1db0af7689f" CREATED="1666771663935" MODIFIED="1666771663935" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x722C;&#x53D6;&#x6587;&#x4EF6;&#x7684;&#x65F6;&#x5019;&#x6DFB;&#x52A0;&#x6392;&#x9664;&#x76EE;&#x5F55;&#x6587;&#x4EF6;&#x7B49;" ID="7c777282-ba87-4130-95e3-3717961a864d" CREATED="1666772105477" MODIFIED="1666772105477" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x7136;&#x540E;&#x6DFB;&#x52A0;linshi&#x547D;&#x4EE4;" ID="8765bf82-9709-41a9-bea4-38205ecd8ff5" CREATED="1666773670027" MODIFIED="1666773670027" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6240;&#x6709;&#x6587;&#x4EF6;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;&#x5B50;&#x6587;&#x4EF6;&#x5939;&#x7684;&#x6587;&#x4EF6;" ID="d097f0ae-d974-42ba-807c-8c761abc25c8" CREATED="1666773860564" MODIFIED="1666773860564" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="3rmindmap" ID="5e936e85-a7b8-47c2-a548-e07ca3f54e7d" CREATED="1666773912850" MODIFIED="1666773912850" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x6587;&#x4EF6;&#x6539;&#x540D;" ID="89947978-ca12-4ca7-9b9c-86a08df2038d" CREATED="1666787170668" MODIFIED="1666787170668" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="27" ID="509a9f58-c00b-43fa-ac84-70c907b8d827" CREATED="1669388196074" MODIFIED="1669388196074">
+          <node TEXT="&#x521B;&#x5EFA;&#x56FE;&#x6807;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x52A0;&#x5982;&#x679C;&#x6709;&#x5C31;&#x522B;&#x8BBE;&#x7F6E;&#x56FE;&#x6807;&#x4E86;" ID="074b113d-dbcd-43cb-83ac-8e5ad603740f" CREATED="1666833122967" MODIFIED="1666833122967" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x547D;&#x4EE4;&#xFF0C;&#x8FDE;&#x7EED;&#x56DB;&#x4E2A;rrrr&#x5C31;&#x5237;&#x65B0;" ID="f2aa67d4-1f31-48e5-8cac-ee6d27c47e90" CREATED="1666840609342" MODIFIED="1666840609342" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="searchword.Text.StartsWith(&quot;rr&quot;)&#x7C;&#x7C; searchword.Text.EndsWith(&quot;rrr&quot;)" ID="bbffe334-6e5e-4f85-b4aa-1a4ea53e398a" CREATED="1666904249820" MODIFIED="1666904249820" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="28" ID="361abcf4-d16e-4ffc-b55c-453adff61542" CREATED="1669388196074" MODIFIED="1669388196074">
+          <node TEXT="&#x6DFB;&#x52A0;&#x6536;&#x5165;&#x7EBF;" ID="689c5d01-3de7-472e-b2e9-2c9a65c157a6" CREATED="1666905389651" MODIFIED="1666905389651" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="6.46&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x7C89;&#x8272;&#x7684;&#x7EBF;" ID="90dc88c3-4a41-4d4e-ae0e-4cee11a942e0" CREATED="1666939261745" MODIFIED="1666939261745" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x5361;&#x8DEF;&#x5F84;&#x8BA1;&#x7B97;" ID="e7b2e643-d0d2-4c3a-a848-4e1588c3526f" CREATED="1666906690525" MODIFIED="1666906690525" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5FEB;&#x8BBE;&#x7F6E;&#x7EAA;&#x5FF5;&#x65E5;&#xFF1F;" ID="2828afbf-30f1-4a90-bfaf-c91a6fce4b01" CREATED="1666939202073" MODIFIED="1666939202073" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5565;&#x610F;&#x601D;&#xFF0C;&#x4E0D;&#x662F;&#x5DF2;&#x7ECF;&#x5199;&#x4E86;&#x5417;&#xFF0C;&#x7EAA;&#x5FF5;&#x65E5;&#x662F;Ctrl+enter" ID="08fde20e-ee3e-4148-9941-14e4c6c72937" CREATED="1666946211595" MODIFIED="1666946211595" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#xFF08;&#x516B;&#x5341;&#x4E00;&#xFF09;cWinform&#x81EA;&#x5B9A;&#x4E49;&#x63A7;&#x4EF6;&#x65F6;&#x95F4;&#x8F74;HZHControls&#x51B0;&#x5C01;&#x4E00;&#x590F;&#x535A;&#x5BA2;&#x56ED;" ID="27877f22-bd27-4eb9-bbc8-4ea1991747a1" CREATED="1666948426119" MODIFIED="1666948426119" LINK="https://www.cnblogs.com/bfyx/p/11641874.html" TASKTIME="60" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673169226000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x663E;&#x793A;&#x94FE;&#x63A5;&#x90FD;&#x663E;&#x793A;&#x4E0D;&#x51FA;&#x6765;&#x4E86;&#xFF1F;" ID="5fb7abda-55f2-48aa-bf52-af89c1509cf5" CREATED="1666948498763" MODIFIED="1666948498763" TASKLEVEL="1" TASKTIME="0" ISReminderOnly="True">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x6E05;&#x695A;&#x4E3A;&#x4EC0;&#x4E48;" ID="5d649a77-3f52-4235-a3db-57014f653d78" CREATED="1667194254402" MODIFIED="1667194254402" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="30" ID="5be186da-8591-4751-a528-2fe3b36f90e5" CREATED="1669388196074" MODIFIED="1669388196074">
+          <node TEXT="&#x89E3;&#x51B3;&#x8DE8;&#x5929;&#x7684;&#x6570;&#x636E;" ID="221dfab2-b723-4346-b0f3-99aad25d086c" CREATED="1667128319568" MODIFIED="1667128319568" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="31" ID="6f1360b4-5a25-44da-a052-69f000cd6788" CREATED="1669388196074" MODIFIED="1669388196074">
+          <node TEXT="&#x4F7F;&#x7528;&#x8BB0;&#x5F55;&#x597D;&#x50CF;&#x6E05;&#x7A7A;&#x4E86;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x590D;&#x4E00;&#x4E0B;" ID="d503144d-1643-4364-b489-bf430f673c08" CREATED="1667195154753" MODIFIED="1667195154753" TASKTIME="30" TASKLEVEL="1" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1668577554000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x770B;&#x4E00;&#x4E0B;&#x4F7F;&#x7528;&#x65F6;&#x957F;&#x7684;&#x8BB0;&#x5F55;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x662F;&#x5417;&#x95EE;&#x9898;&#xFF0C;&#x4E22;&#x5931;&#x4E86;&#x5F88;&#x591A;&#x8BB0;&#x5F55;" ID="ac78ab5f-cff3-4182-98df-c1df94141bec" CREATED="1667195650002" MODIFIED="1667195650002" TASKTIME="30" TASKLEVEL="3" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1668578050000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x7F16;&#x8F91;&#x65E5;&#x671F;&#x8FD8;&#x662F;&#x4FEE;&#x6539;&#x65E5;&#x671F;&#x7684;&#x63A7;&#x5236;" ID="2322be7f-1090-480b-9be6-827578d51445" CREATED="1667204684382" MODIFIED="1667204684382" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x6539;&#x5B8C;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x8F6F;&#x4EF6;&#x57FA;&#x672C;&#x6CA1;&#x8003;&#x8651;&#x8FC7;&#x8282;&#x70B9;&#x7684;&#x7F16;&#x8F91;&#x65F6;&#x95F4;" ID="79fbb931-415b-453a-ad48-c9829cdee557" CREATED="1668545318065" MODIFIED="1668545318065" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5728;ALL&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C06;&#x65F6;&#x95F4;&#x5FEB;&#x8BBE;&#x7F6E;&#x4E3A;&#x5426;" ID="18a60c4a-2106-40ff-9738-f7c62901f117" CREATED="1667204728299" MODIFIED="1667204728299" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#x7684;&#x62A5;&#x8868;" ID="50a2194a-45d1-4ced-953b-f4e3ef5bcb31" CREATED="1667205048805" MODIFIED="1667205048805" TASKTIME="90" TASKLEVEL="4">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675758648000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x526A;&#x5207;&#x677F;&#x5386;&#x53F2;&#x62A5;&#x8868;" ID="5e17750a-0506-49a6-9a22-e129d0fef178" CREATED="1667206000052" MODIFIED="1667206000052" TASKTIME="60" TASKLEVEL="2">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675846000000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="2222" ID="04ea0c16-b8c8-41c0-9ab7-c297f08b274a" CREATED="1672452952033" MODIFIED="1672452952033" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;&#x62A5;&#x8868;" ID="9170d0d1-a5b6-45a8-9b6f-d9ab11dc718c" CREATED="1667206015615" MODIFIED="1667206015615" TASKTIME="60" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675846015000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x622A;&#x56FE;&#x62A5;&#x8868;" ID="0cb0a4ec-a2df-47b7-b529-794fe44d2701" CREATED="1667206034680" MODIFIED="1667206034680" TASKTIME="60" TASKLEVEL="5">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x622A;&#x56FE;&#x62A5;&#x8868;&#x5C31;&#x662F;&#x73B0;&#x5728;&#x65E5;&#x5386;&#x4E2D;&#x663E;&#x793A;&#x7684;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;" ID="041d70ac-af43-4378-8a35-095e469d10dc" CREATED="1672431910914" MODIFIED="1672431910914" TASKLEVEL="1" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="11" ID="75fdaceb-64ba-4887-9b99-b76660fa0985" CREATED="1669388196074" MODIFIED="1669388196074">
+        <node TEXT="1" ID="e811de3f-0366-4996-9984-6b7e9f3a2130" CREATED="1669388196074" MODIFIED="1669388196074">
+          <node TEXT="&#x5C06;&#x5C0F;&#x8BF4;&#x6DFB;&#x52A0;&#x5230;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;" ID="750c8a8a-86dc-4749-9428-9ee56ecb3e37" CREATED="1667242683081" MODIFIED="1667242683081" TASKTIME="60" TASKLEVEL="1" ISReminderOnly="True">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1669402683000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x5C06;&#x5B57;&#x5E55;&#x6DFB;&#x52A0;&#x5230;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;" ID="fb5cf8c0-42c5-42e2-b2d0-a3c31611742e" CREATED="1667242698828" MODIFIED="1667242698828" TASKTIME="30" TASKLEVEL="1" ISReminderOnly="True">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1669402698000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x663E;&#x793A;&#x8BE6;&#x60C5;&#x7684;&#x65F6;&#x5019;&#x628A;&#x540E;&#x9762;&#x7684;&#x4FE1;&#x606F;&#x4E5F;&#x5E26;&#x51FA;&#x6765;&#xFF0C;&#x4E0D;&#x7136;&#x770B;&#x4E0D;&#x5230;" ID="c80a1c42-d2c5-45a8-a3c0-20e68a0a3d3d" CREATED="1667266589314" MODIFIED="1667266589314" TASKLEVEL="1" TASKTIME="40">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x8BB0;&#x4E0D;&#x6E05;&#x8FD9;&#x662F;&#x4EC0;&#x4E48;&#x4E86;" ID="c10bb25b-2e3e-460d-8428-ede70269a8dc" CREATED="1667951275167" MODIFIED="1667951275167" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x8BDD;&#xFF0C;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;" ID="cb6666bb-005f-434c-9ec7-2512553979e1" CREATED="1667274974739" MODIFIED="1667274974739" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x505A;&#x5B8C;&#x4E86;&#xFF0C;&#x6211;&#x7ADF;&#x7136;&#x4E0D;&#x77E5;&#x9053;" ID="81944125-3f26-4cfc-bb7a-799b9fa5660c" CREATED="1667951475554" MODIFIED="1667951475554" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="2" ID="d14e98ef-4ebc-431f-acfb-0d322e9a97a2" CREATED="1669388196075" MODIFIED="1669388196075">
+          <node TEXT="&#x4FEE;&#x6539;mvt&#x540E;&#xFF0C;&#x4EFB;&#x52A1;&#x7684;&#x5B8C;&#x6210;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x9760;&#x5224;&#x65AD;&#xFF0C;&#x90A3;&#x6837;&#x5C31;&#x4F1A;&#x8BA9;&#x5BFC;&#x56FE;&#x5F88;&#x96BE;&#x6253;&#x5F00;" ID="f58e66d4-5130-46cf-9018-957607b0fafc" CREATED="1667376003588" MODIFIED="1667376003588" TASKTIME="32" TASKLEVEL="-1" ISReminderOnly="True">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1668849480000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+        </node>
+        <node TEXT="4" ID="0945dd32-0177-4dfa-bf35-615d3882e250" CREATED="1669388196075" MODIFIED="1669388196075">
+          <node TEXT="&#x6211;&#x8981;&#x5728;&#x6BCF;&#x4E2A;&#x8BB0;&#x5F55;&#x4E0A;&#x6DFB;&#x52A0;&#x4E2A;&#x8BC4;&#x4EF7;&#xFF0C;&#x6B63;10&#x5230;&#x8D1F;10&#xFF0C;&#x7B97;&#x662F;&#x52A0;&#x6743;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x53EA;&#x591A;&#x5C11;&#x4E00;&#x4E2A;&#x7EF4;&#x5EA6;&#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x4E86;" ID="9f09fb7e-f410-4b25-b6e5-7617323daaf4" CREATED="1667533995344" MODIFIED="1667533995344" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6211;&#x4E5F;&#x80FD;&#x77E5;&#x9053;&#x6709;&#x591A;&#x5C11;&#x94B1;&#x662F;&#x5FC5;&#x987B;&#x548C;&#xFF0C;&#x591A;&#x6536;&#x94B1;&#x53EF;&#x4E0D;&#x82B1;&#x7684;" ID="d2a05f38-958f-4031-a538-4c34db1c3ffd" CREATED="1667534013337" MODIFIED="1667534013337" />
+            <node TEXT="&#x90A3;&#x4E9B;&#x65F6;&#x95F4;&#x662F;&#x6D6A;&#x8D39;&#xFF0C;&#x90A3;&#x4E9B;&#x65F6;&#x95F4;&#x662F;&#x5FC5;&#x987B;&#x7684;" ID="b5181afd-263d-4716-87e7-2373798e2b81" CREATED="1667534022560" MODIFIED="1667534022560" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x52A0;&#x4E0A;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x600E;&#x4E48;&#x505A;&#x5462;?" ID="c25d1562-9daf-4745-9966-d50463588388" CREATED="1672406303269" MODIFIED="1672406303269" TASKLEVEL="1" />
+            <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x52A0;&#x6743;&#xFF0C;&#x7136;&#x540E;&#x5462;&#xFF1F;" ID="17c264a1-b55f-40e1-bf8e-3db432416dae" CREATED="1672406352567" MODIFIED="1672406352567" TASKLEVEL="1">
+              <icon BUILTIN="button_cancel" />
+              <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x8003;&#x8651;&#x4E86;" ID="908fbd34-f447-4853-bef6-440f3fc42d20" CREATED="1672434171182" MODIFIED="1672434171182" TASKLEVEL="1" />
+            </node>
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#x53D6;&#x6807;&#x9898;&#x65F6;&#x9700;&#x8981;&#x53BB;&#x6389;&#x661F;&#x53F7;" ID="2de0a973-ae08-404e-8b12-560e4e5632e0" CREATED="1667534065694" MODIFIED="1667534065694" TASKLEVEL="1" TASKTIME="52">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4E0D;&#x8BB0;&#x5F97;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x9047;&#x5230;&#x518D;&#x6539;&#xFF0C;&#x5148;&#x4E0D;&#x60F3;&#x4E86;" ID="f5bede08-e2c1-4f62-9ae0-9f51e4b31898" CREATED="1669429434743" MODIFIED="1669429434743" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#x4FDD;&#x5B58;&#x8BD5;&#x56FE;&#xFF0C;&#x5C31;&#x907F;&#x514D;&#x6BCF;&#x6B21;&#x90FD;&#x81EA;&#x52A8;&#x6EDA;&#x52A8;&#x4E86;" ID="1ce513b7-90fa-434d-9a0a-8357fea087d8" CREATED="1667534116915" MODIFIED="1667534116915" TASKTIME="40" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+          </node>
+        </node>
+        <node TEXT="7" ID="816bcff5-48fb-407b-b517-76cb0037c2d6" CREATED="1669388196076" MODIFIED="1669388196076">
+          <node TEXT="&#x6DFB;&#x52A0;&#x89E3;&#x9501;&#x529F;&#x80FD;&#xFF0C;&#x4EE5;&#x8C03;&#x6574;" ID="b1130491-e048-4c76-ad40-40c93f3c1869" CREATED="1667796694130" MODIFIED="1667796694130" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x8D85;&#x8FC7;&#x91D1;&#x989D;&#x600E;&#x4E48;&#x505A;&#x663E;&#x793A;&#x5462;&#xFF1F;" ID="eaa9d166-b754-4315-9933-ac069ef6e4fa" CREATED="1667797725430" MODIFIED="1667797725430" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x8BBE;&#x7F6E;Alt+left&#x53EF;&#x4EE5;&#x653E;&#x5927;&#x5217;&#x8868;&#x8FD9;&#x6837;&#x6BD4;&#x8F83;&#x957F;&#x7684;&#x6211;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4E86;&#xFF0C;&#x6CA1;&#x51C6;&#x4E5F;&#x6BD4;&#x8F83;&#x597D;&#x770B;" ID="6cfe308f-e91f-4a88-938b-06c9002c442b" CREATED="1667799400260" MODIFIED="1667799400260" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x9ED1;&#x8272;&#x6539;&#x6210;&#x5176;&#x4ED6;&#x989C;&#x8272;&#xFF0C;&#x5E76;&#x4E14;&#x9501;&#x8D77;&#x6765;&#xFF0C;&#x4E0D;&#x8BA9;&#x52A8;" ID="4674888b-3db9-4bc2-9e29-9c022c2a3480" CREATED="1667803395562" MODIFIED="1667803395562" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#x7684;&#x5E95;&#x8272;&#x53D8;&#x6210;&#x767D;&#x8272;&#xFF0C;&#x4F1A;&#x4E0D;&#x4F1A;&#x66F4;&#x597D;&#x770B;&#x4E00;&#x4E9B;" ID="0790a8e9-9f32-4b87-a961-688bcc48a791" CREATED="1667804079388" MODIFIED="1667804079388" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x641C;&#x7D22;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x82F1;&#x6587;&#x65E0;&#x6CD5;&#x8BA4;&#x4E3A;&#x8BA4;&#x8BC6;&#x5927;&#x5C0F;&#x5199;&#xFF1F;" ID="6522af5d-2ccc-4fd5-992f-9787a5a53523" CREATED="1667812337847" MODIFIED="1667812337847" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="8" ID="af5415ac-5952-41f8-8832-05abcff47427" CREATED="1669388196076" MODIFIED="1669388196076">
+          <node TEXT="&#x4E0D;&#x9009;&#x4E2D;&#x5BFC;&#x56FE;&#x7684;&#x529F;&#x80FD;&#x597D;&#x50CF;&#x8FD8;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6BCF;&#x6B21;&#x90FD;&#x8BB0;&#x4E0D;&#x4F4F;&#xFF0C;&#x4F30;&#x8BA1;&#x6CA1;&#x6709;&#x597D;&#x597D;&#x6D4B;&#x8BD5;" ID="a3f339e2-1f68-40d6-8795-e84a4350b860" CREATED="1667872960835" MODIFIED="1667872960835" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x9009;&#x6765;&#x662F;&#x6709;&#x4E2A;&#x5168;&#x9009;&#x7684;&#x6CA1;&#x6709;&#x6CE8;&#x91CA;&#xFF0C;&#x5BFC;&#x81F4;&#x5931;&#x6548;&#x4E86;" ID="a6dc2e2b-3094-4619-bdc1-c2af131b2a8d" CREATED="1667946461160" MODIFIED="1667946461160" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x771F;&#x60F3;&#x628A;&#x66FE;&#x7ECF;&#x6240;&#x6709;&#x7684;&#x65E5;&#x5FD7;&#x90FD;&#x6DFB;&#x52A0;&#x5230;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4E0D;&#x8FC7;&#x77E5;&#x9053;&#x5E94;&#x8BE5;&#x633A;&#x96BE;&#x7684;&#xFF0C;&#x81F3;&#x5C11;&#x534A;&#x5929;" ID="48eef995-7411-42b9-90bd-83a0dc4755fc" CREATED="1667872992809" MODIFIED="1667872992809" TASKTIME="140" TASKLEVEL="4">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675719480000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x8282;&#x70B9;&#x7684;&#x56FE;&#x7247;&#x663E;&#x793A;" ID="b22d676f-8517-4571-9334-30f1d2a38fc4" CREATED="1667880680834" MODIFIED="1667880680834" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x548C;&#x53E6;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x91CD;&#x590D;&#x4E86;&#xFF0C;&#x7ED3;&#x675F;" ID="653a7df1-0a69-4aad-9cd7-d40e06fb5b24" CREATED="1667951805394" MODIFIED="1667951805394" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x89E3;&#x9501;&#x83DC;&#x5355;&#x88AB;&#x5220;&#x6389;&#x4E86;" ID="3d5d69d7-ecc4-4d10-a0bb-65c080d6c571" CREATED="1667885597801" MODIFIED="1667885597801" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x597D;&#x50CF;&#x94FE;&#x63A5;&#x90FD;&#x4E0D;&#x663E;&#x793A;&#x4E86;" ID="83332b52-9da5-45ee-bd30-d2a2185eef80" CREATED="1667886227766" MODIFIED="1667886227766" TASKTIME="20" TASKLEVEL="1" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1667972627766" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6682;&#x65F6;&#x4E5F;&#x6CA1;&#x4E8B;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x770B;&#x770B;" ID="d8b4826b-287e-4ed9-b73e-feb0c961df89" CREATED="1667952836636" MODIFIED="1667952836636" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6811;&#x89C6;&#x56FE;&#x663E;&#x793A;&#x56FE;&#x7247;&#x6587;&#x4EF6;&#x5931;&#x8D25;" ID="affca219-323e-4cce-a80c-3f7299a828e1" CREATED="1667897431659" MODIFIED="1667897431659" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x770B;&#x7740;&#x633A;&#x6B63;&#x5E38;&#x7684;&#x554A;" ID="4cf0dcea-2476-4839-9d2c-cf47db1e4512" CREATED="1667951640841" MODIFIED="1667951640841" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x9009;&#x4E2D;&#x6700;&#x540E;&#x7F16;&#x8F91;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x5728;&#x6811;&#x89C6;&#x56FE;&#x662F;&#x600E;&#x4E48;&#x64CD;&#x4F5C;&#x7684;&#x5462;&#xFF0C;&#x600E;&#x4E48;&#x611F;&#x89C9;&#x4E0D;&#x5BF9;&#x5462;" ID="e9dec17c-b788-429b-8006-ac1236e73023" CREATED="1667898234740" MODIFIED="1667898234740" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x8BD5;&#x4E86;&#x51E0;&#x4E2A;&#xFF0C;&#x4E5F;&#x6CA1;&#x95EE;&#x9898;&#x554A;" ID="da7bb95b-0cf8-4e5b-8fee-028321502e6a" CREATED="1667952697148" MODIFIED="1667952697148" TASKLEVEL="1" />
+          </node>
+          <node TEXT="N&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x6253;&#x5F00;&#x7684;&#x5BFC;&#x56FE;&#xFF0C;&#x5C31;&#x76F4;&#x63A5;&#x5237;&#x65B0;&#xFF0C;&#x907F;&#x514D;&#x518D;&#x6B21;&#x8981;&#x6309;&#x4E00;&#x4E0B;W&#x624D;&#x884C;" ID="3e1e1347-393a-4509-988a-3a450dd85569" CREATED="1667898424689" MODIFIED="1667898424689" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <icon BUILTIN="clock" />
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5176;&#x5B9E;&#xFF0C;&#x4E5F;&#x633A;&#x597D;&#xFF0C;&#x8981;&#x4E0D;&#x5148;&#x8FD9;&#x6837;&#xFF1F;&#x6BD5;&#x7ADF;&#x5982;&#x679C;&#x60F3;&#x63A8;&#x51FA;&#x53BB;&#x5C31;&#x6309;Shift+N&#x5C31;&#x597D;&#x4E86;&#x5440;" ID="1b921983-2dca-447b-92b0-f3e54eaf585d" CREATED="1667898881106" MODIFIED="1667898881106" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E0B;Alt+L,&#x5C06;&#x4E00;&#x4E9B;checkbox&#x663E;&#x793A;&#x5728;&#x6700;&#x53F3;&#x4FA7;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5C31;&#x6700;&#x597D;&#x4E86;&#x3002;" ID="a3375aaf-5145-45da-b48f-2c4acc326279" CREATED="1667898787282" MODIFIED="1667898787282" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6211;&#x5230;&#x5E95;&#x8FDB;&#x5165;&#x4E86;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x7B5B;&#x9009;&#x6761;&#x4EF6;&#xFF0C;&#x4EC0;&#x4E48;&#x4EFB;&#x52A1;&#x90FD;&#x770B;&#x4E0D;&#x5230;&#x4E86;&#xFF0C;&#x670D;&#x4E86;" ID="b3047966-f210-4c0b-b045-d47d82047608" CREATED="1667898991895" MODIFIED="1667898991895" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x767B;&#x5F55;&#x6846;&#xFF0C;&#x6DFB;&#x52A0;Enter&#x952E;&#x548C;Esc&#x952E;&#x7684;&#x652F;&#x6301;" ID="e66e0c5f-b4d5-4a49-ac3e-9d64e6973c70" CREATED="1667899379802" MODIFIED="1667899379802" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="9" ID="d8710ea4-c095-4b8c-bbd9-5a42ff362002" CREATED="1669388196076" MODIFIED="1669388196076">
+          <node TEXT="&#x663E;&#x793A;&#x8282;&#x70B9;&#x7684;&#x56FE;&#x7247;&#x548C;&#x6240;&#x6709;&#x5B50;&#x56FE;&#x7247;&#xFF0C;&#x65B9;&#x4FBF;&#x67E5;&#x770B;" ID="36f7a091-9e92-4f02-a6d6-1536ff4d5a4e" CREATED="1667951216486" MODIFIED="1667951216486" TASKTIME="60" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x65E5;&#x5386;&#xFF0C;All&#x91CC;&#x9762;&#xFF0C;&#x7ADF;&#x7136;&#x5427;&#x91D1;&#x94B1;&#x4E5F;&#x663E;&#x793A;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x592A;&#x8FC7;&#x5206;&#x5566;&#x554A;&#xFF0C;&#x6392;&#x9664;&#x4E00;&#x4E0B;" ID="6662039a-e172-4dd5-a0fe-f8b57f877878" CREATED="1667952208660" MODIFIED="1667952208660" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x662F;&#x5426;&#x9700;&#x8981;&#x81EA;&#x52A8;&#x5C06;&#x4E4B;&#x524D;&#x7684;&#x4EFB;&#x52A1;&#x63A8;&#x8FDF;&#x5462;&#xFF1F;&#x5C31;&#x50CF;&#x53EA;&#x80FD;&#x5B89;&#x6392;&#x4EFB;&#x52A1;&#x4E00;&#x6837;" ID="75aa7fc2-afaa-4b80-9de2-34ec29bf7705" CREATED="1667952374835" MODIFIED="1667952374835" TASKTIME="50" TASKLEVEL="1" ISVIEW="true">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1667952374835" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="6fea71a0-3141-401d-b73f-354608c21206" CREATED="1667952763394" MODIFIED="1667952763394" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x5728;&#x67E5;&#x770B;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;Shift+Control+J&#xFF0C;K&#x5207;&#x6362;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;" ID="9e1ef1f1-99bc-440d-ac34-079d64c4b7ca" CREATED="1667952944777" MODIFIED="1667952944777" TASKTIME="20" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x8BBE;&#x7F6E;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x663E;&#x793A;&#x6807;&#x7B7E;" ID="7bb29a8d-b81a-40fb-9411-e7a1f03dd19f" CREATED="1667953774744" MODIFIED="1667953774744" TASKTIME="20" TASKLEVEL="7">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4E66;&#x7B7E;&#x662F;&#x6307;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;" ID="053e3617-8d6e-46f5-84a8-835b1f9c452f" CREATED="1668716792882" MODIFIED="1668716792882" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x6846;&#x4E0D;&#x8BA9;&#x4E0B;&#x62C9;&#x9009;&#x62E9;&#x4E86;&#xFF1F;" ID="67eee82c-fcb8-4120-9bca-68ab3034811d" CREATED="1667957391375" MODIFIED="1667957391375" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x663E;&#x793A;&#x4F53;&#x91CD;&#xFF0C;&#x79BB;&#x5F00;&#x4E2D;&#x56FD;&#x7684;&#x63A7;&#x5236;&#x547D;&#x4EE4;" ID="00ab2e91-3d51-4a21-9028-72a644d22233" CREATED="1667959926209" MODIFIED="1667959926209" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x7701;&#x94B1;&#xFF0C;&#x6216;&#x8005;&#x7701;&#x65F6;&#x95F4;&#x7684;&#x8BB0;&#x5F55;" ID="4cf52bf3-0f71-41f9-9f0b-f4caa31d11e0" CREATED="1667963434222" MODIFIED="1667963434222" TASKLEVEL="1" TASKTIME="70">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x597D;&#x50CF;&#x6CA1;&#x5565;&#x7528;" ID="ec0c5ce7-3ce0-43de-a4d3-baded539fb9a" CREATED="1672841814354" MODIFIED="1672841814354" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="15" ID="0c33b677-408f-4dce-b86f-ab0ac05b3a61" CREATED="1669388196076" MODIFIED="1669388196076">
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x53EF;&#x4EE5;&#x653E;&#x7167;&#x7247;&#x5417;&#xFF1F;" ID="431d1546-eb42-4450-a428-de9b13fe3fa8" CREATED="1668493592804" MODIFIED="1668493592804" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x8FD8;&#x662F;&#x4E0D;&#x8981;&#x4E86;&#xFF0C;&#x6CA1;&#x65F6;&#x95F4;&#x7EF4;&#x62A4;" ID="82cb974c-4b73-4633-9389-7a5dd46380d1" CREATED="1672405778557" MODIFIED="1672405778557" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="16" ID="6984a5af-f007-40a0-8d30-2f92b336ec28" CREATED="1669388196077" MODIFIED="1669388196077">
+          <node TEXT="&#x6DFB;&#x52A0;&#x56FE;&#x7247;&#x7684;&#x663E;&#x793A;" ID="1bb53830-115f-4f19-b8ac-d7b1d46aa76c" CREATED="1668540882216" MODIFIED="1668540882216" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x5F88;&#x68D2;" ID="9f40d2f0-a5fd-4ff2-b5ea-173c831302d5" CREATED="1669429357973" MODIFIED="1669429357973" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x8282;&#x70B9;&#x7684;&#x7F16;&#x8F91;&#x65F6;&#x95F4;&#xFF0C;&#x987A;&#x4FBF;&#x6539;&#x4E86;" ID="fc276495-6d1d-4b1e-b22c-0d34c20a1783" CREATED="1668545350174" MODIFIED="1669388238821" TASKTIME="30" TASKLEVEL="6">
+            <icon BUILTIN="button_ok" />
+            <hook URI="../../../Dropbox/&#x56FE;&#x7247;/&#x690D;&#x7269;.library/images/059a20f2-fe05-07bd-8c8a-a9de2314eb62.info/UNADJUSTEDNONRAW_thumb_691.jpg" SIZE="0.8995502" NAME="ExternalObject" />
+            <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x6DFB;&#x52A0;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x7684;&#x901A;&#x7528;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0D;&#x4EC5;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#xFF0C;&#x8FD8;&#x8981;&#x6DFB;&#x52A0;&#x5386;&#x53F2;&#x8BB0;&#x5F55;" ID="3d5aec5e-ebfb-4a3f-9309-372a0a8c17cb" CREATED="1668740111830" MODIFIED="1668740111830" TASKLEVEL="1">
+              <icon BUILTIN="button_ok" />
+            </node>
+            <node TEXT="&#x5DF2;&#x7ECF;&#x4FEE;&#x6539;&#x4E86;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD8;&#x6CA1;&#x6709;&#x663E;&#x793A;&#xFF0C;&#x7B49;&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="02dd95af-b6f3-4ac2-8ab2-5222907661ce" CREATED="1672360450566" MODIFIED="1672360450566" TASKLEVEL="1" />
+            <node TEXT="&#x5176;&#x5B9E;&#x8FD9;&#x4E5F;&#x662F;&#x505A;&#x6570;&#x636E;&#x5907;&#x4EFD;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x5427;" ID="8784bc99-34e2-4208-b3a2-f12373185db4" CREATED="1672360510740" MODIFIED="1672360510740" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="18" ID="a51ff618-07c6-4a5e-9448-322043a6c2b3" CREATED="1669388196077" MODIFIED="1669388196077">
+          <node TEXT="F5&#x641C;&#x7D22;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x80FD;&#x641C;&#x7D22;&#x5F53;&#x524D;&#x677F;&#x5757;&#x7684;&#x5185;&#x5BB9;&#x4E0D;&#x592A;&#x4EBA;&#x6027;&#x5316;&#xFF0C;&#x9700;&#x8981;&#x8003;&#x8651;&#x4E0B;" ID="3957e6b7-9f9c-437a-b932-ea6d04ca79cf" CREATED="1668738682308" MODIFIED="1668738682308" TASKTIME="60" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x539F;&#x6765;SS&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4EE5;&#x524D;&#x5199;&#x8FC7;&#x4E86;&#xFF0C;&#x592A;&#x68D2;&#x4E86;" ID="2302f6ad-d804-4ccf-b3a7-263d92539a14" CREATED="1672414532088" MODIFIED="1672414532088" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x7684;&#x65B9;&#x6CD5;&#x8FD8;&#x662F;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6BD4;&#x5982;&#x521A;&#x521A;&#x4E0D;&#x80FD;&#x5728;&#x7ED3;&#x5C3E;" ID="4b278e77-3d3e-4580-ad44-5787aa546d4b" CREATED="1668740728187" MODIFIED="1672360791855" TASKLEVEL="1" TASKTIME="0" MODIFIEDLog="1668740728187" TEXTLOG="&#x65F6;&#x95F4;&#x5757;&#x7684;&#x65B9;&#x6CD5;&#x8FD8;&#x662F;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6BD4;&#x5982;&#x521A;&#x521A;">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x4E0D;&#x6E05;&#x695A;&#x4EC0;&#x4E48;&#x95EE;&#x9898;&#x4E86;&#x4E0B;&#x6B21;&#x9047;&#x5230;&#x518D;&#x8BF4;" ID="a2dcb62a-83a8-4a5b-8dd0-78988f06c158" CREATED="1672360811062" MODIFIED="1672360811062" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;Shift+Space&#x65F6;&#x5019;&#x4E0D;&#x662F;&#x7126;&#x70B9;&#xFF0C;&#x5C31;&#x8BA9;&#x7A97;&#x53E3;&#x6210;&#x4E3A;&#x7126;&#x70B9;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x9690;&#x85CF;" ID="ba6a0138-fef7-49e2-a124-b9711a2660c9" CREATED="1668749523077" MODIFIED="1668749523077" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;thisactive&#x89E3;&#x51B3;&#x4E86;" ID="447985c7-7490-457e-bb92-9b762b51b69f" CREATED="1669430944148" MODIFIED="1669430944148" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;githome&#x547D;&#x4EE4;&#x548C;githubhome&#x547D;&#x4EE4;&#x6253;&#x5F00;&#x6839;&#x76EE;&#x5F55;&#xFF0C;&#x6216;&#x5219;github&#x4E3B;&#x9875;" ID="6eb36d9c-adb9-4b9e-b5ec-c44d3ac492cf" CREATED="1668755274116" MODIFIED="1668755274116" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6392;&#x9664;&#x6389;&#x6240;&#x6709;Folder&#x5F00;&#x5934;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x907F;&#x514D;&#x5F71;&#x54CD;&#x7EDF;&#x8BA1;&#x7684;&#x95EE;&#x9898;" ID="e8d54186-a934-41b7-92d2-5a74a49cd5cf" CREATED="1668755387334" MODIFIED="1672448268774" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6839;&#x636E;&#x7236;&#x8282;&#x70B9;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;" ID="baacb588-7a38-48ce-9b35-2b32363c424c" CREATED="1669431082924" MODIFIED="1669431082924" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="26" ID="f038cbf1-d74a-447a-a139-b0322410c0af" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x663E;&#x793A;&#x5B8C;&#x56FE;&#x7247;&#x540E;&#x5C31;&#x4F1A;&#x5360;&#x7528;" ID="6adace61-d91b-4174-aefe-b8e2b1bbe152" CREATED="1669419759033" MODIFIED="1669419759033" TASKLEVEL="4" TASKTIME="30">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#x4E86;" ID="1487313b-810f-4df8-9ac3-172dee1599c3" CREATED="1669430242444" MODIFIED="1669430242444" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="30" ID="ca3c776f-f055-4c27-ab08-575c06508ecf" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5B89;&#x9759;&#x6A21;&#x5F0F;" ID="6f55fb7e-5681-4768-b985-e4bd23583af6" CREATED="1669775341931" MODIFIED="1669775341931" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="12" ID="e339ee15-47de-4e22-8c38-a58780859542" CREATED="1672448219122" MODIFIED="1672448219122">
+        <node TEXT="7" ID="69bd7d7a-8e44-4b15-b3d4-e8581a0d9127" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x5F00;&#x59CB;" ID="fde1219f-dd23-4ca1-937b-f730d2f30cb9" CREATED="1670417702961" MODIFIED="1670417702961" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="8" ID="cd88e328-6bec-4035-936e-ba1137a20d44" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x4E0D;&#x6E05;&#x695A;&#x4E3A;&#x4EC0;&#x4E48;&#xFF0C;&#x7A81;&#x7136;&#x65F6;&#x95F4;&#x6BB5;&#x4E0D;&#x53D7;&#x63A7;&#x5236;&#x4E86;" ID="b65c9547-3edf-4376-b8a6-fef440256c3d" CREATED="1670489712384" MODIFIED="1670489712384" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4E0B;&#x6B21;&#x9047;&#x5230;&#x518D;&#x8BF4;&#x5427;&#xFF0C;&#x4E0D;&#x8BB0;&#x5F97;&#x662F;&#x4EC0;&#x4E48;&#x4E86;" ID="ca94b7e0-d55a-4a94-abb5-26bc41430879" CREATED="1672406183612" MODIFIED="1672406183612" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="9" ID="3de1b0ee-2f56-434b-be69-c3e296246635" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x6DFB;&#x52A0;&#x67E5;&#x770B;&#x4ECA;&#x5929;&#x7684;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x5217;&#x8868;&#x8BBE;&#x7F6E;" ID="bade3f9b-24ce-409c-a8fb-c63e431543d8" CREATED="1670589872137" MODIFIED="1670589872137" TASKTIME="0" TASKLEVEL="13">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x5F88;&#x68D2;" ID="09516bf0-2882-4e87-8433-fc3bd99f3e24" CREATED="1672413830078" MODIFIED="1672413830078" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="28" ID="b58178bb-e775-4fcf-b761-d3e3db2340e4" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x518D;&#x6811;&#x89C6;&#x56FE;&#x91CC;&#x6DFB;&#x52A0;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x4FDD;&#x5B58;&#x4E0D;&#x4E86;&#xFF0C;&#x4EE5;&#x524D;&#x6CA1;&#x95EE;&#x9898;&#x554A;&#xFF0C;&#x5F88;&#x5947;&#x602A;" ID="22d2ebb9-0cf5-4578-b185-44e0d2061604" CREATED="1672213848435" MODIFIED="1672213848435" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x9047;&#x5230;&#x518D;&#x8BF4;&#x5427;&#xFF0C;&#x8FD9;&#x7C7B;&#x95EE;&#x9898;&#x4E0D;&#x597D;&#x89E3;&#x51B3;" ID="f9db3940-a8eb-4590-8c10-90d76c81a8f3" CREATED="1672405585863" MODIFIED="1672405585863" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C55;&#x5F00;&#x8282;&#x70B9;&#x7684;&#x6811;&#x89C6;&#x56FE;&#x65F6;&#xFF0C;&#x4E5F;&#x663E;&#x793A;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x7684;&#x8282;&#x70B9;&#x5E76;&#x5C55;&#x5F00;&#x9009;&#x4E2D;&#x3002;" ID="2734c9a0-e5fc-4f44-9575-a85b30ad50a2" CREATED="1672214497115" MODIFIED="1672214497115" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="30" ID="b32d5499-3875-4b93-9134-970fb8826407" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x628A;&#x622A;&#x56FE;&#x663E;&#x793A;&#x5728;&#x65E5;&#x5386;&#x4E2D;" ID="63cb02ad-0cd2-4332-8cb7-350c4d8cc782" CREATED="1672360976792" MODIFIED="1672360976792" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;&#x8282;&#x70B9;&#x521B;&#x5EFA;&#xFF0C;&#x663E;&#x793A;&#x5728;&#x65E5;&#x5386;&#x91CC;" ID="481ff29e-7cc0-44d3-b68b-c0613d9580d7" CREATED="1672374063781" MODIFIED="1672374063781" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x8BBE;&#x7F6E;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x8BE6;&#x7EC6;&#x5907;&#x6CE8;" ID="4a72301f-6978-44dd-9494-7e0e75975f04" CREATED="1672405556640" MODIFIED="1672405556640" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x628A;&#x91D1;&#x94B1;&#xFF0C;&#x5361;&#x8DEF;&#x91CC;&#x6DFB;&#x52A0;&#x8FDB;&#x4E3B;&#x7A97;&#x53E3;&#x6709;&#x5FC5;&#x8981;&#x5417;&#xFF1F;" ID="0c2e175b-aecd-4583-b0ff-34516137f3ef" CREATED="1672406446727" MODIFIED="1672406446727" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x91D1;&#x94B1;&#xFF0C;&#x5361;&#x8DEF;&#x91CC;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x8BBE;&#x7F6E;&#xFF0C;&#x6240;&#x4EE5;&#x6682;&#x65F6;&#x4E0D;&#x6DFB;&#x52A0;&#x4E86;" ID="26266d8c-5708-43e3-82d5-33f26a9c1916" CREATED="1672413892670" MODIFIED="1672413892670" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="31" ID="4adebcc7-563a-481a-ad3e-76685c5d869f" CREATED="1672448219122" MODIFIED="1672448219122">
+          <node TEXT="&#x5C06;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;&#x5B58;&#x5230;JSON&#x6587;&#x4EF6;&#x4E2D;&#x5427;" ID="009eac58-8688-4b9f-90f1-f46df10e95d0" CREATED="1672431960863" MODIFIED="1672431960863" TASKTIME="0" TASKLEVEL="10">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1676060760000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x548C;reminder.js&#x4E00;&#x6837;&#xFF0C;&#x90A3;&#x6837;&#x4E5F;&#x65B9;&#x4FBF;&#x8BFB;&#x53D6;" ID="025c8d29-4150-4d09-a974-dd7fe283e784" CREATED="1672448329855" MODIFIED="1672448343550" TASKLEVEL="1" MODIFIEDLog="1672448329855" TEXTLOG="&#x548C;reminder.js" />
+          </node>
+          <node TEXT="&#x5C06;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x8BB0;&#x5F55;&#x663E;&#x793A;&#x5728;&#x65E5;&#x5386;&#x4E2D;&#xFF0C;&#x4E00;&#x5B9A;&#x5F88;&#x597D;&#x770B;" ID="6248527f-fc24-463e-a375-45944796625d" CREATED="1672434483193" MODIFIED="1672434483193" TASKTIME="0" TASKLEVEL="12">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1676149683000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x4E3B;&#x8981;&#x65B9;&#x6CD5;&#x5199;&#x5B8C;&#x4E86;&#xFF0C;&#x5C31;&#x662F;&#x9700;&#x8981;&#x89E3;&#x5BC6;&#x5F88;&#x9EBB;&#x70E6;&#xFF0C;&#x8FD0;&#x7B97;&#x91CF;&#x592A;&#x9AD8;&#x3002;&#x3002;&#x3002;&#x6709;&#x70B9;&#x7EA0;&#x7ED3;&#xFF0C;&#x8FD8;&#x8981;&#x4E0D;&#x8981;&#x5728;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x505A;&#xFF0C;&#x8FD8;&#x662F;&#x7B49;&#x5230;&#x4EE5;&#x540E;" ID="b1952978-83e0-4257-8d09-b54d3f512c69" CREATED="1672630675591" MODIFIED="1672630675591" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x597D;&#x50CF;&#x6709;&#x70B9;&#x5730;&#x65B9;&#x662F;&#x6587;&#x4EF6;&#x91CD;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x5C31;&#x4FEE;&#x6539;&#x4E86;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x590D;&#x4E0B;&#xFF0C;&#x91CD;&#x65B0;&#x8BBE;&#x7F6E;&#x521B;&#x5EFA;&#x65F6;&#x95F4;" ID="ee448be6-2f66-4b65-967e-756c0f354553" CREATED="1672442503474" MODIFIED="1672442503474" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x662F;docear&#x8F6F;&#x4EF6;&#x9020;&#x6210;&#x7684;&#xFF0C;&#x6CA1;&#x529E;&#x6CD5;&#x89E3;&#x51B3;&#xFF0C;&#x53EA;&#x80FD;&#x63A5;&#x53D7;&#xFF0C;&#x66F4;&#x65B0;&#x4E86;&#x4E5F;&#x65E0;&#x6240;&#x8C13;&#x628A;&#xFF0C;&#x5C31;&#x5F53;&#x770B;&#x6700;&#x8FD1;&#x4FEE;&#x6539;&#x7684;&#x6587;&#x4EF6;&#x597D;&#x4E86;" ID="b04c6163-8f28-43b6-b309-caeb5ffc2973" CREATED="1672448172139" MODIFIED="1672448206724" TASKLEVEL="1" MODIFIEDLog="1672448172139" TEXTLOG="&#x662F;docear" />
+          </node>
+          <node TEXT="&#x51B3;&#x5B9A;&#x7528;JSON&#x5F62;&#x5F0F;&#x5B58;&#x50A8;&#xFF0C;&#x5F00;&#x59CB;&#x4E86;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;Model" ID="1b216339-729e-4499-8515-2f3c08b4c7f7" CREATED="1672450220606" MODIFIED="1672450220606" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6CA1;&#x6709;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E5F;&#x4E0D;&#x663E;&#x793A;&#x4EFB;&#x52A1;&#x4E86;&#x5417;&#xFF0C;&#x597D;&#x50CF;&#x903B;&#x8F91;&#x6709;&#x95EE;&#x9898;" ID="724478a2-ba20-4fff-88c2-6d45a28011ef" CREATED="1672450879093" MODIFIED="1672450879093" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x539F;&#x6765;&#x8FD9;&#x4E48;&#x5FEB;&#x5C31;&#x89E3;&#x51B3;&#x4E86;&#xFF0C;&#x662F;&#x903B;&#x8F91;&#x91CC;&#x9762; &#x7684;&#x5224;&#x65AD;&#x591A;&#x4F59;&#x4E86;" ID="a4bf1c52-d1fe-458e-bb72-98a8e715d00e" CREATED="1672841645291" MODIFIED="1672841645291" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x8FD8;&#x662F;&#x5728;&#x4E3B;&#x754C;&#x9762;&#x8BBE;&#x7F6E;&#x91D1;&#x94B1;&#x548C;&#x5403;&#x4E1C;&#x897F;&#x5427;&#xFF0C;&#x867D;&#x7136;&#x6709;&#x70B9;&#x96BE;&#x5199;&#xFF0C;&#x4F46;&#x662F;&#x8FD8;&#x662F;&#x6700;&#x65B9;&#x4FBF;&#x7684;&#xFF0C;&#x4E0D;&#x7136;&#x603B;&#x662F;&#x5FD8;&#x8BB0;&#x8BB0;&#x5F55;" ID="5b237efc-1987-408c-9102-5b1dfea5b193" CREATED="1672473962668" MODIFIED="1672473962668" REMINDERTYPE="day" RDAYS="1" RWEEK="" RMONTH="" RWEEKS="" RYEAR="" RHOUR="" TASKTIME="0" TASKLEVEL="9">
+            <icon BUILTIN="revision" />
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673165162668" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="1&#x6708;&#x4EFD;&#x628A;&#x8FD9;&#x4E2A;&#x5B8C;&#x5584;&#x4E86;&#xFF0C;&#x540C;&#x65F6;&#x4F18;&#x5316;&#x4E00;&#x4E9B;&#x5C0F;&#x9700;&#x6C42;&#x5C31;&#x597D;&#x4E86;" ID="6c731816-ed33-4e82-9381-e82a2cb02b55" CREATED="1673081369156" MODIFIED="1673081369156" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x4E24;&#x4E2A;At&#x53F7;&#x540E;&#x9762;&#x8DDF;&#x968F;&#x7684;&#x662F;&#x6709;&#x56FE;&#x6807;&#x7684;&#xFF1F;&#x90A3;&#x4EFB;&#x52A1;&#x600E;&#x4E48;&#x529E;&#x5462;&#xFF1F;" ID="57811429-93f8-413e-8e67-73de3ab8b053" CREATED="1672477464300" MODIFIED="1672477464300" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x52A0;&#x4E0A;&#x4E86;&#x4EFB;&#x52A1;&#xFF0C;&#x5F88;&#x68D2;&#x5F88;&#x68D2;" ID="81bc1665-5def-4ef3-9dc7-54156eb70128" CREATED="1673146043458" MODIFIED="1673146043458" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x526A;&#x5207;&#x677F;&#xFF0C;&#x663E;&#x793A;&#x5728;&#x65E5;&#x5386;&#x89C6;&#x56FE;&#x4E2D;" ID="22e8a793-f6c6-4602-ad3d-ebcf36c43a89" CREATED="1672477731970" MODIFIED="1672477731970" TASKTIME="0" TASKLEVEL="10">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;,&#x5927;&#x6982;&#x82B1;&#x4E86;&#x4E24;&#x4E2A;&#x5C0F;&#x65F6;&#x65F6;&#x95F4;" ID="f1b72a0f-6e5f-49c1-aea0-96e3b8fdf839" CREATED="1672484259001" MODIFIED="1672484259001" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;&#x5230;&#x65E5;&#x5386;&#x4E2D;,&#x6BCF;&#x4E00;&#x884C;&#x663E;&#x793A;&#x5C31;&#x884C;" ID="e90290ba-c122-4b03-ae98-177a34e72109" CREATED="1672486024655" MODIFIED="1672486024655" TASKTIME="0" TASKLEVEL="8">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x8DE8;&#x5E74;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x60F3;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#x5C31;&#x5F88;&#x8D39;&#x52B2;&#xFF0C;&#x4E0D;&#x8FC7;&#x4E0D;&#x8003;&#x8651;&#x4E86;&#xFF0C;&#x6BD5;&#x7ADF;&#x624D;&#x51E0;&#x5929;&#x96BE;&#x53D7;&#x6BCF;&#x5E74;" ID="2c2df446-dfd1-4b52-b8ae-c0f45a0bfd85" CREATED="1672488968110" MODIFIED="1672488968110" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x8BB0;&#x5F55;&#x6027;&#x884C;&#x4E3A;&#xFF1F;" ID="2fdcbe1c-a021-45c8-bda3-48b6bda323b4" CREATED="1672492691849" MODIFIED="1672492691849" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x7528;&#x65F6;&#x95F4;&#x5757;&#x8BB0;&#x5F55;&#x5C31;&#x884C;&#x4E86;" ID="9f2744c6-9de5-45f4-b73f-0331f74438b2" CREATED="1672543249184" MODIFIED="1672543249184" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x8BBE;&#x7F6E;&#x63D0;&#x793A;&#xFF0C;&#x5230;&#x53EF;&#x914D;&#x7F6E;&#x7684;" ID="443138de-686b-4f46-8a72-a0fe90c2e1b4" CREATED="1672492814369" MODIFIED="1673441083196" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_cancel" />
+            <richcontent TYPE="DETAILS">
+              <html>
+                <head>
+                </head>
+                <body>
+                  <p>
+      &#x6D4B;&#x8BD5;#&#x9AD8;&#x5174;#&#x4F60;&#x597D;&#x5417;&#xFF1F;
+    </p>
+                </body>
+              </html>
+            </richcontent>
+            <node TEXT="&#x4E0D;&#x60F3;&#x90A3;&#x4E48;&#x8D39;&#x52B2;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x6709;&#x9700;&#x8981;&#x518D;&#x505A;&#x8FD9;&#x7C7B;&#x4E8B;&#x60C5;&#x5427;&#xFF0C;&#x6BD4;&#x5982;&#x8981;&#x7ED9;&#x522B;&#x4EBA;&#x7528;" ID="db17af92-0b0e-48ff-88e8-56119ddc4761" CREATED="1673441187279" MODIFIED="1673441187279" TASKLEVEL="1" />
           </node>
         </node>
       </node>
@@ -4368,6 +5397,542 @@
     </node>
     <node TEXT="&#x5206;&#x6790;" POSITION="right" ID="729255c1-f095-460d-96b1-7cd121cbb144" CREATED="1654306957355" MODIFIED="1654306957355">
       <node TEXT="Todoist&#x5982;&#x4F55;&#x66F4;&#x65B0;" ID="62863b4e-b923-47e3-90c7-a69aa3d79337" CREATED="1654306965188" MODIFIED="1654306965188" />
+    </node>
+    <node TEXT="&#x4F7F;&#x7528;&#x8BF4;&#x660E;" POSITION="right" ID="ID_368512797" CREATED="1665468845537" MODIFIED="1665468857931">
+      <icon BUILTIN="bookmark" />
+      <edge COLOR="#007c7c" />
+      <node TEXT="&#x8F93;&#x5165;&#x6846;" ID="ID_233639753" CREATED="1673499108812" MODIFIED="1673499112702">
+        <node ID="ID_1631468238" CREATED="1665468971946" MODIFIED="1673499148824" MOVED="1673499115589">
+          <richcontent TYPE="NODE">
+            <html>
+              <head>
+              </head>
+              <body>
+                <p>
+                  <font color="#ff0000">&#x67E5;&#x627E;&#x6587;&#x4EF6;</font>
+                </p>
+              </body>
+            </html>
+          </richcontent>
+          <node TEXT="#Home mm" ID="ID_1574834231" CREATED="1673499149394" MODIFIED="1673499149394" MOVED="1673499150762" />
+          <node TEXT="#&#x514B;&#x91CC;&#x5E0C; e&#x6587;&#x4EF6; ebook eobsidian" ID="ID_1375499083" CREATED="1665469189261" MODIFIED="1665469189261" />
+        </node>
+        <node ID="ID_963896477" CREATED="1665470106848" MODIFIED="1673499121671" MOVED="1673499115594">
+          <richcontent TYPE="NODE">
+            <html>
+              <head>
+              </head>
+              <body>
+                <p>
+      &#x5DEE;&#x627E;<font color="#ff0000">&#x8282;&#x70B9;</font></p>
+              </body>
+            </html>
+          </richcontent>
+          <node TEXT="*&#x5362;&#x82F1; Mess" ID="ID_106650598" CREATED="1665470118210" MODIFIED="1665470127197" />
+        </node>
+        <node TEXT="&#x6DFB;&#x52A0;&#x65F6;&#x95F4;&#x5757;" ID="ID_995127405" CREATED="1673499176091" MODIFIED="1673499179670">
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x89C6;&#x56FE;&#x4E2D;" ID="ID_1482198689" CREATED="1673499181347" MODIFIED="1673499187428">
+            <node TEXT="A@&#x7C7B;&#x522B;" ID="ID_210774181" CREATED="1673499188139" MODIFIED="1673499197891" />
+          </node>
+          <node TEXT="&#x4EFB;&#x52A1;&#x89C6;&#x56FE;&#x4E2D;" ID="ID_1258948900" CREATED="1673499205707" MODIFIED="1673499209692">
+            <node TEXT="&#x521A;&#x521A;A@&#x7C7B;&#x522B;" ID="ID_1180892008" CREATED="1673499188139" MODIFIED="1673499219063" />
+            <node TEXT="A&#x521A;&#x521A;@&#x7C7B;&#x522B;" ID="ID_251925508" CREATED="1673499188139" MODIFIED="1673499228188">
+              <node TEXT="A @&#x7C7B;&#x522B;" ID="ID_1384665792" CREATED="1673499188139" MODIFIED="1673499238589" MOVED="1673499233723" />
+            </node>
+          </node>
+        </node>
+        <node TEXT="&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;" ID="ID_471058663" CREATED="1673499420056" MODIFIED="1673499426130">
+          <node TEXT="A@&#x5BFC;&#x56FE;&#x540D;&#x5B57;" ID="ID_13972151" CREATED="1673499429250" MODIFIED="1673499435878" />
+          <node TEXT="&#x5728;&#x5F53;&#x524D;&#x5BFC;&#x56FE;&#x4E0B;&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;" ID="ID_1314901828" CREATED="1673499445457" MODIFIED="1673499462873">
+            <node TEXT="A." ID="ID_1668538963" CREATED="1673499436337" MODIFIED="1673499445087" MOVED="1673499464070" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x5B50;&#x8282;&#x70B9;&#x4EFB;&#x52A1;" ID="ID_878767042" CREATED="1673499469928" MODIFIED="1673499485070">
+            <node TEXT="A&#x540C;&#x65F6;&#x6309;Shift+Enter" ID="ID_466293092" CREATED="1673499485875" MODIFIED="1673499500789" />
+          </node>
+        </node>
+        <node TEXT="&#x5FEB;&#x8BFB;&#x542F;&#x52A8;" ID="ID_1601142495" CREATED="1673499515361" MODIFIED="1673499520824">
+          <node TEXT="&#x5173;&#x952E;&#x8BCD;+&#x7A7A;&#x683C;" ID="ID_1898916850" CREATED="1673499521567" MODIFIED="1673499529650" />
+        </node>
+        <node TEXT="&#x6062;&#x590D;&#x72B6;&#x6001;" ID="ID_133017239" CREATED="1673499548857" MODIFIED="1673499560573">
+          <node TEXT="RRR" ID="ID_737995936" CREATED="1673499561314" MODIFIED="1673499564952" />
+          <node TEXT="TTT" ID="ID_1780255769" CREATED="1673499565320" MODIFIED="1673499567581" />
+          <node TEXT="NNN" ID="ID_1254225984" CREATED="1673499573635" MODIFIED="1673499576540" />
+          <node TEXT="JJJ" ID="ID_1006618956" CREATED="1673499601835" MODIFIED="1673499604035" />
+        </node>
+        <node TEXT="&#x529F;&#x80FD;" ID="ID_1435371894" CREATED="1673499606289" MODIFIED="1673499608189">
+          <node TEXT="sjjj" ID="ID_827724265" CREATED="1673499609029" MODIFIED="1673499612473" />
+          <node TEXT="&#x6253;&#x5F00;&#x7A97;&#x4F53;" ID="ID_606780978" CREATED="1673499626594" MODIFIED="1673499630836">
+            <node TEXT="tool" ID="ID_508973797" CREATED="1673499632475" MODIFIED="1673499635475" />
+          </node>
+        </node>
+      </node>
+      <node TEXT="&#x5FEB;&#x6377;&#x952E;" FOLDED="true" ID="ID_1477420165" CREATED="1673498956428" MODIFIED="1673498960772" MOVED="1673498962128">
+        <node TEXT="D&#x53D6;&#x6D88;&#x4EFB;&#x52A1;" ID="ID_579647640" CREATED="1665472425356" MODIFIED="1665472915670" MOVED="1673498974198">
+          <node TEXT="Ctrl+D&#x8BBE;&#x7F6E;&#x6682;&#x65F6;&#x4E0D;&#x8003;&#x8651;" ID="ID_1959629348" CREATED="1665472428705" MODIFIED="1665472445725" />
+          <node TEXT="Shift+D&#x53D6;&#x6D88;&#x9009;&#x4E2D;&#x5F53;&#x524D;&#x5BFC;&#x56FE;" ID="ID_27115811" CREATED="1665472496881" MODIFIED="1665472511988" />
+        </node>
+        <node TEXT="A" ID="ID_748018480" CREATED="1665472612009" MODIFIED="1665472613374" MOVED="1673498974199">
+          <node TEXT="&#x5207;&#x6362;&#x8BD5;&#x56FE;" ID="ID_1887027704" CREATED="1665472614147" MODIFIED="1665472621166" />
+          <node TEXT="Shift+A" ID="ID_708583090" CREATED="1665472621596" MODIFIED="1665472628017">
+            <node TEXT="allFloder = !allFloder;" ID="ID_629144758" CREATED="1665472643410" MODIFIED="1665472643410" MOVED="1665472645561" />
+          </node>
+        </node>
+        <node TEXT="B" ID="ID_957858463" CREATED="1665472725448" MODIFIED="1665472727471" MOVED="1673498974200">
+          <node TEXT="&#x5728;&#x6811;&#x89C6;&#x56FE;&#x4E2D;&#x663E;&#x793A;&#x5B50;&#x8282;&#x70B9;" ID="ID_1852974618" CREATED="1665472727969" MODIFIED="1665472743094" />
+        </node>
+        <node TEXT="C" ID="ID_1552107290" CREATED="1665472801975" MODIFIED="1665472803851" MOVED="1673498974201">
+          <node TEXT="&#x590D;&#x5236;&#x4EFB;&#x52A1;&#x540D;&#xFF0C;&#x6811;&#x8BD5;&#x56FE;" ID="ID_730932639" CREATED="1665472804134" MODIFIED="1665472874845" />
+        </node>
+        <node TEXT="7890" OBJECT="java.lang.Long&#x7C;7890" ID="ID_860391358" CREATED="1665472951241" MODIFIED="1665472954428" MOVED="1673498974202">
+          <node TEXT="&#x65E9;&#x4E2D;&#x665A;" ID="ID_1759096592" CREATED="1665472954697" MODIFIED="1665472958580" />
+        </node>
+        <node TEXT="&#x5220;&#x9664;&#x952E;" ID="ID_1131182401" CREATED="1665473205402" MODIFIED="1665473208179" MOVED="1673498974203">
+          <node TEXT="&#x5220;&#x9664;&#x6700;&#x8FD1;&#x6587;&#x4EF6;" ID="ID_933384892" CREATED="1665473208959" MODIFIED="1665473218813" />
+          <node TEXT="&#x5220;&#x9664;&#x6811;&#x8BD5;&#x56FE;" ID="ID_1045814858" CREATED="1665473219232" MODIFIED="1665473231715" />
+        </node>
+        <node TEXT="F" ID="ID_1384307300" CREATED="1665473290329" MODIFIED="1665473291780" MOVED="1673498974204">
+          <node TEXT="&#x6253;&#x5F00;&#x756A;&#x8304;" ID="ID_91485703" CREATED="1665473292066" MODIFIED="1665473296772" />
+          <node TEXT="&#x5982;&#x679C;&#x5728;&#x6811;&#x89C6;&#x56FE;&#xFF0C;&#x5207;&#x6362;&#x5230;&#x53E6;&#x4E00;&#x4E2A;" ID="ID_1621696465" CREATED="1665473296927" MODIFIED="1665473308559" />
+        </node>
+        <node TEXT="F11" ID="ID_1946387189" CREATED="1665473329500" MODIFIED="1665473333425" MOVED="1673498974205">
+          <node TEXT="&#x5173;&#x95ED;&#x7A0B;&#x5E8F;" ID="ID_960957504" CREATED="1665473335703" MODIFIED="1665473341019" />
+          <node TEXT="Shift&#x91CD;&#x542F;&#x7A0B;&#x5E8F;" ID="ID_1689428814" CREATED="1665473341176" MODIFIED="1665473348621" />
+        </node>
+        <node TEXT="F12&#x663E;&#x793A;&#x65E5;&#x5FD7;" ID="ID_605899350" CREATED="1665473357507" MODIFIED="1665473362859" MOVED="1673498974206" />
+        <node TEXT="F2" ID="ID_1873288553" CREATED="1665473473208" MODIFIED="1665473476302" MOVED="1673498974207">
+          <node TEXT="&#x5728;&#x4EFB;&#x52A1;&#x4E2D;&#x91CD;&#x547D;&#x540D;" ID="ID_1943508866" CREATED="1665473476649" MODIFIED="1665473481698">
+            <node TEXT="&#x7B49;&#x4E8E;Shift+I" ID="ID_956010782" CREATED="1665473482960" MODIFIED="1665473488939" />
+          </node>
+        </node>
+        <node TEXT="F5" ID="ID_1105851616" CREATED="1665473516882" MODIFIED="1665473519387" MOVED="1673498974208">
+          <node TEXT="&#x5237;&#x65B0;&#x4EFB;&#x52A1;&#x680F;" ID="ID_1649566200" CREATED="1665473520148" MODIFIED="1665473525055" />
+        </node>
+        <node TEXT="F6" ID="ID_60081340" CREATED="1665473558673" MODIFIED="1665473562801" MOVED="1673498974209">
+          <node TEXT="&#x641C;&#x7D22;&#x526A;&#x5207;&#x677F;" ID="ID_1626457589" CREATED="1665473563616" MODIFIED="1665473574217" />
+        </node>
+        <node TEXT="F7" ID="ID_981462268" CREATED="1665473606152" MODIFIED="1665473611943" MOVED="1673498974210">
+          <node TEXT="&#x6253;&#x5F00;&#x526A;&#x5207;&#x677F;&#x6587;&#x4EF6;&#x5939;" ID="ID_896635045" CREATED="1665473612346" MODIFIED="1665473618177" />
+        </node>
+        <node TEXT="F8" ID="ID_978980568" CREATED="1665473640809" MODIFIED="1665473645391" MOVED="1673498974211">
+          <node TEXT="&#x6253;&#x5F00;&#x526A;&#x5207;&#x677F;&#x6587;&#x4EF6;&#x8BB0;&#x5F55;" ID="ID_1701416130" CREATED="1665473646093" MODIFIED="1665473653993" />
+        </node>
+        <node TEXT="F9" ID="ID_780222940" CREATED="1665473690969" MODIFIED="1665473693514" MOVED="1673498974212">
+          <node TEXT="&#x5DE5;&#x5177;" ID="ID_700615124" CREATED="1665473696017" MODIFIED="1665473697693" />
+        </node>
+        <node TEXT="F10" ID="ID_1734722899" CREATED="1665473716034" MODIFIED="1665473719145" MOVED="1673498974213">
+          <node TEXT="&#x622A;&#x56FE;" ID="ID_1739817699" CREATED="1665473719529" MODIFIED="1665473725613" />
+        </node>
+        <node TEXT="F1" ID="ID_1108862390" CREATED="1665473747087" MODIFIED="1665473749308" MOVED="1673498974213">
+          <node TEXT="&#x5E2E;&#x52A9;&#x6587;&#x4EF6;" ID="ID_1489347029" CREATED="1665473750002" MODIFIED="1665473754348" />
+        </node>
+        <node TEXT="G" ID="ID_870725196" CREATED="1665473791040" MODIFIED="1665473793193" MOVED="1673498974214">
+          <node TEXT="&#x756A;&#x8304;" ID="ID_4797698" CREATED="1665473793867" MODIFIED="1665473795915" />
+          <node TEXT="&#x6811;&#x8BD5;&#x56FE;&#x4E2D;&#x63A7;&#x5236;&#x5DE6;&#x53F3;" ID="ID_787933648" CREATED="1665473796122" MODIFIED="1665473806298" />
+        </node>
+        <node TEXT="H" ID="ID_1043644428" CREATED="1665473847015" MODIFIED="1665473848822" MOVED="1673498974215">
+          <node TEXT="&#x6811;&#x89C6;&#x56FE;&#x4E2D;&#x5411;&#x4E0A;" ID="ID_1649461637" CREATED="1665473849553" MODIFIED="1665473863212" />
+          <node TEXT="&#x53D1;&#x97F3;" ID="ID_1776033272" CREATED="1665473863532" MODIFIED="1665473867966" />
+          <node TEXT="Shift" ID="ID_560373094" CREATED="1665473868159" MODIFIED="1665473871184">
+            <node TEXT="&#x5207;&#x6362;&#x533A;&#x57DF;" ID="ID_1128429714" CREATED="1665473881436" MODIFIED="1665473884691" />
+          </node>
+        </node>
+        <node TEXT="I" ID="ID_1183216009" CREATED="1665473926651" MODIFIED="1665473927971" MOVED="1673498974216">
+          <node TEXT="&#x8F93;&#x5165;&#x6846;" ID="ID_987743056" CREATED="1665473928401" MODIFIED="1665473930326" />
+          <node TEXT="Shift +I" ID="ID_1667436723" CREATED="1665473930496" MODIFIED="1665473936764">
+            <node TEXT="&#x7B49;&#x4E8E;F2&#x6539;&#x540D;" ID="ID_1102725305" CREATED="1665473937401" MODIFIED="1665473943859" />
+          </node>
+        </node>
+        <node TEXT="Insert" ID="ID_41256901" CREATED="1665473971115" MODIFIED="1665473971115" MOVED="1673498974216">
+          <node TEXT="&#x6811;&#x8BD5;&#x56FE;&#x4E2D;&#x6DFB;&#x52A0;&#x8282;&#x70B9;" ID="ID_210672290" CREATED="1665473975169" MODIFIED="1665473982619" />
+        </node>
+        <node TEXT="J" ID="ID_612143608" CREATED="1665473995618" MODIFIED="1665473997346" MOVED="1673498974217" />
+        <node TEXT="K" ID="ID_1845719788" CREATED="1665473997929" MODIFIED="1665473999595" MOVED="1673498974218" />
+        <node TEXT="L" ID="ID_372969963" CREATED="1665473971171" MODIFIED="1665474047692" MOVED="1673498974219">
+          <node TEXT="&#x4EFB;&#x52A1;&#x7B49;&#x7EA7;&#x9009;&#x62E9;" ID="ID_356914116" CREATED="1665474048106" MODIFIED="1665474057017" />
+          <node TEXT="ALT+L" ID="ID_1991171678" CREATED="1665474057178" MODIFIED="1665474062177">
+            <node TEXT="&#x662F;&#x5426;&#x663E;&#x793A;&#x53F3;&#x4FA7;" ID="ID_1610367724" CREATED="1665474062180" MODIFIED="1665474070619" />
+          </node>
+          <node TEXT="Shift" ID="ID_124556928" CREATED="1665473868159" MODIFIED="1665473871184">
+            <node TEXT="&#x5207;&#x6362;&#x533A;&#x57DF;" ID="ID_846265188" CREATED="1665473881436" MODIFIED="1665473884691" />
+          </node>
+        </node>
+        <node TEXT="M" ID="ID_1430971892" CREATED="1665474116856" MODIFIED="1665474118470" MOVED="1673498974220">
+          <node TEXT="&#x65F6;&#x957F;" ID="ID_1916664569" CREATED="1665474118762" MODIFIED="1665474128509" />
+        </node>
+        <node TEXT="U" ID="ID_1812299848" CREATED="1665474252625" MODIFIED="1665474253905" MOVED="1673498974220">
+          <node TEXT="&#x8BBE;&#x7F6E;&#x6B21;&#x6570;" ID="ID_1862654510" CREATED="1665474254515" MODIFIED="1665474258012">
+            <node TEXT="&#x914D;&#x5408;SHIFT" ID="ID_726208828" CREATED="1665474258705" MODIFIED="1665474264198" />
+          </node>
+        </node>
+        <node TEXT="S" ID="ID_919668426" CREATED="1665474268179" MODIFIED="1665474269747" MOVED="1673498974221">
+          <node TEXT="&#x5907;&#x9009;&#x4EFB;&#x52A1;" ID="ID_651417148" CREATED="1665474270870" MODIFIED="1665474273942" />
+        </node>
+        <node TEXT="V&#x662F;&#x4EC0;&#x4E48;&#x64CD;&#x4F5C;&#x5462;&#xFF1F;" ID="ID_1932321286" CREATED="1665472042913" MODIFIED="1665472053909" MOVED="1673499099513">
+          <node TEXT="V&#x6DFB;&#x52A0;&#x5230;&#x8282;&#x70B9;&#xFF0C;Ctrl&#x6DFB;&#x52A0;&#x6210;&#x4EFB;&#x52A1;" ID="ID_247470332" CREATED="1665472245594" MODIFIED="1665472266436" />
+          <node TEXT="&#x5728;&#x5BFC;&#x56FE;&#x4E2D;V&#x662F;&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;" ID="ID_806050466" CREATED="1665472353089" MODIFIED="1665472367324" />
+        </node>
+        <node TEXT="Y" ID="ID_274391728" CREATED="1665474451031" MODIFIED="1665474452987" MOVED="1673498974221">
+          <node TEXT="&#x7EAA;&#x5FF5;" ID="ID_1043476293" CREATED="1665474453307" MODIFIED="1665474455708" />
+        </node>
+        <node TEXT="Enter" ID="ID_31307168" CREATED="1665474602488" MODIFIED="1665474605723" MOVED="1673498974223">
+          <node TEXT="&#x65F6;&#x95F4;&#x9009;&#x62E9;&#x6846;" ID="ID_1116722457" CREATED="1665795783830" MODIFIED="1665795794339">
+            <node TEXT="Shift&#x4FEE;&#x6539;&#x622A;&#x81F3;&#x65E5;&#x671F;" ID="ID_760021077" CREATED="1665474606461" MODIFIED="1665474615917" MOVED="1665795795986" />
+            <node TEXT="Shift+Alt&#x7981;&#x6B62;&#x622A;&#x6B62;&#x65E5;&#x671F;" ID="ID_760022599" CREATED="1665795803442" MODIFIED="1665795818098" />
+            <node TEXT="Ctrl&#x4FEE;&#x6539;&#x7EAA;&#x5FF5;&#x65E5;" ID="ID_1934165010" CREATED="1665795764800" MODIFIED="1665795782700" MOVED="1665795795993" />
+            <node TEXT="Ctrl+Alt&#x7981;&#x6B62;&#x7EAA;&#x5FF5;&#x65E5;" ID="ID_1863846973" CREATED="1665795819628" MODIFIED="1665795836391" MOVED="1665795837051" />
+          </node>
+          <node TEXT="&#x65F6;&#x957F;&#x6846;" ID="ID_735865854" CREATED="1665795885921" MODIFIED="1665795892500">
+            <node TEXT="Shift&#x53BB;&#x6389;&#x6253;&#x5361;" ID="ID_209395372" CREATED="1665795893241" MODIFIED="1665795905220" />
+            <node TEXT="Ctrl&#x5F00;&#x59CB;&#x6253;&#x5361;" ID="ID_612777702" CREATED="1665795905594" MODIFIED="1665795925679" />
+          </node>
+        </node>
+        <node TEXT="N" ID="6508fc17-f2e4-4c46-8549-8b4a90b946b0" CREATED="1667898041706" MODIFIED="1667898041706" MOVED="1673498974230">
+          <node TEXT="Ctrl+n&#x6253;&#x5F00;&#x5F53;&#x524D;&#x5BFC;&#x56FE;&#x7684;&#x76EE;&#x5F55;&#x3002;" ID="bc9b5d02-e6bb-4add-a57e-223ff313dfb5" CREATED="1667898044023" MODIFIED="1667898044023" />
+        </node>
+        <node TEXT="Z&#x662F;&#x5230;6&#x91CC;&#x9762;" ID="ID_871247136" CREATED="1665472054345" MODIFIED="1665472079657" MOVED="1673499093743" />
+      </node>
+      <node TEXT="&#x7B14;&#x8BB0;" ID="ba0af2d8-a000-4d3b-92aa-05580eb6f30f" CREATED="1667898139061" MODIFIED="1667898139061">
+        <node TEXT="Ctrl+Space&#x8FDB;&#x5165;&#x7B14;&#x8BB0;&#xFF0C;Shift+enter&#x79BB;&#x5F00;&#x3002;Esc" ID="eb503fb1-e3e1-46bc-9fc1-2b522419a284" CREATED="1667898128178" MODIFIED="1667898128178" />
+      </node>
+    </node>
+    <node TEXT="2023" FOLDED="true" POSITION="right" ID="106296c4-0262-4405-a13f-5f136dd02f82" CREATED="1672630505872" MODIFIED="1672630505872">
+      <node TEXT="1" ID="504e470e-2ba5-45e0-870f-ed2d98e53351" CREATED="1672630505872" MODIFIED="1672630505872">
+        <node TEXT="1" ID="80d0dbed-b078-4ffe-8cba-ae574f51a8d7" CREATED="1672630505872" MODIFIED="1672630505872">
+          <node TEXT="&#x6027;&#x884C;&#x4E3A;&#x540E;&#x9762;&#x7684;ddd&#x6CA1;&#x529E;&#x6CD5;&#x5220;&#x9664;" ID="3a5121ea-5e29-4a34-b028-187d300dd209" CREATED="1672557907010" MODIFIED="1672557907010" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4EE5;&#x540E;&#x518D;&#x8BF4;&#x5427;" ID="b4dc0d09-9f99-4957-a2a6-5a7adbb3f624" CREATED="1672839489421" MODIFIED="1672839489421" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5B8C;&#x5584;&#x4E00;&#x4E0B;&#x76EE;&#x6807;&#x8BBE;&#x5B9A;&#x5427;&#xFF0C;&#x56E0;&#x4E3A;&#x672A;&#x6765;&#x53EF;&#x80FD;&#x7528;&#x5230;" ID="8f5acffa-4cba-48e8-a5fc-a8698bfd9194" CREATED="1672560134191" MODIFIED="1672560134191" TASKTIME="0" TASKLEVEL="12">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1701936134000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6BCF;&#x5929;&#x8BB0;&#x5F55;&#x81EA;&#x5DF1;&#x5F00;&#x5FC3;&#x7684;&#x4E8B;&#xFF0C;&#x96BE;&#x8FC7;&#x7684;&#x4E8B;&#xFF0C;&#x9047;&#x5230;&#x7684;&#x56F0;&#x96BE;&#x53CA;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x53CA;&#x4ECA;&#x540E;&#x7684;&#x4EFB;&#x52A1;&#x5B89;&#x6392;" ID="d45f26bc-c87b-4ac5-b8f8-998b2b624c84" CREATED="1672563072102" MODIFIED="1672572011591" TASKLEVEL="1" TASKTIME="0" MODIFIEDLog="1672563072102" TEXTLOG="&#x6BCF;&#x5929;&#x8BB0;&#x5F55;&#x81EA;&#x5DF1;&#x5F00;&#x5FC3;&#x7684;&#x4E8B;&#xFF0C;&#x96BE;&#x8FC7;&#x7684;&#x4E8B;&#xFF0C;&#x9047;&#x5230;&#x7684;&#x56F0;&#x96BE;&#x53CA;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x4ECA;&#x540E;&#x7684;&#x5B89;&#x6392;">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673427072102" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x662F;&#x54EA;&#x4E00;&#x5929;&#xFF0C;&#x5728;&#x67E5;&#x770B;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x65F6;&#x5019;" ID="58cb12ec-c215-4860-a71f-283397b7447b" CREATED="1672568981988" MODIFIED="1672568981988" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="2" ID="55cb5aeb-ee4b-44a7-90f1-c32c9d52ddd2" CREATED="1672630505873" MODIFIED="1672630505873">
+          <node TEXT="Ctrl+JK,&#x5982;&#x679C;&#x662F;&#x65F6;&#x95F4;&#x5757;&#x65F6;&#x5019;&#xFF0C;&#x5207;&#x6362;" ID="35c8a7f8-91ff-4fd8-a3e0-0e86e4c8a419" CREATED="1672615511574" MODIFIED="1672615511574" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;" ID="3bd2dec8-48cb-48aa-829a-0a7d046807bc" CREATED="1672630276834" MODIFIED="1672630276834" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x65F6;&#x95F4;&#x5757;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x5219;&#x5237;&#x65B0;&#x5217;&#x8868;" ID="f08a72e5-8a88-4b10-a729-7a5c61bc1b07" CREATED="1672620423785" MODIFIED="1672620423785" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;Tag&#x7CFB;&#x7EDF;&#xFF0C;&#x4E3A;&#x4EBA;&#x751F;&#x7B2C;&#x4E00;&#x6B21;&#x505A;&#x6807;&#x7B7E;" ID="3bed1e77-16c4-4641-8cbe-a29cec55380e" CREATED="1672621597208" MODIFIED="1672621597208" TASKTIME="0" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="4" ID="ea665b17-d441-4a64-a935-86315a7afcdb" CREATED="1672990659701" MODIFIED="1672990659701">
+          <node TEXT="&#x5982;&#x679C;&#x65F6;&#x95F4;&#x5757;&#x4E0A;&#x8FD8;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#x5907;&#x6CE8;&#xFF0C;&#x5C31;&#x76F4;&#x63A5;&#x8BBE;&#x7F6E;&#x5907;&#x6CE8;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6DFB;&#x52A0;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;" ID="903ec856-687a-4bed-8904-29cc1bf73e50" CREATED="1672796798845" MODIFIED="1672796798845" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="Shift+H,L&#x5207;&#x6362;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x65F6;&#x95F4;&#x6BD4;&#x8F83;&#x597D;" ID="c5c2d42d-998a-48dc-a799-9116864561d2" CREATED="1672798469871" MODIFIED="1672798469871" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x7684;&#x5907;&#x6CE8;&#x65F6;&#x5019;&#xFF0C;&#x5149;&#x6807;&#x4F4D;&#x7F6E;&#x4E0D;&#x80FD;&#x6539;&#x53D8;" ID="47821cfd-69b3-40bb-855f-b451093fbf25" CREATED="1672798602110" MODIFIED="1672798602110" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="if (!isRename&amp;&amp;!isRenameTimeBlock)//&#x91CD;&#x547D;&#x540D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x4EE5;&#x79FB;&#x52A8;&#x5149;&#x6807;" ID="951d0934-23fe-40b5-9cda-46667d5c3ecb" CREATED="1672829210863" MODIFIED="1672829210863" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;stb&#x7528;&#x6765;&#x663E;&#x793A;&#x65F6;&#x95F4;&#x5757;" ID="4bcfb981-c5f4-4199-b978-7376ec3dac6e" CREATED="1672801119860" MODIFIED="1672801119860" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x603B;&#x662F;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x83AB;&#x540D;&#x5176;&#x5999;&#xFF0C;&#x4E0D;&#x7BA1;&#x4E86;" ID="3481c4dc-1fdf-45b5-8ef7-cd13919a01c3" CREATED="1672831465852" MODIFIED="1672831465852" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x662F;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x8BDD;&#xFF0C;&#x54EA;&#x6015;&#x7B49;&#x7EA7;&#x662F;&#x8D1F;&#x7684;&#x4E5F;&#x8981;&#x663E;&#x793A;" ID="0ee3b906-d9f9-4b0e-9be2-99209aca4db0" CREATED="1672804069416" MODIFIED="1672804069416" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6CA1;&#x4E8B;&#x522B;&#x8BBE;&#x7F6E;&#x4EFB;&#x52A1;&#x91CC;&#x9762;&#x7684;&#x5B57;&#x4F53;&#x989C;&#x8272;&#xFF0C;&#x4E0D;&#x7136;&#x4F1A;&#x627E;&#x4E0D;&#x5230;&#x7684;" ID="3c88224d-2bca-4b66-acd3-e082a38a404a" CREATED="1672804392452" MODIFIED="1672804392452" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x4F55;&#x5728;&#x65F6;&#x95F4;&#x5757;&#x6A21;&#x5F0F;&#x6DFB;&#x52A0;&#x4EFB;&#x52A1;&#x5462;&#xFF1F;&#x6709;&#x70B9;&#x77DB;&#x76FE;" ID="1538858b-ec97-46b0-8206-10911baf698d" CREATED="1672805184466" MODIFIED="1672805184466" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x901A;&#x8FC7;&#x524D;&#x9762;&#x7A7A;&#x683C;&#x533A;&#x5206;&#xFF0C;&#x5DF2;&#x7ECF;&#x786E;&#x5B9A;&#x4E86;" ID="63733823-b33d-47e2-a158-93c08066f498" CREATED="1673007280696" MODIFIED="1673007280696" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x884C;&#x53F7; 4509" ID="e0c2d8c4-e0ac-4757-8c64-d9da7d592225" CREATED="1672805910884" MODIFIED="1672991999067" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="Box&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x4E0D;&#x662F;&#x5F53;&#x524D;&#x5206;&#x7C7B;&#x7684;&#xFF0C;&#x5219;&#x62A5;&#x9519;" ID="c5c5d094-c2d5-4c13-b47c-71270466301e" CREATED="1672806548263" MODIFIED="1672806548263" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x597D;&#x5BB9;&#x6613;&#x89E3;&#x51B3;&#x4E86;&#xFF0C;&#x903B;&#x8F91;&#x4E0D;&#x6E05;&#xFF0C;&#x4E0D;&#x6562;&#x78B0;" ID="e7f8e048-9814-4281-baa9-23fda4817a70" CREATED="1672832779668" MODIFIED="1672832779668" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5FEB;&#x6A21;&#x5F0F;&#xFF0C;&#x5FC5;&#x987B;&#x6309;&#x4E24;&#x6B21;W&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;" ID="32ae672f-79f5-4081-bd76-304c55052cda" CREATED="1672807831842" MODIFIED="1672807831842" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5BB6;&#x91CC;&#x7535;&#x8111;&#x53EF;&#x4EE5;&#xFF0C;&#x516C;&#x53F8;&#x7535;&#x8111;&#x4E0D;&#x884C;" ID="9cb0a31c-a5eb-4a59-89c7-bfe7a0baa050" CREATED="1672828431277" MODIFIED="1672828431277" TASKLEVEL="1" />
+          </node>
+          <node TEXT="Ctrl+T&#x4E4B;&#x540E;&#x6CA1;&#x6709;&#x5237;&#x65B0;&#x4EFB;&#x52A1;" ID="5f114538-4eef-4c0b-89a9-975a588452b9" CREATED="1672809298437" MODIFIED="1672809298437" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x5BB6;&#x91CC;&#x7535;&#x8111;&#x6B63;&#x5E38;&#xFF0C;&#x516C;&#x53F8;&#x7535;&#x8111;&#x4E3A;&#x4EC0;&#x4E48;&#x5C31;&#x4E0D;&#x884C;&#x5462;&#xFF1F;" ID="61d1b18d-535a-4891-a85e-2f1f24243508" CREATED="1672828409041" MODIFIED="1672828409041" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6309;d&#x7684;&#x65F6;&#x5019;&#x628A;&#x65F6;&#x95F4;&#x5757;&#x8BBE;&#x7F6E;&#x6210;&#x5B8C;&#x6210;" ID="3f75f9ef-67df-4aef-b037-827ed45cf792" CREATED="1672818803346" MODIFIED="1672818803346" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="box&#x4E2D;d&#x4E0D;&#x7BA1;&#x7528;" ID="65a9443d-75a0-4184-87cb-8344b58048fc" CREATED="1672832813585" MODIFIED="1672992001755" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x8BA1;&#x7B97;&#x5F53;&#x5929;&#x7684;&#x5F97;&#x5206;&#xFF0C;&#x65F6;&#x95F4;&#x5757;&#x8BA1;&#x7B97;" ID="4639ac77-4384-47ef-a7d7-36f537ba58e7" CREATED="1672839112408" MODIFIED="1672839112408" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="5" ID="2706123b-4e97-4c7c-bea0-1ee60379689c" CREATED="1672990659701" MODIFIED="1672990659701">
+          <node TEXT="&#x6BCF;&#x5929;&#x7684;&#x80FD;&#x91CF;&#x7528;&#x67F1;&#x72B6;&#x56FE;&#x663E;&#x793A;&#xFF0C;&#x592A;&#x68D2;&#x4E86;" ID="f56107a8-88d3-47d5-8a0e-1143d1bfe2ff" CREATED="1672884289564" MODIFIED="1672884289564" TASKTIME="0" TASKLEVEL="10">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1676599489000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x5C06;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x7236;&#x8282;&#x70B9;&#x663E;&#x793A;&#x5230;&#x4E0B;&#x9762;" ID="2b95494a-e4e3-4397-87d3-48f703f198a8" CREATED="1672900197804" MODIFIED="1672900197804" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;&#x989C;&#x8272;&#x7684;&#x7B49;&#x7EA7;-1&#x5230;-10&#x914D;&#x7F6E;&#x597D;" ID="0bf74020-afc6-4b97-8f47-48eaae8a2e9a" CREATED="1672908800330" MODIFIED="1672908800330" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="6" ID="03469dd4-be13-4a2e-bd69-10e0ac0383a4" CREATED="1672990659702" MODIFIED="1672990659702">
+          <node TEXT="&#x5224;&#x65AD;&#x65F6;&#x95F4;&#x8981;&#x5C0F;&#x4E8E;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E;" ID="c087e7d0-86b8-4585-9cf6-463c9f03f398" CREATED="1672960901869" MODIFIED="1672960901869" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6211;&#x9700;&#x8981;&#x77E5;&#x9053;&#xFF0C;&#x79BB;&#x6700;&#x540E;&#x4E00;&#x6761;&#x8FC7;&#x53BB;&#x591A;&#x4E45;&#x4E86;&#xFF0C;&#x8FD9;&#x6837;&#x80FD;&#x63D0;&#x9192;&#x6211;&#x907F;&#x514D;&#x4F7F;&#x7528;&#x592A;&#x591A;&#x65F6;&#x95F4;" ID="4b215e00-2bcb-44f0-8032-3414383ef532" CREATED="1672976517174" MODIFIED="1672976517174" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x9009;&#x62E9;&#x8282;&#x70B9;&#xFF0C;&#x8981;&#x4E0D;&#x8981;&#x4E5F;&#x628A;&#x4EFB;&#x52A1;&#x76F4;&#x63A5;&#x52A0;&#x8FDB;&#x53BB;&#xFF0C;&#x8FD9;&#x6837;&#x66F4;&#x52A0;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x518D;&#x53EA;&#x4F7F;&#x7528;&#x56FE;&#x6807;&#x5224;&#x65AD;&#x4E86;" ID="91da1466-db6e-431c-b8f9-0ca3ac9eb0c1" CREATED="1672981580414" MODIFIED="1672981580414" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6DFB;&#x52A0;&#x4E86;&#x592A;&#x68D2;&#x4E86;" ID="fc552d9e-d97b-443c-a23a-84233495dd7d" CREATED="1673081136787" MODIFIED="1673081136787" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x4EFB;&#x52A1;&#x7684;&#x5B8C;&#x6210;&#x65F6;&#x95F4;&#x6DFB;&#x52A0;&#x5230;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x91CC;&#x8FD9;&#x6837;&#x4EE5;&#x540E;&#x67E5;&#x8BE2;&#x5B8C;&#x6210;&#x7684;&#x4EFB;&#x52A1;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x901A;&#x8FC7;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x67E5;&#x4E86;&#xFF0C;&#x6CA1;&#x5FC5;&#x8981;&#x901A;&#x8FC7;&#x65E5;&#x5FD7;&#x67E5;&#x8BE2;&#xFF0C;&#x8FD9;&#x6837;&#x66F4;&#x597D;" ID="7920b147-41f9-4495-84bd-8690954b6c26" CREATED="1672984055567" MODIFIED="1672984055567" TASKTIME="0" TASKLEVEL="5">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675748855000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x5C06;&#x4ECA;&#x65E5;&#x7684;&#x5206;&#x6570;&#x8BA1;&#x7B97;&#x4E00;&#x4E0B;&#xFF0C;&#x663E;&#x793A;&#x5230;&#x4E0B;&#x9762;,&#x8FD8;&#x6709;&#x6B63;&#x5411;&#x6BD4;" ID="dab75631-f703-4b07-8360-4dc3e5cd76d0" CREATED="1672985372397" MODIFIED="1672985372397" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x4E3A;&#x4EC0;&#x4E48;&#x622A;&#x56FE;&#x7684;&#x65F6;&#x95F4;&#x5DEE;12&#x4E2A;&#x5C0F;&#x65F6;&#x5462;&#xFF1F;&#x592A;&#x5947;&#x602A;&#x4E86;" ID="15473dfd-7519-4dc1-abd5-6286a64cbe23" CREATED="1672985812613" MODIFIED="1672985812613" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x622A;&#x56FE;&#x62CD;&#x7167;&#x7684;&#x90FD;&#x6CA1;&#x6709;&#xFF0C;&#x53EA;&#x6709;&#x8FD9;&#x91CC;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x9700;&#x8981;&#x770B;&#x4E00;&#x4E0B;" ID="11f478dd-1191-4059-b2da-d541a770ff66" CREATED="1672985862699" MODIFIED="1672985862699" TASKLEVEL="1" />
+            <node TEXT="&#x539F;&#x6765;&#x5427;hh&#x6539;&#x4E3A;HH&#xFF0C;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x6CA1;&#x60F3;&#x5230;&#x72AF;&#x8FD9;&#x79CD;&#x9519;&#x8BEF;&#xFF0C;&#x54C8;&#x54C8;" ID="426aea8f-594c-4024-97d6-ba33e5435da8" CREATED="1673045422076" MODIFIED="1673045422076" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6309;F5&#x53EF;&#x4EE5;&#x7B5B;&#x9009;&#x51FA;&#x6240;&#x6709;&#x6307;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x5E94;&#x8BE5;&#x86EE;&#x4E0D;&#x9519;&#x7684;" ID="295ef4b1-ae58-40c4-b081-efe180e6f525" CREATED="1672987116731" MODIFIED="1672987116731" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x5F53;&#x65E5;&#x62A5;&#x544A;&#xFF0C;&#x6BD4;&#x5982;&#x6DFB;&#x52A0;&#x4E86;&#x591A;&#x5C11;&#x4EFB;&#x52A1;&#xFF0C;&#x5B8C;&#x6210;&#x4E86;&#x591A;&#x5C11;&#xFF0C;&#x952E;&#x76D8;&#x591A;&#x5C11;&#x6B21;&#xFF0C;&#x5DE5;&#x4F5C;&#x65F6;&#x957F;&#xFF0C;&#x5206;&#x6570;&#x7B49;&#x7B49;" ID="95795bfd-6141-4eb6-85b8-d4c66cd971d9" CREATED="1672987194196" MODIFIED="1672987194196" TASKTIME="0" TASKLEVEL="3">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675492794000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6BCF;&#x5206;&#x949F;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#x65F6;&#x95F4;&#x7528;&#x6765;&#x8BB0;&#x5F55;&#x6700;&#x540E;&#x4E00;&#x6761;&#x65F6;&#x95F4;&#x5757;&#x7684;&#x6700;&#x540E;&#x65F6;&#x95F4;&#xFF0C;&#x7136;&#x540E;&#x663E;&#x793A;&#x518D;Title&#x91CC;&#x9762;&#x7528;&#x6765;&#x63D0;&#x9192;&#x81EA;&#x5DF1;" ID="0db808b4-1420-4b05-abbe-447177d7527e" CREATED="1672987560767" MODIFIED="1672987560767" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x60F3;&#x7ED9;&#x8F6F;&#x4EF6;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x6D4F;&#x89C8;&#x5668;&#xFF0C;&#x5C31;&#x50CF;&#x4E00;&#x4E2A;&#x7B80;&#x6613;&#x7684;TotalCommander" ID="746a5da9-6b1b-4dce-9991-a1eace3c01c4" CREATED="1672988450078" MODIFIED="1672988450078" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1674889250000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="8694&#x884C;&#x62A5;&#x9519;&#x4E86;" ID="5336a95b-e6be-4cb9-a3d1-28839c354252" CREATED="1672988612904" MODIFIED="1672988612904" TASKTIME="0" TASKLEVEL="-1">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4E0D;&#x6E05;&#x695A;&#x4E3A;&#x5565;" ID="f4cffaa7-87d5-4590-b631-1e75713bf079" CREATED="1673005716815" MODIFIED="1673005716815" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x662F;&#x7A7A;&#x683C;&#xFF0C;&#x5219;&#x4E0D;&#x8BA4;&#x4E3A;&#x662F;&#x65F6;&#x95F4;&#x5757;&#x6A21;&#x5F0F;&#xFF0C;&#x8BB0;&#x5F97;&#x53BB;&#x9664;&#x4E00;&#x4E0B;&#x7A7A;&#x683C;" ID="1e33c2f2-eea7-4e19-866f-574d22317252" CREATED="1672988742739" MODIFIED="1672988742739" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6CA1;&#x6DFB;&#x52A0;&#x8FDB;&#x53BB;&#x597D;&#x50CF;&#x6709;&#x522B;&#x7684;&#x903B;&#x8F91;" ID="71ccbe03-ee65-4192-ba6c-ba7a30963533" CREATED="1673009818671" MODIFIED="1673009818671" TASKLEVEL="1">
+              <icon BUILTIN="button_ok" />
+            </node>
+            <node TEXT="&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x592A;&#x68D2;&#x4E86;&#xFF0C;&#x6CA1;&#x51E0;&#x5929;&#x5C31;&#x89E3;&#x51B3;&#x4E86;" ID="6771ee09-5366-4a77-b996-13831840aff0" CREATED="1673045280703" MODIFIED="1673045280703" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x65F6;&#x95F4;&#x5757;&#x7684;&#x4FEE;&#x6539;&#x8BB0;&#x5F55;&#x662F;&#x4E0D;&#x662F;&#x5DF2;&#x7ECF;&#x52A0;&#x8FC7;&#x4E86;&#xFF1F;" ID="b8f17e7a-0ac4-4a94-bb19-3353084e1c46" CREATED="1672989916374" MODIFIED="1672989916374" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675754716000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x597D;&#x50CF;&#x6CA1;&#x6709;" ID="5fd95334-a742-4407-9875-1eb88ceeae07" CREATED="1673045642658" MODIFIED="1673045642658" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x6309;TTT&#x603B;&#x4E0D;&#x4F1A;&#x6709;&#x95EE;&#x9898;&#x4E86;&#x5427;" ID="26102d9a-0da4-4eb9-b28e-eea5b1309808" CREATED="1672994810696" MODIFIED="1672994810696" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="7" ID="4125fe53-03c1-4a6a-9974-841c34065867" CREATED="1673440963685" MODIFIED="1673440963685">
+          <node TEXT="&#x5C06;&#x60C5;&#x7EEA;&#x7684;&#x5206;&#x7EA7;&#x5199;&#x4E00;&#x4E0B;" ID="b7e2b313-2e19-4a02-ad65-2666ae66adac" CREATED="1673045108297" MODIFIED="1673045108297" TASKTIME="0" TASKLEVEL="2">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x8981;&#x4E0D;&#x8981;&#x4E5F;&#x52A0;&#x4E0A;&#x641C;&#x7D22;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x77E5;&#x9053;&#x65F6;&#x95F4;&#x6BB5;&#x600E;&#x4E48;&#x6837;&#x4E86;&#xFF0C;&#x8FD8;&#x6709;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x591A;&#x5929;&#x7684;&#x4E5F;&#x8981;&#x8003;&#x8651;" ID="809b2aef-add2-4888-823f-b01be068a533" CREATED="1673046007819" MODIFIED="1673046007819" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x53EF;&#x4EE5;&#x67E5;&#x591A;&#x5929;&#x7684;&#x65F6;&#x95F4;&#x5757;" ID="0c67345e-c320-46ba-85c9-c3e9ef6785a0" CREATED="1673053868280" MODIFIED="1673053868280" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x4EFB;&#x52A1;&#x7684;&#x5BFC;&#x51FA;&#xFF0C;&#x547D;&#x4EE4;&#x7136;&#x540E;&#x4FDD;&#x5B58;&#x4E3A;Excel&#x6587;&#x4EF6;" ID="468d8d40-4a9e-4f5a-b7dc-ab54b01d271c" CREATED="1673056545763" MODIFIED="1673056545763" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675734945000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6240;&#x6709;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x91CC;&#x53BB;&#x6389;~&#x5F00;&#x59CB;&#x7684;&#x6587;&#x4EF6;" ID="262e1b8a-5649-4608-a233-c6820d9a4550" CREATED="1673078002247" MODIFIED="1673078002247" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5728;&#x6240;&#x6709;&#x5BFC;&#x56FE;&#x91CC;&#x5DF2;&#x7ECF;&#x6CA1;&#x6709;&#x7684;&#xFF0C;&#x5C31;&#x53BB;&#x6389;&#x5427;" ID="81aa8b00-ba5e-41c2-b86c-edb26b20b9c3" CREATED="1673103768762" MODIFIED="1673103768762" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+            <node TEXT="&#x4E0D;&#x592A;&#x597D;&#x53BB;&#x6389;&#x5440;&#xFF0C;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x7684;&#x6D41;&#x901D;&#x5C31;&#x8FD9;&#x6837;&#x5427;" ID="996d607e-8506-4f71-b1ae-218cacbc214c" CREATED="1673285225663" MODIFIED="1673285225663" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="8" ID="6bd185a5-7e72-4116-be01-ed07660f636e" CREATED="1673440963685" MODIFIED="1673440963685">
+          <node TEXT="&#x5982;&#x679C;&#x65F6;&#x95F4;&#x5C0F;&#x4E8E;&#x5F53;&#x5929;&#xFF0C;&#x5219;&#x4ECE;&#x96F6;&#x70B9;&#x5F00;&#x59CB;&#x8BA1;&#x7B97;&#xFF0C;&#x514D;&#x5F97;&#x6709;&#x95EE;&#x9898;" ID="6b415488-4aa7-4c61-8337-d126c09e31ab" CREATED="1673146122386" MODIFIED="1673146122386" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="9" ID="75537f07-ec2a-4815-9a84-3d758a370044" CREATED="1673440963685" MODIFIED="1673440963685">
+          <node TEXT="&#x5982;&#x679C;AT&#x7B26;&#x53F7;&#x524D;&#x9762;&#x4E5F;&#x6709;&#x7A7A;&#x683C;&#xFF0C;&#x5219;&#x8BF4;&#x660E;&#x662F;&#x65F6;&#x95F4;&#x5757;&#xFF0C;&#x8FD9;&#x6837;&#x597D;&#x4E0D;&#x597D;" ID="0cc935cc-d55a-4726-a182-0e94975cc9d2" CREATED="1673229365642" MODIFIED="1673229365642" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6BCF;&#x5237;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x66F4;&#x65B0;&#x4E00;&#x4E0B;&#x65F6;&#x95F4;&#x5757;&#x6700;&#x540E;&#x65F6;&#x95F4;&#xFF0C;&#x53CD;&#x6B63;&#x4E5F;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x662F;&#x5417;&#xFF1F;" ID="07538a1e-61d5-42dd-b593-acbbc3d6544d" CREATED="1673231076575" MODIFIED="1673231076575" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x662F;N&#x5728;&#x65F6;&#x95F4;&#x5757;&#x4E2D;&#x663E;&#x793A;&#x8BE5;&#x6761;&#x6570;&#x7684;&#x4E00;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C;&#x5305;&#x62EC;&#x66FE;&#x7ECF;&#xFF0C;&#x603B;&#x65F6;&#x95F4;&#xFF0C;&#x603B;&#x8BA1;&#x7B97;&#x7B49;" ID="4f3c2903-e1ca-45fc-8bea-5ed796bd5ae8" CREATED="1673233088192" MODIFIED="1673233088192" TASKTIME="0" TASKLEVEL="9">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673665088000" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x6839;&#x636E;&#x65F6;&#x95F4;&#xFF0C;&#x663E;&#x793A;&#x5728;&#x6811;&#x89C6;&#x56FE;&#x4E2D;" ID="edb817a8-9b8a-4820-9ad3-8460473009b5" CREATED="1673288352164" MODIFIED="1673288352164" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5C06;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x653E;&#x5230;#&#x7136;&#x540E;AT&#x540E;&#x9762;&#xFF0C;&#x8FD9;&#x6837;&#x627E;&#x6587;&#x4EF6;&#x5C31;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#x4E86;" ID="d27d284d-5da4-4360-9e6a-861b993d9a39" CREATED="1673238499468" MODIFIED="1673238499468" TASKTIME="0" TASKLEVEL="8">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1676003299000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+        </node>
+        <node TEXT="10" ID="fdc0a43d-b35d-40f2-9378-cd9831745d10" CREATED="1673440963685" MODIFIED="1673440963685">
+          <node TEXT="&#x5C06;&#x8282;&#x70B9;&#x660E;&#x7EC6;&#x6DFB;&#x52A0;&#x8FDB;&#x4E66;&#x7B7E;" ID="10753423-773f-4ede-97cc-8b51cb2afa96" CREATED="1673297359385" MODIFIED="1673297359385" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x201C;DETAILS&#x201C;" ID="805c8fa4-9cc4-4eaf-b6f2-6c3e356291c8" CREATED="1673297378595" MODIFIED="1673297378595" TASKLEVEL="1" />
+          </node>
+        </node>
+        <node TEXT="11" ID="e56024ef-151a-4ff2-8146-f9a3442a517e" CREATED="1673440963685" MODIFIED="1673440963685">
+          <node TEXT="&#x5C06;&#x6A21;&#x578B;&#x91CC;&#x9762;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x7ED3;&#x675F;&#x65F6;&#x95F4;&#xFF0C;&#x5E76;&#x81EA;&#x52A8;&#x8BA1;&#x7B97;&#x7ED3;&#x675F;&#x65F6;&#x95F4;&#x4E0D;&#x5C31;&#x884C;&#x4E86;&#x5417;" ID="ff36be12-1c16-4703-a61a-05d1b37dc5be" CREATED="1673411604297" MODIFIED="1673411604297" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;&#x663E;&#x793A;&#x949F;" ID="c3624a4c-356b-4d02-98a8-a48a2ad774fe" CREATED="1673412909456" MODIFIED="1673412909456" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x6309;R&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x5207;&#x6362;" ID="59aa50d9-1639-4c7f-a51b-6cb07e57ace1" CREATED="1673413222652" MODIFIED="1673413222652" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+        </node>
+        <node TEXT="12" ID="d7b7ef74-6e4d-418e-8320-44dda238412e" CREATED="1673498933485" MODIFIED="1673498933485">
+          <node TEXT="&#x5F53;T&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x6700;&#x540E;&#x4E00;&#x6761;&#x518D;&#x4E94;&#x5206;&#x949F;&#x4E4B;&#x5185;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;&#x6700;&#x540E;&#x7684;&#x65F6;&#x95F4;" ID="2a356bb2-6496-4a66-9bca-77559ce1af10" CREATED="1673489004854" MODIFIED="1673489004854" TASKLEVEL="1" TASKTIME="0" ISReminderOnly="True">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673489004854" PERIOD="1" UNIT="DAY" />
+            </hook>
+            <node TEXT="&#x597D;&#x50CF;&#x633A;&#x590D;&#x6742;&#x7684;&#xFF0C;&#x6682;&#x65F6;&#x4E0D;&#x5F04;&#x4E86;" ID="31d3ad5a-f5a1-4f5b-81a8-102170d8968e" CREATED="1673705251507" MODIFIED="1673705251507" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x67E5;&#x770B;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;&#x4E00;&#x5171;&#x7528;&#x4E86;&#x591A;&#x4E45;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x4F1A;&#x975E;&#x5E38;&#x68D2;&#x7684;" ID="6555cc96-ce3a-49fb-852f-905b33df82c5" CREATED="1673491370269" MODIFIED="1673491370269" TASKTIME="0" TASKLEVEL="8">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673491370269" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x5979;&#x603B;&#x662F;&#x4E0D;&#x8FC7;&#x6765;&#xFF0C;&#x6211;&#x90FD;&#x5BB3;&#x6015;&#x5979;&#x6709;&#x4E00;&#x5929;&#x53C8;&#x7A81;&#x7136;&#x548C;&#x6211;&#x8BF4;&#x5206;&#x624B;&#x3002;&#x6709;&#x9634;&#x5F71;&#x4E86;&#x3002;&#x6211;&#x95EE;&#x4E3A;&#x4EC0;&#x4E48;&#xFF0C;&#x5979;&#x8BF4;&#x4E0D;&#x60F3;&#x505A;&#x7231;&#xFF0C;&#x592A;&#x7D2F;&#xFF0C;&#x8FD8;&#x8BF4;&#x4E0D;&#x4FE1;&#x4EFB;&#x6211;&#xFF0C;&#x6211;&#x90FD;&#x7B11;&#x4E86;&#xFF0C;&#x786E;&#x5B9E;&#xFF0C;&#x6BD5;&#x7ADF;&#x90A3;&#x662F;&#x4E24;&#x4E2A;&#x4EBA;&#x7684;&#x4E8B;&#x3002;" ID="091dc200-7dc3-455a-91a2-9888bca53fdb" CREATED="1673492041740" MODIFIED="1673492041740" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#xFF0C;&#x6839;&#x636E;&#x65F6;&#x95F4;&#x5757;&#x7B49;&#x7EA7;&#x663E;&#x793A;&#x4E0D;&#x540C;&#x989C;&#x8272;" ID="a60a4cd1-b685-4f12-98d4-cc63b28cbe40" CREATED="1673497915170" MODIFIED="1673497915170" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="13" ID="9deefb3f-7014-4db7-99ff-af671d6ac5ee" CREATED="1674166379469" MODIFIED="1674166379469">
+          <node TEXT="&#x5C06;&#x65F6;&#x95F4;&#x5757;&#x8F6C;&#x6362;&#x6210;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#xFF0C;&#x4E3B;&#x610F;&#x5F88;&#x4E0D;&#x9519;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x6362;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x56DE;&#x987E;&#x4E86;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD8;&#x5F97;&#x8003;&#x8651;&#x66F4;&#x65B0;" ID="37282ad9-d033-48dd-9cf4-18da273644b6" CREATED="1673574689674" MODIFIED="1673574724156" MODIFIEDLog="1673574689674" TEXTLOG="&#x5C06;&#x65F6;&#x95F4;&#x5757;&#x8F6C;&#x6362;&#x6210;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#xFF0C;&#x4E3B;&#x610F;&#x5F88;&#x4E0D;&#x9519;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x6362;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x56DE;&#x987E;&#x4E86;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD8;&#x5F97;&#x8003;&#x8651;&#x66F4;&#x65B0;" TASKTIME="0" TASKLEVEL="10">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673574689674" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="Diigo&#x5BFC;&#x5165;&#x8FD8;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x8981;&#x5F7B;&#x5E95;&#x6539;&#x5B8C;&#x4E86;&#x624D;&#x80FD;&#x7528;" ID="5083d4f4-cec8-4d7a-a73c-eed8f314c74d" CREATED="1673574750766" MODIFIED="1673574750766" TASKTIME="0" TASKLEVEL="9">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673574750766" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x53BB;&#x5237;&#x65B0;&#x4E00;&#x4E0B;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x7684;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#xFF0C;&#x53CD;&#x6B63;&#x5BFC;&#x56FE;&#x91CC;&#x9762;&#x8BB0;&#x5F55;&#x4E86;&#xFF0C;&#x8FD9;&#x6837;&#x907F;&#x514D;&#x4E0D;&#x51C6;&#x7684;&#x95EE;&#x9898;&#x3002;&#x7EDD;&#x5999;&#x7684;&#x89E3;&#x51B3;&#x4E86;&#xFF0C;&#x563F;&#x563F;&#x3002;" ID="42dc5ba4-d140-4b32-8ba2-1a735e426151" CREATED="1673575354156" MODIFIED="1673575354156" TASKLEVEL="1" TASKTIME="0">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673575354156" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x628A;Q&#x952E;&#x6362;&#x6210;&#x65F6;&#x95F4;&#x5757;&#x628A;&#xFF0C;&#x53CD;&#x6B63;&#x90A3;&#x4E2A;&#x4E5F;&#x4E0D;&#x600E;&#x4E48;&#x7528;" ID="8ba1430e-687f-4289-9b59-6fb774f83582" CREATED="1673575592329" MODIFIED="1673575592329" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x996E;&#x98DF;&#x662F;&#x4E0D;&#x662F;&#x4E5F;&#x5E94;&#x8BE5;&#x51E0;&#x70B9;&#x5230;&#x51E0;&#x70B9;&#x5462;&#xFF1F;" ID="ea71cf5a-e62a-4e8c-9a28-4e6a7e938c67" CREATED="1673577657117" MODIFIED="1673577657117" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1676342457000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x662F;&#x4E0D;&#x662F;&#x6BCF;&#x5F20;&#x7167;&#x7247;&#x90FD;&#x6709;&#x65F6;&#x95F4;&#x8BB0;&#x5F55;&#x5462;&#xFF0C;&#x5982;&#x679C;&#x6709;&#xFF0C;&#x5C31;&#x597D;&#x4E86;&#x3002;" ID="9a0d2bfb-3a89-4315-b145-fd7340251926" CREATED="1673577895994" MODIFIED="1673577895994" TASKTIME="0" TASKLEVEL="4">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675219495000" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x5BFC;&#x51FA;&#x6587;&#x4EF6;&#x91CC;&#x7684;&#x56FE;&#x7247;&#x662F;&#x5982;&#x4F55;&#x4FDD;&#x5B58;&#x7684;&#xFF1F;" ID="b6e819b1-05ca-4441-b5ae-7b1bd3240067" CREATED="1673579228838" MODIFIED="1673579228838" TASKLEVEL="1" TASKTIME="0">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673579228838" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="c#:&#x4EFB;&#x52A1;&#x680F;&#x8FDB;&#x5EA6;&#x663E;&#x793A;(TaskbarManager)-&#x695A;&#x4EBA;&#x65E0;&#x8863;-&#x535A;&#x5BA2;&#x56ED;" ID="87a573ef-7c3c-4e46-b2d0-014488d7ce63" CREATED="1673579493942" MODIFIED="1673579493942" LINK="https://www.cnblogs.com/crwy/p/10091034.html#:~:text=c%2523%253A%2520%25E4%25BB%25BB%25E5%258A%25A1%25E6%25A0%258F%25E8%25BF%259B%25E5%25BA%25A6%25E6%2598%25BE%25E7%25A4%25BA%2520%2528TaskbarManager%2529%2520Win7%25E5%258F%258A%25E4%25BB%25A5%25E4%25B8%258A%25E7%25B3%25BB%25E7%25BB%259F%25E6%2594%25AF%25E6%258C%2581%25E4%25BB%25BB%25E5%258A%25A1%25E6%25A0%258F%25E8%25BF%259B%25E5%25BA%25A6%25E6%25%25A1%25EF%25BC%258C%25E4%25B8%25BA%25E6%259C%2589%25E8%25BF%259B%25E5%25BA%25A6%25E7%25B1%25BB%25E5%25BA%2594%25E7%2594%25A8%25E6%2598%25BE%25E7%25A4%25BA%25E8%25BF%259B%25E5%25BA%25A6%25E4%25BA%258E%25E4%25BB%25BB%25E5%258A%25A1%25E6%25A0%258F%25EF%25BC%258C%25E7%2594%259A%25E4%25B8%25BA%25E6%2596%25B9%25E4%25BE%25BF%25E3%2580%2582%2520%25E4%25BB%25A5c%2523%25E4%25B9%258BWinForm%25E5%25AE%259E%25E7%258E%25B0%25E5%2585%25B6%25EF%25BC%258C%25E5%25A4%25A7%25E5%25A4%259A%25E9%2587%2587%25E7%2594%25A8,Windows%2520API%2520Code%2520Pack%2520%25E8%25BF%2599%25E4%25B8%25AA%25E6%2596%25B9%25E6%25A1%2588%25EF%25BC%258C%25E5%258A%25A0%25E5%25A4%259A%25E5%25BC%2595%25E7%2594%25A8%25EF%25BC%258C%25E6%25AF%2594%25E8%25BE%2583%25E7%25B9%2581%25E7%2590%2590%25EF%25BC%258C%25E8%2580%258C%25E6%2588%2591%25E6%2580%25BB%25E4%25B9%259F%25E6%2589%2593%25E4%25B8%258D%25E5%25BC%2580%25E4%25BA%2586%25E5%2585%25B6%25E9%25A1%25B5%25E9%25%25A2%25E3%2580%2582" TASKLEVEL="1" TASKTIME="0">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1674357093942" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+          <node TEXT="&#x6DFB;&#x52A0;&#x5B8C;&#x4EFB;&#x52A1;&#x540E;&#x5237;&#x65B0;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x975E;&#x5E38;&#x4E25;&#x91CD;&#x5F71;&#x54CD;&#x4F7F;&#x7528;&#x4E86;" ID="36d73ea3-a329-4be4-ab24-86449e83d353" CREATED="1673581560041" MODIFIED="1673581560041" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_cancel" />
+          </node>
+          <node TEXT="&#x4E0D;&#x91CD;&#x8981;&#x7684;&#x4EFB;&#x52A1;&#x4E5F;&#x8981;&#x63A7;&#x5236;&#x65F6;&#x95F4;" ID="6fd07042-91b9-4634-93dc-021faad44cd4" CREATED="1673589333398" MODIFIED="1673589333398" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5982;&#x679C;&#x4E0B;&#x62C9;&#x7684;&#x6587;&#x4EF6;&#x5DF2;&#x7ECF;&#x6CA1;&#x6709;&#x4E86;&#xFF0C;&#x5C31;&#x5220;&#x9664;&#x6389;" ID="13ed4900-e3ab-4e8c-87e7-f062e5405ff2" CREATED="1673589381328" MODIFIED="1673589381328" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x6682;&#x65F6;&#x4E0D;&#x7BA1;&#x4E86;" ID="e54c665a-bdc2-4d35-9ad7-7a6e6e8912fc" CREATED="1673635838367" MODIFIED="1673635838367" TASKLEVEL="1" />
+          </node>
+          <node TEXT="MoodNots&#x6811;&#x89C6;&#x56FE;&#x6253;&#x4E0D;&#x5F00;&#xFF0C;&#x62A5;&#x9519;&#x4E86;&#x67E5;&#x4E0B;&#x4E3A;&#x4EC0;&#x4E48;" ID="23a9c0cc-262b-490d-927d-290f740b4d95" CREATED="1673589585899" MODIFIED="1673589585899" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+            <node TEXT="&#x539F;&#x6765;&#x662F;&#x65F6;&#x95F4;&#x95EE;&#x9898;" ID="14a81f60-bdb6-4f8e-84a1-22bf58d91c5a" CREATED="1673705139999" MODIFIED="1673705139999" TASKLEVEL="1" />
+          </node>
+          <node TEXT="Ctrl+Q&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6253;&#x5F00;&#x65E5;&#x5386;&#xFF0C;&#x8FD8;&#x6709;&#x3002;&#x5982;&#x679C;&#x5FEB;&#x6377;&#x952E;&#x6CA1;&#x6709;&#x6CE8;&#x518C;&#xFF0C;&#x5C31;&#x522B;&#x63D0;&#x793A;&#x4E86;" ID="661e3dfa-0f03-45b6-a108-0cded1a735ae" CREATED="1673593648565" MODIFIED="1673593648565" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="14" ID="b8218344-eb01-4c49-b6c5-475509e4950d" CREATED="1674166379473" MODIFIED="1674166379473">
+          <node TEXT="&#x628A;&#x9AD8;&#x5EA6;&#x81EA;&#x52A8;&#x8C03;&#x6574;&#x4E00;&#x4E0B;&#xFF0C;&#x514D;&#x5F97;&#x770B;&#x5230;&#x4E0D;&#x662F;&#x56FA;&#x5B9A;&#x9AD8;&#x5EA6;&#x96BE;&#x53D7;" ID="c7653439-6ca4-4a3f-a28d-70d266bcf8e4" CREATED="1673704862135" MODIFIED="1673704862135" TASKLEVEL="1" TASKTIME="0">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="15" ID="636ec065-d216-441d-aafe-e1a37a35c02d" CREATED="1674166379473" MODIFIED="1674166379473">
+          <node TEXT="&#x5199;&#x4E00;&#x4E2A;&#xFF0C;&#x5C06;&#x65F6;&#x95F4;&#x5DEE;&#x8DDD;&#x5982;&#x679C;&#x5C0F;&#x4E8E;&#x4E24;&#x5206;&#x949F;&#x7684;&#xFF0C;&#x5C31;&#x628A;&#x65F6;&#x95F4;&#x7EDF;&#x4E00;&#x7684;&#x5DE5;&#x5177;" ID="814aa2f1-af00-4329-9a1f-c92926b2b3b2" CREATED="1673737790902" MODIFIED="1673737790902" TASKLEVEL="1">
+            <icon BUILTIN="button_ok" />
+          </node>
+        </node>
+        <node TEXT="16" ID="f33cde2b-7686-4352-b041-efdeeca09e8e" CREATED="1674166379474" MODIFIED="1674166379474">
+          <node TEXT="&#x5982;&#x679C;W&#x91CC;&#x6CA1;&#x6709;&#xFF0C;&#x81EA;&#x52A8;&#x8FD4;&#x56DE;" ID="e1636598-7f51-44df-b286-b6b7f663cce4" CREATED="1673850050355" MODIFIED="1673850050355" TASKLEVEL="1" TASKTIME="0">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1673850050355" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+        </node>
+        <node TEXT="20" ID="6f5b566a-9d69-4003-b41c-31b87dd961ec" CREATED="1674166379474" MODIFIED="1674166379474">
+          <node TEXT="&#x5982;&#x679C;&#x65F6;&#x95F4;&#x5757;&#x6A21;&#x5F0F;&#xFF0C;&#x5219;&#x9690;&#x85CF;BOX" ID="68ad3611-6650-4608-95eb-8cd184611f2a" CREATED="1674163920952" MODIFIED="1674163920952" TASKLEVEL="1" TASKTIME="0">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1674163920952" PERIOD="1" UNIT="DAY" />
+            </hook>
+          </node>
+        </node>
+        <node TEXT="23" ID="c85986f1-6290-41db-94d8-2dcda3c90208">
+          <node TEXT="&#x65E5;&#x5386;&#x63A7;&#x4EF6;&#x65E0;&#x6CD5;&#x9002;&#x5E94;4K&#x5C4F;&#x5E55;" CREATED="1674437379994" MODIFIED="1674437379994" ID="cd47f0da-35b5-4146-b87f-6fe3aff8628d" TASKTIME="0" TASKLEVEL="1">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1675042179000" />
+            </hook>
+            <node TEXT="&#x6682;&#x65F6;&#x89E3;&#x51B3;&#x4E0D;&#x4E86;" CREATED="1674439012356" MODIFIED="1674439012356" ID="df08b16e-58c8-4d35-8516-6c82c5ffad5e" TASKLEVEL="1" />
+          </node>
+          <node TEXT="&#x63D0;&#x793A;&#x7684;&#x663E;&#x793A;&#xFF0C;&#x672A;&#x77E5;&#x4E0D;&#x5BF9;&#xFF0C;&#x5728;&#x5927;&#x5C4F;&#x5E55;&#x4E0A;" CREATED="1674437472812" MODIFIED="1674437472812" TASKLEVEL="1" TASKTIME="0" ID="e48e1d16-4d1b-4d7e-9ddc-2e70623eef9f">
+            <icon BUILTIN="button_ok" />
+          </node>
+          <node TEXT="&#x5C06;&#x6240;&#x6709;&#x8282;&#x70B9;&#x5BFC;&#x51FA;&#x5230;Excel&#x7528;&#x4E8E;&#x5206;&#x6790;" CREATED="1674449987979" MODIFIED="1674449987979" TASKLEVEL="1" TASKTIME="0" ID="f7412040-616e-4af7-b0ff-00041dd1facd">
+            <hook NAME="plugins/TimeManagementReminder.xml">
+              <Parameters REMINDUSERAT="1674449987979" />
+            </hook>
+          </node>
+        </node>
+      </node>
     </node>
   </node>
 </map>

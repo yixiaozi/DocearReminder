@@ -1267,7 +1267,7 @@ namespace DocearReminder
             // fathernode
             // 
             this.fathernode.AutoSize = true;
-            this.fathernode.Location = new System.Drawing.Point(552, 483);
+            this.fathernode.Location = new System.Drawing.Point(556, 483);
             this.fathernode.Name = "fathernode";
             this.fathernode.Size = new System.Drawing.Size(41, 12);
             this.fathernode.TabIndex = 120;

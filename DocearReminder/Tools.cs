@@ -1224,9 +1224,9 @@ namespace DocearReminder
         }
         #endregion
 
-        private void timeblockduiqi_Click(object sender, EventArgs e)
+        public static void timeblockduiqi_Click(object sender, EventArgs e)
         {
-            //遍历reminderObject.reminders，如果下一个的开始时间小于上一个的结束时间两分钟以内，就把下一个的开始时间改为上一个的结束时间
+            //遍历reminderObject.reminders，如果下一个的开始时间小于上一个的结束时间10分钟以内，就把下一个的开始时间改为上一个的结束时间
             //获取所有时间块
             List<ReminderItem> reminders =  reminderObject.reminders.Where(m => m.mindmap == "TimeBlock").OrderBy(m => m.time).ToList();
             
@@ -1234,7 +1234,7 @@ namespace DocearReminder
             {
                 if (i < reminders.Count - 1)
                 {
-                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 5&& (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes>0)
+                    if ((reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes < 10&& (reminders[i + 1].time - reminders[i].TimeEnd).TotalMinutes>0)
                     {
                         reminders[i].tasktime=(reminders[i + 1].time- reminders[i].time).TotalMinutes;
                         //如果任务reminders[i]跨天了，就将结束时间设为23:59:59
@@ -1244,12 +1244,13 @@ namespace DocearReminder
                         }
                     }
                     //如果reminders[i]结束时间大于晚上11点46分，就将结束时间设为晚上11点59分
-                    if (reminders[i].TimeEnd.Hour > 23 || (reminders[i].TimeEnd.Hour == 23 && reminders[i].TimeEnd.Minute > 53))
+                    if (reminders[i].TimeEnd.Hour > 23 || (reminders[i].TimeEnd.Hour == 23 && reminders[i].TimeEnd.Minute > 46))
                     {
                         reminders[i].tasktime = (reminders[i].time.Date.AddHours(23).AddMinutes(59).AddSeconds(59) - reminders[i].time).TotalMinutes;
                     }
                 }
             }
+            CalendarForm.FreshCalendarBool = true;
         }
     }
 }

@@ -1323,6 +1323,19 @@ namespace DocearReminder
                             {
                             }
                         }
+                        //重新书写思维导图的创建时间
+                        DateTime dt = DateTime.Today;
+                        string reminder = GetAttribute(x.FirstChild.ChildNodes[x.FirstChild.ChildNodes.Count - 1], "CREATED");
+                        if (reminder != "")
+                        {
+                            long unixTimeStamp = Convert.ToInt64(reminder);
+                            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                            dt = startTime.AddMilliseconds(unixTimeStamp);
+                            if (dt != DateTime.Today)
+                            {
+                                file.CreationTime = dt;
+                            }
+                        }
                     }
                     catch (Exception)
                     {
@@ -13562,6 +13575,11 @@ namespace DocearReminder
             else if (searchword.Text.ToLower().StartsWith("usedsu3"))
             {
                 OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                searchword.Text = "";
+            }
+            else if (searchword.Text.ToLower().EndsWith("ccc"))
+            {
+                Clipboard.SetText(searchword.Text.Replace("ccc",""));
                 searchword.Text = "";
             }
             else if (searchword.Text.ToLower().StartsWith("jj") || searchword.Text.ToLower().Contains("jjj"))

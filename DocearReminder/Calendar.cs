@@ -461,6 +461,7 @@ namespace DocearReminder
                     comment = comment,
                     DetailComment = detailComment
                 });
+                FreshCalendarBool = true;
             }
             catch (Exception)
             {
@@ -736,9 +737,11 @@ namespace DocearReminder
             dayView1.StartDate = dateTimePicker1.Value;
             RefreshCalender();
         }
+        public static bool FreshCalendarBool=false;
 
-        private void button1_Click_1(object sender, EventArgs e)
+        public void button1_Click_1(object sender, EventArgs e)
         {
+            DocearReminder.Tools.timeblockduiqi_Click(null,null);
             FreshMenu();
             RefreshCalender();
         }
@@ -2905,7 +2908,7 @@ namespace DocearReminder
                 }
                 string showresult = timeblocktop + args.Title.Split('(')[0] + Environment.NewLine + info + (args.Comment != null ? (Environment.NewLine + ToString20Lenght(args.Comment)) : "") + (args.DetailComment != null ? (Environment.NewLine + ToString20Lenght(args.DetailComment)) : "") + editinfo;
                 showresult = showresult.Replace(Environment.NewLine+ Environment.NewLine, Environment.NewLine);//去掉连续的换行
-                toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X + 1, Control.MousePosition.Y + 1), int.MaxValue);
+                toolTip2.Show(showresult, dayView1, new System.Drawing.Point(Control.MousePosition.X-this.Left + 1, Control.MousePosition.Y-this.Top + 1), int.MaxValue);
             }
         }
 
@@ -3268,6 +3271,15 @@ namespace DocearReminder
                 }
             }
             dayView1.Refresh();
+        }
+
+        private void freshCalender_Tick(object sender, EventArgs e)
+        {
+            if (FreshCalendarBool)
+            {
+                button1_Click_1(null, null);
+                FreshCalendarBool = false;
+            }
         }
     }
     internal class User32

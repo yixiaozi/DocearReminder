@@ -64,32 +64,32 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge.Video.DirectShow">
-      <HintPath>..\OperateCamera\lib\AForge.Video.DirectShow.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
     <Reference Include="Gma.UserActivityMonitor">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
     </Reference>
     <Reference Include="IrisSkin4">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\IrisSkin4.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NAudio.dll</HintPath>
+      <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NPinyin.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPinyin.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NPOI.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OOXML">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NPOI.OOXML.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OOXML.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NPOI.OpenXml4Net.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OpenXml4Net.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>..\..\..\..\..\.files\DocearReminder\NPOI.OpenXmlFormats.dll</HintPath>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -106,9 +106,8 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="yixiaozi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\.files\DocearReminder\yixiaozi.dll</HintPath>
+    <Reference Include="yixiaozi">
+      <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\yixiaozi.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

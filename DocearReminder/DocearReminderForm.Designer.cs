@@ -149,7 +149,6 @@ namespace DocearReminder
             this.StartRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.quietmode = new System.Windows.Forms.CheckBox();
             this.showTimeBlock = new System.Windows.Forms.CheckBox();
             this.noterichTextBox = new yixiaozi.WinForm.Control.MyRichTextBox();
@@ -167,6 +166,7 @@ namespace DocearReminder
             this.timeblockcheck = new System.Windows.Forms.Label();
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.OnlyLevel = new System.Windows.Forms.CheckBox();
+            this.checkBox_截图 = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1455,18 +1455,6 @@ namespace DocearReminder
             this.CameraTimer.Interval = 3600000;
             this.CameraTimer.Tick += new System.EventHandler(this.CameraTimer_Tick);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.checkBox2.Location = new System.Drawing.Point(1325, 70);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(13, 12);
-            this.checkBox2.TabIndex = 131;
-            this.checkBox2.TabStop = false;
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
             // quietmode
             // 
             this.quietmode.AutoSize = true;
@@ -1704,6 +1692,16 @@ namespace DocearReminder
             this.OnlyLevel.UseVisualStyleBackColor = true;
             this.OnlyLevel.CheckedChanged += new System.EventHandler(this.OnlyLevel_CheckedChanged);
             // 
+            // checkBox_截图
+            // 
+            this.checkBox_截图.AutoSize = true;
+            this.checkBox_截图.Location = new System.Drawing.Point(1261, 69);
+            this.checkBox_截图.Name = "checkBox_截图";
+            this.checkBox_截图.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_截图.TabIndex = 142;
+            this.checkBox_截图.Text = "截图录像";
+            this.checkBox_截图.UseVisualStyleBackColor = true;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1712,6 +1710,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.checkBox_截图);
             this.Controls.Add(this.OnlyLevel);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.timeblockcheck);
@@ -1722,7 +1721,6 @@ namespace DocearReminder
             this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.quietmode);
-            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
@@ -1960,7 +1958,6 @@ namespace DocearReminder
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private Timer CameraTimer;
         private ToolStripMenuItem 导图分析ToolStripMenuItem;
-        private CheckBox checkBox2;
         private DateTimePicker dateTimePicker;
         private ContextMenuStrip Menu_picture;
         private ToolStripMenuItem toolStripMenuItem1;
@@ -1976,6 +1973,7 @@ namespace DocearReminder
         private Label timeblockcheck;
         private FerretLib.WinForms.Controls.TagListControl tagList;
         private CheckBox OnlyLevel;
+        private CheckBox checkBox_截图;
     }
 }
 

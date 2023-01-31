@@ -2455,6 +2455,7 @@ namespace DocearReminder
                     m_Appointment.EndDate = DateTime.Now;
                 }
             }
+            dayView1.SelectionStart= dayView1.SelectionEnd = DateTime.Now;//Çå¿ÕÑ¡Ôñ
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();

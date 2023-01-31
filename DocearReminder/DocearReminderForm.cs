@@ -17264,7 +17264,7 @@ namespace DocearReminder
 
         public void CameraTimer_Tick(object sender, EventArgs e)
         {
-            if (!Camera)
+            if (!Camera||!checkBox_截图.Checked)
             {
                 return;
             }
@@ -17437,11 +17437,6 @@ namespace DocearReminder
             thCalendarForm.Start();
             MyHide();
             return;
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
         string piclink = "";
         private void toolStripMenuItem1_Click_1(object sender, EventArgs e)

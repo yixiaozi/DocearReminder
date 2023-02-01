@@ -17,6 +17,8 @@ using yixiaozi.MyConvert;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections;
 using static DocearReminder.DocearReminderForm;
+using NPOI.SS.Formula.Functions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace DocearReminder
 {
@@ -1252,6 +1254,42 @@ namespace DocearReminder
                 }
             }
             CalendarForm.FreshCalendarBool = true;
+        }
+
+        private void CreateIcs_Click(object sender, EventArgs e)
+        {
+            string path = ini.ReadString("ICS", "path", "E:\\yixiaozi\\.files\\Calendar\\yixiaozi.ics");
+            //清空文件
+            FileStream fs = new FileStream(path, FileMode.Create);
+            fs.Close();
+            string content = "";
+            content += "BEGIN: VCALENDAR" + "\r";
+            content += "VERSION:2.0" + "\r";
+            content += "PRODID: -//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN" + "\r";
+            foreach (ReminderItem item in reminderObject.reminders.Where(m => m.mindmap == "TimeBlock").OrderBy(m => m.time))
+            {
+                //将item到文件path里
+                //BEGIN: VEVENT
+                //SUMMARY:课程C
+                //DTSTART; TZID = "UTC+08:00"; VALUE = DATE - TIME:20200916T083000
+                //DTEND; TZID = "UTC+08:00"; VALUE = DATE - TIME:20200916T101000
+                //DTSTAMP; VALUE = DATE - TIME:20200915T000946Z
+                //UID:c39b3af0 - f6e7 - 11ea - bd58 - 525400eb2034
+                //DESCRIPTION:老师B
+                //LOCATION:上课地点A
+                //END:VEVENT
+                content += "BEGIN: VEVENT" + "\r";
+                content += "SUMMARY:" +item.name+ "\r";
+                content += "DTSTART; TZID = \"UTC+08:00\"; VALUE = DATE - TIME:" +item.time.ToString("yyyyMMddTHHmmss")+ "\r";
+                content += "DTEND; TZID = \"UTC+08:00\"; VALUE = DATE - TIME:" + item.TimeEnd.ToString("yyyyMMddTHHmmss") + "\r";
+                content += "DTSTAMP; VALUE = DATE - TIME:"+ item.time.ToString("yyyyMMddTHHmmss") + "Z" + "\r";
+                content += "UID:" +item.ID+ "\r";
+                content += "DESCRIPTION:" +item.comment+ "\r";
+                content += "LOCATION:" +item.DetailComment+ "\r";
+                content += "END:VEVENT" + "\r";
+            }
+            //将content写入文件中
+            File.AppendAllText(path, content);
         }
     }
 }

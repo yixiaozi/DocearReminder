@@ -56,6 +56,7 @@
             this.MoodInport = new System.Windows.Forms.Button();
             this.DiigoImport = new System.Windows.Forms.Button();
             this.timeblockduiqi = new System.Windows.Forms.Button();
+            this.CreateIcs = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -331,12 +332,23 @@
             this.timeblockduiqi.UseVisualStyleBackColor = true;
             this.timeblockduiqi.Click += new System.EventHandler(timeblockduiqi_Click);
             // 
+            // CreateIcs
+            // 
+            this.CreateIcs.Location = new System.Drawing.Point(12, 337);
+            this.CreateIcs.Name = "CreateIcs";
+            this.CreateIcs.Size = new System.Drawing.Size(118, 23);
+            this.CreateIcs.TabIndex = 37;
+            this.CreateIcs.Text = "创建ICS文件";
+            this.CreateIcs.UseVisualStyleBackColor = true;
+            this.CreateIcs.Click += new System.EventHandler(this.CreateIcs_Click);
+            // 
             // Tools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(813, 318);
+            this.ClientSize = new System.Drawing.Size(813, 404);
+            this.Controls.Add(this.CreateIcs);
             this.Controls.Add(this.timeblockduiqi);
             this.Controls.Add(this.DiigoImport);
             this.Controls.Add(this.MoodInport);
@@ -408,5 +420,6 @@
         private System.Windows.Forms.Button MoodInport;
         private System.Windows.Forms.Button DiigoImport;
         private System.Windows.Forms.Button timeblockduiqi;
+        private System.Windows.Forms.Button CreateIcs;
     }
 }

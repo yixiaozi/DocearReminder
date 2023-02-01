@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Security;
-using System.Data.SQLite;
 using System.Collections.Generic;
 using static DocearReminder.DocearReminderForm;
 namespace DocearReminder

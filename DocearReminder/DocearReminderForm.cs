@@ -34,8 +34,6 @@ using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Todoist.Net;
-using Todoist.Net.Models;
 using DayOfWeek = System.DayOfWeek;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using System.Reflection;
@@ -52,6 +50,8 @@ using Size = System.Drawing.Size;
 using System.Drawing.Imaging;
 using FerretLib.WinForms.Controls;
 using yixiaozi.WinForm.Control.Calendar;
+using yixiaozi.API.Todoist;
+using yixiaozi.API.Todoist.Models;
 
 namespace DocearReminder
 {

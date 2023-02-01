@@ -325,12 +325,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Todoist.Net\Todoist.Net.csproj">
-      <Project>{31F87E7E-C72E-4317-B799-E71F69DF7746}</Project>
-      <Name>Todoist.Net</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AForge">
       <Version>2.2.5</Version>
     </PackageReference>

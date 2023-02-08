@@ -1,0 +1,18 @@
+2022/11/02 21:04:59   E:\yixiaozi\.files\DocearReminder\Xnodes.txtE:\yixiaozi\.files\DocearReminder\AddTaskWithDate.txtE:\yixiaozi\.files\DocearReminder\alllinks.txtE:\yixiaozi\.files\DocearReminder\allnodesicon.txtE:\yixiaozi\.files\DocearReminder\book.txtE:\yixiaozi\.files\DocearReminder\default.txtE:\yixiaozi\.files\DocearReminder\devp.txtE:\yixiaozi\.files\DocearReminder\fuckyou.txtE:\yixiaozi\.files\DocearReminder\girl.txtE:\yixiaozi\.files\DocearReminder\IconNodesSelected.txtE:\yixiaozi\.files\DocearReminder\ignoreSuggest.txtE:\yixiaozi\.files\DocearReminder\know.txtE:\yixiaozi\.files\DocearReminder\learn.txtE:\yixiaozi\.files\DocearReminder\log.txtE:\yixiaozi\.files\DocearReminder\look.txtE:\yixiaozi\.files\DocearReminder\mindmaps.txtE:\yixiaozi\.files\DocearReminder\note.txtE:\yixiaozi\.files\DocearReminder\OpenedInRootSearch.txtE:\yixiaozi\.files\DocearReminder\QuickOpenLog.txtE:\yixiaozi\.files\DocearReminder\RecentOpenedMap.txtE:\yixiaozi\.files\DocearReminder\remember.txtE:\yixiaozi\.files\DocearReminder\remindmaps.txtE:\yixiaozi\.files\DocearReminder\rootPath.txtE:\yixiaozi\.files\DocearReminder\run.txtE:\yixiaozi\.files\DocearReminder\sb.txtE:\yixiaozi\.files\DocearReminder\skill.txtE:\yixiaozi\.files\DocearReminder\timeblock.txtE:\yixiaozi\.files\DocearReminder\TimeBlockSelected.txtE:\yixiaozi\.files\DocearReminder\unchkeckmindmap.txtE:\yixiaozi\.files\DocearReminder\web.txtE:\yixiaozi\.files\DocearReminder\work.txt
+2022/11/02 21:07:54   E:\Develop\DocearReminder\Setup\bin\Debug\Password.exe
+2022/11/02 21:10:08   E:\yixiaozi\.files\DocearReminder\UsedTimer.json
+2022/11/02 21:13:24   D:\Demo\reminder.json
+2022/11/02 21:14:44                   throw;
+
+2022/11/02 21:14:50   DateTime loseWeightDate = Convert.ToDateTime(loseweight);
+            string loseWeightStr = (loseWeightDate - DateTime.Today).TotalDays.ToString() + "天减到" + loseweighttarget;
+            DateTime leaveChinaDate = Convert.ToDateTime(leavechina);
+            string leaveChainaStr = (leaveChinaDate - DateTime.Today).TotalDays.ToString() + "天离开中国";
+            this.Text += ("   " + birthString) + " |" + loseWeightStr + "|  {" + leaveChainaStr + "}  @  " + DateTime.Now.ToString("HH:mm");
+2022/11/02 21:14:54               
+
+2022/11/02 21:18:45   E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
+2022/11/02 22:02:12   E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
+2022/11/02 22:02:55   E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
+2022/11/02 22:04:17   E:\yixiaozi\.files\DocearReminder\DocearReminder.exe
+2022/11/02 22:04:49   E:\yixiaozi\.files\DocearReminder\note.txt

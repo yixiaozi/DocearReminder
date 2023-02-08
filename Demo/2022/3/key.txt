@@ -1,0 +1,1 @@
+2022/3/4 21:44:41Q;Space;LShiftKey;F12;Space;LShiftKey;F11;2022/3/4 22:41:46F12;LShiftKey;Space;Q;Space;LMenu;A;LControlKey;C;LControlKey;V;LControlKey;A;LControlKey;Delete;A;LControlKey;

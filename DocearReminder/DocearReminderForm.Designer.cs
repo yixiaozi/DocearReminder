@@ -134,7 +134,7 @@ namespace DocearReminder
             this.usedCount = new System.Windows.Forms.Label();
             this.usedtimelabel = new System.Windows.Forms.Label();
             this.todayusedtime = new System.Windows.Forms.Label();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.icon = new System.Windows.Forms.NotifyIcon(this.components);
             this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
             this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.c_endtime = new System.Windows.Forms.CheckBox();
@@ -1315,17 +1315,17 @@ namespace DocearReminder
             this.todayusedtime.TabIndex = 124;
             this.todayusedtime.Text = "000";
             // 
-            // notifyIcon1
+            // icon
             // 
-            this.notifyIcon1.BalloonTipText = "1";
-            this.notifyIcon1.BalloonTipTitle = "2";
-            this.notifyIcon1.ContextMenuStrip = this.menu;
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "DocearReminder:请作对的事！";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click_1);
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
+            this.icon.BalloonTipText = "1";
+            this.icon.BalloonTipTitle = "2";
+            this.icon.ContextMenuStrip = this.menu;
+            this.icon.Icon = ((System.Drawing.Icon)(resources.GetObject("icon.Icon")));
+            this.icon.Text = "请作对的事！";
+            this.icon.Visible = true;
+            this.icon.Click += new System.EventHandler(this.notifyIcon1_Click_1);
+            this.icon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            this.icon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
             // 
             // skinEngine1
             // 
@@ -1937,7 +1937,7 @@ namespace DocearReminder
         private ToolStripMenuItem 窗口ToolStripMenuItem;
         private ToolStripMenuItem 工具toolToolStripMenuItem;
         private ToolStripMenuItem 打开程序目录ToolStripMenuItem;
-        private NotifyIcon notifyIcon1;
+        private NotifyIcon icon;
         private ToolStripMenuItem 打开文件ToolStripMenuItem;
         private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
         private Sunisoft.IrisSkin.SkinEngine skinEngine1;

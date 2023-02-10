@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using yixiaozi.Config;
@@ -34,6 +35,15 @@ namespace DocearReminder
                 delfolder += (item + ";");
             }
             ini.WriteString("password", "f", encrypt.EncryptString(delfolder));
+            //打开DocearReminderForm窗体，并关闭当前窗体
+            LoginForm form1 = new LoginForm();
+            if (form1.ShowDialog() == DialogResult.OK)
+            {
+                Thread thnewfies = new Thread(() => Application.Run(new DocearReminderForm()));
+                thnewfies.Start();
+                //关闭当前窗体
+                this.Close();
+            }
         }
     }
 }

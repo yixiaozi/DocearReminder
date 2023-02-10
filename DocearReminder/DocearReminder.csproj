@@ -54,88 +54,279 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Reminders.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DocearReminder.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>DocearReminder.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.dll</HintPath>
+      <HintPath>Resources\AForge.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AForge.Controls, Version=2.2.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Controls.dll</HintPath>
+      <HintPath>Resources\AForge.Controls.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Imaging.dll</HintPath>
+      <HintPath>Resources\AForge.Imaging.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Math.dll</HintPath>
+      <HintPath>Resources\AForge.Math.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Video.dll</HintPath>
+      <HintPath>Resources\AForge.Video.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Video.DirectShow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AxInterop.AcroPDFLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\AxInterop.AcroPDFLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AxInterop.DSOFramer, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\AxInterop.DSOFramer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Resources\EnvDTE.dll</HintPath>
     </Reference>
     <Reference Include="FerretLib.WinForms, Version=1.0.0.26422, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\FerretLib.WinForms.dll</HintPath>
+      <HintPath>Resources\FerretLib.WinForms.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Gma.UserActivityMonitor">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="IrisSkin4">
+    <Reference Include="HtmlAgilityPack, Version=1.4.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\HtmlAgilityPack.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Interop.AcroPDFLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Resources\Interop.AcroPDFLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.DSOFramer, Version=1.3.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Resources\Interop.DSOFramer.dll</HintPath>
+    </Reference>
+    <Reference Include="IrisSkin4, Version=2006.3.22.45, Culture=neutral, PublicKeyToken=127be25a6db25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\IrisSkin4.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="LZStringCSharp, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\LZStringCSharp.dll</HintPath>
+      <HintPath>Resources\LZStringCSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePoint.Client, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.SharePoint.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="NAudio">
       <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Newtonsoft.Json.dll</HintPath>
+      <HintPath>Resources\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NPinyin">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPinyin.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NPOI">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NPOI.OOXML">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OOXML.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NPOI.OpenXml4Net">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Prism.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ScottPlot, Version=4.1.33.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\ScottPlot.dll</HintPath>
+      <HintPath>Resources\ScottPlot.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ScottPlot.WinForms, Version=4.1.33.0, Culture=neutral, PublicKeyToken=5df1dfa5321e734b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\ScottPlot.WinForms.dll</HintPath>
+      <HintPath>Resources\ScottPlot.WinForms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLite.Designer, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\SQLite.Designer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="stdole1">
+      <HintPath>Resources\stdole.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.AppContext.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Console.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Data.SQLite.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Drawing.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Globalization.Calendars.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.IO.Compression.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.IO.FileSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Net.Http.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Net.Sockets.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Speech" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.ValueTuple.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -143,12 +334,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Todoist.Net, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Todoist.Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="yixiaozi">
-      <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\yixiaozi.dll</HintPath>
+    <Reference Include="yixiaozi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\yixiaozi.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -300,7 +505,7 @@
       <DependentUpon>Tools.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -335,6 +540,66 @@
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />
+    <None Include="Resources\AForge.Imaging.dll" />
+    <None Include="Resources\AForge.Math.dll" />
+    <None Include="Resources\AForge.Video.DirectShow.dll" />
+    <EmbeddedResource Include="Resources\AForge.Video.dll" />
+    <None Include="Resources\AxInterop.AcroPDFLib.dll" />
+    <None Include="Resources\AxInterop.DSOFramer.dll" />
+    <None Include="Resources\EnvDTE.dll" />
+    <None Include="Resources\FerretLib.WinForms.dll" />
+    <None Include="Resources\Gma.UserActivityMonitor.dll" />
+    <None Include="Resources\HtmlAgilityPack.dll" />
+    <None Include="Resources\ICSharpCode.SharpZipLib.dll" />
+    <None Include="Resources\Interop.AcroPDFLib.dll" />
+    <None Include="Resources\Interop.DSOFramer.dll" />
+    <None Include="Resources\IrisSkin4.dll" />
+    <None Include="Resources\LZStringCSharp.dll" />
+    <None Include="Resources\Microsoft.SharePoint.Client.dll" />
+    <None Include="Resources\Microsoft.SharePoint.Client.Runtime.dll" />
+    <None Include="Resources\Microsoft.VisualStudio.OLE.Interop.dll" />
+    <None Include="Resources\Microsoft.VisualStudio.Shell.Interop.dll" />
+    <None Include="Resources\Microsoft.VisualStudio.TextManager.Interop.dll" />
+    <None Include="Resources\Microsoft.Web.Administration.dll" />
+    <None Include="Resources\Microsoft.Win32.Primitives.dll" />
+    <None Include="Resources\NAudio.dll" />
+    <None Include="Resources\Newtonsoft.Json.dll" />
+    <None Include="Resources\NPinyin.dll" />
+    <None Include="Resources\NPOI.dll" />
+    <None Include="Resources\NPOI.OOXML.dll" />
+    <None Include="Resources\NPOI.OpenXml4Net.dll" />
+    <None Include="Resources\NPOI.OpenXmlFormats.dll" />
+    <None Include="Resources\Prism.dll" />
+    <None Include="Resources\ScottPlot.dll" />
+    <None Include="Resources\ScottPlot.WinForms.dll" />
+    <None Include="Resources\SQLite.Designer.dll" />
+    <None Include="Resources\stdole.dll" />
+    <None Include="Resources\System.AppContext.dll" />
+    <None Include="Resources\System.Console.dll" />
+    <None Include="Resources\System.Data.SQLite.dll" />
+    <None Include="Resources\System.Diagnostics.DiagnosticSource.dll" />
+    <None Include="Resources\System.Drawing.Common.dll" />
+    <None Include="Resources\System.Globalization.Calendars.dll" />
+    <None Include="Resources\System.IO.Compression.dll" />
+    <None Include="Resources\System.IO.Compression.ZipFile.dll" />
+    <None Include="Resources\System.IO.FileSystem.dll" />
+    <None Include="Resources\System.IO.FileSystem.Primitives.dll" />
+    <None Include="Resources\System.Net.Http.dll" />
+    <None Include="Resources\System.Net.Sockets.dll" />
+    <None Include="Resources\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <None Include="Resources\System.Security.Cryptography.Algorithms.dll" />
+    <None Include="Resources\System.Security.Cryptography.Encoding.dll" />
+    <None Include="Resources\System.Security.Cryptography.Primitives.dll" />
+    <None Include="Resources\System.Security.Cryptography.X509Certificates.dll" />
+    <None Include="Resources\System.ValueTuple.dll" />
+    <None Include="Resources\System.Xml.ReaderWriter.dll" />
+    <None Include="Resources\Todoist.Net.dll" />
+    <EmbeddedResource Include="Resources\yixiaozi.dll" />
+    <None Include="Resources\AForge.Controls.dll" />
+    <None Include="Resources\AForge.dll" />
+    <None Include="Resources\Reminders.ico" />
+    <None Include="Resources\tomato.ico" />
+    <Content Include="Reminders.ico" />
     <Content Include="Resources\关闭.png" />
   </ItemGroup>
   <ItemGroup>
@@ -364,50 +629,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AForge">
-      <Version>2.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="AForge.Controls">
-      <Version>2.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="AForge.Imaging">
-      <Version>2.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="AForge.Math">
-      <Version>2.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="AForge.Video">
-      <Version>2.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="FerretLib.WinForms">
-      <Version>0.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="LZStringCSharp">
-      <Version>1.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="ScottPlot">
-      <Version>4.1.33</Version>
-    </PackageReference>
-    <PackageReference Include="ScottPlot.WinForms">
-      <Version>4.1.33</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>4.6.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Speech">
-      <Version>6.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

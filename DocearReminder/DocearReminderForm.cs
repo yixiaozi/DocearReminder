@@ -32,8 +32,6 @@ using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
-using System.Runtime.InteropServices;
-using System.Threading;
 using DayOfWeek = System.DayOfWeek;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using System.Reflection;
@@ -52,6 +50,7 @@ using FerretLib.WinForms.Controls;
 using yixiaozi.WinForm.Control.Calendar;
 using yixiaozi.API.Todoist;
 using yixiaozi.API.Todoist.Models;
+using System.Resources;
 
 namespace DocearReminder
 {
@@ -3859,28 +3858,25 @@ namespace DocearReminder
                 if (e.Index == reminderList.SelectedIndex)
                 {
                     e.Graphics.FillRectangle(mybsh, rect);
-                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), rectleft); //Yellow
+                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), rectleft);
                 }
                 else
                 {
                     e.Graphics.FillRectangle(mybsh, rect);
-                    e.Graphics.FillRectangle(new SolidBrush(Color.White), rectleft); //Yellow
+                    e.Graphics.FillRectangle(new SolidBrush(Color.White), rectleft);
                 }
                 if (searchword.Text.StartsWith("#"))
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    ////e.DrawFocusRectangle();
 
                 }
                 else if (searchword.Text.StartsWith("*"))
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    ////e.DrawFocusRectangle();
                 }
                 else if (!((MyListBoxItemRemind)reminderList.Items[e.Index]).isTask)
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    ////e.DrawFocusRectangle();
                 }
                 else
                 {
@@ -12400,7 +12396,7 @@ namespace DocearReminder
             catch (Exception)
             {
             }
-            notifyIcon1.Dispose();
+            icon.Dispose();
             SaveLog("关闭程序。");
         }
         //private void fenlei_CheckedChanged(object sender, EventArgs e)

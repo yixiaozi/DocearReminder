@@ -10497,7 +10497,6 @@ namespace DocearReminder
                                             reminderListBox.Refresh();
                                         }
                                     }
-                                    //todo 应该就是这句导致刷新，而是一旦注释掉,选中的颜色就会有问题，好麻烦
                                     reminderList.Refresh();
                                 }
                                 else if (reminderListBox.Focused)

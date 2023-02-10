@@ -54,7 +54,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Reminders.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DocearReminder.Program</StartupObject>
@@ -599,7 +600,6 @@
     <None Include="Resources\AForge.dll" />
     <None Include="Resources\Reminders.ico" />
     <None Include="Resources\tomato.ico" />
-    <Content Include="Reminders.ico" />
     <Content Include="Resources\关闭.png" />
   </ItemGroup>
   <ItemGroup>

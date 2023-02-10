@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace DocearReminder
 {
-	public partial class AutoUpdateDemo : Form
+	public partial class AutoUpdate : Form
 	{
-		public AutoUpdateDemo(string[] args)
+		public AutoUpdate(string[] args)
 		{
 			InitializeComponent();
 			cmdArgs.Text = "Args:";

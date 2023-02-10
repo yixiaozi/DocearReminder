@@ -918,7 +918,7 @@ namespace DocearReminder
         }
         public void showlog()
         {
-            Thread thCalendarForm = new Thread(() => Application.Run(new Log()));
+            Thread thCalendarForm = new Thread(() => Application.Run(new LogForm()));
             thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
             thCalendarForm.Start();
             MyHide();

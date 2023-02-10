@@ -1,6 +1,6 @@
 ﻿namespace DocearReminder
 {
-	partial class AutoUpdateDemo
+	partial class AutoUpdate
 	{
 		/// <summary>
 		/// Required designer variable.

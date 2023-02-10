@@ -63,8 +63,32 @@
     <ApplicationManifest>DocearReminder.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Controls, Version=2.2.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Video.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="FerretLib.WinForms, Version=1.0.0.26422, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\FerretLib.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Gma.UserActivityMonitor">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
@@ -72,9 +96,17 @@
     <Reference Include="IrisSkin4">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\IrisSkin4.dll</HintPath>
     </Reference>
+    <Reference Include="LZStringCSharp, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\LZStringCSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
       <HintPath>..\..\yixiaozi\yixiaozi\bin\Debug\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPinyin.dll</HintPath>
@@ -92,6 +124,14 @@
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="ScottPlot, Version=4.1.33.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\ScottPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="ScottPlot.WinForms, Version=4.1.33.0, Culture=neutral, PublicKeyToken=5df1dfa5321e734b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\ScottPlot.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Speech" />
@@ -111,11 +151,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoUpdateDemo.cs">
+    <Compile Include="AutoUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AutoUpdateDemo.Designer.cs">
-      <DependentUpon>AutoUpdateDemo.cs</DependentUpon>
+    <Compile Include="AutoUpdate.Designer.cs">
+      <DependentUpon>AutoUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Calendar.cs">
       <SubType>Form</SubType>
@@ -123,10 +163,11 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyHours.cs">
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Report\KeyHours.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KeyHours.Designer.cs">
+    <Compile Include="Report\KeyHours.Designer.cs">
       <DependentUpon>KeyHours.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
@@ -135,11 +176,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Log.cs">
+    <Compile Include="Report\LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log.Designer.cs">
-      <DependentUpon>Log.cs</DependentUpon>
+    <Compile Include="Report\LogForm.Designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Password.cs">
       <SubType>Form</SubType>
@@ -147,34 +188,35 @@
     <Compile Include="Password.Designer.cs">
       <DependentUpon>Password.cs</DependentUpon>
     </Compile>
-    <Compile Include="Search.cs">
+    <Compile Include="RecordController.cs" />
+    <Compile Include="Report\Search.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Search.Designer.cs">
+    <Compile Include="Report\Search.Designer.cs">
       <DependentUpon>Search.cs</DependentUpon>
     </Compile>
-    <Compile Include="MindMapDataReport.cs">
+    <Compile Include="Report\MindMapDataReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MindMapDataReport.Designer.cs">
+    <Compile Include="Report\MindMapDataReport.Designer.cs">
       <DependentUpon>MindMapDataReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeBlockReport.cs">
+    <Compile Include="Report\TimeBlockReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeBlockReport.Designer.cs">
+    <Compile Include="Report\TimeBlockReport.Designer.cs">
       <DependentUpon>TimeBlockReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Target.cs">
+    <Compile Include="Report\Target.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Target.Designer.cs">
+    <Compile Include="Report\Target.Designer.cs">
       <DependentUpon>Target.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeBlockTrend.cs">
+    <Compile Include="Report\TimeBlockTrend.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeBlockTrend.Designer.cs">
+    <Compile Include="Report\TimeBlockTrend.Designer.cs">
       <DependentUpon>TimeBlockTrend.cs</DependentUpon>
     </Compile>
     <Compile Include="Tomato.cs">
@@ -203,24 +245,24 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="UseTime.cs">
+    <Compile Include="Report\UseTime.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UseTime.Designer.cs">
+    <Compile Include="Report\UseTime.Designer.cs">
       <DependentUpon>UseTime.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AutoUpdateDemo.resx">
-      <DependentUpon>AutoUpdateDemo.cs</DependentUpon>
+    <EmbeddedResource Include="AutoUpdate.resx">
+      <DependentUpon>AutoUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Calendar.resx">
       <DependentUpon>Calendar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KeyHours.resx">
+    <EmbeddedResource Include="Report\KeyHours.resx">
       <DependentUpon>KeyHours.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.resx">
-      <DependentUpon>Log.cs</DependentUpon>
+    <EmbeddedResource Include="Report\LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -230,21 +272,21 @@
       <DependentUpon>Password.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Search.resx">
+    <EmbeddedResource Include="Report\Search.resx">
       <DependentUpon>Search.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MindMapDataReport.resx">
+    <EmbeddedResource Include="Report\MindMapDataReport.resx">
       <DependentUpon>MindMapDataReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeBlockReport.resx">
+    <EmbeddedResource Include="Report\TimeBlockReport.resx">
       <DependentUpon>TimeBlockReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Target.resx">
+    <EmbeddedResource Include="Report\Target.resx">
       <DependentUpon>Target.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeBlockTrend.resx">
+    <EmbeddedResource Include="Report\TimeBlockTrend.resx">
       <DependentUpon>TimeBlockTrend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tomato.resx">
@@ -269,7 +311,7 @@
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UseTime.resx">
+    <EmbeddedResource Include="Report\UseTime.resx">
       <DependentUpon>UseTime.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

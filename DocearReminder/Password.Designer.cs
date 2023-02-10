@@ -1,4 +1,4 @@
-﻿namespace Password
+﻿namespace DocearReminder
 {
     partial class Password
     {

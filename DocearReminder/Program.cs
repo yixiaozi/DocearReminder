@@ -28,11 +28,19 @@ namespace DocearReminder
                 run.ReleaseMutex();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Form1 form1 = new Form1();
-                if (form1.ShowDialog() == DialogResult.OK)
+                //判断一下是否设置了账号密码，如果为空则打开设置账号密码的窗口
+                bool IsSetPassword = true;
+                if (true)
                 {
-                    
-                    Application.Run(new DocearReminderForm());
+                    LoginForm form1 = new LoginForm();
+                    if (form1.ShowDialog() == DialogResult.OK)
+                    {
+                        Application.Run(new DocearReminderForm());
+                    }
+                }
+                else
+                {
+                    Application.Run(new Password());
                 }
             }
             else

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Security;
 
-namespace Password
+namespace DocearReminder
 {
     public partial class Password : Form
     {

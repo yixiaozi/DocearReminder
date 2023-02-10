@@ -60,6 +60,7 @@ namespace DocearReminder
         #region 全局变量
         public System.Windows.Forms.Timer hoverTimer = new System.Windows.Forms.Timer();
         public System.Windows.Forms.Timer addFanQieTimer = new System.Windows.Forms.Timer();
+        //密码
         public static string PassWord = "";
         public static int tomatoCount = 0;
         private bool IsSelectReminder = true;
@@ -142,8 +143,8 @@ namespace DocearReminder
         /// <summary>
         /// 窗口活动时间
         /// </summary>
-        DateTime formActive;
-        TimeSpan leavespan = new TimeSpan();
+        DateTime formActiveTime;
+        TimeSpan leaveSpan = new TimeSpan();
         bool isneedreminderlistrefresh = true;
         bool isneedKeyUpEventWork = true;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
@@ -161,15 +162,14 @@ namespace DocearReminder
         public int nodetreeTopTop = 9;
         public int nodetreeHeight = 322;
         public int nodeTreeHeightMax = 818;
-
-
+        
         #endregion
         public DocearReminderForm()
         {
             InitializeComponent();
             pictureBox1.Height = 0;
             this.Width = middlewidth;
-            formActive = DateTime.Now;
+            formActiveTime = DateTime.Now;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
             SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
@@ -206,6 +206,7 @@ namespace DocearReminder
                 InitVoice();
                 //CameraTimer_Tick(null, null);//打开软件时截屏，其实没有必要
 
+                #region 用来监视文件编号的代码，暂时不用，有git监控就可以了
                 //this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
                 //fileSystemWatcher1.IncludeSubdirectories = true;
                 //fileSystemWatcher1.NotifyFilter = NotifyFilters.LastWrite
@@ -219,7 +220,9 @@ namespace DocearReminder
                 //this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Created);
                 //this.fileSystemWatcher1.Path = ini.ReadString("path", "rootpath", "");
                 //((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
+                #endregion
 
+                //设置之前保存到皮肤
                 if (ini.ReadString("Skin", "src", "") != "")
                 {
                     skinEngine1.SkinFile = ini.ReadString("Skin", "src", "");
@@ -227,7 +230,9 @@ namespace DocearReminder
                 addirisSkinToolStripMenuItem(new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\Skins"), null);
 
                 mindmaplist.Height = 424;
-                Reminderlistboxchange();
+                ReminderlistBoxChange();
+                
+                //设置透明度
                 try
                 {
                     this.Opacity = Convert.ToDouble(ini.ReadString("appearance", "Opacity", ""));
@@ -235,6 +240,8 @@ namespace DocearReminder
                 catch (Exception)
                 {
                 }
+
+                //加载Tag
                 ReadTagFile();
 
                 SearchText_suggest.ScrollAlwaysVisible = false;
@@ -300,6 +307,7 @@ namespace DocearReminder
                     }
                 }
 
+                #region 加载一些配置文件
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
@@ -310,7 +318,9 @@ namespace DocearReminder
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
-                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt"); 
+                #endregion
+
                 #region UsedTimer
                 fathernode.Text = "";
                 UsedTimerOnLoad();
@@ -404,7 +414,7 @@ namespace DocearReminder
                 GetAllNodeJsonFile();
                 GetAllFilesJsonFile();
                 GetTimeBlock();
-                //添加提示信息
+                #region 添加提示信息
                 try
                 {
                     Dictionary<Control, string> dic = new Dictionary<Control, string>();
@@ -455,6 +465,7 @@ namespace DocearReminder
                 catch (Exception)
                 {
                 }
+                #endregion
             }
             catch (Exception ex)
             {
@@ -470,6 +481,8 @@ namespace DocearReminder
             SetTimeBlockLasTime();
             timeblockcheck.Text = "";
         }
+
+        #region 压缩方法
         /// <summary>
         /// 压缩成base64格式
         /// </summary>
@@ -555,7 +568,8 @@ namespace DocearReminder
             {
                 return false;
             }
-        }
+        } 
+        #endregion
 
         public void SetTitle()
         {
@@ -1060,9 +1074,9 @@ namespace DocearReminder
             if (newid)
             {
                 LeaveTime();
-                if (leavespan >= new TimeSpan(0, 0, 60))
+                if (leaveSpan >= new TimeSpan(0, 0, 60))
                 {
-                    usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt32(leavespan.TotalSeconds));
+                    usedTimer.SetEndDate(currentUsedTimerId, Convert.ToInt32(leaveSpan.TotalSeconds));
                 }
                 else
                 {
@@ -1082,14 +1096,14 @@ namespace DocearReminder
         //判断操作间隔，如果大于60s则记录离开时间，避免窗口一直显示对统计使用时间的影响
         public void LeaveTime()
         {
-            if ((DateTime.Now - formActive) >= new TimeSpan(0, 0, 60))
+            if ((DateTime.Now - formActiveTime) >= new TimeSpan(0, 0, 60))
             {
-                leavespan = leavespan.Add(DateTime.Now - formActive);
+                leaveSpan = leaveSpan.Add(DateTime.Now - formActiveTime);
             }
             else
             {
-                formActive = DateTime.Now;
-                leavespan = new TimeSpan(0, 0, 0);
+                formActiveTime = DateTime.Now;
+                leaveSpan = new TimeSpan(0, 0, 0);
             }
         }
 
@@ -1104,8 +1118,8 @@ namespace DocearReminder
             this.Show();
             this.Activate();
             UsedLogRenew(true, false);
-            formActive = DateTime.Now;
-            leavespan = new TimeSpan(0, 0, 0);
+            formActiveTime = DateTime.Now;
+            leaveSpan = new TimeSpan(0, 0, 0);
             this.Text = this.Text.Split('@')[0] + "@  " + DateTime.Now.ToString("HH:mm:ss");
             try
             {
@@ -2382,7 +2396,7 @@ namespace DocearReminder
                 UpdateSummary();
                 reminderList.Focus();
             }
-            Reminderlistboxchange();
+            ReminderlistBoxChange();
             if ((showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
             {
                 if (OnlyLevel.Checked)
@@ -3374,7 +3388,7 @@ namespace DocearReminder
             {
                 reminderListBox.Items.Add(item);
             }
-            Reminderlistboxchange();
+            ReminderlistBoxChange();
             ////reminderList.Refresh();
             try
             {
@@ -4141,7 +4155,7 @@ namespace DocearReminder
                 else
                 {
                     reminderListBox.Items.RemoveAt(reminderIndex);
-                    Reminderlistboxchange();
+                    ReminderlistBoxChange();
                     if (reminderIndex <= reminderListBox.Items.Count - 1)//1,0 0>=0
                     {
                         reminderListBox.SelectedIndex = reminderIndex;
@@ -7080,7 +7094,7 @@ namespace DocearReminder
                     new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
 
                     reminderListBox.Items.RemoveAt(reminderIndex);
-                    Reminderlistboxchange();
+                    ReminderlistBoxChange();
                     reminderListBox.SelectedIndex = reminderIndex;
                 }
 
@@ -7096,7 +7110,7 @@ namespace DocearReminder
                 }
                 else if (reminderListBox.Focused)
                 {
-                    Reminderlistboxchange();
+                    ReminderlistBoxChange();
                     if (reminderListBox.Items.Count > 0)
                     {
                         reminderListBox.SetSelected(0, true);
@@ -10484,6 +10498,7 @@ namespace DocearReminder
                                             reminderListBox.Refresh();
                                         }
                                     }
+                                    //todo 应该就是这句导致刷新，而是一旦注释掉,选中的颜色就会有问题，好麻烦
                                     reminderList.Refresh();
                                 }
                                 else if (reminderListBox.Focused)
@@ -11823,7 +11838,7 @@ namespace DocearReminder
                                 Xnodes = xnodesRemoveSame;
                                 new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                                 reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                                Reminderlistboxchange();
+                                ReminderlistBoxChange();
                                 reminderList.Items.RemoveAt(reminderList.SelectedIndex);
                                 try
                                 {
@@ -11858,7 +11873,7 @@ namespace DocearReminder
                             Xnodes = xnodesRemoveSame;
                             new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
-                            Reminderlistboxchange();
+                            ReminderlistBoxChange();
                             if (reminderListBox.Items.Count == 0)
                             {
                                 reminderList.Focus();
@@ -15928,7 +15943,7 @@ namespace DocearReminder
         {
 
         }
-        public void Reminderlistboxchange()
+        public void ReminderlistBoxChange()
         {
             if (reminderListBox.Items.Count > 0 && !(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
             {
@@ -16590,14 +16605,14 @@ namespace DocearReminder
             {
                 reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                 reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                Reminderlistboxchange();
+                ReminderlistBoxChange();
                 reminderList.Items.RemoveAt(reminderList.SelectedIndex);
             }
             else if (reminderListBox.Focused)
             {
                 reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
                 reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
-                Reminderlistboxchange();
+                ReminderlistBoxChange();
                 if (reminderListBox.Items.Count == 0)
                 {
                     reminderList.Focus();

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using static DocearReminder.DocearReminderForm;
 namespace DocearReminder
 {
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
         private static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         int errorcount = 2;
         bool isfirstload = true;
-        public Form1()
+        public LoginForm()
         {
             InitializeComponent();
 

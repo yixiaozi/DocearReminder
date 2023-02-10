@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace DocearReminder
 {
-    partial class Form1
+    partial class LoginForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -38,7 +38,7 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();

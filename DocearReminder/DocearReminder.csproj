@@ -54,7 +54,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Reminders.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DocearReminder.Program</StartupObject>
@@ -163,7 +164,7 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="SupportClass\Extensions.cs" />
     <Compile Include="Report\KeyHours.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,7 +189,7 @@
     <Compile Include="Password.Designer.cs">
       <DependentUpon>Password.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecordController.cs" />
+    <Compile Include="SupportClass\RecordController.cs" />
     <Compile Include="Report\Search.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -331,12 +332,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Reminders.ico" />
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />
     <Content Include="Resources\关闭.png" />
-    <Content Include="tomato.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

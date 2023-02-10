@@ -28,6 +28,7 @@ namespace DocearReminder
                 run.ReleaseMutex();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                //检查自动更新？
                 //判断一下是否设置了账号密码，如果为空则打开设置账号密码的窗口
                 bool IsSetPassword = true;
                 if (true)

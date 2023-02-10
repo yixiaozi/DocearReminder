@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using yixiaozi.Net.HttpHelp;
 
-namespace Update
+namespace DocearReminder
 {
     public partial class Update : Form
     {

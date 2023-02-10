@@ -19,11 +19,11 @@ using static DocearReminder.DocearReminderForm;
 
 namespace DocearReminder
 {
-    public partial class Log : Form
+    public partial class LogForm : Form
     {
         List<result> logs = new List<result>();
         static string logpass = "niqishihenhao";
-        public Log()
+        public LogForm()
         {
             InitializeComponent();
             logpass = ini.ReadString("password", "i", "");

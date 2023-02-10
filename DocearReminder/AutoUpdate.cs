@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AutoUpdate
+namespace DocearReminder
 {
 	public partial class AutoUpdateDemo : Form
 	{
@@ -30,7 +30,5 @@ namespace AutoUpdate
 		{
 			return string.Concat("\"", arg.Replace("\"", "\"\""), "\"");
 		}
-
-	
 	}
 }

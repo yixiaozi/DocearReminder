@@ -1806,7 +1806,7 @@ namespace DocearReminder
             this.SizeChanged += new System.EventHandler(this.DocearReminderForm_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.reminderList_DragDrop);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DocearReminderForm_KeyUp);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DocearReminderForm_MouseDown);
             this.searchworkmenu.ResumeLayout(false);

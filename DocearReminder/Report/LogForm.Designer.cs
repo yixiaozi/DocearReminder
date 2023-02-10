@@ -1,7 +1,7 @@
 ﻿
 namespace DocearReminder
 {
-    partial class Log
+    partial class LogForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
-            this.resultlistBox = new DocearReminder.Log.SortByTimeListBox();
+            this.resultlistBox = new DocearReminder.LogForm.SortByTimeListBox();
             this.keyword = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.Showbackup = new System.Windows.Forms.CheckBox();

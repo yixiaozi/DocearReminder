@@ -1,4 +1,4 @@
-﻿namespace Update
+﻿namespace DocearReminder
 {
     partial class Update
     {

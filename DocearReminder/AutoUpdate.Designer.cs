@@ -1,4 +1,4 @@
-﻿namespace AutoUpdate
+﻿namespace DocearReminder
 {
 	partial class AutoUpdateDemo
 	{

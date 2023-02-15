@@ -1353,11 +1353,14 @@ namespace DocearReminder
                         //如果project="17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99" project_last_home="file:/E:/yixiaozi/"
                         if (GetAttribute(x.FirstChild, "project")!= "17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99"|| GetAttribute(x.FirstChild, "project_last_home") != "file:/E:/yixiaozi/")
                         {
-                            x.FirstChild.Attributes["project"].Value = "17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99";
-                            x.FirstChild.Attributes["project_last_home"].Value = "file:/E:/yixiaozi/";
-                            x.Save(file.FullName);
-                            Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
-                            th.Start();
+                            if (x.FirstChild.Attributes["project"] != null)
+                            {
+                                x.FirstChild.Attributes["project"].Value = "17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99";
+                                x.FirstChild.Attributes["project_last_home"].Value = "file:/E:/yixiaozi/";
+                                x.Save(file.FullName);
+                                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                                th.Start();
+                            }
                         }
                     }
                     catch (Exception)

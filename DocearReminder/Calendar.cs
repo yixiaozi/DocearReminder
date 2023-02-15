@@ -49,6 +49,7 @@ namespace DocearReminder
         public CalendarForm(string path, bool OpenNew = false)// 后期希望只显示当期文件夹的日历
         {
             InitializeComponent();
+            SetToDeskTop();
             //if (!OpenNew)
             //{
             //    Center();
@@ -3282,6 +3283,103 @@ namespace DocearReminder
                 FreshCalendarBool = false;
             }
         }
+        #region 将窗体钉在桌面上
+        public class Win32
+        {
+            public const int SE_SHUTDOWN_PRIVILEGE = 0x13;
+            public const int WM_SYSCOMMAND = 0x0112;
+            public const int SC_MOVE = 0xF010;
+            public const int HTCAPTION = 0x0002;//无边框窗体移动
+            [DllImport("user32.dll")]
+            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+            [DllImport("user32.dll")]
+            public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+            [DllImport("user32.dll")]
+            public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx,
+                int cy, uint uFlags);
+            [DllImport("user32.dll")]
+            public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+            [DllImport("user32.dll")]
+            public static extern bool ReleaseCapture();
+            [DllImport("user32.dll")]
+            public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+        }
+        
+        private void SetToDeskTop()
+        {
+            try
+            {
+                if (Environment.OSVersion.Version.Major < 6)
+                {
+                    base.SendToBack();
+                    IntPtr hWndNewParent = Win32.FindWindow("Progman", null);
+                    Win32.SetParent(base.Handle, hWndNewParent);
+                }
+                else
+                {
+                    IntPtr desktopHwnd = GetDesktopPtr();
+                    IntPtr ownHwnd = base.Handle;
+                    IntPtr result = Win32.SetParent(ownHwnd, desktopHwnd);
+
+                }
+
+            }
+            catch (ApplicationException exx)
+            {
+                MessageBox.Show(this, exx.Message, "Pin to Desktop");
+            }
+        }
+
+        private IntPtr GetDesktopPtr()
+        {
+            //http://blog.csdn.net/mkdym/article/details/7018318
+            // 情况一
+            IntPtr hwndWorkerW = IntPtr.Zero;
+            IntPtr hShellDefView = IntPtr.Zero;
+            IntPtr hwndDesktop = IntPtr.Zero;
+            IntPtr hProgMan = Win32.FindWindow("ProgMan", null);
+            if (hProgMan != IntPtr.Zero)
+            {
+                hShellDefView = Win32.FindWindowEx(hProgMan, IntPtr.Zero, "SHELLDLL_DefView", null);
+                if (hShellDefView != IntPtr.Zero)
+                {
+                    hwndDesktop = Win32.FindWindowEx(hShellDefView, IntPtr.Zero, "SysListView32", null);
+                }
+            }
+            if (hwndDesktop != IntPtr.Zero) return hwndDesktop;
+
+            // 情况二
+            while (hwndDesktop == IntPtr.Zero)
+            {//必须存在桌面窗口层次  
+                hwndWorkerW = Win32.FindWindowEx(IntPtr.Zero, hwndWorkerW, "WorkerW", null);//获得WorkerW类的窗口  
+                if (hwndWorkerW == IntPtr.Zero) break;//未知错误
+                hShellDefView = Win32.FindWindowEx(hwndWorkerW, IntPtr.Zero, "SysListView32", null);
+                if (hShellDefView == IntPtr.Zero) continue;
+                hwndDesktop = Win32.FindWindowEx(hShellDefView, IntPtr.Zero, "SysListView32", null);
+            }
+            return hwndDesktop;
+        }
+
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                Win32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, Win32.SE_SHUTDOWN_PRIVILEGE);
+            }
+
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
+        {
+
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                Win32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, Win32.SE_SHUTDOWN_PRIVILEGE);
+            }
+        }
+        #endregion
     }
     internal class User32
     {

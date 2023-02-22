@@ -1266,7 +1266,7 @@ namespace DocearReminder
             content += "BEGIN: VCALENDAR" + "\r";
             content += "VERSION:2.0" + "\r";
             content += "PRODID: -//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN" + "\r";
-            foreach (ReminderItem item in reminderObject.reminders.Where(m => m.mindmap == "TimeBlock").OrderBy(m => m.time))
+            foreach (ReminderItem item in reminderObject.reminders.Where(m => m.mindmap == "TimeBlock"&&m.time>DateTime.Today).OrderBy(m => m.time))
             {
                 //将item到文件path里
                 //BEGIN: VEVENT

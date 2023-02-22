@@ -781,7 +781,7 @@ namespace DocearReminder
                  (c_fanqie.Checked && m.mindmap == "FanQie" && !m.isCompleted &&
                   !(m.name.Length == 5 && m.name[2] == ':')) || (c_progress.Checked && m.mindmap == "Progress") ||
                  (c_mistake.Checked && m.mindmap == "Mistake") || (c_Money.Checked && m.mindmap == "Money") ||
-                 (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked && m.time > DateTime.Now &&
+                 (Ka_c.Checked && m.mindmap == "KA") || (c_timeBlock.Checked && m.time > DateTime.Today &&
                                                          m.mindmapPath.Contains(mindmappath) &&
                                                          (!m.isview || (isview_c.Checked && m.isview)) &&
                                                          !m.isCompleted)));

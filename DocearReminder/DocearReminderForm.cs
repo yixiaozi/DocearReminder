@@ -413,6 +413,15 @@ namespace DocearReminder
                 GetAllNodeJsonFile();
                 GetAllFilesJsonFile();
                 GetTimeBlock();
+                titleTimer.Start();
+                //创建桌面快捷方式（好像不会重复创建）
+                if (ini.ReadString("config", "CreateShortcutOnDesktop", "") == "ture")
+                {
+                    yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder", System.AppDomain.CurrentDomain.BaseDirectory + "DocearReminder.exe");
+                }
+                SaveLog("打开程序。");
+                SetTimeBlockLasTime();
+                timeblockcheck.Text = "";
                 #region 添加提示信息
                 try
                 {
@@ -470,15 +479,6 @@ namespace DocearReminder
             {
                 MessageBox.Show(ex.ToString());
             }
-            titleTimer.Start();
-            //创建桌面快捷方式（好像不会重复创建）
-            if (ini.ReadString("config", "CreateShortcutOnDesktop", "") == "ture")
-            {
-                yixiaozi.Windows.ShortcutCreator.CreateShortcutOnDesktop("DocearReminder", System.AppDomain.CurrentDomain.BaseDirectory + "DocearReminder.exe");
-            }
-            SaveLog("打开程序。");
-            SetTimeBlockLasTime();
-            timeblockcheck.Text = "";
         }
 
         #region 压缩方法
@@ -1227,19 +1227,39 @@ namespace DocearReminder
         /// <param name="cultureType">语言项，如zh-CN，en-US</param>
         private void SwitchToLanguageMode(string cultureType = "en-US")
         {
-            //暂时去掉所有输入法设置
-            //var installedInputLanguages = InputLanguage.InstalledInputLanguages;
-            //if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.Culture.Name == cultureType))
-            //{
-            //    foreach (InputLanguage item in installedInputLanguages)
-            //    {
-            //        if (item.Culture.Name == cultureType)
-            //        {
-            //            InputLanguage.CurrentInputLanguage = item;
-            //        }
-            //    }
-            //}
+            
+            var installedInputLanguages = InputLanguage.InstalledInputLanguages;
+            if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.LayoutName== "小狼毫"))
+            {
+                foreach (InputLanguage item in installedInputLanguages)
+                {
+                    if (item.LayoutName == "小狼毫")
+                    {
+                        InputLanguage.CurrentInputLanguage = item;
+                        IntPtr prt = ImmGetContext(InputLanguage.CurrentInputLanguage.Handle);
+                        if (cultureType == "en-US")
+                        {
+                            ImmSetConversionStatus(prt, 0, 0);
+                        }
+                        else
+                        {
+                            ImmSetConversionStatus(prt, 1, 0);
+                        }
+
+                        break;
+                    }
+                }
+            }
         }
+        [DllImport("imm32.dll")]
+        public static extern IntPtr ImmGetContext(IntPtr hWnd);
+
+        [DllImport("imm32.dll")]
+        public static extern bool ImmGetConversionStatus(IntPtr hIMC,
+            ref int conversion, ref int sentence);
+
+        [DllImport("imm32.dll")]
+        public static extern bool ImmSetConversionStatus(IntPtr hIMC, int conversion, int sentence);
         #endregion
 
         #region allnode,allicon,allfile等数据加载
@@ -12671,6 +12691,7 @@ namespace DocearReminder
             BuildTree(fileTreePath, FileTreeView.Nodes, true, level);
             FileTreeView.Sort();
         }
+        
 
         public void ShowMindmapFileUp()
         {
@@ -17233,11 +17254,13 @@ namespace DocearReminder
         private void reminderListBox_Enter(object sender, EventArgs e)
         {
             focusedList = 1;
+            SwitchToLanguageMode();
         }
 
         private void reminderList_Enter(object sender, EventArgs e)
         {
             focusedList = 0;
+            SwitchToLanguageMode();
         }
 
         private void 趋势ToolStripMenuItem_Click(object sender, EventArgs e)

@@ -358,20 +358,32 @@ namespace DocearReminder
                 FileInfo fi;
                 if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json"))
                 {
-                    fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
-                    using (StreamReader sw = fi.OpenText())
+                    try
                     {
-                        string s = sw.ReadToEnd();
-                        nodes = js.Deserialize<List<node>>(s);
+                        fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
+                        using (StreamReader sw = fi.OpenText())
+                        {
+                            string s = sw.ReadToEnd();
+                            nodes = js.Deserialize<List<node>>(s);
+                        }
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
                 if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json"))
                 {
-                    fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
-                    using (StreamReader sw = fi.OpenText())
+                    try
                     {
-                        string s = sw.ReadToEnd();
-                        allfiles = js.Deserialize<List<node>>(s);
+                        fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
+                        using (StreamReader sw = fi.OpenText())
+                        {
+                            string s = sw.ReadToEnd();
+                            allfiles = js.Deserialize<List<node>>(s);
+                        }
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
                 taskcount.Text = "0";

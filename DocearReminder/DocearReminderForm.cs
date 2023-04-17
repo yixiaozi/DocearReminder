@@ -489,6 +489,7 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
+                AddErrorLog(ex);
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -1148,42 +1149,45 @@ namespace DocearReminder
         #region 没用过的方法
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
-            const int WM_DRAWCLIPBOARD = 0x308;
-            const int WM_CHANGECBCHAIN = 0x030D;
-            //const int WM_NCPAINT = 0x85;
-            switch (m.Msg)
+            if (IsClip.Checked||true)
             {
-                case WM_DRAWCLIPBOARD:
-                    DisplayClipboardData();
-                    SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
-                    break;
-
-                case WM_CHANGECBCHAIN:
-                    if (m.WParam == nextClipboardViewer)
-                    {
-                        nextClipboardViewer = m.LParam;
-                    }
-                    else
-                    {
+                const int WM_DRAWCLIPBOARD = 0x308;
+                const int WM_CHANGECBCHAIN = 0x030D;
+                //const int WM_NCPAINT = 0x85;
+                switch (m.Msg)
+                {
+                    case WM_DRAWCLIPBOARD:
+                        DisplayClipboardData();
                         SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
-                    }
+                        break;
 
-                    break;
-                //case WM_NCPAINT:
-                //    IntPtr hdc = GetWindowDC(m.HWnd);
-                //    if ((int)hdc != 0)
-                //    {
-                //        Graphics g = Graphics.FromHdc(hdc);
-                //        g.FillRectangle(Brushes.Red, new Rectangle(0, 0, 4800, 23));
-                //        g.Flush();
-                //        ReleaseDC(m.HWnd, hdc);
-                //    }
-                //    break;
-                default:
-                    //HookManager_KeyDown_saveKeyBoard(m.WParam);
-                    hotKeys.ProcessHotKey(m);//快捷键消息处理
-                    base.WndProc(ref m);
-                    break;
+                    case WM_CHANGECBCHAIN:
+                        if (m.WParam == nextClipboardViewer)
+                        {
+                            nextClipboardViewer = m.LParam;
+                        }
+                        else
+                        {
+                            SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
+                        }
+
+                        break;
+                    //case WM_NCPAINT:
+                    //    IntPtr hdc = GetWindowDC(m.HWnd);
+                    //    if ((int)hdc != 0)
+                    //    {
+                    //        Graphics g = Graphics.FromHdc(hdc);
+                    //        g.FillRectangle(Brushes.Red, new Rectangle(0, 0, 4800, 23));
+                    //        g.Flush();
+                    //        ReleaseDC(m.HWnd, hdc);
+                    //    }
+                    //    break;
+                    default:
+                        //HookManager_KeyDown_saveKeyBoard(m.WParam);
+                        hotKeys.ProcessHotKey(m);//快捷键消息处理
+                        base.WndProc(ref m);
+                        break;
+                }
             }
         }
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -7701,6 +7705,34 @@ namespace DocearReminder
         }
 
         #endregion
+
+        #region 日志
+
+        //添加一个方法，保存错误日志到软件跟站点的error.txt文件中
+        public void AddErrorLog(Exception e)
+        {
+            try
+            {
+                string path = System.Windows.Forms.Application.StartupPath + "\\error.txt";
+                if (!System.IO.File.Exists(path))
+                {
+                    System.IO.File.Create(path);
+                }
+                string str = "错误时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\r\n";
+                str += "错误信息：" + e.Message + "\r\n";
+                str += "错误源：" + e.Source + "\r\n";
+                str += "堆栈信息：" + e.StackTrace + "\r\n";
+                str += "触发方法：" + e.TargetSite + "\r\n";
+                str += "\r\n\r\n";
+                System.IO.File.AppendAllText(path, str);
+            }
+            catch (Exception)
+            {
+            }
+        }
+        #endregion
+
+
         public void SetJinian(bool setstartData = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -17724,6 +17756,11 @@ namespace DocearReminder
         }
 
         private void OnlyLevel_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void IsClip_CheckedChanged(object sender, EventArgs e)
         {
 
         }

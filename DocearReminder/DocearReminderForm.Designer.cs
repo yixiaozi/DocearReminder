@@ -167,6 +167,7 @@ namespace DocearReminder
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.OnlyLevel = new System.Windows.Forms.CheckBox();
             this.checkBox_截图 = new System.Windows.Forms.CheckBox();
+            this.IsClip = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1702,6 +1703,19 @@ namespace DocearReminder
             this.checkBox_截图.Text = "截图录像";
             this.checkBox_截图.UseVisualStyleBackColor = true;
             // 
+            // IsClip
+            // 
+            this.IsClip.AutoSize = true;
+            this.IsClip.Checked = true;
+            this.IsClip.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IsClip.Location = new System.Drawing.Point(1340, 69);
+            this.IsClip.Name = "IsClip";
+            this.IsClip.Size = new System.Drawing.Size(60, 16);
+            this.IsClip.TabIndex = 143;
+            this.IsClip.Text = "剪切板";
+            this.IsClip.UseVisualStyleBackColor = true;
+            this.IsClip.CheckedChanged += new System.EventHandler(this.IsClip_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1710,6 +1724,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.IsClip);
             this.Controls.Add(this.checkBox_截图);
             this.Controls.Add(this.OnlyLevel);
             this.Controls.Add(this.tagList);
@@ -1974,6 +1989,7 @@ namespace DocearReminder
         private FerretLib.WinForms.Controls.TagListControl tagList;
         private CheckBox OnlyLevel;
         private CheckBox checkBox_截图;
+        private CheckBox IsClip;
     }
 }
 

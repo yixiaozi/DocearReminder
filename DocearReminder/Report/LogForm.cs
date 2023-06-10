@@ -56,7 +56,7 @@ namespace DocearReminder
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -85,7 +85,7 @@ namespace DocearReminder
                                 {
                                     dt = Convert.ToDateTime(timeString.Trim());
                                 }
-                                catch (Exception)
+                                catch (Exception ex)
                                 {
                                 }
                                 result r = new result { Words = line, path = fileName,Time=dt};
@@ -128,7 +128,7 @@ namespace DocearReminder
                 cryptoStream.Close();
                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "";
             }
@@ -255,7 +255,7 @@ namespace DocearReminder
             {
                 Process.Start(((result)resultlistBox.SelectedItem).path);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -618,7 +618,7 @@ namespace DocearReminder
             {
                 Clipboard.SetText(((result)resultlistBox.SelectedItem).Words);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

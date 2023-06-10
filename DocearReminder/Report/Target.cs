@@ -33,7 +33,7 @@ namespace DocearReminder
                 }
                 comboBox_target.SelectedIndex = 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             #endregion
@@ -123,7 +123,7 @@ namespace DocearReminder
                                 }
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -136,7 +136,7 @@ namespace DocearReminder
                                 continue;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             
                         }
@@ -188,7 +188,7 @@ namespace DocearReminder
                             timeblocktop += "|";
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                     string time = (ritem.time.ToString("MM-dd HH:mm") + ">" + ritem.time.AddMinutes(ritem.tasktime).ToShortTimeString());
@@ -307,7 +307,7 @@ namespace DocearReminder
             {
                 return (((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Replace(comboBox1.SelectedItem.ToString(), "").Split('|').FirstOrDefault(m => m != "");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "异常分类";
             }
@@ -388,7 +388,7 @@ namespace DocearReminder
                             comboBox_target.Items.Add(item);
                             comboBox_target.DisplayMember = "Text";
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
 
                         }

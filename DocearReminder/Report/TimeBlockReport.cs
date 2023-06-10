@@ -162,7 +162,7 @@ namespace DocearReminder
                                 }
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -175,7 +175,7 @@ namespace DocearReminder
                                 continue;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -195,7 +195,7 @@ namespace DocearReminder
                                 color = Color.FromArgb(Int32.Parse(item.mindmapPath))
                             });
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -237,7 +237,7 @@ namespace DocearReminder
             {
                 return (((item.nameFull != null && item.nameFull != "") ? item.nameFull + "|" : "") + item.name).Replace(comboBox1.SelectedItem.ToString(), "").Split('|').FirstOrDefault(m => m != "");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "异常分类";
             }

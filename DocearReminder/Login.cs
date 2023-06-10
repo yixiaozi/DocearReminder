@@ -25,7 +25,7 @@ namespace DocearReminder
                     textBox1.Text = pas.Split('@')[0];
                     textBox2.Text = pas.Split('@')[1];
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -37,6 +37,7 @@ namespace DocearReminder
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            checkBox1_CheckedChanged(null,null);
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (textBox1.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && textBox2 .Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
             {
@@ -45,7 +46,7 @@ namespace DocearReminder
                     System.IO.File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\Setup.exe");
                     System.IO.File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\Password.exe");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
                 this.DialogResult = DialogResult.OK;
@@ -58,7 +59,7 @@ namespace DocearReminder
                     {
                         System.IO.Directory.Delete(item);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -74,7 +75,7 @@ namespace DocearReminder
                         {
                             System.IO.Directory.Delete(System.IO.Path.GetFullPath(item));
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }

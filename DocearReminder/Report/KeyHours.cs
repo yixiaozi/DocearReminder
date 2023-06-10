@@ -70,14 +70,14 @@ namespace DocearReminder
                                 dt = Convert.ToDateTime(line.Substring(0, 17));
                                 key = line.Substring(18);
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 try
                                 {
                                     dt = Convert.ToDateTime(line.Substring(0, 16));
                                     key = line.Substring(17);
                                 }
-                                catch (Exception)
+                                catch (Exception ex)
                                 {
                                 }
                             }

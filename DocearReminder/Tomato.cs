@@ -62,7 +62,7 @@ namespace DocearReminder
                 faneiguid = Guid.NewGuid().ToString();
                 addreminderlog(name, faneiguid, mindmap, taskLevel);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -213,7 +213,7 @@ namespace DocearReminder
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             
@@ -230,7 +230,7 @@ namespace DocearReminder
                     item.tasktime = (DateTime.Now - item.time).TotalMinutes;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

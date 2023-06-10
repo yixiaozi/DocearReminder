@@ -91,7 +91,7 @@ namespace DocearReminder
                 numericOpacity.Value = Convert.ToInt32(this.Opacity * 100);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             dayView1.NewAppointment += new NewAppointmentEventHandler(dayView1_NewAppointment);
@@ -201,7 +201,7 @@ namespace DocearReminder
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             #endregion
@@ -358,14 +358,14 @@ namespace DocearReminder
                         s = node.ParentNode.Attributes["TEXT"].Value + (s != "" ? "|" : "") + s;
                         node = node.ParentNode;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         break;
                     }
                 }
                 return s;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "";
             }
@@ -444,7 +444,7 @@ namespace DocearReminder
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         taskTime = DateTime.Now;
                         tasktime = 30;
@@ -464,7 +464,7 @@ namespace DocearReminder
                 });
                 FreshCalendarBool = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -484,7 +484,7 @@ namespace DocearReminder
                     File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", DocearReminderForm.CompressToBase64(json));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -822,7 +822,7 @@ namespace DocearReminder
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
 
@@ -1012,7 +1012,7 @@ namespace DocearReminder
                             //m_Appointment.Locked = true;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -1212,7 +1212,7 @@ namespace DocearReminder
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -1241,7 +1241,7 @@ namespace DocearReminder
                                 {
                                     dt = Convert.ToDateTime(timeString.Trim());
                                 }
-                                catch (Exception)
+                                catch (Exception ex)
                                 {
                                 }
                                 ActionLogAddCalanderItem(line, "", line, dt, fileName);
@@ -1284,7 +1284,7 @@ namespace DocearReminder
                 cryptoStream.Close();
                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "";
             }
@@ -1327,7 +1327,7 @@ namespace DocearReminder
                                 string[] split = file.FullName.Split('\\');
                                 dt = Convert.ToDateTime(split[split.Length - 3] + "/" + split[split.Length - 2] + "/" + split[split.Length - 1].Split('.')[0] + " 1:1");
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 continue;
                             }
@@ -1430,7 +1430,7 @@ namespace DocearReminder
                                 timenew = line.Substring(0, 20);
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
 
@@ -1450,7 +1450,7 @@ namespace DocearReminder
                             }
                             //result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
                         }
-                        catch (Exception)//如果不是时间
+                        catch (Exception ex)//如果不是时间
                         {
                             Content += (Environment.NewLine + line);
                         }
@@ -1551,7 +1551,7 @@ namespace DocearReminder
                 return Convert.ToDateTime(year + "/" + month + "/" + day + " " + hour + ":" + minute);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return DateTime.Today;
             }
@@ -1742,7 +1742,7 @@ namespace DocearReminder
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -2093,7 +2093,7 @@ namespace DocearReminder
                 {
                     this.Text = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString("N") + "分钟" + "|" + dayView1.SelectedAppointment.Title;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -2152,7 +2152,7 @@ namespace DocearReminder
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                         th.Start();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
 
                     }
@@ -2175,7 +2175,7 @@ namespace DocearReminder
                         th.Start();
                         return;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
 
                     }
@@ -2218,7 +2218,7 @@ namespace DocearReminder
                         current.name = dayView1.SelectedAppointment.Title.Split('(')[0];
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -2239,7 +2239,7 @@ namespace DocearReminder
                         current.name = app.Title.Split('(')[0]; ;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -2336,7 +2336,7 @@ namespace DocearReminder
                 }
                 dayView1.Refresh();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 dayView1.Refresh();
             }
@@ -2356,7 +2356,7 @@ namespace DocearReminder
                 {
                     System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     try
                     {
@@ -2365,7 +2365,7 @@ namespace DocearReminder
                             commentToolStripMenuItem_Click(null, null);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -2637,7 +2637,7 @@ namespace DocearReminder
                 }
                 nenglaingMax = nengliangNum * Convert.ToDouble(ggg) / 10;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -2738,7 +2738,7 @@ namespace DocearReminder
                 }
                 return "#ffffff";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "#ffffff";
             }
@@ -2752,7 +2752,7 @@ namespace DocearReminder
                 m_Appointments.Remove(dayView1.SelectedAppointment);
                 dayView1.Refresh();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -2779,7 +2779,7 @@ namespace DocearReminder
             {
                 System.Diagnostics.Process.Start(dayView1.SelectedAppointment.value);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -2874,7 +2874,7 @@ namespace DocearReminder
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
                 string timeblocktop = "";
@@ -2889,7 +2889,7 @@ namespace DocearReminder
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
                 string Title = "任务";
@@ -2990,7 +2990,7 @@ namespace DocearReminder
                 {
                     timelong = (dayView1.SelectedAppointment.EndDate - dayView1.SelectedAppointment.StartDate).TotalMinutes.ToString();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                 }
@@ -3005,7 +3005,7 @@ namespace DocearReminder
                     {
                         timeNum = Convert.ToDouble(time);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
 
                     }
@@ -3065,7 +3065,7 @@ namespace DocearReminder
                 tomatoCount += 1;
                 th.Start();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

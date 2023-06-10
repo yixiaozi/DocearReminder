@@ -74,7 +74,7 @@ namespace DocearReminder
                                             time = line.Substring(0, 20);
                                         }
                                     }
-                                    catch (Exception)
+                                    catch (Exception ex)
                                     {
                                     }
                                     try
@@ -83,7 +83,7 @@ namespace DocearReminder
                                         result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
                                         allresult.Add(r);
                                     }
-                                    catch (Exception)
+                                    catch (Exception ex)
                                     {
                                         try
                                         {
@@ -91,7 +91,7 @@ namespace DocearReminder
                                             result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
                                             allresult.Add(r);
                                         }
-                                        catch (Exception)
+                                        catch (Exception ex)
                                         {
                                             result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = new DateTime() };
                                             allresult.Add(r);

@@ -68,7 +68,7 @@ namespace DocearReminder
                                 timeCount += count;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -112,7 +112,7 @@ namespace DocearReminder
                                     timeCount += count;
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                             }
                         }
@@ -139,7 +139,7 @@ namespace DocearReminder
                     }
                     formsPlot2.Refresh();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     plt.Clear();
                     formsPlot2.Refresh();
@@ -169,7 +169,7 @@ namespace DocearReminder
                                     timeCount += count;
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                             }
                         }
@@ -195,7 +195,7 @@ namespace DocearReminder
                     }
                     formsPlot3.Refresh();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     plt.Clear();
                     formsPlot3.Refresh();
@@ -229,7 +229,7 @@ namespace DocearReminder
                                     timeCount += count;
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                             }
                         }
@@ -255,7 +255,7 @@ namespace DocearReminder
                     }
                     formsPlot4.Refresh();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     plt.Clear();
                     formsPlot4.Refresh();

@@ -128,7 +128,7 @@ namespace DocearReminder
                     yixiaozi.Model.DocearReminder.Helper.ConvertFile(file);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -342,7 +342,7 @@ namespace DocearReminder
                         th.Start();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -388,7 +388,7 @@ namespace DocearReminder
                     };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -425,7 +425,7 @@ namespace DocearReminder
                                 node.Attributes.Append(LINK);
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
@@ -433,7 +433,7 @@ namespace DocearReminder
                     yixiaozi.Model.DocearReminder.Helper.ConvertFile(file);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
@@ -469,7 +469,7 @@ namespace DocearReminder
             //                    isNeedUpdate=true;
             //                }
             //            }
-            //            catch (Exception)
+            //            catch (Exception ex)
             //            {
             //            }
             //        }
@@ -481,7 +481,7 @@ namespace DocearReminder
             //            //th.Start();
             //        }
             //    }
-            //    catch (Exception)
+            //    catch (Exception ex)
             //    {
             //    }
             //}
@@ -512,12 +512,12 @@ namespace DocearReminder
                                 usedSuggest.Add(new HtmlToString().StripHTML(node.Attributes["TEXT"].Value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("|", "") + "|" + new HtmlToString().StripHTML(node.Attributes["LINK"].Value));
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -543,7 +543,7 @@ namespace DocearReminder
                 Encrypt encrypt = new Encrypt(DocearReminderForm.PassWord);
                 pwd.Text = encrypt.EncryptString(pwd.Text);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -776,7 +776,7 @@ namespace DocearReminder
                     oldeditdate = Edittime;
                     oldlevel = level;
                 }
-                catch (Exception)//一旦没有时间，即使换行引起的
+                catch (Exception ex)//一旦没有时间，即使换行引起的
                 {
                     taskName = item[0].ToString();
                     isLastWord = true;
@@ -906,7 +906,7 @@ namespace DocearReminder
                         lines[i] = lines[i] + lines[i + 1];
                         lines[i + 1] = "";
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -943,7 +943,7 @@ namespace DocearReminder
                     Createtime = Convert.ToDateTime(createdate);
                     oldCreateDate = Createtime;
                 }
-                catch (Exception)//一旦没有时间，即使换行引起的
+                catch (Exception ex)//一旦没有时间，即使换行引起的
                 {
                     isLastWord = true;
                     taskName = new HtmlToString().StripHTML(taskName.Replace("Highlight:", ""));
@@ -1109,7 +1109,7 @@ namespace DocearReminder
                         {
                             dt.Columns.Add(dc);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             dc.ColumnName += Num;
                             Num++;

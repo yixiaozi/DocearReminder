@@ -2,21 +2,21 @@
 using System.Windows.Forms;
 using yixiaozi.Config;
 using yixiaozi.Security;
-using System.Collections.Generic;
-using static DocearReminder.DocearReminderForm;
+
 namespace DocearReminder
 {
     public partial class LoginForm : Form
     {
         private static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
-        int errorcount = 2;
-        bool isfirstload = true;
+        private int errorcount = 2;
+        private bool isfirstload = true;
         public bool autologin = false;
+
         public LoginForm()
         {
             InitializeComponent();
 
-            if (ini.ReadString("password", "r", "")=="1")
+            if (ini.ReadString("password", "r", "") == "1")
             {
                 checkBox1.Checked = true;
                 Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
@@ -32,20 +32,20 @@ namespace DocearReminder
             }
             else
             {
-
             }
             isfirstload = false;
             //如果用户名和密码都填写了，直接点击登录
-            if (UserName.Text != "" && PassWord.Text != "") 
+            if (UserName.Text != "" && PassWord.Text != "")
             {
                 Login_Click(null, null);
             }
         }
+
         private void Login_Click(object sender, EventArgs e)
         {
-            checkBox1_CheckedChanged(null,null);
+            checkBox1_CheckedChanged(null, null);
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
-            if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && PassWord .Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
+            if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && PassWord.Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
             {
                 try
                 {
@@ -58,7 +58,7 @@ namespace DocearReminder
                 autologin = true;
                 this.DialogResult = DialogResult.OK;
             }
-            else if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "a", ""))&& PassWord.Text == encrypt.DecryptString(ini.ReadString("password", "d", "")))
+            else if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "a", "")) && PassWord.Text == encrypt.DecryptString(ini.ReadString("password", "d", "")))
             {
                 foreach (string item in encrypt.DecryptString(ini.ReadString("password", "f", "")).Split(';'))
                 {
@@ -74,7 +74,7 @@ namespace DocearReminder
             else
             {
                 errorcount++;
-                if (errorcount>=5)
+                if (errorcount >= 5)
                 {
                     foreach (string item in encrypt.DecryptString(ini.ReadString("password", "f", "")).Split(';'))
                     {
@@ -107,7 +107,7 @@ namespace DocearReminder
 
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 Login_Click(null, null);
             }
@@ -122,13 +122,13 @@ namespace DocearReminder
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (checkBox1.Checked)
             {
-                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), encrypt.EncryptString(UserName.Text+"@"+ PassWord.Text));
+                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), encrypt.EncryptString(UserName.Text + "@" + PassWord.Text));
                 ini.WriteString("password", "r", "1");
             }
             else
             {
                 ini.WriteString("password", "r", "0");
-                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."),"");
+                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), "");
             }
         }
 

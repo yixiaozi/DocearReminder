@@ -1,5 +1,7 @@
-﻿using Gma.UserActivityMonitor;
+﻿using AForge.Video.DirectShow;
+using Gma.UserActivityMonitor;
 using Microsoft.Win32;
+using NAudio.Wave;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -9,19 +11,27 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Speech.Recognition;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Script.Serialization;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
+using yixiaozi.API.Todoist;
+using yixiaozi.API.Todoist.Models;
 using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.MyConvert;
@@ -29,28 +39,14 @@ using yixiaozi.Security;
 using yixiaozi.Windows;
 using yixiaozi.WinForm.Control;
 using Brushes = System.Drawing.Brushes;
-using Color = System.Drawing.Color;
-using System.Speech.Recognition;
-using System.Speech.Synthesis;
-using DayOfWeek = System.DayOfWeek;
-using Reminder = yixiaozi.Model.DocearReminder.Reminder;
-using System.Reflection;
-using NAudio.Wave;
-using AForge.Controls;
-using AForge.Video.DirectShow;
-using System.Windows.Media.Imaging;
-using System.Windows;
 using Clipboard = System.Windows.Forms.Clipboard;
-using IDataObject = System.Windows.Forms.IDataObject;
+using Color = System.Drawing.Color;
 using DataFormats = System.Windows.Forms.DataFormats;
 using DataObject = System.Windows.Forms.DataObject;
+using DayOfWeek = System.DayOfWeek;
+using IDataObject = System.Windows.Forms.IDataObject;
+using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using Size = System.Drawing.Size;
-using System.Drawing.Imaging;
-using FerretLib.WinForms.Controls;
-using yixiaozi.WinForm.Control.Calendar;
-using yixiaozi.API.Todoist;
-using yixiaozi.API.Todoist.Models;
-using System.Resources;
 
 namespace DocearReminder
 {
@@ -59,15 +55,17 @@ namespace DocearReminder
         #region 全局变量
         public System.Windows.Forms.Timer hoverTimer = new System.Windows.Forms.Timer();
         public System.Windows.Forms.Timer addFanQieTimer = new System.Windows.Forms.Timer();
+
         //密码
         public static string PassWord = "";
+
         public static int tomatoCount = 0;
         private bool IsSelectReminder = true;
         private int reminderSelectIndex = -1;
         private int mindmapSelectIndex = -1;
         private bool InMindMapBool = true;
         private bool isCodeFenlei = false;
-        SoundPlayer simpleSound = new SoundPlayer();
+        private SoundPlayer simpleSound = new SoundPlayer();
         public static bool[] fanqiePosition = new bool[(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - 30) / 120];
         private HotKeys hotKeys = new HotKeys();
         public static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
@@ -89,63 +87,65 @@ namespace DocearReminder
         private DirectoryInfo rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
         public bool isInReminderlistSelect = false;
         public string mindmapPath = "";
-        string CalendarImagePath = "";
+        private string CalendarImagePath = "";
         public static bool isZhuangbi = false;
-        AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
         public bool showfenge = false;
-        Reminder reminderObjectOut = new Reminder();
-        string showMindmapName = "";//用于Tree中当前导图的名称
-        string renameTaskName = "";
-        string renameMindMapFileIDParent = "";
-        string renameMindMapFileID = "";
-        bool isRename = false;
-        bool isRenameTimeBlock = false;
-        List<string> pathArr = new List<string>();
+        private Reminder reminderObjectOut = new Reminder();
+        private string showMindmapName = "";//用于Tree中当前导图的名称
+        private string renameTaskName = "";
+        private string renameMindMapFileIDParent = "";
+        private string renameMindMapFileID = "";
+        private bool isRename = false;
+        private bool isRenameTimeBlock = false;
+        private List<string> pathArr = new List<string>();
         public static List<string> ignoreSuggest = new List<string>();
         public static string command = "ga;gc;";
         public static List<string> RecentOpenedMap = new List<string>();
         public static List<string> IconNodesSelected = new List<string>();
         public static List<string> TimeBlockSelected = new List<string>();
-        string timeblockcolor = "";
-        string timeblockfather = "";
+        private string timeblockcolor = "";
+        private string timeblockfather = "";
         public static List<string> Xnodes = new List<string>();
         public static List<string> OpenedInRootSearch = new List<string>();
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
         public static List<string> AddTaskWithDate = new List<string>();
         public static DateTime TimeBlocklastTime = DateTime.Today;
-        RecordController record = new RecordController();
+        private RecordController record = new RecordController();
 
         public static Color BackGroundColor = Color.White;
-        bool isRefreshMindmap = false;
+        private bool isRefreshMindmap = false;
         public List<MyListBoxItemRemind> reminderboxList = new List<MyListBoxItemRemind>();
-        int ebconfig = 98765432;
-        string ebdefault = "";
-        List<MyListBoxItemRemind> RemindersOtherPath = new List<MyListBoxItemRemind>();
-        string nodeIconString = "";
-        string timeblockString = "";
-        bool lockForm = false;
-        bool isSearchFileOrNode = false;
-        DirectoryInfo fileTreePath;
-        bool isPlaySound = false;
-        bool playBackGround = false;
-        static string logpass = "niqishihenhao";
-        bool allFloder = false;
-        bool IsEncryptBool = false;
-        object reminderlistSelectedItem;
-        List<StationInfo> suggestListData = new List<StationInfo>();
-        Encrypt encrypt;
-        Encrypt encryptlog;
-        bool selectedpath = true;
+        private int ebconfig = 98765432;
+        private string ebdefault = "";
+        private List<MyListBoxItemRemind> RemindersOtherPath = new List<MyListBoxItemRemind>();
+        private string nodeIconString = "";
+        private string timeblockString = "";
+        private bool lockForm = false;
+        private bool isSearchFileOrNode = false;
+        private DirectoryInfo fileTreePath;
+        private bool isPlaySound = false;
+        private bool playBackGround = false;
+        private static string logpass = "niqishihenhao";
+        private bool allFloder = false;
+        private bool IsEncryptBool = false;
+        private object reminderlistSelectedItem;
+        private List<StationInfo> suggestListData = new List<StationInfo>();
+        private Encrypt encrypt;
+        private Encrypt encryptlog;
+        private bool selectedpath = true;
         public static UsedTimer usedTimer = new UsedTimer();
-        Guid currentUsedTimerId;
+        private Guid currentUsedTimerId;
+
         /// <summary>
         /// 窗口活动时间
         /// </summary>
-        DateTime formActiveTime;
-        TimeSpan leaveSpan = new TimeSpan();
-        bool isneedreminderlistrefresh = true;
-        bool isneedKeyUpEventWork = true;
+        private DateTime formActiveTime;
+
+        private TimeSpan leaveSpan = new TimeSpan();
+        private bool isneedreminderlistrefresh = true;
+        private bool isneedKeyUpEventWork = true;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         public string usedTimeLog = "";
         public string todoistKey = "";
@@ -161,8 +161,9 @@ namespace DocearReminder
         public int nodetreeTopTop = 9;
         public int nodetreeHeight = 322;
         public int nodeTreeHeightMax = 818;
-        
-        #endregion
+
+        #endregion 全局变量
+
         public DocearReminderForm()
         {
             InitializeComponent();
@@ -219,7 +220,7 @@ namespace DocearReminder
                 //this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Created);
                 //this.fileSystemWatcher1.Path = ini.ReadString("path", "rootpath", "");
                 //((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
-                #endregion
+                #endregion 用来监视文件编号的代码，暂时不用，有git监控就可以了
 
                 //设置之前保存到皮肤
                 if (ini.ReadString("Skin", "src", "") != "")
@@ -230,7 +231,7 @@ namespace DocearReminder
 
                 mindmaplist.Height = 424;
                 ReminderlistBoxChange();
-                
+
                 //设置透明度
                 try
                 {
@@ -317,13 +318,13 @@ namespace DocearReminder
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
-                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt"); 
-                #endregion
+                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                #endregion 加载一些配置文件
 
                 #region UsedTimer
                 fathernode.Text = "";
                 UsedTimerOnLoad();
-                #endregion
+                #endregion UsedTimer
                 FileTreeView.AfterSelect += FileTreeView_AfterSelect;
                 string calanderpath = ini.ReadString("path", "calanderpath", "");
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
@@ -346,7 +347,7 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-                }		
+                }
 
                 noFolder = no.Split(';');
                 noFiles = noFilesString.Split(';');
@@ -485,7 +486,7 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
-                #endregion
+                #endregion 添加提示信息
             }
             catch (Exception ex)
             {
@@ -495,6 +496,7 @@ namespace DocearReminder
         }
 
         #region 压缩方法
+
         /// <summary>
         /// 压缩成base64格式
         /// </summary>
@@ -545,6 +547,7 @@ namespace DocearReminder
             { }
             return content;
         }
+
         private static char[] base64CodeArray = new char[]
         {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -580,8 +583,9 @@ namespace DocearReminder
             {
                 return false;
             }
-        } 
-        #endregion
+        }
+
+        #endregion 压缩方法
 
         public void SetTitle()
         {
@@ -672,8 +676,9 @@ namespace DocearReminder
             todayusedtime.Text = usedTimer.todayTime.TotalMinutes.ToString("N0");
             UsedLogRenew(true, false);
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="folder">Skins</param>
         /// <param name="menuitem"></param>
@@ -710,7 +715,6 @@ namespace DocearReminder
                     newMenu = ((ToolStripMenuItem)menuitem).DropDownItems.Add(item.Name, global::DocearReminder.Properties.Resources.square_ok, null);
                 }
                 addirisSkinToolStripMenuItem(item, newMenu);
-
             }
         }
 
@@ -719,9 +723,12 @@ namespace DocearReminder
             skinEngine1.SkinFile = ((System.Windows.Forms.ToolStripItem)sender).Tag.ToString();
             ini.WriteString("Skin", "src", skinEngine1.SkinFile);
         }
+
         //加一个控制，一分钟写一次就好了
         public static List<string> usetimelist = new List<string>();
+
         public static string usedtimerJson = "";
+
         public static void SaveUsedTimerFile(UsedTimer data)
         {
             if (!usetimelist.Contains(DateTime.Now.ToString("yy-MM-dd-HH-mm")))
@@ -795,19 +802,20 @@ namespace DocearReminder
         }
 
         #region 窗体事件
-        bool thisactive = true;
+        private bool thisactive = true;
+
         private void DocearReminderForm_Deactivate(object sender, EventArgs e)
         {
             thisactive = false;
             if (lockForm)
             {
-
             }
             else
             {
                 MyHide();
             }
         }
+
         private void Hover(object O, EventArgs ev)
         {
             //if (this.Location.X < 5 && ((Cursor.Position.X < this.Location.X || Cursor.Position.Y < this.Location.Y) || (Cursor.Position.X > this.Location.X + 836 || Cursor.Position.Y > this.Location.Y + 544)))
@@ -818,6 +826,7 @@ namespace DocearReminder
             //    }
             //}
         }
+
         private void DocearReminderForm_SizeChanged(object sender, EventArgs e)
         {
             //asc = new AutoSizeFormClass();
@@ -837,6 +846,7 @@ namespace DocearReminder
         {
             Center();
         }
+
         //按下快捷键时被调用的方法
         public void CallBack()
         {
@@ -863,6 +873,7 @@ namespace DocearReminder
                 UsedLogRenew();
             }
         }
+
         /// 该函数设置由不同线程产生的窗口的显示状态
         /// </summary>
         /// <param name="hWnd">窗口句柄</param>
@@ -870,15 +881,18 @@ namespace DocearReminder
         /// <returns>如果函数原来可见，返回值为非零；如果函数原来被隐藏，返回值为零</returns>
         [DllImport("User32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+
         /// <summary>
         ///  该函数将创建指定窗口的线程设置到前台，并且激活该窗口。键盘输入转向该窗口，并为用户改各种可视的记号。
-        ///  系统给创建前台窗口的线程分配的权限稍高于其他线程。 
+        ///  系统给创建前台窗口的线程分配的权限稍高于其他线程。
         /// </summary>
         /// <param name="hWnd">将被激活并被调入前台的窗口句柄</param>
         /// <returns>如果窗口设入了前台，返回值为非零；如果窗口未被设入前台，返回值为零</returns>
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
+
         private const int SW_SHOWNOMAL = 1;
+
         private static void HandleRunningInstance(Process instance)
         {
             ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);//显示
@@ -928,6 +942,7 @@ namespace DocearReminder
             //    MyHide();
             //}
         }
+
         public void showlog()
         {
             Thread thCalendarForm = new Thread(() => Application.Run(new LogForm()));
@@ -935,6 +950,7 @@ namespace DocearReminder
             thCalendarForm.Start();
             MyHide();
         }
+
         public void OpenSearch()
         {
             Thread thCalendarForm = new Thread(() => Application.Run(new Search()));
@@ -943,9 +959,10 @@ namespace DocearReminder
             MyHide();
         }
 
-        #endregion
+        #endregion 窗体事件
 
         #region 番茄钟
+
         private void AddFanQie(object O, EventArgs ev)
         {
             addFanQieTimer.Interval = 60000;
@@ -1002,7 +1019,6 @@ namespace DocearReminder
                                 {
                                     reminderList.SetSelected(0, true);
                                 }
-
                             }
                         }
                     }
@@ -1014,7 +1030,6 @@ namespace DocearReminder
                 CameraTimer_Tick(null, null);
                 if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5 || searchword.Focused || hopeNote.Focused || nodetreeSearch.Focused)
                 {
-
                 }
                 else
                 {
@@ -1037,7 +1052,7 @@ namespace DocearReminder
                     //    }
                     //}
                     //isRefreshMindmap = false;
-                    #endregion
+                    #endregion 刷新左侧文件，有问题
                 }
             }
             if (DateTime.Now.Minute == 41 || DateTime.Now.Minute == 11)
@@ -1057,9 +1072,10 @@ namespace DocearReminder
             }
         }
 
-        #endregion
+        #endregion 番茄钟
 
         #region 窗体大小
+
         public void Center()
         {
             int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
@@ -1067,6 +1083,7 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
+
         public void MyHide()
         {
             try
@@ -1080,6 +1097,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void UsedLogRenew(bool newlog = true, bool newid = true)
         {
             //结束之前的ID记录，并生成新的ID
@@ -1144,12 +1162,13 @@ namespace DocearReminder
             }
         }
 
-        #endregion
+        #endregion 窗体大小
 
         #region 没用过的方法
+
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
-            if (IsClip.Checked||true)
+            if (IsClip.Checked || true)
             {
                 const int WM_DRAWCLIPBOARD = 0x308;
                 const int WM_CHANGECBCHAIN = 0x030D;
@@ -1190,12 +1209,14 @@ namespace DocearReminder
                 }
             }
         }
+
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
         [DllImport("User32.dll")]
         private static extern IntPtr GetWindowDC(IntPtr hWnd);
-        void KillProcess(string processname)
+
+        private void KillProcess(string processname)
         {
             Process[] allProcess = Process.GetProcesses();
             foreach (Process p in allProcess)
@@ -1212,6 +1233,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private bool closeProc(string ProcName)
         {
             bool result = false;
@@ -1229,7 +1251,7 @@ namespace DocearReminder
                 {
                     if (!thisProc.CloseMainWindow())
                     {
-                        thisProc.Kill(); //当发送关闭窗口命令无效时强行结束进程                    
+                        thisProc.Kill(); //当发送关闭窗口命令无效时强行结束进程
                     }
 
                     result = true;
@@ -1237,15 +1259,15 @@ namespace DocearReminder
             }
             return result;
         }
+
         /// <summary>
         /// 切换输入法
         /// </summary>
         /// <param name="cultureType">语言项，如zh-CN，en-US</param>
         private void SwitchToLanguageMode(string cultureType = "en-US")
         {
-            
             var installedInputLanguages = InputLanguage.InstalledInputLanguages;
-            if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.LayoutName== "小狼毫"))
+            if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.LayoutName == "小狼毫"))
             {
                 foreach (InputLanguage item in installedInputLanguages)
                 {
@@ -1267,6 +1289,7 @@ namespace DocearReminder
                 }
             }
         }
+
         [DllImport("imm32.dll")]
         public static extern IntPtr ImmGetContext(IntPtr hWnd);
 
@@ -1276,9 +1299,11 @@ namespace DocearReminder
 
         [DllImport("imm32.dll")]
         public static extern bool ImmSetConversionStatus(IntPtr hIMC, int conversion, int sentence);
-        #endregion
+
+        #endregion 没用过的方法
 
         #region allnode,allicon,allfile等数据加载
+
         public void GetAllNode(DirectoryInfo path)
         {
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -1387,7 +1412,7 @@ namespace DocearReminder
                             }
                         }
                         //如果project="17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99" project_last_home="file:/E:/yixiaozi/"
-                        if (GetAttribute(x.FirstChild, "project")!= "17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99"|| GetAttribute(x.FirstChild, "project_last_home") != "file:/E:/yixiaozi/")
+                        if (GetAttribute(x.FirstChild, "project") != "17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99" || GetAttribute(x.FirstChild, "project_last_home") != "file:/E:/yixiaozi/")
                         {
                             if (x.FirstChild.Attributes["project"] != null)
                             {
@@ -1405,6 +1430,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void GetAllNodeIcon(DirectoryInfo path)
         {
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -1592,6 +1618,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void GetAllTimeBlock()
         {
             try
@@ -1611,6 +1638,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void GetTimeBlockItem(XmlNode node)
         {
             if (node.ChildNodes.Count > 0)
@@ -1656,6 +1684,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public string GetColor(XmlNode node)
         {
             try
@@ -1728,6 +1757,7 @@ namespace DocearReminder
                 return "#ffffff";
             }
         }
+
         //public static void CopyValue(object origin, object target)
         //{
         //    System.Reflection.PropertyInfo[] properties = (target.GetType()).GetProperties();
@@ -1849,7 +1879,6 @@ namespace DocearReminder
                                             {
                                             }
                                         }
-
                                     }
                                     if (nodename.StartsWith("Folder|F"))
                                     {
@@ -1881,7 +1910,6 @@ namespace DocearReminder
                             }
                             catch (Exception ex)
                             {
-
                             }
                         }
                         if (needsave)
@@ -1923,6 +1951,7 @@ namespace DocearReminder
             }
             RecordLogallnodesicon(nodeIconString);
         }
+
         public void GetTimeBlockOut()
         {
             timeblocks.Clear();
@@ -1984,6 +2013,7 @@ namespace DocearReminder
                 sw.Write(json);
             }
         }
+
         public void GetAllNodeJsonFile()
         {
             try
@@ -1999,6 +2029,7 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
         }
+
         public void GetAllFilesJsonIconFile()
         {
             try
@@ -2014,6 +2045,7 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
         }
+
         public void GetTimeBlock()
         {
             try
@@ -2045,6 +2077,7 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
         }
+
         public void GetAllFiles(DirectoryInfo path)
         {
             foreach (FileInfo file in path.GetFiles("*.*"))
@@ -2074,6 +2107,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void GetAllFilesout()
         {
             if (allfiles == null)
@@ -2098,6 +2132,7 @@ namespace DocearReminder
                 sw.Write(json);
             }
         }
+
         public void GetAllFilesJsonFile()
         {
             try
@@ -2109,10 +2144,9 @@ namespace DocearReminder
             {
                 MessageBox.Show(ex.ToString());
             }
-
         }
 
-        #endregion
+        #endregion allnode,allicon,allfile等数据加载
         //将所有节点放到内存里，方便查询，不知道要用多大阿
         #region 未整理
 
@@ -2124,6 +2158,7 @@ namespace DocearReminder
             sw.Close();
             sw.Dispose();
         }
+
         public static void RecordTimeBlockJson(string Content)
         {
             string logSite = AppDomain.CurrentDomain.BaseDirectory + "\\timeblock.txt";//本地文件
@@ -2211,6 +2246,7 @@ namespace DocearReminder
             mindmaplist.Sorted = false;
             mindmaplist.Sorted = true;
         }
+
         //public void AddmindmapfilesOnly(DirectoryInfo path)
         //{
         //    try{
@@ -2254,6 +2290,7 @@ namespace DocearReminder
         //    }
         //}
         public static Reminder reminderObject = new Reminder();
+
         public void SetTimeBlockLasTime()
         {
             //避免reminderObject为空
@@ -2271,6 +2308,7 @@ namespace DocearReminder
             {
             }
         }
+
         //选中任务列表的第N行
         public void ReminderListSelectedIndex(int index)
         {
@@ -2280,6 +2318,7 @@ namespace DocearReminder
                 reminderList.SelectedItem = reminderList.Items[index];
             }
         }
+
         /// <summary>
         /// 刷新任务控件
         /// </summary>
@@ -2443,7 +2482,7 @@ namespace DocearReminder
                 }
                 return;
             }
-            #endregion
+            #endregion 显示时间块
             //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
             //{
             //    mindmapSearch.Text = "";
@@ -2944,7 +2983,7 @@ namespace DocearReminder
                                         IsShow = false;
                                     }
                                 }
-                                //处理提醒 
+                                //处理提醒
                                 if (timebool)
                                 {
                                     if (IsReminderOnlyCheckBox.Checked)
@@ -2957,7 +2996,6 @@ namespace DocearReminder
                                         {
                                             IsShow = false;
                                         }
-
                                     }
                                     else
                                     {
@@ -2969,7 +3007,6 @@ namespace DocearReminder
                                         {
                                         }
                                     }
-
                                 }
                                 if (showwaittask)
                                 {
@@ -3081,7 +3118,6 @@ namespace DocearReminder
                         }
                         catch (Exception ex)
                         {
-
                         }
                     }
                 }
@@ -3189,7 +3225,6 @@ namespace DocearReminder
                             }
                             catch (Exception ex)
                             {
-
                             }
                         }
                     }
@@ -3295,7 +3330,6 @@ namespace DocearReminder
                         }
                         catch (Exception ex)
                         {
-
                         }
                     }
                 }
@@ -3384,7 +3418,6 @@ namespace DocearReminder
                         editTime = 0,
                         isEncrypted = false,
                         isTask = false
-
                     });
                 }
                 if (hasAfter && hasNight && afternoon.Checked && night.Checked && !c_Jinian.Checked)
@@ -3550,7 +3583,6 @@ namespace DocearReminder
                     }
                     else
                     {
-
                     }
                 }
 
@@ -3567,7 +3599,8 @@ namespace DocearReminder
             }
         }
 
-        bool isAutoChangeView = true;
+        private bool isAutoChangeView = true;
+
         /// <summary>
         /// 刷新任务列表
         /// </summary>
@@ -3580,6 +3613,7 @@ namespace DocearReminder
             reminderListBox.Sorted = true;
             reminderListBox.Refresh();
         }
+
         /// <summary>
         /// 导图栏双击打开思维导图
         /// </summary>
@@ -3595,9 +3629,9 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
         }
+
         /// <summary>
         /// 任务栏双击打开思维导图，或者打开链接或者文件
         /// </summary>
@@ -3633,9 +3667,9 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
         }
+
         private void encryptbutton_Click(object sender, EventArgs e)
         {
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
@@ -3644,6 +3678,7 @@ namespace DocearReminder
             LoadEncryptFile(path);
             mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
         }
+
         public void LoadEncryptFile(DirectoryInfo path)
         {
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -3654,6 +3689,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             mindmaplist.Items.Clear();
@@ -3727,7 +3763,6 @@ namespace DocearReminder
                                 }
                                 catch (Exception ex)
                                 {
-
                                 }
                             }
                             else
@@ -3752,7 +3787,6 @@ namespace DocearReminder
                                 }
                                 catch (Exception ex)
                                 {
-
                                 }
                             }
                         }
@@ -3761,6 +3795,7 @@ namespace DocearReminder
             }
             mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
         }
+
         /// <summary>
         /// 任务栏渲染
         /// </summary>
@@ -3768,7 +3803,6 @@ namespace DocearReminder
         /// <param name="e"></param>
         private void Reminderlist_DrawItem(object sender, DrawItemEventArgs e)
         {
-
             if (e.Index >= 0)
             {
                 int zhongyao = 0;
@@ -3906,7 +3940,6 @@ namespace DocearReminder
                 if (searchword.Text.StartsWith("#"))
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-
                 }
                 else if (searchword.Text.StartsWith("*"))
                 {
@@ -3974,6 +4007,7 @@ namespace DocearReminder
             Hours.Text = ((float)remindHours / 60).ToString("N2");
             reminder_count.Text = remindCount.ToString();
         }
+
         /// <summary>
         /// 窗体双击，刷新任务
         /// </summary>
@@ -3987,6 +4021,7 @@ namespace DocearReminder
                 RRReminderlist();
             }
         }
+
         private void showtomorrow_CheckedChanged(object sender, EventArgs e)
         {
             if (!showtomorrow.Checked)
@@ -4004,6 +4039,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Reminder_week_CheckedChanged(object sender, EventArgs e)
         {
             if (!reminder_week.Checked)
@@ -4024,6 +4060,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Reminder_month_CheckedChanged(object sender, EventArgs e)
         {
             if (!reminder_month.Checked)
@@ -4044,6 +4081,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Reminder_year_CheckedChanged(object sender, EventArgs e)
         {
             if (reminder_year.Checked)
@@ -4064,6 +4102,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Reminder_yearafter_CheckedChanged(object sender, EventArgs e)
         {
             if (reminder_yearafter.Checked)
@@ -4078,6 +4117,7 @@ namespace DocearReminder
                 //ChangeReminder();
             }
         }
+
         public string GetFileSize(double len)
         {
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };
@@ -4091,6 +4131,7 @@ namespace DocearReminder
             // show a single decimal place, and no space.
             return String.Format("{0:0.##} {1}", len, sizes[order]);
         }
+
         public string GetTopString(FileInfo file)
         {
             string topString = "";
@@ -4108,6 +4149,7 @@ namespace DocearReminder
             //}
             return topString;
         }
+
         public void MoveItem(int n)
         {
             for (int i = n; i > 0; i--)
@@ -4120,22 +4162,26 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Form1_MouseHover(object sender, EventArgs e)
         {
             //LeaveTime();
             //hoverTimer.Stop();//关闭计时器
             //hoverTimer.Start();//重新计时
         }
+
         private void Form1_MouseLeave(object sender, EventArgs e)
         {
             //LeaveTime();
             //if (this.Location.Y < 30 && ((Cursor.Position.X < this.Location.X || Cursor.Position.Y < this.Location.Y) || (Cursor.Position.X > this.Location.X + 836 || Cursor.Position.Y > this.Location.Y + 544)))
             //Center();//= new Point(this.Location.X, -543);
         }
+
         private void taskComplete_btn_Click(object sender, EventArgs e)
         {
             CompleteSelectedTask();
         }
+
         public void CompleteSelectedTask()
         {
             try
@@ -4218,9 +4264,9 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
+
         public static DateTime GetNextTime(DateTime dt, TimeSpan span)
         {
             do
@@ -4229,6 +4275,7 @@ namespace DocearReminder
             } while (dt < DateTime.Now);
             return dt;
         }
+
         public static TimeSpan getAddTime(int zhouqi, int zhouqinum)
         {
             switch (zhouqi)
@@ -4298,120 +4345,142 @@ namespace DocearReminder
                     }
                 case 8:
                     return new TimeSpan(15 + zhouqinum, 0, 0, 0);
+
                 default:
                     return new TimeSpan(1, 0, 0);
             }
         }
+
         public static int GetNextZhouqi(int zhouqi, int zhouqinum)
         {
             switch (zhouqi)
             {
                 case 0:
                     return 1;
+
                 case 1:
                     if (zhouqinum < 6)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 2:
                     if (zhouqinum < 24)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 3:
                     if (zhouqinum < 2)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 4:
                     if (zhouqinum < 2)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 5:
                     if (zhouqinum < 2)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 6:
                     if (zhouqinum < 2)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 7:
                     if (zhouqinum < 2)
                     {
                         return zhouqi;
                     }
                     break;
+
                 case 8:
                     return zhouqi;
+
                 default:
                     break;
             }
             return zhouqi + 1;
         }
+
         public static int GetNextZhouqiNum(int zhouqi, int zhouqinum)
         {
             switch (zhouqi)
             {
                 case 0:
                     return 1;
+
                 case 1:
                     if (zhouqinum < 6)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 2:
                     if (zhouqinum < 24)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 3:
                     if (zhouqinum < 2)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 4:
                     if (zhouqinum < 2)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 5:
                     if (zhouqinum < 2)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 6:
                     if (zhouqinum < 2)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 7:
                     if (zhouqinum < 2)
                     {
                         return zhouqinum + 1;
                     }
                     break;
+
                 case 8:
                     return zhouqinum + 1;
+
                 default:
                     break;
             }
             return 1;
         }
+
         public void CompleteTask(MyListBoxItemRemind selectedReminder)
         {
             System.Xml.XmlDocument x = new XmlDocument();
@@ -4496,6 +4565,7 @@ namespace DocearReminder
                                 }
                                 while (selectedReminder.Time < DateTime.Now);
                                 break;
+
                             case "day":
                                 if (selectedReminder.rdays == 0)
                                 {
@@ -4507,6 +4577,7 @@ namespace DocearReminder
                                 }
                                 while (selectedReminder.Time < DateTime.Now);
                                 break;
+
                             case "week":
                                 do
                                 {
@@ -4518,6 +4589,7 @@ namespace DocearReminder
                                 }
                                 while ((selectedReminder.rweeks != new char[] { } && !selectedReminder.rweeks.Contains(GetWeekIndex(selectedReminder.Time))) || DateTime.Now > selectedReminder.Time);
                                 break;
+
                             case "month":
                                 if (selectedReminder.rMonth == 0)
                                 {
@@ -4530,6 +4602,7 @@ namespace DocearReminder
                                 while (selectedReminder.Time < DateTime.Now);
 
                                 break;
+
                             case "year":
                                 if (selectedReminder.ryear == 0)
                                 {
@@ -4541,6 +4614,7 @@ namespace DocearReminder
                                 }
                                 while (selectedReminder.Time < DateTime.Now);
                                 break;
+
                             case "eb":
                                 if (selectedReminder.ebstring == 0 || selectedReminder.ebstring + 10000000 < ebconfig)
                                 {
@@ -4552,7 +4626,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 1000000 < ebconfig)
@@ -4565,7 +4638,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 100000 < ebconfig)
@@ -4578,7 +4650,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 10000 < ebconfig)
@@ -4591,7 +4662,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 1000 < ebconfig)
@@ -4604,7 +4674,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 100 < ebconfig)
@@ -4617,7 +4686,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 10 < ebconfig)
@@ -4630,7 +4698,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring + 1 < ebconfig)
@@ -4643,7 +4710,6 @@ namespace DocearReminder
                                     else
                                     {
                                         selectedReminder.Time = DateTime.Now.AddMinutes(30);
-
                                     }
                                 }
                                 else if (selectedReminder.ebstring >= ebconfig - 1)//这个逻辑更复杂稍后在写
@@ -4696,7 +4762,6 @@ namespace DocearReminder
             }
         }
 
-
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
             //if (dateTimePicker.Focused && taskTime.Value == 0)
@@ -4712,7 +4777,9 @@ namespace DocearReminder
             //    dateTimePicker.Value = dateTimePicker.Value.AddMonths(1);
             //}
         }
-        bool isInReminderList = false;
+
+        private bool isInReminderList = false;
+
         private void reminderlist_SelectedIndexChanged(object sender, EventArgs e)
         {
             isSettingSyncWeek = false;
@@ -4770,7 +4837,6 @@ namespace DocearReminder
                 if (reminderlistSelectedItem != null)
                 {
                     richTextSubNode.Text = ((MyListBoxItemRemind)reminderlistSelectedItem).Text;
-
                 }
                 try
                 {
@@ -4788,7 +4854,6 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                     return;
                 }
                 return;
@@ -4870,10 +4935,12 @@ namespace DocearReminder
                         c_hour.Checked = true;
                         n_days.Value = Convert.ToInt64(selectedReminder.rhours);
                         break;
+
                     case "day":
                         c_day.Checked = true;
                         n_days.Value = Convert.ToInt64(selectedReminder.rdays);
                         break;
+
                     case "week":
                         c_week.Checked = true;
                         n_days.Value = Convert.ToInt64(selectedReminder.rWeek);
@@ -4884,40 +4951,48 @@ namespace DocearReminder
                                 case '1':
                                     c_Monday.Checked = true;
                                     break;
+
                                 case '2':
                                     c_Tuesday.Checked = true;
                                     break;
+
                                 case '3':
                                     c_Wednesday.Checked = true;
                                     break;
+
                                 case '4':
                                     c_Thursday.Checked = true;
                                     break;
+
                                 case '5':
                                     c_Friday.Checked = true;
                                     break;
+
                                 case '6':
                                     c_Saturday.Checked = true;
                                     break;
+
                                 case '7':
                                     c_Sunday.Checked = true;
                                     break;
                             }
                         }
                         break;
+
                     case "month":
                         c_month.Checked = true;
                         n_days.Value = Convert.ToInt64(selectedReminder.rMonth);
                         break;
+
                     case "year":
                         c_year.Checked = true;
                         n_days.Value = Convert.ToInt64(selectedReminder.ryear);
                         break;
+
                     case "eb":
                         c_remember.Checked = true;
                         button_cycle.Text = selectedReminder.ebstring.ToString();
                         break;
-
                 }
             }
             if (!c_ViewModel.Checked)
@@ -4937,8 +5012,8 @@ namespace DocearReminder
                 reminderList.Refresh();
                 ReminderListSelectedIndex(reminderSelectIndex);
             }
-
         }
+
         private void button_cycle_Click(object sender, EventArgs e)
         {
             try
@@ -4958,6 +5033,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public string GetAttribute(XmlNode node, string name, int resultLenght = 0)
         {
             string resultdefault = "";
@@ -4995,6 +5071,7 @@ namespace DocearReminder
                 return resultdefault;
             }
         }
+
         public string FormatTimeLenght(string result, int resultLenght)
         {
             for (int i = result.Length; i < resultLenght; i++)
@@ -5007,6 +5084,7 @@ namespace DocearReminder
             }
             return result;
         }
+
         public string lenghtString(string result, int resultLenght = 0)
         {
             for (int i = result.Length; i < resultLenght; i++)
@@ -5028,6 +5106,7 @@ namespace DocearReminder
             }
             return Int32.Parse(value, CultureInfo.CurrentCulture);
         }
+
         public bool MyToBoolean(string value)
         {
             if (String.IsNullOrEmpty(value))
@@ -5148,10 +5227,10 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         private void c_day_CheckedChanged(object sender, EventArgs e)
         {
             if (c_day.Checked)
@@ -5164,6 +5243,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void c_week_CheckedChanged(object sender, EventArgs e)
         {
             if (c_week.Checked)
@@ -5176,6 +5256,7 @@ namespace DocearReminder
                 n_days.Value = 1;
             }
         }
+
         private void c_month_CheckedChanged(object sender, EventArgs e)
         {
             if (c_month.Checked)
@@ -5188,6 +5269,7 @@ namespace DocearReminder
                 n_days.Value = 1;
             }
         }
+
         private void c_year_CheckedChanged(object sender, EventArgs e)
         {
             if (c_year.Checked)
@@ -5200,6 +5282,7 @@ namespace DocearReminder
                 n_days.Value = 1;
             }
         }
+
         private void c_hour_CheckedChanged(object sender, EventArgs e)
         {
             if (c_hour.Checked)
@@ -5212,6 +5295,7 @@ namespace DocearReminder
                 n_days.Value = 1;
             }
         }
+
         private void c_remember_CheckedChanged(object sender, EventArgs e)
         {
             if (c_remember.Checked)
@@ -5219,7 +5303,8 @@ namespace DocearReminder
                 c_week.Checked = c_month.Checked = c_day.Checked = c_year.Checked = c_hour.Checked = false;
             }
         }
-        #endregion
+
+        #endregion 未整理
 
         public char GetWeekIndex(DateTime dt)
         {
@@ -5227,22 +5312,30 @@ namespace DocearReminder
             {
                 case DayOfWeek.Friday:
                     return '5';
+
                 case DayOfWeek.Monday:
                     return '1';
+
                 case DayOfWeek.Saturday:
                     return '6';
+
                 case DayOfWeek.Sunday:
                     return '7';
+
                 case DayOfWeek.Thursday:
                     return '4';
+
                 case DayOfWeek.Tuesday:
                     return '2';
+
                 case DayOfWeek.Wednesday:
                     return '3';
+
                 default:
                     return '1';//避免编译报错
             }
         }
+
         /// <summary>
         /// 获取星期字符串，比如周一，周三则返回13
         /// </summary>
@@ -5280,6 +5373,7 @@ namespace DocearReminder
             }
             return result;
         }
+
         private void EditTime_Clic(object sender, EventArgs e)
         {
             try
@@ -5313,9 +5407,9 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
         }
+
         private void edittime_EndDate(bool setEndtime = true)
         {
             try
@@ -5339,9 +5433,9 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
         }
+
         public void EditTask()
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -5398,11 +5492,11 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
         }
+
         public void EditTaskEndDate(bool setenddate)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -5453,10 +5547,10 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         public void SetTaskIsView()
         {
             if (!ReminderListFocused())
@@ -5493,20 +5587,22 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false, int tasklevelNum = 0, string timeblockName = "", string timeblockfather = "", string timeblockcolor = "")
         {
             Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, fanqieCount, isnotDefault, tasklevelNum, timeblockName, timeblockfather, timeblockcolor);
             fanqie.ShowDialog();
         }
+
         public void OpenMenu()
         {
             Tools menu = new Tools();
             menu.ShowDialog();
         }
+
         private void Reminder_count_Click(object sender, EventArgs e)
         {
             if (reminderList.SelectedIndex >= 0)
@@ -5520,6 +5616,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void OpenFanqie(bool isnotdefault = false)
         {
             if (reminderList.SelectedIndex >= 0 || reminderListBox.SelectedIndex >= 0)
@@ -5555,16 +5652,17 @@ namespace DocearReminder
                             {
                                 reminderList.SetSelected(0, true);
                             }
-
                         }
                     }
                 }
             }
         }
+
         private void delay_Click(object sender, EventArgs e)
         {
             DelaySelectedTask();
         }
+
         public void DelaySelectedTask()
         {
             try
@@ -5586,7 +5684,6 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
 
@@ -5642,6 +5739,7 @@ namespace DocearReminder
                                     }
                                     while (selectedReminder.Time < DateTime.Now);
                                     break;
+
                                 case "day":
                                     if (selectedReminder.rdays == 0)
                                     {
@@ -5658,6 +5756,7 @@ namespace DocearReminder
                                     }
                                     while (selectedReminder.Time < DateTime.Today);//起码延迟到今天，而不是现在
                                     break;
+
                                 case "week":
                                     do
                                     {
@@ -5674,6 +5773,7 @@ namespace DocearReminder
                                     }
                                     while (!selectedReminder.rweeks.Contains(GetWeekIndex(selectedReminder.Time)) || DateTime.Now > selectedReminder.Time);
                                     break;
+
                                 case "month":
                                     if (selectedReminder.rMonth == 0)
                                     {
@@ -5691,6 +5791,7 @@ namespace DocearReminder
                                     while (selectedReminder.Time < DateTime.Today);
 
                                     break;
+
                                 case "year":
                                     if (selectedReminder.ryear == 0)
                                     {
@@ -5734,16 +5835,17 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                     return selectedReminder;
                 }
             }
             return selectedReminder;
         }
+
         private void showcyclereminder_CheckedChanged(object sender, EventArgs e)
         {
             RRReminderlist();
         }
+
         public string GetTimeSpanStr(int day)
         {
             string result = "";
@@ -5800,6 +5902,7 @@ namespace DocearReminder
                 return;
             }
         }
+
         public void AddTask(bool istask)
         {
             fenshuADD(3);
@@ -5993,7 +6096,6 @@ namespace DocearReminder
                                     }
                                     catch (Exception ex)
                                     {
-
                                     }
                                 }
                                 reminderList.Sorted = false;
@@ -6635,7 +6737,6 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
@@ -6746,6 +6847,7 @@ namespace DocearReminder
                 RRReminderlist();
             }
         }
+
         public void AddNodeByID(bool istask, string taskName, string parent)
         {
             try
@@ -6951,16 +7053,19 @@ namespace DocearReminder
                 return null;
             }
         }
+
         private void mindmaplist_MouseUp(object sender, MouseEventArgs e)
         {
             LeaveTime();
             IsSelectReminder = false;
         }
+
         private void feeling_Click(object sender, EventArgs e)
         {
             AddTaskToFile("home.mm", "feeling", searchword.Text, false);
             searchword.Text = "";
         }
+
         public bool haschildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
@@ -6975,6 +7080,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         public void WriteLog(string task, string mindmap, DateTime taskTime, String Btnstring)
         {
             System.Xml.XmlDocument x = new XmlDocument();
@@ -7047,9 +7153,11 @@ namespace DocearReminder
                 case "button_ok":
                     SaveLog("完成任务：" + task + "    导图" + mindmap);
                     break;
+
                 case "button_cancel":
                     SaveLog("取消任务：" + task + "    导图" + mindmap);
                     break;
+
                 default:
                     break;
             }
@@ -7060,6 +7168,7 @@ namespace DocearReminder
             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile("Home.mm"));
             th.Start();
         }
+
         private void DelayAllTask(object sender, EventArgs e)
         {
             try
@@ -7097,6 +7206,7 @@ namespace DocearReminder
         {
             CanceSelectedlTask();
         }
+
         public void CanceSelectedlTask(bool IsAddIcon = true)
         {
             try
@@ -7138,7 +7248,6 @@ namespace DocearReminder
                     ReminderlistBoxChange();
                     reminderListBox.SelectedIndex = reminderIndex;
                 }
-
             }
             catch (Exception ex)
             {
@@ -7159,6 +7268,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void RemoveMyListBoxItemRemind()
         {
             try
@@ -7177,9 +7287,9 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
+
         public void RemoveRemember()
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -7199,10 +7309,10 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         public void deleteNodeByID(string id)
         {
             try
@@ -7227,11 +7337,11 @@ namespace DocearReminder
             {
             }
         }
+
         public void UPNodeByID(string id)
         {
             try
             {
-
                 XElement file = XElement.Load(showMindmapName);
                 XElement element = file.DescendantsAndSelf().Where(x => x.Attribute("ID") != null && x.Attribute("ID").Value == id).SingleOrDefault();
                 MoveElementUp(element);
@@ -7241,6 +7351,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void DownNodeByID(string id)
         {
             try
@@ -7254,6 +7365,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void LeftNodeByID(string id)
         {
             try
@@ -7267,6 +7379,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void RightNodeByID(string id)
         {
             try
@@ -7280,6 +7393,7 @@ namespace DocearReminder
             {
             }
         }
+
         public bool SetTaskNodeByID(string id)
         {
             try
@@ -7318,6 +7432,7 @@ namespace DocearReminder
                 return false;
             }
         }
+
         public bool istask(XmlNode node)
         {
             try
@@ -7336,6 +7451,7 @@ namespace DocearReminder
                 return false;
             }
         }
+
         /// <summary>
         /// 编辑节点名称
         /// </summary>
@@ -7389,6 +7505,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void AddFileTaskToMap(System.Xml.XmlDocument x, string mindmap, string rootNode, string taskName, string link, string md5, DateTime createDate, string path = "", bool toTaskbool = true)
         {
             if (taskName == "")
@@ -7468,6 +7585,7 @@ namespace DocearReminder
             newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
             day.AppendChild(newNote);
         }
+
         public static string GetMD5HashFromFile(string fileName)
         {
             try
@@ -7489,6 +7607,7 @@ namespace DocearReminder
                 throw new System.Exception("GetMD5HashFromFile() fail, error:" + ex.Message);
             }
         }
+
         public XmlNode getchildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
@@ -7503,6 +7622,7 @@ namespace DocearReminder
             }
             return node;
         }
+
         public XmlNode addSubNodes(XmlNode root, string path)
         {
             XmlNode subnode = root;
@@ -7530,6 +7650,7 @@ namespace DocearReminder
             }
             return subnode;
         }
+
         public void CancelTask(bool IsAddIcon = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -7593,11 +7714,11 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
         }
+
         private void Daka(bool setdakai = true)
         {
             try
@@ -7615,9 +7736,9 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
+
         private void setjinianfunction(bool setstartData = true)
         {
             try
@@ -7635,12 +7756,13 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
+
         #endregion
 
         #region 打卡
+
         public void SetDaka(bool setdakai = true)
         {
             MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -7705,7 +7827,6 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
@@ -7730,8 +7851,8 @@ namespace DocearReminder
             str += "\r\n\r\n";
             System.IO.File.AppendAllText(path, str);
         }
-        #endregion
 
+        #endregion
 
         public void SetJinian(bool setstartData = true)
         {
@@ -7792,10 +7913,10 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         public int[] StrToInt(string[] str)
         {
             int[] result = new int[str.Length];
@@ -7812,6 +7933,7 @@ namespace DocearReminder
             }
             return result;
         }
+
         public static string intostringwithlenght(int num, int lenght)
         {
             string resut = num.ToString();
@@ -7821,6 +7943,7 @@ namespace DocearReminder
             }
             return resut;
         }
+
         public double GetAVAge(int[] arr, int dakaday)
         {
             int num = 0;
@@ -7840,6 +7963,7 @@ namespace DocearReminder
             }
             return (double)sum / num;
         }
+
         public int GetNUM(int[] arr, int dakaday)
         {
             int num = 0;
@@ -7856,6 +7980,7 @@ namespace DocearReminder
             }
             return num;
         }
+
         public int GetSUM(int[] arr, int dakaday)
         {
             int sum = 0;
@@ -7872,6 +7997,7 @@ namespace DocearReminder
             }
             return sum;
         }
+
         public int GetMax(int[] arr, int dakaday)
         {
             if (arr.Max() > dakaday)
@@ -7883,6 +8009,7 @@ namespace DocearReminder
                 return dakaday;
             }
         }
+
         private void Reminderlist_MouseUp(object sender, MouseEventArgs e)
         {
             LeaveTime();
@@ -7904,6 +8031,7 @@ namespace DocearReminder
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
         private void tasklevel_ValueChanged(object sender, EventArgs e)
         {
             // if (reminderList.SelectedIndex<0||reminderList.SelectedIndex<0)
@@ -7911,6 +8039,7 @@ namespace DocearReminder
             //     RRReminderlist();
             // }
         }
+
         private void taskTime_ValueChanged(object sender, EventArgs e)
         {
             // if (reminderListFocused())
@@ -7918,15 +8047,18 @@ namespace DocearReminder
             //     RRReminderlist();
             // }
         }
+
         private void nifan_CheckedChanged(object sender, EventArgs e)
         {
             RRReminderlist();
         }
+
         public void ReSetValue()
         {
             taskTime.Value = 0;
             tasklevel.Value = 0;
         }
+
         public void AddTaskToFile(string mindmap, string rootNode, string taskName, bool hasTime)
         {
             if (taskName == "")
@@ -8029,6 +8161,7 @@ namespace DocearReminder
             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap));
             th.Start();
         }
+
         public void AddClipToTask(bool istask = false)
         {
             IDataObject iData = new DataObject();
@@ -8103,7 +8236,6 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
             tasklevel.Value = 0;
@@ -8111,6 +8243,7 @@ namespace DocearReminder
             RRReminderlist();
             Clipboard.Clear();
         }
+
         private void mindmaplist_SelectedIndexChanged(object sender, EventArgs e)
         {
             Updateunchkeckmindmap();
@@ -8149,16 +8282,19 @@ namespace DocearReminder
                 RRReminderlist();
             }
         }
+
         public bool IsURL(string url)
         {
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
             return Regex.IsMatch(url, matchStr);
         }
+
         public string GetUrl(string str)
         {
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
             return Regex.Match(str, matchStr).Value;
         }
+
         private String GetWebTitle(String url)
         {
             System.Net.WebRequest wb;
@@ -8169,7 +8305,6 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
                 return "";
             }
             //响应请求
@@ -8200,7 +8335,7 @@ namespace DocearReminder
             //返回网页标题
             String title = Regex.Match(sb.ToString(), regex).ToString();
             title = Regex.Replace(title, " ", "");
-            //返回网页标题  
+            //返回网页标题
             title = Regex.Replace(title, @"[\""]+", "");
             if (title.Length > 50)
             {
@@ -8227,11 +8362,13 @@ namespace DocearReminder
             }
             return title;
         }
+
         public string ReplaceSpecialCharacterV2(string str)
         {
             List<string> charArr = new List<string>() { "\\", "/", "*", "?", "<", ">", "|", ":", "\"" };
             return charArr.Aggregate(str, (current, c) => current.Replace(c, ""));
         }
+
         private void hiddenmenu_DoubleClick(object sender, EventArgs e)
         {
             Thread th = new Thread(() => OpenMenu());
@@ -8240,10 +8377,12 @@ namespace DocearReminder
             //Center();//= new Point(this.Location.X, -1569);
             MyHide();
         }
+
         private void Home_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("Home.mm");
         }
+
         private void bin_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(ini.ReadString("path", "binmm", ""));
@@ -8260,6 +8399,7 @@ namespace DocearReminder
             }
             return 100;
         }
+
         public void AddClip()
         {
             IDataObject iData = new DataObject();
@@ -8352,7 +8492,6 @@ namespace DocearReminder
             Clipboard.Clear();
         }
 
-
         private void IsEncrypt_Click(object sender, EventArgs e)
         {
             try
@@ -8388,7 +8527,6 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
                 string path = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
@@ -8403,9 +8541,9 @@ namespace DocearReminder
                 {
                     reminderList.SetSelected(0, true);
                 }
-
             }
         }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (ReminderListFocused() || reminderListBox.Focused || mindmaplist.Focused)
@@ -8416,10 +8554,12 @@ namespace DocearReminder
                 }
             }
         }
+
         public bool keyNotWork(KeyEventArgs e)
         {
             return !(PathcomboBox.Focused || searchword.Focused || nodetreeSearch.Focused || hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
         }
+
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
         {
             LeaveTime();
@@ -8456,14 +8596,19 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Add:
                     break;
+
                 case Keys.Alt:
                     break;
+
                 case Keys.Apps:
                     break;
+
                 case Keys.Attn:
                     break;
+
                 case Keys.B:
                     PlaySimpleSound("treeview");
                     if (ReminderListFocused())
@@ -8499,23 +8644,32 @@ namespace DocearReminder
                         Center();
                     }
                     break;
+
                 case Keys.Back:
                     needSuggest = true;
                     break;
+
                 case Keys.BrowserBack:
                     break;
+
                 case Keys.BrowserFavorites:
                     break;
+
                 case Keys.BrowserForward:
                     break;
+
                 case Keys.BrowserHome:
                     break;
+
                 case Keys.BrowserRefresh:
                     break;
+
                 case Keys.BrowserSearch:
                     break;
+
                 case Keys.BrowserStop:
                     break;
+
                 case Keys.C:
                     if (ReminderListFocused())
                     {
@@ -8573,19 +8727,26 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Cancel:
                     break;
+
                 case Keys.CapsLock:
 
                     break;
+
                 case Keys.Clear:
                     break;
+
                 case Keys.Control:
                     break;
+
                 case Keys.ControlKey:
                     break;
+
                 case Keys.Crsel:
                     break;
+
                 case Keys.D:
                     if (keyNotWork(e))
                     {
@@ -8616,7 +8777,6 @@ namespace DocearReminder
                             }
                             catch (Exception ex)
                             {
-
                             }
                         }
                         //去选中当前思维导图
@@ -8642,7 +8802,6 @@ namespace DocearReminder
                             }
                             catch (Exception ex)
                             {
-
                             }
                         }
                         else
@@ -8651,12 +8810,14 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D0:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
                     {
                         night.Checked = !night.Checked;
                     }
                     break;
+
                 case Keys.D1:
                     if (keyNotWork(e))
                     {
@@ -8683,6 +8844,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D2:
                     if (keyNotWork(e))
                     {
@@ -8720,6 +8882,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D3:
                     if (keyNotWork(e))
                     {
@@ -8746,6 +8909,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D4:
                     if (keyNotWork(e))
                     {
@@ -8777,6 +8941,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D5:
                     if (keyNotWork(e))
                     {
@@ -8820,6 +8985,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D6:
                     if (isSettingSyncWeek)
                     {
@@ -8838,6 +9004,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D7:
                     if (isSettingSyncWeek)
                     {
@@ -8851,20 +9018,24 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.D8:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
                     {
                         day.Checked = !day.Checked;
                     }
                     break;
+
                 case Keys.D9:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
                     {
                         afternoon.Checked = !afternoon.Checked;
                     }
                     break;
+
                 case Keys.Decimal:
                     break;
+
                 case Keys.Delete:
                     if (nodetree.Focused)
                     {
@@ -8893,7 +9064,6 @@ namespace DocearReminder
                                 System.IO.File.Delete(FileTreeView.SelectedNode.Name);
                                 SaveLog("删除文件：" + FileTreeView.SelectedNode.Name);
                                 fenshuADD(1);
-
                             }
                             else if (System.IO.Directory.Exists(FileTreeView.SelectedNode.Name))
                             {
@@ -8922,8 +9092,10 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Divide:
                     break;
+
                 case Keys.Down:
                     leftIndex = 0;
                     if (searchword.Focused && !SearchText_suggest.Visible)
@@ -8951,14 +9123,17 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.E:
                     if (keyNotWork(e))
                     {
                         c_endtime.Checked = !c_endtime.Checked;//结束时间
                     }
                     break;
+
                 case Keys.End:
                     break;
+
                 case Keys.Enter:
                     if (ReminderListFocused())
                     {
@@ -9046,7 +9221,6 @@ namespace DocearReminder
                         }
                         catch (Exception ex)
                         {
-
                         }
                         MyHide();
                     }
@@ -9178,7 +9352,6 @@ namespace DocearReminder
                             }
                             catch (Exception ex)
                             {
-
                             }
                         }
                         else if (searchword.Text.ToLower().StartsWith("lock"))
@@ -9473,7 +9646,7 @@ namespace DocearReminder
                             //        System.IO.File.Copy(demoPath, fileName);
                             //        TextContentReplace(fileName, "####URL####", rss);
                             //    }
-                            //    XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项           
+                            //    XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项
                             //    System.Xml.XmlDocument x = new XmlDocument();
                             //    x.Load(fileName);
                             //    foreach (XmlNode node in list)  // 循环每一项
@@ -9747,7 +9920,6 @@ namespace DocearReminder
                                         }
                                         catch (Exception ex)
                                         {
-
                                         }
                                     }
                                     reminderList.Sorted = false;
@@ -10004,8 +10176,10 @@ namespace DocearReminder
                         button_cycle_Click(null, null);
                     }
                     break;
+
                 case Keys.EraseEof:
                     break;
+
                 case Keys.Escape:
                     if (!keyNotWork(e))
                     {
@@ -10039,7 +10213,6 @@ namespace DocearReminder
                                 SearchText_suggest.Visible = false;
                                 if (searchword.Text.Contains("@@"))
                                 {
-
                                 }
                                 else
                                 {
@@ -10072,10 +10245,13 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Execute:
                     break;
+
                 case Keys.Exsel:
                     break;
+
                 case Keys.F:
                     if (keyNotWork(e))
                     {
@@ -10090,6 +10266,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.F1:
                     if (keyNotWork(e))
                     {
@@ -10103,9 +10280,11 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.F10:
                     Jietu();
                     break;
+
                 case Keys.F11:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
@@ -10122,26 +10301,35 @@ namespace DocearReminder
                         Application.Exit();
                     }
                     break;
+
                 case Keys.F12:
                     if (keyNotWork(e))
                     {
                         showlog();
                     }
                     break;
+
                 case Keys.F13:
                     break;
+
                 case Keys.F14:
                     break;
+
                 case Keys.F15:
                     break;
+
                 case Keys.F16:
                     break;
+
                 case Keys.F17:
                     break;
+
                 case Keys.F18:
                     break;
+
                 case Keys.F19:
                     break;
+
                 case Keys.F2:
                     if (keyNotWork(e) && !FileTreeView.Focused && !nodetree.Focused)
                     {
@@ -10158,16 +10346,22 @@ namespace DocearReminder
                         searchword.Focus();
                     }
                     break;
+
                 case Keys.F20:
                     break;
+
                 case Keys.F21:
                     break;
+
                 case Keys.F22:
                     break;
+
                 case Keys.F23:
                     break;
+
                 case Keys.F24:
                     break;
+
                 case Keys.F3:
                     if (keyNotWork(e))
                     {
@@ -10182,6 +10376,7 @@ namespace DocearReminder
                         //}
                     }
                     break;
+
                 case Keys.F4:
                     if (keyNotWork(e))
                     {
@@ -10196,10 +10391,12 @@ namespace DocearReminder
                         //}
                     }
                     break;
+
                 case Keys.F5:
                     SearchText_suggest.Visible = false;
                     RRReminderlist();
                     break;
+
                 case Keys.F6:
                     if (keyNotWork(e))
                     {
@@ -10216,6 +10413,7 @@ namespace DocearReminder
                         OpenSearch();
                     }
                     break;
+
                 case Keys.F7:
                     if (keyNotWork(e))
                     {
@@ -10232,6 +10430,7 @@ namespace DocearReminder
                         Btn_OpenFolder_Click();
                     }
                     break;
+
                 case Keys.F8:
                     if (keyNotWork(e))
                     {
@@ -10248,6 +10447,7 @@ namespace DocearReminder
                         btn_OpenFile_MouseClick();
                     }
                     break;
+
                 case Keys.F9:
                     if (keyNotWork(e))
                     {
@@ -10265,8 +10465,10 @@ namespace DocearReminder
                         menu.ShowDialog();
                     }
                     break;
+
                 case Keys.FinalMode:
                     break;
+
                 case Keys.G:
                     leftIndex = 0;
                     if (keyNotWork(e))
@@ -10282,6 +10484,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.H:
                     leftIndex = 0;
                     if (nodetree.Focused)
@@ -10375,14 +10578,19 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.HanguelMode:
                     break;
+
                 case Keys.HanjaMode:
                     break;
+
                 case Keys.Help:
                     break;
+
                 case Keys.Home:
                     break;
+
                 case Keys.I:
                     if (keyNotWork(e))
                     {
@@ -10414,21 +10622,25 @@ namespace DocearReminder
                         }
                         else
                         {
-
                             isRename = false;
                             reminderSelectIndex = reminderList.SelectedIndex;
                             searchword.Focus();
                         }
                     }
                     break;
+
                 case Keys.IMEAccept:
                     break;
+
                 case Keys.IMEConvert:
                     break;
+
                 case Keys.IMEModeChange:
                     break;
+
                 case Keys.IMENonconvert:
                     break;
+
                 case Keys.Insert:
                     if (nodetree.Focused)
                     {
@@ -10453,6 +10665,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.J:
                     leftIndex = 0;
                     if (keyNotWork(e))
@@ -10634,7 +10847,6 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-
                         }
                         else
                         {
@@ -10687,8 +10899,10 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.JunjaMode:
                     break;
+
                 case Keys.K:
                     leftIndex = 0;
                     if (keyNotWork(e))
@@ -10892,7 +11106,6 @@ namespace DocearReminder
                             n_days.Value -= 1;
                         }
                     }
-
                     else if (dateTimePicker.Focused)
                     {
                         dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
@@ -10912,8 +11125,10 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.KeyCode:
                     break;
+
                 case Keys.L:
                     leftIndex = 0;
                     if (keyNotWork(e))
@@ -11026,18 +11241,25 @@ namespace DocearReminder
                 //break;
                 case Keys.LControlKey:
                     break;
+
                 case Keys.LMenu:
                     break;
+
                 case Keys.LShiftKey:
                     break;
+
                 case Keys.LWin:
                     break;
+
                 case Keys.LaunchApplication1:
                     break;
+
                 case Keys.LaunchApplication2:
                     break;
+
                 case Keys.LaunchMail:
                     break;
+
                 case Keys.Left:
                     if (nodetree.Focused)
                     {
@@ -11100,8 +11322,10 @@ namespace DocearReminder
                     }
 
                     break;
+
                 case Keys.LineFeed:
                     break;
+
                 case Keys.M:
                     if (keyNotWork(e))
                     {
@@ -11115,22 +11339,31 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.MButton:
                     break;
+
                 case Keys.MediaNextTrack:
                     break;
+
                 case Keys.MediaPlayPause:
                     break;
+
                 case Keys.MediaPreviousTrack:
                     break;
+
                 case Keys.MediaStop:
                     break;
+
                 case Keys.Menu:
                     break;
+
                 case Keys.Modifiers:
                     break;
+
                 case Keys.Multiply:
                     break;
+
                 case Keys.N:
                     if (keyNotWork(e))
                     {
@@ -11255,34 +11488,49 @@ namespace DocearReminder
                         Center();
                     }
                     break;
+
                 case Keys.Next:
                     break;
+
                 case Keys.NoName:
                     break;
+
                 case Keys.None:
                     break;
+
                 case Keys.NumLock:
                     break;
+
                 case Keys.NumPad0:
                     break;
+
                 case Keys.NumPad1:
                     break;
+
                 case Keys.NumPad2:
                     break;
+
                 case Keys.NumPad3:
                     break;
+
                 case Keys.NumPad4:
                     break;
+
                 case Keys.NumPad5:
                     break;
+
                 case Keys.NumPad6:
                     break;
+
                 case Keys.NumPad7:
                     break;
+
                 case Keys.NumPad8:
                     break;
+
                 case Keys.NumPad9:
                     break;
+
                 case Keys.O:
                     if (keyNotWork(e))
                     {
@@ -11313,26 +11561,33 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Oem1:
                     break;
+
                 case Keys.Oem102:
                     break;
+
                 case Keys.Oem2:
                     break;
+
                 case Keys.Oem3:
                     if (keyNotWork(e))
                     {
                         showcyclereminder.Checked = !showcyclereminder.Checked;
                     }
                     break;
+
                 case Keys.Oem6:
                     if (ReminderListFocused())
                     {
                         n_days.Focus();
                     }
                     break;
+
                 case Keys.Oem5:
                     break;
+
                 case Keys.Oem4:
                     if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                     {
@@ -11373,16 +11628,22 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Oem7:
                     break;
+
                 case Keys.Oem8:
                     break;
+
                 case Keys.OemClear:
                     break;
+
                 case Keys.OemMinus:
                     break;
+
                 case Keys.OemPeriod:
                     break;
+
                 case Keys.P:
                     if (keyNotWork(e))
                     {
@@ -11392,7 +11653,6 @@ namespace DocearReminder
                             {
                                 dateTimePicker.Value = dateTimePicker.Value.AddHours(-1);
                                 EditTime_Clic(null, null);
-
                             }
                             else
                             {
@@ -11405,10 +11665,13 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Pa1:
                     break;
+
                 case Keys.Packet:
                     break;
+
                 case Keys.PageUp:
                     int n = pathArr.IndexOf(rootpath.FullName);
                     if (e.Modifiers.CompareTo(Keys.Shift) == 0)//pagedown被占用
@@ -11438,16 +11701,22 @@ namespace DocearReminder
                     UsedLogRenew();
                     Load_Click(null, null);
                     break;
+
                 case Keys.Pause:
                     break;
+
                 case Keys.Play:
                     break;
+
                 case Keys.Print:
                     break;
+
                 case Keys.PrintScreen:
                     break;
+
                 case Keys.ProcessKey:
                     break;
+
                 case Keys.Q:
                     if (keyNotWork(e))
                     {
@@ -11471,12 +11740,12 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.R:
                     if (keyNotWork(e))
                     {
                         if (false)
                         {
-
                         }
                         else
                         {
@@ -11526,10 +11795,13 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.RControlKey:
                     break;
+
                 case Keys.RMenu:
                     break;
+
                 case Keys.RShiftKey:
 
                 //case Keys.RWin:
@@ -11608,6 +11880,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.S:
                     if (keyNotWork(e))
                     {
@@ -11642,21 +11915,29 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.Scroll:
                     break;
+
                 case Keys.Select:
                     break;
+
                 case Keys.SelectMedia:
                     break;
+
                 case Keys.Separator:
                     break;
+
                 case Keys.Shift:
 
                     break;
+
                 case Keys.ShiftKey:
                     break;
+
                 case Keys.Sleep:
                     break;
+
                 case Keys.Space:
 
                     if (ReminderListFocused())
@@ -11671,8 +11952,10 @@ namespace DocearReminder
                         noterichTextBox.Focus();
                     }
                     break;
+
                 case Keys.Subtract:
                     break;
+
                 case Keys.T:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
@@ -11696,9 +11979,9 @@ namespace DocearReminder
                             }
                             dateTimePicker.Focus();
                         }
-
                     }
                     break;
+
                 case Keys.Tab:
                     //ShiftTab切换区域
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
@@ -11712,6 +11995,7 @@ namespace DocearReminder
                         ReminderListSelectedIndex(0);
                     }
                     break;
+
                 case Keys.U:
                     if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
                     {
@@ -11751,6 +12035,7 @@ namespace DocearReminder
                         reminderList.Focus();
                     }
                     break;
+
                 case Keys.Up:
                     leftIndex = 0;
                     if (keyNotWork(e))
@@ -11791,6 +12076,7 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.V:
                     if (keyNotWork(e))
                     {
@@ -11811,12 +12097,16 @@ namespace DocearReminder
                         }
                     }
                     break;
+
                 case Keys.VolumeDown:
                     break;
+
                 case Keys.VolumeMute:
                     break;
+
                 case Keys.VolumeUp:
                     break;
+
                 case Keys.W:
                     searchword.Text = "";
                     if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
@@ -11840,6 +12130,7 @@ namespace DocearReminder
                     }
                     RRReminderlist();
                     break;
+
                 case Keys.X:
                     if (keyNotWork(e))
                     {
@@ -11847,7 +12138,7 @@ namespace DocearReminder
                         //{
                         //    IsSelectReminder = false;
                         //}
-                        //Thread thFileTreeForm = new Thread(() => Application.Run(new FileTreeForm(rootpath))); 
+                        //Thread thFileTreeForm = new Thread(() => Application.Run(new FileTreeForm(rootpath)));
                         //thFileTreeForm.SetApartmentState(ApartmentState.STA);
                         //thFileTreeForm.Name = "FileTreeForm";
                         //thFileTreeForm.Start();
@@ -11967,13 +12258,17 @@ namespace DocearReminder
                         return;
                     }
                     break;
+
                 case Keys.XButton1:
                     break;
+
                 case Keys.XButton2:
                     break;
+
                 case Keys.Y:
                     c_Jinian.Checked = !c_Jinian.Checked;
                     break;
+
                 case Keys.Z:
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
@@ -11992,8 +12287,10 @@ namespace DocearReminder
                     }
 
                     break;
+
                 case Keys.Zoom:
                     break;
+
                 default:
                     break;
             }
@@ -12039,11 +12336,11 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
         }
+
         public string getPicture(XmlNode FatherNode, string filename)
         {
             string result = "";
@@ -12067,12 +12364,14 @@ namespace DocearReminder
             }
             return result;
         }
+
         public void SetPicture(string filepath)
         {
             Stream s = File.Open(filepath, FileMode.Open);
             pictureBox1.Image = Image.FromStream(s);
             s.Close();
         }
+
         public string getPictureByID(string id, string mindmap)
         {
             try
@@ -12129,6 +12428,7 @@ namespace DocearReminder
 
             return reminderList.Focused || reminderListBox.Focused;
         }
+
         public void SetReminderOnly(MyListBoxItemRemind selectedReminder)//selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
         {
             if (reminderList.SelectedIndex >= 0)
@@ -12187,14 +12487,12 @@ namespace DocearReminder
                         }
                         catch (Exception ex)
                         {
-
                         }
                     }
                 }
             }
-
-
         }
+
         //获取顶级域名
         public string GetTopDomin(string url)
         {
@@ -12207,6 +12505,7 @@ namespace DocearReminder
                 return url;
             }
         }
+
         public void AddTaskToFile(XmlDocument x, string rootNode, string taskName, string link, string taskContent, string guid, DateTime dt)
         {
             if (taskName == "")
@@ -12281,12 +12580,14 @@ namespace DocearReminder
             newNote.Attributes.Append(urlAtt);
             day.AppendChild(newNote);
         }
+
         public static void TextContentReplace(string file, string oldvalue, string newvalue)
         {
             String strFile = File.ReadAllText(file);
             strFile = strFile.Replace(oldvalue, newvalue);
             File.WriteAllText(file, strFile);
         }
+
         /// <summary>
         /// 是否为Uri
         /// </summary>
@@ -12296,6 +12597,7 @@ namespace DocearReminder
         {
             return Uri.TryCreate(s, UriKind.RelativeOrAbsolute, out Uri u);
         }
+
         public void SetLeftDakaDays(int num)
         {
             if (reminderlistSelectedItem == null)
@@ -12335,10 +12637,10 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
+
         private void SearchFiles()
         {
             isSearchFileOrNode = true;
@@ -12375,11 +12677,13 @@ namespace DocearReminder
                 mindmaplist.SetItemChecked(i, true);
             }
         }
+
         public static MyListBoxItemRemind newName(MyListBoxItemRemind reminder)
         {
             reminder.Text = reminder.Time.ToString("dd HH:mm") + intostringwithlenght(reminder.rtaskTime, 4) + @" " + reminder.Name;
             return reminder;
         }
+
         public static bool IsFileUrl(string str)
         {
             if (IsUri(str))
@@ -12396,6 +12700,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         public static string getFileUrlPath(string str)
         {
             string path = str;
@@ -12415,9 +12720,11 @@ namespace DocearReminder
             path = Path.GetFullPath(path);
             return path;
         }
+
         private void AddBin_btn_Paint(object sender, PaintEventArgs e)
         {
         }
+
         public void SaveLog(string log)
         {
             log = log.Replace("\r", " ").Replace("\n", " ");
@@ -12439,6 +12746,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
@@ -12466,6 +12774,7 @@ namespace DocearReminder
             icon.Dispose();
             SaveLog("关闭程序。");
         }
+
         //private void fenlei_CheckedChanged(object sender, EventArgs e)
         //{
         //    if (((c_ViewModel.Checked && !InMindMapBool) || isHasNoFenleiModel) && mindmaplist.SelectedIndex != -1)
@@ -12607,6 +12916,7 @@ namespace DocearReminder
             //    mindmaplist.Focus();
             //}
         }
+
         private void mindmaplist_MouseLeave(object sender, EventArgs e)
         {
             InMindMapBool = false;
@@ -12624,6 +12934,7 @@ namespace DocearReminder
             }
             isCodeFenlei = true;
         }
+
         private void Quanxuan_CheckedChanged(object sender, EventArgs e)
         {
             return;
@@ -12658,9 +12969,11 @@ namespace DocearReminder
             //    fenlei_CheckedChanged(null, null);
             //}
         }
+
         private void IsViewModel_CheckedChanged(object sender, EventArgs e)
         {
         }
+
         private void morning_CheckedChanged(object sender, EventArgs e)
         {
             if (true)
@@ -12670,6 +12983,7 @@ namespace DocearReminder
                 RRReminderlist();
             }
         }
+
         public void fenshuADD(int n)
         {
             try
@@ -12681,6 +12995,7 @@ namespace DocearReminder
             {
             }
         }
+
         private void IsRememberModel_CheckedChanged(object sender, EventArgs e)
         {
             c_ViewModel.Checked = false;
@@ -12697,10 +13012,12 @@ namespace DocearReminder
             UsedLogRenew();
             Load_Click(null, null);
         }
+
         private void IsShowSub_CheckedChanged(object sender, EventArgs e)
         {
             //ShowSubNode();
         }
+
         public void ShowMindmapFile(bool isShowSub = false, int level = 3)
         {
             if (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null)
@@ -12736,7 +13053,6 @@ namespace DocearReminder
             BuildTree(fileTreePath, FileTreeView.Nodes, true, level);
             FileTreeView.Sort();
         }
-        
 
         public void ShowMindmapFileUp()
         {
@@ -12809,7 +13125,6 @@ namespace DocearReminder
             }
         }
 
-
         private void FileTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             nodetree.Visible = true;
@@ -12865,8 +13180,6 @@ namespace DocearReminder
             {
             }
         }
-
-
 
         public void ShowMindmap(bool isShowSub = false)
         {
@@ -12954,16 +13267,11 @@ namespace DocearReminder
                     SelectTreeNode(nodetree.Nodes, lastnodeID);
                 }
             }
-
         }
-
-
-
-
-
 
         public DateTime lastEdit;
         public string lastnodeID;
+
         /// <summary>
         /// Renders a node of XML into a TreeNode. Recursive if inside the node there are more child nodes.
         /// </summary>
@@ -13036,6 +13344,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public string gettasktime(XmlNode node)
         {
             foreach (XmlNode item in node.ChildNodes)
@@ -13069,6 +13378,7 @@ namespace DocearReminder
                 SelectTreeNode(item.Nodes, taskid);
             }
         }
+
         public void SelectTreeNodeBehindNode(TreeNodeCollection node, string taskid)
         {
             foreach (TreeNode item in node)
@@ -13099,6 +13409,7 @@ namespace DocearReminder
                 SelectTreeNodeBehindNode(item.Nodes, taskid);
             }
         }
+
         public void FindLastEditNode(TreeNodeCollection node)
         {
             foreach (TreeNode item in node)
@@ -13127,6 +13438,7 @@ namespace DocearReminder
                 FindLastEditNode(item.Nodes);
             }
         }
+
         public void ShowSubNode()
         {
             try
@@ -13259,6 +13571,7 @@ namespace DocearReminder
             {
             }
         }
+
         public string GetFatherNodeName(XmlNode node)
         {
             try
@@ -13358,11 +13671,11 @@ namespace DocearReminder
             //    catch (Exception ex) { }
             //}
         }
+
         public void GetNowIndex()
         {
             //{
             //    if (((MyListBoxItemRemind)item).Text.Contains("当前时间")) {
-
             //        return;
             //    }
             //}
@@ -13382,6 +13695,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void Searchword_TextChanged(object sender, EventArgs e)
         {
             if (searchword.Text.ToLower().StartsWith("ss") && !searchword.Text.ToLower().EndsWith("jj"))
@@ -13910,17 +14224,19 @@ namespace DocearReminder
                 }
                 else
                 {
-
                 }
             }
         }
+
         private void panel3_DoubleClick(object sender, EventArgs e)
         {
             encryptbutton_Click(null, null);
         }
+
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
         }
+
         private void Hiddenmenu_Paint(object sender, PaintEventArgs e)
         {
         }
@@ -13930,6 +14246,7 @@ namespace DocearReminder
             PlaySimpleSound("input");
             SwitchToLanguageMode("zh-CN");
         }
+
         private void Searchword_Leave(object sender, EventArgs e)
         {
             SwitchToLanguageMode();
@@ -13962,6 +14279,7 @@ namespace DocearReminder
                 Updateunchkeckmindmap();
             }
         }
+
         public void Updateunchkeckmindmap()
         {
             if (isRefreshMindmap)
@@ -13996,21 +14314,27 @@ namespace DocearReminder
                 }
             }
         }
+
         private void RichSubTest_Enter(object sender, EventArgs e)
         {
         }
+
         private void RichSubTest_Leave(object sender, EventArgs e)
         {
         }
+
         private void RichSubTest_MouseHover(object sender, EventArgs e)
         {
         }
+
         private void RichSubTest_MouseLeave(object sender, EventArgs e)
         {
         }
+
         private void Panel4_Paint(object sender, PaintEventArgs e)
         {
         }
+
         public void Jietu()
         {
             //截图
@@ -14027,6 +14351,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void pingmu()
         {
             //截图
@@ -14056,23 +14381,25 @@ namespace DocearReminder
             {
             }
         }
-        /// <summary>  
-        ///  抓取整个屏幕  
-        /// </summary>  
-        /// <returns></returns>  
+
+        /// <summary>
+        ///  抓取整个屏幕
+        /// </summary>
+        /// <returns></returns>
         public static Bitmap captureScreen()
         {
             Size screenSize = Screen.PrimaryScreen.Bounds.Size;
             return captureScreen(0, 0, screenSize.Width, screenSize.Height);
         }
-        /// <summary>  
-        /// 抓取屏幕(层叠的窗口)  
-        /// </summary>  
-        /// <param name="x">左上角的横坐标</param>  
-        /// <param name="y">左上角的纵坐标</param>  
-        /// <param name="width">抓取宽度</param>  
-        /// <param name="height">抓取高度</param>  
-        /// <returns></returns>  
+
+        /// <summary>
+        /// 抓取屏幕(层叠的窗口)
+        /// </summary>
+        /// <param name="x">左上角的横坐标</param>
+        /// <param name="y">左上角的纵坐标</param>
+        /// <param name="width">抓取宽度</param>
+        /// <param name="height">抓取高度</param>
+        /// <returns></returns>
         public static Bitmap captureScreen(int x, int y, int width, int height)
         {
             Bitmap bmp = new Bitmap(width, height);
@@ -14081,10 +14408,12 @@ namespace DocearReminder
                 g.CopyFromScreen(new System.Drawing.Point(x, y), new System.Drawing.Point(0, 0), bmp.Size);
                 g.Dispose();
             }
-            //bit.Save(@"capture2.png");  
+            //bit.Save(@"capture2.png");
             return bmp;
         }
-        bool needSuggest = true;
+
+        private bool needSuggest = true;
+
         private void Searchword_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F5)
@@ -14269,7 +14598,6 @@ namespace DocearReminder
                             try
                             {
                                 result.Add(new StationInfo() { StationName_CN = TimeBlockSelected[i].Split('|')[0], StationName_EN = TimeBlockSelected[i].Split('|')[1], StationName_JX = TimeBlockSelected[i].Split('|')[2], nodeID = TimeBlockSelected[i].Split('|')[3], mindmapurl = TimeBlockSelected[i].Split('|')[4], fatherNodePath = TimeBlockSelected[i].Split('|')[5], link = TimeBlockSelected[i].Split('|')[6] });
-
                             }
                             catch (Exception ex)
                             {
@@ -14293,7 +14621,6 @@ namespace DocearReminder
                         {
                             mindmapSearch.Text = "";
                         }
-
                     }
                     catch (Exception ex)
                     {
@@ -14436,7 +14763,6 @@ namespace DocearReminder
                         {
                             mindmapSearch.Text = "";
                         }
-
                     }
                     catch (Exception ex)
                     {
@@ -14622,6 +14948,7 @@ namespace DocearReminder
                 ShowSubNode();
             }
         }
+
         private void mindmapSearch_TextChanged(object sender, EventArgs e)
         {
             if (SearchText_suggest.Visible)
@@ -14661,6 +14988,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private static IList<StationInfo> Swap<StationInfo>(IList<StationInfo> list, int index1, int index2)
         {
             var temp = list[index1];
@@ -14668,6 +14996,7 @@ namespace DocearReminder
             list[index2] = temp;
             return list;
         }
+
         private static IList<StationInfo> Swap<StationInfo>(IList<StationInfo> list, int index1)
         {
             var temp = list[index1];
@@ -14675,16 +15004,20 @@ namespace DocearReminder
             list.Insert(0, temp);
             return list;
         }
+
         private void onlyZhouqi_CheckedChanged(object sender, EventArgs e)
         {
             RRReminderlist();
         }
+
         private void AddClip_panel_Paint(object sender, PaintEventArgs e)
         {
         }
+
         private void TreeView1_ParentChanged(object sender, EventArgs e)
         {
         }
+
         private void TreeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             if ((e.State & TreeNodeStates.Selected) != 0)
@@ -14706,14 +15039,17 @@ namespace DocearReminder
                 e.DrawDefault = true;
             }
         }
+
         private void TreeView1_MouseHover(object sender, EventArgs e)
         {
             //nodetree.Focus();
         }
+
         private void TreeView1_MouseLeave(object sender, EventArgs e)
         {
             //reminderlist.Focus();
         }
+
         // Create a node sorter that implements the IComparer interface.
         public class NodeSorter : IComparer
         {
@@ -14732,6 +15068,7 @@ namespace DocearReminder
                 return string.Compare(tx.Text, ty.Text);
             }
         }
+
         private void panel5_Click(object sender, EventArgs e)
         {
             //下面窗口设置一下
@@ -14741,9 +15078,11 @@ namespace DocearReminder
             reminderList.Focus();
             //Center();
         }
+
         private void RsscheckBox_CheckedChanged(object sender, EventArgs e)
         {
         }
+
         private void Rsstimer_Tick(object sender, EventArgs e)
         {
             //if (rssrenewend)
@@ -14753,6 +15092,7 @@ namespace DocearReminder
             //    th.Start();
             //}
         }
+
         public string GetRSSURL(string url)
         {
             System.Xml.XmlDocument x = new XmlDocument();
@@ -14766,14 +15106,16 @@ namespace DocearReminder
             }
             return "";
         }
+
         #region 字符串，XML，List帮助方法
+
         public bool ISHasInDoc(string file, string str)
         {
             String strFile = File.ReadAllText(file);
             return strFile.Contains(yixiaozi.Model.DocearReminder.Helper.ConvertString(str));
-
         }
-        System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+
+        private System.Media.SoundPlayer player = new System.Media.SoundPlayer();
 
         private void PlaySimpleSound(string type)
         {
@@ -14806,6 +15148,7 @@ namespace DocearReminder
                 //MessageBox.Show(ex.ToString());
             }
         }
+
         public bool MyContains(string str, string[] arr)
         {
             if (str == null || str == "" || arr.Length == 0)
@@ -14822,6 +15165,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         public static bool MyContains(string str, string arr)
         {
             if (arr == null || arr == "")
@@ -14843,6 +15187,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         public bool StringHasArrALL(string str, string[] arr)
         {
             if (str == null || str == "" || arr.Length == 0)
@@ -14876,6 +15221,7 @@ namespace DocearReminder
 
         #endregion
         #region RSS
+
         public void RSSRenew()
         {
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rss", "")));
@@ -14901,7 +15247,7 @@ namespace DocearReminder
                         MessageBox.Show(ex.Message);//异常处理
                     }
                     string fileName = file.FullName;
-                    XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项           
+                    XmlNodeList list = doc.GetElementsByTagName("item");  // 获得项
                     System.Xml.XmlDocument x = new XmlDocument();
                     x.Load(fileName);
                     foreach (XmlNode node in list)  // 循环每一项
@@ -14946,6 +15292,7 @@ namespace DocearReminder
         #endregion
 
         #region 理财
+
         public void AddMoney(string mindmapPath, string account, string money, bool addOrDel = false, string content = "")
         {
             if (mindmapPath == "" || account == "" || money == "")
@@ -14970,6 +15317,7 @@ namespace DocearReminder
             richTextSubNode.Text += account + "：" + lastMoney;
             richTextSubNode.Text += "\r\n";
         }
+
         public void showMoneyLeft(string mindmapPath, string name)
         {
             double money = 0;
@@ -14988,10 +15336,12 @@ namespace DocearReminder
             richTextSubNode.Text += name + "：" + money;
             richTextSubNode.Text += "\r\n";
         }
+
         #endregion
         #region 鼠标控制
         #endregion
-        void SuggestText_DrawItem(object sender, DrawItemEventArgs e)
+
+        private void SuggestText_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index >= 0)
             {
@@ -15015,7 +15365,8 @@ namespace DocearReminder
             // If the ListBox has focus, draw a focus rectangle around the selected item.
             //e.DrawFocusRectangle();
         }
-        void Mindmaplist_DrawItem(object sender, DrawItemEventArgs e)
+
+        private void Mindmaplist_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
             {
@@ -15031,6 +15382,7 @@ namespace DocearReminder
             // If the ListBox has focus, draw a focus rectangle around the selected item.
             e.DrawFocusRectangle();
         }
+
         private void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             if (e.Node.IsSelected)
@@ -15047,9 +15399,11 @@ namespace DocearReminder
 
             TextRenderer.DrawText(e.Graphics, e.Node.Text, e.Node.TreeView.Font, e.Node.Bounds, e.Node.ForeColor);
         }
+
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
+
         private void SearchText_suggest_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -15082,12 +15436,14 @@ namespace DocearReminder
         }
 
         #region 文件树，导图树
+
         private void FileTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Node.Name);
             SaveLog("打开：    " + e.Node.Name);
         }
-        bool IsFileNodeEdit = false;
+
+        private bool IsFileNodeEdit = false;
 
         private void FileTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
@@ -15115,7 +15471,6 @@ namespace DocearReminder
                 else
                 {
                     parentFolder = FileTreeView.SelectedNode.Parent.Name;
-
                 }
                 if (newTxt.EndsWith(".mm"))
                 {
@@ -15164,11 +15519,13 @@ namespace DocearReminder
                 }
             }
         }
-        bool IsMindMapNodeEdit = false;
+
+        private bool IsMindMapNodeEdit = false;
+
         private void NodeTree_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             string newTxt = e.Label;//获取新文本
-            string oldTxt = e.Node.Text;//获取原来的文本 
+            string oldTxt = e.Node.Text;//获取原来的文本
             if (oldTxt != "")
             {
                 if (newTxt != null && newTxt != oldTxt)
@@ -15208,10 +15565,12 @@ namespace DocearReminder
                     renameMindMapFileID = nodetree.SelectedNode.Name;
                     nodetree.SelectedNode.BeginEdit();
                     break;
+
                 default:
                     break;
             }
         }
+
         private void TreeView_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -15220,6 +15579,7 @@ namespace DocearReminder
                     IsFileNodeEdit = true;
                     FileTreeView.SelectedNode.BeginEdit();
                     break;
+
                 default:
                     break;
             }
@@ -15229,9 +15589,10 @@ namespace DocearReminder
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
-
         }
+
         public static string section = "rootPath";//用于和日历同步
+
         private void PathcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             pictureBox1.Height = 0;
@@ -15266,6 +15627,7 @@ namespace DocearReminder
             {
             }
         }
+
         /// <summary>
         /// 加载hope笔记
         /// </summary>
@@ -15276,7 +15638,6 @@ namespace DocearReminder
                 if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt"))
                 {
                     hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt");
-
                 }
                 else
                 {
@@ -15287,9 +15648,12 @@ namespace DocearReminder
             {
             }
         }
+
         #region 剪切板
+
         [DllImport("User32.dll")]
         protected static extern int SetClipboardViewer(int hWndNewViewer);
+
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
 
@@ -15299,9 +15663,9 @@ namespace DocearReminder
         //public static string path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string clipordFilePath = System.AppDomain.CurrentDomain.BaseDirectory;
 
-        IntPtr nextClipboardViewer;
+        private IntPtr nextClipboardViewer;
         private System.Threading.Timer reminder;
-        int mouseDisplacement = 20;
+        private int mouseDisplacement = 20;
         public string log;
         public int hour = 0;
 
@@ -15320,8 +15684,10 @@ namespace DocearReminder
             }
             base.Dispose(disposing);
         }
-        List<string> logHistory = new List<string>();
-        void DisplayClipboardData()
+
+        private List<string> logHistory = new List<string>();
+
+        private void DisplayClipboardData()
         {
             try
             {
@@ -15386,6 +15752,7 @@ namespace DocearReminder
             }
             return list;
         }
+
         public void SaveLogClip(string log)
         {
             System.IO.Directory.CreateDirectory(clipordFilePath + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\");
@@ -15509,7 +15876,9 @@ namespace DocearReminder
                 this.p2 = p2;
             }
         }
-        Point p = new Point(1, 1);
+
+        private Point p = new Point(1, 1);
+
         public void SetAlt()
         {
             if (niazhi)
@@ -15521,6 +15890,7 @@ namespace DocearReminder
                 keybd_event(18, 0, 0x2, 0);
             }
         }
+
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {
             if (this.Visible == true)
@@ -15534,7 +15904,6 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.H && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-
                 GetCursorPos(ref p);
                 mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
             }
@@ -15560,7 +15929,6 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.U && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-
                 GetCursorPos(ref p);
                 mouse_event(MOUSEEVENTF_LEFTDOWN, p.p1, p.p2, 0, 0);
                 mouse_event(MOUSEEVENTF_LEFTUP, p.p1, p.p2, 0, 0);
@@ -15581,7 +15949,6 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.M && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-
                 GetCursorPos(ref p);
                 mouse_event(MOUSEEVENTF_MIDDLEDOWN, p.p1, p.p2, 0, 0);
                 mouse_event(MOUSEEVENTF_MIDDLEUP, p.p1, p.p2, 0, 0);
@@ -15590,13 +15957,11 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.Oem1 && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-
                 GetCursorPos(ref p);
                 mouse_event(MOUSEEVENTF_WHEEL, p.p1, p.p2, -200, 0);
             }
             else if (e.KeyCode == Keys.Oem7 && (Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-
                 GetCursorPos(ref p);
                 mouse_event(MOUSEEVENTF_WHEEL, p.p1, p.p2, 200, 0);
             }
@@ -15616,8 +15981,8 @@ namespace DocearReminder
                     //l_mouseDisplacement.Text = mouseDisplacement.ToString();
                 }
             }
-
         }
+
         private void HookManager_KeyDown_saveKeyBoard(object sender, KeyEventArgs e)
         {
             //记录键盘键
@@ -15637,13 +16002,14 @@ namespace DocearReminder
                 }
             }
         }
-        /// <summary>   
-        /// 设置鼠标的坐标   
-        /// </summary>   
-        /// <param name="x">横坐标</param>   
-        /// <param name="y">纵坐标</param>   
+
+        /// <summary>
+        /// 设置鼠标的坐标
+        /// </summary>
+        /// <param name="x">横坐标</param>
+        /// <param name="y">纵坐标</param>
         [DllImport("User32")]
-        public extern static void SetCursorPos(int x, int y);
+        public static extern void SetCursorPos(int x, int y);
 
         [DllImport("user32", CharSet = CharSet.Unicode)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
@@ -15652,34 +16018,38 @@ namespace DocearReminder
         public static extern void keybd_event(
             byte bVk,
             byte bScan,
-            int dwFlags,  //这里是整数类型  0 为按下，2为释放  
-            int dwExtraInfo  //这里是整数类型 一般情况下设成为 0  
+            int dwFlags,  //这里是整数类型  0 为按下，2为释放
+            int dwExtraInfo  //这里是整数类型 一般情况下设成为 0
         );
-        /// <summary>   
-        /// 获取鼠标的坐标   
-        /// </summary>   
-        /// <param name="lpPoint">传址参数，坐标point类型</param>   
-        /// <returns>获取成功返回真</returns>   
+
+        /// <summary>
+        /// 获取鼠标的坐标
+        /// </summary>
+        /// <param name="lpPoint">传址参数，坐标point类型</param>
+        /// <returns>获取成功返回真</returns>
         [DllImport("User32")]
-        public extern static bool GetCursorPos(ref Point lpPoint);
-        const int MOUSEEVENTF_LEFTDOWN = 0x0002; // press left mouse button
-        const int MOUSEEVENTF_LEFTUP = 0x0004; // release left mouse button
-        const int MOUSEEVENTF_ABSOLUTE = 0x8000; // whole screen, not just application window
-        const int MOUSEEVENTF_MOVE = 0x0001; // move mouse
-        const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
-        const int MOUSEEVENTF_RIGHTUP = 0x0010;
-        //模拟鼠标中键按下 
-        const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
-        //模拟鼠标中键抬起 
-        const int MOUSEEVENTF_MIDDLEUP = 0x0040;
-        const int MOUSEEVENTF_WHEEL = 0x800;
+        public static extern bool GetCursorPos(ref Point lpPoint);
+
+        private const int MOUSEEVENTF_LEFTDOWN = 0x0002; // press left mouse button
+        private const int MOUSEEVENTF_LEFTUP = 0x0004; // release left mouse button
+        private const int MOUSEEVENTF_ABSOLUTE = 0x8000; // whole screen, not just application window
+        private const int MOUSEEVENTF_MOVE = 0x0001; // move mouse
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
+        private const int MOUSEEVENTF_RIGHTUP = 0x0010;
+
+        //模拟鼠标中键按下
+        private const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
+
+        //模拟鼠标中键抬起
+        private const int MOUSEEVENTF_MIDDLEUP = 0x0040;
+
+        private const int MOUSEEVENTF_WHEEL = 0x800;
 
         private void niazhi_CheckedChanged(object sender, EventArgs e)
         {
             if (true)
             {
                 keybd_event(18, 0, 0, 0);
-
             }
             else
             {
@@ -15732,6 +16102,7 @@ namespace DocearReminder
                 }
             }
         }
+
         private void mindmaplist_MouseDown(object sender, MouseEventArgs e)
         {
             IsSelectReminder = false;
@@ -15799,7 +16170,6 @@ namespace DocearReminder
 
         private void menu_filetree_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
         }
 
         private void DocearReminderForm_MouseDown(object sender, MouseEventArgs e)
@@ -15816,6 +16186,7 @@ namespace DocearReminder
             taskComplete_btn_Click(null, null);
             PlaySimpleSound("Done");
         }
+
         public void GetIniFile()
         {
             suggestListData.Clear();
@@ -15849,7 +16220,7 @@ namespace DocearReminder
             //            list2.Add(new StationInfo { mindmapurl = file, StationName_CN = "f:"+name });
             //        }
             //    }
-            //} 
+            //}
             #endregion
             getinifilenode();
             //处理bookmarks
@@ -15857,6 +16228,7 @@ namespace DocearReminder
             GetFolderToSuggest();
             GetAllLinksToSuggest();
         }
+
         public void GetAllLinksToSuggest()
         {
             try
@@ -15938,6 +16310,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void GetBookmarksLinks()
         {
             try
@@ -16008,8 +16381,8 @@ namespace DocearReminder
 
         private void ReminderListBox_DataSourceChanged(object sender, EventArgs e)
         {
-
         }
+
         public void ReminderlistBoxChange()
         {
             if (reminderListBox.Items.Count > 0 && !(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
@@ -16199,7 +16572,7 @@ namespace DocearReminder
                 return;
             }
             //this.richTextSubNode.Text = Regex.Replace(this.richTextSubNode.Text, @"(?s)\n\s*\n", "\n");
-            int EM_GETLINECOUNT = 0x00BA;//获取总行数的消息号 
+            int EM_GETLINECOUNT = 0x00BA;//获取总行数的消息号
             int lc = SendMessage(this.richTextSubNode.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
             int sf = this.richTextSubNode.Font.Height * (lc + 1);
             this.richTextSubNode.Height = sf;
@@ -16214,6 +16587,7 @@ namespace DocearReminder
                 reminderList.Focus();
             }
         }
+
         private int leftIndex = 0;
         private bool isSettingSyncWeek;
         private bool niazhi;
@@ -16233,6 +16607,7 @@ namespace DocearReminder
             //    saveTagFile();
             //}
         }
+
         public void WriteTagFile()
         {
             //FileInfo fi = new FileInfo(@"tagcloud.json");
@@ -16249,6 +16624,7 @@ namespace DocearReminder
             string filename = System.AppDomain.CurrentDomain.BaseDirectory + @"tagcloud.xml";
             bool b = tagCloudControl.WriteTagFile(filename);
         }
+
         public void ReadTagFile()
         {
             string filename = System.AppDomain.CurrentDomain.BaseDirectory + @"tagcloud.xml";
@@ -16281,6 +16657,7 @@ namespace DocearReminder
             {
             }
         }
+
         public void ConvertbookmarketToini(datameta bookmarks, string preStr)
         {
             if (bookmarks.type == "url")
@@ -16314,7 +16691,6 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
             return str;
         }
@@ -16337,10 +16713,10 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
             return obj;
         }
+
         /// <summary>
         /// 读取文件
         /// </summary>
@@ -16370,7 +16746,6 @@ namespace DocearReminder
 
         private void panel_clearSearchWord_Click(object sender, EventArgs e)
         {
-
         }
 
         private void noterichTextBox_TextChanged(object sender, EventArgs e)
@@ -16384,8 +16759,8 @@ namespace DocearReminder
             {
             }
         }
-        #region 右键菜单动作
 
+        #region 右键菜单动作
 
         private void autoRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -16650,7 +17025,6 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-
             }
         }
 
@@ -16702,7 +17076,6 @@ namespace DocearReminder
 
         private void notifyIcon1_MouseDoubleClick_1(object sender, MouseEventArgs e)
         {
-
         }
 
         private void notifyIcon1_Click_1(object sender, EventArgs e)
@@ -16746,22 +17119,18 @@ namespace DocearReminder
 
         private void ToolStripMenuItem6_Click(object sender, EventArgs e)
         {
-
         }
 
         private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void ToolStripMenuItem5_Click(object sender, EventArgs e)
         {
-
         }
 
         private void 打开文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void ToolStripMenuItem8_Click(object sender, EventArgs e)
@@ -16779,11 +17148,11 @@ namespace DocearReminder
             {
             }
         }
+
         #endregion
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void panel1_Click(object sender, EventArgs e)
@@ -16799,7 +17168,8 @@ namespace DocearReminder
         {
             EditTime_Clic(null, null);
         }
-        static void MoveElementUp(XElement element)
+
+        private static void MoveElementUp(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
             XNode previousNode = element.PreviousNode;
@@ -16814,7 +17184,8 @@ namespace DocearReminder
             element.Remove();
             previousNode.AddBeforeSelf(element);
         }
-        static void MoveElementLeft(XElement element)
+
+        private static void MoveElementLeft(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
             XNode parentNode = element.Parent;
@@ -16825,7 +17196,8 @@ namespace DocearReminder
             element.Remove();
             parentNode.AddAfterSelf(element);
         }
-        static void MoveElementRight(XElement element)
+
+        private static void MoveElementRight(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
             XNode previousNode = element.PreviousNode;
@@ -16843,7 +17215,8 @@ namespace DocearReminder
                 ((XElement)previousNode).AddFirst(element);
             }
         }
-        static void RemoveNamespacePrefix(XElement element)
+
+        private static void RemoveNamespacePrefix(XElement element)
         {
             //Remove from element
             if (element.Name.Namespace != null)
@@ -16866,7 +17239,8 @@ namespace DocearReminder
             foreach (var child in element.Descendants())
                 RemoveNamespacePrefix(child);
         }
-        static void MoveElementDown(XElement element)
+
+        private static void MoveElementDown(XElement element)
         {
             // Walk backwards until we find an element - ignore text nodes
             XNode previousNode = element.NextNode;
@@ -16904,10 +17278,10 @@ namespace DocearReminder
 
         private void FileTreeView_AfterSelect_1(object sender, TreeViewEventArgs e)
         {
-
         }
+
         #region 语音命令
-        static SpeechSynthesizer SS = new SpeechSynthesizer();
+        private static SpeechSynthesizer SS = new SpeechSynthesizer();
         private SpeechRecognitionEngine SRE = new SpeechRecognitionEngine(); //语音识别模块
         private bool SRE_listening = false;
         private int wordid;
@@ -16934,10 +17308,9 @@ namespace DocearReminder
             SRE.EndSilenceTimeout = TimeSpan.FromSeconds(2);
 
             SRE.LoadGrammar(G);
-
         }
 
-        void G_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        private void G_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             //Beep(500, 500);//已识别提示音
 
@@ -16948,16 +17321,17 @@ namespace DocearReminder
                     shibie = "中国：五星红旗";
                     choice(0);
                     break;
+
                 case "打开日历":
                     shibie = "美国：星条旗";
                     choice(1);
                     break;
+
                 case "退出程序":
                     shibie = "推出程序";
                     choice(2);
                     break;
             }
-
         }
 
         private void choice(int id)
@@ -16973,17 +17347,19 @@ namespace DocearReminder
             t2 = new Thread(new ThreadStart(SpeekAnswer));
             t2.Start();
         }
-        void ShowAnswer()  //线程
+
+        private void ShowAnswer()  //线程
         {
             MethodInvoker mi = new MethodInvoker(this.dosomething);
             this.BeginInvoke(mi);
-
         }
-        void dosomething()
+
+        private void dosomething()
         {
             //textBox1.Text = shibie;
         }
-        void SpeekAnswer()  //线程
+
+        private void SpeekAnswer()  //线程
         {
             switch (wordid)
             {
@@ -16991,17 +17367,21 @@ namespace DocearReminder
                     SS.Speak("查看任务");
                     MyShow();
                     break;
+
                 case 1:
                     SS.Speak("打开日历");
                     showcalander();
                     break;
+
                 case 2:
                     SS.Speak("退出程序");
                     Application.Exit();
                     break;
             }
         }
+
         #endregion
+
         /// <summary>
         /// 语音控制
         /// </summary>
@@ -17034,9 +17414,8 @@ namespace DocearReminder
             }
         }
 
-
         #region 文件操作日志
-        string firstname = "";
+        private string firstname = "";
         private bool showwaittask = false;
 
         private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
@@ -17071,6 +17450,7 @@ namespace DocearReminder
         {
             SaveFileLog("更名：" + e.OldFullPath.ToString() + "To" + e.Name);
         }
+
         public bool isLog(string path)
         {
             if (path.Contains(".git") || path.Contains(".svn") || path.Contains(".vs") || path.Contains("~"))
@@ -17079,6 +17459,7 @@ namespace DocearReminder
             }
             return true;
         }
+
         public void SaveFileLog(string log)
         {
             if (log.Contains(clipordFilePath))
@@ -17096,6 +17477,7 @@ namespace DocearReminder
                 }
             }
         }
+
         #endregion
 
         private void irisSkinToolStripMenuItem_Click(object sender, EventArgs e)
@@ -17140,7 +17522,6 @@ namespace DocearReminder
 
         private void menu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -17293,6 +17674,7 @@ namespace DocearReminder
         {
             SendKeys.Send("{j}");
         }
+
         public int focusedList = 0;
         private bool setmindmapcheck = false;
 
@@ -17336,6 +17718,7 @@ namespace DocearReminder
             MyHide();
             return;
         }
+
         //连接摄像头
         public void CameraConn()
         {
@@ -17348,7 +17731,7 @@ namespace DocearReminder
 
         public void CameraTimer_Tick(object sender, EventArgs e)
         {
-            if (!Camera||!checkBox_截图.Checked)
+            if (!Camera || !checkBox_截图.Checked)
             {
                 return;
             }
@@ -17414,6 +17797,7 @@ namespace DocearReminder
                 }
             }
         }
+
         /// <summary>
         /// 无损压缩图片
         /// </summary>
@@ -17522,7 +17906,9 @@ namespace DocearReminder
             MyHide();
             return;
         }
-        string piclink = "";
+
+        private string piclink = "";
+
         private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
         {
             try
@@ -17630,11 +18016,11 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
-        string RelativePath(string absolutePath, string relativeTo)
+
+        private string RelativePath(string absolutePath, string relativeTo)
         {
             //from - www.cnphp6.com
 
@@ -17674,6 +18060,7 @@ namespace DocearReminder
 
             return relativePath.ToString();
         }
+
         private void reminderList_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -17690,7 +18077,9 @@ namespace DocearReminder
         {
             thisactive = true;
         }
+
         public static bool quietmodelbool = false;
+
         private void quietmode_CheckedChanged(object sender, EventArgs e)
         {
             quietmodelbool = quietmode.Checked;
@@ -17731,6 +18120,7 @@ namespace DocearReminder
             }
             IFNoCheckedRRR();
         }
+
         public void IFNoCheckedRRR()
         {
             if (!ShowKA.Checked && !showTimeBlock.Checked && !ShowMoney.Checked)
@@ -17753,27 +18143,27 @@ namespace DocearReminder
 
         private void timeblockcheck_Click(object sender, EventArgs e)
         {
-
         }
 
         private void OnlyLevel_CheckedChanged(object sender, EventArgs e)
         {
-
         }
 
         private void IsClip_CheckedChanged(object sender, EventArgs e)
         {
-
         }
     }
 
-    class MoveOverInfoTip
+    internal class MoveOverInfoTip
     {
         #region   基础参数
+
         //信息提示组件
         private static ToolTip _toolTip = new ToolTip();
+
         #endregion
         #region   公有方法
+
         /// <summary>
         /// 设置单个控件提示信息
         /// </summary>
@@ -17784,6 +18174,7 @@ namespace DocearReminder
         {
             _toolTip.SetToolTip(t, tipInfo);
         }
+
         /// <summary>
         /// 设置多个同种类型的提示信息
         /// </summary>
@@ -17797,8 +18188,8 @@ namespace DocearReminder
             {
                 _toolTip.SetToolTip(item.Key, item.Value);
             }
-
         }
+
         #endregion
         #region   私有方法
         #endregion

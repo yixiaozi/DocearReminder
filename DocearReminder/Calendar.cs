@@ -1,4 +1,3 @@
-using DocearReminder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,42 +7,41 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Xml;
-using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
+using yixiaozi.Security;
+using yixiaozi.Windows;
 using yixiaozi.WinForm.Control.Calendar;
 using static DocearReminder.DocearReminderForm;
-using yixiaozi.WinForm.Common;
-using yixiaozi.Windows;
-using yixiaozi.Security;
-using NAudio.Wave;
-using System.Security.Cryptography;
-using System.Windows;
 using Size = System.Drawing.Size;
 
 namespace DocearReminder
 {
     public partial class CalendarForm : Form
     {
-        List<Appointment> m_Appointments;
-        string mindmappath = "";
-        string[] noFolder = new string[] { };
-        string CalendarImagePath = "";
-        List<string> workfolders = new List<string>();
-        bool ismovetask = false;
+        private List<Appointment> m_Appointments;
+        private string mindmappath = "";
+        private string[] noFolder = new string[] { };
+        private string CalendarImagePath = "";
+        private List<string> workfolders = new List<string>();
+        private bool ismovetask = false;
+
         [DllImport("User32.dll")]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
         [DllImport("User32.dll")]
-        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-        Encrypt encryptlog;
-        string lastId = "";
-        string lastName = "";
-        List<Color> timeblockColors = new List<Color>();
+        private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        private Encrypt encryptlog;
+        private string lastId = "";
+        private string lastName = "";
+        private List<Color> timeblockColors = new List<Color>();
         //private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
         public CalendarForm(string path, bool OpenNew = false)// 后期希望只显示当期文件夹的日历
@@ -89,7 +87,6 @@ namespace DocearReminder
             {
                 this.Opacity = Convert.ToDouble(ini.ReadString("appearance", "CalanderOpacity", "1"));
                 numericOpacity.Value = Convert.ToInt32(this.Opacity * 100);
-
             }
             catch (Exception ex)
             {
@@ -128,6 +125,7 @@ namespace DocearReminder
             FreshMenu();
             RefreshCalender();
         }
+
         public void SetMonday()
         {
             DateTime startWeek = DateTime.Today;
@@ -143,6 +141,7 @@ namespace DocearReminder
             dateTimePicker1.Value = startWeek;
             dayView1.StartDate = startWeek;
         }
+
         public void FreshMenu()
         {
             for (int i = Menu.Items.Count - 1; i > 0; i--)
@@ -153,7 +152,9 @@ namespace DocearReminder
                     Menu.Items.RemoveAt(i);
                 }
             }
+
             #region 添加菜单
+
             try
             {
                 System.Xml.XmlDocument timeblockmm = new XmlDocument();
@@ -204,7 +205,8 @@ namespace DocearReminder
             catch (Exception ex)
             {
             }
-            #endregion
+
+            #endregion 添加菜单
         }
 
         public void SearchNode(XmlNode node, ToolStripItem menuitem)
@@ -237,6 +239,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void SearchNode_progress(XmlNode node, ToolStripItem menuitem)
         {
             if (node.ChildNodes.Count > 0)
@@ -263,6 +266,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void SearchNode_mistake(XmlNode node, ToolStripItem menuitem)
         {
             if (node.ChildNodes.Count > 0)
@@ -289,6 +293,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void SearchNode_Money(XmlNode node, ToolStripItem menuitem)
         {
             if (node.ChildNodes.Count > 0)
@@ -315,6 +320,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void SearchNode_KA(XmlNode node, ToolStripItem menuitem)
         {
             if (node.ChildNodes.Count > 0)
@@ -341,6 +347,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public string GetFatherNodeName(XmlNode node)
         {
             try
@@ -394,6 +401,7 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
+
         /// <summary>
         /// 添加时间块
         /// </summary>
@@ -467,8 +475,8 @@ namespace DocearReminder
             catch (Exception ex)
             {
             }
-
         }
+
         public void reminderObjectJsonTimeBlockColor(string ID, Color color)
         {
             try
@@ -487,9 +495,9 @@ namespace DocearReminder
             catch (Exception ex)
             {
             }
-
         }
-        void dayView1_NewAppointment(object sender, NewAppointmentEventArgs args)
+
+        private void dayView1_NewAppointment(object sender, NewAppointmentEventArgs args)
         {
             Appointment m_Appointment = new Appointment
             {
@@ -580,6 +588,7 @@ namespace DocearReminder
                 MessageBox.Show(ex.ToString());
             }
         }
+
         public void SaveLog(string log)
         {
             log = log.Replace("\r", " ").Replace("\n", " ");
@@ -615,9 +624,9 @@ namespace DocearReminder
                     lastId = m_App.ID;
                     lastName = m_App.Title;
                 }
-
             }
         }
+
         public bool HaschildNode(XmlNode node, string child)
         {
             foreach (XmlNode item in node.ChildNodes.Cast<XmlNode>().Where(m => m.Name == "node"))
@@ -632,6 +641,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         private void dayView1_ResolveAppointments(object sender, ResolveAppointmentsEventArgs args)
         {
             List<Appointment> m_Apps = new List<Appointment>();
@@ -649,13 +659,14 @@ namespace DocearReminder
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
+
         public class comboBoxItem
         {
             public string Text { get; set; }
             public string Value { get; set; }
         }
+
         public bool hasinworkfolder(string path)
         {
             int i = 0;//跳过第一个，因为第一个是根目录
@@ -676,6 +687,7 @@ namespace DocearReminder
             }
             return false;
         }
+
         public int hasinworkfolderIndex(string path)
         {
             int i = 0;
@@ -692,7 +704,9 @@ namespace DocearReminder
             }
             return i;
         }
+
         #region MyRegion
+
         private void button6_Click(object sender, EventArgs e)
         {
             dayView1.DaysToShow = 1;
@@ -712,9 +726,8 @@ namespace DocearReminder
         {
             dayView1.DaysToShow = 17;
         }
-        #endregion
 
-
+        #endregion MyRegion
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
@@ -727,17 +740,16 @@ namespace DocearReminder
             //RefreshCalender();
         }
 
-
-
         private void CalendarForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-
         }
+
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dayView1.StartDate = dateTimePicker1.Value;
             RefreshCalender();
         }
+
         public static bool FreshCalendarBool = false;
 
         public void button1_Click_1(object sender, EventArgs e)
@@ -746,6 +758,7 @@ namespace DocearReminder
             FreshMenu();
             RefreshCalender();
         }
+
         public void RefreshCalender()
         {
             if (CaptureScreen.Checked || JieTucheckBox.Checked || CameracheckBox.Checked || HTML.Checked || ShowNodes.Checked || AllFile.Checked || ShowClipboard.Checked || ActionLog.Checked)
@@ -825,7 +838,6 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
-
 
                 var m_Appointment = new Appointment
                 {
@@ -1125,22 +1137,28 @@ namespace DocearReminder
                         m_Appointment.Type = "番茄钟";
                         m_Appointment.Locked = true;
                         break;
+
                     case "TimeBlock":
                         m_Appointment.Type = "时间块";
                         break;
+
                     case "Progress":
                         m_Appointment.Type = "进步";
                         break;
+
                     case "Mistake":
                         m_Appointment.Type = "错误";
                         break;
+
                     case "Money":
                         m_Appointment.Type = "金钱";
                         m_Appointment.Title += "(" + (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes + "元)";
                         break;
+
                     case "KA":
                         m_Appointment.Type = "卡路里";
                         break;
+
                     default:
                         m_Appointment.Type = "任务";
                         break;
@@ -1250,14 +1268,14 @@ namespace DocearReminder
                     }
                 }
             }
-
         }
 
         #region 数据加密解密
 
         private const string initVector = "yixiaoziyixiaozi";
         private const int keysize = 256;
-        static string logpass = "niqishihenhao";
+        private static string logpass = "niqishihenhao";
+
         public static string DecryptStringlog(string cipherText)
         {
             try
@@ -1289,7 +1307,8 @@ namespace DocearReminder
                 return "";
             }
         }
-        #endregion
+
+        #endregion 数据加密解密
 
         public void ShowCaptureScreen()
         {
@@ -1460,6 +1479,7 @@ namespace DocearReminder
                 }
             }
         }
+
         public void ClipboardAddCalanderItem(string Title, string Common, String CommonDetail, DateTime dt, string fullname)
         {
             Appointment m_Appointment = new Appointment
@@ -1480,6 +1500,7 @@ namespace DocearReminder
             m_Appointment.Tag = null;
             m_Appointments.Add(m_Appointment);
         }
+
         public void ActionLogAddCalanderItem(string Title, string Common, String CommonDetail, DateTime dt, string fullname)
         {
             Appointment m_Appointment = new Appointment
@@ -1531,6 +1552,7 @@ namespace DocearReminder
             }
             dayView1.Refresh();
         }
+
         public DateTime ConverStringToDate(string str)
         {
             try
@@ -1549,13 +1571,13 @@ namespace DocearReminder
                     minute = str.Substring(14, 2);
                 }
                 return Convert.ToDateTime(year + "/" + month + "/" + day + " " + hour + ":" + minute);
-
             }
             catch (Exception ex)
             {
                 return DateTime.Today;
             }
         }
+
         public string GetZhuangbiStr(string str)
         {
             if (isZhuangbi)
@@ -1566,6 +1588,7 @@ namespace DocearReminder
             }
             return str;
         }
+
         public void ShowEnd()
         {
             //m_Appointments = new List<Appointment>();
@@ -1585,7 +1608,6 @@ namespace DocearReminder
 
                 m_Appointment.taskTime = time;
                 m_Appointment.EndDate = m_Appointment.StartDate.AddMinutes(time);
-
 
                 taskname = GetZhuangbiStr(taskname);
                 if (common != null && common != "")
@@ -1629,6 +1651,7 @@ namespace DocearReminder
             }
             //dayView1.Refresh();
         }
+
         public void ShowJinian()
         {
             //m_Appointments = new List<Appointment>();
@@ -1695,6 +1718,7 @@ namespace DocearReminder
             }
             //dayView1.Refresh();
         }
+
         public void jietu()
         {
             try
@@ -1711,7 +1735,6 @@ namespace DocearReminder
             {
                 MessageBox.Show("截图错误" + ex.ToString());
             }
-
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -1746,6 +1769,7 @@ namespace DocearReminder
             {
             }
         }
+
         public string GetFolderName(string path)
         {
             if (path == "")
@@ -1756,6 +1780,7 @@ namespace DocearReminder
             string folderName = Path.GetFileName(filePathOnly);  //Temp
             return folderName;
         }
+
         public bool HasInNoFolder(string path)
         {
             if (path == "" || path == null)
@@ -1802,6 +1827,7 @@ namespace DocearReminder
                             }
                         }
                         break;
+
                     case Keys.Down:
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
@@ -1833,6 +1859,7 @@ namespace DocearReminder
                             }
                         }
                         break;
+
                     case Keys.Right:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -1850,9 +1877,11 @@ namespace DocearReminder
                             }
                         }
                         break;
+
                     case Keys.Enter:
                         Edit(true);
                         break;
+
                     default:
                         break;
                 }
@@ -1896,6 +1925,7 @@ namespace DocearReminder
                             }
                         }
                         break;
+
                     case Keys.Down:
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
@@ -1963,6 +1993,7 @@ namespace DocearReminder
                         }
 
                         break;
+
                     case Keys.Right:
                         if (c_lock.Checked)
                         {
@@ -1993,6 +2024,7 @@ namespace DocearReminder
                         }
 
                         break;
+
                     case Keys.S:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -2004,6 +2036,7 @@ namespace DocearReminder
                             c_fanqie.Checked = !c_fanqie.Checked;
                         }
                         break;
+
                     case Keys.A:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -2015,39 +2048,49 @@ namespace DocearReminder
                             c_timeBlock.Checked = !c_timeBlock.Checked;
                         }
                         break;
+
                     case Keys.Q:
                         this.Close();
                         break;
+
                     case Keys.PageUp:
                         if (numericUpDown2.Value <= 99)
                         {
                             numericUpDown2.Value++;
                         }
                         break;
+
                     case Keys.PageDown:
                         if (numericUpDown2.Value >= 0)
                         {
                             numericUpDown2.Value--;
                         }
                         break;
+
                     case Keys.Home:
                         dateTimePicker1.Value = DateTime.Today;
                         break;
+
                     case Keys.I:
                         textBox_searchwork.Focus();
                         break;
+
                     case Keys.R:
                         RefreshCalender();
                         break;
+
                     case Keys.Escape:
                         dayView1.Focus();
                         break;
+
                     case Keys.Delete:
                         toolStripMenuItem2_Click(null, null);
                         break;
+
                     case Keys.CapsLock:
                         c_lock.Checked = !c_lock.Checked;
                         break;
+
                     default:
                         break;
                 }
@@ -2105,8 +2148,8 @@ namespace DocearReminder
             {
                 ismovetask = true;
             }
-
         }
+
         public void EditTask(string path, string id, DateTime startdate, double tasktime, string TaskName)
         {
             System.Xml.XmlDocument x = new XmlDocument();
@@ -2154,11 +2197,11 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
         }
+
         public void EditTaskName(string path, string id, string NewName)
         {
             System.Xml.XmlDocument x = new XmlDocument();
@@ -2177,11 +2220,11 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                 }
             }
         }
+
         //修改时间
         private void dayView1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -2199,6 +2242,7 @@ namespace DocearReminder
                 Menu.Show(dayView1, new System.Drawing.Point(e.X, e.Y));
             }
         }
+
         public void Edit(bool isEdit = false, Appointment app = null)
         {
             if ((ismovetask || isEdit) && dayView1.SelectedAppointment != null)
@@ -2253,21 +2297,25 @@ namespace DocearReminder
                     RefreshCalender();
                     UsedLogRenew();
                     break;
+
                 case Keys.Shift:
                     break;
+
                 case Keys.Control:
                     break;
+
                 case Keys.Alt:
                     break;
+
                 default:
                     break;
             }
         }
+
         private void CalendarWhell(object sender, MouseEventArgs e)
         {
             try
             {
-
                 if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
                 {
                     if (numericUpDown3.Value == 20)
@@ -2340,11 +2388,10 @@ namespace DocearReminder
             {
                 dayView1.Refresh();
             }
-
         }
+
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
         }
 
         private void dayView1_DoubleClick(object sender, EventArgs e)
@@ -2384,9 +2431,9 @@ namespace DocearReminder
 
         private void dayView1_NewAppointment_1(object sender, NewAppointmentEventArgs args)
         {
-
         }
-        bool islock = true;
+
+        private bool islock = true;
         private bool showfatchertimeblock;
         private bool showcomment = true;
         private int lastX;
@@ -2456,7 +2503,7 @@ namespace DocearReminder
                     m_Appointment.EndDate = DateTime.Now;
                 }
             }
-            dayView1.SelectionStart= dayView1.SelectionEnd = DateTime.Now;//清空选择
+            dayView1.SelectionStart = dayView1.SelectionEnd = DateTime.Now;//清空选择
             m_Appointment.Title = ((System.Windows.Forms.ToolStripItem)sender).Text;
             m_Appointment.value = ((System.Windows.Forms.ToolStripItem)sender).BackColor.ToArgb().ToString();
             m_Appointment.ID = Guid.NewGuid().ToString();
@@ -2505,9 +2552,9 @@ namespace DocearReminder
             SetFanQieComplete(fanqieid);
             RefreshCalender();
         }
+
         private void SetProgress(object sender, EventArgs e)
         {
-
             Appointment m_Appointment = new Appointment();
             m_Appointment = new Appointment
             {
@@ -2530,9 +2577,9 @@ namespace DocearReminder
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Progress", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
+
         private void SetMistake(object sender, EventArgs e)
         {
-
             Appointment m_Appointment = new Appointment();
             m_Appointment = new Appointment
             {
@@ -2555,9 +2602,9 @@ namespace DocearReminder
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Mistake", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
+
         private void SetMoney(object sender, EventArgs e)
         {
-
             Appointment m_Appointment = new Appointment();
             if ((dayView1.SelectionEnd - dayView1.SelectionStart).TotalMinutes > 2)
             {
@@ -2600,6 +2647,7 @@ namespace DocearReminder
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "Money", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
+
         /// <summary>
         /// 设置卡路里
         /// </summary>
@@ -2661,6 +2709,7 @@ namespace DocearReminder
             dayView1.Refresh();
             reminderObjectJsonAdd(m_Appointment.Title, m_Appointment.ID, m_Appointment.value, (m_Appointment.EndDate - m_Appointment.StartDate).TotalMinutes, m_Appointment.StartDate, "KA", ((System.Windows.Forms.ToolStripItem)sender).Tag, comment);
         }
+
         private void SetTimeBlockColor(object sender, EventArgs e)
         {
             if (dayView1.SelectedAppointment != null)//切换颜色吧？
@@ -2671,6 +2720,7 @@ namespace DocearReminder
             reminderObjectJsonTimeBlockColor(dayView1.SelectedAppointment.ID, dayView1.SelectedAppointment.Color);
             dayView1.Refresh();
         }
+
         public string GetColor(XmlNode node)
         {
             try
@@ -2756,6 +2806,7 @@ namespace DocearReminder
             {
             }
         }
+
         private void SetFanQieComplete(string id)
         {
             try
@@ -2899,11 +2950,13 @@ namespace DocearReminder
                     case "金钱":
                         info = (args.EndDate - args.StartDate).TotalMinutes.ToString() + "元";
                         break;
+
                     case "卡路里":
                         info = (args.EndDate - args.StartDate).TotalMinutes * 10 + "千卡";
                         info += Environment.NewLine;
                         info += ((args.EndDate - args.StartDate).TotalMinutes * 10 / 9.46).ToString("F") + "克脂肪";
                         break;
+
                     default:
                         info = args.StartDate.ToShortTimeString() + "-" + args.EndDate.ToShortTimeString();
                         break;
@@ -2916,7 +2969,6 @@ namespace DocearReminder
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
 
         public string ToString20Lenght(string name)
@@ -2949,8 +3001,8 @@ namespace DocearReminder
 
         private void toolTip2_Popup(object sender, PopupEventArgs e)
         {
-
         }
+
         public static string ShowDialog(string text, string detailCommon, string timelong, string caption)
         {
             isMenuShow = true;
@@ -2992,7 +3044,6 @@ namespace DocearReminder
                 }
                 catch (Exception ex)
                 {
-
                 }
                 promptValue = ShowDialog(dayView1.SelectedAppointment.Comment ?? "", dayView1.SelectedAppointment.DetailComment ?? "", timelong, dayView1.SelectedAppointment.Title.Split('(')[0] == "" ? "编辑详细" : dayView1.SelectedAppointment.Title.Split('(')[0]);
                 if (promptValue != "")
@@ -3007,7 +3058,6 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
-
                     }
                     dayView1.SelectedAppointment.Comment = common;
                     dayView1.SelectedAppointment.DetailComment = detail;
@@ -3047,14 +3097,12 @@ namespace DocearReminder
         {
             RefreshCalender();
             UsedLogRenew();
-
         }
 
         private void c_mistake_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
             UsedLogRenew();
-
         }
 
         private void 番茄钟ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3069,15 +3117,18 @@ namespace DocearReminder
             {
             }
         }
+
         public void OpenFanQie(int time, string name, string mindmap, int fanqieCount, bool isnotDefault = false, int tasklevelNum = 0)
         {
             Tomato fanqie = new Tomato(new DateTime().AddMinutes(time), name, mindmap, GetPosition(), isnotDefault, tasklevelNum);
             fanqie.ShowDialog();
         }
+
         #region 添加使用记录
 
-        Guid currentUsedTimerId;
-        string usedTimeLog = "";
+        private Guid currentUsedTimerId;
+        private string usedTimeLog = "";
+
         private void UseTime_Activated(object sender, EventArgs e)
         {
             UsedLogRenew();
@@ -3087,6 +3138,7 @@ namespace DocearReminder
         {
             UsedLogRenew(false);
         }
+
         public void UsedLogRenew(bool newlog = true, bool newid = true)
         {
             //结束之前的ID记录，并生成新的ID
@@ -3135,14 +3187,17 @@ namespace DocearReminder
                 usedTimeLog = "";
             }
         }
-        #endregion
+
+        #endregion 添加使用记录
 
         private void isview_c_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCalender();
             UsedLogRenew();
         }
+
         public static bool isMenuShow = false;
+
         private void Menu_Opened(object sender, EventArgs e)
         {
             isMenuShow = true;
@@ -3176,17 +3231,14 @@ namespace DocearReminder
 
         private void Menu_Opening(object sender, CancelEventArgs e)
         {
-
         }
 
         private void exclude_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void textBox_searchwork_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void checkBox_jinian_CheckedChanged(object sender, EventArgs e)
@@ -3222,12 +3274,10 @@ namespace DocearReminder
 
         private void view_Click(object sender, EventArgs e)
         {
-
         }
 
         private void dayView1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void 解锁ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3283,29 +3333,36 @@ namespace DocearReminder
                 FreshCalendarBool = false;
             }
         }
+
         #region 将窗体钉在桌面上
+
         public class Win32
         {
             public const int SE_SHUTDOWN_PRIVILEGE = 0x13;
             public const int WM_SYSCOMMAND = 0x0112;
             public const int SC_MOVE = 0xF010;
             public const int HTCAPTION = 0x0002;//无边框窗体移动
+
             [DllImport("user32.dll")]
             public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
             [DllImport("user32.dll")]
             public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
             [DllImport("user32.dll")]
             public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx,
                 int cy, uint uFlags);
+
             [DllImport("user32.dll")]
             public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
             [DllImport("user32.dll")]
             public static extern bool ReleaseCapture();
+
             [DllImport("user32.dll")]
             public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         }
-        
+
         private void SetToDeskTop()
         {
             try
@@ -3321,9 +3378,7 @@ namespace DocearReminder
                     IntPtr desktopHwnd = GetDesktopPtr();
                     IntPtr ownHwnd = base.Handle;
                     IntPtr result = Win32.SetParent(ownHwnd, desktopHwnd);
-
                 }
-
             }
             catch (ApplicationException exx)
             {
@@ -3351,8 +3406,8 @@ namespace DocearReminder
 
             // 情况二
             while (hwndDesktop == IntPtr.Zero)
-            {//必须存在桌面窗口层次  
-                hwndWorkerW = Win32.FindWindowEx(IntPtr.Zero, hwndWorkerW, "WorkerW", null);//获得WorkerW类的窗口  
+            {//必须存在桌面窗口层次
+                hwndWorkerW = Win32.FindWindowEx(IntPtr.Zero, hwndWorkerW, "WorkerW", null);//获得WorkerW类的窗口
                 if (hwndWorkerW == IntPtr.Zero) break;//未知错误
                 hShellDefView = Win32.FindWindowEx(hwndWorkerW, IntPtr.Zero, "SysListView32", null);
                 if (hShellDefView == IntPtr.Zero) continue;
@@ -3361,26 +3416,25 @@ namespace DocearReminder
             return hwndDesktop;
         }
 
-
         private void MainForm_Activated(object sender, EventArgs e)
         {
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 Win32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, Win32.SE_SHUTDOWN_PRIVILEGE);
             }
-
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 Win32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, Win32.SE_SHUTDOWN_PRIVILEGE);
             }
         }
-        #endregion
+
+        #endregion 将窗体钉在桌面上
     }
+
     internal class User32
     {
         public const int SE_SHUTDOWN_PRIVILEGE = 0x13;

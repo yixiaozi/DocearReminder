@@ -77,7 +77,7 @@ namespace DocearReminder
                                     dt = Convert.ToDateTime(line.Substring(0, 16));
                                     key = line.Substring(17);
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }

@@ -91,7 +91,7 @@ namespace DocearReminder
                                             result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = dt };
                                             allresult.Add(r);
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
                                             result r = new result { words = (!line.StartsWith("20") ? time : "") + line, path = fileName, Time = new DateTime() };
                                             allresult.Add(r);

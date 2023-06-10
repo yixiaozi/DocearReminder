@@ -37,7 +37,7 @@ namespace DocearReminder
                 if (IsSetPassword)
                 {
                     LoginForm form1 = new LoginForm();
-                    if (form1.ShowDialog() == DialogResult.OK)
+                    if (form1.autologin||form1.ShowDialog() == DialogResult.OK)
                     {
                         Application.Run(new DocearReminderForm());
                     }

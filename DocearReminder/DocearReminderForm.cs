@@ -10065,8 +10065,9 @@ namespace DocearReminder
                             {
                                 searchword.Text = "";
                                 reminderList.Focus();
-                                RRReminderlist();
-                                ReminderListSelectedIndex(reminderSelectIndex);
+                                //解决任务栏会闪动的问题，其实没有必要刷新
+                                //RRReminderlist();
+                                //ReminderListSelectedIndex(reminderSelectIndex);
                             }
                         }
                     }
@@ -17204,7 +17205,7 @@ namespace DocearReminder
                         {
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }
@@ -17408,7 +17409,7 @@ namespace DocearReminder
                         videoSourcePlayer1.WaitForStop();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

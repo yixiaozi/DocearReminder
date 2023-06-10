@@ -11,6 +11,7 @@ namespace DocearReminder
         private static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         int errorcount = 2;
         bool isfirstload = true;
+        public bool autologin = false;
         public LoginForm()
         {
             InitializeComponent();
@@ -22,8 +23,8 @@ namespace DocearReminder
                 try
                 {
                     string pas = encrypt.DecryptString(ini.ReadString("password", encrypt.EncryptString(Environment.MachineName).Replace("=", "."), ""));
-                    textBox1.Text = pas.Split('@')[0];
-                    textBox2.Text = pas.Split('@')[1];
+                    UserName.Text = pas.Split('@')[0];
+                    PassWord.Text = pas.Split('@')[1];
                 }
                 catch (Exception ex)
                 {
@@ -34,12 +35,17 @@ namespace DocearReminder
 
             }
             isfirstload = false;
+            //如果用户名和密码都填写了，直接点击登录
+            if (UserName.Text != "" && PassWord.Text != "") 
+            {
+                Login_Click(null, null);
+            }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void Login_Click(object sender, EventArgs e)
         {
             checkBox1_CheckedChanged(null,null);
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
-            if (textBox1.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && textBox2 .Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
+            if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "c", "")) && PassWord .Text == encrypt.DecryptString(ini.ReadString("password", "u", "")))
             {
                 try
                 {
@@ -49,9 +55,10 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
+                autologin = true;
                 this.DialogResult = DialogResult.OK;
             }
-            else if (textBox1.Text == encrypt.DecryptString(ini.ReadString("password", "a", ""))&& textBox2.Text == encrypt.DecryptString(ini.ReadString("password", "d", "")))
+            else if (UserName.Text == encrypt.DecryptString(ini.ReadString("password", "a", ""))&& PassWord.Text == encrypt.DecryptString(ini.ReadString("password", "d", "")))
             {
                 foreach (string item in encrypt.DecryptString(ini.ReadString("password", "f", "")).Split(';'))
                 {
@@ -102,7 +109,7 @@ namespace DocearReminder
         {
             if (e.KeyCode==Keys.Enter)
             {
-                button1_Click(null, null);
+                Login_Click(null, null);
             }
         }
 
@@ -115,7 +122,7 @@ namespace DocearReminder
             Encrypt encrypt = new Encrypt(ini.ReadString("password", "i", ""));
             if (checkBox1.Checked)
             {
-                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), encrypt.EncryptString(textBox1.Text+"@"+ textBox2.Text));
+                ini.WriteString("password", encrypt.EncryptString(Environment.MachineName).Replace("=","."), encrypt.EncryptString(UserName.Text+"@"+ PassWord.Text));
                 ini.WriteString("password", "r", "1");
             }
             else

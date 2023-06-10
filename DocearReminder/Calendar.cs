@@ -2365,7 +2365,7 @@ namespace DocearReminder
                             commentToolStripMenuItem_Click(null, null);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }

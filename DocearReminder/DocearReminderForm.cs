@@ -2026,7 +2026,7 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                
             }
         }
 
@@ -11455,7 +11455,7 @@ namespace DocearReminder
                             if (ReminderListFocused())
                             {
                                 ShowMindmap();
-                                ShowMindmapFile(false, 5);
+                                ShowMindmapFile(false);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = true;
                                 this.Height = maxheight;
                                 nodetree.Focus();
@@ -11463,7 +11463,7 @@ namespace DocearReminder
                             else if (mindmaplist.Focused)
                             {
                                 ShowMindmap();
-                                ShowMindmapFile(false, 5);
+                                ShowMindmapFile(false);
                                 nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = true;
                                 this.Height = maxheight;
                                 nodetree.Focus();
@@ -13020,6 +13020,7 @@ namespace DocearReminder
 
         public void ShowMindmapFile(bool isShowSub = false, int level = 3)
         {
+            mostShowFiles = 200;
             if (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null)
             {
                 return;
@@ -13052,6 +13053,16 @@ namespace DocearReminder
             fileTreePath = new FileInfo(mindmapPath).Directory;
             BuildTree(fileTreePath, FileTreeView.Nodes, true, level);
             FileTreeView.Sort();
+            //选中当前的文件
+            //string fileName = Path.GetFileName(mindmapPath);
+            //foreach (TreeNode item in FileTreeView.Nodes)
+            //{
+            //    if (item.Text == fileName || item.Text.Contains(Name))
+            //    {
+            //        FileTreeView.SelectedNode = item;
+            //        break;
+            //    }
+            //}
         }
 
         public void ShowMindmapFileUp()
@@ -13070,7 +13081,7 @@ namespace DocearReminder
             {
             }
         }
-
+        public static int mostShowFiles = 200;
         private void BuildTree(DirectoryInfo directoryInfo, TreeNodeCollection addInMe, bool isRoot, int level = 3)
         {
             if (level <= 0)
@@ -13102,6 +13113,11 @@ namespace DocearReminder
             }
             else
             {
+                mostShowFiles--;
+                if (mostShowFiles<=0)
+                {
+                    return;
+                }
                 curNode = addInMe.Add(directoryInfo.FullName, " " + directoryInfo.Name);
                 if (System.IO.Directory.Exists(directoryInfo.FullName))
                 {
@@ -18151,6 +18167,11 @@ namespace DocearReminder
 
         private void IsClip_CheckedChanged(object sender, EventArgs e)
         {
+        }
+
+        private void AllnodeFreshTimer_Tick(object sender, EventArgs e)
+        {
+            GetAllNodeJsonFile();
         }
     }
 

@@ -147,7 +147,6 @@ namespace DocearReminder
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
             this.StartRecordCheckBox = new System.Windows.Forms.CheckBox();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
             this.quietmode = new System.Windows.Forms.CheckBox();
             this.showTimeBlock = new System.Windows.Forms.CheckBox();
@@ -164,10 +163,10 @@ namespace DocearReminder
             this.KADateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.ShowKA = new System.Windows.Forms.CheckBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
-            this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.OnlyLevel = new System.Windows.Forms.CheckBox();
             this.checkBox_截图 = new System.Windows.Forms.CheckBox();
             this.IsClip = new System.Windows.Forms.CheckBox();
+            this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1441,15 +1440,6 @@ namespace DocearReminder
             this.StartRecordCheckBox.UseVisualStyleBackColor = true;
             this.StartRecordCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // videoSourcePlayer1
-            // 
-            this.videoSourcePlayer1.Location = new System.Drawing.Point(1185, 660);
-            this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.Size = new System.Drawing.Size(231, 167);
-            this.videoSourcePlayer1.TabIndex = 130;
-            this.videoSourcePlayer1.Text = "videoSourcePlayer1";
-            this.videoSourcePlayer1.VideoSource = null;
-            // 
             // CameraTimer
             // 
             this.CameraTimer.Enabled = true;
@@ -1672,16 +1662,6 @@ namespace DocearReminder
             this.timeblockcheck.Text = "时间块检查";
             this.timeblockcheck.Click += new System.EventHandler(this.timeblockcheck_Click);
             // 
-            // tagList
-            // 
-            this.tagList.BackColor = System.Drawing.Color.White;
-            this.tagList.ForeColor = System.Drawing.Color.DarkGray;
-            this.tagList.Location = new System.Drawing.Point(1187, 198);
-            this.tagList.Name = "tagList";
-            this.tagList.Size = new System.Drawing.Size(229, 274);
-            this.tagList.TabIndex = 140;
-            this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
-            // 
             // OnlyLevel
             // 
             this.OnlyLevel.AutoSize = true;
@@ -1716,6 +1696,12 @@ namespace DocearReminder
             this.IsClip.UseVisualStyleBackColor = true;
             this.IsClip.CheckedChanged += new System.EventHandler(this.IsClip_CheckedChanged);
             // 
+            // AllnodeFreshTimer
+            // 
+            this.AllnodeFreshTimer.Enabled = true;
+            this.AllnodeFreshTimer.Interval = 3600000;
+            this.AllnodeFreshTimer.Tick += new System.EventHandler(this.AllnodeFreshTimer_Tick);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1727,7 +1713,6 @@ namespace DocearReminder
             this.Controls.Add(this.IsClip);
             this.Controls.Add(this.checkBox_截图);
             this.Controls.Add(this.OnlyLevel);
-            this.Controls.Add(this.tagList);
             this.Controls.Add(this.timeblockcheck);
             this.Controls.Add(this.ShowKA);
             this.Controls.Add(this.KADateTimePicker);
@@ -1739,7 +1724,6 @@ namespace DocearReminder
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
-            this.Controls.Add(this.videoSourcePlayer1);
             this.Controls.Add(this.StartRecordCheckBox);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
@@ -1990,6 +1974,7 @@ namespace DocearReminder
         private CheckBox OnlyLevel;
         private CheckBox checkBox_截图;
         private CheckBox IsClip;
+        private Timer AllnodeFreshTimer;
     }
 }
 

@@ -1365,16 +1365,16 @@ namespace DocearReminder
             // pictureBox1
             // 
             this.pictureBox1.ContextMenuStrip = this.Menu_picture;
-            this.pictureBox1.Location = new System.Drawing.Point(872, 165);
+            this.pictureBox1.Location = new System.Drawing.Point(872, 149);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.MaximumSize = new System.Drawing.Size(285, 285);
             this.pictureBox1.MinimumSize = new System.Drawing.Size(285, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(285, 120);
+            this.pictureBox1.Size = new System.Drawing.Size(285, 43);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 113;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
+            this.pictureBox1.SizeChanged += new System.EventHandler(this.pictureBox1_SizeChanged);
             this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // Menu_picture
@@ -1511,7 +1511,7 @@ namespace DocearReminder
             this.richTextSubNode.MaximumSize = new System.Drawing.Size(285, 250);
             this.richTextSubNode.Name = "richTextSubNode";
             this.richTextSubNode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextSubNode.Size = new System.Drawing.Size(285, 90);
+            this.richTextSubNode.Size = new System.Drawing.Size(285, 76);
             this.richTextSubNode.TabIndex = 99;
             this.richTextSubNode.Text = "";
             this.richTextSubNode.SizeChanged += new System.EventHandler(this.richTextSubNode_SizeChanged);
@@ -1705,11 +1705,12 @@ namespace DocearReminder
             // 
             // tagList
             // 
-            this.tagList.Location = new System.Drawing.Point(1184, 200);
+            this.tagList.Location = new System.Drawing.Point(872, 197);
             this.tagList.Name = "tagList";
-            this.tagList.Size = new System.Drawing.Size(232, 272);
+            this.tagList.Size = new System.Drawing.Size(285, 90);
             this.tagList.TabIndex = 144;
             this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
+            this.tagList.SizeChanged += new System.EventHandler(this.tagList_SizeChanged);
             // 
             // DocearReminderForm
             // 

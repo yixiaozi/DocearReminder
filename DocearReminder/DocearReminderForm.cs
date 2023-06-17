@@ -204,6 +204,7 @@ namespace DocearReminder
                 addFanQieTimer.Start();
 
                 InitVoice();
+                tagList.Height = 0;
                 //CameraTimer_Tick(null, null);//打开软件时截屏，其实没有必要
 
                 #region 用来监视文件编号的代码，暂时不用，有git监控就可以了
@@ -13553,6 +13554,7 @@ namespace DocearReminder
                                 }
                                 List<string> mytags = new List<string>();
                                 tagList.Tags = mytags;
+                                tagList.Height = 0;//重新设置高度
                                 foreach (XmlNode subNode in node.ChildNodes)
                                 {
                                     if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
@@ -13563,11 +13565,26 @@ namespace DocearReminder
                                     //如果TYPE等于DETAILS显示节点Tag
                                     if (subNode.Attributes != null && subNode.Attributes["TYPE"] != null && subNode.Attributes["TYPE"].Value == "DETAILS")
                                     {
-                                        string tagStr = new HtmlToString().StripHTML((subNode.InnerText).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "")); ;
+                                        string tagStr = new HtmlToString().StripHTML((subNode.InnerText).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "").Replace("  "," ")); ;
+                                        //tagStr中的两个空格替换成一个
+                                        while (tagStr.Contains("  "))
+                                        {
+                                            tagStr = tagStr.Replace("  ", " ");
+                                        }
                                         if (tagStr != "")
                                         {
-                                            mytags.AddRange(tagStr.Split('#'));
+                                            mytags.AddRange(tagStr.Split(new char[] { '#',' '}));
+                                            //mytags去掉空格
+                                            for (int i = 0; i < mytags.Count; i++)
+                                            {
+                                                if (mytags[i].Trim() == "")
+                                                {
+                                                    mytags.RemoveAt(i);
+                                                    i--;
+                                                }
+                                            }
                                             tagList.Tags = mytags;
+                                            tagList.Height = 90;
                                         }
                                     }
                                 }
@@ -16575,10 +16592,7 @@ namespace DocearReminder
 
         private void richTextSubNode_SizeChanged(object sender, EventArgs e)
         {
-            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 0 : 0);
-            hopeNote.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 14 : 0);
-            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
-            tagCloudControl.Height = 475 - tagCloudControl.Top;
+            setleft();
         }
 
         private void RichTextSubNode_TextChanged(object sender, EventArgs e)
@@ -17682,9 +17696,7 @@ namespace DocearReminder
 
         private void hopeNote_SizeChanged(object sender, EventArgs e)
         {
-            hopeNote.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 14 : 0);
-            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + 14;
-            tagCloudControl.Height = 475 - tagCloudControl.Top;
+            setleft();
         }
 
         private void keyJ_Tick(object sender, EventArgs e)
@@ -18173,6 +18185,25 @@ namespace DocearReminder
         private void AllnodeFreshTimer_Tick(object sender, EventArgs e)
         {
             GetAllNodeJsonFile();
+        }
+
+        private void tagList_SizeChanged(object sender, EventArgs e)
+        {
+            setleft();
+        }
+
+        private void pictureBox1_SizeChanged(object sender, EventArgs e)
+        {
+            setleft();
+        }
+
+        public void setleft()
+        {
+            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 0 : 0);
+            tagList.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 7 : 0);
+            hopeNote.Top = tagList.Top + tagList.Height + (tagList.Height != 0 ? 7 : 0);
+            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + (hopeNote.Height != 0 ? 7 : 0);
+            tagCloudControl.Height = 475 - tagCloudControl.Top;
         }
     }
 

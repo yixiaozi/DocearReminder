@@ -2026,7 +2026,6 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
-                
             }
         }
 
@@ -2312,7 +2311,7 @@ namespace DocearReminder
         //选中任务列表的第N行
         public void ReminderListSelectedIndex(int index)
         {
-            if (reminderList.Items.Count > index)
+            if (index >= 0 && reminderList.Items.Count > index)
             {
                 reminderList.SelectedIndex = index;
                 reminderList.SelectedItem = reminderList.Items[index];
@@ -13081,7 +13080,9 @@ namespace DocearReminder
             {
             }
         }
+
         public static int mostShowFiles = 200;
+
         private void BuildTree(DirectoryInfo directoryInfo, TreeNodeCollection addInMe, bool isRoot, int level = 3)
         {
             if (level <= 0)
@@ -13114,7 +13115,7 @@ namespace DocearReminder
             else
             {
                 mostShowFiles--;
-                if (mostShowFiles<=0)
+                if (mostShowFiles <= 0)
                 {
                     return;
                 }

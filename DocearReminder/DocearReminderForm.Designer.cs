@@ -167,6 +167,7 @@ namespace DocearReminder
             this.checkBox_截图 = new System.Windows.Forms.CheckBox();
             this.IsClip = new System.Windows.Forms.CheckBox();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
+            this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1702,6 +1703,14 @@ namespace DocearReminder
             this.AllnodeFreshTimer.Interval = 3600000;
             this.AllnodeFreshTimer.Tick += new System.EventHandler(this.AllnodeFreshTimer_Tick);
             // 
+            // tagList
+            // 
+            this.tagList.Location = new System.Drawing.Point(1184, 200);
+            this.tagList.Name = "tagList";
+            this.tagList.Size = new System.Drawing.Size(232, 272);
+            this.tagList.TabIndex = 144;
+            this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1710,6 +1719,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1428, 923);
+            this.Controls.Add(this.tagList);
             this.Controls.Add(this.IsClip);
             this.Controls.Add(this.checkBox_截图);
             this.Controls.Add(this.OnlyLevel);

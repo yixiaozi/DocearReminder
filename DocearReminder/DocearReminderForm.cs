@@ -150,12 +150,12 @@ namespace DocearReminder
         public string usedTimeLog = "";
         public string todoistKey = "";
         public bool Camera = false;
-        public int maxwidth = 1444;
-        public int middlewidth = 1180;
+        public int maxwidth = 1500;//340-285
+        public int middlewidth = 1240;
         public int normalwidth = 888;
 
-        public int maxheight = 880;
-        public int normalheight = 545;
+        public int maxheight = 888;
+        public int normalheight = 555;
 
         public int nodetreeTop = 506;
         public int nodetreeTopTop = 9;
@@ -241,6 +241,12 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
+                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
+                {
+                    note.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                }
+                
+                //note_TextChanged(null, null);
 
                 //加载Tag
                 ReadTagFile();
@@ -4919,14 +4925,14 @@ namespace DocearReminder
             n_days.Value = 0;
             taskTime.Value = selectedReminder.rtaskTime;
             dateTimePicker.Value = selectedReminder.Time;
-            if (selectedReminder.Time.Year != DateTime.Now.Year)
-            {
-                dateTimePicker.CustomFormat = "yyyy MM月dd dddd";
-            }
-            else
-            {
-                dateTimePicker.CustomFormat = "HH:mm MM月dd dddd";
-            }
+            //if (selectedReminder.Time.Year != DateTime.Now.Year)
+            //{
+            //    dateTimePicker.CustomFormat = "yyyy MM月dd dddd";
+            //}
+            //else
+            //{
+            //    dateTimePicker.CustomFormat = "HH:mm MM月dd dddd";
+            //}
             if (selectedReminder.remindertype != "")
             {
                 switch (selectedReminder.remindertype)
@@ -5843,7 +5849,7 @@ namespace DocearReminder
 
         private void showcyclereminder_CheckedChanged(object sender, EventArgs e)
         {
-            RRReminderlist();
+            //RRReminderlist();
         }
 
         public string GetTimeSpanStr(int day)
@@ -8557,7 +8563,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused || nodetreeSearch.Focused || hopeNote.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
+            return !(PathcomboBox.Focused || searchword.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
@@ -8590,9 +8596,35 @@ namespace DocearReminder
                         }
                         else
                         {
-                            showcyclereminder.Checked = !showcyclereminder.Checked;
+                            //IsReminderOnlyCheckBox选中状态为不重要的任务状态
+                            //IsReminderOnlyCheckBox不选中，showcyclereminder选中状态是周期任务状态
+                            //IsReminderOnlyCheckBox不选中，showcyclereminder不选中状态是平时任务状态
+                            //按A键分别切换三种状态
+                            if (showcyclereminder.Checked)
+                            {
+                                showcyclereminder.Checked = false;
+                                IsReminderOnlyCheckBox.Checked = true;
+                            }
+                            else if (IsReminderOnlyCheckBox.Checked)
+                            {
+                                IsReminderOnlyCheckBox.Checked = false;
+                                showcyclereminder.Checked = false;
+                            }
+                            else
+                            {
+                                showcyclereminder.Checked = true;
+                                IsReminderOnlyCheckBox.Checked = false;
+                            }   
+
                             ReSetValue();
                             RRReminderlist();
+                            try
+                            {
+                                ReminderListSelectedIndex(0);
+                            }
+                            catch (Exception ex)
+                            {
+                            }
                         }
                     }
                     break;
@@ -8874,7 +8906,7 @@ namespace DocearReminder
                                     {
                                         ReminderListSelectedIndex(0);
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception ex) 
                                     {
                                     }
                                 }
@@ -8932,7 +8964,16 @@ namespace DocearReminder
                                 }
                                 else
                                 {
-                                    richTextSubNode.Focus();
+                                    note.Focus();
+                                    if (note.Text.Length > 0)
+                                    {
+                                        note.SelectionStart = note.Text.Length;
+                                    }
+                                    else
+                                    {
+                                        note.Visible = true;
+                                        note.Text=" ";
+                                    }
                                 }
                                 //FormX = this.Location.Y;
                                 //Center();//= new Point(this.Location.X, -1569);
@@ -8976,9 +9017,15 @@ namespace DocearReminder
                                     }
                                     else
                                     {
-                                        showcyclereminder.Checked = !showcyclereminder.Checked;
-                                        ReSetValue();
-                                        RRReminderlist();
+                                        //showcyclereminder.Checked = !showcyclereminder.Checked;
+                                        //ReSetValue();
+                                        //RRReminderlist();
+                                        hopeNote.Focus();
+                                        //选中最后
+                                        if (hopeNote.Text.Length > 0)
+                                        {
+                                            hopeNote.SelectionStart = hopeNote.Text.Length;
+                                        }
                                     }
                                 }
                             }
@@ -8993,15 +9040,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
-                        RRReminderlist();
-                        try
-                        {
-                            ReminderListSelectedIndex(0);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
+                        //留给未来的标签吧
                     }
                     break;
 
@@ -15041,7 +15080,7 @@ namespace DocearReminder
 
         private void onlyZhouqi_CheckedChanged(object sender, EventArgs e)
         {
-            RRReminderlist();
+            //RRReminderlist();
         }
 
         private void AddClip_panel_Paint(object sender, PaintEventArgs e)
@@ -16404,12 +16443,14 @@ namespace DocearReminder
             if (reminderListBox.Items.Count > 0)
             {
                 reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 10);
-                reminderList.Height = mindmaplist.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 10);//- 51
+                note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
+                reminderList.Height = mindmaplist.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 10) - note.Height- (note.Visible?10:0);
             }
             else
             {
                 reminderList.Top = mindmaplist.Top;
-                reminderList.Height = mindmaplist.Height;
+                note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
+                reminderList.Height = mindmaplist.Height - note.Height - (note.Visible ? 10 : 0);
             }
         }
 
@@ -18199,11 +18240,35 @@ namespace DocearReminder
 
         public void setleft()
         {
-            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 0 : 0);
+            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 7 : 0);
             tagList.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 7 : 0);
             hopeNote.Top = tagList.Top + tagList.Height + (tagList.Height != 0 ? 7 : 0);
             tagCloudControl.Top = hopeNote.Top + hopeNote.Height + (hopeNote.Height != 0 ? 7 : 0);
             tagCloudControl.Height = 475 - tagCloudControl.Top;
+        }
+
+        private void note_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                note.ForeColor = Color.Gray;
+                
+                int EM_GETLINECOUNT = 0x00BA;
+                int lc = SendMessage(this.note.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
+                int sf = this.note.Font.Height * (lc + 1);
+                this.note.Height = sf;
+                note.SaveFile("yixiaozi.txt");
+                if (note.Text == "")
+                {
+                    note.Visible = false;
+                    note.Height = 0;
+                    reminderList.Focus();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 

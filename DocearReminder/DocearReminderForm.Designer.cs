@@ -1732,7 +1732,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1481, 837);
-            this.Controls.Add(this.note);
+            this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.IsClip);
             this.Controls.Add(this.checkBox_截图);
@@ -1745,7 +1745,6 @@ namespace DocearReminder
             this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.quietmode);
-            this.Controls.Add(this.nodetree);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.StartRecordCheckBox);
@@ -1807,7 +1806,8 @@ namespace DocearReminder
             this.Controls.Add(this.usedtimelabel);
             this.Controls.Add(this.todayusedtime);
             this.Controls.Add(this.reminderListBox);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.Controls.Add(this.note);
+            this.ForeColor = System.Drawing.Color.Gray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;

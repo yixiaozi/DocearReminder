@@ -24,9 +24,11 @@ using System.Speech.Synthesis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
@@ -871,7 +873,7 @@ namespace DocearReminder
             else
             {
                 this.BackColor = BackGroundColor;
-                PlaySimpleSound("show");
+                PlaySimpleSoundAsync("show");
                 isInReminderlistSelect = false;
                 MyShow();
                 usedCount.Text = usedTimer.Count.ToString();
@@ -1046,6 +1048,7 @@ namespace DocearReminder
                     th.Start();
                     //每小时刷新所有导图的数据
                     GetAllNodeJsonFile();
+                    this.Activate();
                     #region 刷新左侧文件，有问题
                     //isRefreshMindmap = true;
                     //LoadFile(rootpath);
@@ -1095,7 +1098,7 @@ namespace DocearReminder
         {
             try
             {
-                PlaySimpleSound("hide");
+                PlaySimpleSoundAsync("hide");
                 SearchText_suggest.Visible = false;
                 this.Hide();
                 UsedLogRenew(false);
@@ -4831,7 +4834,7 @@ namespace DocearReminder
                 }
                 return;
             }
-            PlaySimpleSound("next");
+            PlaySimpleSoundAsync("next");
             isInReminderlistSelect = true;
             if (searchword.Text.StartsWith("#"))
             {
@@ -5912,7 +5915,7 @@ namespace DocearReminder
         public void AddTask(bool istask)
         {
             fenshuADD(3);
-            PlaySimpleSound("add");
+            PlaySimpleSoundAsync("add");
             if (searchword.Text != "" && searchword.Text.Contains("clip"))
             {
                 IDataObject iData = new DataObject();
@@ -7200,7 +7203,7 @@ namespace DocearReminder
 
                 ReSetValue();
                 RRReminderlist();
-                PlaySimpleSound("deny");
+                PlaySimpleSoundAsync("deny");
             }
             catch (Exception ex)
             {
@@ -7228,7 +7231,7 @@ namespace DocearReminder
                 th.Start();
                 //shaixuanfuwei();
                 //ChangeReminder();
-                PlaySimpleSound("deny");
+                PlaySimpleSoundAsync("deny");
                 if (reminderList.Focused)
                 {
                     reminderList.Items.RemoveAt(reminderIndex);
@@ -7333,7 +7336,7 @@ namespace DocearReminder
                     {
                         node.ParentNode.RemoveChild(node);
                         x.Save(showMindmapName);
-                        PlaySimpleSound("delete");
+                        PlaySimpleSoundAsync("delete");
                         nodetree.SelectedNode.Remove();
                         return;
                     }
@@ -7493,7 +7496,7 @@ namespace DocearReminder
                         EditMODIFIEDAndTaskName(node, taskName);
 
                         x.Save(showMindmapName);
-                        PlaySimpleSound("edittask");
+                        PlaySimpleSoundAsync("edittask");
 
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(showMindmapName));
                         th.Start();
@@ -8642,7 +8645,7 @@ namespace DocearReminder
                     break;
 
                 case Keys.B:
-                    PlaySimpleSound("treeview");
+                    PlaySimpleSoundAsync("treeview");
                     if (ReminderListFocused())
                     {
                         if (this.Height != maxheight)
@@ -9550,13 +9553,13 @@ namespace DocearReminder
                         //    bool ishasSound = false;
                         //    if (searchword.Text.Contains(ini.ReadString("money", "save", "")))
                         //    {
-                        //        PlaySimpleSound("save");
+                        //        PlaySimpleSoundAsync("save");
                         //        ishasSound = true;
                         //        searchword.Text = searchword.Text.Replace(ini.ReadString("money", "save", ""), ini.ReadString("money", "save", "") + ini.ReadString("money", "income", ""));
                         //    }
                         //    if (searchword.Text.Contains(ini.ReadString("money", "waste", "")))
                         //    {
-                        //        PlaySimpleSound("waste");
+                        //        PlaySimpleSoundAsync("waste");
                         //        ishasSound = true;
                         //        searchword.Text = searchword.Text.Replace(ini.ReadString("money", "waste", ""), ini.ReadString("money", "waste", "") + ini.ReadString("money", "cost", ""));
                         //    }
@@ -9596,11 +9599,11 @@ namespace DocearReminder
                         //    {
                         //        if (isIncome)
                         //        {
-                        //            PlaySimpleSound("income");
+                        //            PlaySimpleSoundAsync("income");
                         //        }
                         //        else
                         //        {
-                        //            PlaySimpleSound("cost");
+                        //            PlaySimpleSoundAsync("cost");
                         //        }
                         //    }
 
@@ -11410,7 +11413,7 @@ namespace DocearReminder
                         {
                             return;
                         }
-                        PlaySimpleSound("treeview");
+                        PlaySimpleSoundAsync("treeview");
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
                             //下面窗口设置一下
@@ -11591,7 +11594,7 @@ namespace DocearReminder
                             else
                             {
                                 taskComplete_btn_Click(null, null);
-                                PlaySimpleSound("Done");
+                                PlaySimpleSoundAsync("Done");
                             }
                         }
                         else if (dateTimePicker.Focused)
@@ -14316,7 +14319,7 @@ namespace DocearReminder
 
         private void Searchword_Enter(object sender, EventArgs e)
         {
-            PlaySimpleSound("input");
+            PlaySimpleSoundAsync("input");
             SwitchToLanguageMode("zh-CN");
         }
 
@@ -15202,24 +15205,25 @@ namespace DocearReminder
                 }
                 string path = ini.ReadString("sound", "path", "");
                 path += ini.ReadString("sound", type, "");
-                //simpleSound.SoundLocation = path;
-                ////MediaPlayer simpleSound = new MediaPlayer()
-                ////{
-                ////    Volume = 100.0f
-                ////};
-                ////simpleSound.Open(new Uri(new FileInfo(path).FullName));
-                ////simpleSound.Play();
-                //simpleSound.Load();
-
-                //simpleSound.Play();
-
+                simpleSound.SoundLocation = path;
                 player.SoundLocation = path;
                 player.Play();
+                //MediaPlayer simpleSound = new MediaPlayer()
+                //{
+                //    Volume = 1
+                //};
+                //simpleSound.Open(new Uri(new FileInfo(path).FullName));
+                //simpleSound.Play();
             }
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.ToString());
             }
+        }
+        //PlaySimpleSound的异步版本
+        private async void PlaySimpleSoundAsync(string type)
+        {
+            await Task.Run(() => PlaySimpleSound(type));
         }
 
         public bool MyContains(string str, string[] arr)
@@ -15690,7 +15694,7 @@ namespace DocearReminder
                 mindmapPath = rootpath.FullName;
                 searchword.Text = "";
                 loadHopeNote();
-                PlaySimpleSound("changepath");
+                PlaySimpleSoundAsync("changepath");
                 UsedLogRenew();
                 Load_Click(null, null);
                 reminderList.Focus();
@@ -16257,7 +16261,7 @@ namespace DocearReminder
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             taskComplete_btn_Click(null, null);
-            PlaySimpleSound("Done");
+            PlaySimpleSoundAsync("Done");
         }
 
         public void GetIniFile()
@@ -16442,15 +16446,15 @@ namespace DocearReminder
         {
             if (reminderListBox.Items.Count > 0)
             {
-                reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 10);
+                reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
                 note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
-                reminderList.Height = mindmaplist.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 10) - note.Height- (note.Visible?10:0);
+                reminderList.Height = mindmaplist.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - note.Height- (note.Visible?7:0);
             }
             else
             {
                 reminderList.Top = mindmaplist.Top;
                 note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
-                reminderList.Height = mindmaplist.Height - note.Height - (note.Visible ? 10 : 0);
+                reminderList.Height = mindmaplist.Height - note.Height - (note.Visible ? 7 : 0);
             }
         }
 
@@ -17170,7 +17174,7 @@ namespace DocearReminder
 
         private void labeltaskinfo_Click(object sender, EventArgs e)
         {
-            PlaySimpleSound("treeview");
+            PlaySimpleSoundAsync("treeview");
             if (this.Height == maxheight)
             {
                 nodetree.Top = FileTreeView.Top = nodetreeTop;
@@ -17598,28 +17602,28 @@ namespace DocearReminder
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                //只需要遍历树的Tab就可以了
-                if (nodetreeSearch.Text.Trim() != "")
-                {
-                    SearchTreeNode(nodetree.Nodes, nodetreeSearch.Text.Trim());
-                    SearchTreeNode(FileTreeView.Nodes, nodetreeSearch.Text.Trim());
-                }
-                else
-                {
-                    nodetree.CollapseAll();
-                    FileTreeView.CollapseAll();
-                }
-                if (nodetree.Top != nodetreeTopTop)
-                {
-                    nodetree.Top = FileTreeView.Top = nodetreeTopTop;
-                    nodetree.Height = FileTreeView.Height = nodeTreeHeightMax;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+            //try
+            //{
+            //    //只需要遍历树的Tab就可以了
+            //    if (nodetreeSearch.Text.Trim() != "")
+            //    {
+            //        SearchTreeNode(nodetree.Nodes, nodetreeSearch.Text.Trim());
+            //        SearchTreeNode(FileTreeView.Nodes, nodetreeSearch.Text.Trim());
+            //    }
+            //    else
+            //    {
+            //        nodetree.CollapseAll();
+            //        FileTreeView.CollapseAll();
+            //    }
+            //    if (nodetree.Top != nodetreeTopTop)
+            //    {
+            //        nodetree.Top = FileTreeView.Top = nodetreeTopTop;
+            //        nodetree.Height = FileTreeView.Height = nodeTreeHeightMax;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
         }
 
         public void SearchTreeNode(TreeNodeCollection nodes, string searchWorld)
@@ -17710,6 +17714,7 @@ namespace DocearReminder
             }
             else if (e.KeyCode == Keys.Escape)
             {
+                nodetreeSearch.Clear();
                 nodetree.Focus();
             }
         }

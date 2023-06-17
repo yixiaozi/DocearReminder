@@ -426,6 +426,7 @@ namespace DocearReminder
                 RRReminderlist();
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Shift, Keys.Space, CallBack);
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
+                hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Control, Keys.Space, showdrawio);
 
                 foreach (var item in mindmapfiles)
                 {
@@ -916,8 +917,7 @@ namespace DocearReminder
             {
                 if (true || process.Id != currentProcess.Id)
                 {
-                    if (Assembly.GetExecutingAssembly().Location.Replace("/", "\\")
-             == currentProcess.MainModule.FileName)
+                    if (Assembly.GetExecutingAssembly().Location.Replace("/", "\\")== currentProcess.MainModule.FileName)
                     {
                         return process;
                     }
@@ -950,6 +950,18 @@ namespace DocearReminder
             //    thCalendarForm.Start();
             //    MyHide();
             //}
+        }
+        public void showdrawio()
+        {
+            if (mindmaplist.Focused)
+            {
+                IsSelectReminder = false;
+            }
+            Thread thCalendarForm = new Thread(() => Application.Run(new DrawIO()));
+            thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
+            thCalendarForm.Start();
+            SetTitle();
+            MyHide();
         }
 
         public void showlog()

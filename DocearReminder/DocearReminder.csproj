@@ -370,6 +370,12 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="DrawIO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrawIO.Designer.cs">
+      <DependentUpon>DrawIO.cs</DependentUpon>
+    </Compile>
     <Compile Include="SupportClass\Extensions.cs" />
     <Compile Include="Report\KeyHours.cs">
       <SubType>Form</SubType>
@@ -463,6 +469,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Calendar.resx">
       <DependentUpon>Calendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrawIO.resx">
+      <DependentUpon>DrawIO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\KeyHours.resx">
       <DependentUpon>KeyHours.cs</DependentUpon>

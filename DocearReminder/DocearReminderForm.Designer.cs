@@ -155,7 +155,7 @@ namespace DocearReminder
             this.richTextSubNode = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.tagCloudControl = new yixiaozi.WinForm.Control.TagCloud.TagCloudControl();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
-            this.mindmaplist = new yixiaozi.WinForm.Control.CustomCheckedListBox();
+            this.MindmapList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.TimeBlockDate = new System.Windows.Forms.DateTimePicker();
             this.ShowMoney = new System.Windows.Forms.CheckBox();
@@ -169,6 +169,8 @@ namespace DocearReminder
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.note = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -188,7 +190,7 @@ namespace DocearReminder
             this.searchword.ContextMenuStrip = this.searchworkmenu;
             this.searchword.Font = new System.Drawing.Font("宋体", 9F);
             this.searchword.ForeColor = System.Drawing.Color.Gray;
-            this.searchword.Location = new System.Drawing.Point(260, 9);
+            this.searchword.Location = new System.Drawing.Point(420, 9);
             this.searchword.Name = "searchword";
             this.searchword.Size = new System.Drawing.Size(600, 21);
             this.searchword.TabIndex = 2;
@@ -221,7 +223,7 @@ namespace DocearReminder
             // 
             this.reminder_week.AutoSize = true;
             this.reminder_week.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_week.Location = new System.Drawing.Point(1285, 28);
+            this.reminder_week.Location = new System.Drawing.Point(1439, 29);
             this.reminder_week.Name = "reminder_week";
             this.reminder_week.Size = new System.Drawing.Size(46, 16);
             this.reminder_week.TabIndex = 7;
@@ -234,7 +236,7 @@ namespace DocearReminder
             // 
             this.reminder_month.AutoSize = true;
             this.reminder_month.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_month.Location = new System.Drawing.Point(1330, 28);
+            this.reminder_month.Location = new System.Drawing.Point(1484, 29);
             this.reminder_month.Name = "reminder_month";
             this.reminder_month.Size = new System.Drawing.Size(46, 16);
             this.reminder_month.TabIndex = 8;
@@ -247,7 +249,7 @@ namespace DocearReminder
             // 
             this.reminder_year.AutoSize = true;
             this.reminder_year.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_year.Location = new System.Drawing.Point(1375, 28);
+            this.reminder_year.Location = new System.Drawing.Point(1529, 29);
             this.reminder_year.Name = "reminder_year";
             this.reminder_year.Size = new System.Drawing.Size(46, 16);
             this.reminder_year.TabIndex = 9;
@@ -260,7 +262,7 @@ namespace DocearReminder
             // 
             this.reminder_yearafter.AutoSize = true;
             this.reminder_yearafter.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_yearafter.Location = new System.Drawing.Point(1424, 28);
+            this.reminder_yearafter.Location = new System.Drawing.Point(1578, 29);
             this.reminder_yearafter.Name = "reminder_yearafter";
             this.reminder_yearafter.Size = new System.Drawing.Size(46, 16);
             this.reminder_yearafter.TabIndex = 10;
@@ -281,7 +283,7 @@ namespace DocearReminder
             // reminder_count
             // 
             this.reminder_count.AutoSize = true;
-            this.reminder_count.Location = new System.Drawing.Point(310, 483);
+            this.reminder_count.Location = new System.Drawing.Point(470, 483);
             this.reminder_count.Name = "reminder_count";
             this.reminder_count.Size = new System.Drawing.Size(11, 12);
             this.reminder_count.TabIndex = 12;
@@ -300,7 +302,7 @@ namespace DocearReminder
             this.dateTimePicker.CustomFormat = "HH:mm MM月dd yyyy dddd";
             this.dateTimePicker.Font = new System.Drawing.Font("宋体", 8F);
             this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker.Location = new System.Drawing.Point(872, 9);
+            this.dateTimePicker.Location = new System.Drawing.Point(1026, 10);
             this.dateTimePicker.MaxDate = new System.DateTime(2499, 12, 17, 0, 0, 0, 0);
             this.dateTimePicker.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
@@ -315,7 +317,7 @@ namespace DocearReminder
             // n_days
             // 
             this.n_days.ForeColor = System.Drawing.Color.Gray;
-            this.n_days.Location = new System.Drawing.Point(1176, 9);
+            this.n_days.Location = new System.Drawing.Point(1330, 10);
             this.n_days.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -331,7 +333,7 @@ namespace DocearReminder
             // 
             this.button_cycle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_cycle.ForeColor = System.Drawing.Color.Gray;
-            this.button_cycle.Location = new System.Drawing.Point(1095, 34);
+            this.button_cycle.Location = new System.Drawing.Point(1249, 35);
             this.button_cycle.Name = "button_cycle";
             this.button_cycle.Size = new System.Drawing.Size(117, 29);
             this.button_cycle.TabIndex = 18;
@@ -344,7 +346,7 @@ namespace DocearReminder
             // 
             this.c_Monday.AutoSize = true;
             this.c_Monday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Monday.Location = new System.Drawing.Point(872, 51);
+            this.c_Monday.Location = new System.Drawing.Point(1026, 52);
             this.c_Monday.Name = "c_Monday";
             this.c_Monday.Size = new System.Drawing.Size(13, 12);
             this.c_Monday.TabIndex = 27;
@@ -355,7 +357,7 @@ namespace DocearReminder
             // 
             this.c_Tuesday.AutoSize = true;
             this.c_Tuesday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Tuesday.Location = new System.Drawing.Point(891, 51);
+            this.c_Tuesday.Location = new System.Drawing.Point(1045, 52);
             this.c_Tuesday.Name = "c_Tuesday";
             this.c_Tuesday.Size = new System.Drawing.Size(13, 12);
             this.c_Tuesday.TabIndex = 28;
@@ -366,7 +368,7 @@ namespace DocearReminder
             // 
             this.c_Wednesday.AutoSize = true;
             this.c_Wednesday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Wednesday.Location = new System.Drawing.Point(910, 51);
+            this.c_Wednesday.Location = new System.Drawing.Point(1064, 52);
             this.c_Wednesday.Name = "c_Wednesday";
             this.c_Wednesday.Size = new System.Drawing.Size(13, 12);
             this.c_Wednesday.TabIndex = 29;
@@ -377,7 +379,7 @@ namespace DocearReminder
             // 
             this.c_Thursday.AutoSize = true;
             this.c_Thursday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Thursday.Location = new System.Drawing.Point(929, 51);
+            this.c_Thursday.Location = new System.Drawing.Point(1083, 52);
             this.c_Thursday.Name = "c_Thursday";
             this.c_Thursday.Size = new System.Drawing.Size(13, 12);
             this.c_Thursday.TabIndex = 30;
@@ -388,7 +390,7 @@ namespace DocearReminder
             // 
             this.c_Friday.AutoSize = true;
             this.c_Friday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Friday.Location = new System.Drawing.Point(948, 51);
+            this.c_Friday.Location = new System.Drawing.Point(1102, 52);
             this.c_Friday.Name = "c_Friday";
             this.c_Friday.Size = new System.Drawing.Size(13, 12);
             this.c_Friday.TabIndex = 31;
@@ -399,7 +401,7 @@ namespace DocearReminder
             // 
             this.c_Saturday.AutoSize = true;
             this.c_Saturday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Saturday.Location = new System.Drawing.Point(967, 51);
+            this.c_Saturday.Location = new System.Drawing.Point(1121, 52);
             this.c_Saturday.Name = "c_Saturday";
             this.c_Saturday.Size = new System.Drawing.Size(13, 12);
             this.c_Saturday.TabIndex = 32;
@@ -410,7 +412,7 @@ namespace DocearReminder
             // 
             this.c_day.AutoSize = true;
             this.c_day.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_day.Location = new System.Drawing.Point(872, 35);
+            this.c_day.Location = new System.Drawing.Point(1026, 36);
             this.c_day.Name = "c_day";
             this.c_day.Size = new System.Drawing.Size(13, 12);
             this.c_day.TabIndex = 34;
@@ -422,7 +424,7 @@ namespace DocearReminder
             // 
             this.c_week.AutoSize = true;
             this.c_week.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_week.Location = new System.Drawing.Point(892, 35);
+            this.c_week.Location = new System.Drawing.Point(1046, 36);
             this.c_week.Name = "c_week";
             this.c_week.Size = new System.Drawing.Size(13, 12);
             this.c_week.TabIndex = 35;
@@ -434,7 +436,7 @@ namespace DocearReminder
             // 
             this.c_month.AutoSize = true;
             this.c_month.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_month.Location = new System.Drawing.Point(910, 35);
+            this.c_month.Location = new System.Drawing.Point(1064, 36);
             this.c_month.Name = "c_month";
             this.c_month.Size = new System.Drawing.Size(13, 12);
             this.c_month.TabIndex = 36;
@@ -446,7 +448,7 @@ namespace DocearReminder
             // 
             this.c_year.AutoSize = true;
             this.c_year.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_year.Location = new System.Drawing.Point(929, 35);
+            this.c_year.Location = new System.Drawing.Point(1083, 36);
             this.c_year.Name = "c_year";
             this.c_year.Size = new System.Drawing.Size(13, 12);
             this.c_year.TabIndex = 37;
@@ -458,7 +460,7 @@ namespace DocearReminder
             // 
             this.c_Sunday.AutoSize = true;
             this.c_Sunday.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Sunday.Location = new System.Drawing.Point(986, 51);
+            this.c_Sunday.Location = new System.Drawing.Point(1140, 52);
             this.c_Sunday.Name = "c_Sunday";
             this.c_Sunday.Size = new System.Drawing.Size(13, 12);
             this.c_Sunday.TabIndex = 38;
@@ -473,7 +475,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.taskTime.Location = new System.Drawing.Point(1095, 9);
+            this.taskTime.Location = new System.Drawing.Point(1249, 10);
             this.taskTime.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -491,7 +493,7 @@ namespace DocearReminder
             this.fenshu.AutoSize = true;
             this.fenshu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fenshu.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.fenshu.Location = new System.Drawing.Point(258, 483);
+            this.fenshu.Location = new System.Drawing.Point(418, 483);
             this.fenshu.Name = "fenshu";
             this.fenshu.Size = new System.Drawing.Size(11, 12);
             this.fenshu.TabIndex = 76;
@@ -501,7 +503,7 @@ namespace DocearReminder
             // hourLeft
             // 
             this.hourLeft.AutoSize = true;
-            this.hourLeft.Location = new System.Drawing.Point(502, 483);
+            this.hourLeft.Location = new System.Drawing.Point(662, 483);
             this.hourLeft.Name = "hourLeft";
             this.hourLeft.Size = new System.Drawing.Size(11, 12);
             this.hourLeft.TabIndex = 14;
@@ -510,7 +512,7 @@ namespace DocearReminder
             // Hours
             // 
             this.Hours.AutoSize = true;
-            this.Hours.Location = new System.Drawing.Point(459, 483);
+            this.Hours.Location = new System.Drawing.Point(619, 483);
             this.Hours.Name = "Hours";
             this.Hours.Size = new System.Drawing.Size(11, 12);
             this.Hours.TabIndex = 13;
@@ -520,7 +522,7 @@ namespace DocearReminder
             // 
             this.showcyclereminder.AutoSize = true;
             this.showcyclereminder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showcyclereminder.Location = new System.Drawing.Point(1239, 9);
+            this.showcyclereminder.Location = new System.Drawing.Point(1393, 10);
             this.showcyclereminder.Name = "showcyclereminder";
             this.showcyclereminder.Size = new System.Drawing.Size(70, 16);
             this.showcyclereminder.TabIndex = 43;
@@ -533,7 +535,7 @@ namespace DocearReminder
             // 
             this.showtomorrow.AutoSize = true;
             this.showtomorrow.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showtomorrow.Location = new System.Drawing.Point(1239, 28);
+            this.showtomorrow.Location = new System.Drawing.Point(1393, 29);
             this.showtomorrow.Name = "showtomorrow";
             this.showtomorrow.Size = new System.Drawing.Size(46, 16);
             this.showtomorrow.TabIndex = 44;
@@ -548,7 +550,7 @@ namespace DocearReminder
             this.SearchText_suggest.Font = new System.Drawing.Font("宋体", 9.75F);
             this.SearchText_suggest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.SearchText_suggest.FormattingEnabled = true;
-            this.SearchText_suggest.Location = new System.Drawing.Point(260, 50);
+            this.SearchText_suggest.Location = new System.Drawing.Point(420, 50);
             this.SearchText_suggest.Name = "SearchText_suggest";
             this.SearchText_suggest.Size = new System.Drawing.Size(600, 95);
             this.SearchText_suggest.TabIndex = 83;
@@ -558,7 +560,7 @@ namespace DocearReminder
             // tasklevel
             // 
             this.tasklevel.ForeColor = System.Drawing.Color.Gray;
-            this.tasklevel.Location = new System.Drawing.Point(1137, 9);
+            this.tasklevel.Location = new System.Drawing.Point(1291, 10);
             this.tasklevel.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -580,7 +582,7 @@ namespace DocearReminder
             // 
             this.c_hour.AutoSize = true;
             this.c_hour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_hour.Location = new System.Drawing.Point(948, 35);
+            this.c_hour.Location = new System.Drawing.Point(1102, 36);
             this.c_hour.Name = "c_hour";
             this.c_hour.Size = new System.Drawing.Size(13, 12);
             this.c_hour.TabIndex = 57;
@@ -592,7 +594,7 @@ namespace DocearReminder
             // 
             this.c_ViewModel.AutoSize = true;
             this.c_ViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_ViewModel.Location = new System.Drawing.Point(1005, 51);
+            this.c_ViewModel.Location = new System.Drawing.Point(1159, 52);
             this.c_ViewModel.Name = "c_ViewModel";
             this.c_ViewModel.Size = new System.Drawing.Size(13, 12);
             this.c_ViewModel.TabIndex = 59;
@@ -606,7 +608,7 @@ namespace DocearReminder
             this.afternoon.Checked = true;
             this.afternoon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.afternoon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.afternoon.Location = new System.Drawing.Point(1059, 51);
+            this.afternoon.Location = new System.Drawing.Point(1213, 52);
             this.afternoon.Name = "afternoon";
             this.afternoon.Size = new System.Drawing.Size(13, 12);
             this.afternoon.TabIndex = 72;
@@ -619,7 +621,7 @@ namespace DocearReminder
             this.day.Checked = true;
             this.day.CheckState = System.Windows.Forms.CheckState.Checked;
             this.day.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.day.Location = new System.Drawing.Point(1040, 51);
+            this.day.Location = new System.Drawing.Point(1194, 52);
             this.day.Name = "day";
             this.day.Size = new System.Drawing.Size(13, 12);
             this.day.TabIndex = 73;
@@ -632,7 +634,7 @@ namespace DocearReminder
             this.morning.Checked = true;
             this.morning.CheckState = System.Windows.Forms.CheckState.Checked;
             this.morning.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.morning.Location = new System.Drawing.Point(1022, 51);
+            this.morning.Location = new System.Drawing.Point(1176, 52);
             this.morning.Name = "morning";
             this.morning.Size = new System.Drawing.Size(13, 12);
             this.morning.TabIndex = 74;
@@ -645,7 +647,7 @@ namespace DocearReminder
             this.night.Checked = true;
             this.night.CheckState = System.Windows.Forms.CheckState.Checked;
             this.night.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.night.Location = new System.Drawing.Point(1076, 51);
+            this.night.Location = new System.Drawing.Point(1230, 52);
             this.night.Name = "night";
             this.night.Size = new System.Drawing.Size(13, 12);
             this.night.TabIndex = 75;
@@ -669,7 +671,7 @@ namespace DocearReminder
             // 
             this.c_Jinian.AutoSize = true;
             this.c_Jinian.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_Jinian.Location = new System.Drawing.Point(985, 35);
+            this.c_Jinian.Location = new System.Drawing.Point(1139, 36);
             this.c_Jinian.Name = "c_Jinian";
             this.c_Jinian.Size = new System.Drawing.Size(13, 12);
             this.c_Jinian.TabIndex = 86;
@@ -683,7 +685,7 @@ namespace DocearReminder
             this.onlyZhouqi.Checked = true;
             this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.onlyZhouqi.Location = new System.Drawing.Point(1315, 9);
+            this.onlyZhouqi.Location = new System.Drawing.Point(1469, 10);
             this.onlyZhouqi.Name = "onlyZhouqi";
             this.onlyZhouqi.Size = new System.Drawing.Size(58, 16);
             this.onlyZhouqi.TabIndex = 89;
@@ -701,7 +703,7 @@ namespace DocearReminder
             this.nodetree.ItemHeight = 14;
             this.nodetree.LabelEdit = true;
             this.nodetree.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.nodetree.Location = new System.Drawing.Point(260, 506);
+            this.nodetree.Location = new System.Drawing.Point(420, 506);
             this.nodetree.Name = "nodetree";
             this.nodetree.ShowNodeToolTips = true;
             this.nodetree.Size = new System.Drawing.Size(600, 322);
@@ -819,7 +821,7 @@ namespace DocearReminder
             // 
             this.c_remember.AutoSize = true;
             this.c_remember.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_remember.Location = new System.Drawing.Point(967, 35);
+            this.c_remember.Location = new System.Drawing.Point(1121, 36);
             this.c_remember.Name = "c_remember";
             this.c_remember.Size = new System.Drawing.Size(13, 12);
             this.c_remember.TabIndex = 110;
@@ -830,7 +832,7 @@ namespace DocearReminder
             // 
             this.ebcheckBox.AutoSize = true;
             this.ebcheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ebcheckBox.Location = new System.Drawing.Point(1424, 9);
+            this.ebcheckBox.Location = new System.Drawing.Point(1578, 10);
             this.ebcheckBox.Name = "ebcheckBox";
             this.ebcheckBox.Size = new System.Drawing.Size(46, 16);
             this.ebcheckBox.TabIndex = 111;
@@ -848,7 +850,7 @@ namespace DocearReminder
             this.FileTreeView.Location = new System.Drawing.Point(10, 506);
             this.FileTreeView.Name = "FileTreeView";
             this.FileTreeView.ShowNodeToolTips = true;
-            this.FileTreeView.Size = new System.Drawing.Size(233, 322);
+            this.FileTreeView.Size = new System.Drawing.Size(399, 322);
             this.FileTreeView.TabIndex = 112;
             this.FileTreeView.Visible = false;
             this.FileTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.FileTreeView_AfterLabelEdit);
@@ -868,7 +870,7 @@ namespace DocearReminder
             "rootPath"});
             this.PathcomboBox.Location = new System.Drawing.Point(12, 9);
             this.PathcomboBox.Name = "PathcomboBox";
-            this.PathcomboBox.Size = new System.Drawing.Size(231, 20);
+            this.PathcomboBox.Size = new System.Drawing.Size(206, 20);
             this.PathcomboBox.TabIndex = 114;
             this.PathcomboBox.Text = "rootPath";
             this.PathcomboBox.SelectionChangeCommitted += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
@@ -877,7 +879,7 @@ namespace DocearReminder
             // 
             this.IsReminderOnlyCheckBox.AutoSize = true;
             this.IsReminderOnlyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(1379, 9);
+            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(1533, 10);
             this.IsReminderOnlyCheckBox.Name = "IsReminderOnlyCheckBox";
             this.IsReminderOnlyCheckBox.Size = new System.Drawing.Size(46, 16);
             this.IsReminderOnlyCheckBox.TabIndex = 115;
@@ -1261,7 +1263,7 @@ namespace DocearReminder
             // fathernode
             // 
             this.fathernode.AutoSize = true;
-            this.fathernode.Location = new System.Drawing.Point(556, 483);
+            this.fathernode.Location = new System.Drawing.Point(716, 483);
             this.fathernode.Name = "fathernode";
             this.fathernode.Size = new System.Drawing.Size(41, 12);
             this.fathernode.TabIndex = 120;
@@ -1271,7 +1273,7 @@ namespace DocearReminder
             // 
             this.labeltaskinfo.AutoSize = true;
             this.labeltaskinfo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labeltaskinfo.Location = new System.Drawing.Point(346, 483);
+            this.labeltaskinfo.Location = new System.Drawing.Point(506, 483);
             this.labeltaskinfo.Name = "labeltaskinfo";
             this.labeltaskinfo.Size = new System.Drawing.Size(11, 12);
             this.labeltaskinfo.TabIndex = 121;
@@ -1293,7 +1295,7 @@ namespace DocearReminder
             // 
             this.usedtimelabel.AutoSize = true;
             this.usedtimelabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.usedtimelabel.Location = new System.Drawing.Point(175, 483);
+            this.usedtimelabel.Location = new System.Drawing.Point(316, 483);
             this.usedtimelabel.Name = "usedtimelabel";
             this.usedtimelabel.Size = new System.Drawing.Size(29, 12);
             this.usedtimelabel.TabIndex = 123;
@@ -1303,7 +1305,7 @@ namespace DocearReminder
             // todayusedtime
             // 
             this.todayusedtime.AutoSize = true;
-            this.todayusedtime.Location = new System.Drawing.Point(147, 483);
+            this.todayusedtime.Location = new System.Drawing.Point(226, 484);
             this.todayusedtime.Name = "todayusedtime";
             this.todayusedtime.Size = new System.Drawing.Size(23, 12);
             this.todayusedtime.TabIndex = 124;
@@ -1335,7 +1337,7 @@ namespace DocearReminder
             // 
             this.c_speechcontrol.AutoSize = true;
             this.c_speechcontrol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_speechcontrol.Location = new System.Drawing.Point(1241, 73);
+            this.c_speechcontrol.Location = new System.Drawing.Point(1395, 74);
             this.c_speechcontrol.Name = "c_speechcontrol";
             this.c_speechcontrol.Size = new System.Drawing.Size(70, 16);
             this.c_speechcontrol.TabIndex = 125;
@@ -1347,7 +1349,7 @@ namespace DocearReminder
             // 
             this.c_endtime.AutoSize = true;
             this.c_endtime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_endtime.Location = new System.Drawing.Point(1005, 35);
+            this.c_endtime.Location = new System.Drawing.Point(1159, 36);
             this.c_endtime.Name = "c_endtime";
             this.c_endtime.Size = new System.Drawing.Size(13, 12);
             this.c_endtime.TabIndex = 126;
@@ -1358,7 +1360,7 @@ namespace DocearReminder
             // pictureBox1
             // 
             this.pictureBox1.ContextMenuStrip = this.Menu_picture;
-            this.pictureBox1.Location = new System.Drawing.Point(872, 152);
+            this.pictureBox1.Location = new System.Drawing.Point(1026, 153);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.MaximumSize = new System.Drawing.Size(285, 285);
             this.pictureBox1.MinimumSize = new System.Drawing.Size(340, 0);
@@ -1408,7 +1410,7 @@ namespace DocearReminder
             // nodetreeSearch
             // 
             this.nodetreeSearch.ForeColor = System.Drawing.Color.Gray;
-            this.nodetreeSearch.Location = new System.Drawing.Point(872, 478);
+            this.nodetreeSearch.Location = new System.Drawing.Point(1026, 479);
             this.nodetreeSearch.Name = "nodetreeSearch";
             this.nodetreeSearch.Size = new System.Drawing.Size(340, 21);
             this.nodetreeSearch.TabIndex = 127;
@@ -1425,7 +1427,7 @@ namespace DocearReminder
             // 
             this.StartRecordCheckBox.AutoSize = true;
             this.StartRecordCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.StartRecordCheckBox.Location = new System.Drawing.Point(1317, 73);
+            this.StartRecordCheckBox.Location = new System.Drawing.Point(1471, 74);
             this.StartRecordCheckBox.Name = "StartRecordCheckBox";
             this.StartRecordCheckBox.Size = new System.Drawing.Size(46, 16);
             this.StartRecordCheckBox.TabIndex = 129;
@@ -1443,7 +1445,7 @@ namespace DocearReminder
             // quietmode
             // 
             this.quietmode.AutoSize = true;
-            this.quietmode.Location = new System.Drawing.Point(1239, 51);
+            this.quietmode.Location = new System.Drawing.Point(1393, 52);
             this.quietmode.Name = "quietmode";
             this.quietmode.Size = new System.Drawing.Size(72, 16);
             this.quietmode.TabIndex = 132;
@@ -1455,7 +1457,7 @@ namespace DocearReminder
             // 
             this.showTimeBlock.AutoSize = true;
             this.showTimeBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showTimeBlock.Location = new System.Drawing.Point(1022, 35);
+            this.showTimeBlock.Location = new System.Drawing.Point(1176, 36);
             this.showTimeBlock.Name = "showTimeBlock";
             this.showTimeBlock.Size = new System.Drawing.Size(13, 12);
             this.showTimeBlock.TabIndex = 133;
@@ -1468,7 +1470,7 @@ namespace DocearReminder
             this.noterichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.noterichTextBox.Font = new System.Drawing.Font("宋体", 9.75F);
             this.noterichTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.noterichTextBox.Location = new System.Drawing.Point(872, 506);
+            this.noterichTextBox.Location = new System.Drawing.Point(1026, 507);
             this.noterichTextBox.Name = "noterichTextBox";
             this.noterichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.noterichTextBox.Size = new System.Drawing.Size(339, 322);
@@ -1484,7 +1486,7 @@ namespace DocearReminder
             this.hopeNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
             this.hopeNote.ForeColor = System.Drawing.Color.Gray;
-            this.hopeNote.Location = new System.Drawing.Point(872, 291);
+            this.hopeNote.Location = new System.Drawing.Point(1026, 292);
             this.hopeNote.MaximumSize = new System.Drawing.Size(340, 250);
             this.hopeNote.Name = "hopeNote";
             this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -1501,7 +1503,7 @@ namespace DocearReminder
             this.richTextSubNode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextSubNode.Font = new System.Drawing.Font("宋体", 9.75F);
             this.richTextSubNode.ForeColor = System.Drawing.Color.Gray;
-            this.richTextSubNode.Location = new System.Drawing.Point(872, 68);
+            this.richTextSubNode.Location = new System.Drawing.Point(1026, 69);
             this.richTextSubNode.MaximumSize = new System.Drawing.Size(340, 250);
             this.richTextSubNode.Name = "richTextSubNode";
             this.richTextSubNode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -1525,7 +1527,7 @@ namespace DocearReminder
             this.tagCloudControl.ControlTextFrame = false;
             this.tagCloudControl.ControlTextUnderline = false;
             this.tagCloudControl.ControlWidth = 298;
-            this.tagCloudControl.Location = new System.Drawing.Point(872, 400);
+            this.tagCloudControl.Location = new System.Drawing.Point(1026, 401);
             this.tagCloudControl.Name = "tagCloudControl";
             this.tagCloudControl.Size = new System.Drawing.Size(340, 68);
             this.tagCloudControl.TabIndex = 118;
@@ -1542,7 +1544,7 @@ namespace DocearReminder
             this.reminderList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.reminderList.FormattingEnabled = true;
             this.reminderList.ItemHeight = 14;
-            this.reminderList.Location = new System.Drawing.Point(260, 240);
+            this.reminderList.Location = new System.Drawing.Point(420, 240);
             this.reminderList.Name = "reminderList";
             this.reminderList.Size = new System.Drawing.Size(600, 130);
             this.reminderList.Sorted = true;
@@ -1557,26 +1559,26 @@ namespace DocearReminder
             this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseDown);
             this.reminderList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
-            // mindmaplist
+            // MindmapList
             // 
-            this.mindmaplist.BackColor = System.Drawing.Color.White;
-            this.mindmaplist.CausesValidation = false;
-            this.mindmaplist.DrawFocusedIndicator = false;
-            this.mindmaplist.Font = new System.Drawing.Font("宋体", 9.5F);
-            this.mindmaplist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.mindmaplist.FormattingEnabled = true;
-            this.mindmaplist.Location = new System.Drawing.Point(10, 51);
-            this.mindmaplist.Margin = new System.Windows.Forms.Padding(0);
-            this.mindmaplist.Name = "mindmaplist";
-            this.mindmaplist.Size = new System.Drawing.Size(233, 424);
-            this.mindmaplist.Sorted = true;
-            this.mindmaplist.TabIndex = 1;
-            this.mindmaplist.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.mindmaplist_ItemCheck);
-            this.mindmaplist.SelectedIndexChanged += new System.EventHandler(this.mindmaplist_SelectedIndexChanged);
-            this.mindmaplist.DoubleClick += new System.EventHandler(this.mindmaplist_DoubleClick);
-            this.mindmaplist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mindmaplist_MouseDown);
-            this.mindmaplist.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
-            this.mindmaplist.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
+            this.MindmapList.BackColor = System.Drawing.Color.White;
+            this.MindmapList.CausesValidation = false;
+            this.MindmapList.DrawFocusedIndicator = false;
+            this.MindmapList.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.MindmapList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.MindmapList.FormattingEnabled = true;
+            this.MindmapList.Location = new System.Drawing.Point(10, 51);
+            this.MindmapList.Margin = new System.Windows.Forms.Padding(0);
+            this.MindmapList.Name = "MindmapList";
+            this.MindmapList.Size = new System.Drawing.Size(208, 424);
+            this.MindmapList.Sorted = true;
+            this.MindmapList.TabIndex = 1;
+            this.MindmapList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.mindmaplist_ItemCheck);
+            this.MindmapList.SelectedIndexChanged += new System.EventHandler(this.mindmaplist_SelectedIndexChanged);
+            this.MindmapList.DoubleClick += new System.EventHandler(this.mindmaplist_DoubleClick);
+            this.MindmapList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mindmaplist_MouseDown);
+            this.MindmapList.MouseLeave += new System.EventHandler(this.mindmaplist_MouseLeave);
+            this.MindmapList.MouseHover += new System.EventHandler(this.mindmaplist_MouseHover);
             // 
             // reminderListBox
             // 
@@ -1586,7 +1588,7 @@ namespace DocearReminder
             this.reminderListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.reminderListBox.FormattingEnabled = true;
             this.reminderListBox.ItemHeight = 14;
-            this.reminderListBox.Location = new System.Drawing.Point(260, 153);
+            this.reminderListBox.Location = new System.Drawing.Point(420, 153);
             this.reminderListBox.Name = "reminderListBox";
             this.reminderListBox.Size = new System.Drawing.Size(600, 74);
             this.reminderListBox.TabIndex = 117;
@@ -1599,7 +1601,7 @@ namespace DocearReminder
             // 
             // TimeBlockDate
             // 
-            this.TimeBlockDate.Location = new System.Drawing.Point(1241, 95);
+            this.TimeBlockDate.Location = new System.Drawing.Point(1395, 96);
             this.TimeBlockDate.Name = "TimeBlockDate";
             this.TimeBlockDate.ShowUpDown = true;
             this.TimeBlockDate.Size = new System.Drawing.Size(229, 21);
@@ -1611,7 +1613,7 @@ namespace DocearReminder
             // 
             this.ShowMoney.AutoSize = true;
             this.ShowMoney.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ShowMoney.Location = new System.Drawing.Point(1059, 35);
+            this.ShowMoney.Location = new System.Drawing.Point(1213, 36);
             this.ShowMoney.Name = "ShowMoney";
             this.ShowMoney.Size = new System.Drawing.Size(13, 12);
             this.ShowMoney.TabIndex = 135;
@@ -1620,7 +1622,7 @@ namespace DocearReminder
             // 
             // MoneyDateTimePicker
             // 
-            this.MoneyDateTimePicker.Location = new System.Drawing.Point(1241, 125);
+            this.MoneyDateTimePicker.Location = new System.Drawing.Point(1395, 126);
             this.MoneyDateTimePicker.Name = "MoneyDateTimePicker";
             this.MoneyDateTimePicker.ShowUpDown = true;
             this.MoneyDateTimePicker.Size = new System.Drawing.Size(229, 21);
@@ -1630,7 +1632,7 @@ namespace DocearReminder
             // 
             // KADateTimePicker
             // 
-            this.KADateTimePicker.Location = new System.Drawing.Point(1241, 153);
+            this.KADateTimePicker.Location = new System.Drawing.Point(1395, 154);
             this.KADateTimePicker.Name = "KADateTimePicker";
             this.KADateTimePicker.ShowUpDown = true;
             this.KADateTimePicker.Size = new System.Drawing.Size(229, 21);
@@ -1642,7 +1644,7 @@ namespace DocearReminder
             // 
             this.ShowKA.AutoSize = true;
             this.ShowKA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ShowKA.Location = new System.Drawing.Point(1040, 35);
+            this.ShowKA.Location = new System.Drawing.Point(1194, 36);
             this.ShowKA.Name = "ShowKA";
             this.ShowKA.Size = new System.Drawing.Size(13, 12);
             this.ShowKA.TabIndex = 138;
@@ -1652,7 +1654,7 @@ namespace DocearReminder
             // timeblockcheck
             // 
             this.timeblockcheck.AutoSize = true;
-            this.timeblockcheck.Location = new System.Drawing.Point(625, 484);
+            this.timeblockcheck.Location = new System.Drawing.Point(785, 484);
             this.timeblockcheck.Name = "timeblockcheck";
             this.timeblockcheck.Size = new System.Drawing.Size(65, 12);
             this.timeblockcheck.TabIndex = 139;
@@ -1663,7 +1665,7 @@ namespace DocearReminder
             // 
             this.OnlyLevel.AutoSize = true;
             this.OnlyLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OnlyLevel.Location = new System.Drawing.Point(1077, 35);
+            this.OnlyLevel.Location = new System.Drawing.Point(1231, 36);
             this.OnlyLevel.Name = "OnlyLevel";
             this.OnlyLevel.Size = new System.Drawing.Size(13, 12);
             this.OnlyLevel.TabIndex = 141;
@@ -1673,7 +1675,7 @@ namespace DocearReminder
             // checkBox_截图
             // 
             this.checkBox_截图.AutoSize = true;
-            this.checkBox_截图.Location = new System.Drawing.Point(1315, 51);
+            this.checkBox_截图.Location = new System.Drawing.Point(1469, 52);
             this.checkBox_截图.Name = "checkBox_截图";
             this.checkBox_截图.Size = new System.Drawing.Size(72, 16);
             this.checkBox_截图.TabIndex = 142;
@@ -1685,7 +1687,7 @@ namespace DocearReminder
             this.IsClip.AutoSize = true;
             this.IsClip.Checked = true;
             this.IsClip.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsClip.Location = new System.Drawing.Point(1394, 51);
+            this.IsClip.Location = new System.Drawing.Point(1548, 52);
             this.IsClip.Name = "IsClip";
             this.IsClip.Size = new System.Drawing.Size(60, 16);
             this.IsClip.TabIndex = 143;
@@ -1701,7 +1703,7 @@ namespace DocearReminder
             // 
             // tagList
             // 
-            this.tagList.Location = new System.Drawing.Point(872, 197);
+            this.tagList.Location = new System.Drawing.Point(1026, 198);
             this.tagList.Name = "tagList";
             this.tagList.Size = new System.Drawing.Size(340, 90);
             this.tagList.TabIndex = 144;
@@ -1714,7 +1716,7 @@ namespace DocearReminder
             this.note.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.note.Font = new System.Drawing.Font("宋体", 9.75F);
             this.note.ForeColor = System.Drawing.Color.Gray;
-            this.note.Location = new System.Drawing.Point(260, 377);
+            this.note.Location = new System.Drawing.Point(420, 377);
             this.note.MaximumSize = new System.Drawing.Size(600, 250);
             this.note.Name = "note";
             this.note.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -1724,6 +1726,30 @@ namespace DocearReminder
             this.note.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
             this.note.TextChanged += new System.EventHandler(this.note_TextChanged);
             // 
+            // DrawList
+            // 
+            this.DrawList.BackColor = System.Drawing.Color.White;
+            this.DrawList.CausesValidation = false;
+            this.DrawList.DrawFocusedIndicator = false;
+            this.DrawList.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.DrawList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.DrawList.FormattingEnabled = true;
+            this.DrawList.Location = new System.Drawing.Point(228, 50);
+            this.DrawList.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawList.Name = "DrawList";
+            this.DrawList.Size = new System.Drawing.Size(181, 424);
+            this.DrawList.Sorted = true;
+            this.DrawList.TabIndex = 146;
+            this.DrawList.DoubleClick += new System.EventHandler(this.DrawList_DoubleClick);
+            // 
+            // textBox1
+            // 
+            this.textBox1.ForeColor = System.Drawing.Color.Gray;
+            this.textBox1.Location = new System.Drawing.Point(228, 9);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(181, 21);
+            this.textBox1.TabIndex = 147;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1731,7 +1757,9 @@ namespace DocearReminder
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1481, 837);
+            this.ClientSize = new System.Drawing.Size(1634, 837);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.DrawList);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.IsClip);
@@ -1797,7 +1825,7 @@ namespace DocearReminder
             this.Controls.Add(this.Hours);
             this.Controls.Add(this.reminder_count);
             this.Controls.Add(this.taskcount);
-            this.Controls.Add(this.mindmaplist);
+            this.Controls.Add(this.MindmapList);
             this.Controls.Add(this.PathcomboBox);
             this.Controls.Add(this.mindmapSearch);
             this.Controls.Add(this.fathernode);
@@ -1894,7 +1922,7 @@ namespace DocearReminder
         private System.Windows.Forms.Timer Rsstimer;
         private System.Windows.Forms.CheckBox c_remember;
         private System.Windows.Forms.CheckBox ebcheckBox;
-        private CustomCheckedListBox mindmaplist;
+        private CustomCheckedListBox MindmapList;
         private System.Windows.Forms.TreeView FileTreeView;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox PathcomboBox;
@@ -1998,6 +2026,8 @@ namespace DocearReminder
         private CheckBox IsClip;
         private Timer AllnodeFreshTimer;
         private MyRichTextBox note;
+        private CustomCheckedListBox DrawList;
+        private TextBox textBox1;
     }
 }
 

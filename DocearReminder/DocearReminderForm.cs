@@ -112,6 +112,7 @@ namespace DocearReminder
         public static List<string> OpenedInRootSearch = new List<string>();
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
+        public static List<string> unchkeckdrawio = new List<string>();
         public static List<string> AddTaskWithDate = new List<string>();
         public static DateTime TimeBlocklastTime = DateTime.Today;
         private RecordController record = new RecordController();
@@ -152,9 +153,9 @@ namespace DocearReminder
         public string usedTimeLog = "";
         public string todoistKey = "";
         public bool Camera = false;
-        public int maxwidth = 1500;//340-285
-        public int middlewidth = 1240;
-        public int normalwidth = 888;
+        public int maxwidth = 1653;//340-285
+        public int middlewidth = 1390;
+        public int normalwidth = 1040;
 
         public int maxheight = 888;
         public int normalheight = 555;
@@ -232,7 +233,7 @@ namespace DocearReminder
                 }
                 addirisSkinToolStripMenuItem(new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\Skins"), null);
 
-                mindmaplist.Height = 424;
+                MindmapList.Height = 424;
                 ReminderlistBoxChange();
 
                 //设置透明度
@@ -258,20 +259,20 @@ namespace DocearReminder
                 SearchText_suggest.Top = 31;
                 SearchText_suggest.DrawItem += SuggestText_DrawItem;
                 SearchText_suggest.DrawMode = DrawMode.OwnerDrawVariable;
-                mindmaplist.DrawItem += Mindmaplist_DrawItem;
+                MindmapList.DrawItem += Mindmaplist_DrawItem;
                 nodetree.DrawMode = TreeViewDrawMode.OwnerDrawText;
                 FileTreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
-                mindmaplist.DrawMode = DrawMode.OwnerDrawVariable;
+                MindmapList.DrawMode = DrawMode.OwnerDrawVariable;
                 TimeBlockDate.Value = DateTime.Today;
                 MoneyDateTimePicker.Value = DateTime.Today;
                 KADateTimePicker.Value = DateTime.Today;
                 reminderList.Top = 51;
                 reminderListBox.Top = 51;
-                mindmaplist.DisplayMember = "Text";
-                mindmaplist.ValueMember = "Value";
+                MindmapList.DisplayMember = "Text";
+                MindmapList.ValueMember = "Value";
                 reminderList.DisplayMember = "Text";
                 reminderList.ValueMember = "Value";
-                mindmaplist.Items.Clear();
+                MindmapList.Items.Clear();
                 reminderList.Items.Clear();
                 string no = ini.ReadString("path", "no", "");
                 string noFilesString = ini.ReadString("path", "nofiles", "");
@@ -326,6 +327,7 @@ namespace DocearReminder
                 OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
+                unchkeckdrawio = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckdrawio.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
                 AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
                 #endregion 加载一些配置文件
@@ -399,30 +401,39 @@ namespace DocearReminder
                 taskcount.Text = "0";
                 isRefreshMindmap = true;
                 LoadFile(rootpath);
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
                     setmindmapcheck = true;
-                    mindmaplist.SetItemChecked(i, true);
-                    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
+                    MindmapList.SetItemChecked(i, true);
+                    string file = ((MyListBoxItem)MindmapList.Items[i]).Value;
                     if (unchkeckmindmap.Contains(file))
                     {
-                        mindmaplist.SetItemChecked(i, false);
-                        mindmaplist.Refresh();
+                        MindmapList.SetItemChecked(i, false);
+                        MindmapList.Refresh();
                     }
                     setmindmapcheck = false;
+                }
+                for (int i = 0; i < DrawList.Items.Count; i++)
+                {
+                    DrawList.SetItemChecked(i, true);
+                    string file = ((MyListBoxItem)DrawList.Items[i]).Value;
+                    if (unchkeckmindmap.Contains(file))
+                    {
+                        DrawList.SetItemChecked(i, false);
+                    }
                 }
                 isRefreshMindmap = false;
                 mindmaplist_backup = mindmaplis1.Items;
                 mindmaplist_backup.Clear();
-                mindmaplist_backup.AddRange(mindmaplist.Items);
-                foreach (var item in mindmaplist.Items)
+                mindmaplist_backup.AddRange(MindmapList.Items);
+                foreach (var item in MindmapList.Items)
                 {
                     if (!mindmaplist_all.Any(m => m.Value == ((MyListBoxItem)item).Value))
                     {
                         mindmaplist_all.Add(((MyListBoxItem)item));
                     }
                 }
-                mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
+                mindmaplist_count.Text = MindmapList.Items.Count.ToString();
                 RRReminderlist();
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Shift, Keys.Space, CallBack);
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
@@ -767,7 +778,7 @@ namespace DocearReminder
         {
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
-            mindmaplist.Items.Clear();
+            MindmapList.Items.Clear();
             reminderList.Items.Clear();
             //nodes.Clear();
             //if (!pathArr.Contains(rootpath.FullName))
@@ -788,22 +799,22 @@ namespace DocearReminder
             //    }
             //}
             mindmaplist_backup.Clear();
-            mindmaplist_backup.AddRange(mindmaplist.Items);
-            foreach (var item in mindmaplist.Items)
+            mindmaplist_backup.AddRange(MindmapList.Items);
+            foreach (var item in MindmapList.Items)
             {
                 if (!mindmaplist_all.Any(m => m.Value == ((MyListBoxItem)item).Value))
                 {
                     mindmaplist_all.Add(((MyListBoxItem)item));
                 }
             }
-            mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
-            for (int i = 0; i < mindmaplist.Items.Count; i++)
+            mindmaplist_count.Text = MindmapList.Items.Count.ToString();
+            for (int i = 0; i < MindmapList.Items.Count; i++)
             {
-                mindmaplist.SetItemChecked(i, true);
-                string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
+                MindmapList.SetItemChecked(i, true);
+                string file = ((MyListBoxItem)MindmapList.Items[i]).Value;
                 if (unchkeckmindmap.Contains(file))
                 {
-                    mindmaplist.SetItemChecked(i, false);
+                    MindmapList.SetItemChecked(i, false);
                 }
             }
             isRefreshMindmap = false;
@@ -928,7 +939,7 @@ namespace DocearReminder
 
         public void showcalander()
         {
-            if (mindmaplist.Focused)
+            if (MindmapList.Focused)
             {
                 IsSelectReminder = false;
             }
@@ -953,7 +964,7 @@ namespace DocearReminder
         }
         public void showdrawio()
         {
-            if (mindmaplist.Focused)
+            if (MindmapList.Focused)
             {
                 IsSelectReminder = false;
             }
@@ -2200,9 +2211,9 @@ namespace DocearReminder
         //获取包含任务的导图
         public void LoadFile(DirectoryInfo path)
         {
-            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
             {
-                if (mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
+                if (file.Extension==".mm"&& mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
                 {
                     mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
                 }
@@ -2211,51 +2222,70 @@ namespace DocearReminder
                 {
                     try
                     {
-                        if (!remindmapsList.Contains(file.FullName))
+                        if (file.Extension == ".mm")
                         {
-                            //暂时取消remindmapsList的作用，因为避免总是需要考虑这个问题。
-                            //continue;
-                        }
-                        string str1 = "hook";
-                        string str2 = "NAME";
-                        string str3 = "plugins/TimeManagementReminder.xml";
-                        System.Xml.XmlDocument x = new XmlDocument();
-                        x.Load(file.FullName);
-                        int number = 0;
-                        foreach (XmlNode node in x.GetElementsByTagName(str1))
-                        {
-                            try
+                            System.Xml.XmlDocument x = new XmlDocument();
+                            x.Load(file.FullName);
+                            int number = 0;
+                            foreach (XmlNode node in x.GetElementsByTagName("hook"))
                             {
-                                if (node.Attributes != null && node.Attributes[str2] != null && node.Attributes[str2].Value == str3)
+                                try
                                 {
-                                    if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
+                                    if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
                                     {
+                                        if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
+                                        {
+                                            number++;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            }
+                            if (number > 0)
+                            {
+                                string todayaddnodecount = "";
+                                if (nodes != null)
+                                {
+                                    todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
+                                    if (todayaddnodecount == "0")
+                                    {
+                                        todayaddnodecount = "";
+                                    }
+                                    else
+                                    {
+                                        todayaddnodecount = "|" + todayaddnodecount;
+                                    }
+                                }
+                                MindmapList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
+
+                                taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
+                            }
+                        }
+                        if (file.Extension == ".drawio")
+                        {
+                            System.Xml.XmlDocument x = new XmlDocument();
+                            x.Load(file.FullName);
+                            int number = 0;
+                            foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
+                            {
+                                try
+                                {
+                                    if (node.Attributes != null && node.Attributes["value"] != null)
+                                    {
+                                        
                                         number++;
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-                        }
-                        if (number > 0)
-                        {
-                            string todayaddnodecount = "";
-                            if (nodes != null)
-                            {
-                                todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
-                                if (todayaddnodecount == "0")
+                                catch (Exception ex)
                                 {
-                                    todayaddnodecount = "";
-                                }
-                                else
-                                {
-                                    todayaddnodecount = "|" + todayaddnodecount;
                                 }
                             }
-                            mindmaplist.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
-
-                            taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
+                            if (number > 0)
+                            {
+                                DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -2264,8 +2294,10 @@ namespace DocearReminder
                     }
                 }
             }
-            mindmaplist.Sorted = false;
-            mindmaplist.Sorted = true;
+            MindmapList.Sorted = false;
+            MindmapList.Sorted = true;
+            DrawList.Sorted = false;
+            DrawList.Sorted = true;
         }
 
         //public void AddmindmapfilesOnly(DirectoryInfo path)
@@ -2310,6 +2342,7 @@ namespace DocearReminder
         //    {
         //    }
         //}
+
         public static Reminder reminderObject = new Reminder();
 
         public void SetTimeBlockLasTime()
@@ -2524,7 +2557,7 @@ namespace DocearReminder
             IsEncryptBool = false;
             foreach (ReminderItem item in reminderObject.reminders.Where(m => !m.isCompleted))
             {
-                if (mindmaplist.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
+                if (MindmapList.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
                 {
                     item.isCurrect = false;
                     item.isNew = false;
@@ -2546,7 +2579,7 @@ namespace DocearReminder
                 }
                 else
                 {
-                    CustomCheckedListBox.CheckedItemCollection sourceMindmap = mindmaplist.CheckedItems;
+                    CustomCheckedListBox.CheckedItemCollection sourceMindmap = MindmapList.CheckedItems;
                     foreach (MyListBoxItem item in sourceMindmap)
                     {
                         showMindmaps.Add(item);
@@ -3145,7 +3178,7 @@ namespace DocearReminder
             }
             else
             {
-                if (mindmaplist.SelectedItem == null && mindmapornode.Text == "")
+                if (MindmapList.SelectedItem == null && mindmapornode.Text == "")
                 {
                     return;
                 }
@@ -3171,7 +3204,7 @@ namespace DocearReminder
                 }
                 else
                 {
-                    currentPath = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                    currentPath = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 }
                 try
                 {
@@ -3501,7 +3534,7 @@ namespace DocearReminder
             }
             foreach (ReminderItem item in reminderObject.reminders.Where(m => !(m.isCurrect || m.isNew) && !m.isCompleted))
             {
-                if (mindmaplist.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
+                if (MindmapList.CheckedItems.Cast<MyListBoxItem>().Any(m => m.Value.IndexOf(item.mindmap) > 0))
                 {
                     item.isCompleted = true;
                     item.isCurrect = false;
@@ -3644,7 +3677,7 @@ namespace DocearReminder
         {
             try
             {
-                System.Diagnostics.Process.Start(((MyListBoxItem)mindmaplist.SelectedItem).Value);
+                System.Diagnostics.Process.Start(((MyListBoxItem)MindmapList.SelectedItem).Value);
                 MyHide();
                 searchword.Focus();
             }
@@ -3694,10 +3727,10 @@ namespace DocearReminder
         private void encryptbutton_Click(object sender, EventArgs e)
         {
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
-            mindmaplist.Items.Clear();
+            MindmapList.Items.Clear();
             reminderList.Items.Clear();
             LoadEncryptFile(path);
-            mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
+            mindmaplist_count.Text = MindmapList.Items.Count.ToString();
         }
 
         public void LoadEncryptFile(DirectoryInfo path)
@@ -3706,14 +3739,14 @@ namespace DocearReminder
             {
                 if ((file.OpenText().ReadToEnd()).Contains("ENCRYPTED_CONTENT"))
                 {
-                    mindmaplist.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                    MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
                 }
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            mindmaplist.Items.Clear();
+            MindmapList.Items.Clear();
             reminderList.Items.Clear();
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             string keyword = yixiaozi.Model.DocearReminder.Helper.ConvertString(searchword.Text);
@@ -3728,7 +3761,7 @@ namespace DocearReminder
                 {
                     if (file.Name.Contains(searchword.Text))
                     {
-                        mindmaplist.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                        MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
                     }
                     else
                     {
@@ -3736,7 +3769,7 @@ namespace DocearReminder
                         {
                             if ((file.OpenText().ReadToEnd().ToLower()).Contains(keyword.ToLower()))
                             {
-                                mindmaplist.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                                MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
                             }
                         }
                     }
@@ -3814,7 +3847,7 @@ namespace DocearReminder
                     }
                 }
             }
-            mindmaplist_count.Text = mindmaplist.Items.Count.ToString();
+            mindmaplist_count.Text = MindmapList.Items.Count.ToString();
         }
 
         /// <summary>
@@ -4175,11 +4208,11 @@ namespace DocearReminder
         {
             for (int i = n; i > 0; i--)
             {
-                if (Convert.ToInt64(((MyListBoxItem)mindmaplist.Items[i - 1]).Text.Split(' ')[0]) > Convert.ToInt64(((MyListBoxItem)mindmaplist.Items[i]).Text.Split(' ')[0]))
+                if (Convert.ToInt64(((MyListBoxItem)MindmapList.Items[i - 1]).Text.Split(' ')[0]) > Convert.ToInt64(((MyListBoxItem)MindmapList.Items[i]).Text.Split(' ')[0]))
                 {
-                    object item = mindmaplist.Items[i - 1];
-                    mindmaplist.Items.RemoveAt(i - 1);
-                    mindmaplist.Items.Insert(i, item);
+                    object item = MindmapList.Items[i - 1];
+                    MindmapList.Items.RemoveAt(i - 1);
+                    MindmapList.Items.Insert(i, item);
                 }
             }
         }
@@ -4863,12 +4896,12 @@ namespace DocearReminder
                 {
                     //
                     string mindmap = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
-                    for (int i = 0; i < mindmaplist.Items.Count; i++)
+                    for (int i = 0; i < MindmapList.Items.Count; i++)
                     {
-                        if (mindmap == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                        if (mindmap == ((MyListBoxItem)MindmapList.Items[i]).Value)
                         {
                             IsSelectReminder = true;
-                            mindmaplist.SetSelected(i, true);
+                            MindmapList.SetSelected(i, true);
                             return;
                         }
                     }
@@ -5018,12 +5051,12 @@ namespace DocearReminder
             }
             if (!c_ViewModel.Checked)
             {
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
-                    if (selectedReminder.Value == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                    if (selectedReminder.Value == ((MyListBoxItem)MindmapList.Items[i]).Value)
                     {
                         IsSelectReminder = true;
-                        mindmaplist.SetSelected(i, true);
+                        MindmapList.SetSelected(i, true);
                         return;
                     }
                 }
@@ -5909,16 +5942,16 @@ namespace DocearReminder
                     }
                     reminderList.Items.Add(new MyListBoxItemRemind() { Text = item.Text, Value = item.mindmapPath, Time = item.Time, IDinXML = item.IDinXML });
                 }
-                mindmaplist.Items.Clear();
+                MindmapList.Items.Clear();
                 foreach (string item in files)
                 {
                     string filename = Path.GetFileName(item);
                     filename = filename.Substring(0, filename.Length - 3);
-                    mindmaplist.Items.Insert(0, new MyListBoxItem { Text = filename, Value = item });
+                    MindmapList.Items.Insert(0, new MyListBoxItem { Text = filename, Value = item });
                 }
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
-                    mindmaplist.SetItemChecked(i, true);
+                    MindmapList.SetItemChecked(i, true);
                 }
                 return;
             }
@@ -6483,9 +6516,9 @@ namespace DocearReminder
                     return;
                 }
             }
-            if (mindmaplist.SelectedIndex >= 0 && (searchword.Text.EndsWith(".") || searchword.Text.EndsWith("hhh")) && searchword.Text != "")
+            if (MindmapList.SelectedIndex >= 0 && (searchword.Text.EndsWith(".") || searchword.Text.EndsWith("hhh")) && searchword.Text != "")
             {
-                string path = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                string path = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(path);
                 XmlNode root = x.GetElementsByTagName("node")[0];
@@ -6540,7 +6573,7 @@ namespace DocearReminder
                         changedtaskname = taskname;
                     }
                 }
-                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                 newNotetext.Value = changedtaskname;
                 if (IsURL(newNotetext.Value))
                 {
@@ -6721,7 +6754,7 @@ namespace DocearReminder
                             {
                                 node.AppendChild(newNote);
                             }
-                            SaveLog("添加子节点：" + taskName + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+                            SaveLog("添加子节点：" + taskName + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                             x.Save(selectedReminder.Value);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                             th.Start();
@@ -6762,9 +6795,9 @@ namespace DocearReminder
                 }
             }
             //给导图添加节点
-            if (mindmaplist.SelectedIndex >= 0 && searchword.Text != "" && !IsSelectReminder)
+            if (MindmapList.SelectedIndex >= 0 && searchword.Text != "" && !IsSelectReminder)
             {
-                string path = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                string path = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(path);
                 XmlNode root = x.GetElementsByTagName("node")[0];
@@ -6855,7 +6888,7 @@ namespace DocearReminder
                 x.Save(path);
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
-                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                 searchword.Text = "";
                 RRReminderlist();
             }
@@ -8245,7 +8278,7 @@ namespace DocearReminder
                             newNote.AppendChild(remindernode);
                         }
                         node.AppendChild(newNote);
-                        SaveLog("添加子节点：" + searchword.Text + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3));
+                        SaveLog("添加子节点：" + searchword.Text + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                         searchword.Text = "";
                         x.Save(selectedReminder.Value);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
@@ -8282,13 +8315,13 @@ namespace DocearReminder
             {
                 if (searchword.Text.StartsWith("*"))
                 {
-                    for (int i = 0; i < mindmaplist.Items.Count; i++)
+                    for (int i = 0; i < MindmapList.Items.Count; i++)
                     {
-                        if (mindmaplist.CheckedItems.IndexOf(mindmaplist.Items[i]) == -1)
+                        if (MindmapList.CheckedItems.IndexOf(MindmapList.Items[i]) == -1)
                         {
                             for (int k = reminderList.Items.Count - 1; k > 0; k--)
                             {
-                                if (((MyListBoxItemRemind)reminderList.Items[k]).Value == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                                if (((MyListBoxItemRemind)reminderList.Items[k]).Value == ((MyListBoxItem)MindmapList.Items[i]).Value)
                                 {
                                     reminderList.Items.RemoveAt(k);
                                 }
@@ -8426,7 +8459,7 @@ namespace DocearReminder
             IDataObject iData = new DataObject();
             iData = Clipboard.GetDataObject();
             string log = (string)iData.GetData(DataFormats.Text);
-            if (log == null || log == "" || mindmaplist.SelectedItem == null)
+            if (log == null || log == "" || MindmapList.SelectedItem == null)
             {
                 return;
             }
@@ -8434,7 +8467,7 @@ namespace DocearReminder
             {
                 log = GetWebTitle(log.Trim()) + " | " + log;
             }
-            string path = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+            string path = ((MyListBoxItem)MindmapList.SelectedItem).Value;
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(path);
             DateTime dt = DateTime.Now;
@@ -8567,7 +8600,7 @@ namespace DocearReminder
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ReminderListFocused() || reminderListBox.Focused || mindmaplist.Focused)
+            if (ReminderListFocused() || reminderListBox.Focused || MindmapList.Focused)
             {
                 if (e.KeyCode != Keys.Space && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down && e.KeyCode != Keys.D1 && e.KeyCode != Keys.D2 && e.KeyCode != Keys.D3 && e.KeyCode != Keys.D4 && e.KeyCode != Keys.D5 && e.KeyCode != Keys.D6 && e.KeyCode != Keys.D7 && e.KeyCode != Keys.D8 && e.KeyCode != Keys.D9 && e.KeyCode != Keys.D0)
                 {
@@ -8832,14 +8865,14 @@ namespace DocearReminder
                             int reminderIndex = reminderList.SelectedIndex;
                             try
                             {
-                                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                                for (int i = 0; i < MindmapList.Items.Count; i++)
                                 {
-                                    if (((MyListBoxItem)mindmaplist.Items[i]).Value == ((MyListBoxItemRemind)reminderlistSelectedItem).Value)
+                                    if (((MyListBoxItem)MindmapList.Items[i]).Value == ((MyListBoxItemRemind)reminderlistSelectedItem).Value)
                                     {
-                                        if (mindmaplist.GetItemCheckState(i) == CheckState.Checked)
+                                        if (MindmapList.GetItemCheckState(i) == CheckState.Checked)
                                         {
-                                            mindmaplist.SetItemChecked(i, false);
-                                            mindmaplist.Refresh();
+                                            MindmapList.SetItemChecked(i, false);
+                                            MindmapList.Refresh();
                                             break;
                                         }
                                     }
@@ -8886,7 +8919,7 @@ namespace DocearReminder
                             else
                             {
                                 IsSelectReminder = false;
-                                mindmaplist.Focus();
+                                MindmapList.Focus();
                             }
                         }
                     }
@@ -8912,19 +8945,8 @@ namespace DocearReminder
                             }
                             else
                             {
-                                IsSelectReminder = true;
-                                ReminderListSelectedIndex(reminderSelectIndex);
-                                reminderList.Focus();
-                                if (reminderList.SelectedIndex < 0 || reminderList.SelectedIndex > reminderList.Items.Count - 1)
-                                {
-                                    try
-                                    {
-                                        ReminderListSelectedIndex(0);
-                                    }
-                                    catch (Exception ex) 
-                                    {
-                                    }
-                                }
+                                IsSelectReminder = false;
+                                DrawList.Focus();
                             }
                         }
                     }
@@ -8950,8 +8972,19 @@ namespace DocearReminder
                             }
                             else
                             {
-                                IsSelectReminder = false;
-                                searchword.Focus();
+                                IsSelectReminder = true;
+                                ReminderListSelectedIndex(reminderSelectIndex);
+                                reminderList.Focus();
+                                if (reminderList.SelectedIndex < 0 || reminderList.SelectedIndex > reminderList.Items.Count - 1)
+                                {
+                                    try
+                                    {
+                                        ReminderListSelectedIndex(0);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                    }
+                                }
                             }
                         }
                     }
@@ -8979,16 +9012,9 @@ namespace DocearReminder
                                 }
                                 else
                                 {
-                                    note.Focus();
-                                    if (note.Text.Length > 0)
-                                    {
-                                        note.SelectionStart = note.Text.Length;
-                                    }
-                                    else
-                                    {
-                                        note.Visible = true;
-                                        note.Text=" ";
-                                    }
+                                    IsSelectReminder = false;
+                                    searchword.Focus();
+                                    
                                 }
                                 //FormX = this.Location.Y;
                                 //Center();//= new Point(this.Location.X, -1569);
@@ -9032,15 +9058,19 @@ namespace DocearReminder
                                     }
                                     else
                                     {
+                                        note.Focus();
+                                        if (note.Text.Length > 0)
+                                        {
+                                            note.SelectionStart = note.Text.Length;
+                                        }
+                                        else
+                                        {
+                                            note.Visible = true;
+                                            note.Text = " ";
+                                        }
                                         //showcyclereminder.Checked = !showcyclereminder.Checked;
                                         //ReSetValue();
                                         //RRReminderlist();
-                                        hopeNote.Focus();
-                                        //选中最后
-                                        if (hopeNote.Text.Length > 0)
-                                        {
-                                            hopeNote.SelectionStart = hopeNote.Text.Length;
-                                        }
                                     }
                                 }
                             }
@@ -9055,7 +9085,12 @@ namespace DocearReminder
                     }
                     else
                     {
-                        //留给未来的标签吧
+                        hopeNote.Focus();
+                        //选中最后
+                        if (hopeNote.Text.Length > 0)
+                        {
+                            hopeNote.SelectionStart = hopeNote.Text.Length;
+                        }
                     }
                     break;
 
@@ -9278,11 +9313,11 @@ namespace DocearReminder
                         }
                         MyHide();
                     }
-                    else if (mindmaplist.Focused)
+                    else if (MindmapList.Focused)
                     {
-                        if (mindmaplist.SelectedIndex > -1)
+                        if (MindmapList.SelectedIndex > -1)
                         {
-                            System.Diagnostics.Process.Start(((MyListBoxItem)mindmaplist.SelectedItem).Value);
+                            System.Diagnostics.Process.Start(((MyListBoxItem)MindmapList.SelectedItem).Value);
                             MyHide();
                         }
                     }
@@ -10242,7 +10277,7 @@ namespace DocearReminder
                         #endregion
                         if (searchword.Focused && c_ViewModel.Checked)
                         {
-                            mindmaplist.Focus();
+                            MindmapList.Focus();
                         }
                         else if (dateTimePicker.Focused)
                         {
@@ -10568,7 +10603,7 @@ namespace DocearReminder
                         {
                         }
                     }
-                    else if (ReminderListFocused() || mindmaplist.Focused || this.Focused)
+                    else if (ReminderListFocused() || MindmapList.Focused || this.Focused)
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -10728,13 +10763,13 @@ namespace DocearReminder
                         {
                             if (c_ViewModel.Checked && (int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Control)//查看模式快速切换导图
                             {
-                                if (mindmaplist.SelectedIndex + 1 < mindmaplist.Items.Count)
+                                if (MindmapList.SelectedIndex + 1 < MindmapList.Items.Count)
                                 {
-                                    mindmaplist.SelectedIndex++;
+                                    MindmapList.SelectedIndex++;
                                 }
                                 else
                                 {
-                                    mindmaplist.SelectedIndex = 0;
+                                    MindmapList.SelectedIndex = 0;
                                 }
                                 RRReminderlist();
                             }
@@ -10860,40 +10895,40 @@ namespace DocearReminder
                                 }
                             }
                         }
-                        else if (mindmaplist.Focused && mindmaplist.Items.Count != 0)
+                        else if (MindmapList.Focused && MindmapList.Items.Count != 0)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                for (int i = mindmaplist.SelectedIndex + 1; i < mindmaplist.Items.Count; i++)
+                                for (int i = MindmapList.SelectedIndex + 1; i < MindmapList.Items.Count; i++)
                                 {
-                                    if (mindmaplist.GetItemCheckState(i) == CheckState.Checked)
+                                    if (MindmapList.GetItemCheckState(i) == CheckState.Checked)
                                     {
-                                        mindmaplist.SelectedIndex = i;
-                                        mindmaplist.Refresh();
+                                        MindmapList.SelectedIndex = i;
+                                        MindmapList.Refresh();
                                         return;
                                     }
                                 }
-                                for (int i = 0; i < mindmaplist.SelectedIndex; i++)
+                                for (int i = 0; i < MindmapList.SelectedIndex; i++)
                                 {
-                                    if (mindmaplist.GetItemCheckState(i) == CheckState.Checked)
+                                    if (MindmapList.GetItemCheckState(i) == CheckState.Checked)
                                     {
-                                        mindmaplist.SelectedIndex = i;
-                                        mindmaplist.Refresh();
+                                        MindmapList.SelectedIndex = i;
+                                        MindmapList.Refresh();
                                         return;
                                     }
                                 }
                             }
                             else
                             {
-                                if (mindmaplist.SelectedIndex + 1 < mindmaplist.Items.Count)
+                                if (MindmapList.SelectedIndex + 1 < MindmapList.Items.Count)
                                 {
-                                    mindmaplist.SelectedIndex++;
+                                    MindmapList.SelectedIndex++;
                                 }
                                 else
                                 {
-                                    mindmaplist.SelectedIndex = 0;
+                                    MindmapList.SelectedIndex = 0;
                                 }
-                                mindmaplist.Refresh();
+                                MindmapList.Refresh();
                             }
                         }
                     }
@@ -10965,13 +11000,13 @@ namespace DocearReminder
                         {
                             if (c_ViewModel.Checked && (int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Control)//查看模式快速切换导图
                             {
-                                if (mindmaplist.SelectedIndex > 0)
+                                if (MindmapList.SelectedIndex > 0)
                                 {
-                                    mindmaplist.SelectedIndex--;
+                                    MindmapList.SelectedIndex--;
                                 }
                                 else
                                 {
-                                    mindmaplist.SelectedIndex = mindmaplist.Items.Count - 1;
+                                    MindmapList.SelectedIndex = MindmapList.Items.Count - 1;
                                 }
                                 RRReminderlist();
                             }
@@ -11096,38 +11131,38 @@ namespace DocearReminder
                                 }
                             }
                         }
-                        else if (mindmaplist.Focused)
+                        else if (MindmapList.Focused)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                for (int i = mindmaplist.SelectedIndex - 1; i >= 0; i--)
+                                for (int i = MindmapList.SelectedIndex - 1; i >= 0; i--)
                                 {
-                                    if (mindmaplist.GetItemCheckState(i) == CheckState.Checked)
+                                    if (MindmapList.GetItemCheckState(i) == CheckState.Checked)
                                     {
-                                        mindmaplist.SelectedIndex = i;
-                                        mindmaplist.Refresh();
+                                        MindmapList.SelectedIndex = i;
+                                        MindmapList.Refresh();
                                         return;
                                     }
                                 }
-                                for (int i = mindmaplist.Items.Count - 1; i > mindmaplist.SelectedIndex; i--)
+                                for (int i = MindmapList.Items.Count - 1; i > MindmapList.SelectedIndex; i--)
                                 {
-                                    if (mindmaplist.GetItemCheckState(i) == CheckState.Checked)
+                                    if (MindmapList.GetItemCheckState(i) == CheckState.Checked)
                                     {
-                                        mindmaplist.SelectedIndex = i;
-                                        mindmaplist.Refresh();
+                                        MindmapList.SelectedIndex = i;
+                                        MindmapList.Refresh();
                                         return;
                                     }
                                 }
                             }
                             else
                             {
-                                if (mindmaplist.SelectedIndex > 0)
+                                if (MindmapList.SelectedIndex > 0)
                                 {
-                                    mindmaplist.SelectedIndex--;
+                                    MindmapList.SelectedIndex--;
                                 }
                                 else
                                 {
-                                    mindmaplist.SelectedIndex = mindmaplist.Items.Count - 1;
+                                    MindmapList.SelectedIndex = MindmapList.Items.Count - 1;
                                 }
                             }
                         }
@@ -11227,7 +11262,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (ReminderListFocused() || mindmaplist.Focused || this.Focused)
+                        else if (ReminderListFocused() || MindmapList.Focused || this.Focused)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
@@ -11372,7 +11407,7 @@ namespace DocearReminder
                     }
                     else if (ReminderListFocused())
                     {
-                        mindmaplist.Focus();
+                        MindmapList.Focus();
                     }
 
                     break;
@@ -11476,9 +11511,9 @@ namespace DocearReminder
                                     }
                                 }
                             }
-                            else if (mindmaplist.Focused)
+                            else if (MindmapList.Focused)
                             {
-                                mindmapPath = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                                mindmapPath = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                             }
                             if (mindmapPath == "")
                             {
@@ -11514,7 +11549,7 @@ namespace DocearReminder
                                 this.Height = maxheight;
                                 nodetree.Focus();
                             }
-                            else if (mindmaplist.Focused)
+                            else if (MindmapList.Focused)
                             {
                                 ShowMindmap();
                                 ShowMindmapFile(false);
@@ -11919,7 +11954,7 @@ namespace DocearReminder
                             nodetree.Focus();
                         }
                     }
-                    else if (mindmaplist.Focused)
+                    else if (MindmapList.Focused)
                     {
                         reminderList.Focus();
                         try
@@ -12121,7 +12156,7 @@ namespace DocearReminder
                                 fenshuADD(1);
                             }
                         }
-                        else if (mindmaplist.Focused)
+                        else if (MindmapList.Focused)
                         {
                             //if (mindmaplist.SelectedIndex == 0)
                             //{
@@ -12145,7 +12180,7 @@ namespace DocearReminder
                                 AddClipToTask();
                             }
                         }
-                        else if (mindmaplist.Focused)
+                        else if (MindmapList.Focused)
                         {
                             AddClip();
                         }
@@ -12718,17 +12753,17 @@ namespace DocearReminder
                 filename = filename.Replace("\\\\", "\\");
                 reminderList.Items.Add(new MyListBoxItemRemind() { Text = filename, Value = item.mindmapPath, Name = item.Text });
             }
-            mindmaplist.Items.Clear();
+            MindmapList.Items.Clear();
             foreach (string item in files)
             {
                 if (System.IO.Directory.Exists(item))
                 {
-                    mindmaplist.Items.Insert(0, new MyListBoxItem { Text = item.Split('\\')[item.Split('\\').Length - 1], Value = item });
+                    MindmapList.Items.Insert(0, new MyListBoxItem { Text = item.Split('\\')[item.Split('\\').Length - 1], Value = item });
                 }
             }
-            for (int i = 0; i < mindmaplist.Items.Count; i++)
+            for (int i = 0; i < MindmapList.Items.Count; i++)
             {
-                mindmaplist.SetItemChecked(i, true);
+                MindmapList.SetItemChecked(i, true);
             }
         }
 
@@ -13055,9 +13090,9 @@ namespace DocearReminder
             c_ViewModel.Checked = false;
             try
             {
-                if (mindmaplist.SelectedItem != null)
+                if (MindmapList.SelectedItem != null)
                 {
-                    fathernode.Text = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                    fathernode.Text = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 }
             }
             catch (Exception ex)
@@ -13075,7 +13110,7 @@ namespace DocearReminder
         public void ShowMindmapFile(bool isShowSub = false, int level = 3)
         {
             mostShowFiles = 200;
-            if (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null)
+            if (reminderlistSelectedItem == null && MindmapList.SelectedItem == null)
             {
                 return;
             }
@@ -13091,14 +13126,14 @@ namespace DocearReminder
                 Name = ((MyListBoxItemRemind)reminderlistSelectedItem).Name;
                 mindmapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
             }
-            else if (mindmaplist.Focused)
+            else if (MindmapList.Focused)
             {
-                if (mindmaplist.SelectedItem == null)
+                if (MindmapList.SelectedItem == null)
                 {
                     return;
                 }
-                mindmapPath = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
-                Name = ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3);
+                mindmapPath = ((MyListBoxItem)MindmapList.SelectedItem).Value;
+                Name = ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3);
             }
             if (mindmapPath == "")
             {
@@ -13259,7 +13294,7 @@ namespace DocearReminder
             string taskid = "";//节点ID，选中
             lastnodeID = "";
             fathernode.Visible = false;
-            if (searchword.Text.StartsWith("#") || (reminderlistSelectedItem == null && mindmaplist.SelectedItem == null))
+            if (searchword.Text.StartsWith("#") || (reminderlistSelectedItem == null && MindmapList.SelectedItem == null))
             {
                 return;
             }
@@ -13279,13 +13314,13 @@ namespace DocearReminder
                     rootname = "RootWithTime-NOMORE";//禁止显示时间了
                 }
             }
-            else if (mindmaplist.Focused)
+            else if (MindmapList.Focused)
             {
-                if (mindmaplist.SelectedItem == null)
+                if (MindmapList.SelectedItem == null)
                 {
                     return;
                 }
-                showMindmapName = ((MyListBoxItem)mindmaplist.SelectedItem).Value;
+                showMindmapName = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 //taskid = ((MyListBoxItem)mindmaplist.SelectedItem).Text.Substring(3);
             }
             if (showMindmapName == "")
@@ -13793,9 +13828,9 @@ namespace DocearReminder
             try
             {
                 //单子打字练习
-                if (mindmaplist.SelectedItem != null)
+                if (MindmapList.SelectedItem != null)
                 {
-                    if (((MyListBoxItem)mindmaplist.SelectedItem).Text.Contains("单词"))
+                    if (((MyListBoxItem)MindmapList.SelectedItem).Text.Contains("单词"))
                     {
                         if (searchword.Text == ((MyListBoxItemRemind)reminderlistSelectedItem).Name)
                         {
@@ -14348,13 +14383,13 @@ namespace DocearReminder
             }
             if (searchword.Text.Contains("*"))
             {
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
-                    if (mindmaplist.CheckedItems.IndexOf(mindmaplist.Items[i]) == -1)
+                    if (MindmapList.CheckedItems.IndexOf(MindmapList.Items[i]) == -1)
                     {
                         for (int k = reminderList.Items.Count - 1; k > 0; k--)
                         {
-                            if (((MyListBoxItemRemind)reminderList.Items[k]).Value == ((MyListBoxItem)mindmaplist.Items[i]).Value)
+                            if (((MyListBoxItemRemind)reminderList.Items[k]).Value == ((MyListBoxItem)MindmapList.Items[i]).Value)
                             {
                                 reminderList.Items.RemoveAt(k);
                             }
@@ -14378,25 +14413,25 @@ namespace DocearReminder
             {
                 return;
             }
-            for (int i = 0; i < mindmaplist.Items.Count; i++)
+            for (int i = 0; i < MindmapList.Items.Count; i++)
             {
-                if (((MyListBoxItem)mindmaplist.Items[i]).Value == "")
+                if (((MyListBoxItem)MindmapList.Items[i]).Value == "")
                 {
                     continue;
                 }
-                if (mindmaplist.CheckedItems.IndexOf(mindmaplist.Items[i]) == -1)
+                if (MindmapList.CheckedItems.IndexOf(MindmapList.Items[i]) == -1)
                 {
-                    if (!unchkeckmindmap.Contains(((MyListBoxItem)mindmaplist.Items[i]).Value))
+                    if (!unchkeckmindmap.Contains(((MyListBoxItem)MindmapList.Items[i]).Value))
                     {
-                        unchkeckmindmap.Add(((MyListBoxItem)mindmaplist.Items[i]).Value);
+                        unchkeckmindmap.Add(((MyListBoxItem)MindmapList.Items[i]).Value);
                         new TextListConverter().WriteListToTextFile(unchkeckmindmap, System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                     }
                 }
                 else
                 {
-                    while (unchkeckmindmap.Contains(((MyListBoxItem)mindmaplist.Items[i]).Value))
+                    while (unchkeckmindmap.Contains(((MyListBoxItem)MindmapList.Items[i]).Value))
                     {
-                        unchkeckmindmap.Remove(((MyListBoxItem)mindmaplist.Items[i]).Value);
+                        unchkeckmindmap.Remove(((MyListBoxItem)MindmapList.Items[i]).Value);
                         new TextListConverter().WriteListToTextFile(unchkeckmindmap, System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                     }
                 }
@@ -15046,33 +15081,33 @@ namespace DocearReminder
             if (mindmapSearch.Text == "")
             {
                 isRefreshMindmap = true;
-                mindmaplist.Items.Clear();
+                MindmapList.Items.Clear();
                 foreach (var item in mindmaplist_all)
                 {
-                    mindmaplist.Items.Add(item);
+                    MindmapList.Items.Add(item);
                 }
-                mindmaplist.Sorted = false;
-                mindmaplist.Sorted = true;
-                for (int i = 0; i < mindmaplist.Items.Count; i++)
+                MindmapList.Sorted = false;
+                MindmapList.Sorted = true;
+                for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
                     setmindmapcheck = true;
-                    mindmaplist.SetItemChecked(i, true);
-                    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
+                    MindmapList.SetItemChecked(i, true);
+                    string file = ((MyListBoxItem)MindmapList.Items[i]).Value;
                     if (unchkeckmindmap.Contains(file))
                     {
-                        mindmaplist.SetItemChecked(i, false);
-                        mindmaplist.Refresh();
+                        MindmapList.SetItemChecked(i, false);
+                        MindmapList.Refresh();
                     }
                     setmindmapcheck = false;
                 }
                 isRefreshMindmap = false;
                 return;
             }
-            for (int i = mindmaplist.Items.Count - 1; i >= 0; i--)
+            for (int i = MindmapList.Items.Count - 1; i >= 0; i--)
             {
-                if (!((MyListBoxItem)mindmaplist.Items[i]).Text.Contains(mindmapSearch.Text))
+                if (!((MyListBoxItem)MindmapList.Items[i]).Text.Contains(mindmapSearch.Text))
                 {
-                    mindmaplist.Items.RemoveAt(i);
+                    MindmapList.Items.RemoveAt(i);
                 }
             }
         }
@@ -16197,15 +16232,15 @@ namespace DocearReminder
             IsSelectReminder = false;
             if (e.Button == MouseButtons.Right)
             {
-                int posindex = mindmaplist.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
-                mindmaplist.ContextMenuStrip = null;
-                if (posindex >= 0 && posindex < mindmaplist.Items.Count)
+                int posindex = MindmapList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                MindmapList.ContextMenuStrip = null;
+                if (posindex >= 0 && posindex < MindmapList.Items.Count)
                 {
-                    mindmaplist.SelectedIndex = posindex;
-                    menu_mindmaps.Show(mindmaplist, new System.Drawing.Point(e.X, e.Y));
+                    MindmapList.SelectedIndex = posindex;
+                    menu_mindmaps.Show(MindmapList, new System.Drawing.Point(e.X, e.Y));
                 }
             }
-            mindmaplist.Refresh();
+            MindmapList.Refresh();
         }
 
         private void nodetree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -16265,7 +16300,7 @@ namespace DocearReminder
         {
             if (e.Button == MouseButtons.Right)//判断你点的是不是右键
             {
-                int posindex = mindmaplist.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                int posindex = MindmapList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
                 menu.Show(this, new System.Drawing.Point(e.X, e.Y));
             }
         }
@@ -16459,14 +16494,14 @@ namespace DocearReminder
             if (reminderListBox.Items.Count > 0)
             {
                 reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
-                note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
-                reminderList.Height = mindmaplist.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - note.Height- (note.Visible?7:0);
+                note.Top = MindmapList.Height+MindmapList.Top-note.Height;
+                reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - note.Height- (note.Visible?7:0);
             }
             else
             {
-                reminderList.Top = mindmaplist.Top;
-                note.Top = mindmaplist.Height+mindmaplist.Top-note.Height;
-                reminderList.Height = mindmaplist.Height - note.Height - (note.Visible ? 7 : 0);
+                reminderList.Top = MindmapList.Top;
+                note.Top = MindmapList.Height+MindmapList.Top-note.Height;
+                reminderList.Height = MindmapList.Height - note.Height - (note.Visible ? 7 : 0);
             }
         }
 
@@ -16485,8 +16520,8 @@ namespace DocearReminder
             {
                 reminderListBox.Height = 0;
                 reminderListBox.Visible = false;
-                reminderList.Top = mindmaplist.Top;
-                reminderList.Height = mindmaplist.Height;
+                reminderList.Top = MindmapList.Top;
+                reminderList.Height = MindmapList.Height;
                 reminderList.Focus();
             }
         }
@@ -16966,7 +17001,7 @@ namespace DocearReminder
         {
             try
             {
-                Process.Start(new FileInfo(((MyListBoxItem)mindmaplist.SelectedItem).Value).DirectoryName);
+                Process.Start(new FileInfo(((MyListBoxItem)MindmapList.SelectedItem).Value).DirectoryName);
                 MyHide();
             }
             catch (Exception ex)
@@ -17044,7 +17079,7 @@ namespace DocearReminder
                 ReminderListSelectedIndex(-1);
                 reminderSelectIndex = -1;
                 IsSelectReminder = false;
-                mindmaplist.Focus();
+                MindmapList.Focus();
             }
         }
 
@@ -18282,6 +18317,19 @@ namespace DocearReminder
                     reminderList.Focus();
                     return;
                 }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void DrawList_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(((MyListBoxItem)DrawList.SelectedItem).Value);
+                //MyHide();
+                searchword.Focus();
             }
             catch (Exception ex)
             {

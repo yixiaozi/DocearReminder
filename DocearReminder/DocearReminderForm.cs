@@ -2282,6 +2282,10 @@ namespace DocearReminder
                             {
                                 DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
                             }
+                            else
+                            {
+                                //todo:mxfile的 compressed = "false" 就可以每次不压缩了，添加自动设置的方法
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -15672,6 +15676,12 @@ namespace DocearReminder
                 else if (newTxt.EndsWith(".txt"))
                 {
                     FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.txt");
+                    fi.CopyTo(parentFolder + "\\" + newTxt);
+                    FileTreeView.SelectedNode.Name = parentFolder + "\\" + newTxt;
+                }
+                else if (newTxt.EndsWith(".drawio"))
+                {
+                    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.drawio");
                     fi.CopyTo(parentFolder + "\\" + newTxt);
                     FileTreeView.SelectedNode.Name = parentFolder + "\\" + newTxt;
                 }

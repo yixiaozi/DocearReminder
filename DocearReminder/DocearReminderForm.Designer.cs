@@ -1758,8 +1758,6 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1634, 837);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.DrawList);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.IsClip);
@@ -1835,6 +1833,8 @@ namespace DocearReminder
             this.Controls.Add(this.todayusedtime);
             this.Controls.Add(this.reminderListBox);
             this.Controls.Add(this.note);
+            this.Controls.Add(this.DrawList);
+            this.Controls.Add(this.textBox1);
             this.ForeColor = System.Drawing.Color.Gray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

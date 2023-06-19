@@ -780,24 +780,20 @@ namespace DocearReminder
             RemindersOtherPath.AddRange(Reminders);
             MindmapList.Items.Clear();
             reminderList.Items.Clear();
-            //nodes.Clear();
-            //if (!pathArr.Contains(rootpath.FullName))
-            //{
-            //    Thread th = new Thread(() => GetAllNode(rootpath));
-            //    th.Start();
-            //}
+            DrawList.Items.Clear();
 
             taskcount.Text = "0";
             isRefreshMindmap = true;
             LoadFile(rootpath);
-            //for (int i = 0; i < mindmaplist.Items.Count; i++)
-            //{
-            //    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
-            //    if (unchkeckmindmap.Contains(file))
-            //    {
-            //        mindmaplist.SetSelected(i, false);
-            //    }
-            //}
+            for (int i = 0; i < DrawList.Items.Count; i++)
+            {
+                DrawList.SetItemChecked(i, true);
+                string file = ((MyListBoxItem)DrawList.Items[i]).Value;
+                if (unchkeckmindmap.Contains(file))
+                {
+                    DrawList.SetItemChecked(i, false);
+                }
+            }
             mindmaplist_backup.Clear();
             mindmaplist_backup.AddRange(MindmapList.Items);
             foreach (var item in MindmapList.Items)
@@ -3571,26 +3567,26 @@ namespace DocearReminder
 
             hourLeft.Text = (24 - DateTime.Now.Hour - (float)DateTime.Now.Minute / 60).ToString("N2");
             setTaskInfo(task + "(" + isviewtask + ")|" + ctask + "(" + ebtask + ")|" + vtask + "|" + passtask);
-            //如果没有非紧急任务，就显示其他任务
-            if (IsReminderOnlyCheckBox.Checked && reminderList.Items.Count == 0)
-            {
-                IsReminderOnlyCheckBox.Checked = false;
-                RRReminderlist();
-            }
-            //如果非周期里面没有，就显示周期内容
-            if (reminderList.Items.Count == 0)
-            {
-                if (isAutoChangeView)
-                {
-                    isAutoChangeView = false;
-                    showcyclereminder.Checked = !showcyclereminder.Checked;
-                    //RRReminderlist();
-                }
-                else
-                {
-                    isAutoChangeView = true;
-                }
-            }
+            ////如果没有非紧急任务，就显示其他任务
+            //if (IsReminderOnlyCheckBox.Checked && reminderList.Items.Count == 0)
+            //{
+            //    IsReminderOnlyCheckBox.Checked = false;
+            //    RRReminderlist();
+            //}
+            ////如果非周期里面没有，就显示周期内容
+            //if (reminderList.Items.Count == 0)
+            //{
+            //    if (isAutoChangeView)
+            //    {
+            //        isAutoChangeView = false;
+            //        showcyclereminder.Checked = !showcyclereminder.Checked;
+            //        //RRReminderlist();
+            //    }
+            //    else
+            //    {
+            //        isAutoChangeView = true;
+            //    }
+            //}
             SortReminderList();
             reminderListBox.Refresh();
             ReminderListBox_SizeChanged(null, null);
@@ -8432,16 +8428,6 @@ namespace DocearReminder
             MyHide();
         }
 
-        private void Home_DoubleClick(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("Home.mm");
-        }
-
-        private void bin_DoubleClick(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(ini.ReadString("path", "binmm", ""));
-        }
-
         public static int GetPosition()
         {
             for (int i = 0; i < fanqiePosition.Length; i++)
@@ -9219,7 +9205,6 @@ namespace DocearReminder
                         c_endtime.Checked = !c_endtime.Checked;//结束时间
                     }
                     break;
-
                 case Keys.End:
                     break;
 
@@ -9318,6 +9303,14 @@ namespace DocearReminder
                         if (MindmapList.SelectedIndex > -1)
                         {
                             System.Diagnostics.Process.Start(((MyListBoxItem)MindmapList.SelectedItem).Value);
+                            MyHide();
+                        }
+                    }
+                    else if (DrawList.Focused)
+                    {
+                        if (DrawList.SelectedIndex > -1)
+                        {
+                            System.Diagnostics.Process.Start(((MyListBoxItem)DrawList.SelectedItem).Value);
                             MyHide();
                         }
                     }
@@ -10931,6 +10924,42 @@ namespace DocearReminder
                                 MindmapList.Refresh();
                             }
                         }
+                        else if (DrawList.Focused && DrawList.Items.Count != 0)
+                        {
+                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                for (int i = DrawList.SelectedIndex + 1; i < DrawList.Items.Count; i++)
+                                {
+                                    if (DrawList.GetItemCheckState(i) == CheckState.Checked)
+                                    {
+                                        DrawList.SelectedIndex = i;
+                                        DrawList.Refresh();
+                                        return;
+                                    }
+                                }
+                                for (int i = 0; i < DrawList.SelectedIndex; i++)
+                                {
+                                    if (DrawList.GetItemCheckState(i) == CheckState.Checked)
+                                    {
+                                        DrawList.SelectedIndex = i;
+                                        DrawList.Refresh();
+                                        return;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (DrawList.SelectedIndex + 1 < DrawList.Items.Count)
+                                {
+                                    DrawList.SelectedIndex++;
+                                }
+                                else
+                                {
+                                    DrawList.SelectedIndex = 0;
+                                }
+                                DrawList.Refresh();
+                            }
+                        }
                     }
                     if (taskTime.Focused)
                     {
@@ -11163,6 +11192,41 @@ namespace DocearReminder
                                 else
                                 {
                                     MindmapList.SelectedIndex = MindmapList.Items.Count - 1;
+                                }
+                            }
+                        }
+                        else if (DrawList.Focused)
+                        {
+                            if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            {
+                                for (int i = DrawList.SelectedIndex - 1; i >= 0; i--)
+                                {
+                                    if (DrawList.GetItemCheckState(i) == CheckState.Checked)
+                                    {
+                                        DrawList.SelectedIndex = i;
+                                        DrawList.Refresh();
+                                        return;
+                                    }
+                                }
+                                for (int i = DrawList.Items.Count - 1; i > DrawList.SelectedIndex; i--)
+                                {
+                                    if (DrawList.GetItemCheckState(i) == CheckState.Checked)
+                                    {
+                                        DrawList.SelectedIndex = i;
+                                        DrawList.Refresh();
+                                        return;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (DrawList.SelectedIndex > 0)
+                                {
+                                    DrawList.SelectedIndex--;
+                                }
+                                else
+                                {
+                                    DrawList.SelectedIndex = DrawList.Items.Count - 1;
                                 }
                             }
                         }
@@ -14349,30 +14413,6 @@ namespace DocearReminder
                 {
                 }
             }
-        }
-
-        private void panel3_DoubleClick(object sender, EventArgs e)
-        {
-            encryptbutton_Click(null, null);
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void Hiddenmenu_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void Searchword_Enter(object sender, EventArgs e)
-        {
-            PlaySimpleSoundAsync("input");
-            SwitchToLanguageMode("zh-CN");
-        }
-
-        private void Searchword_Leave(object sender, EventArgs e)
-        {
-            SwitchToLanguageMode();
         }
 
         private void mindmaplist_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -18292,11 +18332,15 @@ namespace DocearReminder
 
         public void setleft()
         {
-            pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 7 : 0);
-            tagList.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 7 : 0);
-            hopeNote.Top = tagList.Top + tagList.Height + (tagList.Height != 0 ? 7 : 0);
-            tagCloudControl.Top = hopeNote.Top + hopeNote.Height + (hopeNote.Height != 0 ? 7 : 0);
-            tagCloudControl.Height = 475 - tagCloudControl.Top;
+            try
+            {
+                pictureBox1.Top = richTextSubNode.Top + richTextSubNode.Height + (richTextSubNode.Height != 0 ? 7 : 0);
+                tagList.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 7 : 0);
+                hopeNote.Top = tagList.Top + tagList.Height + (tagList.Height != 0 ? 7 : 0);
+                tagCloudControl.Top = hopeNote.Top + hopeNote.Height + (hopeNote.Height != 0 ? 7 : 0);
+                tagCloudControl.Height = 475 - tagCloudControl.Top;
+            }
+            catch (Exception ex) { }
         }
 
         private void note_TextChanged(object sender, EventArgs e)
@@ -18328,7 +18372,7 @@ namespace DocearReminder
             try
             {
                 System.Diagnostics.Process.Start(((MyListBoxItem)DrawList.SelectedItem).Value);
-                //MyHide();
+                MyHide();
                 searchword.Focus();
             }
             catch (Exception ex)

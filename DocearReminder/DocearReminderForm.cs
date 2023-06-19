@@ -10759,7 +10759,7 @@ namespace DocearReminder
                     leftIndex = 0;
                     if (keyNotWork(e))
                     {
-                        if ((ReminderListFocused() && (reminderList.Items.Count != 0) || reminderListBox.Items.Count != 0))
+                        if (ReminderListFocused() && (reminderList.Items.Count != 0 || reminderListBox.Items.Count != 0))
                         {
                             if (c_ViewModel.Checked && (int)Control.ModifierKeys == (int)Keys.Shift + (int)Keys.Control)//查看模式快速切换导图
                             {

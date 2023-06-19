@@ -3,6 +3,7 @@ using Gma.UserActivityMonitor;
 using Microsoft.Win32;
 using NAudio.Wave;
 using Newtonsoft.Json;
+using NPOI.OpenXmlFormats.Dml.Diagram;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -234,6 +235,7 @@ namespace DocearReminder
                 addirisSkinToolStripMenuItem(new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\Skins"), null);
 
                 MindmapList.Height = 424;
+                diary.Top = MindmapList.Top;
                 ReminderlistBoxChange();
 
                 //设置透明度
@@ -456,6 +458,8 @@ namespace DocearReminder
                 SaveLog("打开程序。");
                 SetTimeBlockLasTime();
                 timeblockcheck.Text = "";
+                ReminderListBox_SizeChanged(null, null);
+                IsDiary_CheckedChanged(null, null);
                 #region 添加提示信息
                 try
                 {
@@ -3594,6 +3598,7 @@ namespace DocearReminder
             SortReminderList();
             reminderListBox.Refresh();
             ReminderListBox_SizeChanged(null, null);
+
             reminderlistSelectedItem = null;//刷新后应该清空
         }
 
@@ -8604,7 +8609,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
+            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
@@ -10279,6 +10284,9 @@ namespace DocearReminder
                         {
                             MindmapList.Focus();
                         }
+                        else if(diary.Focused){
+                            IsDiary.Checked = false;
+                        }
                         else if (dateTimePicker.Focused)
                         {
                             reminderList.Focus();
@@ -10653,17 +10661,18 @@ namespace DocearReminder
                         }
                         else if (ReminderListFocused())
                         {
-                            try
-                            {
-                                if (quietmode.Checked)
-                                {
-                                    Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(((MyListBoxItemRemind)reminderlistSelectedItem).Name));
-                                    th.Start();
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                            }
+                            //try
+                            //{
+                            //    if (quietmode.Checked)
+                            //    {
+                            //        Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(((MyListBoxItemRemind)reminderlistSelectedItem).Name));
+                            //        th.Start();
+                            //    }
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //}
+                            IsDiary.Checked = !IsDiary.Checked;
                         }
                     }
                     break;
@@ -16541,21 +16550,52 @@ namespace DocearReminder
                 }
             }
         }
+        bool isSetHeight = false;
 
         private void ReminderListBox_SizeChanged(object sender, EventArgs e)
         {
+            if (isSetHeight)
+            {
+                return;
+            }
+            else
+            {
+                isSetHeight = true;
+            }
+            if (IsDiary.Checked)
+            {
+                diary.Visible = true;
+                reminderList.Visible = false;
+                reminderListBox.Visible = false;
+            }
+            else
+            {
+                diary.Visible = false;
+                reminderList.Visible = true;
+                if (reminderListBox.Items.Count > 0)
+                {
+                    reminderListBox.Visible = true;
+                }
+                else
+                {
+                    reminderListBox.Visible = false;
+                }
+            }
             if (reminderListBox.Items.Count > 0)
             {
                 reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
                 note.Top = MindmapList.Height+MindmapList.Top-note.Height;
                 reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - note.Height- (note.Visible?7:0);
+                diary.Height = MindmapList.Height - note.Height - (note.Visible ? 7 : 0);
             }
             else
             {
                 reminderList.Top = MindmapList.Top;
                 note.Top = MindmapList.Height+MindmapList.Top-note.Height;
                 reminderList.Height = MindmapList.Height - note.Height - (note.Visible ? 7 : 0);
+                diary.Height = reminderList.Height;
             }
+            isSetHeight = false;
         }
 
         private void ReminderListBox_DataSourceChanged(object sender, EventArgs e)
@@ -18333,6 +18373,7 @@ namespace DocearReminder
             GetAllNodeJsonFile();
         }
 
+
         private void tagList_SizeChanged(object sender, EventArgs e)
         {
             setleft();
@@ -18391,6 +18432,36 @@ namespace DocearReminder
             catch (Exception ex)
             {
             }
+        }
+
+        private void IsDiary_CheckedChanged(object sender, EventArgs e)
+        {
+            //如果选中，则显示diary，隐藏任务表，否则相反
+            if (IsDiary.Checked)
+            {
+                reminderList.Visible = false;
+                reminderListBox.Visible = false;
+                diary.Visible = true;
+                //光标进入diary最后
+                if (diary.Text.Length > 0)
+                {
+                    diary.SelectionStart = diary.Text.Length;
+                }
+                diary.Focus();
+            }
+            else
+            {
+                diary.Visible = false;
+                reminderList.Visible = true;
+                reminderListBox.Visible = true;
+                //选中reminderList
+                reminderList.Focus();
+            }
+        }
+
+        private void diary_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -171,6 +171,8 @@ namespace DocearReminder
             this.note = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.IsDiary = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -552,7 +554,7 @@ namespace DocearReminder
             this.SearchText_suggest.FormattingEnabled = true;
             this.SearchText_suggest.Location = new System.Drawing.Point(420, 50);
             this.SearchText_suggest.Name = "SearchText_suggest";
-            this.SearchText_suggest.Size = new System.Drawing.Size(600, 95);
+            this.SearchText_suggest.Size = new System.Drawing.Size(600, 43);
             this.SearchText_suggest.TabIndex = 83;
             this.SearchText_suggest.Visible = false;
             this.SearchText_suggest.SelectedIndexChanged += new System.EventHandler(this.SearchText_suggest_SelectedIndexChanged);
@@ -1544,7 +1546,7 @@ namespace DocearReminder
             this.reminderList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.reminderList.FormattingEnabled = true;
             this.reminderList.ItemHeight = 14;
-            this.reminderList.Location = new System.Drawing.Point(420, 240);
+            this.reminderList.Location = new System.Drawing.Point(420, 181);
             this.reminderList.Name = "reminderList";
             this.reminderList.Size = new System.Drawing.Size(600, 130);
             this.reminderList.Sorted = true;
@@ -1588,7 +1590,7 @@ namespace DocearReminder
             this.reminderListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.reminderListBox.FormattingEnabled = true;
             this.reminderListBox.ItemHeight = 14;
-            this.reminderListBox.Location = new System.Drawing.Point(420, 153);
+            this.reminderListBox.Location = new System.Drawing.Point(420, 101);
             this.reminderListBox.Name = "reminderListBox";
             this.reminderListBox.Size = new System.Drawing.Size(600, 74);
             this.reminderListBox.TabIndex = 117;
@@ -1750,6 +1752,32 @@ namespace DocearReminder
             this.textBox1.Size = new System.Drawing.Size(181, 21);
             this.textBox1.TabIndex = 147;
             // 
+            // diary
+            // 
+            this.diary.BackColor = System.Drawing.Color.White;
+            this.diary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.diary.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.diary.ForeColor = System.Drawing.Color.Gray;
+            this.diary.Location = new System.Drawing.Point(420, 317);
+            this.diary.MaximumSize = new System.Drawing.Size(600, 424);
+            this.diary.Name = "diary";
+            this.diary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.diary.Size = new System.Drawing.Size(600, 43);
+            this.diary.TabIndex = 148;
+            this.diary.Text = "";
+            this.diary.TextChanged += new System.EventHandler(this.diary_TextChanged);
+            // 
+            // IsDiary
+            // 
+            this.IsDiary.AutoSize = true;
+            this.IsDiary.Location = new System.Drawing.Point(1548, 75);
+            this.IsDiary.Name = "IsDiary";
+            this.IsDiary.Size = new System.Drawing.Size(72, 16);
+            this.IsDiary.TabIndex = 149;
+            this.IsDiary.Text = "是否日记";
+            this.IsDiary.UseVisualStyleBackColor = true;
+            this.IsDiary.CheckedChanged += new System.EventHandler(this.IsDiary_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1758,6 +1786,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1634, 837);
+            this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
             this.Controls.Add(this.IsClip);
@@ -1835,6 +1864,7 @@ namespace DocearReminder
             this.Controls.Add(this.note);
             this.Controls.Add(this.DrawList);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.diary);
             this.ForeColor = System.Drawing.Color.Gray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2028,6 +2058,8 @@ namespace DocearReminder
         private MyRichTextBox note;
         private CustomCheckedListBox DrawList;
         private TextBox textBox1;
+        private MyRichTextBox diary;
+        private CheckBox IsDiary;
     }
 }
 

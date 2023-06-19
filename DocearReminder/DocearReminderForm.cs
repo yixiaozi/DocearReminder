@@ -4853,11 +4853,14 @@ namespace DocearReminder
             {
                 reminderlistSelectedItem = reminderListBox.SelectedItem;
                 reminderSelectIndex = reminderListBox.SelectedIndex;
+                reminderList.SelectedIndex = -1;
+                reminderList.Refresh();
             }
             else
             {
                 reminderlistSelectedItem = reminderList.SelectedItem;
                 reminderSelectIndex = reminderList.SelectedIndex;
+                reminderListBox.SelectedIndex = -1;
             }
             if (reminderListBox.Visible)
             {
@@ -10846,22 +10849,21 @@ namespace DocearReminder
                                 {
                                     if (reminderList.SelectedIndex + 1 < reminderList.Items.Count)
                                     {
-                                        reminderList.SelectedIndex++;
+                                        reminderList.SelectedIndex++;//正常选中下一个
                                     }
                                     else
                                     {
-                                        if (reminderListBox.Items.Count > 0)
+                                        if (reminderListBox.Items.Count > 0)//如果有的话
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = 0;
-                                            ReminderListSelectedIndex(-1);
+                                            reminderList.SelectedIndex = -1;
+                                            reminderListBox.Refresh();
                                         }
-                                        else
+                                        else//如果没有，选中第一个
                                         {
                                             reminderList.Focus();
                                             ReminderListSelectedIndex(0);
-                                            reminderListBox.SelectedIndex = -1;
-                                            reminderListBox.Refresh();
                                         }
                                     }
                                     reminderList.Refresh();
@@ -10885,7 +10887,8 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = 0;
-                                            ReminderListSelectedIndex(-1);
+                                            reminderList.SelectedIndex = -1;
+                                            reminderList.Refresh();
                                         }
                                     }
                                     reminderListBox.Refresh();
@@ -11126,7 +11129,7 @@ namespace DocearReminder
                                         {
                                             reminderListBox.Focus();
                                             reminderListBox.SelectedIndex = reminderListBox.Items.Count - 1;
-                                            ReminderListSelectedIndex(-1);
+                                            reminderList.SelectedIndex = -1 ;
                                             reminderListBox.Refresh();
                                         }
                                         else

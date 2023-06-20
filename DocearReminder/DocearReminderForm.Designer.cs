@@ -1766,6 +1766,7 @@ namespace DocearReminder
             this.diary.TabIndex = 148;
             this.diary.Text = "";
             this.diary.TextChanged += new System.EventHandler(this.diary_TextChanged);
+            this.diary.KeyUp += new System.Windows.Forms.KeyEventHandler(this.diary_KeyUp);
             // 
             // IsDiary
             // 
@@ -1907,6 +1908,8 @@ namespace DocearReminder
         }
 
         
+
+
         #endregion
         private SortByTimeListBox reminderList;
         private System.Windows.Forms.TextBox searchword;

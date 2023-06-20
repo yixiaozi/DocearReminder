@@ -4820,21 +4820,32 @@ namespace DocearReminder
                 }
             }
         }
-
+        private void diary_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.PageUp)
+            {
+                dateTimePicker.Value = dateTimePicker.Value.AddDays(-1);
+            }
+            if (e.KeyCode == Keys.PageDown)
+            {
+                dateTimePicker.Value = dateTimePicker.Value.AddDays(1);
+            }
+        }
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            //if (dateTimePicker.Focused && taskTime.Value == 0)
-            //{
-            //    taskTime.Value = 10;
-            //}
-            //if (dateTimePicker.Focused && tasklevel.Value == 0 && mindmapornode.Text.Contains(">"))
-            //{
-            //    tasklevel.Value = 1;
-            //}
-            //if (dateTimePicker.Focused && dateTimePicker.Value < DateTime.Now && dateTimePicker.Value.Day == 1)
-            //{
-            //    dateTimePicker.Value = dateTimePicker.Value.AddMonths(1);
-            //}
+            if (IsDiary.Checked)
+            {
+                SetDiarying = true;
+                diary.Text = "";
+                SetDiarying = false;
+                ShowOrSetOneDiary(dateTimePicker.Value.Date);
+                //光标进入diary最后
+                if (diary.Text.Length > 0)
+                {
+                    diary.SelectionStart = diary.Text.Length;
+                }
+                diary.Focus();
+            }
         }
 
         private bool isInReminderList = false;

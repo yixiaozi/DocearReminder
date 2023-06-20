@@ -17766,6 +17766,100 @@ namespace DocearReminder
             //}
         }
 
+        //添加一个方法，获取或者添加某天的日志
+        public void ShowOrSetOneDiary(DateTime DiaryDate)
+        {
+            if (SetDiarying)
+            {
+                return;
+            }
+            //日记文件从ini文件获取
+            string mindmap = ini.ReadString("Diary", "mindmap", "");
+            if (mindmap == "")
+            {
+                MessageBox.Show("请先设置日记文件");
+                return;
+            }
+            string content = ShowOrSetDiary(mindmap, DiaryDate);
+            if(content!=""|| diary.Text.Trim() != "")
+            {
+                if (diary.Text.Trim() == "")
+                {
+                    diary.Text = content;
+                }
+                else if (content != diary.Text)
+                {
+                    ShowOrSetDiary(mindmap, DiaryDate, diary.Text);
+                }
+            }
+        }
+
+        //添加一个方法
+        //输入mindmapPath,Date,content(默认为空)
+        //返回思维导图中，Date的年节点月节点日节点下面节点的内容，如果Content不为空，则设置值
+        //如Date=20230620则返回思维导图，2023节点下6节点，20节点下面的内容。如果没有节点则创建
+        //如果Content不为空，则设置值
+        public string ShowOrSetDiary(string mindmap,DateTime DiaryDate, string content="")
+        {
+            //打开思维导图
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(mindmap);
+            XmlNode root = x.GetElementsByTagName("node")[0];
+            //获取根节点
+            //根节点下是否有年，如果没有则创建
+            if (!haschildNode(root, DiaryDate.Year.ToString()))
+            {
+                XmlNode yearNode = x.CreateElement("node");
+                XmlAttribute yearNodeValue = x.CreateAttribute("TEXT");
+                yearNodeValue.Value = DiaryDate.Year.ToString();
+                yearNode.Attributes.Append(yearNodeValue);
+                XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+            }
+            XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DiaryDate.Year.ToString());
+            //年节点下是否有月，如果没有则创建
+            if (!haschildNode(year, DiaryDate.Month.ToString()))
+            {
+                XmlNode monthNode = x.CreateElement("node");
+                XmlAttribute monthNodeValue = x.CreateAttribute("TEXT");
+                monthNodeValue.Value = DiaryDate.Month.ToString();
+                monthNode.Attributes.Append(monthNodeValue);
+                XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+            }
+            XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DiaryDate.Month.ToString());
+            //月节点下是否有日，如果没有则创建
+            if (!haschildNode(month, DiaryDate.Day.ToString()))
+            {
+                XmlNode dayNode = x.CreateElement("node");
+                XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
+                dayNodeValue.Value = DiaryDate.Day.ToString();
+                dayNode.Attributes.Append(dayNodeValue);
+                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+            }
+            XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DiaryDate.Day.ToString());
+            //日节点下是否有节点，如果没有则创建
+            if (day.ChildNodes.Count==0)
+            {
+                XmlNode contentNode = x.CreateElement("node");
+                XmlAttribute contentNodeValue = x.CreateAttribute("TEXT");
+                contentNodeValue.Value = content;
+                contentNode.Attributes.Append(contentNodeValue);
+                XmlAttribute contentNodeTASKID = x.CreateAttribute("ID"); contentNode.Attributes.Append(contentNodeTASKID); contentNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); day.AppendChild(contentNode);
+            }
+            XmlNode contentNode1 = day.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT");
+            if (content != "")
+            {
+                contentNode1.Attributes["TEXT"].Value = content;
+            }
+            //保存
+            x.Save(mindmap);
+            ////转换字符
+            //Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap));
+            //th.Start();
+            return contentNode1.Attributes["TEXT"].Value;
+        }
+
+        
+
         public void SearchTreeNode(TreeNodeCollection nodes, string searchWorld)
         {
             foreach (TreeNode item in nodes)
@@ -18433,7 +18527,7 @@ namespace DocearReminder
             {
             }
         }
-
+        bool SetDiarying = false;
         private void IsDiary_CheckedChanged(object sender, EventArgs e)
         {
             //如果选中，则显示diary，隐藏任务表，否则相反
@@ -18442,6 +18536,7 @@ namespace DocearReminder
                 reminderList.Visible = false;
                 reminderListBox.Visible = false;
                 diary.Visible = true;
+                ShowOrSetOneDiary(dateTimePicker.Value.Date);
                 //光标进入diary最后
                 if (diary.Text.Length > 0)
                 {
@@ -18451,7 +18546,14 @@ namespace DocearReminder
             }
             else
             {
+                SetDiarying = true;
+                diary.Text = "";
+                SetDiarying = false;
+
                 diary.Visible = false;
+                string mindmap = ini.ReadString("Diary", "mindmap", "");
+                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap));
+                th.Start();
                 reminderList.Visible = true;
                 reminderListBox.Visible = true;
                 //选中reminderList
@@ -18461,7 +18563,7 @@ namespace DocearReminder
 
         private void diary_TextChanged(object sender, EventArgs e)
         {
-
+            ShowOrSetOneDiary(dateTimePicker.Value.Date);
         }
     }
 

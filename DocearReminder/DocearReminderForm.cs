@@ -17360,14 +17360,69 @@ namespace DocearReminder
 
         private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                //打开树视图文件的文件夹
+                if (File.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件
+                    FileInfo fi = new FileInfo(FileTreeView.SelectedNode.Name);
+                    Process.Start(fi.FullName);
+                }
+                else if (Directory.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件夹
+                    DirectoryInfo folder = new DirectoryInfo(FileTreeView.SelectedNode.Name);
+                    Process.Start(folder.FullName);
+                }
+                MyHide();
+            }
+            catch (Exception ex) { }
         }
 
         private void ToolStripMenuItem5_Click(object sender, EventArgs e)
         {
+            try
+            {
+                //删除文件或者文件夹
+                if (File.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件
+                    FileInfo fi = new FileInfo(FileTreeView.SelectedNode.Name);
+                    fi.Delete();
+                }
+                else if (Directory.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件夹
+                    DirectoryInfo folder = new DirectoryInfo(FileTreeView.SelectedNode.Name);
+                    folder.Delete(true);
+                }
+                //移除当前选中节点
+                FileTreeView.SelectedNode.Remove();
+            }
+            catch (Exception ex) { }
         }
 
         private void 打开文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                //打开树视图文件的文件夹
+                if (File.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件
+                    FileInfo fi = new FileInfo(FileTreeView.SelectedNode.Name);
+                    Process.Start(fi.Directory.FullName);
+                }
+                else if (Directory.Exists(FileTreeView.SelectedNode.Name))
+                {
+                    //文件夹
+                    DirectoryInfo folder = new DirectoryInfo(FileTreeView.SelectedNode.Name);
+                    Process.Start(folder.FullName);
+                }
+                MyHide();
+            }
+            catch(Exception ex) { }
         }
 
         private void ToolStripMenuItem8_Click(object sender, EventArgs e)

@@ -2282,6 +2282,16 @@ namespace DocearReminder
                                 {
                                 }
                             }
+                            //如果mxfile没有compressed属性，或者其值不为false则添加compressed属性并设置值为false
+                            if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null || x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value != "false")
+                            {
+                                //没有compressed属性
+                                if(x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null){
+                                    x.GetElementsByTagName("mxfile")[0].Attributes.Append(x.CreateAttribute("compressed"));
+                                }
+                                x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value = "false";
+                                x.Save(file.FullName);
+                            }
                             if (number > 0)
                             {
                                 DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });

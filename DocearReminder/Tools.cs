@@ -89,6 +89,11 @@ namespace DocearReminder
                 file.Delete();
                 deleteCount++;
             }
+            foreach (FileInfo file in path.GetFiles("*.drawio.bkp", SearchOption.AllDirectories))
+            {
+                file.Delete();
+                deleteCount++;
+            }
             if (deleteCount > 0)
             {
                 MessageBox.Show("delete temp file count:" + deleteCount.ToString());

@@ -1062,6 +1062,7 @@ namespace DocearReminder
             yixiaozi.Model.DocearReminder.Helper.ConvertFile(DiigoMap);
             //打开文件MoodNodesMap
             System.Diagnostics.Process.Start(DiigoMap);
+            this.Hide();
             return;
         }
 

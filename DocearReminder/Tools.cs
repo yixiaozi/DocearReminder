@@ -891,6 +891,7 @@ namespace DocearReminder
             yixiaozi.Model.DocearReminder.Helper.ConvertFile(MoondNodesMap);
             //打开文件MoodNodesMap
             System.Diagnostics.Process.Start(MoondNodesMap);
+            this.Hide();
         }
         private void DiigoImport_Click(object sender, EventArgs e)
         {

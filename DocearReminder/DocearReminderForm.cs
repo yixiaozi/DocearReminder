@@ -1853,6 +1853,12 @@ namespace DocearReminder
                         System.Xml.XmlDocument x = new XmlDocument();
                         System.Xml.XmlDocument y = new XmlDocument();
                         x.Load(file.FullName);
+                        //如果文件中x包含"Folder|D"或者"Folder|F"则继续，否则跳过
+                        if(!x.InnerXml.Contains("Folder|D")&& !x.InnerXml.Contains("Folder|F"))
+                        {
+                            continue;
+                        }
+
                         bool needsave = false;
                         y = (XmlDocument)x.CloneNode(true);
                         foreach (XmlNode node in y.GetElementsByTagName(str1))

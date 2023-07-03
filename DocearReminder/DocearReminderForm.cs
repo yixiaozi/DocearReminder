@@ -2217,6 +2217,7 @@ namespace DocearReminder
         //获取包含任务的导图
         public void LoadFile(DirectoryInfo path)
         {
+            CustomCheckedListBox list=new CustomCheckedListBox();
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
             {
                 if (file.Extension==".mm"&& mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
@@ -2264,7 +2265,7 @@ namespace DocearReminder
                                         todayaddnodecount = "|" + todayaddnodecount;
                                     }
                                 }
-                                MindmapList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
+                                list.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
 
                                 taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
                             }
@@ -2314,8 +2315,11 @@ namespace DocearReminder
                     }
                 }
             }
-            MindmapList.Sorted = false;
-            MindmapList.Sorted = true;
+            list.Sorted = false;
+            list.Sorted = true;
+            MindmapList.Items.AddRange(list.Items);
+            //MindmapList.Sorted = false;
+            //MindmapList.Sorted = true;
             DrawList.Sorted = false;
             DrawList.Sorted = true;
         }

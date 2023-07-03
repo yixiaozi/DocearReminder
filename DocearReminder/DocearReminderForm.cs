@@ -2315,11 +2315,15 @@ namespace DocearReminder
                     }
                 }
             }
-            list.Sorted = false;
-            list.Sorted = true;
-            MindmapList.Items.AddRange(list.Items);
-            //MindmapList.Sorted = false;
-            //MindmapList.Sorted = true;
+            //list.Sorted = false;
+            //list.Sorted = true;
+            //将list.items倒叙写入MindmapList
+            for (int i = list.Items.Count - 1; i >= 0; i--)
+            {
+                MindmapList.Items.Insert(0, list.Items[i]);
+            }
+            MindmapList.Sorted = false;
+            MindmapList.Sorted = true;
             DrawList.Sorted = false;
             DrawList.Sorted = true;
         }

@@ -770,11 +770,6 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
-                //FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json");
-                //using (StreamWriter sw = fi.AppendText())
-                //{
-                //    sw.Write(json);
-                //}
             }
         }
 

@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\yixiaozi\.files\DocearReminder\</OutputPath>
+    <OutputPath>..\..\..\..\.files\DocearReminder\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,6 +63,21 @@
   <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>DocearReminder.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>D8CBB633948EFA4A69560214A3F2BF3A45BAFCD0</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>DocearReminder_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
@@ -532,6 +547,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="DocearReminder.manifest" />
+    <None Include="DocearReminder_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\MyMind.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

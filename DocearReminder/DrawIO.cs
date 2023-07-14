@@ -610,6 +610,7 @@ namespace DocearReminder
         private string[] GetPosition(string path)
         {
             string[] position = new string[4];
+            bool hasDefault = true;
             if (path != null && path != "")
             {
                 if (File.Exists(path))
@@ -648,6 +649,10 @@ namespace DocearReminder
                                 {
                                     position[1] = node.ChildNodes[0].Attributes["y"].Value;
                                 }
+                                else
+                                {
+                                    position[1] = "0";
+                                }
                                 //width
                                 if (node.ChildNodes[0].Attributes["width"] != null)
                                 {
@@ -658,6 +663,7 @@ namespace DocearReminder
                                 {
                                     position[3] = node.ChildNodes[0].Attributes["height"].Value;
                                 }
+                                hasDefault = false;
                                 break;
                             }
                         }
@@ -665,7 +671,22 @@ namespace DocearReminder
 
                 }
             }
-            return position;
+            if (hasDefault)
+            {
+                //如果没有待处理的节点，则返回默认值
+                //添加一个默认的待处理节点
+                if (File.Exists(path))
+                {
+                    //x="-280" width="280" height="560" y="0"
+                    AddNode(path, "-280", "0", "280", "560", "待处理");
+                }
+                return new string[] { "-280", "0", "280", "560" };
+
+            }
+            else
+            {
+                return position;
+            }
         }
 
         //通过GetPosition已获取了"待处理"的位置及大小，计算其他节点，所几个在其范围内
@@ -722,7 +743,7 @@ namespace DocearReminder
         //将button3_Click里面的代码封装成一个方法
         //输入参数：path，x,y,width,height,label,TaskDate,taskTime,TaskLevel
         //返回值：无
-        private void AddNode(string path, string x, string y, string width, string height, string label, string TaskDate, string taskTime, string TaskLevel)
+        private void AddNode(string path, string x, string y, string width, string height, string label, string TaskDate="", string taskTime="", string TaskLevel="")
         {
             //template< object label = "Name" TaskDate = "" TaskLevel = "" taskTime = "" id = "NxaE-IUndskCNaGzTjTz-4" >< mxCell style = "rounded=1;whiteSpace=wrap;html=1;" vertex = "1" parent = "1" >< mxGeometry x = "-300" width = "120" height = "60" as= "geometry" /></ mxCell ></ object >
             //上面是一个图形的模板

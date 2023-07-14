@@ -88,6 +88,7 @@ namespace DocearReminder
         public List<node> allfiles = new List<node>();
         private DirectoryInfo rootrootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
         private DirectoryInfo rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
+        public static string drawioPath="";
         public bool isInReminderlistSelect = false;
         public string mindmapPath = "";
         private string CalendarImagePath = "";
@@ -15831,6 +15832,13 @@ namespace DocearReminder
                 }
                 section = PathcomboBox.SelectedItem.ToString();
                 mindmapPath = rootpath.FullName;
+                drawioPath = rootpath.FullName + "\\" + PathcomboBox.SelectedItem.ToString()+ ".drawio";
+                //如果没有则创建
+                if (!System.IO.File.Exists(drawioPath))
+                {
+                    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.drawio");
+                    fi.CopyTo(drawioPath);
+                }
                 searchword.Text = "";
                 loadHopeNote();
                 PlaySimpleSoundAsync("changepath");

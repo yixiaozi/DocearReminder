@@ -569,14 +569,44 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GetPosition(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE\已完成\057备选经销商全新开发\230117上线\00.drawio");
-            //待处理：x="-330" y="-420" width="280" height="320" 
-            //要添加的任务：x="-320" y="-380" width="150" height="60"
-            MessageBox.Show(GetCount(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE\已完成\057备选经销商全新开发\230117上线\00.drawio").ToString());
+            //测试AddTask
+            string path = ((MyListBoxItem)DrawList.SelectedItem).Value;
+            if (path != null && path != "")
+            {
+                if (File.Exists(path))
+                {
+                    AddTask(path, "测试任务", "2018/12/12", "12:12", "1");
+                }
+            }
+
         }
-        //将button2_Click里面的代码封装成一个方法
+
+        //将GetAddTaskPosition，AddNode结合起来，用于在待处理添加任务
+        //输入参数：path，其余默认为空
+        //返回值：无
+        public void AddTask(string path, string taskname = "", string taskdate = "", string tasktime = "", string tasklevel = "")
+        {
+            string[] position = GetAddTaskPosition(path);
+            AddNode(path, position[0], position[1], position[2], position[3], taskname, taskdate, tasktime, tasklevel);
+        }
+
+        //将button2_Click里面的代码封装成一个方法，用于计算要添加任务的位置
         //输入参数：path
         //返回值：x,y,width,height
+        public string[] GetAddTaskPosition(string path)
+        {
+            int count = GetCount(path);
+            string[] position = GetPosition(path);
+            int x = int.Parse(position[0]);
+            int y = int.Parse(position[1]);
+            int width = int.Parse(position[2]);
+            int height = int.Parse(position[3]);
+            int x1 = x + 10;
+            int y1 = y + 40 + 70 * count;
+            string[] position1 = new string[] { x1.ToString(), y1.ToString(), "150", "60" };
+            return position1;
+        }
+
         private string[] GetPosition(string path)
         {
             string[] position = new string[4];

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DrawIO));
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.searchword = new System.Windows.Forms.TextBox();
@@ -36,6 +37,13 @@
             this.taskTime = new System.Windows.Forms.NumericUpDown();
             this.n_days = new System.Windows.Forms.NumericUpDown();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.xposition = new System.Windows.Forms.TextBox();
+            this.yposition = new System.Windows.Forms.TextBox();
+            this.width = new System.Windows.Forms.TextBox();
+            this.height = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
@@ -74,6 +82,7 @@
             this.reminderList.Sorted = true;
             this.reminderList.TabIndex = 4;
             this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
+            this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderList_SelectedIndexChanged);
             // 
             // searchword
             // 
@@ -86,7 +95,7 @@
             // 
             this.LoadAll.Location = new System.Drawing.Point(863, 49);
             this.LoadAll.Name = "LoadAll";
-            this.LoadAll.Size = new System.Drawing.Size(127, 54);
+            this.LoadAll.Size = new System.Drawing.Size(217, 54);
             this.LoadAll.TabIndex = 6;
             this.LoadAll.Text = "加载";
             this.LoadAll.UseVisualStyleBackColor = true;
@@ -165,11 +174,76 @@
             this.dateTimePicker.TabIndex = 50;
             this.dateTimePicker.TabStop = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1086, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(116, 54);
+            this.button1.TabIndex = 53;
+            this.button1.Text = "设置";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(864, 110);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(216, 51);
+            this.button2.TabIndex = 54;
+            this.button2.Text = "获取位置及高";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // xposition
+            // 
+            this.xposition.Location = new System.Drawing.Point(923, 235);
+            this.xposition.Name = "xposition";
+            this.xposition.Size = new System.Drawing.Size(100, 21);
+            this.xposition.TabIndex = 55;
+            // 
+            // yposition
+            // 
+            this.yposition.Location = new System.Drawing.Point(1075, 235);
+            this.yposition.Name = "yposition";
+            this.yposition.Size = new System.Drawing.Size(100, 21);
+            this.yposition.TabIndex = 56;
+            // 
+            // width
+            // 
+            this.width.Location = new System.Drawing.Point(935, 273);
+            this.width.Name = "width";
+            this.width.Size = new System.Drawing.Size(100, 21);
+            this.width.TabIndex = 57;
+            // 
+            // height
+            // 
+            this.height.Location = new System.Drawing.Point(1075, 273);
+            this.height.Name = "height";
+            this.height.Size = new System.Drawing.Size(100, 21);
+            this.height.TabIndex = 58;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(873, 178);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(216, 51);
+            this.button3.TabIndex = 59;
+            this.button3.Text = "添加图形";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // DrawIO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1215, 667);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.height);
+            this.Controls.Add(this.width);
+            this.Controls.Add(this.yposition);
+            this.Controls.Add(this.xposition);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tasklevel);
             this.Controls.Add(this.taskTime);
             this.Controls.Add(this.n_days);
@@ -178,7 +252,9 @@
             this.Controls.Add(this.searchword);
             this.Controls.Add(this.reminderList);
             this.Controls.Add(this.DrawList);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DrawIO";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DrawIO";
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).EndInit();
@@ -198,5 +274,12 @@
         private System.Windows.Forms.NumericUpDown taskTime;
         private System.Windows.Forms.NumericUpDown n_days;
         private System.Windows.Forms.DateTimePicker dateTimePicker;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox xposition;
+        private System.Windows.Forms.TextBox yposition;
+        private System.Windows.Forms.TextBox width;
+        private System.Windows.Forms.TextBox height;
+        private System.Windows.Forms.Button button3;
     }
 }

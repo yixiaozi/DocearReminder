@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AutoUpdate));
             this.label1 = new System.Windows.Forms.Label();
             this.cmdArgs = new System.Windows.Forms.Label();
             this.vers = new System.Windows.Forms.Label();
@@ -63,7 +64,7 @@
             this.vers.TabIndex = 2;
             this.vers.Text = "label2";
             // 
-            // AutoUpdateDemo
+            // AutoUpdate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,8 +72,9 @@
             this.Controls.Add(this.vers);
             this.Controls.Add(this.cmdArgs);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "AutoUpdateDemo";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "AutoUpdate";
             this.Text = "Demo";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -1,4 +1,6 @@
-﻿using NPOI.SS.Formula.Functions;
+﻿using EnvDTE;
+using NPOI.POIFS.Properties;
+using NPOI.SS.Formula.Functions;
 using NPOI.Util;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Xml;
 using yixiaozi.Config;
 using yixiaozi.Model.DocearReminder;
 using yixiaozi.MyConvert;
+using Color = System.Drawing.Color;
+using Brushes = System.Drawing.Brushes;
 
 namespace DocearReminder
 {
@@ -39,7 +45,7 @@ namespace DocearReminder
             reminderList.Items.Clear();
             foreach (FileInfo file in new DirectoryInfo(rootPath).GetFiles("*.drawio", SearchOption.AllDirectories))
             {
-                DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(4.ToString(), 2) + " " + Path.GetFileNameWithoutExtension(file.FullName), Value = file.FullName });
+                DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(LoadReminderCount(file.FullName).ToString(), 2) + " " + Path.GetFileNameWithoutExtension(file.FullName), Value = file.FullName });
                 LoadReminder(file.FullName);
             }
             for (int i = 0; i < DrawList.Items.Count; i++)
@@ -52,12 +58,146 @@ namespace DocearReminder
                 }
             }
             reminderList.Show();
+            DrawList.Sorted = false;
+            DrawList.Sorted = true;
+            DrawList.Refresh();
+            reminderList.Sorted = false;
             reminderList.Sorted = true;
             reminderList.Refresh();
         }
         //添加一个方法，输入一个文件地址，用xml读取文件，将所有mxCell标签添加到reminderList中
         public void LoadReminder(string file)
         {
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(file);
+            foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
+            {
+                //如果node的parentnode的name属性不为空，获取name属性的值
+
+                //如果有value属性，获取value属性的值
+                string name = "";
+                if (node.Attributes["value"] != null)
+                {
+                    name = node.Attributes["value"].Value;
+                }
+                //如果没有value属性，获取父节点label的值
+                else
+                {
+                    if (node.ParentNode.Attributes["label"] != null)
+                    {
+                        name = node.ParentNode.Attributes["label"].Value;
+                    }
+                }
+                //如果name不为空，添加到reminderList中
+                if (name != "")
+                {
+                    ReminderItem item = new ReminderItem();
+                    item.name = new HtmlToString().StripHTML(name);
+                    //TaskDate="2024-07-15"
+                    //获取TaskDate属性，并且转换为DateTime类型
+                    if (node.Attributes["TaskDate"] != null)
+                    {
+                        item.time = Convert.ToDateTime(node.Attributes["TaskDate"].Value);
+                    }
+                    //如果没有TaskDate属性，获取父节点的TaskDate属性
+                    else
+                    {
+                        if (node.ParentNode.Attributes["TaskDate"] != null)
+                        {
+                            try
+                            {
+                                item.time = Convert.ToDateTime(node.ParentNode.Attributes["TaskDate"].Value);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
+                    //TaskLevel="5"
+                    //获取TaskLevel属性，并且转换为int类型
+                    if (node.Attributes["TaskLevel"] != null)
+                    {
+                        item.tasklevel = Convert.ToInt16(node.Attributes["TaskLevel"].Value);
+                    }
+                    //如果没有TaskLevel属性，获取父节点的TaskLevel属性
+                    else
+                    {
+                        if (node.ParentNode.Attributes["TaskLevel"] != null)
+                        {
+                            try
+                            {
+                               item.tasklevel = Convert.ToInt16(node.ParentNode.Attributes["TaskLevel"].Value);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
+                    //TaskTime="30"
+                    //获取TaskTime属性，并且转换为int类型
+                    if (node.Attributes["TaskTime"] != null)
+                    {
+                        item.tasktime = Convert.ToInt16(node.Attributes["TaskTime"].Value);
+                    }
+                    //如果没有TaskTime属性，获取父节点的TaskTime属性
+                    else
+                    {
+                        if (node.ParentNode.Attributes["TaskTime"] != null)
+                        {
+                            try
+                            {
+                                item.tasktime = Convert.ToInt16(node.ParentNode.Attributes["TaskTime"].Value);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
+                    //id="wNFkX_FCYwEscR9QWev_-1"
+                    //获取id属性
+                    if (node.Attributes["id"] != null)
+                    {
+                        item.ID = node.Attributes["id"].Value;
+                    }
+                    //如果没有id属性，获取父节点的id属性
+                    else
+                    {
+                        if (node.ParentNode.Attributes["id"] != null)
+                        {
+                            item.ID = node.ParentNode.Attributes["id"].Value;
+                        }
+                    }
+
+
+                    reminderList.Items.Add(new MyListBoxItemRemind
+                    {
+                        Text = (item.time.Year == DateTime.Today.Year ? item.time.ToString("    HH:mm") : item.time.ToString("   MM-dd HH:mm")) + "  " + item.name,
+                        Name = item.name,
+                        Time = item.time,
+                        Value = "TimeBlock",
+                        IsShow = true,
+                        remindertype = item.DetailComment,
+                        rhours = 0,
+                        rdays = 0,
+                        rMonth = 00,
+                        rWeek = 0,
+                        ryear = 0,
+                        rtaskTime = Convert.ToInt16(item.tasktime),
+                        IsDaka = item.comment,
+                        IDinXML = item.ID,
+                        link = item.nameFull,
+                        level = item.tasklevel
+                    });
+                }
+            }
+        }
+
+        public int LoadReminderCount(string file)
+        {
+            int result = 0;
             System.Xml.XmlDocument x = new XmlDocument();
             x.Load(file);
             foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
@@ -79,30 +219,12 @@ namespace DocearReminder
                 //如果name不为空，添加到reminderList中
                 if (name != "")
                 {
-                    ReminderItem item = new ReminderItem();
-                    item.name = new HtmlToString().StripHTML(name);
-                    reminderList.Items.Add(new MyListBoxItemRemind
-                    {
-                        Text = ("" == "" ? item.time.ToString("    HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : "") + (item.DetailComment != null && item.DetailComment != "" ? "*" : ""),
-                        Name = item.name,
-                        Time = item.time,
-                        Value = "TimeBlock",
-                        IsShow = true,
-                        remindertype = item.DetailComment,
-                        rhours = 0,
-                        rdays = 0,
-                        rMonth = 00,
-                        rWeek = 0,
-                        ryear = 0,
-                        rtaskTime = Convert.ToInt16(item.tasktime),
-                        IsDaka = item.comment,
-                        IDinXML = item.ID,
-                        link = item.nameFull,
-                        level = item.tasklevel
-                    });
+                    result++;
                 }
             }
+            return result;
         }
+
         public string FormatTimeLenght(string result, int resultLenght)
         {
             for (int i = result.Length; i < resultLenght; i++)
@@ -354,6 +476,276 @@ namespace DocearReminder
                     LoadReminder(path);
                 }
             }
+        }
+
+        private void reminderList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            reminderList.Refresh();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //设置当前节点的时间，时长，任务等级
+            if (reminderList.SelectedIndex >= 0)
+            {
+                string path = ((MyListBoxItem)DrawList.SelectedItem).Value;
+                if (path != null && path != "")
+                {
+                    if (File.Exists(path))
+                    {
+                        System.Xml.XmlDocument x = new XmlDocument();
+                        x.Load(path);
+                        //x.GetElementById();
+                        //获取当前任务的ID
+                        string id = ((MyListBoxItemRemind)reminderList.SelectedItem).IDinXML;
+                        if (id != null && id != "")
+                        {
+                            string[] tagNames = new string[] { "mxCell","object" };
+                            foreach (string tagname in tagNames)
+                            {
+                                //获取当前任务的节点
+                                XmlNodeList xnl = x.GetElementsByTagName(tagname);
+                                foreach (XmlNode xn in xnl)
+                                {
+                                    if (xn.Attributes["id"] != null && xn.Attributes["id"].Value == id)
+                                    {
+                                        //设置当前任务的时间
+                                        if (dateTimePicker.Value != null)
+                                        {
+                                            //避免没有TaskDate属性
+                                            if (xn.Attributes["TaskDate"] == null)
+                                            {
+                                                XmlAttribute xa = x.CreateAttribute("TaskDate");
+                                                xa.Value = dateTimePicker.Value.ToString();
+                                                xn.Attributes.Append(xa);
+                                            }
+                                            else
+                                            {
+                                                xn.Attributes["TaskDate"].Value = dateTimePicker.Value.ToString();
+                                            }
+                                        }
+                                        //设置当前任务的时长
+                                        if (taskTime.Value != null)
+                                        {
+                                            //避免没有TaskLevel属性
+                                            if (xn.Attributes["taskTime"] == null)
+                                            {
+                                                XmlAttribute xa = x.CreateAttribute("taskTime");
+                                                xa.Value = taskTime.Value.ToString();
+                                                xn.Attributes.Append(xa);
+                                            }
+                                            else
+                                            {
+                                                xn.Attributes["taskTime"].Value = taskTime.Value.ToString();
+                                            }
+                                        }
+                                        //设置当前任务的任务等级
+                                        if (tasklevel.Value != null)
+                                        {
+                                            //避免没有TaskLevel属性
+                                            if (xn.Attributes["TaskLevel"] == null)
+                                            {
+                                                XmlAttribute xa = x.CreateAttribute("TaskLevel");
+                                                xa.Value = tasklevel.Value.ToString();
+                                                xn.Attributes.Append(xa);
+                                            }
+                                            else
+                                            {
+                                                xn.Attributes["TaskLevel"].Value = tasklevel.Value.ToString();
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        x.Save(path);
+
+                    }
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GetPosition(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE\已完成\057备选经销商全新开发\230117上线\00.drawio");
+            //待处理：x="-330" y="-420" width="280" height="320" 
+            //要添加的任务：x="-320" y="-380" width="150" height="60"
+            MessageBox.Show(GetCount(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE\已完成\057备选经销商全新开发\230117上线\00.drawio").ToString());
+        }
+        //将button2_Click里面的代码封装成一个方法
+        //输入参数：path
+        //返回值：x,y,width,height
+        private string[] GetPosition(string path)
+        {
+            string[] position = new string[4];
+            if (path != null && path != "")
+            {
+                if (File.Exists(path))
+                {
+                    System.Xml.XmlDocument x = new XmlDocument();
+                    x.Load(path);
+                    string[] tagNames = new string[] { "mxCell", "object" };
+                    foreach (string tagname in tagNames)
+                    {
+                        //获取当前任务的节点
+                        XmlNodeList xnl = x.GetElementsByTagName(tagname);
+                        foreach (XmlNode node in xnl)
+                        {
+                            string name = "";
+                            if (node.Attributes["value"] != null)
+                            {
+                                name = node.Attributes["value"].Value;
+                            }
+                            //如果没有value属性，获取父节点label的值
+                            else
+                            {
+                                if (node.ParentNode.Attributes["label"] != null)
+                                {
+                                    name = node.ParentNode.Attributes["label"].Value;
+                                }
+                            }
+                            name = new HtmlToString().StripHTML(name);
+                            //如果name=待处理，则获取x,y属性
+                            if (name.Contains("待处理"))
+                            {
+                                if (node.ChildNodes[0].Attributes["x"] != null)
+                                {
+                                    position[0] = node.ChildNodes[0].Attributes["x"].Value;
+                                }
+                                if (node.ChildNodes[0].Attributes["y"] != null)
+                                {
+                                    position[1] = node.ChildNodes[0].Attributes["y"].Value;
+                                }
+                                //width
+                                if (node.ChildNodes[0].Attributes["width"] != null)
+                                {
+                                    position[2] = node.ChildNodes[0].Attributes["width"].Value;
+                                }
+                                //height
+                                if (node.ChildNodes[0].Attributes["height"] != null)
+                                {
+                                    position[3] = node.ChildNodes[0].Attributes["height"].Value;
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+            return position;
+        }
+
+        //通过GetPosition已获取了"待处理"的位置及大小，计算其他节点，所几个在其范围内
+        //输入参数:path
+        //返回值：个数
+        private int GetCount(string path)
+        {
+            int count = 0;
+            string[] position = GetPosition(path);
+            if (position != null && position.Length == 4)
+            {
+                if (File.Exists(path))
+                {
+                    System.Xml.XmlDocument xdoc = new XmlDocument();
+                    xdoc.Load(path);
+                    string[] tagNames = new string[] { "mxGeometry" };
+                    foreach (string tagname in tagNames)
+                    {
+                        //获取当前任务的节点
+                        XmlNodeList xnl = xdoc.GetElementsByTagName(tagname);
+                        foreach (XmlNode node in xnl)
+                        {
+                            int x = 0;
+                            int y = 0;
+                            if (node.Attributes["x"] != null)
+                            {
+                                x = Convert.ToInt32(node.Attributes["x"].Value);
+                            }
+                            if (node.Attributes["y"] != null)
+                            {
+                                y = Convert.ToInt32(node.Attributes["y"].Value);
+                            }
+                            //判断是否在position范围内
+                            if (x > Convert.ToInt32(position[0]) && x < Convert.ToInt32(position[0]) + Convert.ToInt32(position[2]))
+                            {
+                                if (y > Convert.ToInt32(position[1]) && y < Convert.ToInt32(position[1]) + Convert.ToInt32(position[3]))
+                                {
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            return count;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //将button3_Click里面的代码封装成一个方法
+        //输入参数：path，x,y,width,height,label,TaskDate,taskTime,TaskLevel
+        //返回值：无
+        private void AddNode(string path, string x, string y, string width, string height, string label, string TaskDate, string taskTime, string TaskLevel)
+        {
+            //template< object label = "Name" TaskDate = "" TaskLevel = "" taskTime = "" id = "NxaE-IUndskCNaGzTjTz-4" >< mxCell style = "rounded=1;whiteSpace=wrap;html=1;" vertex = "1" parent = "1" >< mxGeometry x = "-300" width = "120" height = "60" as= "geometry" /></ mxCell ></ object >
+            //上面是一个图形的模板
+            //将上述模板转换成XmlNode对象
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml("<template><object label = \"Name123\" TaskDate = \"\" TaskLevel = \"\" taskTime = \"\" id = \"\" ><mxCell style = \"rounded=1;whiteSpace=wrap;html=1;\" vertex = \"1\" parent = \"1\"><mxGeometry x = \"-300\" y = \"-300\" width = \"120\" height = \"60\" as= \"geometry\" /></mxCell></object></template>");
+            XmlNode node = xdoc.SelectSingleNode("template/object");
+            //设置id为新的guid
+            node.Attributes["id"].Value = Guid.NewGuid().ToString();
+            //设置label为textbox的值
+            node.Attributes["label"].Value = label;
+            //TaskDate
+            node.Attributes["TaskDate"].Value = TaskDate;
+            //taskTime
+            node.Attributes["taskTime"].Value = taskTime;
+            //TaskLevel
+            node.Attributes["TaskLevel"].Value = TaskLevel;
+
+            //设置x,y,width,height
+            node.ChildNodes[0].ChildNodes[0].Attributes["x"].Value = x;
+            node.ChildNodes[0].ChildNodes[0].Attributes["y"].Value = y;
+            node.ChildNodes[0].ChildNodes[0].Attributes["width"].Value = width;
+            node.ChildNodes[0].ChildNodes[0].Attributes["height"].Value = height;
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.Load(path);
+                //在root下面插入node
+                XmlNode root = xmldoc.GetElementsByTagName("root")[0];
+                root.AppendChild(xmldoc.ImportNode(node, true));
+                xmldoc.Save(path);
+            }
+        }
+
+
+        //添加一个方法判断source="ID"或者target="ID"是否在文档里
+        //输入ID和文档URL两个参数
+        //返回true或者false
+        private bool IsExist(string ID, string path)
+        {
+            bool result = false;
+            if (File.Exists(path))
+            {
+                //读取文本到字符串
+                string text = File.ReadAllText(path);
+                //判断是否包含source="ID"或者target="ID"
+                if (text.Contains("source=\"" + ID + "\"") || text.Contains("target=\"" + ID + "\""))
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

@@ -368,8 +368,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="yixiaozi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\yixiaozi.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\.files\DocearReminder\yixiaozi.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

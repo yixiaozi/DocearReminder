@@ -3751,7 +3751,7 @@ namespace DocearReminder
 
         private void encryptbutton_Click(object sender, EventArgs e)
         {
-            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             MindmapList.Items.Clear();
             reminderList.Items.Clear();
             LoadEncryptFile(path);
@@ -3764,7 +3764,7 @@ namespace DocearReminder
             {
                 if ((file.OpenText().ReadToEnd()).Contains("ENCRYPTED_CONTENT"))
                 {
-                    MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                    MindmapList.Items.Insert(0, new MyListBoxItem { Text = file+ file.Name, Value = file.FullName });
                 }
             }
         }
@@ -3773,20 +3773,16 @@ namespace DocearReminder
         {
             MindmapList.Items.Clear();
             reminderList.Items.Clear();
-            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); 
             string keyword = yixiaozi.Model.DocearReminder.Helper.ConvertString(searchword.Text);
             string searchPattern = "*.mm";
             if (!IsEncryptBool)
             {
-                if (false)
-                {
-                    //searchPattern = "*";
-                }
                 foreach (FileInfo file in path.GetFiles(searchPattern, SearchOption.AllDirectories))
                 {
                     if (file.Name.Contains(searchword.Text))
                     {
-                        MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                        MindmapList.Items.Insert(0, new MyListBoxItem { Text = file+ file.Name, Value = file.FullName });
                     }
                     else
                     {
@@ -3794,22 +3790,10 @@ namespace DocearReminder
                         {
                             if ((file.OpenText().ReadToEnd().ToLower()).Contains(keyword.ToLower()))
                             {
-                                MindmapList.Items.Insert(0, new MyListBoxItem { Text = GetTopString(file) + file.Name, Value = file.FullName });
+                                MindmapList.Items.Insert(0, new MyListBoxItem { Text = file + file.Name, Value = file.FullName });
                             }
                         }
                     }
-                }
-                if (false)
-                {
-                    //mindmaplist.Sorted = false;
-                    //for (int i = 1; i < mindmaplist.Items.Count; i++)
-                    //{
-                    //    MoveItem(i);
-                    //}
-                    //for (int i = 0; i < mindmaplist.Items.Count; i++)
-                    //{
-                    //    ((MyListBoxItem)mindmaplist.Items[i]).Text = ((MyListBoxItem)mindmaplist.Items[i]).Text.Substring(((MyListBoxItem)mindmaplist.Items[i]).Text.Split(' ')[0].Length + 1);
-                    //}
                 }
             }
             else
@@ -4053,7 +4037,6 @@ namespace DocearReminder
                                             e.State,
                                             e.ForeColor,
                                             Color.White);
-                    ////e.DrawFocusRectangle();
                 }
             }
         }
@@ -4110,13 +4093,6 @@ namespace DocearReminder
                 reminder_year.Checked = false;
                 reminder_yearafter.Checked = false;
             }
-            if (!(reminder_week.Checked || reminder_month.Checked || reminder_year.Checked || reminder_yearafter.Checked))
-            {
-                if (true)
-                {
-                    //ChangeReminder();
-                }
-            }
         }
 
         private void Reminder_week_CheckedChanged(object sender, EventArgs e)
@@ -4130,13 +4106,6 @@ namespace DocearReminder
             else
             {
                 showtomorrow.Checked = true;
-            }
-            if (!(reminder_month.Checked || reminder_year.Checked || reminder_yearafter.Checked))
-            {
-                if (true)
-                {
-                    //ChangeReminder();
-                }
             }
         }
 
@@ -4152,13 +4121,6 @@ namespace DocearReminder
                 showtomorrow.Checked = true;
                 reminder_week.Checked = true;
             }
-            if (!(reminder_year.Checked || reminder_yearafter.Checked))
-            {
-                if (true)
-                {
-                    //ChangeReminder();
-                }
-            }
         }
 
         private void Reminder_year_CheckedChanged(object sender, EventArgs e)
@@ -4173,13 +4135,6 @@ namespace DocearReminder
             {
                 reminder_yearafter.Checked = false;
             }
-            if (!reminder_yearafter.Checked)
-            {
-                if (true)
-                {
-                    //ChangeReminder();
-                }
-            }
         }
 
         private void Reminder_yearafter_CheckedChanged(object sender, EventArgs e)
@@ -4190,10 +4145,6 @@ namespace DocearReminder
                 reminder_week.Checked = true;
                 reminder_month.Checked = true;
                 reminder_year.Checked = true;
-            }
-            if (true)
-            {
-                //ChangeReminder();
             }
         }
 
@@ -4206,27 +4157,7 @@ namespace DocearReminder
                 order++;
                 len /= 1024;
             }
-            // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
-            // show a single decimal place, and no space.
             return String.Format("{0:0.##} {1}", len, sizes[order]);
-        }
-
-        public string GetTopString(FileInfo file)
-        {
-            string topString = "";
-            //if (false)
-            //{
-            //    topString = file.CreationTime.ToString("yyyy/MM/dd HH:mm") + "   ";
-            //}
-            //else if (false)
-            //{
-            //    topString = file.LastWriteTime.ToString("yyyy/MM/dd HH:mm") + "   ";
-            //}
-            //else if (false)
-            //{
-            //    topString = file.Length.ToString() + " " + GetFileSize(file.Length) + "   ";
-            //}
-            return topString;
         }
 
         public void MoveItem(int n)
@@ -10366,9 +10297,6 @@ namespace DocearReminder
                             {
                                 searchword.Text = "";
                                 reminderList.Focus();
-                                //解决任务栏会闪动的问题，其实没有必要刷新
-                                //RRReminderlist();
-                                //ReminderListSelectedIndex(reminderSelectIndex);
                             }
                         }
                     }
@@ -10692,17 +10620,6 @@ namespace DocearReminder
                         }
                         else if (ReminderListFocused())
                         {
-                            //try
-                            //{
-                            //    if (quietmode.Checked)
-                            //    {
-                            //        Thread th = new Thread(() => yixiaozi.Media.Audio.Audio.SpeakText(((MyListBoxItemRemind)reminderlistSelectedItem).Name));
-                            //        th.Start();
-                            //    }
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //}
                             IsDiary.Checked = !IsDiary.Checked;
                         }
                     }

@@ -659,10 +659,11 @@ namespace DocearReminder
                                     position[2] = node.ChildNodes[0].Attributes["width"].Value;
                                 }
                                 //height
-                                if (node.ChildNodes[0].Attributes["height"] != null)
-                                {
-                                    position[3] = node.ChildNodes[0].Attributes["height"].Value;
-                                }
+                                //if (node.ChildNodes[0].Attributes["height"] != null)
+                                //{
+                                //    position[3] = node.ChildNodes[0].Attributes["height"].Value;
+                                //}
+                                position[3] = "1000";
                                 hasDefault = false;
                                 break;
                             }
@@ -680,7 +681,7 @@ namespace DocearReminder
                     //x="-280" width="280" height="560" y="0"
                     AddNode(path, "-280", "0", "280", "560", "待处理");
                 }
-                return new string[] { "-280", "0", "280", "560" };
+                return new string[] { "-280", "0", "280", "10000" };
 
             }
             else
@@ -762,6 +763,12 @@ namespace DocearReminder
             //TaskLevel
             node.Attributes["TaskLevel"].Value = TaskLevel;
 
+            //如果label是待处理，则则将mxCell的样式修改为style="rounded=0;whiteSpace=wrap;html=1;horizontal=1;verticalAlign=top;"
+            if (label.Contains("待处理"))
+            {
+                node.ChildNodes[0].Attributes["style"].Value = "rounded=0;whiteSpace=wrap;html=1;horizontal=1;verticalAlign=top;";
+            }
+
             //设置x,y,width,height
             node.ChildNodes[0].ChildNodes[0].Attributes["x"].Value = x;
             node.ChildNodes[0].ChildNodes[0].Attributes["y"].Value = y;
@@ -798,5 +805,49 @@ namespace DocearReminder
             }
             return result;
         }
+        //判断一个ID在文档里是否存在，如果存在则返回true，否则返回false
+        //输入参数：ID,path
+        //返回值：true或者false
+        public static bool IDIsExist(string ID, string path)
+        {
+            bool result = false;
+            if (File.Exists(path))
+            {
+                //读取文本到字符串
+                string text = File.ReadAllText(path);
+                if (text.Contains("id=\"" + ID + "\""))
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        //删除ID为ID的节点
+        //输入参数：ID,path
+        //返回值：无
+        public static void DeleteNode(string ID, string path)
+        {
+            if (File.Exists(path))
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.Load(path);
+                string[] tagNames = new string[] { "mxCell","object" };
+                foreach (string tagname in tagNames)
+                {
+                    XmlNodeList xnl = xmldoc.GetElementsByTagName("tagname");
+                    foreach (XmlNode node in xnl)
+                    {
+                        if (node.Attributes["id"]!=null&&node.Attributes["id"].Value == ID)
+                        {
+                            node.ParentNode.RemoveChild(node);
+                            break;
+                        }
+                    }
+                }
+                xmldoc.Save(path);
+            }
+        }
+
     }
 }

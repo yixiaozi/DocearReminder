@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\.files\DocearReminder\</OutputPath>
+    <OutputPath>..\..\..\yixiaozi\.files\DocearReminder\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -383,11 +383,18 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonFunction.cs" />
     <Compile Include="DrawIO.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DrawIO.Designer.cs">
       <DependentUpon>DrawIO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OneDay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OneDay.Designer.cs">
+      <DependentUpon>OneDay.cs</DependentUpon>
     </Compile>
     <Compile Include="SupportClass\Extensions.cs" />
     <Compile Include="Report\KeyHours.cs">
@@ -485,6 +492,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DrawIO.resx">
       <DependentUpon>DrawIO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OneDay.resx">
+      <DependentUpon>OneDay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\KeyHours.resx">
       <DependentUpon>KeyHours.cs</DependentUpon>

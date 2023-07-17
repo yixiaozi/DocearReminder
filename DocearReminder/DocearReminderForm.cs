@@ -403,6 +403,7 @@ namespace DocearReminder
                 }
                 taskcount.Text = "0";
                 isRefreshMindmap = true;
+                drawioPath= rootpath.FullName +"\\"+ PathcomboBox.Text+ @".drawio";
                 LoadFile(rootpath);
                 for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
@@ -2589,7 +2590,7 @@ namespace DocearReminder
                     item.isEBType = false;
                 }
             }
-            if (!c_ViewModel.Checked && mindmapornode.Text == "")
+            if (!(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)&&!c_ViewModel.Checked && mindmapornode.Text == "")
             {
                 reminderList.Items.Clear();
                 //如果SS的时候只能当前类型的。
@@ -3620,6 +3621,38 @@ namespace DocearReminder
             ReminderListBox_SizeChanged(null, null);
 
             reminderlistSelectedItem = null;//刷新后应该清空
+            //将reminderList.Items更新到图示中，使用异步的方法，避免影响主线程
+            if (!(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
+            {
+                Task.Run(() => DrawioAdd(reminderlistItems));
+            }
+        }
+        //DrawioAdd
+        private void DrawioAdd(List<MyListBoxItemRemind> items)
+        {
+            try
+            {
+                foreach (MyListBoxItemRemind item in items)
+                {
+                    string path =Path.GetFileNameWithoutExtension(item.Value);
+                    path=CommonFunction.GetPath(path);
+                    //如果path为空，则不添加
+                    if (path == "")
+                    {
+                        continue;
+                    }
+                    //使用IsExist判断ID是否已经有了，有了则使用UpdateTask更新，如果还没有则用AddTask
+                    if (DrawIO.IDIsExist(item.IDinXML,path))
+                    {
+                        DrawIO.UpdateTask(path, item.IDinXML, item.Name, item.Time.ToString("yyyy-MM-dd"),item.rtaskTime.ToString(), item.level.ToString());
+                    }
+                    else
+                    {
+                        DrawIO.AddTask(path, item.Name, item.Time.ToString("yyyy-MM-dd"), item.rtaskTime.ToString(), item.level.ToString(),item.IDinXML);
+                    }
+                }
+            }
+            catch(Exception ex) { }
         }
 
         private void UpdateSummary()

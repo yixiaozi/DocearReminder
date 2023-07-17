@@ -39,8 +39,8 @@ namespace DocearReminder
                     LoginForm form1 = new LoginForm();
                     if (form1.autologin||form1.ShowDialog() == DialogResult.OK)
                     {
-                        //Application.Run(new DocearReminderForm());
-                        Application.Run(new DrawIO());
+                        Application.Run(new DocearReminderForm());
+                        //Application.Run(new DrawIO());
                     }
                 }
                 else

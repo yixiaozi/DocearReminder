@@ -3927,6 +3927,7 @@ namespace DocearReminder
                 {
                     e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
                     mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
+                    //mybsh = new SolidBrush(Color.Black);
                 }
                 else if (zhongyao == -2)
                 {
@@ -18705,17 +18706,23 @@ namespace DocearReminder
         int imgHeight = 400;//放大后图片的高度
         private void picturebigger_Tick(object sender, EventArgs e)
         {
-            mx = Control.MousePosition.X;
-            my = Control.MousePosition.Y;
-            imgWidth = tagCloudControl.Width;
-            imgHeight = tagCloudControl.Height;
-            //对图像进行放大显示　        
-            Bitmap bt = new Bitmap(imgWidth / magnification, imgHeight / magnification);
-            Graphics g = Graphics.FromImage(bt);
-            g.CopyFromScreen(new System.Drawing.Point(Cursor.Position.X - imgWidth / (2 * magnification),Cursor.Position.Y - imgHeight / (2 * magnification)),new System.Drawing.Point(0, 0),new Size(imgWidth / magnification, imgHeight / magnification));
-            IntPtr dc1 = g.GetHdc();
-            g.ReleaseHdc(dc1);
-            drawioPicBigger.Image = (Image)bt;
+            try
+            {
+                mx = Control.MousePosition.X;
+                my = Control.MousePosition.Y;
+                imgWidth = tagCloudControl.Width;
+                imgHeight = tagCloudControl.Height;
+                //对图像进行放大显示　        
+                Bitmap bt = new Bitmap(imgWidth / magnification, imgHeight / magnification);
+                Graphics g = Graphics.FromImage(bt);
+                g.CopyFromScreen(new System.Drawing.Point(Cursor.Position.X - imgWidth / (2 * magnification), Cursor.Position.Y - imgHeight / (2 * magnification)), new System.Drawing.Point(0, 0), new Size(imgWidth / magnification, imgHeight / magnification));
+                IntPtr dc1 = g.GetHdc();
+                g.ReleaseHdc(dc1);
+                drawioPicBigger.Image = (Image)bt;
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void drawioPic_Paint(object sender, PaintEventArgs e)

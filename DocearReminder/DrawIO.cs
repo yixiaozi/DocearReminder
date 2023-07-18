@@ -746,20 +746,20 @@ namespace DocearReminder
                         XmlNodeList xnl = xdoc.GetElementsByTagName(tagname);
                         foreach (XmlNode node in xnl)
                         {
-                            int x = 0;
-                            int y = 0;
+                            double x = 0;
+                            double y = 0;
                             if (node.Attributes["x"] != null)
                             {
-                                x = Convert.ToInt32(node.Attributes["x"].Value);
+                                x = Convert.ToDouble(node.Attributes["x"].Value);
                             }
                             if (node.Attributes["y"] != null)
                             {
-                                y = Convert.ToInt32(node.Attributes["y"].Value);
+                                y = Convert.ToDouble(node.Attributes["y"].Value);
                             }
                             //判断是否在position范围内
-                            if (x > Convert.ToInt32(position[0]) && x < Convert.ToInt32(position[0]) + Convert.ToInt32(position[2]))
+                            if (x > Convert.ToDouble(position[0]) && x < Convert.ToDouble(position[0]) + Convert.ToDouble(position[2]))
                             {
-                                if (y > Convert.ToInt32(position[1]) && y < Convert.ToInt32(position[1]) + Convert.ToInt32(position[3]))
+                                if (y > Convert.ToDouble(position[1]) && y < Convert.ToDouble(position[1]) + Convert.ToDouble(position[3]))
                                 {
                                     count++;
                                 }

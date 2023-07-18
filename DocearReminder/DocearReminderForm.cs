@@ -16579,6 +16579,10 @@ namespace DocearReminder
                 diary.Height = reminderList.Height;
             }
             isSetHeight = false;
+            drawioPic.Top = reminderList.Top;
+            drawioPic.Left = reminderList.Left;
+            drawioPic.Width = reminderList.Width;
+            drawioPic.Height = reminderList.Height;
         }
 
         private void ReminderListBox_DataSourceChanged(object sender, EventArgs e)
@@ -18643,6 +18647,103 @@ namespace DocearReminder
                 }
             }
             DrawList.Refresh();
+        }
+
+        private void DrawList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //文件rootPath.drawio同目录会有rootPath.drawio.png文件。当切换时，将对应图片文件显示在drawioPic中
+            if (DrawList.SelectedItem != null)
+            {
+                picturebigger.Start();
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    string png = item.Value + ".png";
+                    if (File.Exists(png))
+                    {
+                        drawioPic.Image = Image.FromFile(png);
+                        //图片填充
+                        drawioPic.SizeMode = PictureBoxSizeMode.StretchImage;
+                        reminderList.Visible = false;
+                        //drawioPic使用reminderList的位置和大小
+                        drawioPic.Top = reminderList.Top;
+                        drawioPic.Left = reminderList.Left;
+                        drawioPic.Width = reminderList.Width;
+                        drawioPic.Height = reminderList.Height;
+                        drawioPic.Visible = true;
+                        //drawioPicBigger使用tagCloudControl的位置和大小
+                        drawioPicBigger.Top = tagCloudControl.Top;
+                        drawioPicBigger.Left = tagCloudControl.Left;
+                        drawioPicBigger.Width = tagCloudControl.Width;
+                        drawioPicBigger.Height = tagCloudControl.Height;
+
+                        drawioPicBigger.Visible = true;
+                        tagCloudControl.Visible = false;
+                    }
+                    else
+                    {
+                        drawioPic.Image = null;
+                        drawioPicBigger.Visible = false;
+                        tagCloudControl.Visible = true;
+                    }
+                }
+            }
+        }
+
+        private void DrawList_Leave(object sender, EventArgs e)
+        {
+            picturebigger.Stop();
+            drawioPic.Visible = false;
+            reminderList.Visible = true;
+            drawioPicBigger.Visible = false;
+            tagCloudControl.Visible = true;
+        }
+        int magnification = 4;//倍率，调节放大倍数,可由TrackBar控制调节    
+        int mx;                 //鼠标x坐标
+        int my;                 //鼠标y坐标
+        int imgWidth = 500;//放大后图片的宽度
+        int imgHeight = 400;//放大后图片的高度
+        private void picturebigger_Tick(object sender, EventArgs e)
+        {
+            mx = Control.MousePosition.X;
+            my = Control.MousePosition.Y;
+            imgWidth = tagCloudControl.Width;
+            imgHeight = tagCloudControl.Height;
+            //对图像进行放大显示　        
+            Bitmap bt = new Bitmap(imgWidth / magnification, imgHeight / magnification);
+            Graphics g = Graphics.FromImage(bt);
+            g.CopyFromScreen(new System.Drawing.Point(Cursor.Position.X - imgWidth / (2 * magnification),Cursor.Position.Y - imgHeight / (2 * magnification)),new System.Drawing.Point(0, 0),new Size(imgWidth / magnification, imgHeight / magnification));
+            IntPtr dc1 = g.GetHdc();
+            g.ReleaseHdc(dc1);
+            drawioPicBigger.Image = (Image)bt;
+        }
+
+        private void drawioPic_Paint(object sender, PaintEventArgs e)
+        {
+            //if (drawioPic.Image == null)
+            //{
+            //    return;
+            //}
+            //e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            //e.Graphics.DrawImage(drawioPic.Image, new Rectangle(0, 0, drawioPic.Width, drawioPic.Height), new Rectangle(0, 0, drawioPic.Image.Width, drawioPic.Image.Height), GraphicsUnit.Pixel);
+        }
+
+        private void drawioPic_DoubleClick(object sender, EventArgs e)
+        {
+            //打开图片文件
+            if (DrawList.SelectedItem != null)
+            {
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    string png = item.Value + ".png";
+                    if (File.Exists(png))
+                    {
+                        MyHide();
+                        System.Diagnostics.Process.Start(png);
+                    }
+                }
+            }
         }
     }
 

@@ -176,6 +176,9 @@ namespace DocearReminder
             this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawioPic = new System.Windows.Forms.PictureBox();
+            this.picturebigger = new System.Windows.Forms.Timer(this.components);
+            this.drawioPicBigger = new System.Windows.Forms.PictureBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -188,6 +191,8 @@ namespace DocearReminder
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Menu_picture.SuspendLayout();
             this.DrawListMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).BeginInit();
             this.SuspendLayout();
             // 
             // searchword
@@ -1552,7 +1557,7 @@ namespace DocearReminder
             this.reminderList.ItemHeight = 14;
             this.reminderList.Location = new System.Drawing.Point(420, 181);
             this.reminderList.Name = "reminderList";
-            this.reminderList.Size = new System.Drawing.Size(600, 130);
+            this.reminderList.Size = new System.Drawing.Size(600, 60);
             this.reminderList.Sorted = true;
             this.reminderList.TabIndex = 3;
             this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
@@ -1746,7 +1751,9 @@ namespace DocearReminder
             this.DrawList.Size = new System.Drawing.Size(181, 424);
             this.DrawList.Sorted = true;
             this.DrawList.TabIndex = 146;
+            this.DrawList.SelectedIndexChanged += new System.EventHandler(this.DrawList_SelectedIndexChanged);
             this.DrawList.DoubleClick += new System.EventHandler(this.DrawList_DoubleClick);
+            this.DrawList.Leave += new System.EventHandler(this.DrawList_Leave);
             this.DrawList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawList_MouseDown);
             // 
             // textBox1
@@ -1806,6 +1813,35 @@ namespace DocearReminder
             this.toolStripMenuItem3.Text = "打开文件夹";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
+            // drawioPic
+            // 
+            this.drawioPic.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.drawioPic.Location = new System.Drawing.Point(420, 247);
+            this.drawioPic.Name = "drawioPic";
+            this.drawioPic.Size = new System.Drawing.Size(600, 64);
+            this.drawioPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.drawioPic.TabIndex = 150;
+            this.drawioPic.TabStop = false;
+            this.drawioPic.Visible = false;
+            this.drawioPic.Paint += new System.Windows.Forms.PaintEventHandler(this.drawioPic_Paint);
+            this.drawioPic.DoubleClick += new System.EventHandler(this.drawioPic_DoubleClick);
+            // 
+            // picturebigger
+            // 
+            this.picturebigger.Enabled = true;
+            this.picturebigger.Tick += new System.EventHandler(this.picturebigger_Tick);
+            // 
+            // drawioPicBigger
+            // 
+            this.drawioPicBigger.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.drawioPicBigger.Location = new System.Drawing.Point(1385, 310);
+            this.drawioPicBigger.Name = "drawioPicBigger";
+            this.drawioPicBigger.Size = new System.Drawing.Size(100, 50);
+            this.drawioPicBigger.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.drawioPicBigger.TabIndex = 151;
+            this.drawioPicBigger.TabStop = false;
+            this.drawioPicBigger.Visible = false;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1814,6 +1850,8 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1634, 837);
+            this.Controls.Add(this.drawioPicBigger);
+            this.Controls.Add(this.drawioPic);
             this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
@@ -1930,6 +1968,8 @@ namespace DocearReminder
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Menu_picture.ResumeLayout(false);
             this.DrawListMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2094,6 +2134,9 @@ namespace DocearReminder
         private ContextMenuStrip DrawListMenu;
         private ToolStripMenuItem toolStripMenuItem2;
         private ToolStripMenuItem toolStripMenuItem3;
+        private PictureBox drawioPic;
+        private Timer picturebigger;
+        private PictureBox drawioPicBigger;
     }
 }
 

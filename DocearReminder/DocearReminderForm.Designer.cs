@@ -173,6 +173,9 @@ namespace DocearReminder
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.IsDiary = new System.Windows.Forms.CheckBox();
+            this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -184,6 +187,7 @@ namespace DocearReminder
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Menu_picture.SuspendLayout();
+            this.DrawListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // searchword
@@ -1743,6 +1747,7 @@ namespace DocearReminder
             this.DrawList.Sorted = true;
             this.DrawList.TabIndex = 146;
             this.DrawList.DoubleClick += new System.EventHandler(this.DrawList_DoubleClick);
+            this.DrawList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawList_MouseDown);
             // 
             // textBox1
             // 
@@ -1778,6 +1783,28 @@ namespace DocearReminder
             this.IsDiary.Text = "是否日记";
             this.IsDiary.UseVisualStyleBackColor = true;
             this.IsDiary.CheckedChanged += new System.EventHandler(this.IsDiary_CheckedChanged);
+            // 
+            // DrawListMenu
+            // 
+            this.DrawListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.DrawListMenu.Name = "DrawListMenu";
+            this.DrawListMenu.Size = new System.Drawing.Size(137, 48);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItem2.Text = "打开文件";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click_1);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItem3.Text = "打开文件夹";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // DocearReminderForm
             // 
@@ -1902,6 +1929,7 @@ namespace DocearReminder
             this.menu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Menu_picture.ResumeLayout(false);
+            this.DrawListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2063,6 +2091,9 @@ namespace DocearReminder
         private TextBox textBox1;
         private MyRichTextBox diary;
         private CheckBox IsDiary;
+        private ContextMenuStrip DrawListMenu;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

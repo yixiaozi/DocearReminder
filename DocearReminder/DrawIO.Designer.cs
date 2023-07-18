@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DrawIO));
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
@@ -47,9 +48,18 @@
             this.delete = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.button2 = new System.Windows.Forms.Button();
+            this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.reminderListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文件夹ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
+            this.DrawListMenu.SuspendLayout();
+            this.reminderListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // DrawList
@@ -69,6 +79,7 @@
             this.DrawList.Click += new System.EventHandler(this.DrawList_Click);
             this.DrawList.SelectedIndexChanged += new System.EventHandler(this.DrawList_SelectedIndexChanged);
             this.DrawList.DoubleClick += new System.EventHandler(this.DrawList_DoubleClick);
+            this.DrawList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawList_MouseDown);
             // 
             // reminderList
             // 
@@ -88,6 +99,7 @@
             this.reminderList.Click += new System.EventHandler(this.reminderList_Click);
             this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
             this.reminderList.SelectedIndexChanged += new System.EventHandler(this.reminderList_SelectedIndexChanged);
+            this.reminderList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.reminderList_MouseDown);
             // 
             // searchword
             // 
@@ -263,6 +275,58 @@
             this.button2.Text = "生成关系树";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // DrawListMenu
+            // 
+            this.DrawListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文件ToolStripMenuItem,
+            this.打开文件夹ToolStripMenuItem});
+            this.DrawListMenu.Name = "DrawListMenu";
+            this.DrawListMenu.Size = new System.Drawing.Size(137, 48);
+            // 
+            // reminderListMenu
+            // 
+            this.reminderListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文件ToolStripMenuItem1,
+            this.打开文件夹ToolStripMenuItem1,
+            this.删除ToolStripMenuItem});
+            this.reminderListMenu.Name = "reminderListMenu";
+            this.reminderListMenu.Size = new System.Drawing.Size(181, 92);
+            // 
+            // 打开文件ToolStripMenuItem
+            // 
+            this.打开文件ToolStripMenuItem.Name = "打开文件ToolStripMenuItem";
+            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.打开文件ToolStripMenuItem.Text = "打开文件";
+            this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.打开文件ToolStripMenuItem_Click);
+            // 
+            // 打开文件夹ToolStripMenuItem
+            // 
+            this.打开文件夹ToolStripMenuItem.Name = "打开文件夹ToolStripMenuItem";
+            this.打开文件夹ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.打开文件夹ToolStripMenuItem.Text = "打开文件夹";
+            this.打开文件夹ToolStripMenuItem.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem_Click);
+            // 
+            // 打开文件ToolStripMenuItem1
+            // 
+            this.打开文件ToolStripMenuItem1.Name = "打开文件ToolStripMenuItem1";
+            this.打开文件ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件ToolStripMenuItem1.Text = "打开文件";
+            this.打开文件ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件ToolStripMenuItem1_Click);
+            // 
+            // 打开文件夹ToolStripMenuItem1
+            // 
+            this.打开文件夹ToolStripMenuItem1.Name = "打开文件夹ToolStripMenuItem1";
+            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件夹ToolStripMenuItem1.Text = "打开文件夹";
+            this.打开文件夹ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem1_Click);
+            // 
+            // 删除ToolStripMenuItem
+            // 
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除ToolStripMenuItem.Text = "删除";
+            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
+            // 
             // DrawIO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -293,6 +357,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tasklevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).EndInit();
+            this.DrawListMenu.ResumeLayout(false);
+            this.reminderListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -318,5 +384,12 @@
         private System.Windows.Forms.Button delete;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ContextMenuStrip DrawListMenu;
+        private System.Windows.Forms.ContextMenuStrip reminderListMenu;
+        private System.Windows.Forms.ToolStripMenuItem 打开文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开文件夹ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开文件ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
     }
 }

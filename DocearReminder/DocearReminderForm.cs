@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using NAudio.Wave;
 using Newtonsoft.Json;
 using NPOI.OpenXmlFormats.Dml.Diagram;
+using NPOI.Util;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -2272,20 +2273,21 @@ namespace DocearReminder
                             System.Xml.XmlDocument x = new XmlDocument();
                             x.Load(file.FullName);
                             int number = 0;
-                            foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
-                            {
-                                try
-                                {
-                                    if (node.Attributes != null && node.Attributes["value"] != null)
-                                    {
-                                        
-                                        number++;
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                }
-                            }
+                            number=x.GetElementsByTagName("mxCell").Count;
+                            //foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
+                            //{
+                            //    try
+                            //    {
+                            //        if (node.Attributes != null && node.Attributes["value"] != null)
+                            //        {
+
+                            //            number++;
+                            //        }
+                            //    }
+                            //    catch (Exception ex)
+                            //    {
+                            //    }
+                            //}
                             //如果mxfile没有compressed属性，或者其值不为false则添加compressed属性并设置值为false
                             if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null || x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value != "false")
                             {
@@ -2296,14 +2298,7 @@ namespace DocearReminder
                                 x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value = "false";
                                 x.Save(file.FullName);
                             }
-                            if (number > 0)
-                            {
-                                DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
-                            }
-                            else
-                            {
-                                //todo:mxfile的 compressed = "false" 就可以每次不压缩了，添加自动设置的方法
-                            }
+                            DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
                         }
                     }
                     catch (Exception ex)
@@ -18607,6 +18602,47 @@ namespace DocearReminder
         private void diary_TextChanged(object sender, EventArgs e)
         {
             ShowOrSetOneDiary(dateTimePicker.Value.Date);
+        }
+
+        private void toolStripMenuItem2_Click_1(object sender, EventArgs e)
+        {
+            //打开文件点击选项的文件
+            if (DrawList.SelectedItem != null)
+            {
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start(item.Value);
+                }
+            }
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            //打开文件夹
+            if (DrawList.SelectedItem != null)
+            {
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select," + item.Value);
+                }
+            }
+        }
+
+        private void DrawList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int posindex = DrawList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                DrawList.ContextMenuStrip = null;
+                if (posindex >= 0 && posindex < DrawList.Items.Count)
+                {
+                    DrawList.SelectedIndex = posindex;
+                    DrawListMenu.Show(DrawList, new System.Drawing.Point(e.X, e.Y));
+                }
+            }
+            DrawList.Refresh();
         }
     }
 

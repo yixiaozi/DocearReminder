@@ -982,5 +982,100 @@ namespace DocearReminder
                 LoadReminder(path);
             }
         }
+
+        private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //打开文件点击选项的文件
+            if (DrawList.SelectedItem != null)
+            {
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start(item.Value);
+                }
+            }
+        }
+
+        private void 打开文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //打开文件夹
+            if (DrawList.SelectedItem != null)
+            {
+                MyListBoxItem item = (MyListBoxItem)DrawList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select," + item.Value);
+                }
+            }
+        }
+
+        private void DrawList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int posindex = DrawList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                DrawList.ContextMenuStrip = null;
+                if (posindex >= 0 && posindex < DrawList.Items.Count)
+                {
+                    DrawList.SelectedIndex = posindex;
+                    DrawListMenu.Show(DrawList, new System.Drawing.Point(e.X, e.Y));
+                }
+            }
+            DrawList.Refresh();
+        }
+
+        private void reminderList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int posindex = reminderList.IndexFromPoint(new System.Drawing.Point(e.X, e.Y));
+                reminderList.ContextMenuStrip = null;
+                if (posindex >= 0 && posindex < reminderList.Items.Count)
+                {
+                    reminderList.SelectedIndex = posindex;
+                    reminderListMenu.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
+                }
+            }
+            reminderList.Refresh();
+        }
+
+        private void 打开文件ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //打开文件夹
+            if (reminderList.SelectedItem != null)
+            {
+                MyListBoxItemRemind item = (MyListBoxItemRemind)reminderList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select," + item.Value);
+                }
+            }
+        }
+
+        private void 打开文件夹ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //打开文件夹
+            if (reminderList.SelectedItem != null)
+            {
+                MyListBoxItemRemind item = (MyListBoxItemRemind)reminderList.SelectedItem;
+                if (item != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select," + item.Value);
+                }
+            }
+        }
+
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MyListBoxItemRemind item = (MyListBoxItemRemind)reminderList.SelectedItem;
+            string path = item.Value;
+            if (item != null)
+            {
+                //删除节点
+                DeleteNode(item.IDinXML, item.Value);
+                //刷新列表
+                LoadReminder(path);
+            }
+        }
     }
 }

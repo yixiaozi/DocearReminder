@@ -18265,8 +18265,8 @@ namespace DocearReminder
         {
             try
             {
-                Process.Start(piclink);
                 MyHide();
+                Process.Start(piclink);
             }
             catch (Exception ex)
             {
@@ -18277,8 +18277,8 @@ namespace DocearReminder
         {
             try
             {
-                Process.Start(new FileInfo(piclink).Directory.FullName);
                 MyHide();
+                Process.Start(new FileInfo(piclink).Directory.FullName);
             }
             catch (Exception ex)
             {
@@ -18289,8 +18289,8 @@ namespace DocearReminder
         {
             try
             {
-                Process.Start(new FileInfo(piclink).Directory.FullName);
                 MyHide();
+                Process.Start(new FileInfo(piclink).Directory.FullName);
             }
             catch (Exception ex)
             {

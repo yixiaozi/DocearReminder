@@ -12832,10 +12832,10 @@ namespace DocearReminder
 
         public static bool IsFileUrl(string str)
         {
-            if (IsUri(str))
-            {
-                return false;
-            }
+            //if (IsUri(str))
+            //{
+            //    return false;
+            //}
             if (str != "")
             {
                 str = str.Replace('/', '\\');

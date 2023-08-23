@@ -14941,11 +14941,6 @@ namespace DocearReminder
                     return;
                 }
                 searchword.Select(searchword.Text.Length, 1); //光标定位到文本框最后
-                                                              //if (SearchText_suggest.SelectedItem != null && filename == (SearchText_suggest.SelectedItem as StationInfo).StationName_CN)会导致如果一样就没办法选别的
-                                                              //{
-                                                              //    SearchText_suggest.Visible = false;
-                                                              //    return;
-                                                              //}
 
                 if (e.KeyCode == Keys.Enter)
                 {

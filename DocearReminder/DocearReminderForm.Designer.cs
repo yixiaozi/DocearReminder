@@ -983,7 +983,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 334);
+            this.menu.Size = new System.Drawing.Size(212, 356);
             this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
@@ -1031,12 +1031,14 @@ namespace DocearReminder
             this.autoRunToolStripMenuItem.Name = "autoRunToolStripMenuItem";
             this.autoRunToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.autoRunToolStripMenuItem.Text = "开机启动";
+            this.autoRunToolStripMenuItem.Click += new System.EventHandler(this.autoRunToolStripMenuItem_Click);
             // 
             // disAutoRunToolStripMenuItem
             // 
             this.disAutoRunToolStripMenuItem.Name = "disAutoRunToolStripMenuItem";
-            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disAutoRunToolStripMenuItem.Text = "取消开机启动";
+            this.disAutoRunToolStripMenuItem.Click += new System.EventHandler(this.disAutoRunToolStripMenuItem_Click);
             // 
             // 工具箱ToolStripMenuItem
             // 

@@ -1297,28 +1297,37 @@ namespace DocearReminder
         /// <param name="cultureType">语言项，如zh-CN，en-US</param>
         private void SwitchToLanguageMode(string cultureType = "en-US")
         {
-            var installedInputLanguages = InputLanguage.InstalledInputLanguages;
-            if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.LayoutName == "小狼毫"))
+            try
             {
-                foreach (InputLanguage item in installedInputLanguages)
+                var installedInputLanguages = InputLanguage.InstalledInputLanguages;
+                if (installedInputLanguages.Cast<InputLanguage>().Any(i => i.LayoutName == "小狼毫"))
                 {
-                    if (item.LayoutName == "小狼毫")
+                    foreach (InputLanguage item in installedInputLanguages)
                     {
-                        InputLanguage.CurrentInputLanguage = item;
-                        IntPtr prt = ImmGetContext(InputLanguage.CurrentInputLanguage.Handle);
-                        if (cultureType == "en-US")
+                        if (item.LayoutName == "小狼毫")
                         {
-                            ImmSetConversionStatus(prt, 0, 0);
+                            InputLanguage.CurrentInputLanguage = item;
+                            IntPtr prt = ImmGetContext(InputLanguage.CurrentInputLanguage.Handle);
+                            if (cultureType == "en-US")
+                            {
+                                //设置中文输入
+                                ImmSetConversionStatus(prt, 0x00000000, 0x00000000);
+                            }
+                            else
+                            {
+                                //设置英文输入
+                                ImmSetConversionStatus(prt, 0x00000001, 0x00000001);
+                                
+                            }
                         }
-                        else
-                        {
-                            ImmSetConversionStatus(prt, 1, 0);
-                        }
-
-                        break;
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("设置输入法失败:"+ex.ToString());
+            }
+            
         }
 
         [DllImport("imm32.dll")]
@@ -1840,6 +1849,7 @@ namespace DocearReminder
 
         public void NewFiles(DirectoryInfo path)
         {
+            return;
             string str1 = "node";
             string str2 = "TEXT";
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
@@ -2100,18 +2110,18 @@ namespace DocearReminder
 
         public void NewFiles()
         {
-            try
-            {
-                Thread th = new Thread(() => NewFiles(rootrootpath))
-                {
-                    IsBackground = true
-                };
-                th.Start();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            //try
+            //{
+            //    Thread th = new Thread(() => NewFiles(rootrootpath))
+            //    {
+            //        IsBackground = true
+            //    };
+            //    th.Start();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
+            //}
         }
 
         public void GetAllFiles(DirectoryInfo path)

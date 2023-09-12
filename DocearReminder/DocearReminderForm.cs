@@ -1297,6 +1297,7 @@ namespace DocearReminder
         /// <param name="cultureType">语言项，如zh-CN，en-US</param>
         private void SwitchToLanguageMode(string cultureType = "en-US")
         {
+            return;
             try
             {
                 var installedInputLanguages = InputLanguage.InstalledInputLanguages;
@@ -1310,13 +1311,17 @@ namespace DocearReminder
                             IntPtr prt = ImmGetContext(InputLanguage.CurrentInputLanguage.Handle);
                             if (cultureType == "en-US")
                             {
+                                IntPtr prt1 = ImmGetContext(this.Handle);
+                                //int conversion = 0;
+                                //int sentence = 0;
+                                //ImmGetConversionStatus(prt,ref conversion,ref sentence);
                                 //设置中文输入
-                                ImmSetConversionStatus(prt, 0x00000000, 0x00000000);
+                                //ImmSetConversionStatus(prt, conversion, sentence);
                             }
                             else
                             {
                                 //设置英文输入
-                                ImmSetConversionStatus(prt, 0x00000001, 0x00000001);
+                                //ImmSetConversionStatus(prt, 0x00000001, 0x00000001);
                                 
                             }
                         }

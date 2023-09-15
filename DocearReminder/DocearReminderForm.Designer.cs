@@ -983,7 +983,7 @@ namespace DocearReminder
             this.推出F11ToolStripMenuItem,
             this.报表ToolStripMenuItem});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 356);
+            this.menu.Size = new System.Drawing.Size(212, 334);
             this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
@@ -1036,7 +1036,7 @@ namespace DocearReminder
             // disAutoRunToolStripMenuItem
             // 
             this.disAutoRunToolStripMenuItem.Name = "disAutoRunToolStripMenuItem";
-            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.disAutoRunToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.disAutoRunToolStripMenuItem.Text = "取消开机启动";
             this.disAutoRunToolStripMenuItem.Click += new System.EventHandler(this.disAutoRunToolStripMenuItem_Click);
             // 
@@ -1852,6 +1852,7 @@ namespace DocearReminder
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1634, 837);
+            this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.drawioPicBigger);
             this.Controls.Add(this.drawioPic);
             this.Controls.Add(this.IsDiary);
@@ -1868,7 +1869,6 @@ namespace DocearReminder
             this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.quietmode);
-            this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.StartRecordCheckBox);
             this.Controls.Add(this.hopeNote);

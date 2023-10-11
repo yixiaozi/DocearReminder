@@ -567,6 +567,7 @@ namespace DocearReminder
             this.SearchText_suggest.TabIndex = 83;
             this.SearchText_suggest.Visible = false;
             this.SearchText_suggest.SelectedIndexChanged += new System.EventHandler(this.SearchText_suggest_SelectedIndexChanged);
+            this.SearchText_suggest.VisibleChanged += new System.EventHandler(this.SearchText_suggest_VisibleChanged);
             // 
             // tasklevel
             // 
@@ -1854,7 +1855,6 @@ namespace DocearReminder
             this.ClientSize = new System.Drawing.Size(1634, 837);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.drawioPicBigger);
-            this.Controls.Add(this.drawioPic);
             this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
@@ -1911,7 +1911,6 @@ namespace DocearReminder
             this.Controls.Add(this.ebcheckBox);
             this.Controls.Add(this.IsReminderOnlyCheckBox);
             this.Controls.Add(this.tagCloudControl);
-            this.Controls.Add(this.reminderList);
             this.Controls.Add(this.searchword);
             this.Controls.Add(this.FileTreeView);
             this.Controls.Add(this.mindmaplist_count);
@@ -1928,11 +1927,13 @@ namespace DocearReminder
             this.Controls.Add(this.usedCount);
             this.Controls.Add(this.usedtimelabel);
             this.Controls.Add(this.todayusedtime);
-            this.Controls.Add(this.reminderListBox);
             this.Controls.Add(this.note);
             this.Controls.Add(this.DrawList);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.diary);
+            this.Controls.Add(this.reminderList);
+            this.Controls.Add(this.drawioPic);
+            this.Controls.Add(this.reminderListBox);
             this.ForeColor = System.Drawing.Color.Gray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -14755,6 +14755,7 @@ namespace DocearReminder
                             SearchText_suggest.DisplayMember = "StationName_CN";
                             SearchText_suggest.ValueMember = "StationValue";
                             SearchText_suggest.Visible = true;
+
                         }
                         else
                         {
@@ -18761,6 +18762,16 @@ namespace DocearReminder
                     }
                 }
             }
+        }
+
+        private void SearchText_suggest_VisibleChanged(object sender, EventArgs e)
+        {
+            //如果建议框打开时,隐藏任务栏
+            //if (SearchText_suggest.Visible)
+            //{
+            //    reminderList.Visible = false;
+            //    reminderListBox.Visible = false;
+            //}
         }
     }
 

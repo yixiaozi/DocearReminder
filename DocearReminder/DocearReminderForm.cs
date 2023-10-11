@@ -8615,7 +8615,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)));
+            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N))|| drawsearch.Focused);
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
@@ -17837,7 +17837,8 @@ namespace DocearReminder
             string content = ShowOrSetDiary(mindmap, DiaryDate);
             if(content!=""|| diary.Text.Trim() != "")
             {
-                if (diary.Text.Trim() == "")
+                //231011会导致最后一个字符删除不掉
+                if (diary.Text.Trim() == ""&& content.Length > 1)
                 {
                     diary.Text = content;
                 }

@@ -170,7 +170,7 @@ namespace DocearReminder
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.note = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.drawsearch = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.IsDiary = new System.Windows.Forms.CheckBox();
             this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1759,13 +1759,13 @@ namespace DocearReminder
             this.DrawList.Leave += new System.EventHandler(this.DrawList_Leave);
             this.DrawList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawList_MouseDown);
             // 
-            // textBox1
+            // drawsearch
             // 
-            this.textBox1.ForeColor = System.Drawing.Color.Gray;
-            this.textBox1.Location = new System.Drawing.Point(228, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(181, 21);
-            this.textBox1.TabIndex = 147;
+            this.drawsearch.ForeColor = System.Drawing.Color.Gray;
+            this.drawsearch.Location = new System.Drawing.Point(228, 9);
+            this.drawsearch.Name = "drawsearch";
+            this.drawsearch.Size = new System.Drawing.Size(181, 21);
+            this.drawsearch.TabIndex = 147;
             // 
             // diary
             // 
@@ -1929,7 +1929,7 @@ namespace DocearReminder
             this.Controls.Add(this.todayusedtime);
             this.Controls.Add(this.note);
             this.Controls.Add(this.DrawList);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.drawsearch);
             this.Controls.Add(this.diary);
             this.Controls.Add(this.reminderList);
             this.Controls.Add(this.drawioPic);
@@ -2131,7 +2131,7 @@ namespace DocearReminder
         private Timer AllnodeFreshTimer;
         private MyRichTextBox note;
         private CustomCheckedListBox DrawList;
-        private TextBox textBox1;
+        private TextBox drawsearch;
         private MyRichTextBox diary;
         private CheckBox IsDiary;
         private ContextMenuStrip DrawListMenu;

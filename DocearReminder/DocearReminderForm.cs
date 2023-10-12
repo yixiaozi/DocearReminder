@@ -135,6 +135,7 @@ namespace DocearReminder
         private bool playBackGround = false;
         private static string logpass = "niqishihenhao";
         private bool allFloder = false;
+        private int allFloderSwitch = 0;
         private bool IsEncryptBool = false;
         private object reminderlistSelectedItem;
         private List<StationInfo> suggestListData = new List<StationInfo>();
@@ -8662,8 +8663,19 @@ namespace DocearReminder
                 case Keys.A:
                     if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                     {
-                        //todo 这个好像没用
-                        allFloder = !allFloder;
+                        selectedpath = false;
+                        //PathcomboBox选中All
+                        if (!allFloder)
+                        {
+                            section = PathcomboBox.SelectedItem.ToString();
+                            allFloderSwitch = PathcomboBox.SelectedIndex;
+                            PathcomboBox.SelectedIndex = PathcomboBox.Items.Count-1;
+                        }
+                        else
+                        {
+                            PathcomboBox.SelectedIndex = allFloderSwitch;
+                        }
+                        PathcomboBox_SelectedIndexChanged(null, null);
                     }
                     else
                     {
@@ -10640,7 +10652,7 @@ namespace DocearReminder
                             }
                             else
                             {
-                                selectedpath = true;
+                                selectedpath = false;
                                 if (PathcomboBox.SelectedIndex > 0)
                                 {
                                     PathcomboBox.SelectedIndex--;

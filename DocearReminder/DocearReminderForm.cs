@@ -8667,16 +8667,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        if (IsReminderOnlyCheckBox.Checked)
-                        {
-                            IsReminderOnlyCheckBox.Checked = false;
-                            ReSetValue();
-                            RRReminderlist();
-                        }
-                        else
-                        {
-                            ChangeStatus();
-                        }
+                        ChangeStatus();
                     }
                     break;
 
@@ -16270,11 +16261,21 @@ namespace DocearReminder
                 }
             }
         }
+        int ChangeStatusAutoCount = 2;
         /// <summary>
         /// 按A键分别切换三种状态
         /// </summary>
-        public void ChangeStatus()
+        public void ChangeStatus(bool isAuto=false)
         {
+            if (isAuto)//避免自动切换一直切换的问题
+            {
+                ChangeStatusAutoCount--;
+                if (ChangeStatusAutoCount < 0)
+                {
+                    ChangeStatusAutoCount = 2;
+                    return;
+                }
+            }
             //IsReminderOnlyCheckBox选中状态为不重要的任务状态
             //IsReminderOnlyCheckBox不选中，showcyclereminder选中状态是周期任务状态
             //IsReminderOnlyCheckBox不选中，showcyclereminder不选中状态是平时任务状态
@@ -16299,9 +16300,13 @@ namespace DocearReminder
             try
             {
                 ReminderListSelectedIndex(0);
+                if (reminderList.Items.Count == 0) { ChangeStatus(true); } else { ChangeStatusAutoCount = 2; };
             }
             catch (Exception ex)
             {
+                //如果报错就说明是没有数据,继续切换
+                //方式三种模式都没有数据,一直切换的问题
+                ChangeStatus(true);
             }
         }
 

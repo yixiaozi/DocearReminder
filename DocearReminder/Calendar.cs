@@ -97,24 +97,25 @@ namespace DocearReminder
             dayView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dayView1_MouseMove);
             timer1.Interval = 60000;
             timer1.Start();
-            try
-            {
-                if (Environment.OSVersion.Version.Major < 6)
-                {
-                    base.SendToBack();
+            //锁定到桌面
+            //try
+            //{
+            //    if (Environment.OSVersion.Version.Major < 6)
+            //    {
+            //        base.SendToBack();
 
-                    IntPtr hWndNewParent = User32.FindWindow("Progman", null);
-                    User32.SetParent(base.Handle, hWndNewParent);
-                }
-                else
-                {
-                    User32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, User32.SE_SHUTDOWN_PRIVILEGE);
-                }
-            }
-            catch (ApplicationException exx)
-            {
-                MessageBox.Show(this, exx.Message, "Pin to Desktop");
-            }
+            //        IntPtr hWndNewParent = User32.FindWindow("Progman", null);
+            //        User32.SetParent(base.Handle, hWndNewParent);
+            //    }
+            //    else
+            //    {
+            //        User32.SetWindowPos(base.Handle, 1, 0, 0, 0, 0, User32.SE_SHUTDOWN_PRIVILEGE);
+            //    }
+            //}
+            //catch (ApplicationException exx)
+            //{
+            //    MessageBox.Show(this, exx.Message, "Pin to Desktop");
+            //}
             Center();
             dayView1.MouseWheel += CalendarWhell;
             IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄

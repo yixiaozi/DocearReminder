@@ -359,6 +359,8 @@ namespace DocearReminder
                         }
                     }
                     PathcomboBox.Items.Add("all");
+                    //选中第一个
+                    PathcomboBox.SelectedIndex = 0;
                     hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"rootPath.txt");
                 }
                 catch (Exception ex)
@@ -2606,7 +2608,7 @@ namespace DocearReminder
                 reminderList.Items.Clear();
                 //如果SS的时候只能当前类型的。
                 List<MyListBoxItem> showMindmaps = new List<MyListBoxItem>();
-                if (searchword.Text.StartsWith("ss"))
+                if (searchword.Text.StartsWith("ss")|| searchword.Text!="")
                 {
                     foreach (MyListBoxItem item in mindmaplist_all)
                     {
@@ -3942,8 +3944,14 @@ namespace DocearReminder
                 else if (zhongyao == -1)
                 {
                     e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
-                    //mybsh = new SolidBrush(Color.Black);
+                    if (showTimeBlock.Checked||ShowKA.Checked||ShowMoney.Checked)
+                    {
+                        mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
+                    }
+                    else
+                    {
+                        mybsh = new SolidBrush(Color.Black);
+                    } 
                 }
                 else if (zhongyao == -2)
                 {
@@ -15805,6 +15813,11 @@ namespace DocearReminder
                 Load_Click(null, null);
                 reminderList.Focus();
                 Center();
+                //切换后如果没有内容,直接切换
+                if (reminderList.Items.Count == 0)
+                {
+                    ChangeStatus();
+                }
             }
             catch (Exception ex)
             {

@@ -876,6 +876,7 @@ namespace DocearReminder
             // 
             this.PathcomboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.PathcomboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.PathcomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PathcomboBox.ForeColor = System.Drawing.Color.Gray;
             this.PathcomboBox.FormattingEnabled = true;
             this.PathcomboBox.Items.AddRange(new object[] {
@@ -884,7 +885,6 @@ namespace DocearReminder
             this.PathcomboBox.Name = "PathcomboBox";
             this.PathcomboBox.Size = new System.Drawing.Size(206, 20);
             this.PathcomboBox.TabIndex = 114;
-            this.PathcomboBox.Text = "rootPath";
             this.PathcomboBox.SelectionChangeCommitted += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
             // 
             // IsReminderOnlyCheckBox

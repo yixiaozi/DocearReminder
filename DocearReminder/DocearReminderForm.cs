@@ -6781,6 +6781,7 @@ namespace DocearReminder
                                     isneedreminderlistrefresh = false;
                                     ReminderListSelectedIndex(reminderSelectIndex);
                                     reminderList.Focus();
+                                    isneedreminderlistrefresh = true;
                                 }
                                 else
                                 {
@@ -7294,7 +7295,20 @@ namespace DocearReminder
                 if (reminderList.Focused)
                 {
                     reminderList.Items.RemoveAt(reminderIndex);
-                    ReminderListSelectedIndex(reminderIndex);
+                    if (reminderIndex <= reminderList.Items.Count - 1)//1,0 0>=0
+                    {
+                        ReminderListSelectedIndex(reminderIndex);
+                    }
+                    else
+                    {
+                        try//完成的是最后一个的时候
+                        {
+                            ReminderListSelectedIndex(reminderList.Items.Count - 1);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
                 }
                 else if (reminderListBox.Focused)
                 {
@@ -7314,7 +7328,20 @@ namespace DocearReminder
 
                     reminderListBox.Items.RemoveAt(reminderIndex);
                     ReminderlistBoxChange();
-                    reminderListBox.SelectedIndex = reminderIndex;
+                    if (reminderIndex <= reminderListBox.Items.Count - 1)//1,0 0>=0
+                    {
+                        reminderListBox.SelectedIndex = reminderIndex;
+                    }
+                    else
+                    {
+                        try//完成的是最后一个的时候
+                        {
+                            reminderListBox.SelectedIndex = reminderListBox.Items.Count - 1;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -8648,35 +8675,7 @@ namespace DocearReminder
                         }
                         else
                         {
-                            //IsReminderOnlyCheckBox选中状态为不重要的任务状态
-                            //IsReminderOnlyCheckBox不选中，showcyclereminder选中状态是周期任务状态
-                            //IsReminderOnlyCheckBox不选中，showcyclereminder不选中状态是平时任务状态
-                            //按A键分别切换三种状态
-                            if (showcyclereminder.Checked)
-                            {
-                                showcyclereminder.Checked = false;
-                                IsReminderOnlyCheckBox.Checked = true;
-                            }
-                            else if (IsReminderOnlyCheckBox.Checked)
-                            {
-                                IsReminderOnlyCheckBox.Checked = false;
-                                showcyclereminder.Checked = false;
-                            }
-                            else
-                            {
-                                showcyclereminder.Checked = true;
-                                IsReminderOnlyCheckBox.Checked = false;
-                            }   
-
-                            ReSetValue();
-                            RRReminderlist();
-                            try
-                            {
-                                ReminderListSelectedIndex(0);
-                            }
-                            catch (Exception ex)
-                            {
-                            }
+                            ChangeStatus();
                         }
                     }
                     break;
@@ -16253,9 +16252,7 @@ namespace DocearReminder
                 }
                 else
                 {
-                    IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
-                    RRReminderlist();
-                    reminderList.Refresh();
+                    ChangeStatus();
                 }
             }
             if (e.Button == MouseButtons.Left)
@@ -16264,23 +16261,47 @@ namespace DocearReminder
                 reminderList.ContextMenuStrip = null;
                 if (posindex >= 0 && posindex < reminderList.Items.Count)
                 {
-                    //ReminderListSelectedIndex( posindex;
-                    //menu_reminderlist.Show(reminderList, new System.Drawing.Point(e.X, e.Y));
+                    //设置isneedreminderlistrefresh,避免不刷新的问题
+                    isneedreminderlistrefresh = true;
                 }
                 else
                 {
-                    if (IsReminderOnlyCheckBox.Checked)
-                    {
-                        IsReminderOnlyCheckBox.Checked = !IsReminderOnlyCheckBox.Checked;
-                        RRReminderlist();
-                    }
-                    else
-                    {
-                        showcyclereminder.Checked = !showcyclereminder.Checked;
-                        RRReminderlist();
-                    }
-                    reminderList.Refresh();
+                    ChangeStatus();
                 }
+            }
+        }
+        /// <summary>
+        /// 按A键分别切换三种状态
+        /// </summary>
+        public void ChangeStatus()
+        {
+            //IsReminderOnlyCheckBox选中状态为不重要的任务状态
+            //IsReminderOnlyCheckBox不选中，showcyclereminder选中状态是周期任务状态
+            //IsReminderOnlyCheckBox不选中，showcyclereminder不选中状态是平时任务状态
+            //按A键分别切换三种状态
+            if (showcyclereminder.Checked)
+            {
+                showcyclereminder.Checked = false;
+                IsReminderOnlyCheckBox.Checked = true;
+            }
+            else if (IsReminderOnlyCheckBox.Checked)
+            {
+                IsReminderOnlyCheckBox.Checked = false;
+                showcyclereminder.Checked = false;
+            }
+            else
+            {
+                showcyclereminder.Checked = true;
+                IsReminderOnlyCheckBox.Checked = false;
+            }
+            ReSetValue();
+            RRReminderlist();
+            try
+            {
+                ReminderListSelectedIndex(0);
+            }
+            catch (Exception ex)
+            {
             }
         }
 

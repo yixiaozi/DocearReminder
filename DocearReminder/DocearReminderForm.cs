@@ -6233,196 +6233,16 @@ namespace DocearReminder
                     XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
                     XmlNode newNote = x.CreateElement("node");
                     XmlAttribute newNotetext = x.CreateAttribute("TEXT");
-                    DateTime taskTime = DateTime.Now;
-                    //任务时间
-                    if (taskName.Contains("明天"))
-                    {
-                        taskTime = taskTime.AddDays(1);
-                        taskName = taskName.Replace("明天", "");
-                    }
-                    if (taskName.Contains("后天"))
-                    {
-                        taskTime = taskTime.AddDays(2);
-                        taskName = taskName.Replace("后天", "");
-                    }
-                    bool isHasHour = false;
-                    if (taskName.Contains("10点"))
-                    {
-                        int hourDiff = 10 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("10点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("11点"))
-                    {
-                        int hourDiff = 11 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("11点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("12点"))
-                    {
-                        int hourDiff = 12 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("12点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("13点"))
-                    {
-                        int hourDiff = 13 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("13点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("14点"))
-                    {
-                        int hourDiff = 14 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("14点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("15点"))
-                    {
-                        int hourDiff = 15 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("15点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("16点"))
-                    {
-                        int hourDiff = 16 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("16点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("17点"))
-                    {
-                        int hourDiff = 17 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("17点", "");
-                    }
-                    if (taskName.Contains("18点"))
-                    {
-                        int hourDiff = 18 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("18点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("19点"))
-                    {
-                        int hourDiff = 19 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("19点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("20点"))
-                    {
-                        int hourDiff = 20 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("20点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("21点"))
-                    {
-                        int hourDiff = 21 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("21点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("22点"))
-                    {
-                        int hourDiff = 22 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("22点", "");
-                    }
-                    if (taskName.Contains("4点"))
-                    {
-                        int hourDiff = 4 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("4点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("5点"))
-                    {
-                        int hourDiff = 5 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("5点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("6点"))
-                    {
-                        int hourDiff = 6 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("6点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("7点"))
-                    {
-                        int hourDiff = 7 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("7点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("7点"))
-                    {
-                        int hourDiff = 8 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("8点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("9点"))
-                    {
-                        int hourDiff = 9 - taskTime.Hour;
-                        taskTime = taskTime.AddHours(hourDiff);
-                        taskName = taskName.Replace("9点", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("15分"))
-                    {
-                        int hourDiff = 15 - taskTime.Minute;
-                        taskTime = taskTime.AddMinutes(hourDiff);
-                        taskName = taskName.Replace("15分", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("30分"))
-                    {
-                        int hourDiff = 30 - taskTime.Minute;
-                        taskTime = taskTime.AddMinutes(hourDiff);
-                        taskName = taskName.Replace("30分", "");
-                        isHasHour = true;
-                    }
-                    if (taskName.Contains("45分"))
-                    {
-                        int hourDiff = 45 - taskTime.Minute;
-                        taskTime = taskTime.AddMinutes(hourDiff);
-                        taskName = taskName.Replace("45分", "");
-                        isHasHour = true;
-                    }
-                    if (isHasHour && taskName.Contains("整"))
-                    {
-                        int hourDiff = 0 - taskTime.Minute;
-                        taskTime = taskTime.AddMinutes(hourDiff);
-                        taskName = taskName.Replace("整", "");
-                    }
-                    if (isHasHour && taskName.Contains("半"))
-                    {
-                        int hourDiff = 30 - taskTime.Minute;
-                        taskTime = taskTime.AddMinutes(hourDiff);
-                        taskName = taskName.Replace("半", "");
-                    }
+                    PreViewTime(true);
+                    DateTime taskTime = dateTimePicker.Value;
+                    taskName = searchword.Text.Split('@')[0];
+
                     string taskLevel1 = "1";
                     MatchCollection jc = Regex.Matches(taskName, @"[1-9]\d*j");
                     foreach (Match m in jc)
                     {
                         taskName = taskName.Replace(m.Value, "");
                         taskLevel1 = m.Value.Substring(0, m.Value.Length - 1);
-                        break;
-                    }
-                    MatchCollection Mc = Regex.Matches(taskName, @"[1-9]\d*month");
-                    foreach (Match m in Mc)
-                    {
-                        taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddMonths(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 5)));
                         break;
                     }
                     MatchCollection mc = Regex.Matches(taskName, @"[1-9]\d*m");
@@ -6433,36 +6253,7 @@ namespace DocearReminder
                         minutes = m.Value.Substring(0, m.Value.Length - 1);
                         break;
                     }
-                    //几年以后
-                    MatchCollection Yc = Regex.Matches(taskName, @"[1-9]\d*Y");
-                    foreach (Match m in Yc)
-                    {
-                        taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddYears(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 1)));
-                        break;
-                    }
-
-                    MatchCollection Dc = Regex.Matches(taskName, @"[1-9]\d*D");
-                    foreach (Match m in Dc)
-                    {
-                        taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddDays(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
-                        break;
-                    }
-                    MatchCollection Hc = Regex.Matches(taskName, @"[1-9]\d*H");
-                    foreach (Match m in Hc)
-                    {
-                        taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddHours(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
-                        break;
-                    }
-                    Mc = Regex.Matches(taskName, @"[1-9]\d*M");
-                    foreach (Match m in Mc)
-                    {
-                        taskName = taskName.Replace(m.Value, "");
-                        taskTime = taskTime.AddMinutes(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
-                        break;
-                    }
+                    
                     newNotetext.Value = taskName;
                     XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
                     newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
@@ -6926,6 +6717,275 @@ namespace DocearReminder
                 taskTime.Value = 0;
                 searchword.Text = "";
                 RRReminderlist();
+            }
+        }
+        public DateTime PreViewTime(bool isReplaceStr=false)
+        {
+            try
+            {
+                DateTime taskTime = DateTime.Now;
+                string taskName= searchword.Text;
+                //任务时间
+                if (taskName.Contains("明天"))
+                {
+                    taskTime = taskTime.AddDays(1);
+                    taskName = taskName.Replace("明天", "");
+                }
+                if (taskName.Contains("后天"))
+                {
+                    taskTime = taskTime.AddDays(2);
+                    taskName = taskName.Replace("后天", "");
+                }
+                bool isHasHour = false;
+                if (taskName.Contains("10点"))
+                {
+                    int hourDiff = 10 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("10点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("11点"))
+                {
+                    int hourDiff = 11 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("11点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("12点"))
+                {
+                    int hourDiff = 12 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("12点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("13点"))
+                {
+                    int hourDiff = 13 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("13点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("14点"))
+                {
+                    int hourDiff = 14 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("14点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("15点"))
+                {
+                    int hourDiff = 15 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("15点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("16点"))
+                {
+                    int hourDiff = 16 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("16点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("17点"))
+                {
+                    int hourDiff = 17 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("17点", "");
+                }
+                if (taskName.Contains("18点"))
+                {
+                    int hourDiff = 18 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("18点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("19点"))
+                {
+                    int hourDiff = 19 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("19点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("20点"))
+                {
+                    int hourDiff = 20 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("20点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("21点"))
+                {
+                    int hourDiff = 21 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("21点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("22点"))
+                {
+                    int hourDiff = 22 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("22点", "");
+                }
+                if (taskName.Contains("23点"))
+                {
+                    int hourDiff = 23 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("23点", "");
+                }
+                if (taskName.Contains("1点"))
+                {
+                    int hourDiff = 1 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("1点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("2点"))
+                {
+                    int hourDiff = 2 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("2点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("3点"))
+                {
+                    int hourDiff = 3 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("3点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("4点"))
+                {
+                    int hourDiff = 4 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("4点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("5点"))
+                {
+                    int hourDiff = 5 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("5点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("6点"))
+                {
+                    int hourDiff = 6 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("6点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("7点"))
+                {
+                    int hourDiff = 7 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("7点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("8点"))
+                {
+                    int hourDiff = 8 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("8点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("9点"))
+                {
+                    int hourDiff = 9 - taskTime.Hour;
+                    taskTime = taskTime.AddHours(hourDiff);
+                    taskName = taskName.Replace("9点", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("15分"))
+                {
+                    int hourDiff = 15 - taskTime.Minute;
+                    taskTime = taskTime.AddMinutes(hourDiff);
+                    taskName = taskName.Replace("15分", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("30分"))
+                {
+                    int hourDiff = 30 - taskTime.Minute;
+                    taskTime = taskTime.AddMinutes(hourDiff);
+                    taskName = taskName.Replace("30分", "");
+                    isHasHour = true;
+                }
+                if (taskName.Contains("45分"))
+                {
+                    int hourDiff = 45 - taskTime.Minute;
+                    taskTime = taskTime.AddMinutes(hourDiff);
+                    taskName = taskName.Replace("45分", "");
+                    isHasHour = true;
+                }
+                if (isHasHour && taskName.Contains("整"))
+                {
+                    int hourDiff = 0 - taskTime.Minute;
+                    taskTime = taskTime.AddMinutes(hourDiff);
+                    taskName = taskName.Replace("整", "");
+                }
+                if (isHasHour && taskName.Contains("半"))
+                {
+                    int hourDiff = 30 - taskTime.Minute;
+                    taskTime = taskTime.AddMinutes(hourDiff);
+                    taskName = taskName.Replace("半", "");
+                }
+                MatchCollection Mc = Regex.Matches(taskName, @"[1-9]\d*M");
+                foreach (Match m in Mc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    taskTime = taskTime.AddMonths(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 1)));
+                    break;
+                }
+                //几年以后
+                MatchCollection Yc = Regex.Matches(taskName, @"[1-9]\d*Y");
+                foreach (Match m in Yc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    taskTime = taskTime.AddYears(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 1)));
+                    break;
+                }
+
+                MatchCollection Dc = Regex.Matches(taskName, @"[1-9]\d*D");
+                foreach (Match m in Dc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    taskTime = taskTime.AddDays(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
+                    break;
+                }
+                MatchCollection Hc = Regex.Matches(taskName, @"[1-9]\d*H");
+                foreach (Match m in Hc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    taskTime = taskTime.AddHours(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
+                    break;
+                }
+                Mc = Regex.Matches(taskName, @"[1-9]\d*m");
+                foreach (Match m in Mc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    taskTime = taskTime.AddMinutes(Convert.ToInt64(m.Value.Substring(0, m.Value.Length - 1)));
+                    break;
+                }
+                //匹配"12:15"格式解析成十二点十五分
+                Mc = Regex.Matches(taskName, @"[0-9]\d*:[0-9]\d*");
+                foreach (Match m in Mc)
+                {
+                    taskName = taskName.Replace(m.Value, "");
+                    string[] time = m.Value.Split(':');
+                    taskTime = taskTime.AddHours(Convert.ToInt64(time[0]) - taskTime.Hour);
+                    taskTime = taskTime.AddMinutes(Convert.ToInt64(time[1]) - dateTimePicker.Value.Minute);
+                    break;
+                }
+
+                if (isReplaceStr)
+                {
+                    searchword.Text=taskName;
+                }
+                dateTimePicker.Value = taskTime;
+                return taskTime;
+            }
+            catch(Exception ex)
+            {
+                return DateTime.Now;
             }
         }
 
@@ -13914,6 +13974,12 @@ namespace DocearReminder
 
         private void Searchword_TextChanged(object sender, EventArgs e)
         {
+            //如果长度大于5,预览时间
+            if (searchword.Text.Length > 5)
+            {
+                PreViewTime();
+            }
+
             if (searchword.Text.ToLower().StartsWith("ss") && !searchword.Text.ToLower().EndsWith("jj"))
             {
                 return;

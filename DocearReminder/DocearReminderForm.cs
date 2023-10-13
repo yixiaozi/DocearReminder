@@ -3120,10 +3120,12 @@ namespace DocearReminder
                                 {
                                     IsShow = false;
                                 }
-                                if (IsFileUrl(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")) && !System.IO.File.Exists(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")))
-                                {
-                                    IsShow = false;
-                                }
+                                //文件不存在时隐藏
+                                //if (IsFileUrl(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")))
+                                //{
+                                //    //&& !System.IO.File.Exists(GetAttribute(node.ParentNode, "LINK").Replace("file:/", ""))//当时添加了文件
+                                //    IsShow = false;
+                                //}
                                 if (Xnodes.Any(m => m.Contains(nodeid)) && reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
                                 {
                                     if (taskName.ToLower() != "bin")

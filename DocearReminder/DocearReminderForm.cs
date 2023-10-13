@@ -74,6 +74,7 @@ namespace DocearReminder
         private HotKeys hotKeys = new HotKeys();
         public static IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
         private string[] noFolder = new string[] { };
+        private string[] noFolderInRoot = new string[] { };
         private string[] noFiles = new string[] { };
         private CustomCheckedListBox mindmaplis1 = new CustomCheckedListBox();
         private CustomCheckedListBox.ObjectCollection mindmaplist_backup;
@@ -280,6 +281,7 @@ namespace DocearReminder
                 MindmapList.Items.Clear();
                 reminderList.Items.Clear();
                 string no = ini.ReadString("path", "no", "");
+                string noinall = ini.ReadString("path", "noinall", "");
                 string noFilesString = ini.ReadString("path", "nofiles", "");
                 CalendarImagePath = ini.ReadStringDefault("path", "CalendarImagePath", "");
                 ebdefault = ini.ReadString("path", "ebdefault", "");
@@ -368,6 +370,7 @@ namespace DocearReminder
                 }
 
                 noFolder = no.Split(';');
+                noFolderInRoot = noinall.Split(';');
                 noFiles = noFilesString.Split(';');
                 nodes.Clear();
                 JavaScriptSerializer js = new JavaScriptSerializer
@@ -2241,7 +2244,7 @@ namespace DocearReminder
                     mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
                 }
                 string subPath = file.DirectoryName;
-                if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !".svn".Contains(subPath) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
+                if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
                 {
                     try
                     {

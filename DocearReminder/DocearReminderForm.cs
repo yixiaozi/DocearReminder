@@ -11947,22 +11947,30 @@ namespace DocearReminder
                                 }
                                 else
                                 {
-                                    ReSetValue();
-                                    int reminderIndex = reminderList.SelectedIndex;
-                                    RRReminderlist();
-                                    try
-                                    {
-                                        if (reminderIndex > reminderList.Items.Count - 1)
-                                        {
-                                            ReminderListSelectedIndex(0);
-                                        }
-                                        else
-                                        {
-                                            ReminderListSelectedIndex(reminderIndex);
-                                        }
+                                    if (e.Modifiers.CompareTo(Keys.Shift) == 0) {//整理刷新
+                                        searchword.Text = "";
+                                        mindmapornode.Text = "";
+                                        Load_Click(null, null);
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
+                                        ReSetValue();
+                                        int reminderIndex = reminderList.SelectedIndex;
+                                        RRReminderlist();
+                                        try
+                                        {
+                                            if (reminderIndex > reminderList.Items.Count - 1)
+                                            {
+                                                ReminderListSelectedIndex(0);
+                                            }
+                                            else
+                                            {
+                                                ReminderListSelectedIndex(reminderIndex);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
                                     }
                                 }
                             }
@@ -12459,7 +12467,6 @@ namespace DocearReminder
                             ReminderListSelectedIndex(selectindex);
                         }
                     }
-
                     break;
 
                 case Keys.Zoom:
@@ -12627,7 +12634,8 @@ namespace DocearReminder
                                 if (item.Name == "hook" && !isHashook)
                                 {
                                     isHashook = true;
-                                    item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                    //设置时间的时候报错了，可能是因为没有这个属性
+                                    //item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                                 }
                             }
                             if (!isHashook)

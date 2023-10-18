@@ -1298,5 +1298,54 @@ namespace DocearReminder
             //将content写入文件中
             File.AppendAllText(path, content);
         }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    System.Xml.XmlDocument x = new XmlDocument();
+                    x.Load(file.FullName);
+                    bool isNeedUpdate = false;
+                    foreach (XmlNode node in x.GetElementsByTagName("node"))
+                    {
+                        if (node.Attributes != null && node.Attributes["ID"] == null)
+                        {
+                            isNeedUpdate = true;
+                            XmlAttribute TASKID = x.CreateAttribute("ID");
+                            node.Attributes.Append(TASKID);
+                            node.Attributes["ID"].Value = Guid.NewGuid().ToString();
+                        }
+                        //添加属性CREATED="1697095648177" MODIFIED="1697095659152"
+                        if (node.Attributes != null && node.Attributes["CREATED"] == null)
+                        {
+                            isNeedUpdate = true;
+                            XmlAttribute CREATED = x.CreateAttribute("CREATED");
+                            node.Attributes.Append(CREATED);
+                            node.Attributes["CREATED"].Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        }
+                        if (node.Attributes != null && node.Attributes["MODIFIED"] == null)
+                        {
+                            isNeedUpdate = true;
+                            XmlAttribute MODIFIED = x.CreateAttribute("MODIFIED");
+                            node.Attributes.Append(MODIFIED);
+                            node.Attributes["MODIFIED"].Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                        }
+                    }
+                    if (isNeedUpdate)
+                    {
+                        x.Save(file.FullName);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                        th.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            this.Close();
+        }
     }
 }

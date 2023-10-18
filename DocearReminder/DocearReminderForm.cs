@@ -1829,6 +1829,7 @@ namespace DocearReminder
         {
             try
             {
+                node.Attributes["TEXT"].InnerText = TaskName;
                 if (node.Attributes["MODIFIEDLog"] == null)
                 {
                     XmlAttribute MODIFIEDLog = node.OwnerDocument.CreateAttribute("MODIFIEDLog");
@@ -1851,7 +1852,6 @@ namespace DocearReminder
                     node.Attributes["TEXTLOG"].Value += ">" + node.Attributes["TEXT"].InnerText;
                 }
                 node.Attributes["MODIFIED"].Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                node.Attributes["TEXT"].InnerText = TaskName;
             }
             catch (Exception ex)
             {
@@ -7065,6 +7065,13 @@ namespace DocearReminder
                                 yearNodeValue.Value = DateTime.Now.Year.ToString();
                                 yearNode.Attributes.Append(yearNodeValue);
                                 XmlAttribute yearNodeTASKID = x.CreateAttribute("ID"); yearNode.Attributes.Append(yearNodeTASKID); yearNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); root.AppendChild(yearNode);
+                                //添加属性CREATED="1697095648177" MODIFIED="1697095659152"
+                                XmlAttribute newNoteCREATEDY= x.CreateAttribute("CREATED");
+                                newNoteCREATEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                XmlAttribute newNoteMODIFIEDY = x.CreateAttribute("MODIFIED");
+                                newNoteMODIFIEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                yearNode.Attributes.Append(newNoteCREATEDY);
+                                yearNode.Attributes.Append(newNoteMODIFIEDY);
                             }
                             XmlNode year = root.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Year.ToString());
                             if (!haschildNode(year, DateTime.Now.Month.ToString()))
@@ -7074,6 +7081,14 @@ namespace DocearReminder
                                 monthNodeValue.Value = DateTime.Now.Month.ToString();
                                 monthNode.Attributes.Append(monthNodeValue);
                                 XmlAttribute monthNodeTASKID = x.CreateAttribute("ID"); monthNode.Attributes.Append(monthNodeTASKID); monthNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); year.AppendChild(monthNode);
+                                //添加属性CREATED="1697095648177" MODIFIED="1697095659152"
+                                XmlAttribute newNoteCREATEDY = x.CreateAttribute("CREATED");
+                                newNoteCREATEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                XmlAttribute newNoteMODIFIEDY = x.CreateAttribute("MODIFIED");
+                                newNoteMODIFIEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                monthNode.Attributes.Append(newNoteCREATEDY);
+                                monthNode.Attributes.Append(newNoteMODIFIEDY);
+
                             }
                             XmlNode month = year.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Month.ToString());
                             if (!haschildNode(month, DateTime.Now.Day.ToString()))
@@ -7082,7 +7097,15 @@ namespace DocearReminder
                                 XmlAttribute dayNodeValue = x.CreateAttribute("TEXT");
                                 dayNodeValue.Value = DateTime.Now.Day.ToString();
                                 dayNode.Attributes.Append(dayNodeValue);
-                                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); month.AppendChild(dayNode);
+                                XmlAttribute dayNodeTASKID = x.CreateAttribute("ID"); dayNode.Attributes.Append(dayNodeTASKID); dayNode.Attributes["ID"].Value = Guid.NewGuid().ToString(); 
+                                //添加属性CREATED="1697095648177" MODIFIED="1697095659152"
+                                XmlAttribute newNoteCREATEDY = x.CreateAttribute("CREATED");
+                                newNoteCREATEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                XmlAttribute newNoteMODIFIEDY = x.CreateAttribute("MODIFIED");
+                                newNoteMODIFIEDY.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                dayNode.Attributes.Append(newNoteCREATEDY);
+                                dayNode.Attributes.Append(newNoteMODIFIEDY);
+                                month.AppendChild(dayNode);
                             }
                             XmlNode day = month.ChildNodes.Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == DateTime.Now.Day.ToString());
                             day.AppendChild(newNote);

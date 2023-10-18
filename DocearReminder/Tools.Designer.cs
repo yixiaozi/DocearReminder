@@ -58,6 +58,7 @@
             this.DiigoImport = new System.Windows.Forms.Button();
             this.timeblockduiqi = new System.Windows.Forms.Button();
             this.CreateIcs = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -343,12 +344,23 @@
             this.CreateIcs.UseVisualStyleBackColor = true;
             this.CreateIcs.Click += new System.EventHandler(this.CreateIcs_Click);
             // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(180, 337);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(172, 23);
+            this.button12.TabIndex = 38;
+            this.button12.Text = "给所有Node节点添加创建时间,修改时间";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
             // Tools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(813, 404);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.CreateIcs);
             this.Controls.Add(this.timeblockduiqi);
             this.Controls.Add(this.DiigoImport);
@@ -423,5 +435,6 @@
         private System.Windows.Forms.Button DiigoImport;
         private System.Windows.Forms.Button timeblockduiqi;
         private System.Windows.Forms.Button CreateIcs;
+        private System.Windows.Forms.Button button12;
     }
 }

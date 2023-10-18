@@ -252,7 +252,7 @@ namespace DocearReminder
                 }
                 if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
                 {
-                    note.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                    notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
                 }
                 
                 //note_TextChanged(null, null);
@@ -2824,17 +2824,53 @@ namespace DocearReminder
                                 //    IsShow = !IsShow;
                                 //}
                                 //show if less than today not now
-                                if (dt < DateTime.Today)
+                                if (dt < DateTime.Today.AddDays(1))//今天及之前
                                 {
                                     IsShow = true;
                                 }
-                                else if ((dt.Day.Equals(DateTime.Now.Day) && dt.Month.Equals(DateTime.Now.Month) && dt.Year.Equals(DateTime.Now.Year)))//当天
+                                else if (dt < (DateTime.Today.AddDays(2)))//明天
+                                {
+                                    if (!showtomorrow.Checked)
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
+                                else if ((dt) < DateTime.Today.AddDays(8))//一周
+                                {
+                                    if (!reminder_week.Checked)
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
+                                else if (dt < DateTime.Today.AddDays(31))//一个月
+                                {
+                                    if (!reminder_month.Checked)
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
+                                else if (dt < DateTime.Today.AddDays(366))//一年
+                                {
+                                    if (!reminder_year.Checked)
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
+                                else if (dt >= DateTime.Today.AddDays(366))//一年以后
+                                {
+                                    if (!reminder_yearafter.Checked)
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
+
+                                if (IsShow)//根据时间段过滤
                                 {
                                     if (dt.Hour <= 8 && !morning.Checked)
                                     {
                                         IsShow = false;
                                     }
-                                    if (dt.Hour <= 8)
+                                    else if(dt.Hour <= 8)
                                     {
                                         hasMorning = true;
                                     }
@@ -2842,62 +2878,30 @@ namespace DocearReminder
                                     {
                                         IsShow = false;
                                     }
-                                    if (dt.Hour > 8 && dt.Hour < 12)
+                                    else if (dt.Hour > 8 && dt.Hour < 12)
                                     {
                                         hasNoon = true;
                                     }
+
                                     if (dt.Hour >= 12 && dt.Hour < 18 && !afternoon.Checked)
                                     {
                                         IsShow = false;
                                     }
-                                    if (dt.Hour >= 12 && dt.Hour < 18)
+                                    else if (dt.Hour >= 12 && dt.Hour < 18)
                                     {
                                         hasAfter = true;
                                     }
-                                    if (dt.Hour >= 18)
-                                    {
-                                        hasNight = true;
-                                    }
+
                                     if (dt.Hour >= 18 && dt.Hour < 24 && !night.Checked)
                                     {
                                         IsShow = false;
                                     }
-                                }
-                                else if (dt < (DateTime.Now.AddDays(1).AddHours(24 - DateTime.Now.Hour)))//明天
-                                {
-                                    if (!showtomorrow.Checked)
+                                    else if (dt.Hour >= 18)
                                     {
-                                        IsShow = false;
+                                        hasNight = true;
                                     }
                                 }
-                                else if ((true) && (dt) < DateTime.Now.AddDays(7).AddHours(24 - DateTime.Now.Hour))//一周
-                                {
-                                    if (!reminder_week.Checked)
-                                    {
-                                        IsShow = false;
-                                    }
-                                }
-                                else if ((true) && dt < DateTime.Now.AddDays(30).AddHours(24 - DateTime.Now.Hour))//一个月
-                                {
-                                    if (!reminder_month.Checked)
-                                    {
-                                        IsShow = false;
-                                    }
-                                }
-                                else if ((true) && (dt) < DateTime.Now.AddDays(365).AddHours(24 - DateTime.Now.Hour))//一年
-                                {
-                                    if (!reminder_year.Checked)
-                                    {
-                                        IsShow = false;
-                                    }
-                                }
-                                else if ((true) && (dt) >= DateTime.Now.AddDays(365).AddHours(24 - DateTime.Now.Hour))//一年以后
-                                {
-                                    if (!reminder_yearafter.Checked)
-                                    {
-                                        IsShow = false;
-                                    }
-                                }
+
                                 bool timebool = IsShow;
                                 bool iSReminderOnly = MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly"));
 
@@ -8739,7 +8743,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || note.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N))|| drawsearch.Focused);
+            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || notebottom.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N))|| drawsearch.Focused);
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
@@ -9160,15 +9164,15 @@ namespace DocearReminder
                                     }
                                     else
                                     {
-                                        note.Focus();
-                                        if (note.Text.Length > 0)
+                                        notebottom.Focus();
+                                        if (notebottom.Text.Length > 0)
                                         {
-                                            note.SelectionStart = note.Text.Length;
+                                            notebottom.SelectionStart = notebottom.Text.Length;
                                         }
                                         else
                                         {
-                                            note.Visible = true;
-                                            note.Text = " ";
+                                            notebottom.Visible = true;
+                                            notebottom.Text = " ";
                                         }
                                         //showcyclereminder.Checked = !showcyclereminder.Checked;
                                         //ReSetValue();
@@ -16732,15 +16736,15 @@ namespace DocearReminder
             if (reminderListBox.Items.Count > 0)
             {
                 reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
-                note.Top = MindmapList.Height+MindmapList.Top-note.Height;
-                reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - note.Height- (note.Visible?7:0);
-                diary.Height = MindmapList.Height - note.Height - (note.Visible ? 7 : 0);
+                notebottom.Top = MindmapList.Height+MindmapList.Top-notebottom.Height;
+                reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7) - notebottom.Height- (notebottom.Visible?7:0);
+                diary.Height = MindmapList.Height - notebottom.Height - (notebottom.Visible ? 7 : 0);
             }
             else
             {
                 reminderList.Top = MindmapList.Top;
-                note.Top = MindmapList.Height+MindmapList.Top-note.Height;
-                reminderList.Height = MindmapList.Height - note.Height - (note.Visible ? 7 : 0);
+                notebottom.Top = MindmapList.Height+MindmapList.Top-notebottom.Height;
+                reminderList.Height = MindmapList.Height - notebottom.Height - (notebottom.Visible ? 7 : 0);
                 diary.Height = reminderList.Height;
             }
             isSetHeight = false;
@@ -17256,6 +17260,7 @@ namespace DocearReminder
 
         private void 打开程序目录ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MyHide();
             Process.Start(System.AppDomain.CurrentDomain.BaseDirectory);
         }
 
@@ -18703,17 +18708,17 @@ namespace DocearReminder
         {
             try
             {
-                note.ForeColor = Color.Gray;
+                notebottom.ForeColor = Color.Gray;
                 
                 int EM_GETLINECOUNT = 0x00BA;
-                int lc = SendMessage(this.note.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
-                int sf = this.note.Font.Height * (lc + 1);
-                this.note.Height = sf;
-                note.SaveFile("yixiaozi.txt");
-                if (note.Text == "")
+                int lc = SendMessage(this.notebottom.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
+                int sf = this.notebottom.Font.Height * (lc + 1);
+                this.notebottom.Height = sf;
+                notebottom.SaveFile("yixiaozi.txt");
+                if (notebottom.Text == "")
                 {
-                    note.Visible = false;
-                    note.Height = 0;
+                    notebottom.Visible = false;
+                    notebottom.Height = 0;
                     reminderList.Focus();
                     return;
                 }
@@ -18926,6 +18931,34 @@ namespace DocearReminder
             //    reminderList.Visible = false;
             //    reminderListBox.Visible = false;
             //}
+        }
+
+        private void 打开文件ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(((MyListBoxItem)MindmapList.SelectedItem).Value);
+                MyHide();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void 工具toolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //打开工具箱
+            int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
+            int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
+            this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
+            MyHide();
+            Tools menu = new Tools();
+            menu.ShowDialog();
+        }
+
+        private void searchworkmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 

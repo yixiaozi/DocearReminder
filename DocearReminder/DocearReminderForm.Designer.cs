@@ -83,6 +83,7 @@ namespace DocearReminder
             this.PathcomboBox = new System.Windows.Forms.ComboBox();
             this.IsReminderOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.menu_mindmaps = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.打开文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_nodetree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
@@ -168,7 +169,7 @@ namespace DocearReminder
             this.IsClip = new System.Windows.Forms.CheckBox();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
-            this.note = new yixiaozi.WinForm.Control.MyRichTextBox();
+            this.notebottom = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.drawsearch = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
@@ -215,6 +216,7 @@ namespace DocearReminder
             this.窗口ToolStripMenuItem});
             this.searchworkmenu.Name = "searchworkmenu";
             this.searchworkmenu.Size = new System.Drawing.Size(101, 26);
+            this.searchworkmenu.Opening += new System.ComponentModel.CancelEventHandler(this.searchworkmenu_Opening);
             // 
             // 窗口ToolStripMenuItem
             // 
@@ -229,6 +231,7 @@ namespace DocearReminder
             this.工具toolToolStripMenuItem.Name = "工具toolToolStripMenuItem";
             this.工具toolToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.工具toolToolStripMenuItem.Text = "工具：tool";
+            this.工具toolToolStripMenuItem.Click += new System.EventHandler(this.工具toolToolStripMenuItem_Click);
             // 
             // reminder_week
             // 
@@ -758,14 +761,14 @@ namespace DocearReminder
             // 
             this.toolStripMenuItem_deny.Name = "toolStripMenuItem_deny";
             this.toolStripMenuItem_deny.Size = new System.Drawing.Size(162, 22);
-            this.toolStripMenuItem_deny.Text = "推迟 [D]:deny";
+            this.toolStripMenuItem_deny.Text = "推迟 [D]:delay";
             this.toolStripMenuItem_deny.Click += new System.EventHandler(this.ToolStripMenuItem_deny_Click);
             // 
             // toolStripMenuItemCalcal
             // 
             this.toolStripMenuItemCalcal.Name = "toolStripMenuItemCalcal";
             this.toolStripMenuItemCalcal.Size = new System.Drawing.Size(162, 22);
-            this.toolStripMenuItemCalcal.Text = "取消 [C]";
+            this.toolStripMenuItemCalcal.Text = "取消 [C]:cancel";
             this.toolStripMenuItemCalcal.Click += new System.EventHandler(this.toolStripMenuItemCalcal_Click);
             // 
             // 仅查看CdToolStripMenuItem
@@ -786,7 +789,7 @@ namespace DocearReminder
             // 
             this.设置重要xToolStripMenuItem.Name = "设置重要xToolStripMenuItem";
             this.设置重要xToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.设置重要xToolStripMenuItem.Text = "重要[x]";
+            this.设置重要xToolStripMenuItem.Text = "置顶[x]";
             this.设置重要xToolStripMenuItem.Click += new System.EventHandler(this.设置重要xToolStripMenuItem_Click);
             // 
             // openFileToolStripMenuItem
@@ -901,9 +904,17 @@ namespace DocearReminder
             // menu_mindmaps
             // 
             this.menu_mindmaps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文件ToolStripMenuItem1,
             this.toolStripMenuItem10});
             this.menu_mindmaps.Name = "contextMenuStrip2";
-            this.menu_mindmaps.Size = new System.Drawing.Size(125, 26);
+            this.menu_mindmaps.Size = new System.Drawing.Size(125, 48);
+            // 
+            // 打开文件ToolStripMenuItem1
+            // 
+            this.打开文件ToolStripMenuItem1.Name = "打开文件ToolStripMenuItem1";
+            this.打开文件ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.打开文件ToolStripMenuItem1.Text = "打开文件";
+            this.打开文件ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件ToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem10
             // 
@@ -1724,21 +1735,21 @@ namespace DocearReminder
             this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
             this.tagList.SizeChanged += new System.EventHandler(this.tagList_SizeChanged);
             // 
-            // note
+            // notebottom
             // 
-            this.note.BackColor = System.Drawing.Color.White;
-            this.note.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.note.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.note.ForeColor = System.Drawing.Color.Gray;
-            this.note.Location = new System.Drawing.Point(420, 377);
-            this.note.MaximumSize = new System.Drawing.Size(600, 250);
-            this.note.Name = "note";
-            this.note.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.note.Size = new System.Drawing.Size(600, 98);
-            this.note.TabIndex = 145;
-            this.note.Text = "";
-            this.note.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
-            this.note.TextChanged += new System.EventHandler(this.note_TextChanged);
+            this.notebottom.BackColor = System.Drawing.Color.White;
+            this.notebottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.notebottom.Font = new System.Drawing.Font("宋体", 9.75F);
+            this.notebottom.ForeColor = System.Drawing.Color.Gray;
+            this.notebottom.Location = new System.Drawing.Point(420, 377);
+            this.notebottom.MaximumSize = new System.Drawing.Size(600, 250);
+            this.notebottom.Name = "notebottom";
+            this.notebottom.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.notebottom.Size = new System.Drawing.Size(600, 98);
+            this.notebottom.TabIndex = 145;
+            this.notebottom.Text = "";
+            this.notebottom.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
+            this.notebottom.TextChanged += new System.EventHandler(this.note_TextChanged);
             // 
             // DrawList
             // 
@@ -1927,7 +1938,7 @@ namespace DocearReminder
             this.Controls.Add(this.usedCount);
             this.Controls.Add(this.usedtimelabel);
             this.Controls.Add(this.todayusedtime);
-            this.Controls.Add(this.note);
+            this.Controls.Add(this.notebottom);
             this.Controls.Add(this.DrawList);
             this.Controls.Add(this.drawsearch);
             this.Controls.Add(this.diary);
@@ -2129,7 +2140,7 @@ namespace DocearReminder
         private CheckBox checkBox_截图;
         private CheckBox IsClip;
         private Timer AllnodeFreshTimer;
-        private MyRichTextBox note;
+        private MyRichTextBox notebottom;
         private CustomCheckedListBox DrawList;
         private TextBox drawsearch;
         private MyRichTextBox diary;
@@ -2140,6 +2151,7 @@ namespace DocearReminder
         private PictureBox drawioPic;
         private Timer picturebigger;
         private PictureBox drawioPicBigger;
+        private ToolStripMenuItem 打开文件ToolStripMenuItem1;
     }
 }
 

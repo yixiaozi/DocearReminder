@@ -447,8 +447,9 @@ namespace DocearReminder
                 mindmaplist_count.Text = MindmapList.Items.Count.ToString();
                 RRReminderlist();
                 hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Shift, Keys.Space, CallBack);
-                hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
-                hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Control, Keys.Space, showdrawio);
+                //hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Alt, Keys.Space, showcalander);
+                //hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Control, Keys.Space, showdrawio);
+                hotKeys.Regist(this.Handle, (int)HotKeys.HotkeyModifiers.Control, Keys.Space, showcalander);
 
                 foreach (var item in mindmapfiles)
                 {

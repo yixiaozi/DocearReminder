@@ -44,8 +44,13 @@ namespace DocearReminder
         private List<Color> timeblockColors = new List<Color>();
         //private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
-        public CalendarForm(string path, bool OpenNew = false)// 后期希望只显示当期文件夹的日历
+        public CalendarForm(string path)// 后期希望只显示当期文件夹的日历
         {
+            if (path == "show")
+            {
+                this.Show();
+                this.Activate();
+            }
             InitializeComponent();
             SetToDeskTop();
             //if (!OpenNew)
@@ -125,6 +130,7 @@ namespace DocearReminder
             dayView1.AllowNew = false;
             FreshMenu();
             RefreshCalender();
+            showhide.Start();
         }
 
         public void SetMonday()
@@ -3434,6 +3440,20 @@ namespace DocearReminder
         }
 
         #endregion 将窗体钉在桌面上
+
+        private void showhide_Tick(object sender, EventArgs e)
+        {
+            if (isNewOpen&&!this.Focused)
+            {
+                this.Show();
+                this.Activate();
+                isNewOpen = false;
+            }
+            //else
+            //{
+            //    this.Hide();
+            //}
+        }
     }
 
     internal class User32

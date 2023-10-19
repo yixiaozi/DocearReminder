@@ -296,6 +296,7 @@ namespace DocearReminder
                 command = ini.ReadString("config", "command", "");
                 logpass = ini.ReadString("password", "i", "");
                 encryptlog = new Encrypt(logpass);
+                Application.Idle += new EventHandler(this.Application_Idle);
                 if (!Directory.Exists(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", ""))))
                 {
                     Directory.CreateDirectory(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
@@ -528,6 +529,11 @@ namespace DocearReminder
                 AddErrorLog(ex);
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void Application_Idle(object sender, EventArgs e)
+        {
+            //isNewOpen = false;
         }
 
         #region 压缩方法
@@ -919,28 +925,41 @@ namespace DocearReminder
 
         private const int SW_SHOWNOMAL = 1;
 
-        private static void HandleRunningInstance(Process instance)
+        private static void HandleRunningInstance(ProcessThread instance)
         {
-            ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);//显示
-            SetForegroundWindow(instance.MainWindowHandle);//当到最前端
+            //ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);//显示
+            //SetForegroundWindow(instance.MainWindowHandle);//当到最前端
+            //if instance is form.show this instance
         }
 
-        private static Process RuningInstance()
+        private static ProcessThread RuningInstance()
         {
             Process currentProcess = Process.GetCurrentProcess();
-            Process[] Processes = Process.GetProcessesByName("CalendarForm");//currentProcess.ProcessName);
+            Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
+            //Process[] Processes = Process.GetProcessesByName("CalendarForm");
             foreach (Process process in Processes)
             {
                 if (true || process.Id != currentProcess.Id)
                 {
                     if (Assembly.GetExecutingAssembly().Location.Replace("/", "\\")== currentProcess.MainModule.FileName)
                     {
-                        return process;
+                        //get all thread of this process
+                        ProcessThreadCollection ptc = process.Threads;
+                        foreach (ProcessThread t in ptc)
+                        {
+                            if (t.PriorityLevel == ThreadPriorityLevel.Highest)
+                            {
+                                return t;
+                            }
+                        }
+
                     }
                 }
             }
             return null;
         }
+        public static Thread thCalendarForm;
+        public static bool isNewOpen = true;
 
         public void showcalander()
         {
@@ -948,24 +967,19 @@ namespace DocearReminder
             {
                 IsSelectReminder = false;
             }
-            Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
-            thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
-            thCalendarForm.Start();
-            SetTitle();
-            MyHide();
-            //Process process = RuningInstance();
-            //if (process != null)
-            //{
-            //    HandleRunningInstance(process);
-            //    //System.Environment.Exit(1);
-            //}
-            //else
-            //{
-            //    Thread thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
-            //    thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
-            //    thCalendarForm.Start();
-            //    MyHide();
-            //}
+            if (thCalendarForm != null&&thCalendarForm.IsAlive)
+            {
+                isNewOpen=!isNewOpen;
+            }
+            else
+            {
+                thCalendarForm = new Thread(() => Application.Run(new CalendarForm(mindmapPath)));
+                thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
+                thCalendarForm.Priority = ThreadPriority.Highest;
+                thCalendarForm.Start();
+                SetTitle();
+                MyHide();
+            }
         }
         public void showdrawio()
         {

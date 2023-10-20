@@ -12735,11 +12735,10 @@ namespace DocearReminder
                             bool isHashook = false;
                             foreach (XmlNode item in node.ChildNodes)
                             {
-                                if (item.Name == "hook" && !isHashook)
+                                if (item.Name == "hook" && !isHashook && item.Attributes != null && item.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
                                 {
                                     isHashook = true;
-                                    //设置时间的时候报错了，可能是因为没有这个属性
-                                    //item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+                                    item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                                 }
                             }
                             if (!isHashook)

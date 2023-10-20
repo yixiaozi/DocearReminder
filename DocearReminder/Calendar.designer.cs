@@ -72,7 +72,6 @@ namespace DocearReminder
             this.checkBox_enddate = new System.Windows.Forms.CheckBox();
             this.Ka_c = new System.Windows.Forms.CheckBox();
             this.subClass = new System.Windows.Forms.CheckBox();
-            this.view = new System.Windows.Forms.Button();
             this.CaptureScreen = new System.Windows.Forms.CheckBox();
             this.JieTucheckBox = new System.Windows.Forms.CheckBox();
             this.CameracheckBox = new System.Windows.Forms.CheckBox();
@@ -127,7 +126,6 @@ namespace DocearReminder
             this.dayView1.AppointmentMouseLeave += new yixiaozi.WinForm.Control.DayView.AppointmentMouseLeaveEventHandler(this.dayView1_AppointmentMouseLeave);
             this.dayView1.AppointmentMouseMove += new yixiaozi.WinForm.Control.DayView.AppointmentMouseMoveEventHandler(this.dayView1_AppointmentMouseMove);
             this.dayView1.AppoinmentMove += new System.EventHandler<yixiaozi.WinForm.Control.Calendar.AppointmentEventArgs>(this.dayView1_AppoinmentMove);
-            this.dayView1.Click += new System.EventHandler(this.dayView1_Click);
             this.dayView1.DoubleClick += new System.EventHandler(this.dayView1_DoubleClick);
             this.dayView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dayView1_KeyDown);
             this.dayView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CalendarForm_KeyUp);
@@ -527,17 +525,6 @@ namespace DocearReminder
             this.subClass.TabIndex = 42;
             this.subClass.Text = "子类";
             this.subClass.UseVisualStyleBackColor = true;
-            this.subClass.CheckedChanged += new System.EventHandler(this.subClass_CheckedChanged);
-            // 
-            // view
-            // 
-            this.view.Location = new System.Drawing.Point(833, 0);
-            this.view.Name = "view";
-            this.view.Size = new System.Drawing.Size(53, 21);
-            this.view.TabIndex = 43;
-            this.view.Text = "视图";
-            this.view.UseVisualStyleBackColor = true;
-            this.view.Click += new System.EventHandler(this.view_Click);
             // 
             // CaptureScreen
             // 
@@ -630,7 +617,7 @@ namespace DocearReminder
             // TimeBlockColor
             // 
             this.TimeBlockColor.AutoSize = true;
-            this.TimeBlockColor.Location = new System.Drawing.Point(911, 0);
+            this.TimeBlockColor.Location = new System.Drawing.Point(870, 4);
             this.TimeBlockColor.Name = "TimeBlockColor";
             this.TimeBlockColor.Size = new System.Drawing.Size(15, 14);
             this.TimeBlockColor.TabIndex = 52;
@@ -662,7 +649,6 @@ namespace DocearReminder
             this.Controls.Add(this.CameracheckBox);
             this.Controls.Add(this.JieTucheckBox);
             this.Controls.Add(this.CaptureScreen);
-            this.Controls.Add(this.view);
             this.Controls.Add(this.subClass);
             this.Controls.Add(this.Ka_c);
             this.Controls.Add(this.checkBox_enddate);
@@ -753,7 +739,6 @@ namespace DocearReminder
         private CheckBox checkBox_enddate;
         private CheckBox Ka_c;
         private CheckBox subClass;
-        private Button view;
         private ToolStripMenuItem 解锁ToolStripMenuItem;
         private CheckBox CaptureScreen;
         private CheckBox JieTucheckBox;

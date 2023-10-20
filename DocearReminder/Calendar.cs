@@ -804,10 +804,20 @@ namespace DocearReminder
             {
                 items = items.Where(m => m.mindmap != "Money");
             }
+            //if (workfolder_combox.SelectedItem != null&&workfolder_combox.SelectedItem.ToString() != "all"&& mindmappath !="")
+            //{
+            //    items = items.Where(m => m.mindmap == "FanQie" || m.mindmapPath.Contains(mindmappath));//!hasinworkfolder(m.mindmapPath));
+            //}
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
                 items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
             }
+
+            //if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "all")
+            //{
+            //    items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
+            //}
+
             foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
             {
                 try//过滤字符串
@@ -1130,6 +1140,13 @@ namespace DocearReminder
                     {
                         m_Appointment.Color = System.Drawing.Color.PowderBlue;
                         m_Appointment.BorderColor = System.Drawing.Color.PowderBlue;
+                    }
+
+                    //如果是任务类型,时间块选择,小于当前时间的任务格式应该不同
+                    if (item.mindmap != "FanQie" && item.time < DateTime.Now && c_timeBlock.Checked)
+                    {
+                        m_Appointment.Color = System.Drawing.Color.Red;
+                        m_Appointment.BorderColor = Color.FromArgb(150, 150, 150); 
                     }
                 }
                 switch (item.mindmap)
@@ -2165,7 +2182,7 @@ namespace DocearReminder
                         bool isHashook = false;
                         foreach (XmlNode item in node.ChildNodes)
                         {
-                            if (item.Name == "hook" && !isHashook)
+                            if (item.Name == "hook" && !isHashook && item.Attributes != null && item.Attributes["NAME"].Value== "plugins/TimeManagementReminder.xml")
                             {
                                 isHashook = true;
                                 item.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((startdate - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
@@ -2184,10 +2201,6 @@ namespace DocearReminder
                             remindernode.AppendChild(remindernodeParameters);
                             node.AppendChild(remindernode);
                         }
-                        //else
-                        //{
-                        //    node.FirstChild.FirstChild.Attributes["REMINDUSERAT"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
-                        //}
                         XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
                         node.Attributes.Append(TASKTIME);
                         node.Attributes["TASKTIME"].Value = ((int)tasktime).ToString();
@@ -2198,6 +2211,7 @@ namespace DocearReminder
                     }
                     catch (Exception ex)
                     {
+                        MessageBox.Show(ex.ToString());
                     }
                 }
             }
@@ -2846,7 +2860,6 @@ namespace DocearReminder
                 Ka_c.Checked = false;
                 RefreshCalender();
             }
-
             CheckboxAlldisabled();
             UsedLogRenew();
         }
@@ -2865,14 +2878,17 @@ namespace DocearReminder
         {
             if (dateTimePicker1.Value == DateTime.Today)
             {
+                button2.Text = "昨天";
                 dateTimePicker1.Value = DateTime.Today.AddDays(-1);
             }
             else if (dateTimePicker1.Value == DateTime.Today.AddDays(-1) && dateTimePicker1.Value.DayOfWeek != DayOfWeek.Monday)
             {
+                button2.Text = "周一";
                 SetMonday();
             }
             else
             {
+                button2.Text = "今天";
                 dateTimePicker1.Value = DateTime.Today;
             }
         }
@@ -3266,19 +3282,6 @@ namespace DocearReminder
 
             CheckboxAlldisabled();
             UsedLogRenew();
-        }
-
-        private void subClass_CheckedChanged(object sender, EventArgs e)
-        {
-            //RefreshCalender();
-        }
-
-        private void view_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void dayView1_Click(object sender, EventArgs e)
-        {
         }
 
         private void 解锁ToolStripMenuItem_Click(object sender, EventArgs e)

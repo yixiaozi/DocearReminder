@@ -52,13 +52,6 @@ namespace DocearReminder
                 this.Activate();
             }
             InitializeComponent();
-            SetToDeskTop();
-            //if (!OpenNew)
-            //{
-            //    Center();
-            //    this.Show();
-            //    this.Activate();
-            //}
             mindmappath = path;
             string logpass = ini.ReadString("password", "i", "");
             encryptlog = new Encrypt(logpass);
@@ -123,9 +116,10 @@ namespace DocearReminder
             //}
             Center();
             dayView1.MouseWheel += CalendarWhell;
-            IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄
-            IntPtr hWndDesktop = FindWindow("Progman", "Program Manager");//获得桌面句柄
-            SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
+            //IntPtr hWndMyWindow = FindWindow(null, this.Name);//通过窗口的标题获得句柄
+            //IntPtr hWndDesktop = FindWindow("Progman", "Program Manager");//获得桌面句柄
+            //SetParent(hWndMyWindow, hWndDesktop); //将窗口设置为桌面的子窗体
+            //SetToDeskTop();
             dayView1.AllowInplaceEditing = false;
             dayView1.AllowNew = false;
             FreshMenu();

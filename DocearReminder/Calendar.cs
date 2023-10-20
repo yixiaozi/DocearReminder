@@ -2098,7 +2098,15 @@ namespace DocearReminder
                         break;
 
                     case Keys.Escape:
-                        dayView1.Focus();
+                        if (dayView1.Focused)
+                        {
+                            this.WindowState= FormWindowState.Minimized;
+                            this.Hide();
+                        }
+                        else
+                        {
+                            dayView1.Focus();
+                        }
                         break;
 
                     case Keys.Delete:
@@ -3442,8 +3450,18 @@ namespace DocearReminder
         {
             if (isNewOpen&&!this.Focused)
             {
+                this.StartPosition= FormStartPosition.Manual;
+                this.Location = new System.Drawing.Point(0, 0);
+                //窗体最大化
+                this.WindowState = FormWindowState.Maximized;
+                this.ShowInTaskbar = true;
+                //置顶
+                this.TopMost = true;
                 this.Show();
                 this.Activate();
+                this.TopMost = false;
+                this.Location = new System.Drawing.Point(0, 0);
+                this.WindowState = FormWindowState.Maximized;
                 isNewOpen = false;
             }
             //else

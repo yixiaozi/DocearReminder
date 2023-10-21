@@ -2429,6 +2429,31 @@ namespace DocearReminder
             }
         }
 
+        //添加一个方法,输入一个时间,返回是否可以显示到bool值
+        public bool isShowFiltByMorning(DateTime dt)
+        {
+            bool IsShow = true;
+            if (dt.Hour <= 8 && !morning.Checked)
+            {
+                IsShow = false;
+            }
+            if (dt.Hour > 8 && dt.Hour < 12 && !day.Checked)
+            {
+                IsShow = false;
+            }
+
+            if (dt.Hour >= 12 && dt.Hour < 18 && !afternoon.Checked)
+            {
+                IsShow = false;
+            }
+
+            if (dt.Hour >= 18 && dt.Hour < 24 && !night.Checked)
+            {
+                IsShow = false;
+            }
+            return IsShow;
+        }
+
         /// <summary>
         /// 刷新任务控件
         /// </summary>
@@ -2463,6 +2488,11 @@ namespace DocearReminder
                     {
                         continue;
                     }
+                    if (!isShowFiltByMorning(item.time))//同样过滤时间段
+                    {
+                        continue;
+                    }
+
                     reminderList.Items.Add(new MyListBoxItemRemind
                     {
                         Text = (searchWords == "" ? item.time.ToString("    HH:mm") : item.time.ToString("yyyy-MM-dd HH:mm")) + FormatTimeLenght(Convert.ToInt16(item.tasktime).ToString(), 4) + "  " + item.name + (item.comment != "" ? "(" : "") + item.comment + (item.comment != "" ? ")" : "") + (item.DetailComment != null && item.DetailComment != "" ? "*" : ""),
@@ -2590,6 +2620,7 @@ namespace DocearReminder
                     OnlyLevel.Checked = false;
                     RRReminderlist();
                 }
+                ReminderListBox_SizeChanged(null, null);
                 return;
             }
             #endregion 显示时间块
@@ -6895,7 +6926,7 @@ namespace DocearReminder
                     taskName = taskName.Replace("6点", "");
                     isHasHour = true;
                 }
-                if (taskName.Contains("7点"))
+                 if (taskName.Contains("7点"))
                 {
                     int hourDiff = 7 - taskTime.Hour;
                     taskTime = taskTime.AddHours(hourDiff);
@@ -16732,6 +16763,11 @@ namespace DocearReminder
             {
                 diary.Visible = true;
                 reminderList.Visible = false;
+                reminderListBox.Visible = false;
+            }
+            if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+            {
+                reminderListBox.Items.Clear();
                 reminderListBox.Visible = false;
             }
             else

@@ -818,6 +818,11 @@ namespace DocearReminder
             //    items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
             //}
 
+            if (c_timeBlock.Checked && !isShowTask.Checked)
+            {
+                items = items.Where(m => m.mindmap == "TimeBlock");
+            }
+
             foreach (ReminderItem item in items)//这里还有问题,先不折腾逻辑了
             {
                 try//过滤字符串
@@ -2492,17 +2497,13 @@ namespace DocearReminder
             }
             else
             {
-                ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
+                ReminderItem item = reminderObject.reminders.Where(m =>m.time <= dayView1.SelectionStart && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
                 if (item != null)
                 {
                     m_Appointment.StartDate = item.TimeEnd;
                     if (m_Appointment.StartDate < DateTime.Today && dayView1.SelectionEnd > DateTime.Today)//如果今天还没有过，处理开始时间为今天
                     {
                         m_Appointment.StartDate = DateTime.Today;
-                    }
-                    if (item.time < DateTime.Today && item.time < DateTime.Today)
-                    {
-                        item.tasktime = (DateTime.Today - item.time).TotalMinutes - 1;
                     }
                 }
                 else
@@ -3468,6 +3469,11 @@ namespace DocearReminder
             //{
             //    this.Hide();
             //}
+        }
+
+        private void isShowTask_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCalender();
         }
     }
 

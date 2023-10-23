@@ -83,6 +83,7 @@ namespace DocearReminder
             this.TimeBlockColor = new System.Windows.Forms.CheckBox();
             this.freshCalender = new System.Windows.Forms.Timer(this.components);
             this.showhide = new System.Windows.Forms.Timer(this.components);
+            this.isShowTask = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -617,7 +618,7 @@ namespace DocearReminder
             // TimeBlockColor
             // 
             this.TimeBlockColor.AutoSize = true;
-            this.TimeBlockColor.Location = new System.Drawing.Point(870, 4);
+            this.TimeBlockColor.Location = new System.Drawing.Point(852, 4);
             this.TimeBlockColor.Name = "TimeBlockColor";
             this.TimeBlockColor.Size = new System.Drawing.Size(15, 14);
             this.TimeBlockColor.TabIndex = 52;
@@ -633,6 +634,16 @@ namespace DocearReminder
             // 
             this.showhide.Tick += new System.EventHandler(this.showhide_Tick);
             // 
+            // isShowTask
+            // 
+            this.isShowTask.AutoSize = true;
+            this.isShowTask.Location = new System.Drawing.Point(869, 4);
+            this.isShowTask.Name = "isShowTask";
+            this.isShowTask.Size = new System.Drawing.Size(15, 14);
+            this.isShowTask.TabIndex = 53;
+            this.isShowTask.UseVisualStyleBackColor = true;
+            this.isShowTask.CheckedChanged += new System.EventHandler(this.isShowTask_CheckedChanged);
+            // 
             // CalendarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -640,6 +651,7 @@ namespace DocearReminder
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1900, 1037);
+            this.Controls.Add(this.isShowTask);
             this.Controls.Add(this.TimeBlockColor);
             this.Controls.Add(this.ActionLog);
             this.Controls.Add(this.ShowClipboard);
@@ -751,6 +763,7 @@ namespace DocearReminder
         private CheckBox TimeBlockColor;
         private Timer freshCalender;
         private Timer showhide;
+        private CheckBox isShowTask;
     }
 }
 

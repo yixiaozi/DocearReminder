@@ -254,7 +254,7 @@ namespace DocearReminder
                 {
                     notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
                 }
-
+                
                 //note_TextChanged(null, null);
 
                 //加载Tag
@@ -9219,9 +9219,10 @@ namespace DocearReminder
                                         {
                                             notebottom.Visible = true;
                                             notebottom.Text = " ";
-                                            notebottom.SelectionStart = 0;
                                         }
-                                        ReminderListBox_SizeChanged(null, null);//解决D5后显示不出来的问题
+                                        //showcyclereminder.Checked = !showcyclereminder.Checked;
+                                        //ReSetValue();
+                                        //RRReminderlist();
                                     }
                                 }
                             }
@@ -16758,9 +16759,6 @@ namespace DocearReminder
             {
                 isSetHeight = true;
             }
-
-            note_TextChanged(null, null);
-
             if (IsDiary.Checked)
             {
                 diary.Visible = true;

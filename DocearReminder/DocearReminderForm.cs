@@ -42,6 +42,7 @@ using yixiaozi.MyConvert;
 using yixiaozi.Security;
 using yixiaozi.Windows;
 using yixiaozi.WinForm.Control;
+using yixiaozi.WinForm.Control.Calendar;
 using Brushes = System.Drawing.Brushes;
 using Clipboard = System.Windows.Forms.Clipboard;
 using Color = System.Drawing.Color;
@@ -14310,6 +14311,13 @@ namespace DocearReminder
                 searchword.Text = "";
                 showTimeBlock.Checked = !showTimeBlock.Checked;
                 return;
+            }
+            else if (searchword.Text.StartsWith("stillddd")) 
+            {
+                //将最后一个时间块的截止时间设置成现在
+                ReminderItem item = reminderObject.reminders.Where(m => m.time <= DateTime.Now &&m.mindmap == "TimeBlock" && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();
+                item.TimeEnd = DateTime.Now;
+                searchword.Text = "";
             }
             else if (searchword.Text.StartsWith("deltemp"))
             {

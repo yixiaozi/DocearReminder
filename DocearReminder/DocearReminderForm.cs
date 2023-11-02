@@ -2616,7 +2616,7 @@ namespace DocearReminder
             ReminderlistBoxChange();
             if ((showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
             {
-                if (OnlyLevel.Checked)
+                if (reminderList.Items.Count==0&&OnlyLevel.Checked)
                 {
                     OnlyLevel.Checked = false;
                     RRReminderlist();
@@ -9995,15 +9995,19 @@ namespace DocearReminder
                             }
                             string timeblockname = searchword.Text.Split('@')[1];
                             double tasktime = 0;
+
                             try
                             {
-                                MatchCollection mc = Regex.Matches(task, @"[1-9]\d*分钟");
-                                string minutes = "0";
+                                task = task.Replace("：", ":").Replace("：", ":").Replace("：", ":");
+                                MatchCollection mc = Regex.Matches(task, @"\d\d:\d\d-\d\d:\d\d");
                                 foreach (Match m in mc)
                                 {
                                     task = task.Replace(m.Value, "");
-                                    minutes = m.Value.Substring(0, m.Value.Length - 2);
-                                    tasktime = Convert.ToDouble(minutes);
+                                    string[] time = m.Value.Split('-');
+                                    DateTime dtstart = DateTime.Today.AddHours(Convert.ToInt16(time[0].Split(':')[0])).AddMinutes(Convert.ToInt16(time[0].Split(':')[1]));
+                                    DateTime dtend = DateTime.Today.AddHours(Convert.ToInt16(time[1].Split(':')[0])).AddMinutes(Convert.ToInt16(time[1].Split(':')[1]));
+                                    dt = dtend;
+                                    tasktime= (dtend - dtstart).TotalMinutes;
                                     break;
                                 }
                             }
@@ -10018,13 +10022,40 @@ namespace DocearReminder
                                 foreach (Match m in mc)
                                 {
                                     task = task.Replace(m.Value, "");
-                                    dt = DateTime.Today.AddHours(Convert.ToInt16(m.Value.Split(':')[0])).AddMinutes(Convert.ToInt16(m.Value.Split(':')[0]));
+                                    dt = DateTime.Today.AddHours(Convert.ToInt16(m.Value.Split(':')[0])).AddMinutes(Convert.ToInt16(m.Value.Split(':')[1]));
                                     break;
                                 }
                             }
                             catch (Exception ex)
                             {
                             }
+
+                            try
+                            {
+                                bool iscost = false;
+                                MatchCollection mc = Regex.Matches(task, @"[1-9]\d*mm");
+                                string minutes = "0";
+                                foreach (Match m in mc)
+                                {
+                                    if (task.Contains(m.Value+"m"))
+                                    {
+                                        iscost = true;
+                                        dt= dt.AddMinutes(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 2)));
+                                        task = task.Replace(m.Value + "m", "");
+                                    }
+                                    else
+                                    {
+                                        task = task.Replace(m.Value, "");
+                                    }
+                                    minutes = m.Value.Substring(0, m.Value.Length - 2);
+                                    tasktime = Convert.ToDouble(minutes);
+                                    break;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+
                             if (searchword.Text.Contains("@"))
                             {
                                 CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, dt, "TimeBlock", timeblockfather.Replace('>', '|'), task, taskDetail, tasktime);
@@ -10935,7 +10966,7 @@ namespace DocearReminder
                                         {
                                             RRReminderlist();
                                         }
-
+                                        reminderList.Refresh();
                                         ReminderListSelectedIndex(reminderSelectIndex);
                                     }
                                 }
@@ -12430,6 +12461,7 @@ namespace DocearReminder
                     {
                         //切换OnlyLevel
                         OnlyLevel.Checked = !OnlyLevel.Checked;
+                        RRReminderlist();
                         //mindmapornode.Text = "";
                         //showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
                         //reminderList.Refresh();

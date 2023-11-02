@@ -253,7 +253,19 @@ namespace DocearReminder
                 }
                 if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
                 {
-                    notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                    try
+                    {
+                        notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                    }catch(Exception ex)
+                    {
+                        notebottom.Text = "";
+                        note_TextChanged(null, null);
+                    }
+                }
+                else
+                {
+                    notebottom.Text = "";
+                    note_TextChanged(null, null);
                 }
                 
                 //note_TextChanged(null, null);

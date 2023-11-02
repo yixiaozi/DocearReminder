@@ -420,13 +420,13 @@ namespace DocearReminder
         {
             try
             {
+                ReminderItem item = reminderObject.reminders.Where(m => m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();//查找最后一个就行了不计算时长了
                 if (tasktime == 0)//如果没有记录时常，需要计算开始时间
                 {
                     try
                     {
                         if (timelong == 0)
                         {
-                            ReminderItem item = reminderObject.reminders.Where(m => m.time >= DateTime.Today.AddDays(-2) && m.time <= DateTime.Now && (m.mindmap == "TimeBlock" || (m.mindmap == "FanQie" && m.name.Length != 5)) && m.isCompleted == false).OrderBy(m => m.TimeEnd).LastOrDefault();//查找最后一个就行了不计算时长了
                             if (item != null)
                             {
                                 DateTime endtime = item.time.AddMinutes(item.tasktime);
@@ -451,12 +451,25 @@ namespace DocearReminder
                             {
                                 tasktime = 2;
                             }
+                            
                         }
                     }
                     catch (Exception ex)
                     {
                         taskTime = DateTime.Now;
                         tasktime = 30;
+                    }
+                }
+                
+                if (item != null)
+                {
+                    //如果要添加的和最后一个一样，则直接设置最后一个的值
+                    if (item.nameFull == (tag != null ? tag.ToString() : "") && item.name == TaskName)
+                    {
+                        item.tasktime = item.tasktime + tasktime;
+                        item.comment +=((item.comment==""?Environment.NewLine:"")+comment);
+                        item.DetailComment += ((item.DetailComment == "" ? Environment.NewLine : "") + detailComment);
+                        return;
                     }
                 }
                 reminderObject.reminders.Add(new ReminderItem

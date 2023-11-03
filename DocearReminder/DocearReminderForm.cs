@@ -484,6 +484,7 @@ namespace DocearReminder
                 timeblockcheck.Text = "";
                 ReminderListBox_SizeChanged(null, null);
                 IsDiary_CheckedChanged(null, null);
+                timeblockupdatetimer.Start();
                 #region 添加提示信息
                 try
                 {
@@ -8417,6 +8418,44 @@ namespace DocearReminder
             th.Start();
         }
 
+        public void AddTaskToFileNoDate(string mindmap, string rootNode, string taskName)
+        {
+            if (taskName == "")
+            {
+                return;
+            }
+            if (IsEncryptBool)
+            {
+                if (PassWord == "")
+                {
+                    MessageBox.Show("请设置密码！");
+                    return;
+                }
+                taskName = encrypt.EncryptString(taskName);
+                IsEncryptBool = false;
+            }
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(mindmap);
+            XmlNode root = x.GetElementsByTagName("node").Cast<XmlNode>().First(m => m.Attributes[0].Name == "TEXT" && m.Attributes["TEXT"].Value == rootNode);
+            
+            XmlNode newNote = x.CreateElement("node");
+            XmlAttribute newNotetext = x.CreateAttribute("TEXT");
+            newNotetext.Value = taskName;
+            XmlAttribute newNoteCREATED = x.CreateAttribute("CREATED");
+            newNoteCREATED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+            XmlAttribute newNoteMODIFIED = x.CreateAttribute("MODIFIED");
+            newNoteMODIFIED.Value = (Convert.ToInt64((DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
+            newNote.Attributes.Append(newNotetext);
+            newNote.Attributes.Append(newNoteCREATED);
+            newNote.Attributes.Append(newNoteMODIFIED);
+            XmlAttribute TASKID = x.CreateAttribute("ID");
+            newNote.Attributes.Append(TASKID);
+            newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
+            root.AppendChild(newNote);
+            x.Save(mindmap);
+            yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap);//改成同步的，否则会覆盖
+        }
+
         public void AddClipToTask(bool istask = false)
         {
             IDataObject iData = new DataObject();
@@ -14236,6 +14275,12 @@ namespace DocearReminder
                 mindmapornode.Text = "";
                 Load_Click(null, null);
             }
+            else if (searchword.Text.StartsWith("buglisttimeblock") || searchword.Text.EndsWith("buglisttimeblock") || searchword.Text.EndsWith("btl"))
+            {
+                searchword.Text = "";
+                mindmapornode.Text = "";
+                timeblockupdatetimer_Tick(null, null);
+            }
             else if (searchword.Text.StartsWith("NNN") || searchword.Text.EndsWith("NNN"))
             {
                 searchword.Text = "";
@@ -19061,6 +19106,60 @@ namespace DocearReminder
         private void searchworkmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
+        }
+
+        private void timeblockupdatetimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                //读取E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE目录文件夹名大于10的文件夹名到tasklist
+                string[] tasklist = Directory.GetDirectories(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE").Where(x => x.Substring(x.LastIndexOf("\\") + 1).Length > 10).ToArray();
+                //获取时间块思维导图
+                string mindmap = ini.ReadString("TimeBlock", "mindmap", "");
+                //获取时间块思维导图中实际工作ID_475281178节点的子集
+                List<string> subNodes = GetSubNodes(mindmap, "ID_475281178");
+                //比较tasklist是否在subNodes中，如果不在，则添加到subNodes中
+                foreach (string task in tasklist)
+                {
+                    if (!subNodes.Contains(task.Substring(task.LastIndexOf("\\") + 1)))
+                    {
+                        AddTaskToFileNoDate(mindmap, "实际工作", task.Substring(task.LastIndexOf("\\") + 1));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        //添加一个方法，返回思维导图某个节点的子节点的集合，输入思维导图的路径和节点的ID
+        public List<string> GetSubNodes(string mindmapPath, string nodeID)
+        {
+            List<string> subNodes = new List<string>();
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(mindmapPath);
+            foreach (XmlNode node in x.GetElementsByTagName("node"))
+            {
+                try
+                {
+                    if (node != null && node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == nodeID)
+                    {
+                        foreach (XmlNode subNode in node.ChildNodes)
+                        {
+                            if (subNode.Name == "node")
+                            {
+                                //subNode的名字，添加到结果里
+                                if(subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")
+                                {
+                                    subNodes.Add(subNode.Attributes["TEXT"].Value);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex) { }
+            }
+            return subNodes;
         }
     }
 

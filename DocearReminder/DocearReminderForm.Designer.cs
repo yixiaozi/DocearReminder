@@ -180,6 +180,7 @@ namespace DocearReminder
             this.drawioPic = new System.Windows.Forms.PictureBox();
             this.picturebigger = new System.Windows.Forms.Timer(this.components);
             this.drawioPicBigger = new System.Windows.Forms.PictureBox();
+            this.timeblockupdatetimer = new System.Windows.Forms.Timer(this.components);
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1856,6 +1857,12 @@ namespace DocearReminder
             this.drawioPicBigger.TabStop = false;
             this.drawioPicBigger.Visible = false;
             // 
+            // timeblockupdatetimer
+            // 
+            this.timeblockupdatetimer.Enabled = true;
+            this.timeblockupdatetimer.Interval = 600000;
+            this.timeblockupdatetimer.Tick += new System.EventHandler(this.timeblockupdatetimer_Tick);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -2152,6 +2159,7 @@ namespace DocearReminder
         private Timer picturebigger;
         private PictureBox drawioPicBigger;
         private ToolStripMenuItem 打开文件ToolStripMenuItem1;
+        private Timer timeblockupdatetimer;
     }
 }
 

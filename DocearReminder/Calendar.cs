@@ -464,11 +464,12 @@ namespace DocearReminder
                 if (item != null)
                 {
                     //如果要添加的和最后一个一样，则直接设置最后一个的值
-                    if (item.nameFull == (tag != null ? tag.ToString() : "") && item.name == TaskName)
+                    //231107添加限制，只有同一天才可以合并
+                    if (item.nameFull == (tag != null ? tag.ToString() : "") && item.name == TaskName&&item.time.Day== taskTime.Day)
                     {
                         item.tasktime = item.tasktime + tasktime;
-                        item.comment +=((item.comment==""?Environment.NewLine:"")+comment);
-                        item.DetailComment += ((item.DetailComment == "" ? Environment.NewLine : "") + detailComment);
+                        item.comment +=((item.comment!=""&& item.comment != null? Environment.NewLine:"")+comment);
+                        item.DetailComment += ((item.DetailComment != ""&& item.DetailComment != null ? Environment.NewLine : "") + detailComment);
                         return;
                     }
                 }

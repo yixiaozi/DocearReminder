@@ -19161,6 +19161,14 @@ namespace DocearReminder
             }
             return subNodes;
         }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            Thread thCalendarForm = new Thread(() => Application.Run(new ChatGPT()));
+            thCalendarForm.Start();
+            MyHide();
+            return;
+        }
     }
 
     internal class MoveOverInfoTip

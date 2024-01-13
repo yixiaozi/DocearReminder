@@ -251,25 +251,26 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
+                //加载底部笔记
                 if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
                 {
                     try
                     {
                         notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                        if (notebottom.Text.Trim()=="")
+                        {
+                            ClearNoteBottom();
+                        }
                     }
                     catch (Exception ex)
                     {
-                        notebottom.Text = "";
-                        note_TextChanged(null, null);
+                        ClearNoteBottom();
                     }
                 }
                 else
                 {
-                    notebottom.Text = "";
-                    note_TextChanged(null, null);
+                    ClearNoteBottom();
                 }
-
-                //note_TextChanged(null, null);
 
                 //加载Tag
                 ReadTagFile();
@@ -544,6 +545,12 @@ namespace DocearReminder
                 AddErrorLog(ex);
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void ClearNoteBottom()
+        {
+            notebottom.Text = "";
+            note_TextChanged(null, null);
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -18867,7 +18874,7 @@ namespace DocearReminder
                 int sf = this.notebottom.Font.Height * (lc + 1);
                 this.notebottom.Height = sf;
                 notebottom.SaveFile("yixiaozi.txt");
-                if (notebottom.Text == "")
+                if (notebottom.Text.Trim() == "")
                 {
                     notebottom.Visible = false;
                     notebottom.Height = 0;

@@ -13419,11 +13419,6 @@ namespace DocearReminder
             Load_Click(null, null);
         }
 
-        private void IsShowSub_CheckedChanged(object sender, EventArgs e)
-        {
-            //ShowSubNode();
-        }
-
         public void ShowMindmapFile(bool isShowSub = false, int level = 3)
         {
             mostShowFiles = 200;
@@ -13869,7 +13864,6 @@ namespace DocearReminder
             {
                 if (showTimeBlock.Checked || ShowMoney.Checked || ShowKA.Checked)
                 {
-                    //((MyListBoxItemRemind)reminderlistSelectedItem).remindertype
                     if (((MyListBoxItemRemind)reminderlistSelectedItem).remindertype != "")
                     {
                         richTextSubNode.Clear();
@@ -14875,7 +14869,6 @@ namespace DocearReminder
             {
                 needSuggest = true;
                 SearchText_suggest.Visible = false;
-                //ShowSubNode();
                 return;
             }
             if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Space)
@@ -15369,13 +15362,11 @@ namespace DocearReminder
                 {
                     needSuggest = false;
                     SearchText_suggest.Visible = false;
-                    ShowSubNode();
                 }
             }
             else
             {
                 SearchText_suggest.Visible = false;
-                ShowSubNode();
             }
         }
 
@@ -15844,8 +15835,11 @@ namespace DocearReminder
                 if (SearchText_suggest.SelectedItem != null && ((StationInfo)SearchText_suggest.SelectedItem).mindmapurl != null)
                 {
                     richTextSubNode.AppendText(((StationInfo)SearchText_suggest.SelectedItem).mindmapurl);
-                    richTextSubNode.AppendText(Environment.NewLine);
-                    richTextSubNode.AppendText(((StationInfo)SearchText_suggest.SelectedItem).fatherNodePath);
+                    if (((StationInfo)SearchText_suggest.SelectedItem).mindmapurl!= ((StationInfo)SearchText_suggest.SelectedItem).fatherNodePath)
+                    {
+                        richTextSubNode.AppendText(Environment.NewLine);
+                        richTextSubNode.AppendText(((StationInfo)SearchText_suggest.SelectedItem).fatherNodePath);
+                    }
                 }
             }
             catch (Exception ex)

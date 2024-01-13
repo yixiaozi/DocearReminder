@@ -60,10 +60,10 @@ namespace DocearReminder
             this.label1.TabIndex = 1;
             this.label1.Text = "开始时间：";
             // 
-            // dateTimePicker1
+            // dTPicker_StartDay
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(69, 15);
-            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Name = "dTPicker_StartDay";
             this.dateTimePicker1.Size = new System.Drawing.Size(108, 21);
             this.dateTimePicker1.TabIndex = 2;
             this.dateTimePicker1.Value = DateTime.Today;

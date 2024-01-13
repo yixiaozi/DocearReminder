@@ -44,7 +44,7 @@ namespace DocearReminder
             this.番茄钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.解锁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dTPicker_StartDay = new System.Windows.Forms.DateTimePicker();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -57,7 +57,7 @@ namespace DocearReminder
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lockButton = new System.Windows.Forms.Button();
             this.c_timeBlock = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btn_SwitchdTPicker = new System.Windows.Forms.Button();
             this.c_fanqie = new System.Windows.Forms.CheckBox();
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.c_done = new System.Windows.Forms.CheckBox();
@@ -194,14 +194,14 @@ namespace DocearReminder
             this.panel1.Size = new System.Drawing.Size(1904, 1076);
             this.panel1.TabIndex = 1;
             // 
-            // dateTimePicker1
+            // dTPicker_StartDay
             // 
-            this.dateTimePicker1.CustomFormat = "MM月dd";
-            this.dateTimePicker1.Location = new System.Drawing.Point(0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(111, 21);
-            this.dateTimePicker1.TabIndex = 19;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dTPicker_StartDay.CustomFormat = "MM月dd";
+            this.dTPicker_StartDay.Location = new System.Drawing.Point(0, 0);
+            this.dTPicker_StartDay.Name = "dTPicker_StartDay";
+            this.dTPicker_StartDay.Size = new System.Drawing.Size(111, 21);
+            this.dTPicker_StartDay.TabIndex = 19;
+            this.dTPicker_StartDay.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // numericUpDown1
             // 
@@ -234,7 +234,7 @@ namespace DocearReminder
             this.button1.TabIndex = 23;
             this.button1.Text = "刷新";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.UpdateCalendar);
             // 
             // timer1
             // 
@@ -355,15 +355,15 @@ namespace DocearReminder
             this.c_timeBlock.UseVisualStyleBackColor = true;
             this.c_timeBlock.CheckedChanged += new System.EventHandler(this.c_timeBlock_CheckedChanged);
             // 
-            // button2
+            // btn_SwitchdTPicker
             // 
-            this.button2.Location = new System.Drawing.Point(780, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(53, 21);
-            this.button2.TabIndex = 33;
-            this.button2.Text = "今天";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btn_SwitchdTPicker.Location = new System.Drawing.Point(780, 0);
+            this.btn_SwitchdTPicker.Name = "btn_SwitchdTPicker";
+            this.btn_SwitchdTPicker.Size = new System.Drawing.Size(53, 21);
+            this.btn_SwitchdTPicker.TabIndex = 33;
+            this.btn_SwitchdTPicker.Text = "今天";
+            this.btn_SwitchdTPicker.UseVisualStyleBackColor = true;
+            this.btn_SwitchdTPicker.Click += new System.EventHandler(this.SwitchdTPicker);
             // 
             // c_fanqie
             // 
@@ -674,7 +674,7 @@ namespace DocearReminder
             this.Controls.Add(this.c_progress);
             this.Controls.Add(this.c_done);
             this.Controls.Add(this.c_fanqie);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btn_SwitchdTPicker);
             this.Controls.Add(this.c_timeBlock);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.numericOpacity);
@@ -684,7 +684,7 @@ namespace DocearReminder
             this.Controls.Add(this.截图);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dTPicker_StartDay);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lockButton);
             this.ForeColor = System.Drawing.Color.Black;
@@ -717,7 +717,7 @@ namespace DocearReminder
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dTPicker_StartDay;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         public DayView dayView1;
         private System.Windows.Forms.Button button1;
@@ -734,7 +734,7 @@ namespace DocearReminder
         private System.Windows.Forms.ToolStripMenuItem 打开导图ToolStripMenuItem;
         private System.Windows.Forms.Button lockButton;
         private System.Windows.Forms.CheckBox c_timeBlock;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btn_SwitchdTPicker;
         private System.Windows.Forms.CheckBox c_fanqie;
         private ToolTip toolTip2;
         private ToolStripMenuItem commentToolStripMenuItem;

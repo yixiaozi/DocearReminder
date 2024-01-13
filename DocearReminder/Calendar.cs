@@ -52,6 +52,16 @@ namespace DocearReminder
                 this.Activate();
             }
             InitializeComponent();
+            //读取CalendarStartDate,设置开始时间
+            try
+            {
+                btn_SwitchdTPicker.Text = ini.ReadString("Calendar", "CalendarStartDate", "今天");
+                SetBtnSwitchdTPickerText();
+            }
+            catch (Exception ex)
+            {
+                 SetMonday();
+            }
             mindmappath = path;
             string logpass = ini.ReadString("password", "i", "");
             encryptlog = new Encrypt(logpass);
@@ -80,7 +90,6 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
             dayView1.AllowScroll = true;
-            SetMonday();
             try
             {
                 this.Opacity = Convert.ToDouble(ini.ReadString("appearance", "CalanderOpacity", "1"));
@@ -139,7 +148,7 @@ namespace DocearReminder
                 startWeek = startWeek.AddDays(-6);
             }
 
-            dateTimePicker1.Value = startWeek;
+            dTPicker_StartDay.Value = startWeek;
             dayView1.StartDate = startWeek;
         }
 
@@ -402,7 +411,6 @@ namespace DocearReminder
             this.StartPosition = FormStartPosition.Manual; //窗体的位置由Location属性决定
             this.Location = (System.Drawing.Point)new Size(x, y);         //窗体的起始位置为(x,y)
         }
-
         /// <summary>
         /// 添加时间块
         /// </summary>
@@ -746,7 +754,7 @@ namespace DocearReminder
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            dayView1.StartDate = dateTimePicker1.Value;
+            dayView1.StartDate = dTPicker_StartDay.Value;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -761,13 +769,13 @@ namespace DocearReminder
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            dayView1.StartDate = dateTimePicker1.Value;
+            dayView1.StartDate = dTPicker_StartDay.Value;
             RefreshCalender();
         }
 
         public static bool FreshCalendarBool = false;
 
-        public void button1_Click_1(object sender, EventArgs e)
+        public void UpdateCalendar(object sender, EventArgs e)
         {
             DocearReminder.Tools.timeblockduiqi_Click(null, null);
             FreshMenu();
@@ -800,8 +808,8 @@ namespace DocearReminder
             m_Appointments = new List<Appointment>();
             //拆解一下下面的判断逻辑
             IEnumerable<ReminderItem> items = reminderObject.reminders.Where(m =>
-                m.time >= dateTimePicker1.Value &&
-                m.time <= dateTimePicker1.Value.AddDays((double)numericUpDown1.Value) &&
+                m.time >= dTPicker_StartDay.Value &&
+                m.time <= dTPicker_StartDay.Value.AddDays((double)numericUpDown1.Value) &&
                 (((!m.isCompleted) && (!m.isview) && (!m.isEBType) && m.mindmapPath.Contains(mindmappath) &&
                   m.mindmap != "TimeBlock" && m.mindmap != "FanQie" && m.mindmap != "Progress" &&
                   m.mindmap != "Mistake" && !c_timeBlock.Checked) ||
@@ -1882,17 +1890,17 @@ namespace DocearReminder
                     case Keys.Left:
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            if (numericUpDown1.Value == 7 && dateTimePicker1.Value.DayOfWeek == DayOfWeek.Monday)
+                            if (numericUpDown1.Value == 7 && dTPicker_StartDay.Value.DayOfWeek == DayOfWeek.Monday)
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-7);
                             }
                             else if (numericUpDown1.Value == 14)
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-14);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-14);
                             }
                             else
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-1);
                             }
                         }
                         break;
@@ -1902,15 +1910,15 @@ namespace DocearReminder
                         {
                             if (numericUpDown1.Value == 7)
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(7);
                             }
                             else if (numericUpDown1.Value == 14)
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(14);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(14);
                             }
                             else
                             {
-                                dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
+                                dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(1);
                             }
                         }
                         break;
@@ -2016,17 +2024,17 @@ namespace DocearReminder
                             }
                             return;
                         }
-                        if (numericUpDown1.Value == 7 && dateTimePicker1.Value.DayOfWeek == DayOfWeek.Monday)
+                        if (numericUpDown1.Value == 7 && dTPicker_StartDay.Value.DayOfWeek == DayOfWeek.Monday)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-7);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-7);
                         }
                         else if (numericUpDown1.Value == 14)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-14);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-14);
                         }
                         else
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(-1);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(-1);
                         }
 
                         break;
@@ -2049,15 +2057,15 @@ namespace DocearReminder
                         }
                         if (numericUpDown1.Value == 7)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(7);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(7);
                         }
                         else if (numericUpDown1.Value == 14)
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(14);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(14);
                         }
                         else
                         {
-                            dateTimePicker1.Value = dateTimePicker1.Value.AddDays(1);
+                            dTPicker_StartDay.Value = dTPicker_StartDay.Value.AddDays(1);
                         }
 
                         break;
@@ -2105,7 +2113,7 @@ namespace DocearReminder
                         break;
 
                     case Keys.Home:
-                        dateTimePicker1.Value = DateTime.Today;
+                        dTPicker_StartDay.Value = DateTime.Today;
                         break;
 
                     case Keys.I:
@@ -2897,24 +2905,41 @@ namespace DocearReminder
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void SwitchdTPicker(object sender, EventArgs e)
         {
-            if (dateTimePicker1.Value == DateTime.Today)
+            if (dTPicker_StartDay.Value == DateTime.Today)
             {
-                button2.Text = "昨天";
-                dateTimePicker1.Value = DateTime.Today.AddDays(-1);
+                btn_SwitchdTPicker.Text = "昨天";
+                dTPicker_StartDay.Value = DateTime.Today.AddDays(-1);
             }
-            else if (dateTimePicker1.Value == DateTime.Today.AddDays(-1) && dateTimePicker1.Value.DayOfWeek != DayOfWeek.Monday)
+            else if (dTPicker_StartDay.Value == DateTime.Today.AddDays(-1) && dTPicker_StartDay.Value.DayOfWeek != DayOfWeek.Monday)
             {
-                button2.Text = "周一";
+                btn_SwitchdTPicker.Text = "周一";
                 SetMonday();
             }
             else
             {
-                button2.Text = "今天";
-                dateTimePicker1.Value = DateTime.Today;
+                btn_SwitchdTPicker.Text = "今天";
+                dTPicker_StartDay.Value = DateTime.Today;
             }
+            //将按钮的文字记录到配置文件
+            ini.WriteString("Calendar", "CalendarStartDate", btn_SwitchdTPicker.Text);
         }
+        private void SetBtnSwitchdTPickerText()
+        {
+            if(btn_SwitchdTPicker.Text == "今天")
+            {
+                dTPicker_StartDay.Value = DateTime.Today;
+            }
+            else if (btn_SwitchdTPicker.Text == "昨天")
+            {
+                dTPicker_StartDay.Value = DateTime.Today.AddDays(-1);
+            }
+            else
+            {
+                SetMonday();
+            }
+        }   
 
         private void c_fanqie_CheckedChanged(object sender, EventArgs e)
         {
@@ -3356,7 +3381,7 @@ namespace DocearReminder
         {
             if (FreshCalendarBool)
             {
-                button1_Click_1(null, null);
+                UpdateCalendar(null, null);
                 FreshCalendarBool = false;
             }
         }

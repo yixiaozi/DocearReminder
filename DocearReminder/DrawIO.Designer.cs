@@ -266,10 +266,10 @@
             this.treeView1.Size = new System.Drawing.Size(339, 350);
             this.treeView1.TabIndex = 61;
             // 
-            // button2
+            // btn_SwitchdTPicker
             // 
             this.button2.Location = new System.Drawing.Point(864, 250);
-            this.button2.Name = "button2";
+            this.button2.Name = "btn_SwitchdTPicker";
             this.button2.Size = new System.Drawing.Size(158, 51);
             this.button2.TabIndex = 62;
             this.button2.Text = "生成关系树";

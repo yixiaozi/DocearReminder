@@ -40,25 +40,16 @@ namespace DocearReminder
 
         private void reducejson_Click(object sender, EventArgs e)
         {
-            Reminder reminderObject = new Reminder();
             Reminder reminderObjectBACKUP = new Reminder();
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
-            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
-            using (StreamReader sw = fi.OpenText())
+            reminderObjectBACKUP.reminders.AddRange(reminderObject.reminders.Where(m => m.isCompleted));
+            for (int i = reminderObject.reminders.Count() - 1; i >= 0; i--)
             {
-                string s = sw.ReadToEnd();
-                var serializer = new JavaScriptSerializer();
-                reminderObject = serializer.Deserialize<Reminder>(s);
-                reminderObjectBACKUP.reminders.AddRange(reminderObject.reminders.Where(m => m.isCompleted));
-                for (int i = reminderObject.reminders.Count() - 1; i >= 0; i--)
+                if (reminderObject.reminders[i].isCompleted)
                 {
-                    if (reminderObject.reminders[i].isCompleted)
-                    {
-                        reminderObject.reminders.RemoveAt(i);
-                    }
+                    reminderObject.reminders.RemoveAt(i);
                 }
             }
-            SaveJson(reminderObject, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+            Writereminderjson();
             SaveJson(reminderObjectBACKUP, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminderjson\" + DateTime.Now.ToString("yyyyMMddMMss") + ".json");
             this.Close();
         }

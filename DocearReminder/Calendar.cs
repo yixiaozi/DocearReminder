@@ -508,11 +508,6 @@ namespace DocearReminder
                 if (item != null)
                 {
                     item.mindmapPath = color.ToArgb().ToString();
-                    string json = new JavaScriptSerializer()
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    }.Serialize(reminderObject);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", DocearReminderForm.CompressToBase64(json));
                 }
             }
             catch (Exception ex)

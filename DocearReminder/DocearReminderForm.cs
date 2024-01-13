@@ -569,7 +569,6 @@ namespace DocearReminder
         /// <returns></returns>
         public static string CompressToBase64(string content)
         {
-            return content;
             try
             {
                 if (!string.IsNullOrEmpty(content))
@@ -593,7 +592,6 @@ namespace DocearReminder
         /// <returns></returns>
         public static string DecompressFromBase64(string content)
         {
-            return content;
             try
             {
                 if (!string.IsNullOrEmpty(content))
@@ -601,10 +599,7 @@ namespace DocearReminder
                     content = content.Trim();
                     if (content.Length > 0)
                     {
-                        if (IsBase64(content))
-                        {
-                            content = LZStringCSharp.LZString.DecompressFromBase64(content);
-                        }
+                        content = LZStringCSharp.LZString.DecompressFromBase64(content);
                     }
                 }
             }
@@ -1136,17 +1131,7 @@ namespace DocearReminder
             {
                 NewFiles();
             }
-            try
-            {
-                string json = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(json));
-            }
-            catch (Exception ex)
-            {
-            }
+            Writereminderjson();
         }
 
         #endregion 番茄钟
@@ -13173,20 +13158,28 @@ namespace DocearReminder
                 e.Cancel = true;
                 MyHide();
             }
+            Writereminderjson();
+            icon.Dispose();
+            SaveLog("关闭程序。");
+        }
+
+        public static void Writereminderjson()
+        {
             try
             {
                 string json = new JavaScriptSerializer()
                 {
                     MaxJsonLength = Int32.MaxValue
                 }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(json));
+                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", CompressToBase64(json));
+                File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", true);
+                File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json");
             }
             catch (Exception ex)
             {
             }
-            icon.Dispose();
-            SaveLog("关闭程序。");
         }
+
 
         //private void fenlei_CheckedChanged(object sender, EventArgs e)
         //{

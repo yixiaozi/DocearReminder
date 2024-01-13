@@ -998,7 +998,7 @@ namespace DocearReminder
             this.报表ToolStripMenuItem,
             this.toolStripMenuItem4});
             this.menu.Name = "contextMenuStrip5";
-            this.menu.Size = new System.Drawing.Size(212, 378);
+            this.menu.Size = new System.Drawing.Size(212, 356);
             this.menu.Opening += new System.ComponentModel.CancelEventHandler(this.menu_Opening);
             // 
             // 查看模式ToolStripMenuItem
@@ -1217,42 +1217,42 @@ namespace DocearReminder
             // 时间快ToolStripMenuItem
             // 
             this.时间快ToolStripMenuItem.Name = "时间快ToolStripMenuItem";
-            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.时间快ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.时间快ToolStripMenuItem.Text = "时间快";
             this.时间快ToolStripMenuItem.Click += new System.EventHandler(this.时间快ToolStripMenuItem_Click);
             // 
             // 使用记录ToolStripMenuItem
             // 
             this.使用记录ToolStripMenuItem.Name = "使用记录ToolStripMenuItem";
-            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.使用记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.使用记录ToolStripMenuItem.Text = "使用记录";
             this.使用记录ToolStripMenuItem.Click += new System.EventHandler(this.使用记录ToolStripMenuItem_Click);
             // 
             // 键盘分析ToolStripMenuItem
             // 
             this.键盘分析ToolStripMenuItem.Name = "键盘分析ToolStripMenuItem";
-            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.键盘分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.键盘分析ToolStripMenuItem.Text = "键盘分析";
             this.键盘分析ToolStripMenuItem.Click += new System.EventHandler(this.键盘分析ToolStripMenuItem_Click);
             // 
             // 趋势ToolStripMenuItem
             // 
             this.趋势ToolStripMenuItem.Name = "趋势ToolStripMenuItem";
-            this.趋势ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.趋势ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.趋势ToolStripMenuItem.Text = "趋势";
             this.趋势ToolStripMenuItem.Click += new System.EventHandler(this.趋势ToolStripMenuItem_Click);
             // 
             // 目标ToolStripMenuItem
             // 
             this.目标ToolStripMenuItem.Name = "目标ToolStripMenuItem";
-            this.目标ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.目标ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.目标ToolStripMenuItem.Text = "目标";
             this.目标ToolStripMenuItem.Click += new System.EventHandler(this.目标ToolStripMenuItem_Click);
             // 
             // 导图分析ToolStripMenuItem
             // 
             this.导图分析ToolStripMenuItem.Name = "导图分析ToolStripMenuItem";
-            this.导图分析ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.导图分析ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.导图分析ToolStripMenuItem.Text = "导图分析";
             this.导图分析ToolStripMenuItem.Click += new System.EventHandler(this.导图分析ToolStripMenuItem_Click);
             // 
@@ -1751,13 +1751,14 @@ namespace DocearReminder
             this.notebottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.notebottom.Font = new System.Drawing.Font("宋体", 9.75F);
             this.notebottom.ForeColor = System.Drawing.Color.Gray;
-            this.notebottom.Location = new System.Drawing.Point(420, 377);
+            this.notebottom.Location = new System.Drawing.Point(420, 434);
             this.notebottom.MaximumSize = new System.Drawing.Size(600, 250);
             this.notebottom.Name = "notebottom";
             this.notebottom.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.notebottom.Size = new System.Drawing.Size(600, 98);
+            this.notebottom.Size = new System.Drawing.Size(600, 41);
             this.notebottom.TabIndex = 145;
             this.notebottom.Text = "";
+            this.notebottom.Visible = false;
             this.notebottom.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
             this.notebottom.TextChanged += new System.EventHandler(this.note_TextChanged);
             // 
@@ -1798,7 +1799,7 @@ namespace DocearReminder
             this.diary.MaximumSize = new System.Drawing.Size(600, 424);
             this.diary.Name = "diary";
             this.diary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.diary.Size = new System.Drawing.Size(600, 43);
+            this.diary.Size = new System.Drawing.Size(600, 93);
             this.diary.TabIndex = 148;
             this.diary.Text = "";
             this.diary.TextChanged += new System.EventHandler(this.diary_TextChanged);

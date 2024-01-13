@@ -251,26 +251,28 @@ namespace DocearReminder
                 catch (Exception ex)
                 {
                 }
-                //加载底部笔记
-                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
-                {
-                    try
-                    {
-                        notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
-                        if (notebottom.Text.Trim()=="")
-                        {
-                            ClearNoteBottom();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ClearNoteBottom();
-                    }
-                }
-                else
-                {
-                    ClearNoteBottom();
-                }
+                //不再使用notebottom20240114 03:40
+                notebottom.Height = 0;
+                ////加载底部笔记
+                //if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt"))
+                //{
+                //    try
+                //    {
+                //        notebottom.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"yixiaozi.txt");
+                //        if (notebottom.Text.Trim()=="")
+                //        {
+                //            ClearNoteBottom();
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        ClearNoteBottom();
+                //    }
+                //}
+                //else
+                //{
+                //    ClearNoteBottom();
+                //}
 
                 //加载Tag
                 ReadTagFile();
@@ -10047,28 +10049,27 @@ namespace DocearReminder
                         }
                         else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚") || searchword.Text.Contains("刚刚@"))
                         {
-                            string task = searchword.Text.Replace("刚刚", "").Split('@')[0];
+                            string taskName = searchword.Text.Replace("刚刚", "").Split('@')[0];
                             string taskDetail = "";
-                            DateTime dt = DateTime.Now;
-                            if (task.Contains("|"))
+                            DateTime taskTime = DateTime.Now;
+                            if (taskName.Contains("|"))
                             {
-                                taskDetail = task.Split('|')[1];
-                                task = task.Split('|')[0];
+                                taskName = taskName.Split('|')[0];
+                                taskDetail = taskName.Split('|')[1];
                             }
                             string timeblockname = searchword.Text.Split('@')[1];
                             double tasktime = 0;
-
-                            try
+                            try//处理格式12:01-13:05
                             {
-                                task = task.Replace("：", ":").Replace("：", ":").Replace("：", ":");
-                                MatchCollection mc = Regex.Matches(task, @"\d\d:\d\d-\d\d:\d\d");
+                                taskName = taskName.Replace("：", ":").Replace("：", ":").Replace("：", ":");
+                                MatchCollection mc = Regex.Matches(taskName, @"\d{1,2}:\d{1,2}-\d{1,2}:\d{1,2}");
                                 foreach (Match m in mc)
-                                {
-                                    task = task.Replace(m.Value, "");
+                                { 
+                                    taskName = taskName.Replace(m.Value, "");
                                     string[] time = m.Value.Split('-');
                                     DateTime dtstart = DateTime.Today.AddHours(Convert.ToInt16(time[0].Split(':')[0])).AddMinutes(Convert.ToInt16(time[0].Split(':')[1]));
                                     DateTime dtend = DateTime.Today.AddHours(Convert.ToInt16(time[1].Split(':')[0])).AddMinutes(Convert.ToInt16(time[1].Split(':')[1]));
-                                    dt = dtend;
+                                    taskTime = dtend;
                                     tasktime = (dtend - dtstart).TotalMinutes;
                                     break;
                                 }
@@ -10077,14 +10078,14 @@ namespace DocearReminder
                             {
                             }
 
-                            try
+                            try//处理格式12:01
                             {
-                                task = task.Replace("：", ":");
-                                MatchCollection mc = Regex.Matches(task, @"\d\d:\d\d");
+                                taskName = taskName.Replace("：", ":");
+                                MatchCollection mc = Regex.Matches(taskName, @"\d{1,2}:\d{1,2}");
                                 foreach (Match m in mc)
                                 {
-                                    task = task.Replace(m.Value, "");
-                                    dt = DateTime.Today.AddHours(Convert.ToInt16(m.Value.Split(':')[0])).AddMinutes(Convert.ToInt16(m.Value.Split(':')[1]));
+                                    taskName = taskName.Replace(m.Value, "");
+                                    taskTime = DateTime.Today.AddHours(Convert.ToInt16(m.Value.Split(':')[0])).AddMinutes(Convert.ToInt16(m.Value.Split(':')[1]));
                                     break;
                                 }
                             }
@@ -10092,22 +10093,22 @@ namespace DocearReminder
                             {
                             }
 
-                            try
+                            try//处理持续时间 20mm
                             {
                                 bool iscost = false;
-                                MatchCollection mc = Regex.Matches(task, @"[1-9]\d*mm");
+                                MatchCollection mc = Regex.Matches(taskName, @"[1-9]\d*mm");
                                 string minutes = "0";
                                 foreach (Match m in mc)
                                 {
-                                    if (task.Contains(m.Value + "m"))
+                                    if (taskName.Contains(m.Value + "m"))
                                     {
                                         iscost = true;
-                                        dt = dt.AddMinutes(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 2)));
-                                        task = task.Replace(m.Value + "m", "");
+                                        taskTime = taskTime.AddMinutes(Convert.ToInt32(m.Value.Substring(0, m.Value.Length - 2)));
+                                        taskName = taskName.Replace(m.Value + "m", "");
                                     }
                                     else
                                     {
-                                        task = task.Replace(m.Value, "");
+                                        taskName = taskName.Replace(m.Value, "");
                                     }
                                     minutes = m.Value.Substring(0, m.Value.Length - 2);
                                     tasktime = Convert.ToDouble(minutes);
@@ -10120,11 +10121,11 @@ namespace DocearReminder
 
                             if (searchword.Text.Contains("@"))
                             {
-                                CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, dt, "TimeBlock", timeblockfather.Replace('>', '|'), task, taskDetail, tasktime);
+                                CalendarForm.reminderObjectJsonAdd(timeblockname, Guid.NewGuid().ToString(), timeblockcolor, 0, taskTime, "TimeBlock", timeblockfather.Replace('>', '|'), taskName, taskDetail, tasktime);
                             }
                             else
                             {
-                                CalendarForm.reminderObjectJsonAdd(task, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, dt, "FanQie", "", "", taskDetail, tasktime);
+                                CalendarForm.reminderObjectJsonAdd(taskName, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, taskTime, "FanQie", "", "", taskDetail, tasktime);
                             }
                             searchword.Text = "";
                             if (showTimeBlock.Checked)//若是是时间块模式，可以直接刷新

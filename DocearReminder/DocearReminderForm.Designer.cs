@@ -1710,6 +1710,8 @@ namespace DocearReminder
             // checkBox_截图
             // 
             this.checkBox_截图.AutoSize = true;
+            this.checkBox_截图.Checked = true;
+            this.checkBox_截图.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_截图.Location = new System.Drawing.Point(1469, 52);
             this.checkBox_截图.Name = "checkBox_截图";
             this.checkBox_截图.Size = new System.Drawing.Size(72, 16);

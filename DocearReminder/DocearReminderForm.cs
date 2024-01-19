@@ -1,4 +1,5 @@
-﻿using AForge.Video.DirectShow;
+﻿using AForge.Controls;
+using AForge.Video.DirectShow;
 using Gma.UserActivityMonitor;
 using Microsoft.Win32;
 using NAudio.Wave;
@@ -306,7 +307,7 @@ namespace DocearReminder
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
                 onlyZhouqi.Checked = ini.ReadString("config", "IsCycleOnly", "") == "true";
-                Camera = ini.ReadString("config", "IsCycleOnly", "") == "true";
+                Camera = ini.ReadString("config", "IsCamera", "") == "true";
 
                 string scorestr = ini.ReadString("info", "score", "");
                 fenshu.Text = scorestr;
@@ -489,6 +490,7 @@ namespace DocearReminder
                 ReminderListBox_SizeChanged(null, null);
                 IsDiary_CheckedChanged(null, null);
                 timeblockupdatetimer.Start();
+                videoSourcePlayer1=new VideoSourcePlayer();
                 #region 添加提示信息
                 try
                 {
@@ -14166,7 +14168,7 @@ namespace DocearReminder
             {
                 Application.Exit();
             }
-            else if (searchword.Text.StartsWith("paizhao"))//开始拍照
+            else if (searchword.Text.StartsWith("paizhao")|| searchword.Text.StartsWith("拍照"))//开始拍照
             {
                 CameraTimer_Tick(null, null);
                 searchword.Text = "";
@@ -18407,6 +18409,9 @@ namespace DocearReminder
             }
             try
             {
+                Random random = new Random();
+                int minutes = random.Next(15, 61);
+                CameraTimer.Interval = minutes*60*1000;
                 //先关闭一次，避免被占用
                 if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
                 {

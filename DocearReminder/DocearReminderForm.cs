@@ -10037,6 +10037,17 @@ namespace DocearReminder
                         else if (searchword.Text.StartsWith("刚刚") || searchword.Text.EndsWith("刚刚") || searchword.Text.Contains("刚刚@"))
                         {
                             string taskName = searchword.Text.Replace("刚刚", "").Split('@')[0];
+                            //如果包含类似2.12这样的数字,认为是时间2:12,将.转换成:,必须.前后都是数字时才转换
+                            //用正则表达式完成
+                            MatchCollection change=Regex.Matches(taskName,@"\d{1,2}\.\d{1,2}");
+                            foreach (Match m in change)
+                            {
+                                if (taskName.Contains(m.Value))
+                                {
+                                    taskName = taskName.Replace(m.Value, m.Value.Replace('.', ':'));
+                                }
+                            }
+
                             string taskDetail = "";
                             DateTime taskTime = DateTime.Now;
                             if (taskName.Contains("|"))

@@ -61,7 +61,10 @@ namespace DocearReminder
         #region 全局变量
         public System.Windows.Forms.Timer hoverTimer = new System.Windows.Forms.Timer();
         public System.Windows.Forms.Timer addFanQieTimer = new System.Windows.Forms.Timer();
-
+        public string allfilesPath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\allfiles.json";
+        public string allnodePath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\allnode.json";
+        public string allnodeiconPath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\allnodeicon.json";
+        public string logPath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\log.txt";
         //密码
         public static string PassWord = "";
 
@@ -177,6 +180,12 @@ namespace DocearReminder
         public DocearReminderForm()
         {
             InitializeComponent();
+
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder"))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder");
+            }
+
             pictureBox1.Height = 0;
             this.Width = middlewidth;
             formActiveTime = DateTime.Now;
@@ -397,11 +406,11 @@ namespace DocearReminder
                     MaxJsonLength = Int32.MaxValue
                 };
                 FileInfo fi;
-                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json"))
+                if (File.Exists(allnodePath))
                 {
                     try
                     {
-                        fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
+                        fi = new FileInfo(allnodePath);
                         using (StreamReader sw = fi.OpenText())
                         {
                             string s = sw.ReadToEnd();
@@ -412,11 +421,11 @@ namespace DocearReminder
                     {
                     }
                 }
-                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json"))
+                if (File.Exists(allfilesPath))
                 {
                     try
                     {
-                        fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
+                        fi = new FileInfo(allfilesPath);
                         using (StreamReader sw = fi.OpenText())
                         {
                             string s = sw.ReadToEnd();
@@ -474,9 +483,10 @@ namespace DocearReminder
                 {
                     acsc.Add(item.name);
                 }
-                GetAllFilesJsonIconFile();
-                GetAllNodeJsonFile();
-                GetAllFilesJsonFile();
+                //默认关闭，免得打开软件特别慢
+                //GetAllFilesJsonIconFile();
+                //GetAllNodeJsonFile();
+                //GetAllFilesJsonFile();
                 GetTimeBlock();
                 titleTimer.Start();
                 //创建桌面快捷方式（好像不会重复创建）
@@ -2014,15 +2024,15 @@ namespace DocearReminder
             nodesicon.Clear();
             nodeIconString = "";
             GetAllNodeIcon(rootrootpath);
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnodeicon.json"))
+            if (!System.IO.File.Exists(allnodeiconPath))
             {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"allnodeicon.json", "");
+                File.WriteAllText(allnodeiconPath, "");
             }
             else
             {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"allnodeicon.json", "");
+                File.WriteAllText(allnodeiconPath, "");
             }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnodeicon.json");
+            FileInfo fi = new FileInfo(allnodeiconPath);
             JavaScriptSerializer js = new JavaScriptSerializer
             {
                 MaxJsonLength = Int32.MaxValue
@@ -2077,15 +2087,15 @@ namespace DocearReminder
             }
             nodes.Clear();
             GetAllNode(rootrootpath);
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json"))
+            if (!System.IO.File.Exists(allnodePath))
             {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json", "");
+                File.WriteAllText(allnodePath, "");
             }
             else
             {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json", "");
+                File.WriteAllText(allnodePath, "");
             }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allnode.json");
+            FileInfo fi = new FileInfo(allnodePath);
             JavaScriptSerializer js = new JavaScriptSerializer
             {
                 MaxJsonLength = Int32.MaxValue
@@ -2202,8 +2212,8 @@ namespace DocearReminder
             }
             GetAllFiles(rootrootpath);
             //File.WriteAllText(@"allfiles.json", "");
-            ClearTxt(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"allfiles.json");
+            ClearTxt(allfilesPath);
+            FileInfo fi = new FileInfo(allfilesPath);
             JavaScriptSerializer js = new JavaScriptSerializer
             {
                 MaxJsonLength = Int32.MaxValue
@@ -9598,7 +9608,6 @@ namespace DocearReminder
                                 if (searchword.Text.Length < 7)
                                 {
                                     new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
-                                    //rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory);
                                 }
                                 else
                                 {
@@ -13149,7 +13158,7 @@ namespace DocearReminder
             }
             log = encryptlog.EncryptString(log);
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", true))
+            new System.IO.StreamWriter(logPath, true))
             {
                 if (log != "")
                 {
@@ -16440,22 +16449,42 @@ namespace DocearReminder
             }
         }
 
+        public void SaveKey()
+        {
+            keyLastTime = DateTime.Today;
+            HookManager_KeyDown_saveKeyBoard(null, new KeyEventArgs(Keys.Execute));
+        }
+
+        //改写功能，改成每五分钟才记录一次文件
+        public string keysIn5Min = "";
+        DateTime keyLastTime = DateTime.Now;
+
         private void HookManager_KeyDown_saveKeyBoard(object sender, KeyEventArgs e)
         {
-            //记录键盘键
-            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\");
-            using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\key.txt", true))
+            if (DateTime.Now.Subtract(keyLastTime).TotalMinutes < 5)
             {
-                if (DateTime.Now.Hour != hour)
-                {
-                    hour = DateTime.Now.Hour;
-                    file.Write("\r");
-                    file.Write(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                }
                 if (e.KeyCode.ToString() != "")
                 {
-                    file.Write(e.KeyCode.ToString() + ";");
+                    keysIn5Min+=(e.KeyCode.ToString() + ";");
+                }
+            }
+            else
+            {
+                //记录键盘键
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + "\\\\" + DateTime.Now.Year + "\\\\" + DateTime.Now.Month + "\\\\key.txt", true))
+                {
+                    if (DateTime.Now.Hour != hour)
+                    {
+                        hour = DateTime.Now.Hour;
+                        file.Write("\r");
+                        file.Write(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    }
+                    if (DateTime.Now.Subtract(keyLastTime).TotalMinutes > 5)
+                    {
+                        keyLastTime = DateTime.Now;
+                        file.Write(keysIn5Min+(e.KeyCode.ToString() + ";"));
+                        keysIn5Min = "";
+                    }
                 }
             }
         }
@@ -17546,6 +17575,7 @@ namespace DocearReminder
                 videoSourcePlayer1.SignalToStop();
                 videoSourcePlayer1.WaitForStop();
             }
+            SaveKey();
             Application.Exit();
         }
 

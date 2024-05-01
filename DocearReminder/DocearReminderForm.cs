@@ -14487,6 +14487,7 @@ namespace DocearReminder
                 }
                 RecentOpenedMap = newRecentOpenedMap;
                 new TextListConverter().WriteListToTextFile(RecentOpenedMap, System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
+                searchword.Text = "";
             }
             else if (searchword.Text.ToLower().StartsWith("usedsu3"))
             {

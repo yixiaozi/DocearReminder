@@ -2674,7 +2674,7 @@ namespace DocearReminder
             }
             if (!(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked) && !c_ViewModel.Checked && mindmapornode.Text == "")
             {
-                reminderList.Items.Clear();
+                //reminderList.Items.Clear();
                 //如果SS的时候只能当前类型的。
                 List<MyListBoxItem> showMindmaps = new List<MyListBoxItem>();
                 if (searchword.Text.StartsWith("ss") || searchword.Text != "")
@@ -3295,7 +3295,7 @@ namespace DocearReminder
                 {
                     return;
                 }
-                reminderList.Items.Clear();
+                //reminderList.Items.Clear();
                 reminderListBox.Items.Clear();
                 System.Xml.XmlDocument x = new XmlDocument();
                 string currentPath = "";
@@ -3364,7 +3364,7 @@ namespace DocearReminder
                                 {
                                     TextString = GetAttribute(node, "TEXT");
                                 }
-                                reminderList.Items.Add(new MyListBoxItemRemind
+                                reminderlistItems.Add(new MyListBoxItemRemind
                                 {
                                     Text = dt.ToString("yyyy/MM/dd HH:mm") + GetAttribute(node.ParentNode, "TASKTIME", 4) + "  " + TextString,
                                     Name = TextString,
@@ -3506,7 +3506,7 @@ namespace DocearReminder
                 //添加一个当期时间条目
                 if (!c_Jinian.Checked)
                 {
-                    reminderList.Items.Add(new MyListBoxItemRemind
+                    reminderlistItems.Add(new MyListBoxItemRemind
                     {
                         Text = "此时",
                         Name = "当前时间",
@@ -3534,7 +3534,7 @@ namespace DocearReminder
                 if (hasMorning && hasNoon && morning.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
-                    reminderList.Items.Add(new MyListBoxItemRemind
+                    reminderlistItems.Add(new MyListBoxItemRemind
                     {
                         Text = "上午",
                         Name = "当前时间",
@@ -3562,7 +3562,7 @@ namespace DocearReminder
                 if (hasNoon && hasAfter && day.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
-                    reminderList.Items.Add(new MyListBoxItemRemind
+                    reminderlistItems.Add(new MyListBoxItemRemind
                     {
                         Text = "下午",
                         Name = "当前时间",
@@ -3590,7 +3590,7 @@ namespace DocearReminder
                 if (hasAfter && hasNight && afternoon.Checked && night.Checked && !c_Jinian.Checked)
                 {
                     //添加一个当期时间条目
-                    reminderList.Items.Add(new MyListBoxItemRemind
+                    reminderlistItems.Add(new MyListBoxItemRemind
                     {
                         Text = "晚上",
                         Name = "当前时间",
@@ -3616,6 +3616,7 @@ namespace DocearReminder
                     });
                 }
             }
+            reminderList.Items.Clear();
             foreach (MyListBoxItemRemind item in reminderlistItems.OrderBy(m => m.Time))
             {
                 reminderList.Items.Add(item);
@@ -12155,60 +12156,54 @@ namespace DocearReminder
                 case Keys.R:
                     if (keyNotWork(e))
                     {
-                        if (false)
+                        if (searchword.Text.StartsWith("*"))
                         {
+                            SearchNode();
+                            //AddTask(false);
                         }
                         else
                         {
-                            if (searchword.Text.StartsWith("*"))
+                            if (nodetree.Focused)
                             {
-                                SearchNode();
-                                //AddTask(false);
+                                reminderList.Focus();
+                                ShowMindmap();
+                                ShowMindmapFile();
+                                nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = true;
+                                this.Height = maxheight;
+                                nodetree.Focus();
+                            }
+                            else if (reminderListBox.Focused)
+                            {
+                                reminderListBox.Sorted = false;
+                                reminderListBox.Sorted = true;
+                                reminderListBox.Refresh();
                             }
                             else
                             {
-                                if (nodetree.Focused)
-                                {
-                                    reminderList.Focus();
-                                    ShowMindmap();
-                                    ShowMindmapFile();
-                                    nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = true;
-                                    this.Height = maxheight;
-                                    nodetree.Focus();
-                                }
-                                else if (reminderListBox.Focused)
-                                {
-                                    reminderListBox.Sorted = false;
-                                    reminderListBox.Sorted = true;
-                                    reminderListBox.Refresh();
+                                if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                                {//整理刷新
+                                    searchword.Text = "";
+                                    mindmapornode.Text = "";
+                                    Load_Click(null, null);
                                 }
                                 else
                                 {
-                                    if (e.Modifiers.CompareTo(Keys.Shift) == 0)
-                                    {//整理刷新
-                                        searchword.Text = "";
-                                        mindmapornode.Text = "";
-                                        Load_Click(null, null);
-                                    }
-                                    else
+                                    ReSetValue();
+                                    int reminderIndex = reminderList.SelectedIndex;
+                                    RRReminderlist();
+                                    try
                                     {
-                                        ReSetValue();
-                                        int reminderIndex = reminderList.SelectedIndex;
-                                        RRReminderlist();
-                                        try
+                                        if (reminderIndex > reminderList.Items.Count - 1)
                                         {
-                                            if (reminderIndex > reminderList.Items.Count - 1)
-                                            {
-                                                ReminderListSelectedIndex(0);
-                                            }
-                                            else
-                                            {
-                                                ReminderListSelectedIndex(reminderIndex);
-                                            }
+                                            ReminderListSelectedIndex(0);
                                         }
-                                        catch (Exception ex)
+                                        else
                                         {
+                                            ReminderListSelectedIndex(reminderIndex);
                                         }
+                                    }
+                                    catch (Exception ex)
+                                    {
                                     }
                                 }
                             }

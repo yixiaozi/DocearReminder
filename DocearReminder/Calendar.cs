@@ -823,7 +823,7 @@ namespace DocearReminder
             }
             //if (workfolder_combox.SelectedItem != null&&workfolder_combox.SelectedItem.ToString() != "all"&& mindmappath !="")
             //{
-            //    items = items.Where(m => m.mindmap == "FanQie" || m.mindmapPath.Contains(mindmappath));//!hasinworkfolder(m.mindmapPath));
+            //    mindmapitems = mindmapitems.Where(m => m.mindmap == "FanQie" || m.mindmapPath.Contains(mindmappath));//!hasinworkfolder(m.mindmapPath));
             //}
             if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "rootPath")
             {
@@ -832,7 +832,7 @@ namespace DocearReminder
 
             //if (workfolder_combox.SelectedItem != null && workfolder_combox.SelectedItem.ToString() == "all")
             //{
-            //    items = items.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
+            //    mindmapitems = mindmapitems.Where(m => m.mindmap == "FanQie" || !hasinworkfolder(m.mindmapPath));
             //}
 
             if (c_timeBlock.Checked && !isShowTask.Checked)

@@ -2271,104 +2271,110 @@ namespace DocearReminder
         //获取包含任务的导图
         public void LoadFile(DirectoryInfo path)
         {
-            CustomCheckedListBox list = new CustomCheckedListBox();
-            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
+            if(PathcomboBoxItemList.Any(m=>m.name== PathcomboBox.SelectedItem.ToString()))
             {
-                if (file.Extension == ".mm" && mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
+                MindmapList.Items.AddRange(PathcomboBoxItemList.FirstOrDefault(m => m.name == PathcomboBox.SelectedItem.ToString()).mindmapitems);
+                DrawList.Items.AddRange(PathcomboBoxItemList.FirstOrDefault(m => m.name == PathcomboBox.SelectedItem.ToString()).drawioitems);
+            }
+            else
+            {
+                CustomCheckedListBox list = new CustomCheckedListBox();
+
+                foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
                 {
-                    mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
-                }
-                string subPath = file.DirectoryName;
-                if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
-                {
-                    try
+                    if (file.Extension == ".mm" && mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
                     {
-                        if (file.Extension == ".mm")
+                        mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
+                    }
+                    string subPath = file.DirectoryName;
+                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
+                    {
+                        try
                         {
-                            System.Xml.XmlDocument x = new XmlDocument();
-                            x.Load(file.FullName);
-                            int number = 0;
-                            foreach (XmlNode node in x.GetElementsByTagName("hook"))
+                            if (file.Extension == ".mm")
                             {
-                                try
+                                System.Xml.XmlDocument x = new XmlDocument();
+                                x.Load(file.FullName);
+                                int number = 0;
+                                foreach (XmlNode node in x.GetElementsByTagName("hook"))
                                 {
-                                    if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
+                                    try
                                     {
-                                        if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
+                                        if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
                                         {
-                                            number++;
+                                            if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
+                                            {
+                                                number++;
+                                            }
                                         }
                                     }
-                                }
-                                catch (Exception ex)
-                                {
-                                }
-                            }
-                            if (number > 0)
-                            {
-                                string todayaddnodecount = "";
-                                if (nodes != null)
-                                {
-                                    todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
-                                    if (todayaddnodecount == "0")
+                                    catch (Exception ex)
                                     {
-                                        todayaddnodecount = "";
-                                    }
-                                    else
-                                    {
-                                        todayaddnodecount = "|" + todayaddnodecount;
                                     }
                                 }
-                                list.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
+                                if (number > 0)
+                                {
+                                    string todayaddnodecount = "";
+                                    if (nodes != null)
+                                    {
+                                        todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
+                                        if (todayaddnodecount == "0")
+                                        {
+                                            todayaddnodecount = "";
+                                        }
+                                        else
+                                        {
+                                            todayaddnodecount = "|" + todayaddnodecount;
+                                        }
+                                    }
+                                    list.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
 
-                                taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
-                            }
-                        }
-                        if (file.Extension == ".drawio")
-                        {
-                            System.Xml.XmlDocument x = new XmlDocument();
-                            x.Load(file.FullName);
-                            int number = 0;
-                            number = x.GetElementsByTagName("mxCell").Count;
-                            //foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
-                            //{
-                            //    try
-                            //    {
-                            //        if (node.Attributes != null && node.Attributes["value"] != null)
-                            //        {
-                            //            number++;
-                            //        }
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //    }
-                            //}
-                            //如果mxfile没有compressed属性，或者其值不为false则添加compressed属性并设置值为false
-                            if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null || x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value != "false")
-                            {
-                                //没有compressed属性
-                                if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null)
-                                {
-                                    x.GetElementsByTagName("mxfile")[0].Attributes.Append(x.CreateAttribute("compressed"));
+                                    taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
                                 }
-                                x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value = "false";
-                                x.Save(file.FullName);
                             }
-                            DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
+                            if (file.Extension == ".drawio")
+                            {
+                                System.Xml.XmlDocument x = new XmlDocument();
+                                x.Load(file.FullName);
+                                int number = 0;
+                                number = x.GetElementsByTagName("mxCell").Count;
+                                //foreach (XmlNode node in x.GetElementsByTagName("mxCell"))
+                                //{
+                                //    try
+                                //    {
+                                //        if (node.Attributes != null && node.Attributes["value"] != null)
+                                //        {
+                                //            number++;
+                                //        }
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //    }
+                                //}
+                                //如果mxfile没有compressed属性，或者其值不为false则添加compressed属性并设置值为false
+                                if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null || x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value != "false")
+                                {
+                                    //没有compressed属性
+                                    if (x.GetElementsByTagName("mxfile")[0].Attributes["compressed"] == null)
+                                    {
+                                        x.GetElementsByTagName("mxfile")[0].Attributes.Append(x.CreateAttribute("compressed"));
+                                    }
+                                    x.GetElementsByTagName("mxfile")[0].Attributes["compressed"].Value = "false";
+                                    x.Save(file.FullName);
+                                }
+                                DrawList.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 7), Value = file.FullName });
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(file.FullName);
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(file.FullName);
+                        }
                     }
                 }
-            }
-            //list.Sorted = false;
-            //list.Sorted = true;
-            //将list.items倒叙写入MindmapList
-            for (int i = list.Items.Count - 1; i >= 0; i--)
-            {
-                MindmapList.Items.Insert(0, list.Items[i]);
+                for (int i = list.Items.Count - 1; i >= 0; i--)
+                {
+                    MindmapList.Items.Insert(0, list.Items[i]);
+                }
             }
             MindmapList.Sorted = false;
             MindmapList.Sorted = true;
@@ -14298,6 +14304,15 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 mindmapornode.Text = "";
+                //PathcomboBoxItemList删除当前
+                for(int i = 0; i < PathcomboBoxItemList.Count; i++)
+                {
+                    if (PathcomboBoxItemList[i].name == PathcomboBox.SelectedItem.ToString())
+                    {
+                        PathcomboBoxItemList.RemoveAt(i);
+                        break;
+                    }
+                }
                 Load_Click(null, null);
             }
             else if (searchword.Text.StartsWith("buglisttimeblock") || searchword.Text.EndsWith("buglisttimeblock") || searchword.Text.EndsWith("btl"))
@@ -16058,6 +16073,21 @@ namespace DocearReminder
         }
 
         public static string section = "rootPath";//用于和日历同步
+        
+        public List<PathcomboBoxItem> PathcomboBoxItemList = new List<PathcomboBoxItem>();
+
+        public class PathcomboBoxItem
+        {
+            public PathcomboBoxItem()
+            {
+                mindmapitems = new CheckedListBox.ObjectCollection(new CheckedListBox());
+                drawioitems = new CheckedListBox.ObjectCollection(new CheckedListBox());
+            }
+            public string name { get; set; }
+            public CheckedListBox.ObjectCollection mindmapitems { get; set; }
+            public CheckedListBox.ObjectCollection drawioitems { get; set; }
+
+        }
 
         private void PathcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -16093,6 +16123,15 @@ namespace DocearReminder
                 PlaySimpleSoundAsync("changepath");
                 UsedLogRenew();
                 Load_Click(null, null);
+                if (!PathcomboBoxItemList.Any(m=>m.name== PathcomboBox.SelectedItem.ToString()))
+                {
+                    //添加
+                    PathcomboBoxItem item = new PathcomboBoxItem();
+                    item.name = PathcomboBox.SelectedItem.ToString();
+                    item.mindmapitems.AddRange(MindmapList.Items);
+                    item.drawioitems.AddRange(DrawList.Items);
+                    PathcomboBoxItemList.Add(item);
+                }
                 reminderList.Focus();
                 Center();
                 //切换后如果没有内容,直接切换
@@ -16103,6 +16142,13 @@ namespace DocearReminder
             }
             catch (Exception ex)
             {
+                reminderList.Focus();
+                Center();
+                //切换后如果没有内容,直接切换
+                if (reminderList.Items.Count == 0)
+                {
+                    ChangeStatus();
+                }
             }
         }
 

@@ -176,11 +176,11 @@ namespace DocearReminder
 
                         while (counter > 0)
                         {
-                            // Compare the items' length. 
+                            // Compare the mindmapitems' length. 
                             if (((result)Items[counter]).Time
                                 > ((result)Items[counter - 1]).Time)
                             {
-                                // Swap the items.
+                                // Swap the mindmapitems.
                                 object temp = Items[counter];
                                 Items[counter] = Items[counter - 1];
                                 Items[counter - 1] = temp;

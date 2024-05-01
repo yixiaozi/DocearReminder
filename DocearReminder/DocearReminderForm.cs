@@ -10394,11 +10394,19 @@ namespace DocearReminder
                                 {
                                     nodetree.Top = FileTreeView.Top = nodetreeTopTop;
                                     nodetree.Height = FileTreeView.Height = nodeTreeHeightMax;
+                                    MindmapList.Hide();
+                                    DrawList.Hide();
+                                    reminderList.Hide();
+                                    reminderListBox.Hide();
                                 }
                                 else
                                 {
                                     nodetree.Top = FileTreeView.Top = nodetreeTop;
                                     nodetree.Height = FileTreeView.Height = nodetreeHeight;
+                                    MindmapList.Show();
+                                    DrawList.Show();
+                                    reminderList.Show();
+                                    reminderListBox.Show();
                                 }
                             }
                         }

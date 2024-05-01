@@ -14451,10 +14451,19 @@ namespace DocearReminder
                 searchword.Text = "";
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
             }
-            else if (searchword.Text.ToLower().StartsWith("usedsu2"))
+            else if(searchword.Text.ToLower().StartsWith("clearusedsug"))
             {
-                IconNodesSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
-                searchword.Text = "";
+                //遍历RecentOpenedMap，如果已经没有思维导图了，就删除
+                List<string> newRecentOpenedMap = new List<string>();
+                foreach (var item in RecentOpenedMap)
+                {
+                    if (mindmapfiles.Any(m=>m.name==item))
+                    {
+                        newRecentOpenedMap.Add(item);
+                    }
+                }
+                RecentOpenedMap = newRecentOpenedMap;
+                new TextListConverter().WriteListToTextFile(RecentOpenedMap, System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
             }
             else if (searchword.Text.ToLower().StartsWith("usedsu3"))
             {

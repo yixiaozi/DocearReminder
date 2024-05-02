@@ -1107,42 +1107,42 @@ namespace DocearReminder
                     }
                 }
             }
-            if (DateTime.Now.Minute == 0 || DateTime.Now.Minute == 15 || DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
-            {
-                //每15分钟拍照
-                CameraTimer_Tick(null, null);
-                if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5 || searchword.Focused || hopeNote.Focused || nodetreeSearch.Focused)
-                {
-                }
-                else
-                {
-                    int p = GetPosition();
-                    DocearReminderForm.fanqiePosition[p] = true;
-                    Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
-                    th.Start();
-                    //每小时刷新所有导图的数据
-                    GetAllNodeJsonFile();
-                    this.Activate();
-                    #region 刷新左侧文件，有问题
-                    //isRefreshMindmap = true;
-                    //LoadFile(rootpath);
-                    //for (int i = 0; i < mindmaplist.Items.Count; i++)
-                    //{
-                    //    mindmaplist.SetItemChecked(i, true);
-                    //    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
-                    //    if (unchkeckmindmap.Contains(file))
-                    //    {
-                    //        mindmaplist.SetItemChecked(i, false);
-                    //    }
-                    //}
-                    //isRefreshMindmap = false;
-                    #endregion 刷新左侧文件，有问题
-                }
-            }
-            if (DateTime.Now.Minute == 41 || DateTime.Now.Minute == 11)
-            {
-                NewFiles();
-            }
+            //if (DateTime.Now.Minute == 0 || DateTime.Now.Minute == 15 || DateTime.Now.Minute == 30 || DateTime.Now.Minute == 45)
+            //{
+            //    //每15分钟拍照
+            //    CameraTimer_Tick(null, null);
+            //    if (DateTime.Now.Hour > 22 || DateTime.Now.Hour < 5 || searchword.Focused || hopeNote.Focused || nodetreeSearch.Focused)
+            //    {
+            //    }
+            //    else
+            //    {
+            //        int p = GetPosition();
+            //        DocearReminderForm.fanqiePosition[p] = true;
+            //        Thread th = new Thread(() => OpenFanQie(1, DateTime.Now.ToString("HH:mm"), "", p, false));
+            //        th.Start();
+            //        //每小时刷新所有导图的数据
+            //        //GetAllNodeJsonFile();
+            //        this.Activate();
+            //        #region 刷新左侧文件，有问题
+            //        //isRefreshMindmap = true;
+            //        //LoadFile(rootpath);
+            //        //for (int i = 0; i < mindmaplist.Items.Count; i++)
+            //        //{
+            //        //    mindmaplist.SetItemChecked(i, true);
+            //        //    string file = ((MyListBoxItem)mindmaplist.Items[i]).Value;
+            //        //    if (unchkeckmindmap.Contains(file))
+            //        //    {
+            //        //        mindmaplist.SetItemChecked(i, false);
+            //        //    }
+            //        //}
+            //        //isRefreshMindmap = false;
+            //        #endregion 刷新左侧文件，有问题
+            //    }
+            //}
+            //if (DateTime.Now.Minute == 41 || DateTime.Now.Minute == 11)
+            //{
+            //    NewFiles();
+            //}
             Writereminderjson();
         }
 

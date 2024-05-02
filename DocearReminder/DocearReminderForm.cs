@@ -2874,6 +2874,11 @@ namespace DocearReminder
                                         LeftDakaDays = string.Empty;
                                     }
                                 }
+                                string DonePercent = "";
+                                if (GetAttribute(node.ParentNode, "DonePercent") != "")
+                                {
+                                    DonePercent = " | [" + GetAttribute(node.ParentNode, "DonePercent") + "%]";
+                                }
 
                                 bool IsShow = true;
                                 //if (ISLevel.Checked)
@@ -3214,7 +3219,7 @@ namespace DocearReminder
                                         }
                                         reminderboxList.Add(new MyListBoxItemRemind
                                         {
-                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + DonePercent + jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
                                             jinianDatetime = jiniantimeDT,
@@ -3257,7 +3262,7 @@ namespace DocearReminder
                                         }
                                         reminderlistItems.Add(new MyListBoxItemRemind
                                         {
-                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + jinianriInfo + EndDateInfo,
+                                            Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + DonePercent+ jinianriInfo + EndDateInfo,
                                             Name = taskName,
                                             Time = dt,
                                             jinianDatetime = jiniantimeDT,
@@ -11989,6 +11994,11 @@ namespace DocearReminder
                     break;
 
                 case Keys.Oem1:
+                    //百分比-
+                    if (ReminderListFocused() || reminderListBox.Focused)
+                    {
+                        SetDonePercent(-1);
+                    }
                     break;
 
                 case Keys.Oem102:
@@ -12056,6 +12066,11 @@ namespace DocearReminder
                     break;
 
                 case Keys.Oem7:
+                    //百分比+
+                    if (ReminderListFocused() || reminderListBox.Focused)
+                    {
+                        SetDonePercent(1);
+                    }
                     break;
 
                 case Keys.Oem8:
@@ -13056,6 +13071,49 @@ namespace DocearReminder
                         else
                         {
                             node.ParentNode.Attributes["LeftDakaDays"].Value = (Convert.ToInt64(node.ParentNode.Attributes["LeftDakaDays"].Value) + num).ToString();
+                        }
+                        x.Save(selectedReminder.Value);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                        th.Start();
+                        RRReminderlist();
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+        public void SetDonePercent(int num)
+        {
+            num *= 10;
+            if (reminderlistSelectedItem == null)
+            {
+                return;
+            }
+            MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(selectedReminder.Value);
+            string taskName = selectedReminder.Name;
+            if (selectedReminder.isEncrypted)
+            {
+                taskName = encrypt.EncryptString(taskName);
+            }
+            foreach (XmlNode node in x.GetElementsByTagName("hook"))
+            {
+                try
+                {
+                    if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
+                    {
+                        if (node.ParentNode.Attributes["DonePercent"] == null)
+                        {
+                            XmlAttribute DAKADAY = x.CreateAttribute("DonePercent");
+                            DAKADAY.Value = num.ToString();
+                            node.ParentNode.Attributes.Append(DAKADAY);
+                        }
+                        else
+                        {
+                            node.ParentNode.Attributes["DonePercent"].Value = (Convert.ToInt64(node.ParentNode.Attributes["DonePercent"].Value) + num).ToString();
                         }
                         x.Save(selectedReminder.Value);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));

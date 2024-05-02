@@ -3199,6 +3199,13 @@ namespace DocearReminder
                                         IsShow = false;
                                     }
                                 }
+                                else
+                                {
+                                    if (GetAttribute(node.ParentNode, "ISVIEW") == "true")
+                                    {
+                                        IsShow = false;
+                                    }
+                                }
                                 //判断ID的重复，避免在Box中同时显示
                                 string nodeid = GetAttribute(node.ParentNode, "ID");
                                 if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
@@ -4950,6 +4957,7 @@ namespace DocearReminder
 
         private void reminderlist_SelectedIndexChanged(object sender, EventArgs e)
         {
+            IsSelectReminder = true;
             isSettingSyncWeek = false;
             //if (showTimeBlock.Checked)//没有什么用
             //{
@@ -6528,7 +6536,7 @@ namespace DocearReminder
                 RRReminderlist();
             }
             //给任务添加节点
-            if ((reminderList.SelectedIndex >= 0 || reminderListBox.SelectedIndex >= 0) && searchword.Text != "" && IsSelectReminder)
+            if ((reminderList.SelectedIndex >= 0 || reminderListBox.SelectedIndex >= 0) && searchword.Text != "")
             {
                 string currentPath = "";
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
@@ -6704,7 +6712,7 @@ namespace DocearReminder
                 }
             }
             //给导图添加节点
-            if (MindmapList.SelectedIndex >= 0 && searchword.Text != "" && !IsSelectReminder)
+            else if (MindmapList.SelectedIndex >= 0 && searchword.Text != "")
             {
                 string path = ((MyListBoxItem)MindmapList.SelectedItem).Value;
                 System.Xml.XmlDocument x = new XmlDocument();
@@ -6768,9 +6776,9 @@ namespace DocearReminder
                 newNote.Attributes.Append(TASKLEVEL);
                 newNote.Attributes["TASKLEVEL"].Value = "1";
                 XmlNode newElem = x.CreateElement("icon");
-                XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
-                BUILTIN.Value = "flag-orange";
-                newElem.Attributes.Append(BUILTIN);
+                //XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
+                //BUILTIN.Value = "flag-orange";
+                //newElem.Attributes.Append(BUILTIN);
                 newNote.AppendChild(newElem);
                 if (istask)
                 {
@@ -17706,7 +17714,6 @@ namespace DocearReminder
             {
                 ReminderListSelectedIndex(-1);
                 reminderSelectIndex = -1;
-                IsSelectReminder = false;
                 MindmapList.Focus();
             }
         }

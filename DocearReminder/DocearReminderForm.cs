@@ -2878,6 +2878,10 @@ namespace DocearReminder
                                 if (GetAttribute(node.ParentNode, "DonePercent") != "")
                                 {
                                     DonePercent = " | [" + GetAttribute(node.ParentNode, "DonePercent") + "%]";
+                                    if (DonePercent.Contains("[0%"))
+                                    {
+                                        DonePercent = string.Empty;
+                                    }
                                 }
 
                                 bool IsShow = true;
@@ -8563,16 +8567,20 @@ namespace DocearReminder
         {
             Updateunchkeckmindmap();
             InMindMapBool = true;
-            if (isInReminderList)
+            if (!c_ViewModel.Checked&&isInReminderList)
             {
                 isInReminderList = false;
                 return;
+            }
+            else if (c_ViewModel.Checked)
+            {
+                RRReminderlist();
             }
             if (searchword.Text.StartsWith("#"))
             {
                 return;
             }
-            if (searchword.Text.StartsWith("*"))
+            else if (searchword.Text.StartsWith("*"))
             {
                 if (searchword.Text.StartsWith("*"))
                 {
@@ -8591,10 +8599,6 @@ namespace DocearReminder
                     }
                 }
                 return;
-            }
-            if (c_ViewModel.Checked)
-            {
-                RRReminderlist();
             }
         }
 
@@ -12115,33 +12119,98 @@ namespace DocearReminder
 
                 case Keys.PageUp:
                     int n = pathArr.IndexOf(rootpath.FullName);
-                    if (e.Modifiers.CompareTo(Keys.Shift) == 0)//pagedown被占用
+                    if (c_ViewModel.Checked)
                     {
-                        if (n == 0)
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            rootpath = new DirectoryInfo(pathArr[pathArr.Count - 1]);
+                            if (MindmapList.SelectedIndex < MindmapList.Items.Count - 1)
+                            {
+                                MindmapList.SelectedIndex = MindmapList.SelectedIndex + 1;
+                            }
+                            else
+                            {
+                                MindmapList.SelectedIndex = 0;
+                            }
                         }
                         else
                         {
-                            rootpath = new DirectoryInfo(pathArr[n - 1]);
+                            if (MindmapList.SelectedIndex >= 1)
+                            {
+                                MindmapList.SelectedIndex = MindmapList.SelectedIndex - 1;
+                            }
+                            else
+                            {
+                                MindmapList.SelectedIndex = MindmapList.Items.Count - 1;
+                            }
                         }
                     }
                     else
                     {
-                        if (n + 1 >= pathArr.Count)
+                        //if (e.Modifiers.CompareTo(Keys.Shift) == 0)//pagedown被占用
+                        //{
+                        //    if (n == 0)
+                        //    {
+                        //        rootpath = new DirectoryInfo(pathArr[pathArr.Count - 1]);
+                        //    }
+                        //    else
+                        //    {
+                        //        rootpath = new DirectoryInfo(pathArr[n - 1]);
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    if (n + 1 >= pathArr.Count)
+                        //    {
+                        //        rootpath = new DirectoryInfo(pathArr[0]);
+                        //    }
+                        //    else
+                        //    {
+                        //        rootpath = new DirectoryInfo(pathArr[n + 1]);
+                        //    }
+                        //}
+                        //mindmapPath = rootpath.FullName;
+                        //searchword.Text = "";
+                        //UsedLogRenew();
+                        //Load_Click(null, null);
+                        //PathcomboBox.sel 
+                        if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            rootpath = new DirectoryInfo(pathArr[0]);
+                            if (PathcomboBox.SelectedIndex < PathcomboBox.Items.Count - 1)
+                            {
+                                PathcomboBox.SelectedIndex = PathcomboBox.SelectedIndex + 1;
+                            }
+                            else
+                            {
+                                PathcomboBox.SelectedIndex = 0;
+                            }
                         }
                         else
                         {
-                            rootpath = new DirectoryInfo(pathArr[n + 1]);
+                            if (PathcomboBox.SelectedIndex >= 1)
+                            {
+                                PathcomboBox.SelectedIndex = PathcomboBox.SelectedIndex - 1;
+                            }
+                            else
+                            {
+                                PathcomboBox.SelectedIndex = PathcomboBox.Items.Count - 1;
+                            }
                         }
+                        PathcomboBox_SelectedIndexChanged(null, null);
                     }
-                    mindmapPath = rootpath.FullName;
-                    searchword.Text = "";
-                    UsedLogRenew();
-                    Load_Click(null, null);
                     break;
+                //case Keys.PageDown:
+                //    if (c_ViewModel.Checked)
+                //    {
+                //        if (MindmapList.SelectedIndex < MindmapList.Items.Count - 1)
+                //        {
+                //            MindmapList.SelectedIndex = MindmapList.SelectedIndex + 1;
+                //        }
+                //        else
+                //        {
+                //            MindmapList.SelectedIndex = 0;
+                //        }
+                //    }
+                //    break;
 
                 case Keys.Pause:
                     break;
@@ -14371,7 +14440,7 @@ namespace DocearReminder
                         break;
                     }
                 }
-                Load_Click(null, null);
+                PathcomboBox_SelectedIndexChanged(null, null);
             }
             else if (searchword.Text.StartsWith("buglisttimeblock") || searchword.Text.EndsWith("buglisttimeblock") || searchword.Text.EndsWith("btl"))
             {

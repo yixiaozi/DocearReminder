@@ -3192,7 +3192,7 @@ namespace DocearReminder
                                 {
                                     if (GetAttribute(node.ParentNode, "ISVIEW") == "true")
                                     {
-                                        IsShow = true;
+                                        IsShow = IsShow&&true;
                                     }
                                     else
                                     {
@@ -3639,10 +3639,12 @@ namespace DocearReminder
                 }
             }
             reminderList.Items.Clear();
+            reminderList.Sorted = false;
             foreach (MyListBoxItemRemind item in reminderlistItems.OrderBy(m => m.Time))
             {
                 reminderList.Items.Add(item);
             }
+            //reminderList.Items.AddRange((ListBox.ObjectCollection)reminderlistItems.OrderBy(m => m.Time));
             reminderListBox.Items.Clear();
             foreach (MyListBoxItemRemind item in reminderboxList.OrderBy(m => m.Time))
             {
@@ -3727,7 +3729,7 @@ namespace DocearReminder
             //        isAutoChangeView = true;
             //    }
             //}
-            SortReminderList();
+            //SortReminderList();
             reminderListBox.Refresh();
             ReminderListBox_SizeChanged(null, null);
 

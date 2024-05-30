@@ -49,7 +49,7 @@ namespace DocearReminder
                     reminderObject.reminders.RemoveAt(i);
                 }
             }
-            Writereminderjson();
+            WriteReminderJson();
             SaveJson(reminderObjectBACKUP, System.AppDomain.CurrentDomain.BaseDirectory + @"\reminderjson\" + DateTime.Now.ToString("yyyyMMddMMss") + ".json");
             this.Close();
         }

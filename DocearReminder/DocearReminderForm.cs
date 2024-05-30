@@ -521,7 +521,6 @@ namespace DocearReminder
                     dic.Add(c_Tuesday, "周二");
                     dic.Add(c_Thursday, "周四");
                     dic.Add(c_Monday, "周一");
-                    dic.Add(c_Jinian, "纪念日");
                     dic.Add(c_ViewModel, "查看模式");
                     dic.Add(dateTimePicker, "任务时间");
                     dic.Add(taskTime, "任务时长");
@@ -539,8 +538,21 @@ namespace DocearReminder
                     dic.Add(usedCount, "打开次数");
                     dic.Add(mindmaplist_count, "导图数");
                     dic.Add(taskcount, "任务总数");
-                    dic.Add(c_remember, "任务总数");
                     dic.Add(c_speechcontrol, "语音控制");
+                    dic.Add(showTimeBlock, "显示时间块，快捷键q"); 
+                    dic.Add(ShowKA, "显示卡路里，快捷键Ctrl+s"); 
+                    dic.Add(ShowMoney, "显示金钱，快捷键Ctrl+m");
+                    dic.Add(OnlyLevel, "只等级");
+                    dic.Add(c_endtime, "截止时间,快捷键E"); 
+                    dic.Add(c_Jinian, "纪念日,快捷键Y");
+                    dic.Add(c_remember, "记忆模式");
+                    dic.Add(morning, "早上，到8点，快捷键7");
+                    dic.Add(day, "上午，到12点，快捷键8");
+                    dic.Add(afternoon, "下午，到18点，快捷键9");
+                    dic.Add(night, "晚上，快捷键0");
+                    
+
+
                     dic.Add(searchword, "task@mindmap==.task +Enter" + Environment.NewLine + @"subnote +Enter" + Environment.NewLine + @"subtask +Shift+Enter==subtask. +Enter" + Environment.NewLine +
                         "@mindmap  detail of mindmap" + Environment.NewLine + "@mindmap +Shift open mindmap" +
                         Environment.NewLine + "#searchfiles" +
@@ -1146,7 +1158,7 @@ namespace DocearReminder
             //{
             //    NewFiles();
             //}
-            Writereminderjson();
+            WriteReminderJson();
         }
 
         #endregion 番茄钟
@@ -9118,6 +9130,7 @@ namespace DocearReminder
                             {
                                 reminderSelectIndex = reminderList.SelectedIndex;
                                 reminderObject.reminders.RemoveAll(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
+                                WriteReminderJson(true);
                                 RRReminderlist();
                                 ReminderListSelectedIndex(reminderSelectIndex);
                             }
@@ -13346,41 +13359,50 @@ namespace DocearReminder
                 e.Cancel = true;
                 MyHide();
             }
-            Writereminderjson();
+            WriteReminderJson();
             icon.Dispose();
             SaveLog("关闭程序。");
         }
 
-        public static void Writereminderjson()
+        public static void WriteReminderJson(bool overWrite=false)
         {
             try
             {
-                ////获取reminder.json中的所有数据，如果有新的数据，就添加进去。
-                ////从而解决多台电脑无法同步的问题。
-                //Reminder old= new Reminder();
-                //if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
-                //{
-                //    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
-                //    using (StreamReader sw = fi.OpenText())
-                //    {
-                //        string s = sw.ReadToEnd();
-                //        var serializer = new JavaScriptSerializer()
-                //        {
-                //            MaxJsonLength = Int32.MaxValue
-                //        };
-                //        old = serializer.Deserialize<Reminder>(s);
-                //    }
-                //}
-                ////将old中相对于reminderObject多的数据添加reminderObject进去。
-                ////只比较reminders对象
-                //foreach (var item in old.reminders)
-                //{
-                //    if (!reminderObject.reminders.Any(m => m.ID == item.ID))
-                //    {
-                //        reminderObject.reminders.Add(item);
-                //    }
-                //}
-                //todo:但是这样就真的删除不了了
+                if (!overWrite)
+                {
+                    try
+                    {
+                        //获取reminder.json中的所有数据，如果有新的数据，就添加进去。
+                        //从而解决多台电脑无法同步的问题。
+                        Reminder old = new Reminder();
+                        if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                        {
+                            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
+                            using (StreamReader sw = fi.OpenText())
+                            {
+                                string s = sw.ReadToEnd();
+                                s = DecompressFromBase64(s);
+                                var serializer = new JavaScriptSerializer()
+                                {
+                                    MaxJsonLength = Int32.MaxValue
+                                };
+                                old = serializer.Deserialize<Reminder>(s);
+                            }
+                        }
+                        //将old中相对于reminderObject多的数据添加reminderObject进去。
+                        //只比较reminders对象
+                        foreach (var item in old.reminders)
+                        {
+                            if (!reminderObject.reminders.Any(m => m.ID == item.ID))
+                            {
+                                reminderObject.reminders.Add(item);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
 
                 string json = new JavaScriptSerializer()
                 {

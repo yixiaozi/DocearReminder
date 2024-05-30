@@ -823,7 +823,7 @@ namespace DocearReminder
             }
         }
 
-        private void Load_Click(object sender, EventArgs e)
+        private void Load_Click()
         {
             List<MyListBoxItemRemind> Reminders = reminderList.Items.Cast<MyListBoxItemRemind>().ToList();
             RemindersOtherPath.AddRange(Reminders);
@@ -2282,9 +2282,11 @@ namespace DocearReminder
             else
             {
                 CustomCheckedListBox list = new CustomCheckedListBox();
-
-                foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
+                //.EnumerateFiles().AsParallel().Where(s => s.FullName.EndsWith(".xls")).ToList()
+                //foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
+                foreach (string filepath in Directory.GetFiles(path.FullName, "*.mm", SearchOption.AllDirectories))
                 {
+                    FileInfo file = new FileInfo(filepath);
                     if (file.Extension == ".mm" && mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
                     {
                         mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
@@ -2296,26 +2298,29 @@ namespace DocearReminder
                         {
                             if (file.Extension == ".mm")
                             {
-                                System.Xml.XmlDocument x = new XmlDocument();
-                                x.Load(file.FullName);
-                                int number = 0;
-                                foreach (XmlNode node in x.GetElementsByTagName("hook"))
-                                {
-                                    try
-                                    {
-                                        if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
-                                        {
-                                            if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
-                                            {
-                                                number++;
-                                            }
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                    }
-                                }
-                                if (number > 0)
+                                int tasknumber = 0;
+                                //System.Xml.XmlDocument x = new XmlDocument();
+                                //x.Load(file.FullName);
+                                //foreach (XmlNode node in x.GetElementsByTagName("hook"))
+                                //{
+                                //    try
+                                //    {
+                                //        if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
+                                //        {
+                                //            if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
+                                //            {
+                                //                tasknumber++;
+                                //            }
+                                //        }
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //    }
+                                //}
+                                //如果文件中包含"plugins/TimeManagementReminder.xml"则为有任务，并且包含的次数就是tasknumber
+                                //希望这样能加快软件打开的速度
+                                tasknumber = GetTaskNumber(file.FullName);
+                                if (tasknumber > 0)
                                 {
                                     string todayaddnodecount = "";
                                     if (nodes != null)
@@ -2330,11 +2335,26 @@ namespace DocearReminder
                                             todayaddnodecount = "|" + todayaddnodecount;
                                         }
                                     }
-                                    list.Items.Insert(0, new MyListBoxItem { Text = lenghtString(number.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
+                                    list.Items.Insert(0, new MyListBoxItem { Text = lenghtString(tasknumber.ToString(), 2) + " " + file.Name.Substring(0, file.Name.Length - 3) + todayaddnodecount, Value = file.FullName });
 
-                                    taskcount.Text = (Convert.ToInt64(taskcount.Text) + number).ToString();
+                                    taskcount.Text = (Convert.ToInt64(taskcount.Text) + tasknumber).ToString();
                                 }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(file.FullName);
+                        }
+                    }
+                }
+                foreach (string filepath in Directory.GetFiles(path.FullName, "*.drawio", SearchOption.AllDirectories))
+                {
+                    FileInfo file = new FileInfo(filepath);
+                    string subPath = file.DirectoryName;
+                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
+                    {
+                        try
+                        {
                             if (file.Extension == ".drawio")
                             {
                                 System.Xml.XmlDocument x = new XmlDocument();
@@ -2347,7 +2367,7 @@ namespace DocearReminder
                                 //    {
                                 //        if (node.Attributes != null && node.Attributes["value"] != null)
                                 //        {
-                                //            number++;
+                                //            tasknumber++;
                                 //        }
                                 //    }
                                 //    catch (Exception ex)
@@ -2393,6 +2413,16 @@ namespace DocearReminder
             MindmapList.Sorted = true;
             DrawList.Sorted = false;
             DrawList.Sorted = true;
+        }
+
+        private int GetTaskNumber(string fullName)
+        {
+            int tasknumber = 0;
+            //读取文件内容
+            string content = File.ReadAllText(fullName);
+            //如果文件中包含"plugins/TimeManagementReminder.xml"则为有任务，并且包含的次数就是tasknumber
+            tasknumber = content.Split(new string[] { "plugins/TimeManagementReminder.xml" }, StringSplitOptions.None).Length - 1;
+            return tasknumber;
         }
 
         //public void AddmindmapfilesOnly(DirectoryInfo path)
@@ -9693,7 +9723,7 @@ namespace DocearReminder
 
                                 searchword.Text = "";
                                 UsedLogRenew();
-                                Load_Click(null, null);
+                                Load_Click();
                                 reminderList.Focus();
                                 return;
                             }
@@ -12305,7 +12335,7 @@ namespace DocearReminder
                                 {//整理刷新
                                     searchword.Text = "";
                                     mindmapornode.Text = "";
-                                    Load_Click(null, null);
+                                    Load_Click();
                                 }
                                 else
                                 {
@@ -13624,7 +13654,7 @@ namespace DocearReminder
             {
             }
             UsedLogRenew();
-            Load_Click(null, null);
+            Load_Click();
         }
 
         public void ShowMindmapFile(bool isShowSub = false, int level = 3)
@@ -14899,7 +14929,7 @@ namespace DocearReminder
                     //重新进入导图模式
                     searchword.Text = "";
                     UsedLogRenew();
-                    Load_Click(null, null);
+                    Load_Click();
                     reminderList.Focus();
                 }
                 else
@@ -16300,7 +16330,7 @@ namespace DocearReminder
                 loadHopeNote();
                 PlaySimpleSoundAsync("changepath");
                 UsedLogRenew();
-                Load_Click(null, null);
+                Load_Click();
                 reminderList.Focus();
                 Center();
                 //切换后如果没有内容,直接切换

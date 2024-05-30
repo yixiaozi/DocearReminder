@@ -177,7 +177,7 @@ namespace DocearReminder
 
         #endregion 全局变量
 
-        public DocearReminderForm()
+        public DocearReminderForm()  
         {
             InitializeComponent();
 
@@ -2378,6 +2378,16 @@ namespace DocearReminder
                 {
                     MindmapList.Items.Insert(0, list.Items[i]);
                 }
+            }
+
+            if (!PathcomboBoxItemList.Any(m => m.name == PathcomboBox.SelectedItem.ToString()))
+            {
+                //添加
+                PathcomboBoxItem item = new PathcomboBoxItem();
+                item.name = PathcomboBox.SelectedItem.ToString();
+                item.mindmapitems.AddRange(MindmapList.Items);
+                item.drawioitems.AddRange(DrawList.Items);
+                PathcomboBoxItemList.Add(item);
             }
             MindmapList.Sorted = false;
             MindmapList.Sorted = true;
@@ -16291,15 +16301,6 @@ namespace DocearReminder
                 PlaySimpleSoundAsync("changepath");
                 UsedLogRenew();
                 Load_Click(null, null);
-                if (!PathcomboBoxItemList.Any(m=>m.name== PathcomboBox.SelectedItem.ToString()))
-                {
-                    //添加
-                    PathcomboBoxItem item = new PathcomboBoxItem();
-                    item.name = PathcomboBox.SelectedItem.ToString();
-                    item.mindmapitems.AddRange(MindmapList.Items);
-                    item.drawioitems.AddRange(DrawList.Items);
-                    PathcomboBoxItemList.Add(item);
-                }
                 reminderList.Focus();
                 Center();
                 //切换后如果没有内容,直接切换

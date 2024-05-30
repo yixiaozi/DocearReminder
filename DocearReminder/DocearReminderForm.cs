@@ -181,6 +181,7 @@ namespace DocearReminder
         {
             InitializeComponent();
 
+            //DocearReminder文件夹创建
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder"))
             {
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder");
@@ -195,8 +196,10 @@ namespace DocearReminder
             try
             {
                 SwitchToLanguageMode();
-                GetIniFile();
-                ReadBookmarks();
+                Thread th = new Thread(() => GetIniFile());
+                th.Start();
+                Thread th1 = new Thread(() => ReadBookmarks());
+                th1.Start();
                 if (RecentlyFileHelper.GetStartFiles() != null)
                 {
                     suggestListData.AddRange(RecentlyFileHelper.GetStartFiles());
@@ -13335,6 +13338,33 @@ namespace DocearReminder
         {
             try
             {
+                ////获取reminder.json中的所有数据，如果有新的数据，就添加进去。
+                ////从而解决多台电脑无法同步的问题。
+                //Reminder old= new Reminder();
+                //if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                //{
+                //    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
+                //    using (StreamReader sw = fi.OpenText())
+                //    {
+                //        string s = sw.ReadToEnd();
+                //        var serializer = new JavaScriptSerializer()
+                //        {
+                //            MaxJsonLength = Int32.MaxValue
+                //        };
+                //        old = serializer.Deserialize<Reminder>(s);
+                //    }
+                //}
+                ////将old中相对于reminderObject多的数据添加reminderObject进去。
+                ////只比较reminders对象
+                //foreach (var item in old.reminders)
+                //{
+                //    if (!reminderObject.reminders.Any(m => m.ID == item.ID))
+                //    {
+                //        reminderObject.reminders.Add(item);
+                //    }
+                //}
+                //todo:但是这样就真的删除不了了
+
                 string json = new JavaScriptSerializer()
                 {
                     MaxJsonLength = Int32.MaxValue

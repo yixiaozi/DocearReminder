@@ -226,7 +226,7 @@ namespace DocearReminder
                 addFanQieTimer.Start();
 
                 InitVoice();
-                tagList.Height = 0;
+                //tagList.Height = 0;
                 //CameraTimer_Tick(null, null);//打开软件时截屏，其实没有必要
 
                 #region 用来监视文件编号的代码，暂时不用，有git监控就可以了
@@ -525,8 +525,8 @@ namespace DocearReminder
                     dic.Add(dateTimePicker, "任务时间");
                     dic.Add(taskTime, "任务时长");
                     dic.Add(tasklevel, "任务等级");
-                    //dic.Add(richTextSubNode, "子节点");
-                    //dic.Add(tagCloudControl, "标签云");
+                    dic.Add(richTextSubNode, "子节点");
+                    dic.Add(tagCloudControl, "标签云");
                     dic.Add(fathernode, "父节点信息");
                     dic.Add(hourLeft, "当日剩余小时");
                     dic.Add(Hours, "任务时间总计");
@@ -8952,7 +8952,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused || diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || notebottom.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)) || drawsearch.Focused);
+            return !(PathcomboBox.Focused || searchword.Focused ||tagList.Focused|| diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || notebottom.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)) || drawsearch.Focused);
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)
@@ -14216,7 +14216,7 @@ namespace DocearReminder
                                 }
                                 List<string> mytags = new List<string>();
                                 tagList.Tags = mytags;
-                                tagList.Height = 0;//重新设置高度
+                                //tagList.Height = 0;//重新设置高度
                                 foreach (XmlNode subNode in node.ChildNodes)
                                 {
                                     if (subNode.Attributes != null && subNode.Attributes["TEXT"] != null && subNode.Attributes["TEXT"].Value.ToLower() != "ok")

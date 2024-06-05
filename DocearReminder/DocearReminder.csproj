@@ -123,11 +123,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>Resources\EnvDTE.dll</HintPath>
     </Reference>
-    <Reference Include="FerretLib.WinForms, Version=1.0.0.26422, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\FerretLib.WinForms.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Gma.UserActivityMonitor">
       <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Gma.UserActivityMonitor.dll</HintPath>
       <Private>False</Private>
@@ -721,6 +716,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FerretLib.WinForms\FerretLib.WinForms.csproj">
+      <Project>{1bbd5465-2f72-430b-b899-926f03fef87b}</Project>
+      <Name>FerretLib.WinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar.csproj">
       <Project>{25649f08-3046-4891-adb8-7ea787b57063}</Project>
       <Name>System.Windows.Forms.Calendar</Name>

@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27D1687F-ACC0-414A-90D8-12C1AD7C06E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>yixiaozi</RootNamespace>
+    <AssemblyName>yixiaozi</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>obj\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Reminders.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\yixiaozi\.files\DocearReminder\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\Todoist\Class1.cs" />
+    <Compile Include="API\Todoist\Exceptions\TodoistException.cs" />
+    <Compile Include="API\Todoist\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="API\Todoist\IAdvancedTodoistClient.cs" />
+    <Compile Include="API\Todoist\ITodoistClient.cs" />
+    <Compile Include="API\Todoist\ITodoistRestClient.cs" />
+    <Compile Include="API\Todoist\ITodoistTokenlessClient.cs" />
+    <Compile Include="API\Todoist\Models\Activity.cs" />
+    <Compile Include="API\Todoist\Models\ActivityLog.cs" />
+    <Compile Include="API\Todoist\Models\Backup.cs" />
+    <Compile Include="API\Todoist\Models\BaseEntity.cs" />
+    <Compile Include="API\Todoist\Models\BaseInvitation.cs" />
+    <Compile Include="API\Todoist\Models\Command.cs" />
+    <Compile Include="API\Todoist\Models\CommandType.cs" />
+    <Compile Include="API\Todoist\Models\CompletedItem.cs" />
+    <Compile Include="API\Todoist\Models\CompletedItemsInfo.cs" />
+    <Compile Include="API\Todoist\Models\CompleteItemArgument.cs" />
+    <Compile Include="API\Todoist\Models\CompleteRecurringItemArgument.cs" />
+    <Compile Include="API\Todoist\Models\ComplexId.cs" />
+    <Compile Include="API\Todoist\Models\DateFormat.cs" />
+    <Compile Include="API\Todoist\Models\DayOfWeek.cs" />
+    <Compile Include="API\Todoist\Models\DueDate.cs" />
+    <Compile Include="API\Todoist\Models\EmailInfo.cs" />
+    <Compile Include="API\Todoist\Models\EmptyCommand.cs" />
+    <Compile Include="API\Todoist\Models\FileAttachment.cs" />
+    <Compile Include="API\Todoist\Models\FileBase.cs" />
+    <Compile Include="API\Todoist\Models\Filter.cs" />
+    <Compile Include="API\Todoist\Models\FilterInfo.cs" />
+    <Compile Include="API\Todoist\Models\ICommandArgument.cs" />
+    <Compile Include="API\Todoist\Models\IdsArgument.cs" />
+    <Compile Include="API\Todoist\Models\IdToOrderArgument.cs" />
+    <Compile Include="API\Todoist\Models\IdToOrderMappingArgument.cs" />
+    <Compile Include="API\Todoist\Models\Invitation.cs" />
+    <Compile Include="API\Todoist\Models\Item.cs" />
+    <Compile Include="API\Todoist\Models\ItemFilter.cs" />
+    <Compile Include="API\Todoist\Models\ItemInfo.cs" />
+    <Compile Include="API\Todoist\Models\ItemMoveArgument.cs" />
+    <Compile Include="API\Todoist\Models\IWithRelationsArgument.cs" />
+    <Compile Include="API\Todoist\Models\KarmaGoals.cs" />
+    <Compile Include="API\Todoist\Models\Label.cs" />
+    <Compile Include="API\Todoist\Models\LabelInfo.cs" />
+    <Compile Include="API\Todoist\Models\Language.cs" />
+    <Compile Include="API\Todoist\Models\LocationTrigger.cs" />
+    <Compile Include="API\Todoist\Models\LogExtraData.cs" />
+    <Compile Include="API\Todoist\Models\LogFilter.cs" />
+    <Compile Include="API\Todoist\Models\MoveArgument.cs" />
+    <Compile Include="API\Todoist\Models\Note.cs" />
+    <Compile Include="API\Todoist\Models\NoteInfo.cs" />
+    <Compile Include="API\Todoist\Models\Notification.cs" />
+    <Compile Include="API\Todoist\Models\NotificationService.cs" />
+    <Compile Include="API\Todoist\Models\NotificationSetting.cs" />
+    <Compile Include="API\Todoist\Models\NotificationSettings.cs" />
+    <Compile Include="API\Todoist\Models\NotificationType.cs" />
+    <Compile Include="API\Todoist\Models\ObjectEventTypes.cs" />
+    <Compile Include="API\Todoist\Models\ObjectType.cs" />
+    <Compile Include="API\Todoist\Models\OrderEntry.cs" />
+    <Compile Include="API\Todoist\Models\OrderType.cs" />
+    <Compile Include="API\Todoist\Models\Priority.cs" />
+    <Compile Include="API\Todoist\Models\Project.cs" />
+    <Compile Include="API\Todoist\Models\ProjectData.cs" />
+    <Compile Include="API\Todoist\Models\ProjectInfo.cs" />
+    <Compile Include="API\Todoist\Models\ProjectReorderArgument.cs" />
+    <Compile Include="API\Todoist\Models\QuickAddItem.cs" />
+    <Compile Include="API\Todoist\Models\Reminder.cs" />
+    <Compile Include="API\Todoist\Models\ReminderInfo.cs" />
+    <Compile Include="API\Todoist\Models\ReminderService.cs" />
+    <Compile Include="API\Todoist\Models\ReminderType.cs" />
+    <Compile Include="API\Todoist\Models\ReorderArgument.cs" />
+    <Compile Include="API\Todoist\Models\ReorderItemsArgument.cs" />
+    <Compile Include="API\Todoist\Models\ReorderProjectArgument.cs" />
+    <Compile Include="API\Todoist\Models\ReorderSectionArgument.cs" />
+    <Compile Include="API\Todoist\Models\Resources.cs" />
+    <Compile Include="API\Todoist\Models\ResourceType.cs" />
+    <Compile Include="API\Todoist\Models\Section.cs" />
+    <Compile Include="API\Todoist\Models\SectionMoveArgument.cs" />
+    <Compile Include="API\Todoist\Models\SectionOrderEntry.cs" />
+    <Compile Include="API\Todoist\Models\ShareCommandArgument.cs" />
+    <Compile Include="API\Todoist\Models\StringEnum.cs" />
+    <Compile Include="API\Todoist\Models\SyncResponse.cs" />
+    <Compile Include="API\Todoist\Models\TimeFormat.cs" />
+    <Compile Include="API\Todoist\Models\TimeZoneInfo.cs" />
+    <Compile Include="API\Todoist\Models\Upload.cs" />
+    <Compile Include="API\Todoist\Models\User.cs" />
+    <Compile Include="API\Todoist\Models\UserBase.cs" />
+    <Compile Include="API\Todoist\Models\UserInfo.cs" />
+    <Compile Include="API\Todoist\Serialization\Converters\BoolConverter.cs" />
+    <Compile Include="API\Todoist\Serialization\Converters\ComplexIdConverter.cs" />
+    <Compile Include="API\Todoist\Serialization\Converters\StringEnumTypeConverter.cs" />
+    <Compile Include="API\Todoist\Serialization\Resolvers\ConverterContractResolver.cs" />
+    <Compile Include="API\Todoist\Services\ActivityService.cs" />
+    <Compile Include="API\Todoist\Services\BackupService.cs" />
+    <Compile Include="API\Todoist\Services\CommandServiceBase.cs" />
+    <Compile Include="API\Todoist\Services\EmailService.cs" />
+    <Compile Include="API\Todoist\Services\FiltersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\FiltersService.cs" />
+    <Compile Include="API\Todoist\Services\IActivityService.cs" />
+    <Compile Include="API\Todoist\Services\IBackupService.cs" />
+    <Compile Include="API\Todoist\Services\IEmailService.cs" />
+    <Compile Include="API\Todoist\Services\IFiltersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\IFiltersService.cs" />
+    <Compile Include="API\Todoist\Services\IItemsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\IItemsService.cs" />
+    <Compile Include="API\Todoist\Services\ILabelsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ILabelsService.cs" />
+    <Compile Include="API\Todoist\Services\INotesCommandServices.cs" />
+    <Compile Include="API\Todoist\Services\INotesServices.cs" />
+    <Compile Include="API\Todoist\Services\INotificationsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\INotificationsService.cs" />
+    <Compile Include="API\Todoist\Services\IProjectCommandService.cs" />
+    <Compile Include="API\Todoist\Services\IProjectsService.cs" />
+    <Compile Include="API\Todoist\Services\IReminersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\IReminersService.cs" />
+    <Compile Include="API\Todoist\Services\ISectionsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ISectionService.cs" />
+    <Compile Include="API\Todoist\Services\ISharingCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ISharingService.cs" />
+    <Compile Include="API\Todoist\Services\ITemplateService.cs" />
+    <Compile Include="API\Todoist\Services\ItemsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ItemsService.cs" />
+    <Compile Include="API\Todoist\Services\ITransaction.cs" />
+    <Compile Include="API\Todoist\Services\IUploadService.cs" />
+    <Compile Include="API\Todoist\Services\IUsersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\IUsersService.cs" />
+    <Compile Include="API\Todoist\Services\LabelsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\LabelsService.cs" />
+    <Compile Include="API\Todoist\Services\NotesCommandService.cs" />
+    <Compile Include="API\Todoist\Services\NotesService.cs" />
+    <Compile Include="API\Todoist\Services\NotificationsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\NotificationsService.cs" />
+    <Compile Include="API\Todoist\Services\ProjectsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ProjectsService.cs" />
+    <Compile Include="API\Todoist\Services\ReminersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\ReminersService.cs" />
+    <Compile Include="API\Todoist\Services\SectionsCommandService.cs" />
+    <Compile Include="API\Todoist\Services\SectionService.cs" />
+    <Compile Include="API\Todoist\Services\SharingCommandService.cs" />
+    <Compile Include="API\Todoist\Services\SharingService.cs" />
+    <Compile Include="API\Todoist\Services\TemplateService.cs" />
+    <Compile Include="API\Todoist\Services\Transaction.cs" />
+    <Compile Include="API\Todoist\Services\UploadService.cs" />
+    <Compile Include="API\Todoist\Services\UsersCommandService.cs" />
+    <Compile Include="API\Todoist\Services\UsersService.cs" />
+    <Compile Include="API\Todoist\TodoistClient.cs" />
+    <Compile Include="API\Todoist\TodoistRestClient.cs" />
+    <Compile Include="API\Todoist\TodoistTokenlessClient.cs" />
+    <Compile Include="Config\AppConfigOpc.cs" />
+    <Compile Include="Config\IniFile.cs" />
+    <Compile Include="DataHandler\EntityHelper.cs" />
+    <Compile Include="DataHandler\ExcelHelper.cs" />
+    <Compile Include="DataHandler\TableToEntityHelper.cs" />
+    <Compile Include="IOHelper\DirFileHelper.cs" />
+    <Compile Include="IOHelper\Disk.cs" />
+    <Compile Include="IOHelper\Zip\Zip.cs" />
+    <Compile Include="Media\Audio\Audio.cs" />
+    <Compile Include="Model\DocearReminder\ChromeBookmarks.cs" />
+    <Compile Include="Model\DocearReminder\DocearReminderLog.cs" />
+    <Compile Include="Model\DocearReminder\Helper.cs" />
+    <Compile Include="Model\DocearReminder\UsageRecord.cs" />
+    <Compile Include="Model\DocearReminder\UsedTimer.cs" />
+    <Compile Include="MyConvert\Copy.cs" />
+    <Compile Include="MyConvert\HtmlToString.cs" />
+    <Compile Include="MyConvert\ListChange.cs" />
+    <Compile Include="MyConvert\ObjectExtension.cs" />
+    <Compile Include="MyConvert\TextListConverter.cs" />
+    <Compile Include="Log\LogCommon.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log\LogToText\LogToText.cs" />
+    <Compile Include="Model\DocearReminder\MyListBoxItemRemind.cs" />
+    <Compile Include="Model\DocearReminder\StationInfo.cs" />
+    <Compile Include="Net\Email\EmailUtil.cs" />
+    <Compile Include="Net\HttpHelp\HttpClientHelper.cs" />
+    <Compile Include="Net\HttpHelp\HttpRequest.cs" />
+    <Compile Include="Net\HttpHelp\Web.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Encrypt.cs" />
+    <Compile Include="StringHelper\ChineseStringUtility.cs" />
+    <Compile Include="StringHelper\Compress.cs" />
+    <Compile Include="StringHelper\Html.cs" />
+    <Compile Include="StringHelper\JsonHelper.cs" />
+    <Compile Include="Translators\BaiduTranslator.cs" />
+    <Compile Include="Translators\YouDaoDictionaryHelper.cs" />
+    <Compile Include="Translators\YouDaoPhonetic.cs" />
+    <Compile Include="Translators\YouDaoSuggestItem.cs" />
+    <Compile Include="Translators\YouDaoWord.cs" />
+    <Compile Include="Windows\FileSystem.cs" />
+    <Compile Include="Windows\GlobalHook.cs" />
+    <Compile Include="Windows\HotKeys.cs" />
+    <Compile Include="Windows\Process.cs" />
+    <Compile Include="Windows\RecentlyFileHelper.cs" />
+    <Compile Include="Windows\ShortcutCreator.cs" />
+    <Compile Include="WinForm\Common\AutoSizeForm.cs" />
+    <Compile Include="WinForm\Common\FormControl.cs" />
+    <Compile Include="WinForm\Control\ColorCodedCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\CustomCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\CustomToolTipDemo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\DayView\AbstractRenderer.cs" />
+    <Compile Include="WinForm\Control\DayView\Appointment.cs" />
+    <Compile Include="WinForm\Control\DayView\AppointmentEventArgs.cs" />
+    <Compile Include="WinForm\Control\DayView\AppointmentMouseHoverEventArgs.cs" />
+    <Compile Include="WinForm\Control\DayView\AppointmentMouseLeaveEventArgs.cs" />
+    <Compile Include="WinForm\Control\DayView\AppointmentMouseMoveEventArgs.cs" />
+    <Compile Include="WinForm\Control\DayView\DayView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\DayView\DrawTool.cs" />
+    <Compile Include="WinForm\Control\DayView\ITool.cs" />
+    <Compile Include="WinForm\Control\DayView\NewAppointmentEvent.cs" />
+    <Compile Include="WinForm\Control\DayView\Office11Renderer.cs" />
+    <Compile Include="WinForm\Control\DayView\Office12Renderer.cs" />
+    <Compile Include="WinForm\Control\DayView\ResolveAppointmentsEvent.cs" />
+    <Compile Include="WinForm\Control\DayView\Selection.cs" />
+    <Compile Include="WinForm\Control\DayView\SelectionTool.cs" />
+    <Compile Include="WinForm\Control\MyRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\MyToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\SortByTimeListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\AddItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\AddItem.Designer.cs">
+      <DependentUpon>AddItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\FileFormats.cs" />
+    <Compile Include="WinForm\Control\TagCloud\RenameItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\RenameItem.Designer.cs">
+      <DependentUpon>RenameItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\Statistics.cs" />
+    <Compile Include="WinForm\Control\TagCloud\TagCloudControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\TagCloudControl.Designer.cs">
+      <DependentUpon>TagCloudControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Control\TagCloud\TXTHandling.cs" />
+    <Compile Include="WinForm\Control\TagCloud\XMLHandling.cs" />
+    <Compile Include="yixiaozi.cs" />
+    <Compile Include="Log\Logging.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen\ScreenShot.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DLL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\Control\TagCloud\AddItem.resx">
+      <DependentUpon>AddItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\Control\TagCloud\RenameItem.resx">
+      <DependentUpon>RenameItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\Control\TagCloud\TagCloudControl.resx">
+      <DependentUpon>TagCloudControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reminders.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.11.49</Version>
+    </PackageReference>
+    <PackageReference Include="LZStringCSharp">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SharePoint.Client">
+      <Version>14.0.4762.1000</Version>
+    </PackageReference>
+    <PackageReference Include="NAudio">
+      <Version>2.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="NAudio.Core">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="NPOI.Excel">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

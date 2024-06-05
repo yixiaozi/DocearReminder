@@ -743,6 +743,7 @@ namespace DocearReminder
 
         private void UsedTimerOnLoad()
         {
+            //如果没有的时候创建
             if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json"))
             {
                 SaveUsedTimerFile(new UsedTimer());
@@ -751,6 +752,13 @@ namespace DocearReminder
             using (StreamReader sw = fi.OpenText())
             {
                 string s = sw.ReadToEnd();
+                try
+                {
+                    s = LZStringCSharp.LZString.DecompressFromBase64(s);
+                }
+                catch (Exception)
+                {
+                }
                 var serializer = new JavaScriptSerializer()
                 {
                     MaxJsonLength = Int32.MaxValue
@@ -827,7 +835,7 @@ namespace DocearReminder
                     {
                         MaxJsonLength = Int32.MaxValue
                     }.Serialize(data);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", usedtimerJson);
+                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", LZStringCSharp.LZString.CompressToBase64(usedtimerJson));
                 }
                 catch (Exception ex)
                 {

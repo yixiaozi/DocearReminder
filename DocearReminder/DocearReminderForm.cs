@@ -6640,6 +6640,19 @@ namespace DocearReminder
                             {
                                 isadddate = true;
                             }
+
+                            try
+                            {
+                                //判断是根节点，如果是，则添加时间
+                                if (node.ParentNode.Name == "map")
+                                {
+                                    isadddate = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+
                             XmlNode newNote = x.CreateElement("node");
                             XmlAttribute newNotetext = x.CreateAttribute("TEXT");
                             newNotetext.Value = taskName;
@@ -13689,6 +13702,10 @@ namespace DocearReminder
                 return;
             }
             fileTreePath = new FileInfo(mindmapPath).Directory;
+            if (fileTreePath.Name=="yixiaozi")
+            {
+                level = 1;
+            }
             BuildTree(fileTreePath, FileTreeView.Nodes, true, level);
             FileTreeView.Sort();
             //选中当前的文件
@@ -13733,7 +13750,7 @@ namespace DocearReminder
             {
                 foreach (DirectoryInfo subdir in directoryInfo.GetDirectories())
                 {
-                    if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                    if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden && subdir.Name != ".software")
                     {
                         BuildTree(subdir, FileTreeView.Nodes, false, level - 1);
                     }
@@ -13773,7 +13790,7 @@ namespace DocearReminder
                 }
                 foreach (DirectoryInfo subdir in directoryInfo.GetDirectories())
                 {
-                    if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                    if ((subdir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden && subdir.Name != ".software")
                     {
                         BuildTree(subdir, curNode.Nodes, false, level - 1);
                     }

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FerretLib.WinForms.Controls
 {
-    internal partial class TagLabelControl : UserControl
+    public partial class TagLabelControl : UserControl
     {
         public delegate void TagEvent(object sender, string tag);
         public event TagEvent DeleteClicked;

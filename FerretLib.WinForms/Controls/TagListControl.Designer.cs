@@ -68,11 +68,11 @@
 
         #endregion
 
-        private TagLabelControl tagLabelControl1;
-        private System.Windows.Forms.FlowLayoutPanel tagPanel;
-        private TagLabelControl tagLabelControl2;
-        private TagLabelControl tagLabelControl3;
-        private TagLabelControl tagLabelControl4;
-        private System.Windows.Forms.TextBox txtTag;
+        public TagLabelControl tagLabelControl1;
+        public TagLabelControl tagLabelControl2;
+        public TagLabelControl tagLabelControl3;
+        public TagLabelControl tagLabelControl4;
+        public System.Windows.Forms.TextBox txtTag;
+        public System.Windows.Forms.FlowLayoutPanel tagPanel;
     }
 }

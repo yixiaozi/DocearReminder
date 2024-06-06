@@ -8952,7 +8952,7 @@ namespace DocearReminder
 
         public bool keyNotWork(KeyEventArgs e)
         {
-            return !(PathcomboBox.Focused || searchword.Focused ||tagList.Focused|| diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || notebottom.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)) || drawsearch.Focused);
+            return !(PathcomboBox.Focused || searchword.Focused ||tagList.txtTag.Focused|| diary.Focused || nodetreeSearch.Focused || hopeNote.Focused || notebottom.Focused || richTextSubNode.Focused || mindmapSearch.Focused || TimeBlockDate.Focused || (noterichTextBox.Focused && !(e.Modifiers.CompareTo(Keys.Alt) == 0 && e.KeyCode == Keys.N)) || drawsearch.Focused);
         }
 
         private async void DocearReminderForm_KeyUp(object sender, KeyEventArgs e)

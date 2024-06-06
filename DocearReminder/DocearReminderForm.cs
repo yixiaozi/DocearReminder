@@ -11089,6 +11089,12 @@ namespace DocearReminder
                                 searchword.Focus();
                             }
                         }
+                        if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        {
+                            isRename = false;
+                            reminderSelectIndex = reminderList.SelectedIndex;
+                            tagList.txtTag.Focus();
+                        }
                         else
                         {
                             isRename = false;
@@ -14170,10 +14176,8 @@ namespace DocearReminder
                     return;
                 }
                 id = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
-                if (richTextSubNodeID == id)
-                {
-                    richTextSubNodeID = id;
-                }
+                tagList.mindmapPath = ((MyListBoxItemRemind)reminderlistSelectedItem).Value;
+                tagList.nodeID = id;
                 if (x.GetElementsByTagName("node").Count == 0)
                 {
                     return;
@@ -18187,7 +18191,6 @@ namespace DocearReminder
         private bool SRE_listening = false;
         private int wordid;
         private string shibie;
-        private string richTextSubNodeID;
 
         [DllImport("kernel32.dll")]
         public static extern bool Beep(int freq, int duration);
@@ -19497,6 +19500,100 @@ namespace DocearReminder
             thCalendarForm.Start();
             MyHide();
             return;
+        }
+
+        private void tagList_TagChanged(object sender, EventArgs e)
+        {
+            string mindmapPath = tagList.mindmapPath;
+            string nodeID = tagList.nodeID;
+            List<string> tags = tagList.Tags;
+            ChangeNodeTags(mindmapPath, nodeID, tags);
+        }
+
+        private void ChangeNodeTags(string mindmapPath, string nodeID, List<string> mytags)
+        {
+            try
+            {
+                System.Xml.XmlDocument x = new XmlDocument();
+                string id = "";
+                try
+                {
+                    x.Load(mindmapPath);
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+                id = nodeID;
+                if (x.GetElementsByTagName("node").Count == 0)
+                {
+                    return;
+                }
+                foreach (XmlNode node in x.GetElementsByTagName("node"))
+                {
+                    try
+                    {
+                        if (node != null && node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
+                        {
+                            try
+                            {
+                                bool isHasDetails = false;
+                                foreach (XmlNode subNode in node.ChildNodes)
+                                {
+                                    //如果TYPE等于DETAILS显示节点Tag
+                                    if (subNode.Attributes != null && subNode.Attributes["TYPE"] != null && subNode.Attributes["TYPE"].Value == "DETAILS")
+                                    {
+                                        isHasDetails = true;
+                                        if (mytags.Count != 0)
+                                        {
+                                            subNode.InnerText = "#" + string.Join(" #", mytags).Trim();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            subNode.ParentNode.RemoveChild(subNode);
+                                        }
+                                    }
+                                }
+                                if (!isHasDetails)
+                                {
+                                    if (mytags.Count != 0)
+                                    {
+                                        //添加DETAILS
+                                        //< richcontent TYPE = "DETAILS" ></ richcontent >
+                                        XmlNode details=x.CreateNode(XmlNodeType.Element, "richcontent", "");
+                                        XmlAttribute TypeAtr = x.CreateAttribute("TYPE");
+                                        TypeAtr.Value = "DETAILS";
+                                        details.Attributes.Append(TypeAtr);
+                                        details.InnerText = "#" + string.Join(" #", mytags).Trim();
+                                        node.AppendChild(details);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    catch (Exception ex) { }
+                }
+                //重写文件
+                x.Save(mindmapPath);
+                Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmapPath));
+                th.Start();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void tagList_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                reminderList.Focus();
+            }
         }
     }
 

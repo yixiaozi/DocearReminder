@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -6,6 +7,8 @@ namespace FerretLib.WinForms.Controls
 {
     public partial class TagListControl : UserControl
     {
+        public string mindmapPath = "";
+        public string nodeID = "";
         private HashSet<string> _tags;
 
         public int Count
@@ -42,6 +45,7 @@ namespace FerretLib.WinForms.Controls
         {
             if(_tags.Add(tag.Trim()))
                 AddTagLabel(tag);
+            TagChanged(null,null);
         }
 
         private void AddTagLabel(string tag) {
@@ -58,6 +62,7 @@ namespace FerretLib.WinForms.Controls
             _tags.Remove(tag);
             var tagControl = tagPanel.Controls.Find(GetTagControlName(tag), true)[0];
             tagPanel.Controls.Remove(tagControl);
+            TagChanged(null, null);
         }
 
         private void TagLabel_DeleteClicked(object sender, string tag)
@@ -100,5 +105,7 @@ namespace FerretLib.WinForms.Controls
                 txtTag.Text = "";
             }
         }
+
+        public event EventHandler TagChanged;
     }
 }

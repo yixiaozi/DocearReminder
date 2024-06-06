@@ -1745,7 +1745,9 @@ namespace DocearReminder
             this.tagList.Size = new System.Drawing.Size(340, 90);
             this.tagList.TabIndex = 144;
             this.tagList.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagList.Tags")));
+            this.tagList.TagChanged += new System.EventHandler(this.tagList_TagChanged);
             this.tagList.SizeChanged += new System.EventHandler(this.tagList_SizeChanged);
+            this.tagList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tagList_KeyUp);
             // 
             // notebottom
             // 

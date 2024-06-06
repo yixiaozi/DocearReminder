@@ -11,10 +11,18 @@ namespace yixiaozi.Model.DocearReminder
 {
     public class Helper
     {
+        static List<string> ConvertFileInglist = new List<string>();
         public static void ConvertFile(string path)
         {
             try
             {
+                if (!ConvertFileInglist.Contains(path)) {
+                    ConvertFileInglist.Add(path);
+                }
+                else
+                {
+                    return;
+                }
                 FileInfo file = new FileInfo(path);
                 string text = "";
                 using (StreamReader textStream = file.OpenText())
@@ -35,6 +43,7 @@ namespace yixiaozi.Model.DocearReminder
             catch (Exception)
             {
             }
+            ConvertFileInglist.Remove(path);
         }
         public static string ConvertString(string str)
         {

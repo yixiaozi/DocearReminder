@@ -174,12 +174,16 @@ namespace DocearReminder
         public int nodetreeTopTop = 9;
         public int nodetreeHeight = 322;
         public int nodeTreeHeightMax = 818;
+        private MagnetWinForms.MagnetWinForms m_MagnetWinForms;
+        TimeAnalyze timeAnalyze;
 
         #endregion 全局变量
-
         public DocearReminderForm()  
         {
             InitializeComponent();
+            m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
+            timeAnalyze = new TimeAnalyze();
+            timeAnalyze.Show();
 
             //DocearReminder文件夹创建
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder"))
@@ -1013,6 +1017,7 @@ namespace DocearReminder
         }
 
         public static Thread thCalendarForm;
+        public static Thread thTimeAnalyze;
         public static bool isNewOpen = true;
 
         public void showcalander()
@@ -1188,6 +1193,7 @@ namespace DocearReminder
                 PlaySimpleSoundAsync("hide");
                 SearchText_suggest.Visible = false;
                 this.Hide();
+                timeAnalyze.Hide();
                 UsedLogRenew(false);
             }
             catch (Exception ex)
@@ -1243,6 +1249,7 @@ namespace DocearReminder
             }
             Center();
             this.Show();
+            timeAnalyze.Show();
             this.Activate();
             UsedLogRenew(true, false);
             formActiveTime = DateTime.Now;

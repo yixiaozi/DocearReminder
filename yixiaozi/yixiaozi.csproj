@@ -311,6 +311,7 @@
     </Compile>
     <Compile Include="WinForm\Control\TagCloud\TXTHandling.cs" />
     <Compile Include="WinForm\Control\TagCloud\XMLHandling.cs" />
+    <Compile Include="WinForm\FormHelper\MagnetWinForms.cs" />
     <Compile Include="yixiaozi.cs" />
     <Compile Include="Log\Logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

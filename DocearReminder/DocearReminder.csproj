@@ -581,6 +581,9 @@
     <EmbeddedResource Include="Report\TimeBlockTrend.resx">
       <DependentUpon>TimeBlockTrend.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TimeAnalyze.resx">
+      <DependentUpon>TimeAnalyze.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tomato.resx">
       <DependentUpon>Tomato.cs</DependentUpon>
     </EmbeddedResource>

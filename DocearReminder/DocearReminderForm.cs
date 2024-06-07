@@ -176,6 +176,7 @@ namespace DocearReminder
         public int nodeTreeHeightMax = 818;
         private MagnetWinForms.MagnetWinForms m_MagnetWinForms;
         TimeAnalyze timeAnalyze;
+        bool isShowTimeBlock = false;
 
         #endregion 全局变量
         public DocearReminderForm()  
@@ -183,8 +184,7 @@ namespace DocearReminder
             InitializeComponent();
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
-            timeAnalyze.Show();
-
+            
             //DocearReminder文件夹创建
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder"))
             {
@@ -1017,7 +1017,6 @@ namespace DocearReminder
         }
 
         public static Thread thCalendarForm;
-        public static Thread thTimeAnalyze;
         public static bool isNewOpen = true;
 
         public void showcalander()
@@ -1193,7 +1192,10 @@ namespace DocearReminder
                 PlaySimpleSoundAsync("hide");
                 SearchText_suggest.Visible = false;
                 this.Hide();
-                timeAnalyze.Hide();
+                if (timeAnalyze!=null)
+                {
+                    timeAnalyze.Hide();
+                }
                 UsedLogRenew(false);
             }
             catch (Exception ex)
@@ -1249,7 +1251,10 @@ namespace DocearReminder
             }
             Center();
             this.Show();
-            timeAnalyze.Show();
+            if (isShowTimeBlock&&timeAnalyze != null&&!timeAnalyze.IsDisposed)
+            {
+                timeAnalyze.Show();
+            }
             this.Activate();
             UsedLogRenew(true, false);
             formActiveTime = DateTime.Now;
@@ -2315,7 +2320,8 @@ namespace DocearReminder
                 //new DirectoryInfo(@"D:\搜索测试\Data").EnumerateFiles().AsParallel().Where(s => s.FullName.EndsWith(".xls")).ToList();
                 //foreach (FileInfo filepatha in new DirectoryInfo(path.FullName).EnumerateFiles("*.mm", SearchOption.AllDirectories).AsParallel().ToList())
                 //foreach (string filepath in Directory.GetFiles(path.FullName, "*.mm", SearchOption.AllDirectories))
-                foreach (string filepath in GetAllFiles(path.FullName, "*.mm"))
+                //foreach (string filepath in GetAllFiles(path.FullName, "*.drawio"))
+                foreach (string filepath in GetAllFiles(path.FullName, new string[] { ".mm", ".drawio" }))
                 {
                     FileInfo file = new FileInfo(filepath);
                     if (file.Extension == ".mm" && mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
@@ -2376,14 +2382,6 @@ namespace DocearReminder
                         {
                             MessageBox.Show(file.FullName);
                         }
-                    }
-                }
-                foreach (string filepath in GetAllFiles(path.FullName, "*.drawio"))
-                {
-                    FileInfo file = new FileInfo(filepath);
-                    string subPath = file.DirectoryName;
-                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
-                    {
                         try
                         {
                             if (file.Extension == ".drawio")
@@ -2458,12 +2456,12 @@ namespace DocearReminder
         }
 
         //使用递归方法获取所有文件列表
-        public List<string> GetAllFiles(string path, string searchPattern)
+        public List<string> GetAllFiles(string path, string[] searchPattern)
         {
             List<string> files = new List<string>();
             try
             {
-                foreach (string file in Directory.GetFiles(path,searchPattern))
+                foreach (string file in Directory.GetFiles(path).Where(m=>searchPattern.Contains(Path.GetExtension(m))))
                 {
                     files.Add(file);
                 }
@@ -14471,7 +14469,7 @@ namespace DocearReminder
             {
                 Application.Exit();
             }
-            else if (searchword.Text.StartsWith("paizhao")|| searchword.Text.StartsWith("拍照"))//开始拍照
+            else if (searchword.Text.StartsWith("paizhao") || searchword.Text.StartsWith("拍照"))//开始拍照
             {
                 CameraTimer_Tick(null, null);
                 searchword.Text = "";
@@ -14579,7 +14577,7 @@ namespace DocearReminder
                 searchword.Text = "";
                 mindmapornode.Text = "";
                 //PathcomboBoxItemList删除当前
-                for(int i = 0; i < PathcomboBoxItemList.Count; i++)
+                for (int i = 0; i < PathcomboBoxItemList.Count; i++)
                 {
                     if (PathcomboBoxItemList[i].name == PathcomboBox.SelectedItem.ToString())
                     {
@@ -14748,13 +14746,13 @@ namespace DocearReminder
                 searchword.Text = "";
                 RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
             }
-            else if(searchword.Text.ToLower().StartsWith("clearusedsug"))
+            else if (searchword.Text.ToLower().StartsWith("clearusedsug"))
             {
                 //遍历RecentOpenedMap，如果已经没有思维导图了，就删除
                 List<string> newRecentOpenedMap = new List<string>();
                 foreach (var item in RecentOpenedMap)
                 {
-                    if (mindmapfiles.Any(m=>m.name==item))
+                    if (mindmapfiles.Any(m => m.name == item))
                     {
                         newRecentOpenedMap.Add(item);
                     }
@@ -14988,6 +14986,10 @@ namespace DocearReminder
                 reminderList.Sorted = false;
                 reminderList.Sorted = true;
             }
+            else if (searchword.Text.ToLower().StartsWith("timea")) {
+                ShowTimeAnalyze();
+                searchword.Text = "";
+            }
             else
             {
                 if (searchword.Text == "" && isSearchFileOrNode)
@@ -15003,6 +15005,17 @@ namespace DocearReminder
                 {
                 }
             }
+        }
+
+        private void ShowTimeAnalyze()
+        {
+            if (timeAnalyze==null||timeAnalyze.IsDisposed)
+            {
+                timeAnalyze = new TimeAnalyze();
+            }
+            isShowTimeBlock = true;
+            timeAnalyze.Show();
+
         }
 
         private void mindmaplist_ItemCheck(object sender, ItemCheckEventArgs e)

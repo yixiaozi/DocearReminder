@@ -2304,7 +2304,11 @@ namespace DocearReminder
                 CustomCheckedListBox list = new CustomCheckedListBox();
                 //.EnumerateFiles().AsParallel().Where(s => s.FullName.EndsWith(".xls")).ToList()
                 //foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories).Concat(path.GetFiles("*.drawio", SearchOption.AllDirectories)))
-                foreach (string filepath in Directory.GetFiles(path.FullName, "*.mm", SearchOption.AllDirectories))
+                //Directory.GetFiles(directoryPath).Where(path => Regex.IsMatch(Path.GetFileName(path), @"^ZLLK9_.*\.png$"));
+                //new DirectoryInfo(@"D:\搜索测试\Data").EnumerateFiles().AsParallel().Where(s => s.FullName.EndsWith(".xls")).ToList();
+                //foreach (FileInfo filepatha in new DirectoryInfo(path.FullName).EnumerateFiles("*.mm", SearchOption.AllDirectories).AsParallel().ToList())
+                //foreach (string filepath in Directory.GetFiles(path.FullName, "*.mm", SearchOption.AllDirectories))
+                foreach (string filepath in GetAllFiles(path.FullName, "*.mm"))
                 {
                     FileInfo file = new FileInfo(filepath);
                     if (file.Extension == ".mm" && mindmapfiles.FirstOrDefault(m => m.filePath == file.FullName) == null)//如果创建的文件，rr就可以获取到了。（文件要在当前文件范围之内）
@@ -2367,7 +2371,7 @@ namespace DocearReminder
                         }
                     }
                 }
-                foreach (string filepath in Directory.GetFiles(path.FullName, "*.drawio", SearchOption.AllDirectories))
+                foreach (string filepath in GetAllFiles(path.FullName, "*.drawio"))
                 {
                     FileInfo file = new FileInfo(filepath);
                     string subPath = file.DirectoryName;
@@ -2414,6 +2418,7 @@ namespace DocearReminder
                         }
                     }
                 }
+
                 for (int i = list.Items.Count - 1; i >= 0; i--)
                 {
                     MindmapList.Items.Insert(0, list.Items[i]);
@@ -2444,6 +2449,32 @@ namespace DocearReminder
             tasknumber = content.Split(new string[] { "plugins/TimeManagementReminder.xml" }, StringSplitOptions.None).Length - 1;
             return tasknumber;
         }
+
+        //使用递归方法获取所有文件列表
+        public List<string> GetAllFiles(string path, string searchPattern)
+        {
+            List<string> files = new List<string>();
+            try
+            {
+                foreach (string file in Directory.GetFiles(path,searchPattern))
+                {
+                    files.Add(file);
+                }
+                foreach (string subDir in Directory.GetDirectories(path))
+                {
+                    if (subDir.Contains("."))
+                    {
+                        continue;
+                    }
+                    files.AddRange(GetAllFiles(subDir, searchPattern));
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return files;
+        }
+
 
         //public void AddmindmapfilesOnly(DirectoryInfo path)
         //{
@@ -5024,6 +5055,7 @@ namespace DocearReminder
         {
             IsSelectReminder = true;
             isSettingSyncWeek = false;
+            tagListClear();
             //if (showTimeBlock.Checked)//没有什么用
             //{
             //    //showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
@@ -11089,7 +11121,7 @@ namespace DocearReminder
                                 searchword.Focus();
                             }
                         }
-                        if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                         {
                             isRename = false;
                             reminderSelectIndex = reminderList.SelectedIndex;
@@ -14231,7 +14263,7 @@ namespace DocearReminder
                                     //如果TYPE等于DETAILS显示节点Tag
                                     if (subNode.Attributes != null && subNode.Attributes["TYPE"] != null && subNode.Attributes["TYPE"].Value == "DETAILS")
                                     {
-                                        string tagStr = new HtmlToString().StripHTML((subNode.InnerText).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "").Replace("  ", " ")); ;
+                                        string tagStr = new HtmlToString().StripHTML((subNode.InnerText).Replace("|", "").Replace("@", "").Replace("\r", "").Replace("\n", "").Replace("  ", " ").Replace("#", "")); ;
                                         //tagStr中的两个空格替换成一个
                                         while (tagStr.Contains("  "))
                                         {
@@ -19502,8 +19534,18 @@ namespace DocearReminder
             return;
         }
 
+        public void tagListClear() 
+        {
+            tagList.mindmapPath="";
+            tagList.nodeID="";
+        }
+
         private void tagList_TagChanged(object sender, EventArgs e)
         {
+            if (tagList.mindmapPath=="")
+            {
+                return;
+            }
             string mindmapPath = tagList.mindmapPath;
             string nodeID = tagList.nodeID;
             List<string> tags = tagList.Tags;
@@ -19529,8 +19571,13 @@ namespace DocearReminder
                 {
                     return;
                 }
+                bool breakOut = false;
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
+                    if (breakOut)
+                    {
+                        break;
+                    }
                     try
                     {
                         if (node != null && node.Attributes != null && node.Attributes["ID"] != null && node.Attributes["ID"].InnerText == id)
@@ -19546,7 +19593,8 @@ namespace DocearReminder
                                         isHasDetails = true;
                                         if (mytags.Count != 0)
                                         {
-                                            subNode.InnerText = "#" + string.Join(" #", mytags).Trim();
+                                            subNode.InnerXml = @"<html><head></head><body><p>"+string.Join(" ", mytags).Trim()+@"</p></body></html>";
+                                            breakOut = true;
                                             break;
                                         }
                                         else
@@ -19565,13 +19613,15 @@ namespace DocearReminder
                                         XmlAttribute TypeAtr = x.CreateAttribute("TYPE");
                                         TypeAtr.Value = "DETAILS";
                                         details.Attributes.Append(TypeAtr);
-                                        details.InnerText = "#" + string.Join(" #", mytags).Trim();
+                                        details.InnerXml = @"<html><head></head><body><p>" + string.Join(" ", mytags).Trim() + @"</p></body></html>";
                                         node.AppendChild(details);
                                     }
                                 }
+                                breakOut = true;
                             }
                             catch (Exception ex)
                             {
+                                breakOut = true;
                                 continue;
                             }
                         }

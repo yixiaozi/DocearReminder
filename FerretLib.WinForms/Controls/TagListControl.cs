@@ -9,6 +9,8 @@ namespace FerretLib.WinForms.Controls
     {
         public string mindmapPath = "";
         public string nodeID = "";
+        public event EventHandler TagChanged;
+
         private HashSet<string> _tags;
 
         public int Count
@@ -45,7 +47,7 @@ namespace FerretLib.WinForms.Controls
         {
             if(_tags.Add(tag.Trim()))
                 AddTagLabel(tag);
-            TagChanged(null,null);
+            TagChanged(null, null);
         }
 
         private void AddTagLabel(string tag) {
@@ -93,6 +95,7 @@ namespace FerretLib.WinForms.Controls
         public TagListControl()
         {
             InitializeComponent();
+            txtTag.Width= tagPanel.Width - 6;
             _tags = new HashSet<string>();
             Clear();
         }
@@ -101,11 +104,29 @@ namespace FerretLib.WinForms.Controls
         {
             if(e.KeyCode == Keys.Enter){
                 var text = txtTag.Text.Trim();
-                if (!string.IsNullOrEmpty(text)) AddTag(text);
+
+                if (text.StartsWith("del"))
+                {
+                    try
+                    {
+                        int i = Convert.ToInt16(text.Replace("del", ""));
+                        RemoveTag(_tags.ElementAt(i-1));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                else if (text == "clear") {
+                    Clear();
+                    TagChanged(null, null);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(text)) AddTag(text);
+                }
                 txtTag.Text = "";
             }
         }
 
-        public event EventHandler TagChanged;
     }
 }

@@ -72,6 +72,7 @@
             this.tagListControl1.Size = new System.Drawing.Size(552, 284);
             this.tagListControl1.TabIndex = 3;
             this.tagListControl1.Tags = ((System.Collections.Generic.List<string>)(resources.GetObject("tagListControl1.Tags")));
+            this.tagListControl1.TagChanged += new System.EventHandler(this.tagListControl1_TagChanged);
             // 
             // frmMain
             // 

@@ -33,5 +33,9 @@ namespace FerretLib.WinForms
         {
             (new TagListControl()).Show();
         }
+
+        private void tagListControl1_TagChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

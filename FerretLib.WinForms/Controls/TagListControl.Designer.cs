@@ -49,7 +49,7 @@
             // 
             this.txtTag.Location = new System.Drawing.Point(3, 3);
             this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(144, 21);
+            this.txtTag.Size = new System.Drawing.Size(141, 21);
             this.txtTag.TabIndex = 0;
             this.txtTag.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTag_KeyUp);
             // 

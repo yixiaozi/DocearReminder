@@ -26,10 +26,6 @@ namespace DocearReminder
             this.searchworkmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.窗口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.工具toolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reminder_week = new System.Windows.Forms.CheckBox();
-            this.reminder_month = new System.Windows.Forms.CheckBox();
-            this.reminder_year = new System.Windows.Forms.CheckBox();
-            this.reminder_yearafter = new System.Windows.Forms.CheckBox();
             this.mindmaplist_count = new System.Windows.Forms.Label();
             this.reminder_count = new System.Windows.Forms.Label();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
@@ -50,8 +46,6 @@ namespace DocearReminder
             this.fenshu = new System.Windows.Forms.Label();
             this.hourLeft = new System.Windows.Forms.Label();
             this.Hours = new System.Windows.Forms.Label();
-            this.showcyclereminder = new System.Windows.Forms.CheckBox();
-            this.showtomorrow = new System.Windows.Forms.CheckBox();
             this.SearchText_suggest = new System.Windows.Forms.ListBox();
             this.tasklevel = new System.Windows.Forms.NumericUpDown();
             this.c_hour = new System.Windows.Forms.CheckBox();
@@ -62,7 +56,6 @@ namespace DocearReminder
             this.night = new System.Windows.Forms.CheckBox();
             this.mindmapSearch = new System.Windows.Forms.TextBox();
             this.c_Jinian = new System.Windows.Forms.CheckBox();
-            this.onlyZhouqi = new System.Windows.Forms.CheckBox();
             this.nodetree = new System.Windows.Forms.TreeView();
             this.menu_reminderlist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_oktask = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,10 +71,8 @@ namespace DocearReminder
             this.上一个kToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Rsstimer = new System.Windows.Forms.Timer(this.components);
             this.c_remember = new System.Windows.Forms.CheckBox();
-            this.ebcheckBox = new System.Windows.Forms.CheckBox();
             this.FileTreeView = new System.Windows.Forms.TreeView();
             this.PathcomboBox = new System.Windows.Forms.ComboBox();
-            this.IsReminderOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.menu_mindmaps = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
@@ -138,7 +129,6 @@ namespace DocearReminder
             this.todayusedtime = new System.Windows.Forms.Label();
             this.icon = new System.Windows.Forms.NotifyIcon(this.components);
             this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
-            this.c_speechcontrol = new System.Windows.Forms.CheckBox();
             this.c_endtime = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Menu_picture = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -148,39 +138,29 @@ namespace DocearReminder
             this.titleTimer = new System.Windows.Forms.Timer(this.components);
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
-            this.StartRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
-            this.quietmode = new System.Windows.Forms.CheckBox();
             this.showTimeBlock = new System.Windows.Forms.CheckBox();
             this.noterichTextBox = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.richTextSubNode = new yixiaozi.WinForm.Control.MyRichTextBox();
-            this.tagCloudControl = new yixiaozi.WinForm.Control.TagCloud.TagCloudControl();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.MindmapList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
-            this.TimeBlockDate = new System.Windows.Forms.DateTimePicker();
             this.ShowMoney = new System.Windows.Forms.CheckBox();
-            this.MoneyDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.KADateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.ShowKA = new System.Windows.Forms.CheckBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
             this.OnlyLevel = new System.Windows.Forms.CheckBox();
-            this.checkBox_截图 = new System.Windows.Forms.CheckBox();
-            this.IsClip = new System.Windows.Forms.CheckBox();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.notebottom = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.drawsearch = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
-            this.IsDiary = new System.Windows.Forms.CheckBox();
             this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.drawioPic = new System.Windows.Forms.PictureBox();
             this.picturebigger = new System.Windows.Forms.Timer(this.components);
-            this.drawioPicBigger = new System.Windows.Forms.PictureBox();
             this.timeblockupdatetimer = new System.Windows.Forms.Timer(this.components);
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
@@ -195,7 +175,6 @@ namespace DocearReminder
             this.Menu_picture.SuspendLayout();
             this.DrawListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).BeginInit();
             this.SuspendLayout();
             // 
             // searchword
@@ -234,58 +213,6 @@ namespace DocearReminder
             this.工具toolToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.工具toolToolStripMenuItem.Text = "工具：tool";
             this.工具toolToolStripMenuItem.Click += new System.EventHandler(this.工具toolToolStripMenuItem_Click);
-            // 
-            // reminder_week
-            // 
-            this.reminder_week.AutoSize = true;
-            this.reminder_week.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_week.Location = new System.Drawing.Point(1439, 29);
-            this.reminder_week.Name = "reminder_week";
-            this.reminder_week.Size = new System.Drawing.Size(46, 16);
-            this.reminder_week.TabIndex = 7;
-            this.reminder_week.TabStop = false;
-            this.reminder_week.Text = "一周";
-            this.reminder_week.UseVisualStyleBackColor = true;
-            this.reminder_week.CheckedChanged += new System.EventHandler(this.Reminder_week_CheckedChanged);
-            // 
-            // reminder_month
-            // 
-            this.reminder_month.AutoSize = true;
-            this.reminder_month.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_month.Location = new System.Drawing.Point(1484, 29);
-            this.reminder_month.Name = "reminder_month";
-            this.reminder_month.Size = new System.Drawing.Size(46, 16);
-            this.reminder_month.TabIndex = 8;
-            this.reminder_month.TabStop = false;
-            this.reminder_month.Text = "一月";
-            this.reminder_month.UseVisualStyleBackColor = true;
-            this.reminder_month.CheckedChanged += new System.EventHandler(this.Reminder_month_CheckedChanged);
-            // 
-            // reminder_year
-            // 
-            this.reminder_year.AutoSize = true;
-            this.reminder_year.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_year.Location = new System.Drawing.Point(1529, 29);
-            this.reminder_year.Name = "reminder_year";
-            this.reminder_year.Size = new System.Drawing.Size(46, 16);
-            this.reminder_year.TabIndex = 9;
-            this.reminder_year.TabStop = false;
-            this.reminder_year.Text = "一年";
-            this.reminder_year.UseVisualStyleBackColor = true;
-            this.reminder_year.CheckedChanged += new System.EventHandler(this.Reminder_year_CheckedChanged);
-            // 
-            // reminder_yearafter
-            // 
-            this.reminder_yearafter.AutoSize = true;
-            this.reminder_yearafter.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.reminder_yearafter.Location = new System.Drawing.Point(1578, 29);
-            this.reminder_yearafter.Name = "reminder_yearafter";
-            this.reminder_yearafter.Size = new System.Drawing.Size(46, 16);
-            this.reminder_yearafter.TabIndex = 10;
-            this.reminder_yearafter.TabStop = false;
-            this.reminder_yearafter.Text = "年后";
-            this.reminder_yearafter.UseVisualStyleBackColor = true;
-            this.reminder_yearafter.CheckedChanged += new System.EventHandler(this.Reminder_yearafter_CheckedChanged);
             // 
             // mindmaplist_count
             // 
@@ -534,32 +461,6 @@ namespace DocearReminder
             this.Hours.TabIndex = 13;
             this.Hours.Text = "0";
             // 
-            // showcyclereminder
-            // 
-            this.showcyclereminder.AutoSize = true;
-            this.showcyclereminder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showcyclereminder.Location = new System.Drawing.Point(1393, 10);
-            this.showcyclereminder.Name = "showcyclereminder";
-            this.showcyclereminder.Size = new System.Drawing.Size(70, 16);
-            this.showcyclereminder.TabIndex = 43;
-            this.showcyclereminder.TabStop = false;
-            this.showcyclereminder.Text = "显示周期";
-            this.showcyclereminder.UseVisualStyleBackColor = true;
-            this.showcyclereminder.CheckedChanged += new System.EventHandler(this.showcyclereminder_CheckedChanged);
-            // 
-            // showtomorrow
-            // 
-            this.showtomorrow.AutoSize = true;
-            this.showtomorrow.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showtomorrow.Location = new System.Drawing.Point(1393, 29);
-            this.showtomorrow.Name = "showtomorrow";
-            this.showtomorrow.Size = new System.Drawing.Size(46, 16);
-            this.showtomorrow.TabIndex = 44;
-            this.showtomorrow.TabStop = false;
-            this.showtomorrow.Text = "明天";
-            this.showtomorrow.UseVisualStyleBackColor = true;
-            this.showtomorrow.CheckedChanged += new System.EventHandler(this.showtomorrow_CheckedChanged);
-            // 
             // SearchText_suggest
             // 
             this.SearchText_suggest.BackColor = System.Drawing.Color.White;
@@ -696,21 +597,6 @@ namespace DocearReminder
             this.c_Jinian.UseVisualStyleBackColor = true;
             this.c_Jinian.CheckedChanged += new System.EventHandler(this.IsJinianCheckBox_CheckedChanged);
             // 
-            // onlyZhouqi
-            // 
-            this.onlyZhouqi.AutoSize = true;
-            this.onlyZhouqi.Checked = true;
-            this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.onlyZhouqi.Location = new System.Drawing.Point(1469, 10);
-            this.onlyZhouqi.Name = "onlyZhouqi";
-            this.onlyZhouqi.Size = new System.Drawing.Size(58, 16);
-            this.onlyZhouqi.TabIndex = 89;
-            this.onlyZhouqi.TabStop = false;
-            this.onlyZhouqi.Text = "只周期";
-            this.onlyZhouqi.UseVisualStyleBackColor = true;
-            this.onlyZhouqi.CheckedChanged += new System.EventHandler(this.onlyZhouqi_CheckedChanged);
-            // 
             // nodetree
             // 
             this.nodetree.AllowDrop = true;
@@ -845,18 +731,6 @@ namespace DocearReminder
             this.c_remember.UseVisualStyleBackColor = true;
             this.c_remember.CheckedChanged += new System.EventHandler(this.c_remember_CheckedChanged);
             // 
-            // ebcheckBox
-            // 
-            this.ebcheckBox.AutoSize = true;
-            this.ebcheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ebcheckBox.Location = new System.Drawing.Point(1578, 10);
-            this.ebcheckBox.Name = "ebcheckBox";
-            this.ebcheckBox.Size = new System.Drawing.Size(46, 16);
-            this.ebcheckBox.TabIndex = 111;
-            this.ebcheckBox.Text = "记忆";
-            this.ebcheckBox.UseVisualStyleBackColor = true;
-            this.ebcheckBox.CheckedChanged += new System.EventHandler(this.ebcheckBox_CheckedChanged);
-            // 
             // FileTreeView
             // 
             this.FileTreeView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -891,17 +765,6 @@ namespace DocearReminder
             this.PathcomboBox.Size = new System.Drawing.Size(206, 20);
             this.PathcomboBox.TabIndex = 114;
             this.PathcomboBox.SelectionChangeCommitted += new System.EventHandler(this.PathcomboBox_SelectedIndexChanged);
-            // 
-            // IsReminderOnlyCheckBox
-            // 
-            this.IsReminderOnlyCheckBox.AutoSize = true;
-            this.IsReminderOnlyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IsReminderOnlyCheckBox.Location = new System.Drawing.Point(1533, 10);
-            this.IsReminderOnlyCheckBox.Name = "IsReminderOnlyCheckBox";
-            this.IsReminderOnlyCheckBox.Size = new System.Drawing.Size(46, 16);
-            this.IsReminderOnlyCheckBox.TabIndex = 115;
-            this.IsReminderOnlyCheckBox.Text = "任务";
-            this.IsReminderOnlyCheckBox.UseVisualStyleBackColor = true;
             // 
             // menu_mindmaps
             // 
@@ -1368,18 +1231,6 @@ namespace DocearReminder
             this.skinEngine1.SkinFile = "";
             this.skinEngine1.SkinPassword = "";
             // 
-            // c_speechcontrol
-            // 
-            this.c_speechcontrol.AutoSize = true;
-            this.c_speechcontrol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.c_speechcontrol.Location = new System.Drawing.Point(1395, 74);
-            this.c_speechcontrol.Name = "c_speechcontrol";
-            this.c_speechcontrol.Size = new System.Drawing.Size(70, 16);
-            this.c_speechcontrol.TabIndex = 125;
-            this.c_speechcontrol.Text = "语音控制";
-            this.c_speechcontrol.UseVisualStyleBackColor = true;
-            this.c_speechcontrol.CheckedChanged += new System.EventHandler(this.c_speechcontrol_CheckedChanged);
-            // 
             // c_endtime
             // 
             this.c_endtime.AutoSize = true;
@@ -1458,35 +1309,11 @@ namespace DocearReminder
             this.keyJ.Interval = 3000;
             this.keyJ.Tick += new System.EventHandler(this.keyJ_Tick);
             // 
-            // StartRecordCheckBox
-            // 
-            this.StartRecordCheckBox.AutoSize = true;
-            this.StartRecordCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.StartRecordCheckBox.Location = new System.Drawing.Point(1471, 74);
-            this.StartRecordCheckBox.Name = "StartRecordCheckBox";
-            this.StartRecordCheckBox.Size = new System.Drawing.Size(46, 16);
-            this.StartRecordCheckBox.TabIndex = 129;
-            this.StartRecordCheckBox.TabStop = false;
-            this.StartRecordCheckBox.Text = "录音";
-            this.StartRecordCheckBox.UseVisualStyleBackColor = true;
-            this.StartRecordCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // CameraTimer
             // 
             this.CameraTimer.Enabled = true;
             this.CameraTimer.Interval = 3600000;
             this.CameraTimer.Tick += new System.EventHandler(this.CameraTimer_Tick);
-            // 
-            // quietmode
-            // 
-            this.quietmode.AutoSize = true;
-            this.quietmode.Location = new System.Drawing.Point(1393, 52);
-            this.quietmode.Name = "quietmode";
-            this.quietmode.Size = new System.Drawing.Size(72, 16);
-            this.quietmode.TabIndex = 132;
-            this.quietmode.Text = "安静模式";
-            this.quietmode.UseVisualStyleBackColor = true;
-            this.quietmode.CheckedChanged += new System.EventHandler(this.quietmode_CheckedChanged);
             // 
             // showTimeBlock
             // 
@@ -1522,10 +1349,10 @@ namespace DocearReminder
             this.hopeNote.Font = new System.Drawing.Font("宋体", 9.75F);
             this.hopeNote.ForeColor = System.Drawing.Color.Gray;
             this.hopeNote.Location = new System.Drawing.Point(1026, 292);
-            this.hopeNote.MaximumSize = new System.Drawing.Size(340, 250);
+            this.hopeNote.MaximumSize = new System.Drawing.Size(340, 900);
             this.hopeNote.Name = "hopeNote";
             this.hopeNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.hopeNote.Size = new System.Drawing.Size(340, 103);
+            this.hopeNote.Size = new System.Drawing.Size(340, 181);
             this.hopeNote.TabIndex = 128;
             this.hopeNote.Text = "";
             this.hopeNote.SizeChanged += new System.EventHandler(this.hopeNote_SizeChanged);
@@ -1552,22 +1379,6 @@ namespace DocearReminder
             this.richTextSubNode.Leave += new System.EventHandler(this.RichSubTest_Leave);
             this.richTextSubNode.MouseLeave += new System.EventHandler(this.RichSubTest_MouseLeave);
             this.richTextSubNode.MouseHover += new System.EventHandler(this.RichSubTest_MouseHover);
-            // 
-            // tagCloudControl
-            // 
-            this.tagCloudControl.AllowDrop = true;
-            this.tagCloudControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagCloudControl.ControlBackColor = System.Drawing.Color.White;
-            this.tagCloudControl.ControlHeight = 183;
-            this.tagCloudControl.ControlTextFrame = false;
-            this.tagCloudControl.ControlTextUnderline = false;
-            this.tagCloudControl.ControlWidth = 298;
-            this.tagCloudControl.Location = new System.Drawing.Point(1026, 401);
-            this.tagCloudControl.Name = "tagCloudControl";
-            this.tagCloudControl.Size = new System.Drawing.Size(340, 68);
-            this.tagCloudControl.TabIndex = 118;
-            this.tagCloudControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.tagCloudControl_ControlAdded);
-            this.tagCloudControl.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.TagCloudControl_ControlRemoved);
             // 
             // reminderList
             // 
@@ -1634,16 +1445,6 @@ namespace DocearReminder
             this.reminderListBox.Enter += new System.EventHandler(this.reminderListBox_Enter);
             this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
-            // TimeBlockDate
-            // 
-            this.TimeBlockDate.Location = new System.Drawing.Point(1395, 96);
-            this.TimeBlockDate.Name = "TimeBlockDate";
-            this.TimeBlockDate.ShowUpDown = true;
-            this.TimeBlockDate.Size = new System.Drawing.Size(229, 21);
-            this.TimeBlockDate.TabIndex = 134;
-            this.TimeBlockDate.ValueChanged += new System.EventHandler(this.TimeBlockDate_ValueChanged);
-            this.TimeBlockDate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
-            // 
             // ShowMoney
             // 
             this.ShowMoney.AutoSize = true;
@@ -1654,26 +1455,6 @@ namespace DocearReminder
             this.ShowMoney.TabIndex = 135;
             this.ShowMoney.UseVisualStyleBackColor = true;
             this.ShowMoney.CheckedChanged += new System.EventHandler(this.ShowMoney_CheckedChanged);
-            // 
-            // MoneyDateTimePicker
-            // 
-            this.MoneyDateTimePicker.Location = new System.Drawing.Point(1395, 126);
-            this.MoneyDateTimePicker.Name = "MoneyDateTimePicker";
-            this.MoneyDateTimePicker.ShowUpDown = true;
-            this.MoneyDateTimePicker.Size = new System.Drawing.Size(229, 21);
-            this.MoneyDateTimePicker.TabIndex = 136;
-            this.MoneyDateTimePicker.ValueChanged += new System.EventHandler(this.MoneyDateTimePicker_ValueChanged);
-            this.MoneyDateTimePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
-            // 
-            // KADateTimePicker
-            // 
-            this.KADateTimePicker.Location = new System.Drawing.Point(1395, 154);
-            this.KADateTimePicker.Name = "KADateTimePicker";
-            this.KADateTimePicker.ShowUpDown = true;
-            this.KADateTimePicker.Size = new System.Drawing.Size(229, 21);
-            this.KADateTimePicker.TabIndex = 137;
-            this.KADateTimePicker.ValueChanged += new System.EventHandler(this.KADateTimePicker_ValueChanged);
-            this.KADateTimePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // ShowKA
             // 
@@ -1706,31 +1487,6 @@ namespace DocearReminder
             this.OnlyLevel.TabIndex = 141;
             this.OnlyLevel.UseVisualStyleBackColor = true;
             this.OnlyLevel.CheckedChanged += new System.EventHandler(this.OnlyLevel_CheckedChanged);
-            // 
-            // checkBox_截图
-            // 
-            this.checkBox_截图.AutoSize = true;
-            this.checkBox_截图.Checked = true;
-            this.checkBox_截图.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_截图.Location = new System.Drawing.Point(1469, 52);
-            this.checkBox_截图.Name = "checkBox_截图";
-            this.checkBox_截图.Size = new System.Drawing.Size(72, 16);
-            this.checkBox_截图.TabIndex = 142;
-            this.checkBox_截图.Text = "截图录像";
-            this.checkBox_截图.UseVisualStyleBackColor = true;
-            // 
-            // IsClip
-            // 
-            this.IsClip.AutoSize = true;
-            this.IsClip.Checked = true;
-            this.IsClip.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsClip.Location = new System.Drawing.Point(1548, 52);
-            this.IsClip.Name = "IsClip";
-            this.IsClip.Size = new System.Drawing.Size(60, 16);
-            this.IsClip.TabIndex = 143;
-            this.IsClip.Text = "剪切板";
-            this.IsClip.UseVisualStyleBackColor = true;
-            this.IsClip.CheckedChanged += new System.EventHandler(this.IsClip_CheckedChanged);
             // 
             // AllnodeFreshTimer
             // 
@@ -1809,17 +1565,6 @@ namespace DocearReminder
             this.diary.TextChanged += new System.EventHandler(this.diary_TextChanged);
             this.diary.KeyUp += new System.Windows.Forms.KeyEventHandler(this.diary_KeyUp);
             // 
-            // IsDiary
-            // 
-            this.IsDiary.AutoSize = true;
-            this.IsDiary.Location = new System.Drawing.Point(1548, 75);
-            this.IsDiary.Name = "IsDiary";
-            this.IsDiary.Size = new System.Drawing.Size(72, 16);
-            this.IsDiary.TabIndex = 149;
-            this.IsDiary.Text = "是否日记";
-            this.IsDiary.UseVisualStyleBackColor = true;
-            this.IsDiary.CheckedChanged += new System.EventHandler(this.IsDiary_CheckedChanged);
-            // 
             // DrawListMenu
             // 
             this.DrawListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1860,17 +1605,6 @@ namespace DocearReminder
             this.picturebigger.Enabled = true;
             this.picturebigger.Tick += new System.EventHandler(this.picturebigger_Tick);
             // 
-            // drawioPicBigger
-            // 
-            this.drawioPicBigger.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.drawioPicBigger.Location = new System.Drawing.Point(1385, 310);
-            this.drawioPicBigger.Name = "drawioPicBigger";
-            this.drawioPicBigger.Size = new System.Drawing.Size(100, 50);
-            this.drawioPicBigger.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.drawioPicBigger.TabIndex = 151;
-            this.drawioPicBigger.TabStop = false;
-            this.drawioPicBigger.Visible = false;
-            // 
             // timeblockupdatetimer
             // 
             this.timeblockupdatetimer.Enabled = true;
@@ -1884,29 +1618,19 @@ namespace DocearReminder
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1634, 837);
+            this.ClientSize = new System.Drawing.Size(1374, 837);
             this.Controls.Add(this.SearchText_suggest);
-            this.Controls.Add(this.drawioPicBigger);
-            this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
-            this.Controls.Add(this.IsClip);
-            this.Controls.Add(this.checkBox_截图);
             this.Controls.Add(this.OnlyLevel);
             this.Controls.Add(this.timeblockcheck);
             this.Controls.Add(this.ShowKA);
-            this.Controls.Add(this.KADateTimePicker);
-            this.Controls.Add(this.MoneyDateTimePicker);
             this.Controls.Add(this.ShowMoney);
-            this.Controls.Add(this.TimeBlockDate);
             this.Controls.Add(this.showTimeBlock);
-            this.Controls.Add(this.quietmode);
             this.Controls.Add(this.noterichTextBox);
-            this.Controls.Add(this.StartRecordCheckBox);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
             this.Controls.Add(this.c_endtime);
-            this.Controls.Add(this.c_speechcontrol);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.richTextSubNode);
             this.Controls.Add(this.night);
@@ -1916,8 +1640,6 @@ namespace DocearReminder
             this.Controls.Add(this.c_ViewModel);
             this.Controls.Add(this.c_hour);
             this.Controls.Add(this.tasklevel);
-            this.Controls.Add(this.showtomorrow);
-            this.Controls.Add(this.showcyclereminder);
             this.Controls.Add(this.taskTime);
             this.Controls.Add(this.c_Sunday);
             this.Controls.Add(this.c_year);
@@ -1933,16 +1655,8 @@ namespace DocearReminder
             this.Controls.Add(this.button_cycle);
             this.Controls.Add(this.n_days);
             this.Controls.Add(this.dateTimePicker);
-            this.Controls.Add(this.reminder_yearafter);
-            this.Controls.Add(this.reminder_year);
-            this.Controls.Add(this.reminder_month);
-            this.Controls.Add(this.reminder_week);
             this.Controls.Add(this.c_Jinian);
-            this.Controls.Add(this.onlyZhouqi);
             this.Controls.Add(this.c_remember);
-            this.Controls.Add(this.ebcheckBox);
-            this.Controls.Add(this.IsReminderOnlyCheckBox);
-            this.Controls.Add(this.tagCloudControl);
             this.Controls.Add(this.searchword);
             this.Controls.Add(this.FileTreeView);
             this.Controls.Add(this.mindmaplist_count);
@@ -1979,7 +1693,7 @@ namespace DocearReminder
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "  ";
+            this.Text = "    ";
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.DocearReminderForm_Activated);
             this.Deactivate += new System.EventHandler(this.DocearReminderForm_Deactivate);
@@ -2004,7 +1718,6 @@ namespace DocearReminder
             this.Menu_picture.ResumeLayout(false);
             this.DrawListMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2014,167 +1727,147 @@ namespace DocearReminder
 
 
         #endregion
-        private SortByTimeListBox reminderList;
-        private System.Windows.Forms.TextBox searchword;
-        private System.Windows.Forms.CheckBox reminder_week;
-        private System.Windows.Forms.CheckBox reminder_month;
-        private System.Windows.Forms.CheckBox reminder_year;
-        private System.Windows.Forms.CheckBox reminder_yearafter;
-        private System.Windows.Forms.Label mindmaplist_count;
-        private System.Windows.Forms.Label reminder_count;
-        private System.Windows.Forms.NumericUpDown n_days;
-        private System.Windows.Forms.Button button_cycle;
-        private System.Windows.Forms.CheckBox c_Monday;
-        private System.Windows.Forms.CheckBox c_Tuesday;
-        private System.Windows.Forms.CheckBox c_Wednesday;
-        private System.Windows.Forms.CheckBox c_Thursday;
-        private System.Windows.Forms.CheckBox c_Friday;
-        private System.Windows.Forms.CheckBox c_Saturday;
-        private System.Windows.Forms.CheckBox c_day;
-        private System.Windows.Forms.CheckBox c_week;
-        private System.Windows.Forms.CheckBox c_month;
-        private System.Windows.Forms.CheckBox c_year;
-        private System.Windows.Forms.CheckBox c_Sunday;
-        private System.Windows.Forms.NumericUpDown taskTime;
-        private System.Windows.Forms.CheckBox showcyclereminder;
-        private System.Windows.Forms.CheckBox showtomorrow;
-        private System.Windows.Forms.Label Hours;
-        private System.Windows.Forms.Label hourLeft;
-        private System.Windows.Forms.NumericUpDown tasklevel;
-        private System.Windows.Forms.CheckBox c_hour;
-        private System.Windows.Forms.CheckBox c_ViewModel;
-        private System.Windows.Forms.CheckBox afternoon;
-        private System.Windows.Forms.CheckBox day;
-        private System.Windows.Forms.CheckBox morning;
-        private System.Windows.Forms.CheckBox night;
-        private System.Windows.Forms.Label fenshu;
-        private MyRichTextBox richTextSubNode;
-        private System.Windows.Forms.ListBox SearchText_suggest;
-        private System.Windows.Forms.TextBox mindmapSearch;
-        private System.Windows.Forms.CheckBox c_Jinian;
-        private System.Windows.Forms.CheckBox onlyZhouqi;
-        private System.Windows.Forms.TreeView nodetree;
-        private System.Windows.Forms.ContextMenuStrip menu_reminderlist;
-        private System.Windows.Forms.Timer Rsstimer;
-        private System.Windows.Forms.CheckBox c_remember;
-        private System.Windows.Forms.CheckBox ebcheckBox;
-        private CustomCheckedListBox MindmapList;
-        private System.Windows.Forms.TreeView FileTreeView;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox PathcomboBox;
-        private System.Windows.Forms.CheckBox IsReminderOnlyCheckBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_oktask;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_deny;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCalcal;
-        private System.Windows.Forms.ContextMenuStrip menu_mindmaps;
-        private System.Windows.Forms.ContextMenuStrip menu_nodetree;
-        private System.Windows.Forms.ContextMenuStrip menu_filetree;
-        private System.Windows.Forms.ContextMenuStrip menu;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
-        private System.Windows.Forms.Label taskcount;
-        private SortByTimeListBox reminderListBox;
-        private TagCloudControl tagCloudControl;
-        private System.Windows.Forms.ToolStripMenuItem 打开所在目录ToolStripMenuItem;
-        private System.Windows.Forms.Label mindmapornode;
-        private System.Windows.Forms.Label DAKAINFO;
-        private System.Windows.Forms.Panel panel_clearSearchWord;
-        private MyRichTextBox noterichTextBox;
-        private Label fathernode;
-        private ToolStripMenuItem openFileToolStripMenuItem;
-        private ToolStripMenuItem autoRunToolStripMenuItem;
-        private ToolStripMenuItem disAutoRunToolStripMenuItem;
-        private Label labeltaskinfo;
-        private ToolStripMenuItem 工具箱ToolStripMenuItem;
-        private Label usedCount;
-        private Label usedtimelabel;
-        private Label todayusedtime;
-        private ToolStripMenuItem 日历QToolStripMenuItem;
-        private ToolStripMenuItem 剪切板ToolStripMenuItem;
-        private ToolStripMenuItem 剪切板文件ToolStripMenuItem;
-        private ToolStripMenuItem 文件夹ToolStripMenuItem;
-        private ToolStripMenuItem 操作记录F12ToolStripMenuItem;
-        private ToolStripMenuItem 推出F11ToolStripMenuItem;
-        private ToolStripMenuItem 查看模式ToolStripMenuItem;
-        private ToolStripMenuItem 单次ToolStripMenuItem;
-        private ToolStripMenuItem 周期ToolStripMenuItem;
-        private ToolStripMenuItem 非重要ToolStripMenuItem;
-        private ToolStripMenuItem 导图查看模式ToolStripMenuItem;
-        private ToolStripMenuItem 透明度ToolStripMenuItem;
-        private ToolStripMenuItem o05ToolStripMenuItem;
-        private ToolStripMenuItem o08ToolStripMenuItem;
-        private ToolStripMenuItem o1ToolStripMenuItem;
-        private ToolStripMenuItem 仅查看CdToolStripMenuItem;
-        private ToolStripMenuItem 是否播放声音playsoundToolStripMenuItem;
-        private ToolStripMenuItem 是否锁定窗口lockToolStripMenuItem;
-        private ToolStripMenuItem 显示树视图ToolStripMenuItem;
-        private ToolStripMenuItem 隐藏树视图SnToolStripMenuItem;
-        private ToolStripMenuItem 显示右侧ToolStripMenuItem;
-        private ToolStripMenuItem 非重要ToolStripMenuItem1;
-        private ToolStripMenuItem 设置重要xToolStripMenuItem;
-        private ToolStripMenuItem 快捷键说明ToolStripMenuItem;
-        private ToolStripMenuItem 下一个jToolStripMenuItem;
-        private ToolStripMenuItem 上一个kToolStripMenuItem;
-        private ContextMenuStrip searchworkmenu;
-        private ToolStripMenuItem 窗口ToolStripMenuItem;
-        private ToolStripMenuItem 工具toolToolStripMenuItem;
-        private ToolStripMenuItem 打开程序目录ToolStripMenuItem;
-        private NotifyIcon icon;
-        private ToolStripMenuItem 打开文件ToolStripMenuItem;
-        private ToolStripMenuItem 打开文件夹ToolStripMenuItem;
-        private Sunisoft.IrisSkin.SkinEngine skinEngine1;
-        private ToolStripMenuItem irisSkinToolStripMenuItem;
-        private CheckBox c_speechcontrol;
-        private CheckBox c_endtime;
-        private ToolStripMenuItem 报表ToolStripMenuItem;
-        private ToolStripMenuItem 时间快ToolStripMenuItem;
-        private ToolStripMenuItem 使用记录ToolStripMenuItem;
-        private ToolStripMenuItem 键盘分析ToolStripMenuItem;
-        private Timer titleTimer;
-        private TextBox nodetreeSearch;
-        private MyRichTextBox hopeNote;
-        private Timer keyJ;
-        private ToolStripMenuItem 趋势ToolStripMenuItem;
-        private CheckBox StartRecordCheckBox;
-        private ToolStripMenuItem 目标ToolStripMenuItem;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
-        private Timer CameraTimer;
-        private ToolStripMenuItem 导图分析ToolStripMenuItem;
-        private DateTimePicker dateTimePicker;
-        private ContextMenuStrip Menu_picture;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
-        private ToolStripMenuItem 删除图片ToolStripMenuItem;
-        private CheckBox quietmode;
-        private CheckBox showTimeBlock;
-        private DateTimePicker TimeBlockDate;
-        private CheckBox ShowMoney;
-        private DateTimePicker MoneyDateTimePicker;
-        private DateTimePicker KADateTimePicker;
-        private CheckBox ShowKA;
-        private Label timeblockcheck;
-        private FerretLib.WinForms.Controls.TagListControl tagList;
-        private CheckBox OnlyLevel;
-        private CheckBox checkBox_截图;
-        private CheckBox IsClip;
-        private Timer AllnodeFreshTimer;
-        private MyRichTextBox notebottom;
-        private CustomCheckedListBox DrawList;
-        private TextBox drawsearch;
-        private MyRichTextBox diary;
-        private CheckBox IsDiary;
-        private ContextMenuStrip DrawListMenu;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
-        private PictureBox drawioPic;
-        private Timer picturebigger;
-        private PictureBox drawioPicBigger;
-        private ToolStripMenuItem 打开文件ToolStripMenuItem1;
-        private Timer timeblockupdatetimer;
-        private ToolStripMenuItem toolStripMenuItem4;
+        public SortByTimeListBox reminderList;
+        public TextBox searchword;
+        public Label mindmaplist_count;
+        public Label reminder_count;
+        public NumericUpDown n_days;
+        public Button button_cycle;
+        public CheckBox c_Monday;
+        public CheckBox c_Tuesday;
+        public CheckBox c_Wednesday;
+        public CheckBox c_Thursday;
+        public CheckBox c_Friday;
+        public CheckBox c_Saturday;
+        public CheckBox c_day;
+        public CheckBox c_week;
+        public CheckBox c_month;
+        public CheckBox c_year;
+        public CheckBox c_Sunday;
+        public NumericUpDown taskTime;
+        public Label Hours;
+        public Label hourLeft;
+        public NumericUpDown tasklevel;
+        public CheckBox c_hour;
+        public CheckBox c_ViewModel;
+        public CheckBox afternoon;
+        public CheckBox day;
+        public CheckBox morning;
+        public CheckBox night;
+        public Label fenshu;
+        public MyRichTextBox richTextSubNode;
+        public ListBox SearchText_suggest;
+        public TextBox mindmapSearch;
+        public CheckBox c_Jinian;
+        public TreeView nodetree;
+        public ContextMenuStrip menu_reminderlist;
+        public Timer Rsstimer;
+        public CheckBox c_remember;
+        public CustomCheckedListBox MindmapList;
+        public TreeView FileTreeView;
+        public PictureBox pictureBox1;
+        public ComboBox PathcomboBox;
+        public ToolStripMenuItem toolStripMenuItem_oktask;
+        public ToolStripMenuItem toolStripMenuItem_deny;
+        public ToolStripMenuItem toolStripMenuItemCalcal;
+        public ContextMenuStrip menu_mindmaps;
+        public ContextMenuStrip menu_nodetree;
+        public ContextMenuStrip menu_filetree;
+        public ContextMenuStrip menu;
+        public ToolTip toolTip1;
+        public ToolStripMenuItem toolStripMenuItem7;
+        public ToolStripMenuItem toolStripMenuItem8;
+        public ToolStripMenuItem toolStripMenuItem5;
+        public ToolStripMenuItem toolStripMenuItem10;
+        public Label taskcount;
+        public SortByTimeListBox reminderListBox;
+        public ToolStripMenuItem 打开所在目录ToolStripMenuItem;
+        public Label mindmapornode;
+        public Label DAKAINFO;
+        public Panel panel_clearSearchWord;
+        public MyRichTextBox noterichTextBox;
+        public Label fathernode;
+        public ToolStripMenuItem openFileToolStripMenuItem;
+        public ToolStripMenuItem autoRunToolStripMenuItem;
+        public ToolStripMenuItem disAutoRunToolStripMenuItem;
+        public Label labeltaskinfo;
+        public ToolStripMenuItem 工具箱ToolStripMenuItem;
+        public Label usedCount;
+        public Label usedtimelabel;
+        public Label todayusedtime;
+        public ToolStripMenuItem 日历QToolStripMenuItem;
+        public ToolStripMenuItem 剪切板ToolStripMenuItem;
+        public ToolStripMenuItem 剪切板文件ToolStripMenuItem;
+        public ToolStripMenuItem 文件夹ToolStripMenuItem;
+        public ToolStripMenuItem 操作记录F12ToolStripMenuItem;
+        public ToolStripMenuItem 推出F11ToolStripMenuItem;
+        public ToolStripMenuItem 查看模式ToolStripMenuItem;
+        public ToolStripMenuItem 单次ToolStripMenuItem;
+        public ToolStripMenuItem 周期ToolStripMenuItem;
+        public ToolStripMenuItem 非重要ToolStripMenuItem;
+        public ToolStripMenuItem 导图查看模式ToolStripMenuItem;
+        public ToolStripMenuItem 透明度ToolStripMenuItem;
+        public ToolStripMenuItem o05ToolStripMenuItem;
+        public ToolStripMenuItem o08ToolStripMenuItem;
+        public ToolStripMenuItem o1ToolStripMenuItem;
+        public ToolStripMenuItem 仅查看CdToolStripMenuItem;
+        public ToolStripMenuItem 是否播放声音playsoundToolStripMenuItem;
+        public ToolStripMenuItem 是否锁定窗口lockToolStripMenuItem;
+        public ToolStripMenuItem 显示树视图ToolStripMenuItem;
+        public ToolStripMenuItem 隐藏树视图SnToolStripMenuItem;
+        public ToolStripMenuItem 显示右侧ToolStripMenuItem;
+        public ToolStripMenuItem 非重要ToolStripMenuItem1;
+        public ToolStripMenuItem 设置重要xToolStripMenuItem;
+        public ToolStripMenuItem 快捷键说明ToolStripMenuItem;
+        public ToolStripMenuItem 下一个jToolStripMenuItem;
+        public ToolStripMenuItem 上一个kToolStripMenuItem;
+        public ContextMenuStrip searchworkmenu;
+        public ToolStripMenuItem 窗口ToolStripMenuItem;
+        public ToolStripMenuItem 工具toolToolStripMenuItem;
+        public ToolStripMenuItem 打开程序目录ToolStripMenuItem;
+        public NotifyIcon icon;
+        public ToolStripMenuItem 打开文件ToolStripMenuItem;
+        public ToolStripMenuItem 打开文件夹ToolStripMenuItem;
+        public Sunisoft.IrisSkin.SkinEngine skinEngine1;
+        public ToolStripMenuItem irisSkinToolStripMenuItem;
+        public CheckBox c_endtime;
+        public ToolStripMenuItem 报表ToolStripMenuItem;
+        public ToolStripMenuItem 时间快ToolStripMenuItem;
+        public ToolStripMenuItem 使用记录ToolStripMenuItem;
+        public ToolStripMenuItem 键盘分析ToolStripMenuItem;
+        public Timer titleTimer;
+        public TextBox nodetreeSearch;
+        public MyRichTextBox hopeNote;
+        public Timer keyJ;
+        public ToolStripMenuItem 趋势ToolStripMenuItem;
+        public ToolStripMenuItem 目标ToolStripMenuItem;
+        public Timer CameraTimer;
+        public ToolStripMenuItem 导图分析ToolStripMenuItem;
+        public DateTimePicker dateTimePicker;
+        public ContextMenuStrip Menu_picture;
+        public ToolStripMenuItem toolStripMenuItem1;
+        public ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
+        public ToolStripMenuItem 删除图片ToolStripMenuItem;
+        public CheckBox showTimeBlock;
+        public CheckBox ShowMoney;
+        public CheckBox ShowKA;
+        public Label timeblockcheck;
+        public FerretLib.WinForms.Controls.TagListControl tagList;
+        public CheckBox OnlyLevel;
+        public Timer AllnodeFreshTimer;
+        public MyRichTextBox notebottom;
+        public CustomCheckedListBox DrawList;
+        public TextBox drawsearch;
+        public MyRichTextBox diary;
+        public ContextMenuStrip DrawListMenu;
+        public ToolStripMenuItem toolStripMenuItem2;
+        public ToolStripMenuItem toolStripMenuItem3;
+        public PictureBox drawioPic;
+        public Timer picturebigger;
+        public ToolStripMenuItem 打开文件ToolStripMenuItem1;
+        public Timer timeblockupdatetimer;
+        public ToolStripMenuItem toolStripMenuItem4;
     }
 }
 

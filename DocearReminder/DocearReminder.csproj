@@ -434,6 +434,12 @@
     <Compile Include="DrawIO.Designer.cs">
       <DependentUpon>DrawIO.cs</DependentUpon>
     </Compile>
+    <Compile Include="NoticeInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NoticeInfo.Designer.cs">
+      <DependentUpon>NoticeInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="OneDay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -496,6 +502,18 @@
     <Compile Include="Report\TimeBlockTrend.Designer.cs">
       <DependentUpon>TimeBlockTrend.cs</DependentUpon>
     </Compile>
+    <Compile Include="SwitchingState.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SwitchingState.Designer.cs">
+      <DependentUpon>SwitchingState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TagCloud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TagCloud.Designer.cs">
+      <DependentUpon>TagCloud.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeAnalyze.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -546,6 +564,9 @@
     <EmbeddedResource Include="DrawIO.resx">
       <DependentUpon>DrawIO.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NoticeInfo.resx">
+      <DependentUpon>NoticeInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OneDay.resx">
       <DependentUpon>OneDay.cs</DependentUpon>
     </EmbeddedResource>
@@ -580,6 +601,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\TimeBlockTrend.resx">
       <DependentUpon>TimeBlockTrend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwitchingState.resx">
+      <DependentUpon>SwitchingState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TagCloud.resx">
+      <DependentUpon>TagCloud.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeAnalyze.resx">
       <DependentUpon>TimeAnalyze.cs</DependentUpon>

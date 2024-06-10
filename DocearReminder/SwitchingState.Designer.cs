@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SwitchingState));
             this.showcyclereminder = new System.Windows.Forms.CheckBox();
             this.drawioPicBigger = new System.Windows.Forms.PictureBox();
             this.IsDiary = new System.Windows.Forms.CheckBox();
@@ -110,18 +111,18 @@
             // 
             // KADateTimePicker
             // 
-            this.KADateTimePicker.Location = new System.Drawing.Point(13, 155);
+            this.KADateTimePicker.Location = new System.Drawing.Point(13, 125);
             this.KADateTimePicker.Name = "KADateTimePicker";
             this.KADateTimePicker.ShowUpDown = true;
-            this.KADateTimePicker.Size = new System.Drawing.Size(229, 21);
+            this.KADateTimePicker.Size = new System.Drawing.Size(113, 21);
             this.KADateTimePicker.TabIndex = 165;
             // 
             // MoneyDateTimePicker
             // 
-            this.MoneyDateTimePicker.Location = new System.Drawing.Point(13, 127);
+            this.MoneyDateTimePicker.Location = new System.Drawing.Point(147, 98);
             this.MoneyDateTimePicker.Name = "MoneyDateTimePicker";
             this.MoneyDateTimePicker.ShowUpDown = true;
-            this.MoneyDateTimePicker.Size = new System.Drawing.Size(229, 21);
+            this.MoneyDateTimePicker.Size = new System.Drawing.Size(126, 21);
             this.MoneyDateTimePicker.TabIndex = 164;
             // 
             // TimeBlockDate
@@ -129,7 +130,7 @@
             this.TimeBlockDate.Location = new System.Drawing.Point(13, 97);
             this.TimeBlockDate.Name = "TimeBlockDate";
             this.TimeBlockDate.ShowUpDown = true;
-            this.TimeBlockDate.Size = new System.Drawing.Size(229, 21);
+            this.TimeBlockDate.Size = new System.Drawing.Size(113, 21);
             this.TimeBlockDate.TabIndex = 163;
             // 
             // quietmode
@@ -269,7 +270,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(252, 256);
+            this.ClientSize = new System.Drawing.Size(285, 154);
             this.Controls.Add(this.drawioPicBigger);
             this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.IsClip);
@@ -289,8 +290,9 @@
             this.Controls.Add(this.ebcheckBox);
             this.Controls.Add(this.IsReminderOnlyCheckBox);
             this.Controls.Add(this.showcyclereminder);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SwitchingState";
-            this.Text = "SwitchingState";
+            this.Text = "开关";
             this.Load += new System.EventHandler(this.SwitchingState_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).EndInit();
             this.ResumeLayout(false);

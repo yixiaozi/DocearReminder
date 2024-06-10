@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TagCloud));
             this.tagCloudControl = new yixiaozi.WinForm.Control.TagCloud.TagCloudControl();
             this.SuspendLayout();
             // 
@@ -51,8 +52,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(285, 231);
             this.Controls.Add(this.tagCloudControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TagCloud";
-            this.Text = "TagCloud";
+            this.Text = "标签云";
             this.Load += new System.EventHandler(this.TagCloud_Load);
             this.ResumeLayout(false);
 

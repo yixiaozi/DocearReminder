@@ -26,6 +26,7 @@ namespace yixiaozi.Model.DocearReminder
         public int rMonth;
         public int ryear;
         public int level;
+        public int jinji;
         public int rtaskTime;
         public string IsDaka { get; set; }
         public string IsView { get; set; }
@@ -108,6 +109,7 @@ namespace yixiaozi.Model.DocearReminder
         public DateTime end { get; set; }
         public string mindmap;
         public string mindmapPath;
+        public int jinji;
         public int editCount;
         public bool isCompleted = false;
         public bool isCurrect = false;

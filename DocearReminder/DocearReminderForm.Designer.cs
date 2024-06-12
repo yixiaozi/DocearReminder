@@ -162,6 +162,7 @@ namespace DocearReminder
             this.drawioPic = new System.Windows.Forms.PictureBox();
             this.picturebigger = new System.Windows.Forms.Timer(this.components);
             this.timeblockupdatetimer = new System.Windows.Forms.Timer(this.components);
+            this.Jinji = new System.Windows.Forms.NumericUpDown();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -175,6 +176,7 @@ namespace DocearReminder
             this.Menu_picture.SuspendLayout();
             this.DrawListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Jinji)).BeginInit();
             this.SuspendLayout();
             // 
             // searchword
@@ -250,7 +252,7 @@ namespace DocearReminder
             this.dateTimePicker.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.ShowUpDown = true;
-            this.dateTimePicker.Size = new System.Drawing.Size(217, 20);
+            this.dateTimePicker.Size = new System.Drawing.Size(163, 20);
             this.dateTimePicker.TabIndex = 17;
             this.dateTimePicker.TabStop = false;
             this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
@@ -418,7 +420,7 @@ namespace DocearReminder
             0,
             0,
             0});
-            this.taskTime.Location = new System.Drawing.Point(1249, 10);
+            this.taskTime.Location = new System.Drawing.Point(1195, 10);
             this.taskTime.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -478,7 +480,7 @@ namespace DocearReminder
             // tasklevel
             // 
             this.tasklevel.ForeColor = System.Drawing.Color.Gray;
-            this.tasklevel.Location = new System.Drawing.Point(1291, 10);
+            this.tasklevel.Location = new System.Drawing.Point(1237, 10);
             this.tasklevel.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -493,8 +495,6 @@ namespace DocearReminder
             this.tasklevel.Size = new System.Drawing.Size(35, 21);
             this.tasklevel.TabIndex = 48;
             this.tasklevel.TabStop = false;
-            this.tasklevel.ValueChanged += new System.EventHandler(this.tasklevel_ValueChanged);
-            this.tasklevel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // c_hour
             // 
@@ -1611,6 +1611,25 @@ namespace DocearReminder
             this.timeblockupdatetimer.Interval = 600000;
             this.timeblockupdatetimer.Tick += new System.EventHandler(this.timeblockupdatetimer_Tick);
             // 
+            // Jinji
+            // 
+            this.Jinji.ForeColor = System.Drawing.Color.Gray;
+            this.Jinji.Location = new System.Drawing.Point(1282, 10);
+            this.Jinji.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Jinji.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
+            this.Jinji.Name = "Jinji";
+            this.Jinji.Size = new System.Drawing.Size(35, 21);
+            this.Jinji.TabIndex = 48;
+            this.Jinji.TabStop = false;
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1639,6 +1658,7 @@ namespace DocearReminder
             this.Controls.Add(this.afternoon);
             this.Controls.Add(this.c_ViewModel);
             this.Controls.Add(this.c_hour);
+            this.Controls.Add(this.Jinji);
             this.Controls.Add(this.tasklevel);
             this.Controls.Add(this.taskTime);
             this.Controls.Add(this.c_Sunday);
@@ -1718,6 +1738,7 @@ namespace DocearReminder
             this.Menu_picture.ResumeLayout(false);
             this.DrawListMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.drawioPic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Jinji)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1868,6 +1889,7 @@ namespace DocearReminder
         public ToolStripMenuItem 打开文件ToolStripMenuItem1;
         public Timer timeblockupdatetimer;
         public ToolStripMenuItem toolStripMenuItem4;
+        public NumericUpDown Jinji;
     }
 }
 

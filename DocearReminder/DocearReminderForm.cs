@@ -530,6 +530,7 @@ namespace DocearReminder
                     dic.Add(dateTimePicker, "任务时间");
                     dic.Add(taskTime, "任务时长");
                     dic.Add(tasklevel, "任务等级");
+                    dic.Add(Jinji, "紧急程度");
                     dic.Add(richTextSubNode, "子节点");
                     dic.Add(fathernode, "父节点信息");
                     dic.Add(hourLeft, "当日剩余小时");
@@ -2722,7 +2723,8 @@ namespace DocearReminder
                         IsDaka = item.comment,
                         IDinXML = item.ID,
                         link = item.nameFull,
-                        level = item.tasklevel
+                        level = item.tasklevel,
+                        jinji=item.jinji
                     });
                 }
                 //更新简要信息
@@ -2817,7 +2819,8 @@ namespace DocearReminder
                         IsDaka = item.comment,
                         IDinXML = item.ID,
                         link = item.nameFull,
-                        level = item.tasklevel
+                        level = item.tasklevel,
+                        jinji=item.jinji
                     });
                 }
                 //更新简要信息
@@ -2997,6 +3000,7 @@ namespace DocearReminder
                                             item.ryear = MyToInt16(GetAttribute(node.ParentNode, "RYEAR"));
                                             item.tasktime = MyToInt16(GetAttribute(node.ParentNode, "TASKTIME"));
                                             item.tasklevel = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL"));
+                                            item.jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI"));
                                             item.ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING"));
                                             item.mindmapPath = path.Value;
                                             item.isCompleted = false;
@@ -3038,6 +3042,7 @@ namespace DocearReminder
                                         ryear = MyToInt16(GetAttribute(node.ParentNode, "RYEAR")),
                                         tasktime = MyToInt16(GetAttribute(node.ParentNode, "TASKTIME")),
                                         tasklevel = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                        jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                         ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                         mindmapPath = path.Value,
                                         ID = GetAttribute(node.ParentNode, "ID"),
@@ -3434,6 +3439,7 @@ namespace DocearReminder
                                             IsView = GetAttribute(node.ParentNode, "ISVIEW"),
                                             DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
                                             level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                            jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                             ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                             DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
                                             editTime = editTime,
@@ -3477,6 +3483,7 @@ namespace DocearReminder
                                             IsView = GetAttribute(node.ParentNode, "ISVIEW"),
                                             DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
                                             level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                            jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                             ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                             DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
                                             editTime = editTime,
@@ -3591,6 +3598,7 @@ namespace DocearReminder
                                     IsView = GetAttribute(node, "ISVIEW"),
                                     DakaDay = MyToInt16(GetAttribute(node, "DAKADAY")),
                                     level = MyToInt16(GetAttribute(node, "TASKLEVEL")),
+                                    jinji = MyToInt16(GetAttribute(node, "JINJI")),
                                     ebstring = MyToInt16(GetAttribute(node, "EBSTRING")),
                                     DakaDays = StrToInt(GetAttribute(node, "DAKADAYS").Split(',')),
                                     editTime = 0,
@@ -3692,6 +3700,7 @@ namespace DocearReminder
                                         IsView = GetAttribute(node.ParentNode, "ISVIEW"),
                                         DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
                                         level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                        jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                         ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                         DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
                                         editTime = 0,
@@ -4202,12 +4211,16 @@ namespace DocearReminder
             if (e.Index >= 0)
             {
                 int zhongyao = 0;
+                int jinji = 0;
                 string name = "";
                 zhongyao = ((MyListBoxItemRemind)reminderList.Items[e.Index]).level;
+                jinji = ((MyListBoxItemRemind)reminderList.Items[e.Index]).jinji;
                 name = ((MyListBoxItemRemind)reminderList.Items[e.Index]).Name;
                 System.Drawing.Brush mybsh = Brushes.Gray;
+                System.Drawing.Brush mybsh1 = Brushes.Gray;
                 Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Height, e.Bounds.Height);
-                Rectangle rectleft = new Rectangle(e.Bounds.X + e.Bounds.Height, e.Bounds.Y, e.Bounds.Width - e.Bounds.Height, e.Bounds.Height);
+                Rectangle rect2 = new Rectangle(14, e.Bounds.Y , e.Bounds.Height, e.Bounds.Height);
+                Rectangle rectleft = new Rectangle(28, e.Bounds.Y , e.Bounds.Width - e.Bounds.Height*2, e.Bounds.Height);
                 if (zhongyao == 0)
                 {
                     SolidBrush zeroColor = new SolidBrush(Color.FromArgb(238, 238, 242));
@@ -4330,14 +4343,142 @@ namespace DocearReminder
                     e.Graphics.FillRectangle(new SolidBrush(Color.Red), rect);
                     mybsh = new SolidBrush(Color.Red);
                 }
+
+                #region 紧急
+                if (jinji == 0)
+                {
+                    SolidBrush zeroColor = new SolidBrush(Color.FromArgb(238, 238, 242));
+                    if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("*"))
+                    {
+                        zeroColor = new SolidBrush(Color.White);
+                    }
+                    e.Graphics.FillRectangle(zeroColor, rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(238, 238, 242));
+                    if (name == "当前时间")
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(238, 238, 242)), e.Bounds);
+                        mybsh1 = Brushes.Gray;
+                    }
+                }
+                else if (jinji == 1)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Azure), rect2);
+                    mybsh1 = new SolidBrush(Color.Azure);
+                }
+                else if (jinji == -1)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect2);
+                    if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+                    {
+                        mybsh1 = new SolidBrush(Color.FromArgb(220, 220, 220));
+                    }
+                    else
+                    {
+                        mybsh1 = new SolidBrush(Color.Black);
+                    }
+                }
+                else if (jinji == -2)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(211, 211, 211)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(211, 211, 211));
+                }
+                else if (jinji == -3)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(192, 192, 192)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(192, 192, 192));
+                }
+                else if (jinji == -4)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(169, 169, 169)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(169, 169, 169));
+                }
+                else if (jinji == -5)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 128)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(128, 128, 128));
+                }
+                else if (jinji == -6)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(105, 105, 105)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(105, 105, 105));
+                }
+                else if (jinji == -7)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, 85, 85)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(85, 85, 85));
+                }
+                else if (jinji == -8)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(65, 65, 65)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(65, 65, 65));
+                }
+                else if (jinji == -9)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(48, 48, 48)), rect2);
+                    mybsh1 = new SolidBrush(Color.FromArgb(48, 48, 48));
+                }
+                else if (jinji <= -10)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Black), rect2);
+                    mybsh1 = new SolidBrush(Color.Black);
+                }
+                else if (jinji == 2)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.PowderBlue), rect2);
+                    mybsh1 = new SolidBrush(Color.PowderBlue);
+                }
+                else if (jinji == 3)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.LightSkyBlue), rect2);
+                    mybsh1 = new SolidBrush(Color.LightSkyBlue);
+                }
+                else if (jinji == 4)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.DeepSkyBlue), rect2);
+                    mybsh1 = new SolidBrush(Color.DeepSkyBlue);
+                }
+                else if (jinji == 5)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.CadetBlue), rect2);
+                    mybsh1 = new SolidBrush(Color.CadetBlue);
+                }
+                else if (jinji == 6)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rect2);
+                    mybsh1 = new SolidBrush(Color.Gold);
+                }
+                else if (jinji == 7)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Orange), rect2);
+                    mybsh1 = new SolidBrush(Color.Orange);
+                }
+                else if (jinji == 8)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.OrangeRed), rect2);
+                    mybsh1 = new SolidBrush(Color.OrangeRed);
+                }
+                else if (jinji == 9)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Crimson), rect2);
+                    mybsh1 = new SolidBrush(Color.Crimson);
+                }
+                else if (jinji >= 10)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Red), rect2);
+                    mybsh1 = new SolidBrush(Color.Red);
+                }
+                #endregion
+
                 if (e.Index == reminderList.SelectedIndex)
                 {
                     e.Graphics.FillRectangle(mybsh, rect);
+                    e.Graphics.FillRectangle(mybsh1, rect2);
                     e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), rectleft);
                 }
                 else
                 {
                     e.Graphics.FillRectangle(mybsh, rect);
+                    e.Graphics.FillRectangle(mybsh1, rect2);
                     e.Graphics.FillRectangle(new SolidBrush(Color.White), rectleft);
                 }
                 if (searchword.Text.StartsWith("#"))
@@ -4355,11 +4496,12 @@ namespace DocearReminder
                 else
                 {
                     e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh, rect, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh1, rect2, StringFormat.GenericDefault);
                     string taskname = ((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(3);
-                    if (taskname.Length > 100)
-                    {
-                        taskname = taskname.Substring(0, 100);
-                    }
+                    //if (taskname.Length > 100)
+                    //{
+                    //    taskname = taskname.Substring(0, 100);
+                    //}
                     if (showTimeBlock.Checked || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == null || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
                     {
                         e.Graphics.DrawString(taskname, e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
@@ -5209,6 +5351,7 @@ namespace DocearReminder
             //    DAKAINFO.Text = String.Format("延迟：{0}", selectedReminder.editTime);
             //}
             tasklevel.Value = selectedReminder.level;
+            Jinji.Value = selectedReminder.jinji;
             c_day.Checked = c_week.Checked = c_hour.Checked =
                 c_month.Checked =
                 c_year.Checked =
@@ -5695,6 +5838,7 @@ namespace DocearReminder
                 EditTask();
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Time = dateTimePicker.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).level = (int)tasklevel.Value;
+                ((MyListBoxItemRemind)(reminderlistSelectedItem)).jinji = (int)Jinji.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).rtaskTime = (int)taskTime.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Text = newName((MyListBoxItemRemind)(reminderlistSelectedItem)).Text;
                 if (reminderList.SelectedIndex != -1)
@@ -5728,10 +5872,10 @@ namespace DocearReminder
                 reminderList.Focus();
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Time = dateTimePicker.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).level = (int)tasklevel.Value;
+                ((MyListBoxItemRemind)(reminderlistSelectedItem)).jinji = (int)Jinji.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).rtaskTime = (int)taskTime.Value;
                 ((MyListBoxItemRemind)(reminderlistSelectedItem)).Text = newName((MyListBoxItemRemind)(reminderlistSelectedItem)).Text;
-                taskTime.Value = 0;
-                tasklevel.Value = 0;
+                ReSetValue();
                 reminderList.Sorted = false;
                 SortReminderList();
                 ReminderListSelectedIndex(reminderSelectIndex);
@@ -5751,6 +5895,7 @@ namespace DocearReminder
             DateTime dateBefore = selectedReminder.Time;
             int taskTimeBefore = selectedReminder.rtaskTime;
             int tasklevelBefore = selectedReminder.level;
+            int jinjiBefore = selectedReminder.jinji;
             if (selectedReminder.isEncrypted)
             {
                 taskName = encrypt.EncryptString(taskName);
@@ -5790,10 +5935,15 @@ namespace DocearReminder
                         XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                         node.Attributes.Append(TASKLEVEL);
                         node.Attributes["TASKLEVEL"].Value = tasklevel.Value.ToString();
+
+                        XmlAttribute JINJI = x.CreateAttribute("JINJI");
+                        node.Attributes.Append(JINJI);
+                        node.Attributes["JINJI"].Value = Jinji.Value.ToString();
+
                         x.Save(selectedReminder.Value);
                         Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                         th.Start();
-                        SaveLog("修改了任务：" + taskName + "    时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString() + "    时长：" + taskTimeBefore.ToString() + ">" + taskTime.Value.ToString() + "    等级：" + tasklevelBefore.ToString() + ">" + tasklevel.Value.ToString());
+                        SaveLog("修改了任务：" + taskName + "    时间：" + dateBefore.ToString() + ">" + dateTimePicker.Value.ToString() + "    时长：" + taskTimeBefore.ToString() + ">" + taskTime.Value.ToString() + "    等级：" + tasklevelBefore.ToString() + ">" + tasklevel.Value.ToString() + "    紧急：" + jinjiBefore.ToString() + ">" + Jinji.Value.ToString());
                         return;
                     }
                     catch (Exception ex)
@@ -5829,8 +5979,8 @@ namespace DocearReminder
                             else
                             {
                                 //添加属性
-                                XmlAttribute TASKLEVEL = x.CreateAttribute("EndDate");
-                                node.ParentNode.Attributes.Append(TASKLEVEL);
+                                XmlAttribute EndDate = x.CreateAttribute("EndDate");
+                                node.ParentNode.Attributes.Append(EndDate);
                                 node.ParentNode.Attributes["EndDate"].Value = (Convert.ToInt64((dateTimePicker.Value - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds)).ToString();
                             }
                         }
@@ -6385,6 +6535,7 @@ namespace DocearReminder
                                                     IsView = GetAttribute(node.ParentNode, "ISVIEW"),
                                                     DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
                                                     level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                                    jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                                     ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                                     DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
                                                     editTime = 0,
@@ -6459,13 +6610,23 @@ namespace DocearReminder
                     taskName = searchword.Text.Split('@')[0];
 
                     string taskLevel1 = "1";
-                    MatchCollection jc = Regex.Matches(taskName, @"[1-9]\d*j");
+                    MatchCollection jc = Regex.Matches(taskName, @"[1-9]\d*l");
                     foreach (Match m in jc)
                     {
                         taskName = taskName.Replace(m.Value, "");
                         taskLevel1 = m.Value.Substring(0, m.Value.Length - 1);
                         break;
                     }
+
+                    string jinji1 = "1";
+                    MatchCollection jc1 = Regex.Matches(taskName, @"[1-9]\d*j");
+                    foreach (Match m in jc1)
+                    {
+                        taskName = taskName.Replace(m.Value, "");
+                        jinji1 = m.Value.Substring(0, m.Value.Length - 1);
+                        break;
+                    }
+
                     MatchCollection mc = Regex.Matches(taskName, @"[1-9]\d*m");
                     string minutes = "0";
                     foreach (Match m in mc)
@@ -6486,6 +6647,11 @@ namespace DocearReminder
                     XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                     newNote.Attributes.Append(TASKLEVEL);
                     newNote.Attributes["TASKLEVEL"].Value = taskLevel1;
+
+                    XmlAttribute JINJI = x.CreateAttribute("JINJI");
+                    newNote.Attributes.Append(JINJI);
+                    newNote.Attributes["JINJI"].Value = jinji1;
+
                     XmlAttribute TASKTIME = x.CreateAttribute("TASKTIME");
                     newNote.Attributes.Append(TASKTIME);
                     newNote.Attributes["TASKTIME"].Value = minutes;
@@ -6638,6 +6804,11 @@ namespace DocearReminder
                 XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                 newNote.Attributes.Append(TASKLEVEL);
                 newNote.Attributes["TASKLEVEL"].Value = "1";
+
+                XmlAttribute JINJI = x.CreateAttribute("JINJI");
+                newNote.Attributes.Append(JINJI);
+                newNote.Attributes["JINJI"].Value = "1";
+
                 XmlNode remindernode = x.CreateElement("hook");
                 XmlAttribute remindernodeName = x.CreateAttribute("NAME");
                 remindernodeName.Value = "plugins/TimeManagementReminder.xml";
@@ -6747,6 +6918,11 @@ namespace DocearReminder
                             XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                             newNote.Attributes.Append(TASKLEVEL);
                             newNote.Attributes["TASKLEVEL"].Value = "1";
+
+                            XmlAttribute JINJI = x.CreateAttribute("JINJI");
+                            newNote.Attributes.Append(JINJI);
+                            newNote.Attributes["JINJI"].Value = "1";
+
                             if (istask)
                             {
                                 XmlNode remindernode = x.CreateElement("hook");
@@ -6910,6 +7086,11 @@ namespace DocearReminder
                 XmlAttribute TASKLEVEL = x.CreateAttribute("TASKLEVEL");
                 newNote.Attributes.Append(TASKLEVEL);
                 newNote.Attributes["TASKLEVEL"].Value = "1";
+
+                XmlAttribute JINJI = x.CreateAttribute("JINJI");
+                newNote.Attributes.Append(JINJI);
+                newNote.Attributes["JINJI"].Value = "1";
+
                 XmlNode newElem = x.CreateElement("icon");
                 //XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
                 //BUILTIN.Value = "flag-orange";
@@ -6947,8 +7128,7 @@ namespace DocearReminder
             else if (searchword.Text != "" && !searchword.Text.EndsWith(".") && !searchword.Text.EndsWith("hhh"))
             {
                 AddTaskToFile(ini.ReadString("path", "binmm", ""), "Tasks", searchword.Text, true);
-                tasklevel.Value = 0;
-                taskTime.Value = 0;
+                ReSetValue();
                 searchword.Text = "";
                 RRReminderlist();
             }
@@ -8456,14 +8636,6 @@ namespace DocearReminder
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public void tasklevel_ValueChanged(object sender, EventArgs e)
-        {
-            // if (reminderList.SelectedIndex<0||reminderList.SelectedIndex<0)
-            // {
-            //     RRReminderlist();
-            // }
-        }
-
         public void taskTime_ValueChanged(object sender, EventArgs e)
         {
             // if (reminderListFocused())
@@ -8481,6 +8653,7 @@ namespace DocearReminder
         {
             taskTime.Value = 0;
             tasklevel.Value = 0;
+            Jinji.Value = 0;
         }
 
         public void AddTaskToFile(string mindmap, string rootNode, string taskName, bool hasTime)
@@ -8700,8 +8873,7 @@ namespace DocearReminder
                 {
                 }
             }
-            tasklevel.Value = 0;
-            taskTime.Value = 0;
+            ReSetValue();
             RRReminderlist();
             Clipboard.Clear();
         }
@@ -8938,8 +9110,7 @@ namespace DocearReminder
             x.Save(path);
             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
             th.Start();
-            tasklevel.Value = 0;
-            taskTime.Value = 0;
+            ReSetValue();
             RRReminderlist();
             Clipboard.Clear();
         }
@@ -9265,7 +9436,7 @@ namespace DocearReminder
                     break;
 
                 case Keys.D0:
-                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
                         night.Checked = !night.Checked;
                     }
@@ -9473,7 +9644,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                        if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                         {
                             morning.Checked = !morning.Checked;
                         }
@@ -9481,14 +9652,14 @@ namespace DocearReminder
                     break;
 
                 case Keys.D8:
-                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
                         day.Checked = !day.Checked;
                     }
                     break;
 
                 case Keys.D9:
-                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || dateTimePicker.Focused))
+                    if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
                         afternoon.Checked = !afternoon.Checked;
                     }
@@ -10426,6 +10597,7 @@ namespace DocearReminder
                                                         IsView = GetAttribute(node.ParentNode, "ISVIEW"),
                                                         DakaDay = MyToInt16(GetAttribute(node.ParentNode, "DAKADAY")),
                                                         level = MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL")),
+                                                        jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI")),
                                                         ebstring = MyToInt16(GetAttribute(node.ParentNode, "EBSTRING")),
                                                         DakaDays = StrToInt(GetAttribute(node.ParentNode, "DAKADAYS").Split(',')),
                                                         editTime = 0,
@@ -10660,7 +10832,7 @@ namespace DocearReminder
                     {
                         Daka(false);
                     }
-                    else if (dateTimePicker.Focused || taskTime.Focused || tasklevel.Focused)
+                    else if (dateTimePicker.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused)
                     {
                         if (dateTimePicker.Focused && showTimeBlock.Checked)
                         {
@@ -10686,6 +10858,16 @@ namespace DocearReminder
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
+                            RRReminderlist();
+                            if (reminderList.Items.Count > reminderSelectIndex)
+                            {
+                                ReminderListSelectedIndex(reminderSelectIndex);
+                            }
+                        }
+                        else if (Jinji.Focused && showTimeBlock.Checked)
+                        {
+                            reminderSelectIndex = reminderList.SelectedIndex;
+                            reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).jinji = (int)Jinji.Value;
                             RRReminderlist();
                             if (reminderList.Items.Count > reminderSelectIndex)
                             {
@@ -11936,7 +12118,7 @@ namespace DocearReminder
                         {
                             ShowMoney.Checked = !ShowMoney.Checked;
                         }
-                        else if (ReminderListFocused() || dateTimePicker.Focused || tasklevel.Focused)
+                        else if (ReminderListFocused() || dateTimePicker.Focused || tasklevel.Focused || Jinji.Focused)
                         {
                             taskTime.Focus();
                         }
@@ -11996,8 +12178,7 @@ namespace DocearReminder
                             if (mindmapornode.Text != "")
                             {
                                 mindmapornode.Text = "";
-                                tasklevel.Value = 0;
-                                taskTime.Value = 0;
+                                ReSetValue();
                                 RRReminderlist();
                             }
                         }
@@ -12603,7 +12784,7 @@ namespace DocearReminder
                         showTimeBlock.Checked = !showTimeBlock.Checked;
                         reminderList.Refresh();
                     }
-                    else if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
+                    else if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused)
                     {
                         if (showTimeBlock.Checked && e.Modifiers.CompareTo(Keys.Shift) == 0)//暂时保持简单吧，用Ctrl+JK来设置每天
                         {
@@ -12637,7 +12818,7 @@ namespace DocearReminder
                     break;
 
                 case Keys.U:
-                    if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused)
+                    if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused)
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
@@ -12762,8 +12943,7 @@ namespace DocearReminder
                     else if (mindmapornode.Text != "")
                     {
                         mindmapornode.Text = "";
-                        tasklevel.Value = 0;
-                        taskTime.Value = 0;
+                        ReSetValue();
                     }
                     else
                     {
@@ -12963,8 +13143,8 @@ namespace DocearReminder
                             else
                             {
                                 //添加属性
-                                XmlAttribute TASKLEVEL = x.CreateAttribute("LINK");
-                                node.ParentNode.Attributes.Append(TASKLEVEL);
+                                XmlAttribute LINK = x.CreateAttribute("LINK");
+                                node.ParentNode.Attributes.Append(LINK);
                                 node.ParentNode.Attributes["LINK"].Value = link;
                             }
                             x.Save(selectedReminder.Value);
@@ -13628,8 +13808,6 @@ namespace DocearReminder
         //                }
         //            }
         //        }
-        //        tasklevel.Value = 0;
-        //        taskTime.Value = 0;
         //        //将没有分过类的导图设置颜色
         //        RRReminderlist();
         //    }
@@ -13705,8 +13883,7 @@ namespace DocearReminder
         {
             if (true)
             {
-                taskTime.Value = 0;
-                tasklevel.Value = 0;
+                ReSetValue();
                 RRReminderlist();
             }
         }
@@ -14635,8 +14812,7 @@ namespace DocearReminder
                 if (mindmapornode.Text != "")
                 {
                     mindmapornode.Text = "";
-                    tasklevel.Value = 0;
-                    taskTime.Value = 0;
+                    ReSetValue();
                     RRReminderlist();
                 }
             }

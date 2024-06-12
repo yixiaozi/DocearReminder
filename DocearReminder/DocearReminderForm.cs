@@ -11614,6 +11614,10 @@ namespace DocearReminder
                     {
                         tasklevel.Value += 1;
                     }
+                    else if (Jinji.Focused)
+                    {
+                        Jinji.Value += 1;
+                    }
                     else if (n_days.Focused)
                     {
                         n_days.Value += 1;
@@ -11884,6 +11888,13 @@ namespace DocearReminder
                             tasklevel.Value -= 1;
                         }
                     }
+                    else if (Jinji.Focused)
+                    {
+                        if (Jinji.Value >= 0)
+                        {
+                            Jinji.Value -= 1;
+                        }
+                    }
                     else if (n_days.Focused)
                     {
                         if (n_days.Value >= 1)
@@ -11958,7 +11969,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (ReminderListFocused() || MindmapList.Focused || this.Focused)
+                        else if (ReminderListFocused() || MindmapList.Focused || this.Focused|| tasklevel.Focused)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
@@ -12009,6 +12020,10 @@ namespace DocearReminder
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
                                 显示右侧ToolStripMenuItem_Click(null, null);
+                            }
+                            else if (tasklevel.Focused)
+                            {
+                                Jinji.Focus();
                             }
                             else
                             {

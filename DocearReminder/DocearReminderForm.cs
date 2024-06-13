@@ -4241,9 +4241,9 @@ namespace DocearReminder
                 int zhongyao = 0;
                 int jinji = 0;
                 string name = "";
-                zhongyao = ((MyListBoxItemRemind)reminderList.Items[e.Index]).level;
-                jinji = ((MyListBoxItemRemind)reminderList.Items[e.Index]).jinji;
-                name = ((MyListBoxItemRemind)reminderList.Items[e.Index]).Name;
+                zhongyao = ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).level;
+                jinji = ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).jinji;
+                name = ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Name;
                 System.Drawing.Brush mybsh = Brushes.Gray;
                 System.Drawing.Brush mybsh1 = Brushes.Gray;
                 Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Height, e.Bounds.Height);
@@ -4497,7 +4497,7 @@ namespace DocearReminder
                 }
                 #endregion
 
-                if (e.Index == reminderList.SelectedIndex)
+                if (e.Index == ((SortByTimeListBox)sender).SelectedIndex)
                 {
                     e.Graphics.FillRectangle(mybsh, rect);
                     e.Graphics.FillRectangle(mybsh1, rect2);
@@ -4511,26 +4511,26 @@ namespace DocearReminder
                 }
                 if (searchword.Text.StartsWith("#"))
                 {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
                 }
                 else if (searchword.Text.StartsWith("*"))
                 {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
                 }
-                else if (!((MyListBoxItemRemind)reminderList.Items[e.Index]).isTask)
+                else if (!((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).isTask)
                 {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
                 }
                 else
                 {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh, rect, StringFormat.GenericDefault);
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh1, rect2, StringFormat.GenericDefault);
-                    string taskname = ((MyListBoxItemRemind)reminderList.Items[e.Index]).Text.Substring(3);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh, rect, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh1, rect2, StringFormat.GenericDefault);
+                    string taskname = ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).Text.Substring(3);
                     //if (taskname.Length > 100)
                     //{
                     //    taskname = taskname.Substring(0, 100);
                     //}
-                    if (switchingState.showTimeBlock.Checked || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == null || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
+                    if (switchingState.showTimeBlock.Checked || ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).link == null || ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).link == "")
                     {
                         e.Graphics.DrawString(taskname, e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
                     }
@@ -4539,7 +4539,7 @@ namespace DocearReminder
                         e.Graphics.DrawString(taskname, e.Font, Brushes.DeepSkyBlue, rectleft, StringFormat.GenericDefault);
                     }
 
-                    ((MyListBoxItemRemind)reminderList.Items[e.Index]).IsShow = true;
+                    ((MyListBoxItemRemind)((SortByTimeListBox)sender).Items[e.Index]).IsShow = true;
                     e = new DrawItemEventArgs(e.Graphics,
                                             e.Font,
                                             e.Bounds,
@@ -17571,162 +17571,6 @@ namespace DocearReminder
                 reminderList.Top = MindmapList.Top;
                 reminderList.Height = MindmapList.Height;
                 reminderList.Focus();
-            }
-        }
-
-        public void ReminderlistBox_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            if (e.Index >= 0)
-            {
-                int zhongyao = 0;
-                string name = "";
-                zhongyao = ((MyListBoxItemRemind)reminderListBox.Items[e.Index]).level;
-                name = ((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Name;
-                System.Drawing.Brush mybsh = Brushes.Gray;
-                Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Height, e.Bounds.Height);
-                Rectangle rectleft = new Rectangle(e.Bounds.X + e.Bounds.Height, e.Bounds.Y, e.Bounds.Width - e.Bounds.Height, e.Bounds.Height);
-                if (zhongyao == 0)
-                {
-                    SolidBrush zeroColor = new SolidBrush(Color.FromArgb(238, 238, 242));
-                    if (searchword.Text.StartsWith("#") || searchword.Text.StartsWith("*"))
-                    {
-                        zeroColor = new SolidBrush(Color.White);
-                    }
-                    e.Graphics.FillRectangle(zeroColor, rect);
-                    mybsh = new SolidBrush(Color.FromArgb(238, 238, 242));
-                    if (name == "当前时间")
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(238, 238, 242)), e.Bounds);
-                        mybsh = Brushes.Gray;
-                    }
-                }
-                else if (zhongyao == 1)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Azure), rect);
-                    mybsh = new SolidBrush(Color.Azure);
-                }
-                else if (zhongyao == -1)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
-                }
-                else if (zhongyao == -2)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(211, 211, 211)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(211, 211, 211));
-                }
-                else if (zhongyao == -3)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(192, 192, 192)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(192, 192, 192));
-                }
-                else if (zhongyao == -4)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(169, 169, 169)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(169, 169, 169));
-                }
-                else if (zhongyao == -5)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 128)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(128, 128, 128));
-                }
-                else if (zhongyao == -6)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(105, 105, 105)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(105, 105, 105));
-                }
-                else if (zhongyao == -7)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, 85, 85)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(85, 85, 85));
-                }
-                else if (zhongyao == -8)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(65, 65, 65)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(65, 65, 65));
-                }
-                else if (zhongyao == -9)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(48, 48, 48)), rect);
-                    mybsh = new SolidBrush(Color.FromArgb(48, 48, 48));
-                }
-                else if (zhongyao <= -10)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Black), rect);
-                    mybsh = new SolidBrush(Color.Black);
-                }
-                else if (zhongyao == 2)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.PowderBlue), rect);
-                    mybsh = new SolidBrush(Color.PowderBlue);
-                }
-                else if (zhongyao == 3)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.LightSkyBlue), rect);
-                    mybsh = new SolidBrush(Color.LightSkyBlue);
-                }
-                else if (zhongyao == 4)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.DeepSkyBlue), rect);
-                    mybsh = new SolidBrush(Color.DeepSkyBlue);
-                }
-                else if (zhongyao == 5)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.CadetBlue), rect);
-                    mybsh = new SolidBrush(Color.CadetBlue);
-                }
-                else if (zhongyao == 6)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rect);
-                    mybsh = new SolidBrush(Color.Gold);
-                }
-                else if (zhongyao == 7)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Orange), rect);
-                    mybsh = new SolidBrush(Color.Orange);
-                }
-                else if (zhongyao == 8)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.OrangeRed), rect);
-                    mybsh = new SolidBrush(Color.OrangeRed);
-                }
-                else if (zhongyao == 9)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Crimson), rect);
-                    mybsh = new SolidBrush(Color.Crimson);
-                }
-                else if (zhongyao >= 10)
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Red), rect);
-                    mybsh = new SolidBrush(Color.Red);
-                }
-                if (e.Index == reminderListBox.SelectedIndex)
-                {
-                    e.Graphics.FillRectangle(mybsh, rect);
-                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), rectleft); //Yellow
-                }
-                if (searchword.Text.StartsWith("#"))
-                {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    //e.DrawFocusRectangle();
-                }
-                else if (searchword.Text.StartsWith("*"))
-                {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    //e.DrawFocusRectangle();
-                }
-                else if (!((MyListBoxItemRemind)reminderListBox.Items[e.Index]).isTask)
-                {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Text, e.Font, Brushes.Gray, e.Bounds, StringFormat.GenericDefault);
-                    //e.DrawFocusRectangle();
-                }
-                else
-                {
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Text.Substring(0, 3), e.Font, mybsh, rect, StringFormat.GenericDefault);
-                    e.Graphics.DrawString(((MyListBoxItemRemind)reminderListBox.Items[e.Index]).Text.Substring(3), e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
-                    ((MyListBoxItemRemind)reminderListBox.Items[e.Index]).IsShow = true;
-                    //e.DrawFocusRectangle();
-                }
             }
         }
 

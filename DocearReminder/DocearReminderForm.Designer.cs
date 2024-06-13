@@ -1427,7 +1427,7 @@ namespace DocearReminder
             this.reminderListBox.Name = "reminderListBox";
             this.reminderListBox.Size = new System.Drawing.Size(600, 74);
             this.reminderListBox.TabIndex = 117;
-            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ReminderlistBox_DrawItem);
+            this.reminderListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
             this.reminderListBox.SelectedIndexChanged += new System.EventHandler(this.reminderlist_SelectedIndexChanged);
             this.reminderListBox.DataSourceChanged += new System.EventHandler(this.ReminderListBox_DataSourceChanged);
             this.reminderListBox.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);

@@ -355,6 +355,7 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // button14
             // 
             this.button14.Location = new System.Drawing.Point(393, 337);
             this.button14.Name = "button14";

@@ -3173,6 +3173,33 @@ namespace DocearReminder
                                         hasNight = true;
                                     }
                                 }
+                                //进行紧急重要状态过滤
+                                int jinji = MyToInt16(GetAttribute(node.ParentNode, "JINJI"));
+                                int zhongyao=MyToInt16(GetAttribute(node.ParentNode, "TASKLEVEL"));
+                                //jinji小于5认为不紧急
+                                //zhongyao小于5认为不重要
+                                bool jinjibool = zhongyaojinji.Checked || buzhongyaojinji.Checked;
+                                bool zhongyaobool = zhongyaojinji.Checked || zhongyaobujinji.Checked;
+                                bool taskjinjizhongyao = jinji >= 5 && zhongyao >= 5; 
+                                bool taskjinjibuzhongyao = jinji >= 5 && zhongyao < 5;
+                                bool taskbujinjizhongyao = jinji < 5 && zhongyao >= 5;
+                                bool taskbujinjibuzhongyao = jinji < 5 && zhongyao < 5;
+                                if (taskjinjizhongyao&&!zhongyaojinji.Checked)
+                                {
+                                    IsShow = false;
+                                }
+                                if (taskjinjibuzhongyao && !buzhongyaojinji.Checked)
+                                {
+                                    IsShow = false;
+                                }
+                                if (taskbujinjizhongyao && !zhongyaobujinji.Checked)
+                                {
+                                    IsShow = false;
+                                }
+                                if (taskbujinjibuzhongyao && !buzhongyaobujinji.Checked)
+                                {
+                                    IsShow = false;
+                                }
 
                                 bool timebool = IsShow;
                                 bool iSReminderOnly = MyToBoolean(GetAttribute(node.ParentNode, "ISReminderOnly"));
@@ -3409,6 +3436,7 @@ namespace DocearReminder
                                 //    //&& !System.IO.File.Exists(GetAttribute(node.ParentNode, "LINK").Replace("file:/", ""))//当时添加了文件
                                 //    IsShow = false;
                                 //}
+
                                 if (Xnodes.Any(m => m.Contains(nodeid)) && reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
                                 {
                                     if (taskName.ToLower() != "bin")
@@ -4559,11 +4587,8 @@ namespace DocearReminder
         /// <param name="e"></param>
         public void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (true)
-            {
-                ReSetValue();
-                RRReminderlist();
-            }
+            ReSetValue();
+            RRReminderlist();
         }
 
         
@@ -9440,7 +9465,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                         {
-                            buzhongyaojinji.Checked = !buzhongyaojinji.Checked;
+                            buzhongyaobujinji.Checked = !buzhongyaobujinji.Checked;
                         }
                         else
                         {
@@ -9655,7 +9680,7 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
-                                zhongyaobujinji.Checked=!zhongyaobujinji.Checked;
+                                zhongyaojinji.Checked=!zhongyaojinji.Checked;
                             }
                             else
                             {
@@ -9670,7 +9695,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                         {
-                            zhongyaojinji.Checked = !zhongyaojinji.Checked;
+                            buzhongyaojinji.Checked = !buzhongyaojinji.Checked;
                         }
                         else
                         {
@@ -9684,7 +9709,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                         {
-                            buzhongyaojinji.Checked = !buzhongyaojinji.Checked;
+                            zhongyaobujinji.Checked = !zhongyaobujinji.Checked;
                         }
                         else
                         {
@@ -13924,11 +13949,8 @@ namespace DocearReminder
 
         public void morning_CheckedChanged(object sender, EventArgs e)
         {
-            if (true)
-            {
-                ReSetValue();
-                RRReminderlist();
-            }
+            ReSetValue();
+            RRReminderlist();
         }
 
         public void fenshuADD(int n)

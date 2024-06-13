@@ -526,7 +526,7 @@ namespace DocearReminder
             this.afternoon.Checked = true;
             this.afternoon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.afternoon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.afternoon.Location = new System.Drawing.Point(1213, 52);
+            this.afternoon.Location = new System.Drawing.Point(1212, 51);
             this.afternoon.Name = "afternoon";
             this.afternoon.Size = new System.Drawing.Size(13, 12);
             this.afternoon.TabIndex = 72;
@@ -1592,13 +1592,13 @@ namespace DocearReminder
             this.zhongyaobujinji.Checked = true;
             this.zhongyaobujinji.CheckState = System.Windows.Forms.CheckState.Checked;
             this.zhongyaobujinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.zhongyaobujinji.Location = new System.Drawing.Point(1176, 36);
+            this.zhongyaobujinji.Location = new System.Drawing.Point(1211, 35);
             this.zhongyaobujinji.Name = "zhongyaobujinji";
             this.zhongyaobujinji.Size = new System.Drawing.Size(13, 12);
             this.zhongyaobujinji.TabIndex = 126;
             this.zhongyaobujinji.TabStop = false;
             this.zhongyaobujinji.UseVisualStyleBackColor = true;
-            this.zhongyaobujinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            this.zhongyaobujinji.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // zhongyaojinji
             // 
@@ -1606,13 +1606,13 @@ namespace DocearReminder
             this.zhongyaojinji.Checked = true;
             this.zhongyaojinji.CheckState = System.Windows.Forms.CheckState.Checked;
             this.zhongyaojinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.zhongyaojinji.Location = new System.Drawing.Point(1194, 36);
+            this.zhongyaojinji.Location = new System.Drawing.Point(1177, 35);
             this.zhongyaojinji.Name = "zhongyaojinji";
             this.zhongyaojinji.Size = new System.Drawing.Size(13, 12);
             this.zhongyaojinji.TabIndex = 126;
             this.zhongyaojinji.TabStop = false;
             this.zhongyaojinji.UseVisualStyleBackColor = true;
-            this.zhongyaojinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            this.zhongyaojinji.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // buzhongyaobujinji
             // 
@@ -1620,13 +1620,13 @@ namespace DocearReminder
             this.buzhongyaobujinji.Checked = true;
             this.buzhongyaobujinji.CheckState = System.Windows.Forms.CheckState.Checked;
             this.buzhongyaobujinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buzhongyaobujinji.Location = new System.Drawing.Point(1213, 36);
+            this.buzhongyaobujinji.Location = new System.Drawing.Point(1230, 36);
             this.buzhongyaobujinji.Name = "buzhongyaobujinji";
             this.buzhongyaobujinji.Size = new System.Drawing.Size(13, 12);
             this.buzhongyaobujinji.TabIndex = 126;
             this.buzhongyaobujinji.TabStop = false;
             this.buzhongyaobujinji.UseVisualStyleBackColor = true;
-            this.buzhongyaobujinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            this.buzhongyaobujinji.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // buzhongyaojinji
             // 
@@ -1634,13 +1634,13 @@ namespace DocearReminder
             this.buzhongyaojinji.Checked = true;
             this.buzhongyaojinji.CheckState = System.Windows.Forms.CheckState.Checked;
             this.buzhongyaojinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buzhongyaojinji.Location = new System.Drawing.Point(1230, 36);
+            this.buzhongyaojinji.Location = new System.Drawing.Point(1194, 35);
             this.buzhongyaojinji.Name = "buzhongyaojinji";
             this.buzhongyaojinji.Size = new System.Drawing.Size(13, 12);
             this.buzhongyaojinji.TabIndex = 126;
             this.buzhongyaojinji.TabStop = false;
             this.buzhongyaojinji.UseVisualStyleBackColor = true;
-            this.buzhongyaojinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            this.buzhongyaojinji.CheckedChanged += new System.EventHandler(this.morning_CheckedChanged);
             // 
             // DocearReminderForm
             // 

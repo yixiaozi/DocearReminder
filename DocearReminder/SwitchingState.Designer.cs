@@ -1,4 +1,6 @@
-﻿namespace DocearReminder
+﻿using System;
+
+namespace DocearReminder
 {
     partial class SwitchingState
     {
@@ -120,6 +122,7 @@
             this.KADateTimePicker.ShowUpDown = true;
             this.KADateTimePicker.Size = new System.Drawing.Size(113, 21);
             this.KADateTimePicker.TabIndex = 165;
+
             // 
             // MoneyDateTimePicker
             // 

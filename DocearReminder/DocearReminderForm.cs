@@ -205,6 +205,10 @@ namespace DocearReminder
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
             switchingState = new SwitchingState();
+            switchingState.TimeBlockDate.Value = DateTime.Today;
+            switchingState.MoneyDateTimePicker.Value = DateTime.Today;
+            switchingState.KADateTimePicker.Value = DateTime.Today;
+            switchingState.onlyZhouqi.Checked = ini.ReadString("config", "IsCycleOnly", "") == "true";
             tagCloud = new TagCloud();
             //DocearReminder文件夹创建
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder"))

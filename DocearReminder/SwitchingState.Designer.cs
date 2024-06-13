@@ -48,6 +48,10 @@
             this.onlyZhouqi = new System.Windows.Forms.CheckBox();
             this.ebcheckBox = new System.Windows.Forms.CheckBox();
             this.IsReminderOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.OnlyLevel = new System.Windows.Forms.CheckBox();
+            this.ShowKA = new System.Windows.Forms.CheckBox();
+            this.ShowMoney = new System.Windows.Forms.CheckBox();
+            this.showTimeBlock = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,7 +115,7 @@
             // 
             // KADateTimePicker
             // 
-            this.KADateTimePicker.Location = new System.Drawing.Point(13, 125);
+            this.KADateTimePicker.Location = new System.Drawing.Point(11, 150);
             this.KADateTimePicker.Name = "KADateTimePicker";
             this.KADateTimePicker.ShowUpDown = true;
             this.KADateTimePicker.Size = new System.Drawing.Size(113, 21);
@@ -119,7 +123,7 @@
             // 
             // MoneyDateTimePicker
             // 
-            this.MoneyDateTimePicker.Location = new System.Drawing.Point(147, 98);
+            this.MoneyDateTimePicker.Location = new System.Drawing.Point(145, 123);
             this.MoneyDateTimePicker.Name = "MoneyDateTimePicker";
             this.MoneyDateTimePicker.ShowUpDown = true;
             this.MoneyDateTimePicker.Size = new System.Drawing.Size(126, 21);
@@ -127,7 +131,7 @@
             // 
             // TimeBlockDate
             // 
-            this.TimeBlockDate.Location = new System.Drawing.Point(13, 97);
+            this.TimeBlockDate.Location = new System.Drawing.Point(11, 122);
             this.TimeBlockDate.Name = "TimeBlockDate";
             this.TimeBlockDate.ShowUpDown = true;
             this.TimeBlockDate.Size = new System.Drawing.Size(113, 21);
@@ -266,11 +270,62 @@
             this.IsReminderOnlyCheckBox.Text = "任务";
             this.IsReminderOnlyCheckBox.UseVisualStyleBackColor = true;
             // 
+            // OnlyLevel
+            // 
+            this.OnlyLevel.AutoSize = true;
+            this.OnlyLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OnlyLevel.Location = new System.Drawing.Point(213, 98);
+            this.OnlyLevel.Name = "OnlyLevel";
+            this.OnlyLevel.Size = new System.Drawing.Size(58, 16);
+            this.OnlyLevel.TabIndex = 173;
+            this.OnlyLevel.Text = "只等级";
+            this.OnlyLevel.UseVisualStyleBackColor = true;
+            // 
+            // ShowKA
+            // 
+            this.ShowKA.AutoSize = true;
+            this.ShowKA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ShowKA.Location = new System.Drawing.Point(85, 97);
+            this.ShowKA.Name = "ShowKA";
+            this.ShowKA.Size = new System.Drawing.Size(58, 16);
+            this.ShowKA.TabIndex = 172;
+            this.ShowKA.Text = "卡路里";
+            this.ShowKA.UseVisualStyleBackColor = true;
+            this.ShowKA.CheckedChanged += new System.EventHandler(this.ShowKA_CheckedChanged);
+            // 
+            // ShowMoney
+            // 
+            this.ShowMoney.AutoSize = true;
+            this.ShowMoney.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ShowMoney.Location = new System.Drawing.Point(148, 97);
+            this.ShowMoney.Name = "ShowMoney";
+            this.ShowMoney.Size = new System.Drawing.Size(46, 16);
+            this.ShowMoney.TabIndex = 171;
+            this.ShowMoney.Text = "金钱";
+            this.ShowMoney.UseVisualStyleBackColor = true;
+            this.ShowMoney.CheckedChanged += new System.EventHandler(this.ShowMoney_CheckedChanged);
+            // 
+            // showTimeBlock
+            // 
+            this.showTimeBlock.AutoSize = true;
+            this.showTimeBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.showTimeBlock.Location = new System.Drawing.Point(13, 97);
+            this.showTimeBlock.Name = "showTimeBlock";
+            this.showTimeBlock.Size = new System.Drawing.Size(58, 16);
+            this.showTimeBlock.TabIndex = 170;
+            this.showTimeBlock.Text = "时间块";
+            this.showTimeBlock.UseVisualStyleBackColor = true;
+            this.showTimeBlock.CheckedChanged += new System.EventHandler(this.showTimeBlock_CheckedChanged);
+            // 
             // SwitchingState
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(285, 154);
+            this.ClientSize = new System.Drawing.Size(285, 183);
+            this.Controls.Add(this.OnlyLevel);
+            this.Controls.Add(this.ShowKA);
+            this.Controls.Add(this.ShowMoney);
+            this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.drawioPicBigger);
             this.Controls.Add(this.IsDiary);
             this.Controls.Add(this.IsClip);
@@ -321,5 +376,9 @@
         public System.Windows.Forms.CheckBox onlyZhouqi;
         public System.Windows.Forms.CheckBox ebcheckBox;
         public System.Windows.Forms.CheckBox IsReminderOnlyCheckBox;
+        public System.Windows.Forms.CheckBox OnlyLevel;
+        public System.Windows.Forms.CheckBox ShowKA;
+        public System.Windows.Forms.CheckBox ShowMoney;
+        public System.Windows.Forms.CheckBox showTimeBlock;
     }
 }

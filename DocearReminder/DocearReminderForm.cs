@@ -543,10 +543,10 @@ namespace DocearReminder
                     dic.Add(usedCount, "打开次数");
                     dic.Add(mindmaplist_count, "导图数");
                     dic.Add(taskcount, "任务总数");
-                    dic.Add(showTimeBlock, "显示时间块，快捷键q"); 
-                    dic.Add(ShowKA, "显示卡路里，快捷键Ctrl+s"); 
-                    dic.Add(ShowMoney, "显示金钱，快捷键Ctrl+m");
-                    dic.Add(OnlyLevel, "只等级");
+                    //dic.Add(showTimeBlock, "显示时间块，快捷键q"); 
+                    //dic.Add(ShowKA, "显示卡路里，快捷键Ctrl+s"); 
+                    //dic.Add(ShowMoney, "显示金钱，快捷键Ctrl+m");
+                    //dic.Add(OnlyLevel, "只等级");
                     dic.Add(c_endtime, "截止时间,快捷键E"); 
                     dic.Add(c_Jinian, "纪念日,快捷键Y");
                     dic.Add(c_remember, "记忆模式");
@@ -2678,7 +2678,7 @@ namespace DocearReminder
             SetTimeBlockLasTime();
 
             #region 显示时间块
-            if (showTimeBlock.Checked)
+            if (switchingState.showTimeBlock.Checked)
             {
                 reminderList.Items.Clear();
                 reminderListBox.Visible = false;
@@ -2697,7 +2697,7 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= switchingState.TimeBlockDate.Value.AddDays(0 - beginDateDiff) && m.time < switchingState.TimeBlockDate.Value.AddDays(1) && m.mindmap == "TimeBlock" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
-                    if (OnlyLevel.Checked && item.tasklevel != 0)
+                    if (switchingState.OnlyLevel.Checked && item.tasklevel != 0)
                     {
                         continue;
                     }
@@ -2731,7 +2731,7 @@ namespace DocearReminder
                 UpdateSummary();
                 reminderList.Focus();
             }
-            else if (ShowMoney.Checked)
+            else if (switchingState.ShowMoney.Checked)
             {
                 reminderList.Items.Clear();
                 reminderListBox.Visible = false;
@@ -2750,7 +2750,7 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= switchingState.MoneyDateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < switchingState.MoneyDateTimePicker.Value.AddDays(1) && m.mindmap == "Money" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
-                    if (OnlyLevel.Checked && item.tasklevel != 0)
+                    if (switchingState.OnlyLevel.Checked && item.tasklevel != 0)
                     {
                         continue;
                     }
@@ -2778,7 +2778,7 @@ namespace DocearReminder
                 UpdateSummary();
                 reminderList.Focus();
             }
-            else if (ShowKA.Checked)
+            else if (switchingState.ShowKA.Checked)
             {
                 reminderList.Items.Clear();
                 reminderListBox.Visible = false;
@@ -2797,7 +2797,7 @@ namespace DocearReminder
                 }
                 foreach (ReminderItem item in reminderObject.reminders.Where(m => m.time >= switchingState.KADateTimePicker.Value.AddDays(0 - beginDateDiff) && m.time < switchingState.KADateTimePicker.Value.AddDays(1) && m.mindmap == "KA" && (searchword.Text == "" || (searchword.Text != "" && (m.name.SafeToString().Contains(searchWords) || m.comment.SafeToString().Contains(searchWords) || m.DetailComment.SafeToString().Contains(searchWords) || m.nameFull.SafeToString().Contains(searchWords))))).OrderBy(m => m.time))
                 {
-                    if (OnlyLevel.Checked && item.tasklevel != 0)
+                    if (switchingState.OnlyLevel.Checked && item.tasklevel != 0)
                     {
                         continue;
                     }
@@ -2828,11 +2828,11 @@ namespace DocearReminder
                 reminderList.Focus();
             }
             ReminderlistBoxChange();
-            if ((showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
+            if ((switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
             {
-                if (reminderList.Items.Count == 0 && OnlyLevel.Checked)
+                if (reminderList.Items.Count == 0 && switchingState.OnlyLevel.Checked)
                 {
-                    OnlyLevel.Checked = false;
+                    switchingState.OnlyLevel.Checked = false;
                     RRReminderlist();
                 }
                 ReminderListBox_SizeChanged(null, null);
@@ -2867,7 +2867,7 @@ namespace DocearReminder
                     item.isEBType = false;
                 }
             }
-            if (!(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked) && !c_ViewModel.Checked && mindmapornode.Text == "")
+            if (!(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked) && !c_ViewModel.Checked && mindmapornode.Text == "")
             {
                 //reminderList.Items.Clear();
                 //如果SS的时候只能当前类型的。
@@ -3930,7 +3930,7 @@ namespace DocearReminder
 
             reminderlistSelectedItem = null;//刷新后应该清空
             //将reminderList.Items更新到图示中，使用异步的方法，避免影响主线程
-            if (!(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
+            if (!(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
             {
                 Task.Run(() => DrawioAdd(reminderlistItems));
             }
@@ -3966,7 +3966,7 @@ namespace DocearReminder
 
         public void UpdateSummary()
         {
-            if (showTimeBlock.Checked)
+            if (switchingState.showTimeBlock.Checked)
             {
                 Double actionNumber = 0;
                 double hours = 0;
@@ -4244,7 +4244,7 @@ namespace DocearReminder
                 else if (zhongyao == -1)
                 {
                     e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect);
-                    if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+                    if (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked)
                     {
                         mybsh = new SolidBrush(Color.FromArgb(220, 220, 220));
                     }
@@ -4368,7 +4368,7 @@ namespace DocearReminder
                 else if (jinji == -1)
                 {
                     e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220, 220, 220)), rect2);
-                    if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+                    if (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked)
                     {
                         mybsh1 = new SolidBrush(Color.FromArgb(220, 220, 220));
                     }
@@ -4502,7 +4502,7 @@ namespace DocearReminder
                     //{
                     //    taskname = taskname.Substring(0, 100);
                     //}
-                    if (showTimeBlock.Checked || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == null || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
+                    if (switchingState.showTimeBlock.Checked || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == null || ((MyListBoxItemRemind)reminderList.Items[e.Index]).link == "")
                     {
                         e.Graphics.DrawString(taskname, e.Font, Brushes.Gray, rectleft, StringFormat.GenericDefault);
                     }
@@ -5228,7 +5228,7 @@ namespace DocearReminder
             IsSelectReminder = true;
             isSettingSyncWeek = false;
             tagListClear();
-            //if (showTimeBlock.Checked)//没有什么用
+            //if (switchingState.showTimeBlock.Checked)//没有什么用
             //{
             //    //showMindmapName = ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML;
             //}
@@ -9296,7 +9296,7 @@ namespace DocearReminder
                 case Keys.C:
                     if (ReminderListFocused())
                     {
-                        if (showTimeBlock.Checked || ShowMoney.Checked || ShowKA.Checked)
+                        if (switchingState.showTimeBlock.Checked || switchingState.ShowMoney.Checked || switchingState.ShowKA.Checked)
                         {
                             Clipboard.SetDataObject(((MyListBoxItemRemind)reminderlistSelectedItem).IsDaka);
                             MyHide();
@@ -9373,7 +9373,7 @@ namespace DocearReminder
                 case Keys.D:
                     if (keyNotWork(e))
                     {
-                        if (showTimeBlock.Checked)
+                        if (switchingState.showTimeBlock.Checked)
                         {
                             try
                             {
@@ -9438,7 +9438,14 @@ namespace DocearReminder
                 case Keys.D0:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
-                        night.Checked = !night.Checked;
+                        if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        {
+                            buzhongyaojinji.Checked = !buzhongyaojinji.Checked;
+                        }
+                        else
+                        {
+                            night.Checked = !night.Checked;
+                        }
                     }
                     break;
 
@@ -9646,7 +9653,14 @@ namespace DocearReminder
                     {
                         if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                         {
-                            morning.Checked = !morning.Checked;
+                            if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                            {
+                                zhongyaobujinji.Checked=!zhongyaobujinji.Checked;
+                            }
+                            else
+                            {
+                                morning.Checked = !morning.Checked;
+                            }
                         }
                     }
                     break;
@@ -9654,14 +9668,28 @@ namespace DocearReminder
                 case Keys.D8:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
-                        day.Checked = !day.Checked;
+                        if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        {
+                            zhongyaojinji.Checked = !zhongyaojinji.Checked;
+                        }
+                        else
+                        {
+                            day.Checked = !day.Checked;
+                        }
                     }
                     break;
 
                 case Keys.D9:
                     if (!(searchword.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused || dateTimePicker.Focused))
                     {
-                        afternoon.Checked = !afternoon.Checked;
+                        if (e.Modifiers.CompareTo(Keys.Alt) == 0)
+                        {
+                            buzhongyaojinji.Checked = !buzhongyaojinji.Checked;
+                        }
+                        else
+                        {
+                            afternoon.Checked = !afternoon.Checked;
+                        }
                     }
                     break;
 
@@ -9895,7 +9923,7 @@ namespace DocearReminder
                             RRReminderlist();
                             return;
                         }
-                        if (isRenameTimeBlock && (showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//重命名，也就是修改备注的时候
+                        if (isRenameTimeBlock && (switchingState.showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//重命名，也就是修改备注的时候
                         {
                             //SaveLog("修改节点名称：" + renameTaskName + "  To  " + searchword.Text);
                             reminderObject.reminders.First(m => m.ID == showMindmapName).comment = searchword.Text;
@@ -9905,7 +9933,7 @@ namespace DocearReminder
                             isRenameTimeBlock = false;
                             return;
                         }
-                        if ((showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
+                        if ((switchingState.showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && !searchword.Text.Contains("刚刚") && !searchword.Text.Contains("@"))//也就是时间块的详细记录里不允许添加@符号
                         {
                             if (reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).comment == "")//如果时间块上还没有设置备注，就直接设置备注，而不是添加详细信息
                             {
@@ -9926,7 +9954,7 @@ namespace DocearReminder
                                 return;
                             }
                         }
-                        if (((showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && (searchword.Text.Contains("@"))) || searchword.Text.Contains(" @"))
+                        if (((switchingState.showTimeBlock.Checked && !searchword.Text.StartsWith(" ")) && (searchword.Text.Contains("@"))) || searchword.Text.Contains(" @"))
                         {
                             //不管有没有敲击刚刚，则添加刚刚两个字在最前面
                             searchword.Text = "刚刚" + searchword.Text;
@@ -10475,7 +10503,7 @@ namespace DocearReminder
                                 CalendarForm.reminderObjectJsonAdd(taskName, Guid.NewGuid().ToString(), Color.GreenYellow.ToArgb().ToString(), 0, taskTime, "FanQie", "", "", taskDetail, tasktime);
                             }
                             searchword.Text = "";
-                            if (showTimeBlock.Checked)//若是是时间块模式，可以直接刷新
+                            if (switchingState.showTimeBlock.Checked)//若是是时间块模式，可以直接刷新
                             {
                                 RRReminderlist();
                                 reminderList.Focus();
@@ -10834,7 +10862,7 @@ namespace DocearReminder
                     }
                     else if (dateTimePicker.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused)
                     {
-                        if (dateTimePicker.Focused && showTimeBlock.Checked)
+                        if (dateTimePicker.Focused && switchingState.showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).time = dateTimePicker.Value;
@@ -10844,7 +10872,7 @@ namespace DocearReminder
                                 ReminderListSelectedIndex(reminderSelectIndex);
                             }
                         }
-                        else if (taskTime.Focused && showTimeBlock.Checked)
+                        else if (taskTime.Focused && switchingState.showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
@@ -10854,7 +10882,7 @@ namespace DocearReminder
                                 ReminderListSelectedIndex(reminderSelectIndex);
                             }
                         }
-                        else if (tasklevel.Focused && showTimeBlock.Checked)
+                        else if (tasklevel.Focused && switchingState.showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
@@ -10864,7 +10892,7 @@ namespace DocearReminder
                                 ReminderListSelectedIndex(reminderSelectIndex);
                             }
                         }
-                        else if (Jinji.Focused && showTimeBlock.Checked)
+                        else if (Jinji.Focused && switchingState.showTimeBlock.Checked)
                         {
                             reminderSelectIndex = reminderList.SelectedIndex;
                             reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).jinji = (int)Jinji.Value;
@@ -11227,7 +11255,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            if (showTimeBlock.Checked)
+                            if (switchingState.showTimeBlock.Checked)
                             {
                                 switchingState.TimeBlockDate.Value = switchingState.TimeBlockDate.Value.AddDays(-1);
                                 RRReminderlist();
@@ -11237,7 +11265,7 @@ namespace DocearReminder
                                     ReminderListSelectedIndex(reminderList.Items.Count - 1);
                                 }
                             }
-                            else if (ShowMoney.Checked)
+                            else if (switchingState.ShowMoney.Checked)
                             {
                                 switchingState.MoneyDateTimePicker.Value = switchingState.MoneyDateTimePicker.Value.AddDays(-1);
                                 RRReminderlist();
@@ -11247,7 +11275,7 @@ namespace DocearReminder
                                     ReminderListSelectedIndex(reminderList.Items.Count - 1);
                                 }
                             }
-                            else if (ShowKA.Checked)
+                            else if (switchingState.ShowKA.Checked)
                             {
                                 switchingState.KADateTimePicker.Value = switchingState.KADateTimePicker.Value.AddDays(-1);
                                 RRReminderlist();
@@ -11304,7 +11332,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                         {
-                            if (showTimeBlock.Checked)
+                            if (switchingState.showTimeBlock.Checked)
                             {
                                 isRenameTimeBlock = true;
                                 reminderSelectIndex = reminderList.SelectedIndex;
@@ -11400,14 +11428,14 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (tasklevel.Value < 100)
                                     {
                                         tasklevel.Value += 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
-                                        if (!OnlyLevel.Checked)
+                                        if (!switchingState.OnlyLevel.Checked)
                                         {
                                             RRReminderlist();
                                         }
@@ -11426,14 +11454,14 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (taskTime.Value <= 240)
                                     {
                                         taskTime.Value += 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
-                                        if (!OnlyLevel.Checked)
+                                        if (!switchingState.OnlyLevel.Checked)
                                         {
                                             RRReminderlist();
                                         }
@@ -11451,7 +11479,7 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (switchingState.TimeBlockDate.Value != null)
                                     {
@@ -11677,14 +11705,14 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (tasklevel.Value >= -10)
                                     {
                                         tasklevel.Value -= 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasklevel = (int)tasklevel.Value;
-                                        if (!OnlyLevel.Checked)
+                                        if (!switchingState.OnlyLevel.Checked)
                                         {
                                             RRReminderlist();
                                         }
@@ -11702,14 +11730,14 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (taskTime.Value >= 1)
                                     {
                                         taskTime.Value -= 1;
                                         reminderSelectIndex = reminderList.SelectedIndex;
                                         reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).tasktime = (int)taskTime.Value;
-                                        if (!OnlyLevel.Checked)
+                                        if (!switchingState.OnlyLevel.Checked)
                                         {
                                             RRReminderlist();
                                         }
@@ -11727,7 +11755,7 @@ namespace DocearReminder
                             }
                             else if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     if (switchingState.TimeBlockDate.Value != null)
                                     {
@@ -11973,7 +12001,7 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                if (showTimeBlock.Checked)
+                                if (switchingState.showTimeBlock.Checked)
                                 {
                                     switchingState.TimeBlockDate.Value = switchingState.TimeBlockDate.Value.AddDays(1);
                                     RRReminderlist();
@@ -11983,7 +12011,7 @@ namespace DocearReminder
                                         ReminderListSelectedIndex(reminderList.Items.Count - 1);
                                     }
                                 }
-                                else if (ShowMoney.Checked)
+                                else if (switchingState.ShowMoney.Checked)
                                 {
                                     switchingState.MoneyDateTimePicker.Value = switchingState.MoneyDateTimePicker.Value.AddDays(1);
                                     RRReminderlist();
@@ -11993,7 +12021,7 @@ namespace DocearReminder
                                         ReminderListSelectedIndex(reminderList.Items.Count - 1);
                                     }
                                 }
-                                else if (ShowKA.Checked)
+                                else if (switchingState.ShowKA.Checked)
                                 {
                                     switchingState.KADateTimePicker.Value = switchingState.KADateTimePicker.Value.AddDays(1);
                                     RRReminderlist();
@@ -12131,7 +12159,7 @@ namespace DocearReminder
                     {
                         if (e.Modifiers.CompareTo(Keys.Control) == 0)
                         {
-                            ShowMoney.Checked = !ShowMoney.Checked;
+                            switchingState.ShowMoney.Checked = !switchingState.ShowMoney.Checked;
                         }
                         else if (ReminderListFocused() || dateTimePicker.Focused || tasklevel.Focused || Jinji.Focused)
                         {
@@ -12167,7 +12195,7 @@ namespace DocearReminder
                 case Keys.N:
                     if (keyNotWork(e))
                     {
-                        if (showTimeBlock.Checked || ShowMoney.Checked || ShowKA.Checked)
+                        if (switchingState.showTimeBlock.Checked || switchingState.ShowMoney.Checked || switchingState.ShowKA.Checked)
                         {
                             return;
                         }
@@ -12568,7 +12596,7 @@ namespace DocearReminder
                         else
                         {
                             mindmapornode.Text = "";
-                            showTimeBlock.Checked = !showTimeBlock.Checked;
+                            switchingState.showTimeBlock.Checked = !switchingState.showTimeBlock.Checked;
                             reminderList.Refresh();
                         }
                     }
@@ -12728,7 +12756,7 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Control) == 0)//瘦的意思，这样好记点
                             {
-                                ShowKA.Checked = !ShowKA.Checked;
+                                switchingState.ShowKA.Checked = !switchingState.ShowKA.Checked;
                             }
                             else
                             {
@@ -12796,12 +12824,12 @@ namespace DocearReminder
                     if (e.Modifiers.CompareTo(Keys.Control) == 0)
                     {
                         mindmapornode.Text = "";
-                        showTimeBlock.Checked = !showTimeBlock.Checked;
+                        switchingState.showTimeBlock.Checked = !switchingState.showTimeBlock.Checked;
                         reminderList.Refresh();
                     }
                     else if (ReminderListFocused() || reminderListBox.Focused || taskTime.Focused || tasklevel.Focused || Jinji.Focused)
                     {
-                        if (showTimeBlock.Checked && e.Modifiers.CompareTo(Keys.Shift) == 0)//暂时保持简单吧，用Ctrl+JK来设置每天
+                        if (switchingState.showTimeBlock.Checked && e.Modifiers.CompareTo(Keys.Shift) == 0)//暂时保持简单吧，用Ctrl+JK来设置每天
                         {
                             switchingState.TimeBlockDate.Focus();
                         }
@@ -12945,13 +12973,13 @@ namespace DocearReminder
 
                 case Keys.W:
                     searchword.Text = "";
-                    if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+                    if (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked)
                     {
                         //切换OnlyLevel
-                        OnlyLevel.Checked = !OnlyLevel.Checked;
+                        switchingState.OnlyLevel.Checked = !switchingState.OnlyLevel.Checked;
                         RRReminderlist();
                         //mindmapornode.Text = "";
-                        //showTimeBlock.Checked=ShowKA.Checked=ShowMoney.Checked =  false;
+                        //switchingState.showTimeBlock.Checked=switchingState.ShowKA.Checked=switchingState.ShowMoney.Checked =  false;
                         //reminderList.Refresh();
                         return;
                     }
@@ -14379,7 +14407,7 @@ namespace DocearReminder
         {
             try
             {
-                if (showTimeBlock.Checked || ShowMoney.Checked || ShowKA.Checked)
+                if (switchingState.showTimeBlock.Checked || switchingState.ShowMoney.Checked || switchingState.ShowKA.Checked)
                 {
                     if (((MyListBoxItemRemind)reminderlistSelectedItem).remindertype != "")
                     {
@@ -14922,7 +14950,7 @@ namespace DocearReminder
             else if (searchword.Text.ToLower().StartsWith("showtimeblock") || searchword.Text.ToLower().StartsWith("showtb") || searchword.Text.ToLower().StartsWith("ttt") || searchword.Text.ToLower().StartsWith("qqq"))
             {
                 searchword.Text = "";
-                showTimeBlock.Checked = !showTimeBlock.Checked;
+                switchingState.showTimeBlock.Checked = !switchingState.showTimeBlock.Checked;
                 return;
             }
             else if (searchword.Text.StartsWith("stillddd"))
@@ -15501,7 +15529,7 @@ namespace DocearReminder
 
                 return;
             }
-            if (searchword.Text != "" && (searchword.Text.ToLower().StartsWith("t") || searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@") || searchword.Text.ToLower().Contains(" @") || (showTimeBlock.Checked && !searchword.Text.StartsWith(" "))) && searchword.Text.Contains("@"))//选择时间块,如果开始是空格，就不认为是时间块状态
+            if (searchword.Text != "" && (searchword.Text.ToLower().StartsWith("t") || searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@") || searchword.Text.ToLower().Contains(" @") || (switchingState.showTimeBlock.Checked && !searchword.Text.StartsWith(" "))) && searchword.Text.Contains("@"))//选择时间块,如果开始是空格，就不认为是时间块状态
             {
                 string taskname = "";
                 string type = "";
@@ -15510,7 +15538,7 @@ namespace DocearReminder
                     type = "T";
                     taskname = searchword.Text.Split('@')[0].Substring(1);
                 }
-                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@") || searchword.Text.ToLower().Contains(" @") || showTimeBlock.Checked)
+                if (searchword.Text.ToLower().StartsWith("刚刚") || searchword.Text.ToLower().EndsWith("刚刚") || searchword.Text.ToLower().Contains("刚刚@") || searchword.Text.ToLower().Contains(" @") || switchingState.showTimeBlock.Checked)
                 {
                     type = "刚刚";
                     taskname = searchword.Text.Split('@')[0].Replace("刚刚", "").Replace("刚刚", "").Replace("刚刚", "").Replace("刚刚", "").Replace(" ", "");
@@ -17464,7 +17492,7 @@ namespace DocearReminder
                 reminderList.Visible = false;
                 reminderListBox.Visible = false;
             }
-            if (showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked)
+            if (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked)
             {
                 reminderListBox.Items.Clear();
                 reminderListBox.Visible = false;
@@ -17509,7 +17537,7 @@ namespace DocearReminder
 
         public void ReminderlistBoxChange()
         {
-            if (reminderListBox.Items.Count > 0 && !(showTimeBlock.Checked || ShowKA.Checked || ShowMoney.Checked))
+            if (reminderListBox.Items.Count > 0 && !(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
             {
                 reminderListBox.Height = reminderListBox.PreferredHeight;
                 reminderListBox.Visible = true;
@@ -19340,10 +19368,10 @@ namespace DocearReminder
 
         public void ShowTimeBlockChange(object sender, EventArgs e)
         {
-            if (showTimeBlock.Checked)
+            if (switchingState.showTimeBlock.Checked)
             {
                 RRReminderlist();
-                ShowMoney.Checked = ShowKA.Checked = false;
+                switchingState.ShowMoney.Checked = switchingState.ShowKA.Checked = false;
             }
             IFNoCheckedRRR();
         }
@@ -19356,27 +19384,27 @@ namespace DocearReminder
 
         public void ShowMoney_CheckedChanged(object sender, EventArgs e)
         {
-            if (ShowMoney.Checked)
+            if (switchingState.ShowMoney.Checked)
             {
                 RRReminderlist();
-                showTimeBlock.Checked = ShowKA.Checked = false;
+                switchingState.showTimeBlock.Checked = switchingState.ShowKA.Checked = false;
             }
             IFNoCheckedRRR();
         }
 
         public void ShowKA_CheckedChanged(object sender, EventArgs e)
         {
-            if (ShowKA.Checked)
+            if (switchingState.ShowKA.Checked)
             {
                 RRReminderlist();
-                showTimeBlock.Checked = ShowMoney.Checked = false;
+                switchingState.showTimeBlock.Checked = switchingState.ShowMoney.Checked = false;
             }
             IFNoCheckedRRR();
         }
 
         public void IFNoCheckedRRR()
         {
-            if (!ShowKA.Checked && !showTimeBlock.Checked && !ShowMoney.Checked)
+            if (!switchingState.ShowKA.Checked && !switchingState.showTimeBlock.Checked && !switchingState.ShowMoney.Checked)
             {
                 RRReminderlist();
             }
@@ -19533,13 +19561,11 @@ namespace DocearReminder
                         switchingState.drawioPicBigger.Height = hopeNote.Height;
 
                         switchingState.drawioPicBigger.Visible = true;
-                        hopeNote.Visible = false;
                     }
                     else
                     {
                         drawioPic.Image = null;
                         switchingState.drawioPicBigger.Visible = false;
-                        hopeNote.Visible = true;
                     }
                 }
             }

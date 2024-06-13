@@ -167,5 +167,20 @@ namespace DocearReminder
                 ((DocearReminderForm)Application.OpenForms[0]).reminderList.Focus();
             }
         }
+
+        private void showTimeBlock_CheckedChanged(object sender, EventArgs e)
+        {
+            ((DocearReminderForm)Application.OpenForms[0]).ShowTimeBlockChange(sender, e);
+        }
+
+        private void ShowKA_CheckedChanged(object sender, EventArgs e)
+        {
+            ((DocearReminderForm)Application.OpenForms[0]).ShowKA_CheckedChanged(sender, e);
+        }
+
+        private void ShowMoney_CheckedChanged(object sender, EventArgs e)
+        {
+            ((DocearReminderForm)Application.OpenForms[0]).ShowMoney_CheckedChanged(sender, e);
+        }
     }
 }

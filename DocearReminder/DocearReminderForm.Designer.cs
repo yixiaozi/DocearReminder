@@ -139,17 +139,13 @@ namespace DocearReminder
             this.nodetreeSearch = new System.Windows.Forms.TextBox();
             this.keyJ = new System.Windows.Forms.Timer(this.components);
             this.CameraTimer = new System.Windows.Forms.Timer(this.components);
-            this.showTimeBlock = new System.Windows.Forms.CheckBox();
             this.noterichTextBox = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.hopeNote = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.richTextSubNode = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.reminderList = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.MindmapList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
-            this.ShowMoney = new System.Windows.Forms.CheckBox();
-            this.ShowKA = new System.Windows.Forms.CheckBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
-            this.OnlyLevel = new System.Windows.Forms.CheckBox();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
             this.notebottom = new yixiaozi.WinForm.Control.MyRichTextBox();
@@ -163,6 +159,10 @@ namespace DocearReminder
             this.picturebigger = new System.Windows.Forms.Timer(this.components);
             this.timeblockupdatetimer = new System.Windows.Forms.Timer(this.components);
             this.Jinji = new System.Windows.Forms.NumericUpDown();
+            this.zhongyaobujinji = new System.Windows.Forms.CheckBox();
+            this.zhongyaojinji = new System.Windows.Forms.CheckBox();
+            this.buzhongyaobujinji = new System.Windows.Forms.CheckBox();
+            this.buzhongyaojinji = new System.Windows.Forms.CheckBox();
             this.searchworkmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.n_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskTime)).BeginInit();
@@ -1315,17 +1315,6 @@ namespace DocearReminder
             this.CameraTimer.Interval = 3600000;
             this.CameraTimer.Tick += new System.EventHandler(this.CameraTimer_Tick);
             // 
-            // showTimeBlock
-            // 
-            this.showTimeBlock.AutoSize = true;
-            this.showTimeBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.showTimeBlock.Location = new System.Drawing.Point(1176, 36);
-            this.showTimeBlock.Name = "showTimeBlock";
-            this.showTimeBlock.Size = new System.Drawing.Size(13, 12);
-            this.showTimeBlock.TabIndex = 133;
-            this.showTimeBlock.UseVisualStyleBackColor = true;
-            this.showTimeBlock.CheckedChanged += new System.EventHandler(this.ShowTimeBlockChange);
-            // 
             // noterichTextBox
             // 
             this.noterichTextBox.BackColor = System.Drawing.Color.White;
@@ -1445,28 +1434,6 @@ namespace DocearReminder
             this.reminderListBox.Enter += new System.EventHandler(this.reminderListBox_Enter);
             this.reminderListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Reminderlist_MouseUp);
             // 
-            // ShowMoney
-            // 
-            this.ShowMoney.AutoSize = true;
-            this.ShowMoney.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ShowMoney.Location = new System.Drawing.Point(1213, 36);
-            this.ShowMoney.Name = "ShowMoney";
-            this.ShowMoney.Size = new System.Drawing.Size(13, 12);
-            this.ShowMoney.TabIndex = 135;
-            this.ShowMoney.UseVisualStyleBackColor = true;
-            this.ShowMoney.CheckedChanged += new System.EventHandler(this.ShowMoney_CheckedChanged);
-            // 
-            // ShowKA
-            // 
-            this.ShowKA.AutoSize = true;
-            this.ShowKA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ShowKA.Location = new System.Drawing.Point(1194, 36);
-            this.ShowKA.Name = "ShowKA";
-            this.ShowKA.Size = new System.Drawing.Size(13, 12);
-            this.ShowKA.TabIndex = 138;
-            this.ShowKA.UseVisualStyleBackColor = true;
-            this.ShowKA.CheckedChanged += new System.EventHandler(this.ShowKA_CheckedChanged);
-            // 
             // timeblockcheck
             // 
             this.timeblockcheck.AutoSize = true;
@@ -1476,17 +1443,6 @@ namespace DocearReminder
             this.timeblockcheck.TabIndex = 139;
             this.timeblockcheck.Text = "时间块检查";
             this.timeblockcheck.Click += new System.EventHandler(this.timeblockcheck_Click);
-            // 
-            // OnlyLevel
-            // 
-            this.OnlyLevel.AutoSize = true;
-            this.OnlyLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OnlyLevel.Location = new System.Drawing.Point(1231, 36);
-            this.OnlyLevel.Name = "OnlyLevel";
-            this.OnlyLevel.Size = new System.Drawing.Size(13, 12);
-            this.OnlyLevel.TabIndex = 141;
-            this.OnlyLevel.UseVisualStyleBackColor = true;
-            this.OnlyLevel.CheckedChanged += new System.EventHandler(this.OnlyLevel_CheckedChanged);
             // 
             // AllnodeFreshTimer
             // 
@@ -1630,6 +1586,62 @@ namespace DocearReminder
             this.Jinji.TabIndex = 48;
             this.Jinji.TabStop = false;
             // 
+            // zhongyaobujinji
+            // 
+            this.zhongyaobujinji.AutoSize = true;
+            this.zhongyaobujinji.Checked = true;
+            this.zhongyaobujinji.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.zhongyaobujinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.zhongyaobujinji.Location = new System.Drawing.Point(1176, 36);
+            this.zhongyaobujinji.Name = "zhongyaobujinji";
+            this.zhongyaobujinji.Size = new System.Drawing.Size(13, 12);
+            this.zhongyaobujinji.TabIndex = 126;
+            this.zhongyaobujinji.TabStop = false;
+            this.zhongyaobujinji.UseVisualStyleBackColor = true;
+            this.zhongyaobujinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
+            // zhongyaojinji
+            // 
+            this.zhongyaojinji.AutoSize = true;
+            this.zhongyaojinji.Checked = true;
+            this.zhongyaojinji.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.zhongyaojinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.zhongyaojinji.Location = new System.Drawing.Point(1194, 36);
+            this.zhongyaojinji.Name = "zhongyaojinji";
+            this.zhongyaojinji.Size = new System.Drawing.Size(13, 12);
+            this.zhongyaojinji.TabIndex = 126;
+            this.zhongyaojinji.TabStop = false;
+            this.zhongyaojinji.UseVisualStyleBackColor = true;
+            this.zhongyaojinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
+            // buzhongyaobujinji
+            // 
+            this.buzhongyaobujinji.AutoSize = true;
+            this.buzhongyaobujinji.Checked = true;
+            this.buzhongyaobujinji.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.buzhongyaobujinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buzhongyaobujinji.Location = new System.Drawing.Point(1213, 36);
+            this.buzhongyaobujinji.Name = "buzhongyaobujinji";
+            this.buzhongyaobujinji.Size = new System.Drawing.Size(13, 12);
+            this.buzhongyaobujinji.TabIndex = 126;
+            this.buzhongyaobujinji.TabStop = false;
+            this.buzhongyaobujinji.UseVisualStyleBackColor = true;
+            this.buzhongyaobujinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
+            // buzhongyaojinji
+            // 
+            this.buzhongyaojinji.AutoSize = true;
+            this.buzhongyaojinji.Checked = true;
+            this.buzhongyaojinji.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.buzhongyaojinji.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buzhongyaojinji.Location = new System.Drawing.Point(1230, 36);
+            this.buzhongyaojinji.Name = "buzhongyaojinji";
+            this.buzhongyaojinji.Size = new System.Drawing.Size(13, 12);
+            this.buzhongyaojinji.TabIndex = 126;
+            this.buzhongyaojinji.TabStop = false;
+            this.buzhongyaojinji.UseVisualStyleBackColor = true;
+            this.buzhongyaojinji.CheckedChanged += new System.EventHandler(this.c_endtime_CheckedChanged);
+            // 
             // DocearReminderForm
             // 
             this.AllowDrop = true;
@@ -1641,14 +1653,14 @@ namespace DocearReminder
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);
-            this.Controls.Add(this.OnlyLevel);
             this.Controls.Add(this.timeblockcheck);
-            this.Controls.Add(this.ShowKA);
-            this.Controls.Add(this.ShowMoney);
-            this.Controls.Add(this.showTimeBlock);
             this.Controls.Add(this.noterichTextBox);
             this.Controls.Add(this.hopeNote);
             this.Controls.Add(this.nodetreeSearch);
+            this.Controls.Add(this.buzhongyaojinji);
+            this.Controls.Add(this.buzhongyaobujinji);
+            this.Controls.Add(this.zhongyaojinji);
+            this.Controls.Add(this.zhongyaobujinji);
             this.Controls.Add(this.c_endtime);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.richTextSubNode);
@@ -1870,12 +1882,8 @@ namespace DocearReminder
         public ToolStripMenuItem toolStripMenuItem1;
         public ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
         public ToolStripMenuItem 删除图片ToolStripMenuItem;
-        public CheckBox showTimeBlock;
-        public CheckBox ShowMoney;
-        public CheckBox ShowKA;
         public Label timeblockcheck;
         public FerretLib.WinForms.Controls.TagListControl tagList;
-        public CheckBox OnlyLevel;
         public Timer AllnodeFreshTimer;
         public MyRichTextBox notebottom;
         public CustomCheckedListBox DrawList;
@@ -1890,6 +1898,10 @@ namespace DocearReminder
         public Timer timeblockupdatetimer;
         public ToolStripMenuItem toolStripMenuItem4;
         public NumericUpDown Jinji;
+        public CheckBox zhongyaobujinji;
+        public CheckBox zhongyaojinji;
+        public CheckBox buzhongyaobujinji;
+        public CheckBox buzhongyaojinji;
     }
 }
 

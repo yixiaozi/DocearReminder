@@ -1,6 +1,7 @@
 ﻿using AForge.Controls;
 using AForge.Video.DirectShow;
 using Gma.UserActivityMonitor;
+using Microsoft.SharePoint.Client;
 using Microsoft.Win32;
 using NAudio.Wave;
 using Newtonsoft.Json;
@@ -51,13 +52,16 @@ using Color = System.Drawing.Color;
 using DataFormats = System.Windows.Forms.DataFormats;
 using DataObject = System.Windows.Forms.DataObject;
 using DayOfWeek = System.DayOfWeek;
+using File = System.IO.File;
+using Form = System.Windows.Forms.Form;
 using IDataObject = System.Windows.Forms.IDataObject;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using Size = System.Drawing.Size;
+using TimeZone = System.TimeZone;
 
 namespace DocearReminder
 {
-    public partial class DocearReminderForm : Form
+    public partial class DocearReminderForm : System.Windows.Forms.Form
     {
         #region 全局变量
         public System.Windows.Forms.Timer hoverTimer = new System.Windows.Forms.Timer();
@@ -123,7 +127,6 @@ namespace DocearReminder
         public static List<string> QuickOpenLog = new List<string>();
         public static List<string> unchkeckmindmap = new List<string>();
         public static List<string> unchkeckdrawio = new List<string>();
-        public static List<string> AddTaskWithDate = new List<string>();
         public static DateTime TimeBlocklastTime = DateTime.Today;
         public RecordController record = new RecordController();
 
@@ -181,11 +184,20 @@ namespace DocearReminder
         public static NoticeInfo noticeInfo= new NoticeInfo();
         SwitchingState switchingState;
         TagCloud tagCloud;
+        static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext("https://tobywang.sharepoint.com/sites/DocearReminder", "yixiaozi@tobywang.onmicrosoft.com", "ASdf-1234");
+        static List config;
+        static ListItem reminderjson;
 
         #endregion 全局变量
         public DocearReminderForm()  
         {
             InitializeComponent();
+            config = spContext.Web.Lists.GetByTitle("config"); 
+            spContext.Load(config);
+            spContext.ExecuteQuery();
+            reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
+
+
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
             switchingState = new SwitchingState();
@@ -339,26 +351,31 @@ namespace DocearReminder
                     Process.Start(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 }
                 rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
-                if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                //if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                //{
+                //    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(new JavaScriptSerializer
+                //    {
+                //        MaxJsonLength = Int32.MaxValue
+                //    }.Serialize(reminderObject)));
+                //}
+                //else
+                //{
+                //    FileInfo reminderjsonfile = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
+                //    using (StreamReader sw = reminderjsonfile.OpenText())
+                //    {
+                //        string s = sw.ReadToEnd();
+                //        var serializer = new JavaScriptSerializer()
+                //        {
+                //            MaxJsonLength = Int32.MaxValue
+                //        };
+                //        reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(s)));
+                //    }
+                //}
+                var serializer = new JavaScriptSerializer()
                 {
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", CompressToBase64(new JavaScriptSerializer
-                    {
-                        MaxJsonLength = Int32.MaxValue
-                    }.Serialize(reminderObject)));
-                }
-                else
-                {
-                    FileInfo reminderjsonfile = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json");
-                    using (StreamReader sw = reminderjsonfile.OpenText())
-                    {
-                        string s = sw.ReadToEnd();
-                        var serializer = new JavaScriptSerializer()
-                        {
-                            MaxJsonLength = Int32.MaxValue
-                        };
-                        reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(s)));
-                    }
-                }
+                    MaxJsonLength = Int32.MaxValue
+                };
+                reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(reminderjson["Value"].SafeToString())));
 
                 #region 加载一些配置文件
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
@@ -372,7 +389,6 @@ namespace DocearReminder
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 unchkeckdrawio = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckdrawio.txt");
                 remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
-                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
                 #endregion 加载一些配置文件
 
                 #region UsedTimer
@@ -6918,7 +6934,7 @@ namespace DocearReminder
                                 isadddate = true;
                                 taskName = taskName.Substring(1);
                             }
-                            else if (AddTaskWithDate.Contains(selectedReminder.Name))
+                            else if (GetAttribute(node, "AddTaskWithDate")=="TRUE")
                             {
                                 isadddate = true;
                             }
@@ -7460,10 +7476,6 @@ namespace DocearReminder
                     isadddate = true;
                     taskName = taskName.Substring(1);
                 }
-                else if (AddTaskWithDate.Contains(parent))
-                {
-                    isadddate = true;
-                }
                 System.Xml.XmlDocument x = new XmlDocument();
                 x.Load(showMindmapName);
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
@@ -7514,6 +7526,7 @@ namespace DocearReminder
                             newNote.AppendChild(remindernode);
                             fenshuADD(3);
                         }
+                        isadddate= isadddate||GetAttribute(node, "AddTaskWithDate") == "TRUE";
                         if (isadddate)
                         {
                             XmlNode root = node;
@@ -13057,15 +13070,11 @@ namespace DocearReminder
                         {
                             if (e.Modifiers.CompareTo(Keys.Control) == 0)
                             {
-                                AddTaskWithDate.Add(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
-                                new TextListConverter().WriteListToTextFile(AddTaskWithDate, System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
-                                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                                SetAddTaskWithDate("TRUE");
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
-                                AddTaskWithDate.Remove(((MyListBoxItemRemind)reminderlistSelectedItem).Name);
-                                new TextListConverter().WriteListToTextFile(AddTaskWithDate, System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
-                                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+                                SetAddTaskWithDate("FALSE");
                             }
                             else
                             {
@@ -13586,6 +13595,48 @@ namespace DocearReminder
                 }
             }
         }
+        public void SetAddTaskWithDate(string num)
+        {
+            if (reminderlistSelectedItem == null)
+            {
+                return;
+            }
+            MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
+            System.Xml.XmlDocument x = new XmlDocument();
+            x.Load(selectedReminder.Value);
+            string taskName = selectedReminder.Name;
+            if (selectedReminder.isEncrypted)
+            {
+                taskName = encrypt.EncryptString(taskName);
+            }
+            foreach (XmlNode node in x.GetElementsByTagName("hook"))
+            {
+                try
+                {
+                    if (node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml" && node.ParentNode.Attributes["TEXT"].Value == taskName)
+                    {
+                        if (node.ParentNode.Attributes["AddTaskWithDate"] == null)
+                        {
+                            XmlAttribute AddTaskWithDate = x.CreateAttribute("AddTaskWithDate");
+                            AddTaskWithDate.Value = num;
+                            node.ParentNode.Attributes.Append(AddTaskWithDate);
+                        }
+                        else
+                        {
+                            node.ParentNode.Attributes["AddTaskWithDate"].Value = num;
+                        }
+                        x.Save(selectedReminder.Value);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
+                        th.Start();
+                        RRReminderlist();
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
 
         public void SearchFiles()
         {
@@ -13722,20 +13773,25 @@ namespace DocearReminder
                         //获取reminder.json中的所有数据，如果有新的数据，就添加进去。
                         //从而解决多台电脑无法同步的问题。
                         Reminder old = new Reminder();
-                        if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                        //if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json"))
+                        //{
+                        //    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
+                        //    using (StreamReader sw = fi.OpenText())
+                        //    {
+                        //        string s = sw.ReadToEnd();
+                        //        s = DecompressFromBase64(s);
+                        //        var serializer = new JavaScriptSerializer()
+                        //        {
+                        //            MaxJsonLength = Int32.MaxValue
+                        //        };
+                        //        old = serializer.Deserialize<Reminder>(s);
+                        //    }
+                        //}
+                        var serializer = new JavaScriptSerializer()
                         {
-                            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"reminder.json");
-                            using (StreamReader sw = fi.OpenText())
-                            {
-                                string s = sw.ReadToEnd();
-                                s = DecompressFromBase64(s);
-                                var serializer = new JavaScriptSerializer()
-                                {
-                                    MaxJsonLength = Int32.MaxValue
-                                };
-                                old = serializer.Deserialize<Reminder>(s);
-                            }
-                        }
+                            MaxJsonLength = Int32.MaxValue
+                        };
+                        old = serializer.Deserialize<Reminder>(reminderjson["Value"].SafeToString());
                         //将old中相对于reminderObject多的数据添加reminderObject进去。
                         //只比较reminders对象
                         foreach (var item in old.reminders)
@@ -13755,9 +13811,13 @@ namespace DocearReminder
                 {
                     MaxJsonLength = Int32.MaxValue
                 }.Serialize(reminderObject);
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", CompressToBase64(json));
-                File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", true);
-                File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json");
+                //File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", CompressToBase64(json));
+                //File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", true);
+                //File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json");
+                reminderjson["Value"] = CompressToBase64(json);
+                reminderjson.Update();
+                spContext.Load(reminderjson);
+                spContext.ExecuteQuery();
             }
             catch (Exception ex)
             {
@@ -15101,16 +15161,6 @@ namespace DocearReminder
                 searchword.Text = "";
                 GetTimeBlock();
                 yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
-            }
-            else if (searchword.Text.StartsWith("addtaskdate"))
-            {
-                searchword.Text = "";
-                AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
-            }
-            else if (searchword.Text.StartsWith("addtaskdatt"))
-            {
-                searchword.Text = "";
-                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
             }
             else if (searchword.Text.StartsWith("newfiles"))
             {

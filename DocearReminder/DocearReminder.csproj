@@ -446,6 +446,7 @@
     <Compile Include="OneDay.Designer.cs">
       <DependentUpon>OneDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="SharePointHelper.cs" />
     <Compile Include="SupportClass\Extensions.cs" />
     <Compile Include="Report\KeyHours.cs">
       <SubType>Form</SubType>

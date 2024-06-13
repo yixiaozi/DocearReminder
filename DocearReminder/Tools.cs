@@ -1338,5 +1338,41 @@ namespace DocearReminder
             }
             this.Close();
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            List<String> AddTaskWithDate = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\AddTaskWithDate.txt");
+
+            DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
+            foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    System.Xml.XmlDocument x = new XmlDocument();
+                    x.Load(file.FullName);
+                    bool isNeedUpdate = false;
+                    foreach (XmlNode node in x.GetElementsByTagName("node"))
+                    {
+                        if (node.Attributes != null && node.Attributes["TEXT"] != null&&AddTaskWithDate.Contains(node.Attributes["TEXT"].Value))
+                        {
+                            isNeedUpdate = true;
+                            XmlAttribute TASKID = x.CreateAttribute("AddTaskWithDate");
+                            node.Attributes.Append(TASKID);
+                            node.Attributes["AddTaskWithDate"].Value = "TRUE";
+                        }
+                    }
+                    if (isNeedUpdate)
+                    {
+                        x.Save(file.FullName);
+                        Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName));
+                        th.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            this.Close();
+        }
     }
 }

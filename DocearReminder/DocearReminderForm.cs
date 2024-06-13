@@ -184,7 +184,7 @@ namespace DocearReminder
         public static NoticeInfo noticeInfo= new NoticeInfo();
         SwitchingState switchingState;
         TagCloud tagCloud;
-        static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext("https://tobywang.sharepoint.com/sites/DocearReminder", "yixiaozi@tobywang.onmicrosoft.com", "ASdf-1234");
+        static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext(ini.ReadString("sppassword", "url", ""), ini.ReadString("sppassword", "user", ""), ini.ReadString("sppassword", "password", ""));
         static List config;
         static ListItem reminderjson;
         static ListItem timeblockjson;

@@ -38,7 +38,7 @@ namespace DocearReminder
                                         <Where>
                                             <Eq>
                                                 <FieldRef Name='Title' />
-                                                <Value Type='Text'>reminder.json</Value>
+                                                <Value Type='Text'>"+ Title + @"</Value>
                                             </Eq>
                                         </Where>
                                     </Query>
@@ -51,8 +51,7 @@ namespace DocearReminder
             {
                 ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
                 ListItem newItem = list.AddItem(itemCreateInfo);
-                newItem["Title"] = "reminder.json";
-                newItem["Content"] = "[]";
+                newItem["Title"] = Title;
                 newItem.Update();
                 content.ExecuteQuery();
             }

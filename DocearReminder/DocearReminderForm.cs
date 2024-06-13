@@ -129,7 +129,6 @@ namespace DocearReminder
 
         public static Color BackGroundColor = Color.White;
         public bool isRefreshMindmap = false;
-        public List<MyListBoxItemRemind> reminderboxList = new List<MyListBoxItemRemind>();
         public int ebconfig = 98765432;
         public string ebdefault = "";
         public List<MyListBoxItemRemind> RemindersOtherPath = new List<MyListBoxItemRemind>();
@@ -2641,6 +2640,15 @@ namespace DocearReminder
                 reminderList.SelectedItem = reminderList.Items[index];
             }
         }
+        public void ReminderListBoxSelectedIndex(int index)
+        {
+            if (index >= 0 && reminderListBox.Items.Count > index)
+            {
+                reminderListBox.SelectedIndex = index;
+                reminderListBox.SelectedItem = reminderListBox.Items[index];
+            }
+        }
+        
 
         //添加一个方法,输入一个时间,返回是否可以显示到bool值
         public bool isShowFiltByMorning(DateTime dt)
@@ -2674,7 +2682,6 @@ namespace DocearReminder
         {
             //清空值
             timeblockcheck.Text = Hours.Text = fathernode.Text = "";
-
             SetTimeBlockLasTime();
 
             #region 显示时间块
@@ -2839,11 +2846,18 @@ namespace DocearReminder
                 return;
             }
             #endregion 显示时间块
-            //if (mindmapSearch.Text != "")//清空一下这里的值，不然总是显示，很难受
-            //{
-            //    mindmapSearch.Text = "";
-            //}
-            reminderSelectIndex = reminderList.SelectedIndex;
+
+            bool isinbox = false;
+            if (reminderListBox.Focused)
+            {
+                isinbox = true;
+                reminderSelectIndex = reminderListBox.SelectedIndex;
+            }
+            else
+            {
+                reminderSelectIndex = reminderList.SelectedIndex;
+            }
+            reminderListBox.Items.Clear();
             int task = 0;
             int ctask = 0;//周期任务个数
             int vtask = 0;//不重要任务数量
@@ -3426,10 +3440,6 @@ namespace DocearReminder
                                 }
                                 //判断ID的重复，避免在Box中同时显示
                                 string nodeid = GetAttribute(node.ParentNode, "ID");
-                                if (reminderboxList.Where(m => m.IDinXML == nodeid).Count() > 0)
-                                {
-                                    IsShow = false;
-                                }
                                 //文件不存在时隐藏
                                 //if (IsFileUrl(GetAttribute(node.ParentNode, "LINK").Replace("file:/", "")))
                                 //{
@@ -3437,7 +3447,7 @@ namespace DocearReminder
                                 //    IsShow = false;
                                 //}
 
-                                if (Xnodes.Any(m => m.Contains(nodeid)) && reminderboxList.Where(m => m.IDinXML == nodeid).Count() == 0)
+                                if (Xnodes.Any(m => m.Contains(nodeid)))
                                 {
                                     if (taskName.ToLower() != "bin")
                                     {
@@ -3447,7 +3457,7 @@ namespace DocearReminder
                                             Regex reg = new Regex(patten);
                                             taskNameDis = reg.Replace(taskNameDis, "*");
                                         }
-                                        reminderboxList.Add(new MyListBoxItemRemind
+                                        reminderListBox.Items.Add(new MyListBoxItemRemind
                                         {
                                             Text = (c_Jinian.Checked ? jiniantimeDT.ToString("dd HH:mm") : (c_endtime.Checked ? endtimeDT.ToString("dd HH:mm") : dt.ToString("dd HH:mm"))) + @"" + GetAttribute(node.ParentNode, "TASKTIME", 4) + @" " + taskNameDis + dakainfo + LeftDakaDays + DonePercent + jinianriInfo + EndDateInfo,
                                             Name = taskName,
@@ -3478,10 +3488,9 @@ namespace DocearReminder
                                             ISReminderOnly = iSReminderOnly,
                                             Content = ((System.Xml.XmlElement)node.ParentNode).InnerXml
                                         });
-                                        IsShow = false;
                                     }
                                 }
-                                if (IsShow)
+                                else if (IsShow)
                                 {
                                     if (taskName.ToLower() != "bin")
                                     {
@@ -3867,28 +3876,40 @@ namespace DocearReminder
             {
                 reminderList.Items.Add(item);
             }
-            //reminderList.Items.AddRange((ListBox.ObjectCollection)reminderlistItems.OrderBy(m => m.Time));
-            reminderListBox.Items.Clear();
-            foreach (MyListBoxItemRemind item in reminderboxList.OrderBy(m => m.Time))
-            {
-                reminderListBox.Items.Add(item);
-            }
             ReminderlistBoxChange();
-            ////reminderList.Refresh();
             try
             {
-                if (reminderList.Items.Count > reminderSelectIndex)
+                if (isinbox)
                 {
-                    isneedreminderlistrefresh = false;
-                    ReminderListSelectedIndex(reminderSelectIndex);
-                    isneedreminderlistrefresh = true;
+                    if (reminderListBox.Items.Count > reminderSelectIndex)
+                    {
+                        isneedreminderlistrefresh = false;
+                        ReminderListBoxSelectedIndex(reminderSelectIndex);
+                        isneedreminderlistrefresh = true;
+                    }
+                    else
+                    {
+                        isneedreminderlistrefresh = false;
+                        ReminderListBoxSelectedIndex(0);
+                        isneedreminderlistrefresh = true;
+                    }
                 }
                 else
                 {
-                    isneedreminderlistrefresh = false;
-                    ReminderListSelectedIndex(0);
-                    isneedreminderlistrefresh = true;
+                    if (reminderList.Items.Count > reminderSelectIndex)
+                    {
+                        isneedreminderlistrefresh = false;
+                        ReminderListSelectedIndex(reminderSelectIndex);
+                        isneedreminderlistrefresh = true;
+                    }
+                    else
+                    {
+                        isneedreminderlistrefresh = false;
+                        ReminderListSelectedIndex(0);
+                        isneedreminderlistrefresh = true;
+                    }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -4647,7 +4668,7 @@ namespace DocearReminder
                 {
                     isreminderlist = false;
                     reminderIndex = reminderListBox.SelectedIndex;
-                    reminderboxList.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
+                    reminderListBox.Items.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
                     Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
                     //添加去重
                     List<string> xnodesRemoveSame = new List<string>();
@@ -7846,7 +7867,7 @@ namespace DocearReminder
                 }
                 else if (reminderListBox.Focused)
                 {
-                    reminderboxList.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
+                    reminderListBox.Items.Remove((MyListBoxItemRemind)reminderlistSelectedItem);
                     Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
                     //添加去重
                     List<string> xnodesRemoveSame = new List<string>();
@@ -13049,7 +13070,6 @@ namespace DocearReminder
                             else
                             {
                                 int index = reminderList.SelectedIndex;
-                                reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                                 if (todoistKey != null)
                                 {
                                     try
@@ -13067,11 +13087,6 @@ namespace DocearReminder
                                 {
                                     Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
                                 }
-                                //else
-                                //{
-                                //    Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
-                                //    Xnodes.Add(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML);
-                                //}
                                 //添加去重
                                 List<string> xnodesRemoveSame = new List<string>();
                                 foreach (string item in Xnodes)
@@ -13083,7 +13098,7 @@ namespace DocearReminder
                                 }
                                 Xnodes = xnodesRemoveSame;
                                 new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
-                                reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
+                                reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                                 ReminderlistBoxChange();
                                 reminderList.Items.RemoveAt(reminderList.SelectedIndex);
                                 try
@@ -13105,7 +13120,6 @@ namespace DocearReminder
                         else if (reminderListBox.Focused)
                         {
                             int index = reminderListBox.SelectedIndex;
-                            reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
                             Xnodes.RemoveAll(m => m.Contains(((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML));
                             //添加去重
                             List<string> xnodesRemoveSame = new List<string>();
@@ -13118,6 +13132,7 @@ namespace DocearReminder
                             }
                             Xnodes = xnodesRemoveSame;
                             new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                            reminderList.Items.Add(reminderListBox.SelectedItem);
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                             ReminderlistBoxChange();
                             if (reminderListBox.Items.Count == 0)
@@ -18061,13 +18076,11 @@ namespace DocearReminder
             if (reminderList.Focused)
             {
                 reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
-                reminderboxList.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                 ReminderlistBoxChange();
                 reminderList.Items.RemoveAt(reminderList.SelectedIndex);
             }
             else if (reminderListBox.Focused)
             {
-                reminderboxList.Remove((MyListBoxItemRemind)reminderListBox.SelectedItem);
                 reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                 ReminderlistBoxChange();
                 if (reminderListBox.Items.Count == 0)

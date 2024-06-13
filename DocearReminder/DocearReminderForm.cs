@@ -187,6 +187,8 @@ namespace DocearReminder
         static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext("https://tobywang.sharepoint.com/sites/DocearReminder", "yixiaozi@tobywang.onmicrosoft.com", "ASdf-1234");
         static List config;
         static ListItem reminderjson;
+        static ListItem timeblockjson;
+        static ListItem UsedTimerjson;
 
         #endregion 全局变量
         public DocearReminderForm()  
@@ -196,6 +198,8 @@ namespace DocearReminder
             spContext.Load(config);
             spContext.ExecuteQuery();
             reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
+            timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
+            UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
 
 
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
@@ -784,28 +788,20 @@ namespace DocearReminder
 
         public void UsedTimerOnLoad()
         {
-            //如果没有的时候创建
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json"))
+            string s = "";
+            s = UsedTimerjson["Value"].SafeToString();
+            try
             {
-                SaveUsedTimerFile(new UsedTimer());
+                s = LZStringCSharp.LZString.DecompressFromBase64(s);
             }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json");
-            using (StreamReader sw = fi.OpenText())
+            catch (Exception)
             {
-                string s = sw.ReadToEnd();
-                try
-                {
-                    s = LZStringCSharp.LZString.DecompressFromBase64(s);
-                }
-                catch (Exception)
-                {
-                }
-                var serializer = new JavaScriptSerializer()
-                {
-                    MaxJsonLength = Int32.MaxValue
-                };
-                usedTimer = serializer.Deserialize<UsedTimer>(ReplaceJsonDateToDateString(s));
             }
+            var serializer = new JavaScriptSerializer()
+            {
+                MaxJsonLength = Int32.MaxValue
+            };
+            usedTimer = serializer.Deserialize<UsedTimer>(ReplaceJsonDateToDateString(s));
             currentUsedTimerId = Guid.NewGuid();
             usedCount.Text = usedTimer.Count.ToString();
             usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
@@ -876,7 +872,9 @@ namespace DocearReminder
                     {
                         MaxJsonLength = Int32.MaxValue
                     }.Serialize(data);
-                    File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"UsedTimer.json", LZStringCSharp.LZString.CompressToBase64(usedtimerJson));
+                    UsedTimerjson["Value"] = LZStringCSharp.LZString.CompressToBase64(usedtimerJson) ;
+                    UsedTimerjson.Update();
+                    spContext.ExecuteQuery();
                 }
                 catch (Exception ex)
                 {
@@ -2188,32 +2186,14 @@ namespace DocearReminder
             timeblocks.Clear();
             timeblockString = "";
             GetAllTimeBlock();
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json"))
-            {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json", "");
-            }
-            else
-            {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json", "");
-            }
-            if (!System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt"))
-            {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt", "");
-            }
-            else
-            {
-                File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.txt", "");
-            }
-            FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"timeblock.json");
             JavaScriptSerializer js = new JavaScriptSerializer
             {
                 MaxJsonLength = Int32.MaxValue
             };
             string json = js.Serialize(timeblocks);
-            using (StreamWriter sw = fi.AppendText())
-            {
-                sw.Write(json);
-            }
+            timeblockjson["Value"] = json;
+            timeblockjson.Update();
+            spContext.ExecuteQuery();
             RecordTimeBlockJson(timeblockString);
         }
 

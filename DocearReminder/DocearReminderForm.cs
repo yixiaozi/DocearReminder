@@ -13487,10 +13487,7 @@ namespace DocearReminder
                 //File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", CompressToBase64(json));
                 //File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json", System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder.json", true);
                 //File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + @"\reminder_temp.json");
-                reminderjson["Value"] = CompressToBase64(json);
-                reminderjson.Update();
-                spContext.Load(reminderjson);
-                spContext.ExecuteQuery();
+                SaveValueOut(reminderjson, CompressToBase64(json));
             }
             catch (Exception ex)
             {
@@ -13706,19 +13703,11 @@ namespace DocearReminder
             try
             {
                 fenshu.Text = (Convert.ToInt64(fenshu.Text) + n).ToString();
-                Thread th=new Thread(() => UpdateScore(fenshu.Text));
-                th.Start();
+                SaveValueOut(scoreItem, fenshu.Text);
             }
             catch (Exception ex)
             {
             }
-        }
-        public void UpdateScore(string fenshu)
-        {
-            scoreItem["Value"] = fenshu;
-            scoreItem.Update();
-            spContext.Load(scoreItem);
-            spContext.ExecuteQuery();
         }
 
         public static void SaveValueOut(ListItem item, string value)
@@ -18464,10 +18453,7 @@ namespace DocearReminder
                 int lc = SendMessage(this.hopeNote.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
                 int sf = this.hopeNote.Font.Height * (lc + 1);
                 this.hopeNote.Height = sf;
-                hopeNoteItem["Value"]=hopeNote.Text;
-                hopeNoteItem.Update();
-                spContext.Load(hopeNoteItem);
-                spContext.ExecuteQuery();
+                SaveValueOut(hopeNoteItem, hopeNote.Text);
             }
             catch (Exception ex)
             {

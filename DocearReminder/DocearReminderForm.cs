@@ -93,7 +93,7 @@ namespace DocearReminder
         public string CurrentLanguage = "";
         public string jsonHasMindmaps = "";
         public List<mindmapfile> mindmapfiles = new List<mindmapfile>();
-        public List<String> remindmapsList = new List<String>();
+        public List<String> remindmaps = new List<String>();
         public List<mindmapfile> mindmapfilesAll = new List<mindmapfile>();
         public static List<node> nodes = new List<node>();
         public List<node> nodesicon = new List<node>();
@@ -349,7 +349,7 @@ namespace DocearReminder
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 unchkeckdrawio = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckdrawio.txt");
-                remindmapsList = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
+                remindmaps = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
                 #endregion 加载一些配置文件
 
                 #region UsedTimer
@@ -13705,7 +13705,7 @@ namespace DocearReminder
         }
         public void SaveValue(ListItem item,string value)
         {
-            item["Value"] = fenshu;
+            item["Value"] = value;
             item.Update();
             spContext.Load(item);
             spContext.ExecuteQuery();
@@ -14927,17 +14927,17 @@ namespace DocearReminder
             else if (searchword.Text.ToLower().StartsWith("remindmaps"))
             {
                 searchword.Text = "";
-                remindmapsList.Clear();
+                remindmaps.Clear();
                 DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
                 {
                     string text = System.IO.File.ReadAllText(file.FullName);
                     if (text.Contains(@"TimeManagementReminder.xml"))
                     {
-                        remindmapsList.Add(file.FullName);
+                        remindmaps.Add(file.FullName);
                     }
                 }
-                new TextListConverter().WriteListToTextFile(remindmapsList, System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
+                new TextListConverter().WriteListToTextFile(remindmaps, System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
             }
             else if (searchword.Text.ToLower().StartsWith("tool"))
             {

@@ -191,6 +191,8 @@ namespace DocearReminder
         static ListItem timeblockjson;
         static ListItem UsedTimerjson;
         static ListItem hopeNoteItem;
+        static ListItem scoreItem;
+        
 
         #endregion 全局变量
         public DocearReminderForm()  
@@ -203,6 +205,7 @@ namespace DocearReminder
             timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
             UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
             hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
+            scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
 
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
@@ -306,9 +309,7 @@ namespace DocearReminder
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
                 Camera = ini.ReadString("config", "IsCamera", "") == "true";
-
-                string scorestr = ini.ReadString("info", "score", "");
-                fenshu.Text = scorestr;
+                fenshu.Text = scoreItem["Value"].SafeToString();
                 command = ini.ReadString("config", "command", "");
                 logpass = ini.ReadString("password", "i", "");
                 encryptlog = new Encrypt(logpass);
@@ -13666,11 +13667,19 @@ namespace DocearReminder
             try
             {
                 fenshu.Text = (Convert.ToInt64(fenshu.Text) + n).ToString();
-                ini.WriteInt("info", "score", Convert.ToInt32(fenshu.Text) + n);
+                Thread th=new Thread(() => UpdateScore(fenshu.Text));
+                th.Start();
             }
             catch (Exception ex)
             {
             }
+        }
+        public void UpdateScore(string fenshu)
+        {
+            scoreItem["Value"] = fenshu;
+            scoreItem.Update();
+            spContext.Load(scoreItem);
+            spContext.ExecuteQuery();
         }
 
         public void IsRememberModel_CheckedChanged(object sender, EventArgs e)

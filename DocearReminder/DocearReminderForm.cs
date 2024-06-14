@@ -11955,7 +11955,12 @@ namespace DocearReminder
                             nodetree.Height = FileTreeView.Height = nodetreeHeight;
                             fathernode.Visible = false;
                             nodetree.Visible = FileTreeView.Visible = noterichTextBox.Visible = nodetreeSearch.Visible = false;
-                            this.Height = normalheight; showMindmapName = "";
+                            MindmapList.Show();
+                            DrawList.Show();
+                            reminderList.Show();
+                            reminderListBox.Show();
+                            this.Height = normalheight; 
+                            showMindmapName = "";
                             if (focusedList == 0)
                             {
                                 reminderList.Focus();

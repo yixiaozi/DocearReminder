@@ -1376,7 +1376,7 @@ namespace DocearReminder
             this.reminderList.ItemHeight = 14;
             this.reminderList.Location = new System.Drawing.Point(420, 181);
             this.reminderList.Name = "reminderList";
-            this.reminderList.Size = new System.Drawing.Size(600, 60);
+            this.reminderList.Size = new System.Drawing.Size(600, 116);
             this.reminderList.Sorted = true;
             this.reminderList.TabIndex = 3;
             this.reminderList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Reminderlist_DrawItem);
@@ -1488,7 +1488,7 @@ namespace DocearReminder
             this.diary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.diary.Font = new System.Drawing.Font("宋体", 9.75F);
             this.diary.ForeColor = System.Drawing.Color.Gray;
-            this.diary.Location = new System.Drawing.Point(420, 317);
+            this.diary.Location = new System.Drawing.Point(420, 380);
             this.diary.MaximumSize = new System.Drawing.Size(600, 424);
             this.diary.Name = "diary";
             this.diary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -1523,7 +1523,7 @@ namespace DocearReminder
             // drawioPic
             // 
             this.drawioPic.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.drawioPic.Location = new System.Drawing.Point(420, 247);
+            this.drawioPic.Location = new System.Drawing.Point(420, 310);
             this.drawioPic.Name = "drawioPic";
             this.drawioPic.Size = new System.Drawing.Size(600, 64);
             this.drawioPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

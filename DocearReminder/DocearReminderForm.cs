@@ -190,6 +190,7 @@ namespace DocearReminder
         static ListItem reminderjson;
         static ListItem timeblockjson;
         static ListItem UsedTimerjson;
+        static ListItem hopeNoteItem;
 
         #endregion 全局变量
         public DocearReminderForm()  
@@ -201,7 +202,7 @@ namespace DocearReminder
             reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
             timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
             UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
-
+            hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
 
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
@@ -362,7 +363,7 @@ namespace DocearReminder
                     PathcomboBox.Items.Add("all");
                     //选中第一个
                     PathcomboBox.SelectedIndex = 0;
-                    hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + @"rootPath.txt");
+                    hopeNote.Text = hopeNoteItem["Value"].ToString(); ;
                 }
                 catch (Exception ex)
                 {
@@ -9771,6 +9772,7 @@ namespace DocearReminder
                                             selectedpath = false;
                                             PathcomboBox.SelectedIndex = i;
                                             PathcomboBox_SelectedIndexChanged(null, null);
+                                            hopeNoteItem = SharePointHelper.GetListItem(spContext, config, PathcomboBox.SelectedItem.ToString() + "HopeNote");
                                             loadHopeNote();
                                             section = PathcomboBox.SelectedItem.ToString();
                                             break;
@@ -16371,6 +16373,7 @@ namespace DocearReminder
                     fi.CopyTo(drawioPath);
                 }
                 searchword.Text = "";
+                hopeNoteItem = SharePointHelper.GetListItem(spContext, config, PathcomboBox.SelectedItem.ToString() + "HopeNote");
                 loadHopeNote();
                 PlaySimpleSoundAsync("changepath");
                 UsedLogRenew();
@@ -16402,9 +16405,9 @@ namespace DocearReminder
         {
             try
             {
-                if (System.IO.File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt"))
+                if (hopeNoteItem["Value"].SafeToString()!="")
                 {
-                    hopeNote.LoadFile(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + PathcomboBox.SelectedItem.ToString() + @".txt");
+                    hopeNote.Text = hopeNoteItem["Value"].SafeToString();
                 }
                 else
                 {
@@ -18373,7 +18376,10 @@ namespace DocearReminder
                 int lc = SendMessage(this.hopeNote.Handle, EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
                 int sf = this.hopeNote.Font.Height * (lc + 1);
                 this.hopeNote.Height = sf;
-                hopeNote.SaveFile(System.AppDomain.CurrentDomain.BaseDirectory + PathcomboBox.SelectedItem.ToString() + @".txt");
+                hopeNoteItem["Value"]=hopeNote.Text;
+                hopeNoteItem.Update();
+                spContext.Load(hopeNoteItem);
+                spContext.ExecuteQuery();
             }
             catch (Exception ex)
             {
@@ -18869,7 +18875,6 @@ namespace DocearReminder
                 tagList.Top = pictureBox1.Top + pictureBox1.Height + (pictureBox1.Height != 0 ? 7 : 0);
                 hopeNote.Top = tagList.Top + tagList.Height +7;
                 hopeNote.Height = 475 - hopeNote.Top;
-                //tagCloudControl.Top = hopeNote.Top + hopeNote.Height + (hopeNote.Height != 0 ? 7 : 0);
             }
             catch (Exception ex) { }
         }

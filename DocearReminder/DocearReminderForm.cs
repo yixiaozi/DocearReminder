@@ -192,7 +192,13 @@ namespace DocearReminder
         static ListItem UsedTimerjson;
         static ListItem hopeNoteItem;
         static ListItem scoreItem;
-        
+        static ListItem IconNodesSelectedItem;
+        static ListItem OpenedInRootSearchItem;
+        //ignoreSuggest
+        static ListItem ignoreSuggestItem;
+        //RecentOpenedMap
+        static ListItem RecentOpenedMapItem;
+
 
         #endregion 全局变量
         public DocearReminderForm()  
@@ -206,6 +212,10 @@ namespace DocearReminder
             UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
             hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
             scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
+            IconNodesSelectedItem = SharePointHelper.GetListItem(spContext, config, "IconNodesSelected");
+            OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
+            ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
+            RecentOpenedMapItem= SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
 
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
@@ -328,12 +338,14 @@ namespace DocearReminder
 
                 #region 加载一些配置文件
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
-                ignoreSuggest = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
-                RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
-                IconNodesSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
+                ignoreSuggest = ReadStringToList(ignoreSuggestItem["Value"].SafeToString());
+                RecentOpenedMap = ReadStringToList(RecentOpenedMapItem["Value"].SafeToString());
+
+                IconNodesSelected = ReadStringToList(IconNodesSelectedItem["Value"].SafeToString());
                 TimeBlockSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
                 Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
-                OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                OpenedInRootSearch = ReadStringToList(OpenedInRootSearchItem["Value"].SafeToString());
+
                 QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
                 unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
                 unchkeckdrawio = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckdrawio.txt");
@@ -624,7 +636,10 @@ namespace DocearReminder
         }
 
         #endregion 压缩方法
-
+        public List<string> ReadStringToList(string str)
+        {
+            return str.Replace("\r\n", "\n").Split('\n').ToList();
+        }
         public void SetTitle()
         {
             string birthday = ini.ReadString("info", "birthday", "");
@@ -9528,7 +9543,8 @@ namespace DocearReminder
                         if (searchword.Text.ToLower().StartsWith("!") || searchword.Text.ToLower().StartsWith("！"))
                         {
                             OpenedInRootSearch.Remove(((MyListBoxItemRemind)reminderlistSelectedItem).Name + "|" + ((MyListBoxItemRemind)reminderlistSelectedItem).Value);
-                            new TextListConverter().WriteListToTextFile(OpenedInRootSearch, System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                            SaveValueOut(OpenedInRootSearchItem, ConvertListToString(OpenedInRootSearch));
+
                             reminderList.Items.RemoveAt(reminderList.SelectedIndex);
                         }
                         else if (searchword.Text.ToLower().StartsWith("`") || searchword.Text.ToLower().StartsWith("·"))
@@ -9616,7 +9632,7 @@ namespace DocearReminder
                                         OpenedInRootSearch.Remove(name);
                                         OpenedInRootSearch.Add(name);
                                     }
-                                    new TextListConverter().WriteListToTextFile(OpenedInRootSearch, System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                                    SaveValueOut(OpenedInRootSearchItem, ConvertListToString(OpenedInRootSearch));
                                 }
                                 catch (Exception ex)
                                 {
@@ -9668,7 +9684,7 @@ namespace DocearReminder
                                     OpenedInRootSearch.Remove(name);
                                     OpenedInRootSearch.Add(name);
                                 }
-                                new TextListConverter().WriteListToTextFile(OpenedInRootSearch, System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                                SaveValueOut(OpenedInRootSearchItem, ConvertListToString(OpenedInRootSearch));
                             }
                             catch (Exception ex)
                             {
@@ -13682,6 +13698,19 @@ namespace DocearReminder
             spContext.ExecuteQuery();
         }
 
+        public void SaveValueOut(ListItem item, string value)
+        {
+            Thread thread = new Thread(() => SaveValue(item, value));
+            thread.Start();
+        }
+        public void SaveValue(ListItem item,string value)
+        {
+            item["Value"] = fenshu;
+            item.Update();
+            spContext.Load(item);
+            spContext.ExecuteQuery();
+        }
+
         public void IsRememberModel_CheckedChanged(object sender, EventArgs e)
         {
             c_ViewModel.Checked = false;
@@ -14722,7 +14751,8 @@ namespace DocearReminder
             else if (searchword.Text.ToLower().StartsWith("usedsug"))
             {
                 searchword.Text = "";
-                RecentOpenedMap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
+                RecentOpenedMap = ReadStringToList(RecentOpenedMapItem["Value"].SafeToString());
+
             }
             else if (searchword.Text.ToLower().StartsWith("clearusedsug"))
             {
@@ -14736,12 +14766,12 @@ namespace DocearReminder
                     }
                 }
                 RecentOpenedMap = newRecentOpenedMap;
-                new TextListConverter().WriteListToTextFile(RecentOpenedMap, System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
+                SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
                 searchword.Text = "";
             }
             else if (searchword.Text.ToLower().StartsWith("usedsu3"))
             {
-                OpenedInRootSearch = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\OpenedInRootSearch.txt");
+                OpenedInRootSearch = ReadStringToList(OpenedInRootSearchItem["Value"].SafeToString());
                 searchword.Text = "";
             }
             else if (searchword.Text.ToLower().EndsWith("ccc"))
@@ -15427,7 +15457,7 @@ namespace DocearReminder
                         IconNodesSelected.RemoveAll(m => m.Contains(info.nodeID));
                         IconNodesSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath + "|" + info.link);
                     }
-                    new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
+                    SaveValueOut(IconNodesSelectedItem,ConvertListToString(IconNodesSelected));
                 }
                 else if (e.KeyCode == Keys.Delete)
                 {
@@ -15437,14 +15467,14 @@ namespace DocearReminder
                         if (IconNodesSelected.Any(m => m.Contains(info.nodeID)))
                         {
                             IconNodesSelected.RemoveAll(m => m.Contains(info.nodeID));
-                            new TextListConverter().WriteListToTextFile(IconNodesSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\IconNodesSelected.txt");
+                            SaveValueOut(IconNodesSelectedItem,ConvertListToString(IconNodesSelected));
                         }
                     }
                     else
                     {
                         StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
                         ignoreSuggest.Add(info.StationName_CN);
-                        new TextListConverter().WriteListToTextFile(ignoreSuggest, System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
+                        SaveValueOut(ignoreSuggestItem,ConvertListToString(ignoreSuggest));
                     }
                 }
                 else
@@ -15568,7 +15598,8 @@ namespace DocearReminder
                         RecentOpenedMap.Remove(info.StationName_CN);
                         RecentOpenedMap.Add(info.StationName_CN);
                     }
-                    new TextListConverter().WriteListToTextFile(RecentOpenedMap, System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
+                    SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
+
                     if (command.Contains(info.StationName_CN))
                     {
                         SendKeys.Send("{ENTER}");
@@ -15587,13 +15618,13 @@ namespace DocearReminder
                         {
                             RecentOpenedMap.Remove(info.StationName_CN);
                         }
-                        new TextListConverter().WriteListToTextFile(RecentOpenedMap, System.AppDomain.CurrentDomain.BaseDirectory + @"\RecentOpenedMap.txt");
+                        SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
                     }
                     else
                     {
                         StationInfo info = SearchText_suggest.SelectedItem as StationInfo;
                         ignoreSuggest.Add(info.StationName_CN);
-                        new TextListConverter().WriteListToTextFile(ignoreSuggest, System.AppDomain.CurrentDomain.BaseDirectory + @"\ignoreSuggest.txt");
+                        SaveValueOut(ignoreSuggestItem,ConvertListToString(ignoreSuggest));
                     }
                 }
                 else
@@ -15699,6 +15730,26 @@ namespace DocearReminder
             {
                 SearchText_suggest.Visible = false;
             }
+        }
+        public string ConvertListToString(List<string> list)
+        {
+            string result = "";
+            //添加去重
+            List<string> xnodesRemoveSame = new List<string>();
+            foreach (string item in list)
+            {
+                if (!xnodesRemoveSame.Contains(item))
+                {
+                    xnodesRemoveSame.Add(item);
+                }
+            }
+            list = xnodesRemoveSame;
+
+            for (int i = 0; i < list.Count; i++) {
+                result += list[i];
+                result += Environment.NewLine;
+            };
+            return result;
         }
 
         public void mindmapSearch_TextChanged(object sender, EventArgs e)

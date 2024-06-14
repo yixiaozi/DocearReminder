@@ -838,9 +838,7 @@ namespace DocearReminder
                     {
                         MaxJsonLength = Int32.MaxValue
                     }.Serialize(data);
-                    UsedTimerjson["Value"] = LZStringCSharp.LZString.CompressToBase64(usedtimerJson) ;
-                    UsedTimerjson.Update();
-                    spContext.ExecuteQuery();
+                    SaveValueOut(UsedTimerjson, LZStringCSharp.LZString.CompressToBase64(usedtimerJson));
                 }
                 catch (Exception ex)
                 {
@@ -13723,17 +13721,20 @@ namespace DocearReminder
             spContext.ExecuteQuery();
         }
 
-        public void SaveValueOut(ListItem item, string value)
+        public static void SaveValueOut(ListItem item, string value)
         {
             Thread thread = new Thread(() => SaveValue(item, value));
             thread.Start();
         }
-        public void SaveValue(ListItem item,string value)
+        public static void SaveValue(ListItem item,string value)
         {
-            item["Value"] = value;
-            item.Update();
-            spContext.Load(item);
-            spContext.ExecuteQuery();
+            if (item["Value"].SafeToString() != value)
+            {
+                item["Value"] = value;
+                item.Update();
+                spContext.Load(item);
+                spContext.ExecuteQuery();
+            }
         }
 
         public void IsRememberModel_CheckedChanged(object sender, EventArgs e)

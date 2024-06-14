@@ -148,7 +148,6 @@ namespace DocearReminder
             this.timeblockcheck = new System.Windows.Forms.Label();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tagList = new FerretLib.WinForms.Controls.TagListControl();
-            this.notebottom = new yixiaozi.WinForm.Control.MyRichTextBox();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.drawsearch = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
@@ -199,7 +198,6 @@ namespace DocearReminder
             this.窗口ToolStripMenuItem});
             this.searchworkmenu.Name = "searchworkmenu";
             this.searchworkmenu.Size = new System.Drawing.Size(101, 26);
-            this.searchworkmenu.Opening += new System.ComponentModel.CancelEventHandler(this.searchworkmenu_Opening);
             // 
             // 窗口ToolStripMenuItem
             // 
@@ -430,7 +428,6 @@ namespace DocearReminder
             this.taskTime.Size = new System.Drawing.Size(38, 21);
             this.taskTime.TabIndex = 15;
             this.taskTime.TabStop = false;
-            this.taskTime.ValueChanged += new System.EventHandler(this.taskTime_ValueChanged);
             this.taskTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker_KeyUp);
             // 
             // fenshu
@@ -475,7 +472,6 @@ namespace DocearReminder
             this.SearchText_suggest.TabIndex = 83;
             this.SearchText_suggest.Visible = false;
             this.SearchText_suggest.SelectedIndexChanged += new System.EventHandler(this.SearchText_suggest_SelectedIndexChanged);
-            this.SearchText_suggest.VisibleChanged += new System.EventHandler(this.SearchText_suggest_VisibleChanged);
             // 
             // tasklevel
             // 
@@ -1301,7 +1297,6 @@ namespace DocearReminder
             this.nodetreeSearch.Size = new System.Drawing.Size(340, 21);
             this.nodetreeSearch.TabIndex = 127;
             this.nodetreeSearch.Visible = false;
-            this.nodetreeSearch.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.nodetreeSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.nodetreeSearch_KeyUp);
             // 
             // keyJ
@@ -1442,7 +1437,6 @@ namespace DocearReminder
             this.timeblockcheck.Size = new System.Drawing.Size(65, 12);
             this.timeblockcheck.TabIndex = 139;
             this.timeblockcheck.Text = "时间块检查";
-            this.timeblockcheck.Click += new System.EventHandler(this.timeblockcheck_Click);
             // 
             // AllnodeFreshTimer
             // 
@@ -1460,23 +1454,6 @@ namespace DocearReminder
             this.tagList.TagChanged += new System.EventHandler(this.tagList_TagChanged);
             this.tagList.SizeChanged += new System.EventHandler(this.tagList_SizeChanged);
             this.tagList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tagList_KeyUp);
-            // 
-            // notebottom
-            // 
-            this.notebottom.BackColor = System.Drawing.Color.White;
-            this.notebottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.notebottom.Font = new System.Drawing.Font("宋体", 9.75F);
-            this.notebottom.ForeColor = System.Drawing.Color.Gray;
-            this.notebottom.Location = new System.Drawing.Point(420, 434);
-            this.notebottom.MaximumSize = new System.Drawing.Size(600, 250);
-            this.notebottom.Name = "notebottom";
-            this.notebottom.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.notebottom.Size = new System.Drawing.Size(600, 41);
-            this.notebottom.TabIndex = 145;
-            this.notebottom.Text = "";
-            this.notebottom.Visible = false;
-            this.notebottom.SizeChanged += new System.EventHandler(this.ReminderListBox_SizeChanged);
-            this.notebottom.TextChanged += new System.EventHandler(this.note_TextChanged);
             // 
             // DrawList
             // 
@@ -1553,7 +1530,6 @@ namespace DocearReminder
             this.drawioPic.TabIndex = 150;
             this.drawioPic.TabStop = false;
             this.drawioPic.Visible = false;
-            this.drawioPic.Paint += new System.Windows.Forms.PaintEventHandler(this.drawioPic_Paint);
             this.drawioPic.DoubleClick += new System.EventHandler(this.drawioPic_DoubleClick);
             // 
             // picturebigger
@@ -1705,7 +1681,6 @@ namespace DocearReminder
             this.Controls.Add(this.usedCount);
             this.Controls.Add(this.usedtimelabel);
             this.Controls.Add(this.todayusedtime);
-            this.Controls.Add(this.notebottom);
             this.Controls.Add(this.DrawList);
             this.Controls.Add(this.drawsearch);
             this.Controls.Add(this.diary);
@@ -1885,7 +1860,6 @@ namespace DocearReminder
         public Label timeblockcheck;
         public FerretLib.WinForms.Controls.TagListControl tagList;
         public Timer AllnodeFreshTimer;
-        public MyRichTextBox notebottom;
         public CustomCheckedListBox DrawList;
         public TextBox drawsearch;
         public MyRichTextBox diary;

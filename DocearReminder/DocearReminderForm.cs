@@ -198,6 +198,18 @@ namespace DocearReminder
         static ListItem ignoreSuggestItem;
         //RecentOpenedMap
         static ListItem RecentOpenedMapItem;
+        //TimeBlockSelected
+        static ListItem TimeBlockSelectedItem;
+        //Xnodes
+        static ListItem XnodesItem;
+        //QuickOpenLog
+        static ListItem QuickOpenLogItem;
+        //unchkeckmindmap
+        static ListItem unchkeckmindmapItem;
+        //unchkeckdrawio
+        static ListItem unchkeckdrawioItem;
+        //remindmaps
+        static ListItem remindmapsItem;
 
 
         #endregion 全局变量
@@ -216,6 +228,18 @@ namespace DocearReminder
             OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
             ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
             RecentOpenedMapItem= SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
+            TimeBlockSelectedItem = SharePointHelper.GetListItem(spContext, config, "TimeBlockSelected");
+            XnodesItem = SharePointHelper.GetListItem(spContext, config, "Xnodes");
+            //QuickOpenLog
+            QuickOpenLogItem = SharePointHelper.GetListItem(spContext, config, "QuickOpenLog");
+            //unchkeckmindmap
+            unchkeckmindmapItem = SharePointHelper.GetListItem(spContext, config, "unchkeckmindmap");
+            //unchkeckdrawio
+            unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
+            //remindmaps
+            remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
+
+
 
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
@@ -342,14 +366,13 @@ namespace DocearReminder
                 RecentOpenedMap = ReadStringToList(RecentOpenedMapItem["Value"].SafeToString());
 
                 IconNodesSelected = ReadStringToList(IconNodesSelectedItem["Value"].SafeToString());
-                TimeBlockSelected = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
-                Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                TimeBlockSelected = ReadStringToList(TimeBlockSelectedItem["Value"].SafeToString());
+                Xnodes = ReadStringToList(XnodesItem["Value"].SafeToString());
                 OpenedInRootSearch = ReadStringToList(OpenedInRootSearchItem["Value"].SafeToString());
-
-                QuickOpenLog = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
-                unchkeckmindmap = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
-                unchkeckdrawio = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckdrawio.txt");
-                remindmaps = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
+                QuickOpenLog = ReadStringToList(QuickOpenLogItem["Value"].SafeToString());
+                unchkeckmindmap = ReadStringToList(unchkeckmindmapItem["Value"].SafeToString());
+                unchkeckdrawio= ReadStringToList(unchkeckdrawioItem["Value"].SafeToString());
+                remindmaps = ReadStringToList(remindmapsItem["Value"].SafeToString());
                 #endregion 加载一些配置文件
 
                 #region UsedTimer
@@ -638,7 +661,7 @@ namespace DocearReminder
         #endregion 压缩方法
         public List<string> ReadStringToList(string str)
         {
-            return str.Replace("\r\n", "\n").Split('\n').ToList();
+            return str.Replace("\r\n", "\n").Split('\n').ToList().Where(m=>m!="").ToList();
         }
         public void SetTitle()
         {
@@ -4465,7 +4488,8 @@ namespace DocearReminder
                         }
                     }
                     Xnodes = xnodesRemoveSame;
-                    new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                    SaveValueOut(XnodesItem, ConvertListToString(Xnodes));
+
                 }
                 MyListBoxItemRemind selectedReminder = (MyListBoxItemRemind)reminderlistSelectedItem;
                 CompleteTask(selectedReminder);
@@ -7661,7 +7685,8 @@ namespace DocearReminder
                         }
                     }
                     Xnodes = xnodesRemoveSame;
-                    new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                    SaveValueOut(XnodesItem,ConvertListToString(Xnodes));
+
 
                     reminderListBox.Items.RemoveAt(reminderIndex);
                     ReminderlistBoxChange();
@@ -12756,7 +12781,7 @@ namespace DocearReminder
                                     }
                                 }
                                 Xnodes = xnodesRemoveSame;
-                                new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                                SaveValueOut(XnodesItem, ConvertListToString(Xnodes));
                                 reminderListBox.Items.Add((MyListBoxItemRemind)reminderlistSelectedItem);
                                 ReminderlistBoxChange();
                                 reminderList.Items.RemoveAt(reminderList.SelectedIndex);
@@ -12790,7 +12815,7 @@ namespace DocearReminder
                                 }
                             }
                             Xnodes = xnodesRemoveSame;
-                            new TextListConverter().WriteListToTextFile(Xnodes, System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                            SaveValueOut(XnodesItem, ConvertListToString(Xnodes));
                             reminderList.Items.Add(reminderListBox.SelectedItem);
                             reminderListBox.Items.RemoveAt(reminderListBox.SelectedIndex);
                             ReminderlistBoxChange();
@@ -12817,7 +12842,7 @@ namespace DocearReminder
                                 }
                             }
                         }
-                        Xnodes = new TextListConverter().ReadTextFileToList(System.AppDomain.CurrentDomain.BaseDirectory + @"\Xnodes.txt");
+                        Xnodes = ReadStringToList(XnodesItem["Value"].SafeToString());
                         return;
                     }
                     break;
@@ -14937,7 +14962,7 @@ namespace DocearReminder
                         remindmaps.Add(file.FullName);
                     }
                 }
-                new TextListConverter().WriteListToTextFile(remindmaps, System.AppDomain.CurrentDomain.BaseDirectory + @"\remindmaps.txt");
+                SaveValueOut(remindmapsItem, ConvertListToString(remindmaps));
             }
             else if (searchword.Text.ToLower().StartsWith("tool"))
             {
@@ -15091,7 +15116,7 @@ namespace DocearReminder
                     if (!unchkeckmindmap.Contains(((MyListBoxItem)MindmapList.Items[i]).Value))
                     {
                         unchkeckmindmap.Add(((MyListBoxItem)MindmapList.Items[i]).Value);
-                        new TextListConverter().WriteListToTextFile(unchkeckmindmap, System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
+                        SaveValueOut(unchkeckmindmapItem, ConvertListToString(unchkeckmindmap));
                     }
                 }
                 else
@@ -15099,7 +15124,7 @@ namespace DocearReminder
                     while (unchkeckmindmap.Contains(((MyListBoxItem)MindmapList.Items[i]).Value))
                     {
                         unchkeckmindmap.Remove(((MyListBoxItem)MindmapList.Items[i]).Value);
-                        new TextListConverter().WriteListToTextFile(unchkeckmindmap, System.AppDomain.CurrentDomain.BaseDirectory + @"\unchkeckmindmap.txt");
+                        SaveValueOut(unchkeckmindmapItem, ConvertListToString(unchkeckmindmap));
                     }
                 }
             }
@@ -15337,7 +15362,8 @@ namespace DocearReminder
                         TimeBlockSelected.RemoveAll(m => m.Contains(info.nodeID));
                         TimeBlockSelected.Add(info.StationName_CN + "|" + info.StationName_EN + "|" + info.StationName_JX + "|" + info.nodeID + "|" + info.mindmapurl + "|" + info.fatherNodePath + "|" + info.link);
                     }
-                    new TextListConverter().WriteListToTextFile(TimeBlockSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
+                    SaveValueOut(TimeBlockSelectedItem, ConvertListToString(TimeBlockSelected));
+
                 }
                 else if (e.KeyCode == Keys.Delete)
                 {
@@ -15345,7 +15371,7 @@ namespace DocearReminder
                     if (TimeBlockSelected.Any(m => m.Contains(info.nodeID)))
                     {
                         TimeBlockSelected.RemoveAll(m => m.Contains(info.nodeID));
-                        new TextListConverter().WriteListToTextFile(TimeBlockSelected, System.AppDomain.CurrentDomain.BaseDirectory + @"\TimeBlockSelected.txt");
+                        SaveValueOut(TimeBlockSelectedItem, ConvertListToString(TimeBlockSelected));
                     }
                 }
                 else
@@ -15701,7 +15727,8 @@ namespace DocearReminder
                             QuickOpenLog.Remove(info.StationName_CN);
                             QuickOpenLog.Add(info.StationName_CN);
                         }
-                        new TextListConverter().WriteListToTextFile(QuickOpenLog, System.AppDomain.CurrentDomain.BaseDirectory + @"\QuickOpenLog.txt");
+                        SaveValueOut(QuickOpenLogItem, ConvertListToString(QuickOpenLog));
+
                         if (command.Contains(info.StationName_CN))
                         {
                             SendKeys.Send("{ENTER}");

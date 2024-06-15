@@ -182,9 +182,11 @@ namespace DocearReminder
         public MagnetWinForms.MagnetWinForms m_MagnetWinForms;
         TimeAnalyze timeAnalyze;
         bool isShowTimeBlock = false;
+        public static string timeAnalyzePositonDiff = "";
         public static NoticeInfo noticeInfo= new NoticeInfo();
         SwitchingState switchingState;
         TagCloud tagCloud;
+        public static PositionDIffColl positionDIffCollection = new PositionDIffColl();
         static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext(ini.ReadString("sppassword", "url", ""), ini.ReadString("sppassword", "user", ""), ini.ReadString("sppassword", "password", ""));
         static List config;
         static ListItem reminderjson;
@@ -210,6 +212,16 @@ namespace DocearReminder
         static ListItem unchkeckdrawioItem;
         //remindmaps
         static ListItem remindmapsItem;
+        //PositionDIffColl
+        static ListItem PositionDIffCollItem;
+        //mindmaps
+        public static ListItem mindmapsItem;
+        //timeblock
+        public static ListItem timeblockItem;
+        //allnodesicon
+        public static ListItem allnodesiconItem;
+        //noterichTextBox
+        public static ListItem noterichTextBoxItem;
 
 
         #endregion 全局变量
@@ -238,9 +250,18 @@ namespace DocearReminder
             unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
             //remindmaps
             remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
-
-
-
+            //PositionDIffColl
+            PositionDIffCollItem = SharePointHelper.GetListItem(spContext, config, "PositionDIffColl");
+            //mindmaps
+            mindmapsItem = SharePointHelper.GetListItem(spContext, config, "mindmaps");
+            //timeblock
+            timeblockItem = SharePointHelper.GetListItem(spContext, config, "timeblock");
+            //allnodesicon
+            allnodesiconItem = SharePointHelper.GetListItem(spContext, config, "allnodesicon");
+            //noterichTextBox
+            noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
+            positionDIffCollection.Get();
+             
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
             switchingState = new SwitchingState();
@@ -384,7 +405,7 @@ namespace DocearReminder
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
                 fileTreePath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 this.Height = normalheight; showMindmapName = "";
-                noterichTextBox.LoadFile(ini.ReadString("path", "note", System.AppDomain.CurrentDomain.BaseDirectory + @"\note.txt"));
+                noterichTextBox.Text= noterichTextBoxItem["Value"].SafeToString();
                 richTextSubNode.Height = 0;
                 try
                 {
@@ -1170,6 +1191,7 @@ namespace DocearReminder
             //    NewFiles();
             //}
             WriteReminderJson();
+            positionDIffCollection.Save();
         }
 
         #endregion 番茄钟
@@ -1297,6 +1319,26 @@ namespace DocearReminder
                 formActiveTime = DateTime.Now;
                 leaveSpan = new TimeSpan(0, 0, 0);
             }
+        }
+        private void TimeAnalyze_Move()
+        {
+
+            int DocearReminderX = 0, DocearReminderY = 0;
+            //记录窗口相对主窗口的位置
+            foreach (Form item in Application.OpenForms)
+            {
+                if (item.Text.Contains("开心"))
+                {
+                    DocearReminderX = item.Location.X;
+                    DocearReminderY = item.Location.Y;
+                    break;
+                }
+            }
+
+            //设置窗口相对主窗口的位置
+            int xdiff = (this.Location.X - DocearReminderX);
+            int ydiff = (this.Location.Y - DocearReminderY);
+            DocearReminderForm.positionDIffCollection.setDiff("TimeAnalyze", xdiff, ydiff);
         }
 
         public void MyShow()
@@ -2172,20 +2214,12 @@ namespace DocearReminder
 
         public static void RecordLogallnodesicon(string Content)
         {
-            string logSite = AppDomain.CurrentDomain.BaseDirectory + "\\allnodesicon.txt";//本地文件
-            StreamWriter sw = new StreamWriter(logSite, false, Encoding.GetEncoding("GB2312"));
-            sw.WriteLine(Content);
-            sw.Close();
-            sw.Dispose();
+            SaveValueOut(allnodesiconItem, Content);
         }
 
         public static void RecordTimeBlockJson(string Content)
         {
-            string logSite = AppDomain.CurrentDomain.BaseDirectory + "\\timeblock.txt";//本地文件
-            StreamWriter sw = new StreamWriter(logSite, false, Encoding.GetEncoding("GB2312"));
-            sw.WriteLine(Content);
-            sw.Close();
-            sw.Dispose();
+            SaveValueOut(timeblockItem, Content);
         }
 
         public void ClearTxt(String txtPath)
@@ -11794,10 +11828,10 @@ namespace DocearReminder
                                 }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Alt) == 0)
-                            {
+                            { 
                                 显示右侧ToolStripMenuItem_Click(null, null);
                             }
-                            else if (tasklevel.Focused)
+                            else if (tasklevel.Focused&&!Jinji.Focused)
                             {
                                 Jinji.Focus();
                             }
@@ -14828,36 +14862,36 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 GetAllFilesJsonFile();
-                yixiaozi.Model.DocearReminder.StationInfo.StationData = null;
+                StationInfo.StationData = null;
             }
             else if (searchword.Text.StartsWith("allicon"))
             {
                 searchword.Text = "";
                 GetAllFilesJsonIconFile();
-                yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+                StationInfo.NodeData = null;
             }
             else if (searchword.Text.ToLower().StartsWith("timeblock"))
             {
                 searchword.Text = "";
                 GetTimeBlock();
-                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+                StationInfo.TimeBlockData = null;
             }
             else if (searchword.Text.ToLower().StartsWith("moneym"))
             {
                 searchword.Text = "";
                 GetTimeBlock();
-                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+                StationInfo.TimeBlockData = null;
             }
             else if (searchword.Text.ToLower().StartsWith("kaka"))
             {
                 searchword.Text = "";
                 GetTimeBlock();
-                yixiaozi.Model.DocearReminder.StationInfo.TimeBlockData = null;
+                StationInfo.TimeBlockData = null;
             }
             else if (searchword.Text.StartsWith("newfiles"))
             {
                 searchword.Text = "";
-                yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+                StationInfo.NodeData = null;
             }
             else if (searchword.Text.StartsWith("mvt"))//移动文件到指定目录
             {
@@ -14866,7 +14900,7 @@ namespace DocearReminder
                 {
                     System.IO.File.Move(((MyListBoxItemRemind)reminderlistSelectedItem).link.Replace("file:/", ""), ini.ReadStringDefault("movefile", foldername, "").Trim() + "\\" + new FileInfo(((MyListBoxItemRemind)reminderlistSelectedItem).link.Replace("file:/", "")).Name);
                     searchword.Text = "";
-                    yixiaozi.Model.DocearReminder.StationInfo.NodeData = null;
+                    StationInfo.NodeData = null;
                 }
             }
             else if (searchword.Text.StartsWith("showlog"))
@@ -17012,6 +17046,84 @@ namespace DocearReminder
                 ChangeStatus(true);
             }
         }
+        public class RecentlyFileHelper
+        {
+            public static MyListBoxItemRemind GetShortcutTargetFile(string shortcutFilename, string searchwork)
+            {
+                try
+                {
+                    var type = Type.GetTypeFromProgID("WScript.Shell");  //获取WScript.Shell类型
+                    object instance = Activator.CreateInstance(type);    //创建该类型实例
+                    var result = type.InvokeMember("CreateShortCut", BindingFlags.InvokeMethod, null, instance, new object[] { shortcutFilename });
+                    var targetFile = result.GetType().InvokeMember("TargetPath", BindingFlags.GetProperty, null, result, null) as string;
+                    FileInfo file = new FileInfo(targetFile);
+                    FileInfo file1 = new FileInfo(shortcutFilename);
+                    if (file.FullName.ToLower().Contains("onedrive") || file.Name.StartsWith(".") || !file.FullName.Contains("yixiaozi"))
+                    {
+                        return null;
+                    }
+                    if (!file.FullName.Contains(searchwork))
+                    {
+                        return null;
+                    }
+                    return new MyListBoxItemRemind() { Text = "       " + file.Name, Name = file.Name, Value = file.FullName, Time = (new DateTime() + (DateTime.Now.AddYears(80) - file1.LastWriteTime)) };
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+
+            public static IEnumerable<MyListBoxItemRemind> GetRecentlyFiles(string searchwork)
+            {
+                var recentFolder = Environment.GetFolderPath(Environment.SpecialFolder.Recent);  //获取Recent路径
+                return from file in Directory.EnumerateFiles(recentFolder)
+                       where Path.GetExtension(file) == ".lnk"
+                       select GetShortcutTargetFile(file, searchwork);
+            }
+            public static void DeleteRecentlyFiles(string searchwork)
+            {
+                var recentFolder = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+                foreach (string file in Directory.EnumerateFiles(recentFolder))
+                {
+                    if (file.Contains(searchwork))
+                    {
+                        System.IO.File.Delete(file);
+                    }
+
+                }
+            }
+            public static IEnumerable<StationInfo> GetStartFiles()
+            {
+                try
+                {
+                    return from file in Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), "*.lnk", SearchOption.AllDirectories)
+                           where GetShortcutTargetFile(file) != null
+                           select GetShortcutTargetFile(file);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            public static StationInfo GetShortcutTargetFile(string shortcutFilename)
+            {
+                try
+                {
+                    var type = Type.GetTypeFromProgID("WScript.Shell");  //获取WScript.Shell类型
+                    object instance = Activator.CreateInstance(type);    //创建该类型实例
+                    var result = type.InvokeMember("CreateShortCut", BindingFlags.InvokeMethod, null, instance, new object[] { shortcutFilename });
+                    var targetFile = result.GetType().InvokeMember("TargetPath", BindingFlags.GetProperty, null, result, null) as string;
+                    FileInfo file = new FileInfo(targetFile);
+                    FileInfo file1 = new FileInfo(shortcutFilename);
+                    return new StationInfo { StationName_CN = "start:" + file1.Name.Substring(0, file1.Name.LastIndexOf(".")), mindmapurl = file.FullName };
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
 
         public void mindmaplist_MouseDown(object sender, MouseEventArgs e)
         {
@@ -17355,7 +17467,281 @@ namespace DocearReminder
         {
             setleft();
         }
+        public class StationInfo
+        {
+            /// <summary>
+            /// 站点名称 - 中文
+            /// </summary>
+            public string StationName_CN { get; set; }
+            /// <summary>
+            /// 站点名称 - 英文
+            /// </summary>
+            public string StationName_EN { get; set; }
+            /// <summary>
+            /// 站点名称 - 简写
+            /// </summary>
+            public string StationName_JX { get; set; }
+            /// <summary>
+            /// 站点的值
+            /// </summary>
+            public string StationValue { get; set; }
+            public string isNode { get; set; }
+            public string mindmapurl { get; set; }
+            public string nodeID { get; set; }
+            public string fatherNodePath { get; set; }
+            public string link { get; set; }
+            /// <summary>
+            /// 模糊查询站点
+            /// </summary>
+            /// <param name="filter"></param>
+            /// <returns></returns>
+            public static IList<StationInfo> StationData;
+            public static IList<StationInfo> NodeData;
+            public static IList<StationInfo> TimeBlockData;
+            public static List<string> ignoreSuggest = new List<string>();
+            public static string command = "ga;gc;";
+            public static IList<StationInfo> GetStations(string filter)
+            {
+                IList<StationInfo> results = new List<StationInfo>();
+                if (StationData == null)
+                {
+                    string stations = GetAllStations();
+                    string[] datas = stations.Split('@');
+                    foreach (var item in datas)
+                    {
+                        string[] tempArray = item.Split('|');
+                        try
+                        {
+                            StationInfo info = new StationInfo()
+                            {
+                                StationName_CN = tempArray[0],
+                                StationValue = tempArray[1],
+                                StationName_EN = tempArray[2],
+                                StationName_JX = tempArray[3]
+                            };
+                            results.Add(info);
+                        }
+                        catch (Exception)
+                        {
+                        }
 
+                    }
+                    StationData = results;
+                }
+                else
+                {
+                    results = StationData;
+                }
+                return results.Where(
+                    f => (!ignoreSuggest.Contains(f.StationName_CN)) && (
+                    (f.StationName_CN.Length >= filter.Length && f.StationName_CN.Contains(filter)) ||
+                    (f.StationName_EN.Length >= filter.Length && f.StationName_EN.Contains(filter)) ||
+                    (f.StationName_JX.Length >= filter.Length && Search(f.StationName_JX, filter)) ||
+                    (f.StationValue.Length >= filter.Length && f.StationValue.Contains(filter)))).ToList<StationInfo>();
+            }
+
+            public static IList<StationInfo> GetNodes(string filter)
+            {
+                IList<StationInfo> results = new List<StationInfo>();
+                if (command.Contains(filter))
+                {
+                    return results;
+                }
+                if (NodeData == null)
+                {
+                    string stations = GetAllNodes();
+                    string[] datas = stations.Split('@');
+                    foreach (var item in datas)
+                    {
+                        string[] tempArray = item.Split('|');
+                        try
+                        {
+                            string fathernodepath = "";
+                            try
+                            {
+                                fathernodepath = tempArray[7];
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            StationInfo info = new StationInfo()
+                            {
+                                StationName_CN = tempArray[0],
+                                StationValue = tempArray[1],
+                                StationName_EN = tempArray[2],
+                                StationName_JX = tempArray[3],
+                                isNode = tempArray[4],
+                                mindmapurl = tempArray[6],
+                                nodeID = tempArray[5],
+                                link = tempArray[8],
+                                fatherNodePath = fathernodepath
+                            };
+                            results.Add(info);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    NodeData = results;
+                }
+                else
+                {
+                    results = NodeData;
+                }
+                //return results.Where(
+                //    f =>
+                //    (f.StationName_CN.Length >= filter.Length && f.StationName_CN.Contains(filter)) ||
+                //    (f.StationName_EN.Length >= filter.Length && f.StationName_EN.Substring(0, filter.Length) == filter) ||
+                //    (f.StationName_JX.Length >= filter.Length && f.StationName_JX.Substring(0, filter.Length) == filter) ||
+                //    (f.StationValue.Length >= filter.Length && f.StationValue.Substring(0, filter.Length) == filter)).ToList<StationInfo>();
+                return results.Where(
+                    f => (!ignoreSuggest.Contains(f.StationName_CN)) && (
+                    (f.StationName_CN.Length >= filter.Length && f.StationName_CN.Contains(filter)) ||
+                    (f.StationName_EN.Length >= filter.Length && f.StationName_EN.Contains(filter)) ||
+                    (f.StationName_JX.Length >= filter.Length && Search(f.StationName_JX, filter)) ||
+                    (f.StationValue.Length >= filter.Length && f.StationValue.Contains(filter)))).ToList<StationInfo>();
+                //return results.Where(
+                //    f =>
+                //    (f.StationName_CN.Length >= filter.Length && Search(f.StationName_CN, filter)) ||
+                //    (f.StationName_EN.Length >= filter.Length && Search(f.StationName_EN, filter)) ||
+                //    (f.StationName_JX.Length >= filter.Length && Search(f.StationName_JX, filter)) ||
+                //    (f.StationValue.Length >= filter.Length && Search(f.StationValue, filter))).ToList<StationInfo>();
+            }
+            public static IList<StationInfo> GetTimeBlock(string filter)
+            {
+                IList<StationInfo> results = new List<StationInfo>();
+                if (command.Contains(filter))
+                {
+                    return results;
+                }
+                if (TimeBlockData == null)
+                {
+                    string stations = GetTimeBlockstr();
+                    string[] datas = stations.Split('@');
+                    foreach (var item in datas)
+                    {
+                        string[] tempArray = item.Split('|');
+                        try
+                        {
+                            string fathernodepath = "";
+                            try
+                            {
+                                fathernodepath = tempArray[7];
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            //修改bug | xgbug | xiugaibug | xgbug | true | ID_1693863157 | 编程     | DocearReminder | 编程 | DocearReminder | -205
+                            //疫情    | yq    | yiqing    | yq    | true | ID_1614751649 | 事件类别 | 事件类别        | -10066330
+                            StationInfo info = new StationInfo()
+                            {
+                                StationName_CN = tempArray[0],
+                                StationValue = tempArray[1],
+                                StationName_EN = tempArray[2],
+                                StationName_JX = tempArray[3],
+                                isNode = tempArray[4],
+                                nodeID = tempArray[5],
+                                mindmapurl = tempArray[6],
+                                link = tempArray[8],
+                                fatherNodePath = fathernodepath
+                            };
+                            results.Add(info);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    TimeBlockData = results;
+                }
+                else
+                {
+                    results = TimeBlockData;
+                }
+                return results.Where(
+                    f => (!ignoreSuggest.Contains(f.StationName_CN)) && (
+                    (f.StationName_CN.Length >= filter.Length && f.StationName_CN.Contains(filter)) ||
+                    (f.StationName_EN.Length >= filter.Length && f.StationName_EN.Contains(filter)) ||
+                    (f.StationName_JX.Length >= filter.Length && Search(f.StationName_JX, filter)) ||
+                    (f.StationValue.Length >= filter.Length && f.StationValue.Contains(filter)))).ToList<StationInfo>();
+            }
+            public static bool Search(string str, string filter)
+            {
+                char[] strArr = str.ToCharArray();
+                char[] filterArr = filter.ToCharArray();
+                int index = 0;
+                bool result = true;
+                for (int i = 0; i < filterArr.Length && result; i++)
+                {
+                    bool has = false;
+                    for (int j = index; j < strArr.Length; j++)
+                    {
+                        if (strArr[j] == filterArr[i])
+                        {
+                            index = j + 1;
+                            has = true;
+                            break;
+                        }
+                    }
+                    if (!has)
+                    {
+                        result = false;
+                    }
+                }
+                return result;
+            }
+
+            /// <summary>
+            /// 读取站点数据文件
+            /// </summary>
+            /// <returns></returns>
+            public static string GetAllStations()
+            {
+                string stationStrs;
+                try
+                {
+                    string sr = mindmapsItem["Value"].SafeToString();
+                    stationStrs = sr.TrimEnd('@');
+                    return stationStrs;
+                }
+                catch (IOException ex)
+                {
+                    return "站点文件读取失败！";
+                }
+            }
+            /// <summary>
+            /// 读取站点数据文件
+            /// </summary>
+            /// <returns></returns>
+            public static string GetAllNodes()
+            {
+                string stationStrs;
+                try
+                {
+                    string sr = allnodesiconItem["Value"].SafeToString();
+                    stationStrs = sr.TrimEnd('@');
+                    return stationStrs;
+                }
+                catch (IOException ex)
+                {
+                    return "站点文件读取失败！";
+                }
+            }
+            public static string GetTimeBlockstr()
+            {
+                string stationStrs;
+                try
+                {
+                    string sr = timeblockItem["Value"].SafeToString();
+                    stationStrs = sr.TrimEnd('@');
+                    return stationStrs;
+                }
+                catch (IOException ex)
+                {
+                    return "站点文件读取失败！";
+                }
+            }
+        }
+        
         public void RichTextSubNode_TextChanged(object sender, EventArgs e)
         {
             if (richTextSubNode.Text.Trim() == "")
@@ -17516,13 +17902,6 @@ namespace DocearReminder
         public void noterichTextBox_TextChanged(object sender, EventArgs e)
         {
             noterichTextBox.ForeColor = Color.Gray;
-            try
-            {
-                noterichTextBox.SaveFile(ini.ReadString("path:", "note", System.AppDomain.CurrentDomain.BaseDirectory + @"note.txt"));
-            }
-            catch (Exception ex)
-            {
-            }
         }
 
         #region 右键菜单动作
@@ -19308,6 +19687,67 @@ namespace DocearReminder
             {
                 reminderList.Focus();
             }
+        }
+        public class PositionDIffColl
+        {
+            public PositionDIffColl()
+            {
+                PositionDIffs = new List<PositionDIff>();
+            }
+            public PositionDIff getDiff(string formname)
+            {
+                if (PositionDIffs.Where(m=>m.name==formname).Count()>0)
+                {
+                    return PositionDIffs.Where(m => m.name == formname).First();
+                }
+                else
+                {
+                    PositionDIffs.Add(new PositionDIff() { name = formname, x = 0, y = 0 });
+                    return PositionDIffs.Where(m => m.name == formname).First();
+                }
+            }
+            public void setDiff(string formname,int x,int y)
+            {
+                if (PositionDIffs.Where(m => m.name == formname).Count() > 0)
+                {
+                    PositionDIffs.Where(m => m.name == formname).First().x=x;
+                    PositionDIffs.Where(m => m.name == formname).First().y=y;
+                }
+                else
+                {
+                    PositionDIffs.Add(new PositionDIff() { name = formname, x = x, y = x });
+                }
+            }
+            public void Save()
+            {
+                //PositionDIffCollItem
+                string json = JsonConvert.SerializeObject(this);
+                SaveValueOut(PositionDIffCollItem, json);
+            }
+            public void Get()
+            {
+                //PositionDIffCollItem
+                string json = PositionDIffCollItem["Value"].SafeToString() ;
+                if (json!="")
+                {
+                    PositionDIffColl positionDIffColl = JsonConvert.DeserializeObject<PositionDIffColl>(json);
+                    this.PositionDIffs = positionDIffColl.PositionDIffs;
+                }
+            }
+
+            public List<PositionDIff> PositionDIffs { get; set; }
+        }
+
+        public class PositionDIff
+        {
+            public string name { get; set; }
+            public int x { get; set; }
+            public int y { get; set; }
+        }
+
+        private void noterichTextBox_Leave(object sender, EventArgs e)
+        {
+            SaveValueOut(noterichTextBoxItem, noterichTextBox.Text);
         }
     }
 

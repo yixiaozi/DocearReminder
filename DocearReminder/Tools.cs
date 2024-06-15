@@ -236,11 +236,7 @@ namespace DocearReminder
 
         public static void RecordLog(string Content)
         {
-            string logSite = AppDomain.CurrentDomain.BaseDirectory + "mindmaps.txt";//本地文件
-            StreamWriter sw = new StreamWriter(logSite, false, Encoding.GetEncoding("GB2312"));
-            sw.WriteLine(Content);
-            sw.Close();
-            sw.Dispose();
+            SaveValueOut(mindmapsItem, Content);
         }
         private static Encoding gb2312 = Encoding.GetEncoding("GB2312");
 

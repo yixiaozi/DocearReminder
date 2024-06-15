@@ -39,6 +39,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TimeAnalyze";
             this.Text = "TimeAnalyze";
+            this.Shown += new System.EventHandler(this.TimeAnalyze_Shown);
+            this.Move += new System.EventHandler(this.TimeAnalyze_Move);
             this.ResumeLayout(false);
 
         }

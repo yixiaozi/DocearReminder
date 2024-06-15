@@ -1325,6 +1325,7 @@ namespace DocearReminder
             this.noterichTextBox.Visible = false;
             this.noterichTextBox.TextChanged += new System.EventHandler(this.noterichTextBox_TextChanged);
             this.noterichTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.noterichTextBox_KeyUp);
+            this.noterichTextBox.Leave += new System.EventHandler(this.noterichTextBox_Leave);
             // 
             // hopeNote
             // 

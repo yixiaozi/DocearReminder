@@ -13756,12 +13756,19 @@ namespace DocearReminder
         }
         public static void SaveValue(ListItem item,string value)
         {
-            if (item["Value"].SafeToString() != value)
+            try
             {
-                item["Value"] = value;
-                item.Update();
-                spContext.Load(item);
-                spContext.ExecuteQuery();
+                if (item["Value"].SafeToString() != value)
+                {
+                    item["Value"] = value;
+                    item.Update();
+                    spContext.Load(item);
+                    spContext.ExecuteQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

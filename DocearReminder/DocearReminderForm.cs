@@ -189,6 +189,7 @@ namespace DocearReminder
         public static PositionDIffColl positionDIffCollection = new PositionDIffColl();
         static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext(ini.ReadString("sppassword", "url", ""), ini.ReadString("sppassword", "user", ""), ini.ReadString("sppassword", "password", ""));
         static List config;
+        static List Error;
         static ListItem reminderjson;
         static ListItem timeblockjson;
         static ListItem UsedTimerjson;
@@ -228,8 +229,10 @@ namespace DocearReminder
         public DocearReminderForm()  
         {
             InitializeComponent();
-            config = spContext.Web.Lists.GetByTitle("config"); 
+            config = spContext.Web.Lists.GetByTitle("config");
+            Error = spContext.Web.Lists.GetByTitle("Error"); 
             spContext.Load(config);
+            spContext.Load(Error);
             spContext.ExecuteQuery();
             reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
             timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
@@ -13767,6 +13770,26 @@ namespace DocearReminder
                 }
             }
             catch (Exception ex)
+            {
+                SaveErrorOut(ex);
+            }
+        }
+        public static void SaveErrorOut(Exception ex)
+        {
+            Thread thread = new Thread(() => SaveError(ex));
+            thread.Start();
+        }
+        public static void SaveError(Exception ex)
+        {
+            try
+            {
+                ListItem item = Error.AddItem(new ListItemCreationInformation());
+                item["Value"] = ex.SafeToString();
+                item.Update();
+                spContext.Load(item);
+                spContext.ExecuteQuery();
+            }
+            catch (Exception)
             {
 
             }

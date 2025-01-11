@@ -55,6 +55,7 @@ using DayOfWeek = System.DayOfWeek;
 using File = System.IO.File;
 using Form = System.Windows.Forms.Form;
 using IDataObject = System.Windows.Forms.IDataObject;
+using ListItem = Microsoft.SharePoint.Client.ListItem;
 using Reminder = yixiaozi.Model.DocearReminder.Reminder;
 using Size = System.Drawing.Size;
 using TimeZone = System.TimeZone;
@@ -323,6 +324,8 @@ namespace DocearReminder
                 {
                     skinEngine1.SkinFile = ini.ReadString("Skin", "src", "");
                 }
+                //添加一个空白皮肤
+                irisSkinToolStripMenuItem.DropDownItems.Add("原生皮肤", global::DocearReminder.Properties.Resources.square_ok, SetSkin);
                 addirisSkinToolStripMenuItem(new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\Skins"), null);
 
                 MindmapList.Height = 424;
@@ -842,10 +845,23 @@ namespace DocearReminder
 
         public void SetSkin(object sender, EventArgs e)
         {
-            skinEngine1.SkinFile = ((System.Windows.Forms.ToolStripItem)sender).Tag.ToString();
-            ini.WriteString("Skin", "src", skinEngine1.SkinFile);
+            try
+            {
+                if(((System.Windows.Forms.ToolStripItem)sender).Tag==null)
+                {
+                    skinEngine1.SkinFile = "";
+                    skinEngine1.Active = false; // 关闭皮肤引擎
+                }
+                else
+                {
+                    skinEngine1.SkinFile = ((System.Windows.Forms.ToolStripItem)sender).Tag.ToString();
+                    ini.WriteString("Skin", "src", skinEngine1.SkinFile);
+                    skinEngine1.Active = true; // 激活皮肤引擎
+                }
+            }
+            catch(Exception ex) { }
         }
-
+         
         //加一个控制，一分钟写一次就好了
         public static List<string> usetimelist = new List<string>();
 
@@ -2292,7 +2308,7 @@ namespace DocearReminder
                                     string todayaddnodecount = "";
                                     if (nodes != null)
                                     {
-                                        todayaddnodecount = nodes.Count(m => m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
+                                        todayaddnodecount = nodes.Count(m =>m!=null&& m.mindmapPath.Contains(file.Name) && (m.Time - DateTime.Today).TotalMinutes > 0).ToString();
                                         if (todayaddnodecount == "0")
                                         {
                                             todayaddnodecount = "";

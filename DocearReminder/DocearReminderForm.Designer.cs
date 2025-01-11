@@ -1624,9 +1624,11 @@ namespace DocearReminder
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1374, 837);
+            this.ClientSize = new System.Drawing.Size(1374, 521);
             this.Controls.Add(this.SearchText_suggest);
             this.Controls.Add(this.nodetree);
             this.Controls.Add(this.tagList);

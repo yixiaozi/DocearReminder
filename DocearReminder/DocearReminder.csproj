@@ -421,6 +421,12 @@
     <Compile Include="Calendar.designer.cs">
       <DependentUpon>Calendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="CalendarFormSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalendarFormSetting.Designer.cs">
+      <DependentUpon>CalendarFormSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChatGPT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -445,6 +451,11 @@
     </Compile>
     <Compile Include="OneDay.Designer.cs">
       <DependentUpon>OneDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SharePointHelper.cs" />
     <Compile Include="SupportClass\Extensions.cs" />
@@ -559,6 +570,9 @@
     <EmbeddedResource Include="Calendar.resx">
       <DependentUpon>Calendar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CalendarFormSetting.resx">
+      <DependentUpon>CalendarFormSetting.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChatGPT.resx">
       <DependentUpon>ChatGPT.cs</DependentUpon>
     </EmbeddedResource>
@@ -623,14 +637,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
@@ -656,6 +665,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Reminder.ico" />
     <Content Include="yixiaozi.ico" />
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
@@ -717,7 +727,6 @@
     <EmbeddedResource Include="Resources\yixiaozi.dll" />
     <None Include="Resources\AForge.Controls.dll" />
     <None Include="Resources\AForge.dll" />
-    <None Include="Resources\Reminders.ico" />
     <None Include="Resources\tomato.ico" />
     <Content Include="Resources\关闭.png" />
   </ItemGroup>

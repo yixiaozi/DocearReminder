@@ -1074,6 +1074,8 @@ namespace DocearReminder
                 thCalendarForm.SetApartmentState(ApartmentState.STA); //重点
                 thCalendarForm.Priority = ThreadPriority.Highest;
                 thCalendarForm.Start();
+                //CalendarForm calendarForm=  new CalendarForm(mindmapPath);
+                //calendarForm.Show();
                 SetTitle();
                 MyHide();
             }
@@ -1081,7 +1083,7 @@ namespace DocearReminder
 
         public void showdrawio()
         {
-            if (MindmapList.Focused)
+            if (MindmapList.Focused) 
             {
                 IsSelectReminder = false;
             }
@@ -1229,7 +1231,7 @@ namespace DocearReminder
             //并非简单的累加宽度
             foreach (Form item in Application.OpenForms)
             {
-                if (item.Visible)
+                if (item.Visible&&item.Name!="CalendarForm")
                 {
                     if (xmin==null||item.Location.X < xmin)
                     {
@@ -1267,7 +1269,7 @@ namespace DocearReminder
             //每个窗口根据偏移量移动
             foreach (Form item in Application.OpenForms)
             {
-                if (item.Visible)
+                if (item.Visible && item.Name != "CalendarForm")
                 {
                     item.Location = new System.Drawing.Point(item.Location.X - (int)movex, item.Location.Y - (int)movey);
                 }

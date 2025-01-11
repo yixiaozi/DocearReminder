@@ -393,9 +393,9 @@ namespace DocearReminder.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Icon Reminders {
+        public static System.Drawing.Icon Reminder {
             get {
-                object obj = ResourceManager.GetObject("Reminders", resourceCulture);
+                object obj = ResourceManager.GetObject("Reminder", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

@@ -182,5 +182,14 @@ namespace DocearReminder
         {
             ((DocearReminderForm)Application.OpenForms[0]).ShowMoney_CheckedChanged(sender, e);
         }
+
+        private void SwitchingState_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true; // 取消关闭事件
+                this.Hide(); // 隐藏窗体
+            }
+        }
     }
 }

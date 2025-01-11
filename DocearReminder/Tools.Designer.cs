@@ -333,7 +333,7 @@
             this.timeblockduiqi.TabIndex = 36;
             this.timeblockduiqi.Text = "时间块对齐";
             this.timeblockduiqi.UseVisualStyleBackColor = true;
-            this.timeblockduiqi.Click += new System.EventHandler(this.timeblockduiqi_Click);
+            this.timeblockduiqi.Click += new System.EventHandler(Tools.timeblockduiqi_Click);
             // 
             // CreateIcs
             // 

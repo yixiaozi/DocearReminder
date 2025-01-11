@@ -350,6 +350,7 @@ namespace DocearReminder
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SwitchingState";
             this.Text = "开关状态";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SwitchingState_FormClosing);
             this.Load += new System.EventHandler(this.SwitchingState_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).EndInit();
             this.ResumeLayout(false);

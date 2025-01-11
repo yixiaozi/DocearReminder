@@ -1210,6 +1210,7 @@ namespace DocearReminder
             this.icon.BalloonTipText = "1";
             this.icon.BalloonTipTitle = "2";
             this.icon.ContextMenuStrip = this.menu;
+            //设置图标yixiaozi.ico
             this.icon.Icon = ((System.Drawing.Icon)(resources.GetObject("icon.Icon")));
             this.icon.Text = "请作对的事！";
             this.icon.Visible = true;

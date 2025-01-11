@@ -141,10 +141,10 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // btn_SwitchdTPicker
+            // button2
             // 
             this.button2.Location = new System.Drawing.Point(12, 89);
-            this.button2.Name = "btn_SwitchdTPicker";
+            this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(172, 23);
             this.button2.TabIndex = 18;
             this.button2.Text = "给所有Node节点添加ID";
@@ -258,10 +258,10 @@
             this.textBox1.Size = new System.Drawing.Size(104, 21);
             this.textBox1.TabIndex = 29;
             // 
-            // dTPicker_StartDay
+            // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(180, 251);
-            this.dateTimePicker1.Name = "dTPicker_StartDay";
+            this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 21);
             this.dateTimePicker1.TabIndex = 30;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
@@ -333,7 +333,7 @@
             this.timeblockduiqi.TabIndex = 36;
             this.timeblockduiqi.Text = "时间块对齐";
             this.timeblockduiqi.UseVisualStyleBackColor = true;
-            this.timeblockduiqi.Click += new System.EventHandler(timeblockduiqi_Click);
+            this.timeblockduiqi.Click += new System.EventHandler(this.timeblockduiqi_Click);
             // 
             // CreateIcs
             // 

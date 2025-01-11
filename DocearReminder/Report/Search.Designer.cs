@@ -16,6 +16,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Search));
             this.keyword = new System.Windows.Forms.TextBox();
             this.searchbutton = new System.Windows.Forms.Button();
             this.resultlistBox = new System.Windows.Forms.ListBox();
@@ -55,13 +56,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1164, 599);
             this.Controls.Add(this.resultlistBox);
             this.Controls.Add(this.searchbutton);
             this.Controls.Add(this.keyword);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Search";
-            this.Text = "Search";
+            this.Text = "剪切板操作记录";
             this.Activated += new System.EventHandler(this.UseTime_Activated);
             this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.MainPage_Load);

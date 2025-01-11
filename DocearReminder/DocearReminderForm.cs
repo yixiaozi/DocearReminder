@@ -11227,6 +11227,33 @@ namespace DocearReminder
                                 }
                                 RRReminderlist();
                             }
+                            else if ((e.Modifiers & Keys.Shift) == Keys.Shift && (e.Modifiers & Keys.Control) == Keys.Control)
+                            {
+                                //添加紧急程度
+                                if (switchingState.showTimeBlock.Checked)
+                                {
+                                    if (Jinji.Value < 100)
+                                    {
+                                        Jinji.Value += 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).jinji = (int)Jinji.Value;
+                                        if (!switchingState.OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
+                                        reminderList.Refresh();
+                                        ReminderListSelectedIndex(reminderSelectIndex);
+                                    }
+                                }
+                                else
+                                {
+                                    if (Jinji.Value < 100)
+                                    {
+                                        Jinji.Value += 1;
+                                        EditTime_Clic(null, null);
+                                    }
+                                }
+                            }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
                                 if (switchingState.showTimeBlock.Checked)
@@ -11503,6 +11530,33 @@ namespace DocearReminder
                                     MindmapList.SelectedIndex = MindmapList.Items.Count - 1;
                                 }
                                 RRReminderlist();
+                            }
+                            else if ((e.Modifiers & Keys.Shift) == Keys.Shift && (e.Modifiers & Keys.Control) == Keys.Control)
+                            {
+                                //紧急程度减少
+                                if (switchingState.showTimeBlock.Checked)
+                                {
+                                    if (Jinji.Value > 0)
+                                    {
+                                        Jinji.Value -= 1;
+                                        reminderSelectIndex = reminderList.SelectedIndex;
+                                        reminderObject.reminders.First(m => m.ID == ((MyListBoxItemRemind)reminderlistSelectedItem).IDinXML).jinji = (int)Jinji.Value;
+                                        if (!switchingState.OnlyLevel.Checked)
+                                        {
+                                            RRReminderlist();
+                                        }
+                                        reminderList.Refresh();
+                                        ReminderListSelectedIndex(reminderSelectIndex);
+                                    }
+                                }
+                                else
+                                {
+                                    if (Jinji.Value > 0)
+                                    {
+                                        Jinji.Value -= 1;
+                                        EditTime_Clic(null, null);
+                                    }
+                                }
                             }
                             else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {
@@ -11798,7 +11852,7 @@ namespace DocearReminder
                             {
                             }
                         }
-                        else if (ReminderListFocused() || MindmapList.Focused || this.Focused|| tasklevel.Focused)
+                        else if (ReminderListFocused() || MindmapList.Focused || this.Focused|| tasklevel.Focused||Jinji.Focused)
                         {
                             if (e.Modifiers.CompareTo(Keys.Shift) == 0)
                             {

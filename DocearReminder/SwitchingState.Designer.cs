@@ -122,7 +122,6 @@ namespace DocearReminder
             this.KADateTimePicker.ShowUpDown = true;
             this.KADateTimePicker.Size = new System.Drawing.Size(113, 21);
             this.KADateTimePicker.TabIndex = 165;
-
             // 
             // MoneyDateTimePicker
             // 
@@ -350,7 +349,7 @@ namespace DocearReminder
             this.Controls.Add(this.showcyclereminder);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SwitchingState";
-            this.Text = "开关";
+            this.Text = "开关状态";
             this.Load += new System.EventHandler(this.SwitchingState_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawioPicBigger)).EndInit();
             this.ResumeLayout(false);

@@ -1699,7 +1699,6 @@ namespace DocearReminder
             this.Name = "DocearReminderForm";
             this.Opacity = 0.9D;
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

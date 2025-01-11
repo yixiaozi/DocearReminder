@@ -29,6 +29,7 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogForm));
             this.resultlistBox = new DocearReminder.LogForm.SortByTimeListBox();
             this.keyword = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -77,7 +78,7 @@ namespace DocearReminder
             this.Showbackup.UseVisualStyleBackColor = true;
             this.Showbackup.CheckedChanged += new System.EventHandler(this.Showbackup_CheckedChanged);
             // 
-            // Log
+            // LogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -86,8 +87,9 @@ namespace DocearReminder
             this.Controls.Add(this.button1);
             this.Controls.Add(this.keyword);
             this.Controls.Add(this.resultlistBox);
-            this.Name = "Log";
-            this.Text = "Log";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "LogForm";
+            this.Text = "操作记录";
             this.Activated += new System.EventHandler(this.UseTime_Activated);
             this.Deactivate += new System.EventHandler(this.UseTime_Deactivate);
             this.Load += new System.EventHandler(this.MainPage_Load);

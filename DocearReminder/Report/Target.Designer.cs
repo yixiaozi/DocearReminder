@@ -30,6 +30,7 @@ namespace DocearReminder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Target));
             this.formsPlot1 = new ScottPlot.FormsPlot();
             this.startDt = new System.Windows.Forms.DateTimePicker();
             this.endDT = new System.Windows.Forms.DateTimePicker();
@@ -735,6 +736,7 @@ namespace DocearReminder
             this.Controls.Add(this.endDT);
             this.Controls.Add(this.startDt);
             this.Controls.Add(this.formsPlot1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Target";

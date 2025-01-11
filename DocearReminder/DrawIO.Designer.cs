@@ -49,9 +49,9 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.button2 = new System.Windows.Forms.Button();
             this.DrawListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.reminderListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reminderListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件夹ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,10 +266,10 @@
             this.treeView1.Size = new System.Drawing.Size(339, 350);
             this.treeView1.TabIndex = 61;
             // 
-            // btn_SwitchdTPicker
+            // button2
             // 
             this.button2.Location = new System.Drawing.Point(864, 250);
-            this.button2.Name = "btn_SwitchdTPicker";
+            this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(158, 51);
             this.button2.TabIndex = 62;
             this.button2.Text = "生成关系树";
@@ -282,15 +282,6 @@
             this.打开文件夹ToolStripMenuItem});
             this.DrawListMenu.Name = "DrawListMenu";
             this.DrawListMenu.Size = new System.Drawing.Size(137, 48);
-            // 
-            // reminderListMenu
-            // 
-            this.reminderListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.打开文件ToolStripMenuItem1,
-            this.打开文件夹ToolStripMenuItem1,
-            this.删除ToolStripMenuItem});
-            this.reminderListMenu.Name = "reminderListMenu";
-            this.reminderListMenu.Size = new System.Drawing.Size(181, 92);
             // 
             // 打开文件ToolStripMenuItem
             // 
@@ -306,24 +297,33 @@
             this.打开文件夹ToolStripMenuItem.Text = "打开文件夹";
             this.打开文件夹ToolStripMenuItem.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem_Click);
             // 
+            // reminderListMenu
+            // 
+            this.reminderListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文件ToolStripMenuItem1,
+            this.打开文件夹ToolStripMenuItem1,
+            this.删除ToolStripMenuItem});
+            this.reminderListMenu.Name = "reminderListMenu";
+            this.reminderListMenu.Size = new System.Drawing.Size(137, 70);
+            // 
             // 打开文件ToolStripMenuItem1
             // 
             this.打开文件ToolStripMenuItem1.Name = "打开文件ToolStripMenuItem1";
-            this.打开文件ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.打开文件ToolStripMenuItem1.Text = "打开文件";
             this.打开文件ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件ToolStripMenuItem1_Click);
             // 
             // 打开文件夹ToolStripMenuItem1
             // 
             this.打开文件夹ToolStripMenuItem1.Name = "打开文件夹ToolStripMenuItem1";
-            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.打开文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.打开文件夹ToolStripMenuItem1.Text = "打开文件夹";
             this.打开文件夹ToolStripMenuItem1.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem1_Click);
             // 
             // 删除ToolStripMenuItem
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 

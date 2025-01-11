@@ -54,7 +54,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Reminders.ico</ApplicationIcon>
+    <ApplicationIcon>yixiaozi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DocearReminder.Program</StartupObject>
@@ -656,6 +656,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="yixiaozi.ico" />
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
     <None Include="Resources\IKONS\PNG\64\square_ok.png" />
@@ -718,7 +719,6 @@
     <None Include="Resources\AForge.dll" />
     <None Include="Resources\Reminders.ico" />
     <None Include="Resources\tomato.ico" />
-    <Content Include="Reminders.ico" />
     <Content Include="Resources\关闭.png" />
   </ItemGroup>
   <ItemGroup>

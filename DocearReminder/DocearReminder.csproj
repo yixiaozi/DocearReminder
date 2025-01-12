@@ -434,6 +434,18 @@
       <DependentUpon>ChatGPT.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonFunction.cs" />
+    <Compile Include="Controls\TagLabelControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TagLabelControl.Designer.cs">
+      <DependentUpon>TagLabelControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TagListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TagListControl.Designer.cs">
+      <DependentUpon>TagListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DrawIO.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -576,6 +588,12 @@
     <EmbeddedResource Include="ChatGPT.resx">
       <DependentUpon>ChatGPT.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TagLabelControl.resx">
+      <DependentUpon>TagLabelControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TagListControl.resx">
+      <DependentUpon>TagListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DrawIO.resx">
       <DependentUpon>DrawIO.cs</DependentUpon>
     </EmbeddedResource>
@@ -665,7 +683,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icon_round_delete.png" />
     <Content Include="Resources\Reminder.ico" />
+    <None Include="Resources\tagLabel_background.png" />
+    <None Include="Resources\tagLabel_background_left.png" />
+    <None Include="Resources\tagLabel_background_right.png" />
     <Content Include="yixiaozi.ico" />
     <None Include="Resources\IKONS\PNG\64\resize_1.png" />
     <None Include="Resources\IKONS\PNG\64\apple.png" />
@@ -762,10 +784,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FerretLib.WinForms\FerretLib.WinForms.csproj">
-      <Project>{1bbd5465-2f72-430b-b899-926f03fef87b}</Project>
-      <Name>FerretLib.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar.csproj">
       <Project>{25649f08-3046-4891-adb8-7ea787b57063}</Project>
       <Name>System.Windows.Forms.Calendar</Name>

@@ -1,4 +1,4 @@
-﻿namespace FerretLib.WinForms.Controls
+﻿namespace DocearReminder
 {
     partial class TagLabelControl
     {

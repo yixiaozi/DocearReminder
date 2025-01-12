@@ -147,7 +147,7 @@ namespace DocearReminder
             this.reminderListBox = new yixiaozi.WinForm.Control.SortByTimeListBox();
             this.timeblockcheck = new System.Windows.Forms.Label();
             this.AllnodeFreshTimer = new System.Windows.Forms.Timer(this.components);
-            this.tagList = new FerretLib.WinForms.Controls.TagListControl();
+            this.tagList = new TagListControl();
             this.DrawList = new yixiaozi.WinForm.Control.CustomCheckedListBox();
             this.drawsearch = new System.Windows.Forms.TextBox();
             this.diary = new yixiaozi.WinForm.Control.MyRichTextBox();
@@ -1861,7 +1861,7 @@ namespace DocearReminder
         public ToolStripMenuItem 打开文件夹ToolStripMenuItem1;
         public ToolStripMenuItem 删除图片ToolStripMenuItem;
         public Label timeblockcheck;
-        public FerretLib.WinForms.Controls.TagListControl tagList;
+        public TagListControl tagList;
         public Timer AllnodeFreshTimer;
         public CustomCheckedListBox DrawList;
         public TextBox drawsearch;

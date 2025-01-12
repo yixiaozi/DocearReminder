@@ -307,4 +307,16 @@
   <data name="Reminder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Reminder.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_round_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_round_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tagLabel_background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tagLabel_background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tagLabel_background_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tagLabel_background_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tagLabel_background_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tagLabel_background_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
-namespace FerretLib.WinForms.Controls
+namespace DocearReminder
 {
     public partial class TagLabelControl : UserControl
     {
@@ -160,6 +160,7 @@ namespace FerretLib.WinForms.Controls
             
         }
         #endregion
+
         #region Event overrides
         protected override void OnMouseLeave(EventArgs e)
         {

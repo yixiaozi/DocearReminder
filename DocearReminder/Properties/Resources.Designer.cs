@@ -191,6 +191,16 @@ namespace DocearReminder.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap icon_round_delete {
+            get {
+                object obj = ResourceManager.GetObject("icon_round_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
         public static byte[] ICSharpCode_SharpZipLib {
@@ -647,6 +657,36 @@ namespace DocearReminder.Properties {
             get {
                 object obj = ResourceManager.GetObject("System_Xml_ReaderWriter", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap tagLabel_background {
+            get {
+                object obj = ResourceManager.GetObject("tagLabel_background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap tagLabel_background_left {
+            get {
+                object obj = ResourceManager.GetObject("tagLabel_background_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap tagLabel_background_right {
+            get {
+                object obj = ResourceManager.GetObject("tagLabel_background_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

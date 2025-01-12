@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FerretLib.WinForms.Controls
+namespace DocearReminder
 {
     public partial class TagListControl : UserControl
     {

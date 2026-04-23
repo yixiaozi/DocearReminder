@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +20,6 @@ namespace DocearReminder
                 throw new ArgumentException("SharePoint site URL is empty.", nameof(siteUrl));
             }
 
-            // SharePoint Online now commonly requires TLS 1.2.
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
             if (!string.IsNullOrWhiteSpace(clientId))
@@ -42,6 +42,7 @@ namespace DocearReminder
             {
                 securePassword.AppendChar(c);
             }
+
             context.Credentials = new SharePointOnlineCredentials(userName, securePassword);
             return context;
         }
@@ -51,7 +52,8 @@ namespace DocearReminder
             Uri siteUri = new Uri(siteUrl);
             string tenantSegment = string.IsNullOrWhiteSpace(tenantId) ? "organizations" : tenantId;
             string authority = "https://login.microsoftonline.com/" + tenantSegment;
-            string[] scopes = new string[] { siteUri.Scheme + "://" + siteUri.Host + "/.default" };
+            string sharePointResource = siteUri.Scheme + "://" + siteUri.Host;
+            string[] scopes = new string[] { sharePointResource + "/AllSites.Write" };
 
             IPublicClientApplication app = PublicClientApplicationBuilder
                 .Create(clientId)
@@ -60,14 +62,14 @@ namespace DocearReminder
                 .Build();
 
             AuthenticationResult result = null;
-            IEnumerable<IAccount> accounts = app.GetAccountsAsync().GetAwaiter().GetResult();
+            IEnumerable<IAccount> accounts = Task.Run(() => app.GetAccountsAsync()).GetAwaiter().GetResult();
             IAccount firstAccount = accounts.FirstOrDefault();
 
             try
             {
                 if (firstAccount != null)
                 {
-                    result = app.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync().GetAwaiter().GetResult();
+                    result = Task.Run(() => app.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync()).GetAwaiter().GetResult();
                 }
             }
             catch (MsalUiRequiredException)
@@ -77,7 +79,24 @@ namespace DocearReminder
 
             if (result == null)
             {
-                result = app.AcquireTokenInteractive(scopes).ExecuteAsync().GetAwaiter().GetResult();
+                using (CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)))
+                {
+                    try
+                    {
+                        result = Task.Run(() => app
+                            .AcquireTokenInteractive(scopes)
+                            .WithUseEmbeddedWebView(false)
+                            .WithPrompt(Prompt.SelectAccount)
+                            .ExecuteAsync(cts.Token)).GetAwaiter().GetResult();
+                    }
+                    catch (MsalServiceException ex) when (ex.ErrorCode == "invalid_resource" || ex.Message.Contains("AADSTS650057"))
+                    {
+                        throw new InvalidOperationException(
+                            "Azure app registration is missing SharePoint delegated permissions. " +
+                            "Please add SharePoint delegated permission AllSites.Write (or AllSites.Read/AllSites.Manage), then grant admin consent. " +
+                            "Current requested resource: " + sharePointResource, ex);
+                    }
+                }
             }
 
             ClientContext context = new ClientContext(siteUrl);

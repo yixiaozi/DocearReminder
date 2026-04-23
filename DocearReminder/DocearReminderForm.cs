@@ -7,6 +7,7 @@ using NAudio.Wave;
 using Newtonsoft.Json;
 using NPOI.OpenXmlFormats.Dml.Diagram;
 using NPOI.Util;
+using OpenAI_API.Moderation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ using System.Media;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Text;
@@ -65,7 +67,6 @@ namespace DocearReminder
     public partial class DocearReminderForm : System.Windows.Forms.Form
     {
         #region 全局变量
-        public System.Windows.Forms.Timer hoverTimer = new System.Windows.Forms.Timer();
         public System.Windows.Forms.Timer addFanQieTimer = new System.Windows.Forms.Timer();
         public string allfilesPath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\allfiles.json";
         public string allnodePath=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\allnode.json";
@@ -102,7 +103,6 @@ namespace DocearReminder
         public List<node> allfiles = new List<node>();
         public DirectoryInfo rootrootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
         public DirectoryInfo rootpath = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
-        public static string drawioPath = "";
         public bool isInReminderlistSelect = false;
         public string mindmapPath = "";
         public string CalendarImagePath = "";
@@ -189,6 +189,7 @@ namespace DocearReminder
         TagCloud tagCloud;
         public static PositionDIffColl positionDIffCollection = new PositionDIffColl();
         static ClientContext spContext;
+        static bool sharePointEnabled = false;
         static List config;
         static List Error;
         static ListItem reminderjson;
@@ -226,64 +227,11 @@ namespace DocearReminder
         public static ListItem noterichTextBoxItem;
 
 
-        private void InitializeSharePointContext()
-        {
-            try
-            {
-                spContext = SharePointHelper.CreateAuthenticatedContext(
-                    ini.ReadString("sppassword", "url", ""),
-                    ini.ReadString("sppassword", "user", ""),
-                    ini.ReadString("sppassword", "password", ""),
-                    ini.ReadString("sppassword", "clientId", ""),
-                    ini.ReadString("sppassword", "tenantId", ""));
-
-                config = spContext.Web.Lists.GetByTitle("config");
-                Error = spContext.Web.Lists.GetByTitle("Error");
-                spContext.Load(config);
-                spContext.Load(Error);
-                spContext.ExecuteQuery();
-
-                reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
-                timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
-                UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
-                hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
-                scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
-                IconNodesSelectedItem = SharePointHelper.GetListItem(spContext, config, "IconNodesSelected");
-                OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
-                ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
-                RecentOpenedMapItem = SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
-                TimeBlockSelectedItem = SharePointHelper.GetListItem(spContext, config, "TimeBlockSelected");
-                XnodesItem = SharePointHelper.GetListItem(spContext, config, "Xnodes");
-                QuickOpenLogItem = SharePointHelper.GetListItem(spContext, config, "QuickOpenLog");
-                unchkeckmindmapItem = SharePointHelper.GetListItem(spContext, config, "unchkeckmindmap");
-                unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
-                remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
-                PositionDIffCollItem = SharePointHelper.GetListItem(spContext, config, "PositionDIffColl");
-                mindmapsItem = SharePointHelper.GetListItem(spContext, config, "mindmaps");
-                timeblockItem = SharePointHelper.GetListItem(spContext, config, "timeblock");
-                allnodesiconItem = SharePointHelper.GetListItem(spContext, config, "allnodesicon");
-                noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "SharePoint connection failed.\r\n\r\n" +
-                    ex.Message +
-                    "\r\n\r\nPlease verify site URL and authentication config.\r\n" +
-                    "For modern auth, configure [sppassword] clientId (tenantId optional; defaults to organizations).\r\n" +
-                    "If clientId is empty, the app falls back to account-password mode.",
-                    "SharePoint Authentication Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                throw;
-            }
-        }
-
         #endregion 全局变量
         public DocearReminderForm()  
         {
             InitializeComponent();
-            InitializeSharePointContext();
+            TryInitSharePoint();
             positionDIffCollection.Get();
              
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
@@ -318,7 +266,7 @@ namespace DocearReminder
                     suggestListData.AddRange(RecentlyFileHelper.GetStartFiles());
                 }
                 //频繁刷新导致界面闪烁解决方法我也不知道有没有用
-                pathArr.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
+                //pathArr.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 mindmapPath = ini.ReadString("path", "rootpath", "");
                 todoistKey = ini.ReadString("todoist", "key", "");
                 lockForm = ini.ReadString("appearance", "lock", "") == "true";
@@ -330,10 +278,7 @@ namespace DocearReminder
                 SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
                 SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
                 UpdateStyles();
-                hoverTimer.Interval = 100;//定时周期3秒
-                hoverTimer.Tick += new EventHandler(Hover);//到3秒了自动隐藏
-                hoverTimer.Enabled = false; //是否不断重复定时器操作
-                hoverTimer.Start();
+
                 addFanQieTimer.Interval = 60 * 1000 - DateTime.Now.Second * 1000 - DateTime.Now.Millisecond;
                 addFanQieTimer.Tick += new EventHandler(AddFanQie);
                 addFanQieTimer.Start();
@@ -390,7 +335,7 @@ namespace DocearReminder
                 isPlaySound = ini.ReadString("sound", "playsounddefault", "") == "true";
                 playBackGround = ini.ReadString("sound", "playBackGround", "") == "true";
                 Camera = ini.ReadString("config", "IsCamera", "") == "true";
-                fenshu.Text = scoreItem["Value"].SafeToString();
+                fenshu.Text = GetListItemValue(scoreItem, "0");
                 command = ini.ReadString("config", "command", "");
                 logpass = ini.ReadString("password", "i", "");
                 encryptlog = new Encrypt(logpass);
@@ -400,26 +345,33 @@ namespace DocearReminder
                     File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + @"\Demo\calander.mm", ini.ReadStringDefault("path", "rootpath", "") + @"\calander.mm");
                     Process.Start(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 }
-                rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
                 var serializer = new JavaScriptSerializer()
                 {
                     MaxJsonLength = Int32.MaxValue
                 };
-                reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(reminderjson["Value"].SafeToString())));
+                string reminderJson = GetListItemValue(reminderjson, "");
+                if (reminderJson != "")
+                {
+                    reminderObject = serializer.Deserialize<Reminder>(ReplaceJsonDateToDateString(DecompressFromBase64(reminderJson)));
+                }
+                else
+                {
+                    reminderObject = new Reminder();
+                }
 
                 #region 加载一些配置文件
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
-                ignoreSuggest = ReadStringToList(ignoreSuggestItem["Value"].SafeToString());
-                RecentOpenedMap = ReadStringToList(RecentOpenedMapItem["Value"].SafeToString());
+                ignoreSuggest = ReadStringToList(GetListItemValue(ignoreSuggestItem, ""));
+                RecentOpenedMap = ReadStringToList(GetListItemValue(RecentOpenedMapItem, ""));
 
-                IconNodesSelected = ReadStringToList(IconNodesSelectedItem["Value"].SafeToString());
-                TimeBlockSelected = ReadStringToList(TimeBlockSelectedItem["Value"].SafeToString());
-                Xnodes = ReadStringToList(XnodesItem["Value"].SafeToString());
-                OpenedInRootSearch = ReadStringToList(OpenedInRootSearchItem["Value"].SafeToString());
-                QuickOpenLog = ReadStringToList(QuickOpenLogItem["Value"].SafeToString());
-                unchkeckmindmap = ReadStringToList(unchkeckmindmapItem["Value"].SafeToString());
-                unchkeckdrawio= ReadStringToList(unchkeckdrawioItem["Value"].SafeToString());
-                remindmaps = ReadStringToList(remindmapsItem["Value"].SafeToString());
+                IconNodesSelected = ReadStringToList(GetListItemValue(IconNodesSelectedItem, ""));
+                TimeBlockSelected = ReadStringToList(GetListItemValue(TimeBlockSelectedItem, ""));
+                Xnodes = ReadStringToList(GetListItemValue(XnodesItem, ""));
+                OpenedInRootSearch = ReadStringToList(GetListItemValue(OpenedInRootSearchItem, ""));
+                QuickOpenLog = ReadStringToList(GetListItemValue(QuickOpenLogItem, ""));
+                unchkeckmindmap = ReadStringToList(GetListItemValue(unchkeckmindmapItem, ""));
+                unchkeckdrawio= ReadStringToList(GetListItemValue(unchkeckdrawioItem, ""));
+                remindmaps = ReadStringToList(GetListItemValue(remindmapsItem, ""));
                 #endregion 加载一些配置文件
 
                 #region UsedTimer
@@ -431,7 +383,7 @@ namespace DocearReminder
                 IntPtr nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
                 fileTreePath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", "")));
                 this.Height = normalheight; showMindmapName = "";
-                noterichTextBox.Text= noterichTextBoxItem["Value"].SafeToString();
+                noterichTextBox.Text= GetListItemValue(noterichTextBoxItem, "");
                 richTextSubNode.Height = 0;
                 try
                 {
@@ -443,14 +395,15 @@ namespace DocearReminder
                             int i = PathcomboBox.Items.Add(item);
                         }
                     }
-                    PathcomboBox.Items.Add("all");
+                    //PathcomboBox.Items.Add("all");
                     //选中第一个
                     PathcomboBox.SelectedIndex = 0;
-                    hopeNote.Text = hopeNoteItem["Value"].ToString(); ;
+                    hopeNote.Text = GetListItemValue(hopeNoteItem, "");
                 }
                 catch (Exception ex)
                 {
                 }
+                rootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", PathcomboBox.SelectedItem.ToString(), "")));
 
                 noFolder = no.Split(';');
                 noFolderInRoot = noinall.Split(';');
@@ -493,7 +446,6 @@ namespace DocearReminder
                 }
                 taskcount.Text = "0";
                 isRefreshMindmap = true;
-                drawioPath = rootpath.FullName + "\\" + PathcomboBox.Text + @".drawio";
                 LoadFile(rootpath);
                 for (int i = 0; i < MindmapList.Items.Count; i++)
                 {
@@ -798,11 +750,82 @@ namespace DocearReminder
                 return dt.ToString("yyyy-MM-dd HH:mm:ss");
             });
         }
+        private void TryInitSharePoint()
+        {
+            try
+            {
+                string url = ini.ReadString("sppassword", "url", "");
+                string user = ini.ReadString("sppassword", "user", "");
+                string password = ini.ReadString("sppassword", "password", "");
+                string clientId = ini.ReadString("sppassword", "clientId", "");
+                string tenantId = ini.ReadString("sppassword", "tenantId", "");
+
+                bool hasModernAuth = !string.IsNullOrWhiteSpace(clientId);
+                bool hasLegacyAuth = !string.IsNullOrWhiteSpace(user) && !string.IsNullOrWhiteSpace(password);
+                if (string.IsNullOrWhiteSpace(url) || (!hasModernAuth && !hasLegacyAuth))
+                {
+                    sharePointEnabled = false;
+                    return;
+                }
+                spContext = SharePointHelper.CreateAuthenticatedContext(url, user, password, clientId, tenantId);
+                config = spContext.Web.Lists.GetByTitle("config");
+                Error = spContext.Web.Lists.GetByTitle("Error");
+                spContext.Load(config);
+                spContext.Load(Error);
+                spContext.ExecuteQuery();
+                reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
+                timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
+                UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
+                hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
+                scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
+                IconNodesSelectedItem = SharePointHelper.GetListItem(spContext, config, "IconNodesSelected");
+                OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
+                ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
+                RecentOpenedMapItem = SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
+                TimeBlockSelectedItem = SharePointHelper.GetListItem(spContext, config, "TimeBlockSelected");
+                XnodesItem = SharePointHelper.GetListItem(spContext, config, "Xnodes");
+                QuickOpenLogItem = SharePointHelper.GetListItem(spContext, config, "QuickOpenLog");
+                unchkeckmindmapItem = SharePointHelper.GetListItem(spContext, config, "unchkeckmindmap");
+                unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
+                remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
+                PositionDIffCollItem = SharePointHelper.GetListItem(spContext, config, "PositionDIffColl");
+                mindmapsItem = SharePointHelper.GetListItem(spContext, config, "mindmaps");
+                timeblockItem = SharePointHelper.GetListItem(spContext, config, "timeblock");
+                allnodesiconItem = SharePointHelper.GetListItem(spContext, config, "allnodesicon");
+                noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
+                sharePointEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                sharePointEnabled = false;
+                MessageBox.Show(
+                    "SharePoint authentication failed.\r\n\r\n" + ex.Message +
+                    "\r\n\r\nPlease complete the Microsoft login window if it appears, and verify clientId/tenantId/url in [sppassword].",
+                    "SharePoint Authentication",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        public static string GetListItemValue(ListItem item, string defaultValue = "")
+        {
+            try
+            {
+                if (item == null)
+                {
+                    return defaultValue;
+                }
+                return item["Value"].SafeToString();
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
 
         public void UsedTimerOnLoad()
         {
-            string s = "";
-            s = UsedTimerjson["Value"].SafeToString();
+            string s = GetListItemValue(UsedTimerjson, "");
             try
             {
                 s = LZStringCSharp.LZString.DecompressFromBase64(s);
@@ -814,7 +837,18 @@ namespace DocearReminder
             {
                 MaxJsonLength = Int32.MaxValue
             };
-            usedTimer = serializer.Deserialize<UsedTimer>(ReplaceJsonDateToDateString(s));
+            try
+            {
+                usedTimer = serializer.Deserialize<UsedTimer>(ReplaceJsonDateToDateString(s));
+            }
+            catch (Exception)
+            {
+                usedTimer = new UsedTimer();
+            }
+            if (usedTimer == null)
+            {
+                usedTimer = new UsedTimer();
+            }
             currentUsedTimerId = Guid.NewGuid();
             usedCount.Text = usedTimer.Count.ToString();
             usedtimelabel.Text = usedTimer.AllTime.ToString(@"dd\.hh\:mm\:ss");
@@ -1893,7 +1927,7 @@ namespace DocearReminder
             try
             {
                 System.Xml.XmlDocument x = new XmlDocument();
-                x.Load(ini.ReadString("TimeBlock", "mindmap", ""));
+                x.Load(ini.ReadString("TimeBlock", "时间块", ""));
                 List<string> contents = new List<string>();
                 foreach (XmlNode node in x.GetElementsByTagName("node"))
                 {
@@ -2297,32 +2331,13 @@ namespace DocearReminder
                         mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
                     }
                     string subPath = file.DirectoryName;
-                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && (allFloder || (PathcomboBox.SelectedItem.ToString() == "rootPath" && !MyContains(file.FullName, noFolder)) || PathcomboBox.SelectedItem.ToString() != "rootPath") && subPath[0] != '.')
+                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot)  && subPath[0] != '.')
                     {
                         try
                         {
                             if (file.Extension == ".mm")
                             {
                                 int tasknumber = 0;
-                                //System.Xml.XmlDocument x = new XmlDocument();
-                                //x.Load(file.FullName);
-                                //foreach (XmlNode node in x.GetElementsByTagName("hook"))
-                                //{
-                                //    try
-                                //    {
-                                //        if (node.Attributes != null && node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
-                                //        {
-                                //            if (node.ParentNode.Attributes["TEXT"] != null && node.ParentNode.Attributes["TEXT"].Value != "bin")
-                                //            {
-                                //                tasknumber++;
-                                //            }
-                                //        }
-                                //    }
-                                //    catch (Exception ex)
-                                //    {
-                                //    }
-                                //}
-                                //如果文件中包含"plugins/TimeManagementReminder.xml"则为有任务，并且包含的次数就是tasknumber
                                 //希望这样能加快软件打开的速度
                                 tasknumber = GetTaskNumber(file.FullName);
                                 if (tasknumber > 0)
@@ -3860,10 +3875,10 @@ namespace DocearReminder
 
             reminderlistSelectedItem = null;//刷新后应该清空
             //将reminderList.Items更新到图示中，使用异步的方法，避免影响主线程
-            if (!(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
-            {
-                Task.Run(() => DrawioAdd(reminderlistItems));
-            }
+            //if (!(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
+            //{
+            //    Task.Run(() => DrawioAdd(reminderlistItems));
+            //}
         }
 
         //DrawioAdd
@@ -3874,7 +3889,6 @@ namespace DocearReminder
                 foreach (MyListBoxItemRemind item in items)
                 {
                     string path = Path.GetFileNameWithoutExtension(item.Value);
-                    path = CommonFunction.GetPath(path);
                     //如果path为空，则不添加
                     if (path == "")
                     {
@@ -4519,21 +4533,6 @@ namespace DocearReminder
                 }
             }
         }
-
-        public void Form1_MouseHover(object sender, EventArgs e)
-        {
-            //LeaveTime();
-            //hoverTimer.Stop();//关闭计时器
-            //hoverTimer.Start();//重新计时
-        }
-
-        public void Form1_MouseLeave(object sender, EventArgs e)
-        {
-            //LeaveTime();
-            //if (this.Location.Y < 30 && ((Cursor.Position.X < this.Location.X || Cursor.Position.Y < this.Location.Y) || (Cursor.Position.X > this.Location.X + 836 || Cursor.Position.Y > this.Location.Y + 544)))
-            //Center();//= new Point(this.Location.X, -543);
-        }
-
         public void taskComplete_btn_Click(object sender, EventArgs e)
         {
             CompleteSelectedTask();
@@ -8838,81 +8837,94 @@ namespace DocearReminder
         public bool IsURL(string url)
         {
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
-            return Regex.IsMatch(url, matchStr);
+            return Regex.IsMatch(url, matchStr)&&((!url.ToLower().Contains("sharepoint") && !url.ToLower().Contains("cbpr") && !url.ToLower().Contains("olympus")));
         }
 
         public string GetUrl(string str)
         {
+            string result = "";
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
-            return Regex.Match(str, matchStr).Value;
+            result = Regex.Match(str, matchStr).Value;
+            if (result.ToLower().Contains("sharepoint") || result.ToLower().Contains("cbpr") || result.ToLower().Contains("olympus"))
+            {
+                return "";
+            }
+            return result;
         }
 
         public String GetWebTitle(String url)
         {
-            System.Net.WebRequest wb;
-            //请求资源
-            try
-            {
-                wb = System.Net.WebRequest.Create(url.Trim());
-            }
-            catch (Exception ex)
+            if (url.ToLower().Contains("sharepoint") || url.ToLower().Contains("cbpr") || url.ToLower().Contains("olympus"))
             {
                 return "";
             }
-            //响应请求
-            WebResponse webRes = null;
-            //将返回的数据放入流中
-            Stream webStream = null;
-            try
+            else
             {
-                webRes = wb.GetResponse();
-                webStream = webRes.GetResponseStream();
-            }
-            catch (Exception ex)
-            {
-                return "";
-            }
-            //从流中读出数据
-            StreamReader sr = new StreamReader(webStream, System.Text.Encoding.UTF8);
-            //创建可变字符对象，用于保存网页数据
-            StringBuilder sb = new StringBuilder();
-            //读出数据存入可变字符中
-            String str = "";
-            while ((str = sr.ReadLine()) != null)
-            {
-                sb.Append(str);
-            }
-            //建立获取网页标题正则表达式
-            String regex = @"(?<=<title>).+(?=</title>)";
-            //返回网页标题
-            String title = Regex.Match(sb.ToString(), regex).ToString();
-            title = Regex.Replace(title, " ", "");
-            //返回网页标题
-            title = Regex.Replace(title, @"[\""]+", "");
-            if (title.Length > 50)
-            {
-                if (title.Contains('<'))
+                System.Net.WebRequest wb;
+                //请求资源
+                try
                 {
-                    title = title.Split('<')[0];
+                    wb = System.Net.WebRequest.Create(url.Trim());
+                }
+                catch (Exception ex)
+                {
+                    return "";
+                }
+                //响应请求
+                WebResponse webRes = null;
+                //将返回的数据放入流中
+                Stream webStream = null;
+                try
+                {
+                    webRes = wb.GetResponse();
+                    webStream = webRes.GetResponseStream();
+                }
+                catch (Exception ex)
+                {
+                    return "";
+                }
+                //从流中读出数据
+                StreamReader sr = new StreamReader(webStream, System.Text.Encoding.UTF8);
+                //创建可变字符对象，用于保存网页数据
+                StringBuilder sb = new StringBuilder();
+                //读出数据存入可变字符中
+                String str = "";
+                while ((str = sr.ReadLine()) != null)
+                {
+                    sb.Append(str);
+                }
+                //建立获取网页标题正则表达式
+                String regex = @"(?<=<title>).+(?=</title>)";
+                //返回网页标题
+                String title = Regex.Match(sb.ToString(), regex).ToString();
+                title = Regex.Replace(title, " ", "");
+                //返回网页标题
+                title = Regex.Replace(title, @"[\""]+", "");
+                if (title.Length > 50)
+                {
+                    if (title.Contains('<'))
+                    {
+                        title = title.Split('<')[0];
+                        return title;
+                    }
+                    return title.Substring(0, 49);
+                }
+                title = title.Replace("<title>", "").Replace("</title>", "");
+                title = Regex.Replace(title, @"((?=[\x21-\x7e]+)[^A-Za-z0-9])", "");
+                try
+                {
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\");
+                    }
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\" + ReplaceSpecialCharacterV2(DateTime.Now.ToString() + title) + ".html", sb.ToString());
+                }
+                catch (Exception ex)
+                {
                     return title;
                 }
-                return title.Substring(0, 49);
-            }
-            title = title.Replace("<title>", "").Replace("</title>", "");
-            title = Regex.Replace(title, @"((?=[\x21-\x7e]+)[^A-Za-z0-9])", "");
-            try
-            {
-                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\"))
-                {
-                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\");
-                }
-                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + "\\html\\" + ReplaceSpecialCharacterV2(DateTime.Now.ToString() + title) + ".html", sb.ToString());
-            }
-            catch (Exception ex)
-            {
                 return title;
             }
-            return title;
         }
 
         public string ReplaceSpecialCharacterV2(string str)
@@ -13846,6 +13858,10 @@ namespace DocearReminder
 
         public static void SaveValueOut(ListItem item, string value)
         {
+            if (!sharePointEnabled || spContext == null || item == null)
+            {
+                return;
+            }
             Thread thread = new Thread(() => SaveValue(item, value));
             thread.Start();
         }
@@ -13853,6 +13869,10 @@ namespace DocearReminder
         {
             try
             {
+                if (!sharePointEnabled || spContext == null || item == null)
+                {
+                    return;
+                }
                 if (item["Value"].SafeToString() != value)
                 {
                     item["Value"] = value;
@@ -13875,6 +13895,10 @@ namespace DocearReminder
         {
             try
             {
+                if (!sharePointEnabled || spContext == null || Error == null)
+                {
+                    return;
+                }
                 ListItem item = Error.AddItem(new ListItemCreationInformation());
                 item["Value"] = ex.SafeToString();
                 item.Update();
@@ -14775,7 +14799,7 @@ namespace DocearReminder
             {
                 searchword.Text = "";
                 mindmapornode.Text = "";
-                timeblockupdatetimer_Tick(null, null);
+                //timeblockupdatetimer_Tick(null, null);
             }
             else if (searchword.Text.StartsWith("NNN") || searchword.Text.EndsWith("NNN"))
             {
@@ -16480,9 +16504,9 @@ namespace DocearReminder
                 }
                 else if (newTxt.EndsWith(".drawio"))
                 {
-                    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.drawio");
-                    fi.CopyTo(parentFolder + "\\" + newTxt);
-                    FileTreeView.SelectedNode.Name = parentFolder + "\\" + newTxt;
+                    //FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.drawio");
+                    //fi.CopyTo(parentFolder + "\\" + newTxt);
+                    //FileTreeView.SelectedNode.Name = parentFolder + "\\" + newTxt;
                 }
                 else//其他全部为文件夹
                 {
@@ -16603,13 +16627,7 @@ namespace DocearReminder
                 }
                 section = PathcomboBox.SelectedItem.ToString();
                 mindmapPath = rootpath.FullName;
-                drawioPath = rootpath.FullName + "\\" + PathcomboBox.SelectedItem.ToString() + ".drawio";
-                //如果没有则创建
-                if (!System.IO.File.Exists(drawioPath))
-                {
-                    FileInfo fi = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + "\\default.drawio");
-                    fi.CopyTo(drawioPath);
-                }
+                
                 searchword.Text = "";
                 hopeNoteItem = SharePointHelper.GetListItem(spContext, config, PathcomboBox.SelectedItem.ToString() + "HopeNote");
                 loadHopeNote();
@@ -17138,6 +17156,7 @@ namespace DocearReminder
             //switchingState.IsReminderOnlyCheckBox选中状态为不重要的任务状态
             //switchingState.IsReminderOnlyCheckBox不选中，switchingState.showcyclereminder选中状态是周期任务状态
             //switchingState.IsReminderOnlyCheckBox不选中，switchingState.showcyclereminder不选中状态是平时任务状态
+
             //按A键分别切换三种状态
             if (switchingState.showcyclereminder.Checked)
             {
@@ -17154,6 +17173,10 @@ namespace DocearReminder
                 switchingState.showcyclereminder.Checked = true;
                 switchingState.IsReminderOnlyCheckBox.Checked = false;
             }
+            ////添加一种状态是所有的任务状态
+            //switchingState.showcyclereminder.Checked = true;
+            //switchingState.IsReminderOnlyCheckBox.Checked = true;
+            //switchingState.onlyZhouqi.Checked = false;
             ReSetValue();
             RRReminderlist();
             try
@@ -17517,51 +17540,61 @@ namespace DocearReminder
             {
                 return;
             }
-            else
+            isSetHeight = true;
+            try
             {
-                isSetHeight = true;
-            }
-            if (switchingState.IsDiary.Checked)
-            {
-                diary.Visible = true;
-                reminderList.Visible = false;
-                reminderListBox.Visible = false;
-            }
-            if (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked)
-            {
-                reminderListBox.Items.Clear();
-                reminderListBox.Visible = false;
-            }
-            else
-            {
-                diary.Visible = false;
-                reminderList.Visible = true;
-                if (reminderListBox.Items.Count > 0)
+                bool isDiaryMode = switchingState != null && !switchingState.IsDisposed && switchingState.IsDiary.Checked;
+                bool isSpecialMode = switchingState != null && !switchingState.IsDisposed &&
+                                     (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked);
+
+                if (isDiaryMode)
                 {
-                    reminderListBox.Visible = true;
+                    diary.Visible = true;
+                    reminderList.Visible = false;
+                    reminderListBox.Visible = false;
+                }
+
+                if (isSpecialMode)
+                {
+                    reminderListBox.Items.Clear();
+                    reminderListBox.Visible = false;
                 }
                 else
                 {
-                    reminderListBox.Visible = false;
+                    diary.Visible = false;
+                    reminderList.Visible = true;
+                    if (reminderListBox.Items.Count > 0)
+                    {
+                        reminderListBox.Visible = true;
+                    }
+                    else
+                    {
+                        reminderListBox.Visible = false;
+                    }
                 }
+
+                if (reminderListBox.Items.Count > 0)
+                {
+                    reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
+                    reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7);
+                    diary.Height = MindmapList.Height;
+                }
+                else
+                {
+                    reminderList.Top = MindmapList.Top;
+                    reminderList.Height = MindmapList.Height;
+                    diary.Height = reminderList.Height;
+                }
+
+                drawioPic.Top = reminderList.Top;
+                drawioPic.Left = reminderList.Left;
+                drawioPic.Width = reminderList.Width;
+                drawioPic.Height = reminderList.Height;
             }
-            if (reminderListBox.Items.Count > 0)
+            finally
             {
-                reminderList.Top = reminderListBox.Top + reminderListBox.Height + (reminderListBox.Height == 0 ? 0 : 7);
-                reminderList.Height = MindmapList.Height - reminderListBox.Height - (reminderListBox.Height == 0 ? 0 : 7);
-                diary.Height = MindmapList.Height;
+                isSetHeight = false;
             }
-            else
-            {
-                reminderList.Top = MindmapList.Top;
-                reminderList.Height = MindmapList.Height;
-                diary.Height = reminderList.Height;
-            }
-            isSetHeight = false;
-            drawioPic.Top = reminderList.Top;
-            drawioPic.Left = reminderList.Left;
-            drawioPic.Width = reminderList.Width;
-            drawioPic.Height = reminderList.Height;
         }
 
         public void ReminderListBox_DataSourceChanged(object sender, EventArgs e)
@@ -17570,7 +17603,9 @@ namespace DocearReminder
 
         public void ReminderlistBoxChange()
         {
-            if (reminderListBox.Items.Count > 0 && !(switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked))
+            bool isSpecialMode = switchingState != null && !switchingState.IsDisposed &&
+                                 (switchingState.showTimeBlock.Checked || switchingState.ShowKA.Checked || switchingState.ShowMoney.Checked);
+            if (reminderListBox.Items.Count > 0 && !isSpecialMode)
             {
                 reminderListBox.Height = reminderListBox.PreferredHeight;
                 reminderListBox.Visible = true;
@@ -19639,26 +19674,26 @@ namespace DocearReminder
 
         public void timeblockupdatetimer_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                //读取E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE目录文件夹名大于10的文件夹名到tasklist
-                string[] tasklist = Directory.GetDirectories(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE").Where(x => x.Substring(x.LastIndexOf("\\") + 1).Length > 10).ToArray();
-                //获取时间块思维导图
-                string mindmap = ini.ReadString("TimeBlock", "mindmap", "");
-                //获取时间块思维导图中实际工作ID_475281178节点的子集
-                List<string> subNodes = GetSubNodes(mindmap, "ID_475281178");
-                //比较tasklist是否在subNodes中，如果不在，则添加到subNodes中
-                foreach (string task in tasklist)
-                {
-                    if (!subNodes.Contains(task.Substring(task.LastIndexOf("\\") + 1)))
-                    {
-                        AddTaskToFileNoDate(mindmap, "实际工作", task.Substring(task.LastIndexOf("\\") + 1));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+            //try
+            //{
+            //    //读取E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE目录文件夹名大于10的文件夹名到tasklist
+            //    string[] tasklist = Directory.GetDirectories(@"E:\yixiaozi\工作\敏捷艾克\奥林巴斯\SPO\CASE").Where(x => x.Substring(x.LastIndexOf("\\") + 1).Length > 10).ToArray();
+            //    //获取时间块思维导图
+            //    string mindmap = ini.ReadString("TimeBlock", "mindmap", "");
+            //    //获取时间块思维导图中实际工作ID_475281178节点的子集
+            //    List<string> subNodes = GetSubNodes(mindmap, "ID_475281178");
+            //    //比较tasklist是否在subNodes中，如果不在，则添加到subNodes中
+            //    foreach (string task in tasklist)
+            //    {
+            //        if (!subNodes.Contains(task.Substring(task.LastIndexOf("\\") + 1)))
+            //        {
+            //            AddTaskToFileNoDate(mindmap, "实际工作", task.Substring(task.LastIndexOf("\\") + 1));
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
         }
 
         //添加一个方法，返回思维导图某个节点的子节点的集合，输入思维导图的路径和节点的ID

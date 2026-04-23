@@ -10,11 +10,14 @@ using System.Windows.Forms;
 using System.Speech.Synthesis;
 using System.IO;
 using System.Text;
+using System.Collections.Concurrent;
 
 namespace DocearReminder
 {
     static class Program
     {
+        private static readonly ConcurrentDictionary<string, byte> ResolvingAssemblies = new ConcurrentDictionary<string, byte>(StringComparer.OrdinalIgnoreCase);
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -58,9 +61,42 @@ namespace DocearReminder
             string dllName = args.Name.Contains(",") ? args.Name.Substring(0, args.Name.IndexOf(',')) : args.Name.Replace(".dll", "");
             dllName = dllName.Replace(".", "_");
             if (dllName.EndsWith("_resources")) return null;
-            System.Resources.ResourceManager rm = new System.Resources.ResourceManager("DocearReminder.Properties.Resources", System.Reflection.Assembly.GetExecutingAssembly());
-            byte[] bytes = (byte[])rm.GetObject(dllName);
-            return System.Reflection.Assembly.Load(bytes);
+
+            string simpleName = args.Name.Split(',')[0];
+            if (simpleName.StartsWith("System.", StringComparison.OrdinalIgnoreCase))
+            {
+                // Let CLR resolve BCL assemblies from framework/bin to avoid version recursion.
+                return null;
+            }
+            Assembly loaded = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => string.Equals(a.GetName().Name, simpleName, StringComparison.OrdinalIgnoreCase));
+            if (loaded != null)
+            {
+                return loaded;
+            }
+
+            if (!ResolvingAssemblies.TryAdd(simpleName, 0))
+            {
+                return null;
+            }
+
+            try
+            {
+                System.Resources.ResourceManager rm = new System.Resources.ResourceManager(
+                    "DocearReminder.Properties.Resources",
+                    System.Reflection.Assembly.GetExecutingAssembly());
+                byte[] bytes = rm.GetObject(dllName) as byte[];
+                if (bytes == null || bytes.Length == 0)
+                {
+                    return null;
+                }
+                return System.Reflection.Assembly.Load(bytes);
+            }
+            finally
+            {
+                byte _;
+                ResolvingAssemblies.TryRemove(simpleName, out _);
+            }
         }
 
         public class IniFile

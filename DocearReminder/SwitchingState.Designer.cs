@@ -238,9 +238,6 @@ namespace DocearReminder
             // 
             // onlyZhouqi
             // 
-            this.onlyZhouqi.AutoSize = true;
-            this.onlyZhouqi.Checked = true;
-            this.onlyZhouqi.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onlyZhouqi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.onlyZhouqi.Location = new System.Drawing.Point(87, 11);
             this.onlyZhouqi.Name = "onlyZhouqi";
@@ -271,6 +268,7 @@ namespace DocearReminder
             this.IsReminderOnlyCheckBox.TabIndex = 159;
             this.IsReminderOnlyCheckBox.Text = "任务";
             this.IsReminderOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.IsReminderOnlyCheckBox.CheckedChanged += new System.EventHandler(this.IsReminderOnlyCheckBox_CheckedChanged);
             // 
             // OnlyLevel
             // 

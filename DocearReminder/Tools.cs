@@ -309,6 +309,7 @@ namespace DocearReminder
 
         private void button2_Click(object sender, EventArgs e)
         {
+            string pwdText = pwd.Text;
             DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
             foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
             {
@@ -319,7 +320,7 @@ namespace DocearReminder
                     bool isNeedUpdate = false;
                     foreach (XmlNode node in x.GetElementsByTagName("node"))
                     {
-                        if (node.Attributes != null && node.Attributes["ID"] == null)
+                        if (node.Attributes != null && (node.Attributes["ID"] == null|| pwdText.Contains(node.Attributes["ID"].Value)))
                         {
                             isNeedUpdate = true;
                             XmlAttribute TASKID = x.CreateAttribute("ID");
@@ -433,7 +434,7 @@ namespace DocearReminder
         public bool isURL(string url)
         {
             string matchStr = @"http(s)?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
-            return Regex.IsMatch(url, matchStr);
+            return Regex.IsMatch(url, matchStr)&& ((!url.ToLower().Contains("sharepoint") && !url.ToLower().Contains("cbpr") && !url.ToLower().Contains("olympus")));
         }
 
 

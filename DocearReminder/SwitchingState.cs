@@ -191,5 +191,10 @@ namespace DocearReminder
                 this.Hide(); // 隐藏窗体
             }
         }
+
+        private void IsReminderOnlyCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

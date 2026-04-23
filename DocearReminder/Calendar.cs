@@ -21,6 +21,7 @@ using yixiaozi.WinForm.Control.Calendar;
 using static DocearReminder.DocearReminderForm;
 using Size = System.Drawing.Size;
 
+
 namespace DocearReminder
 {
     public partial class CalendarForm : Form
@@ -84,8 +85,11 @@ namespace DocearReminder
             workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", "rootPath", "")));
             foreach (string item in calanderpath.Split(';'))
             {
-                setting.workfolder_combox.Items.Add(item);
-                workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", item, "")));
+                if (item!="")
+                {
+                    setting.workfolder_combox.Items.Add(item);
+                    workfolders.Add(System.IO.Path.GetFullPath(ini.ReadString("path", item, "")));
+                }
             }
             setting.workfolder_combox.Items.Add("All");
             setting.workfolder_combox.SelectedIndex = hasinworkfolderIndex(mindmappath);
@@ -176,7 +180,15 @@ namespace DocearReminder
             try
             {
                 System.Xml.XmlDocument timeblockmm = new XmlDocument();
-                timeblockmm.Load(ini.ReadString("TimeBlock", "mindmap", ""));
+                timeblockmm.Load(ini.ReadString("TimeBlock", "时间块", ""));
+                foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
+                    {
+                        SearchNode(node, null);
+                    }
+                }
+                timeblockmm.Load(ini.ReadString("TimeBlock", "预算", ""));
                 foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
                 {
                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "金钱")
@@ -185,29 +197,38 @@ namespace DocearReminder
                         newMenu.BackColor = Color.Yellow;
                         SearchNode_Money(node, newMenu);
                     }
+                }
+                timeblockmm.Load(ini.ReadString("TimeBlock", "卡路里", ""));
+                foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "卡路里")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("卡路里", global::DocearReminder.Properties.Resources.square_ok, SetKA);
                         newMenu.BackColor = Color.White;
                         SearchNode_KA(node, newMenu);
                     }
-                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
+                }
+                timeblockmm.Load(ini.ReadString("TimeBlock", "进步", ""));
+                foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
+                     if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "进步")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("进步", global::DocearReminder.Properties.Resources.square_ok, SetProgress);
                         newMenu.BackColor = Color.Red;
                         SearchNode_progress(node, newMenu);
                     }
-                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "错误")
+                }
+                timeblockmm.Load(ini.ReadString("TimeBlock", "错误", ""));
+                foreach (XmlNode node in timeblockmm.GetElementsByTagName("node"))
+                {
+                    if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "错误")
                     {
                         System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("错误", global::DocearReminder.Properties.Resources.square_ok, SetMistake);
                         newMenu.BackColor = Color.Gray;
                         SearchNode_mistake(node, newMenu);
                     }
-                    else if (node.Attributes["TEXT"] != null && node.Attributes["TEXT"].Value == "事件类别")
-                    {
-                        SearchNode(node, null);
-                    }
                 }
+
                 if (timeblockColors.Count > 0)
                 {
                     System.Windows.Forms.ToolStripItem newMenu = this.Menu.Items.Add("改变颜色", global::DocearReminder.Properties.Resources.square_ok, SetTimeBlockColor);

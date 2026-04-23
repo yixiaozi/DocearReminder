@@ -754,8 +754,7 @@ namespace DocearReminder
             this.PathcomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PathcomboBox.ForeColor = System.Drawing.Color.Gray;
             this.PathcomboBox.FormattingEnabled = true;
-            this.PathcomboBox.Items.AddRange(new object[] {
-            "rootPath"});
+            //this.PathcomboBox.Items.AddRange();
             this.PathcomboBox.Location = new System.Drawing.Point(12, 9);
             this.PathcomboBox.Name = "PathcomboBox";
             this.PathcomboBox.Size = new System.Drawing.Size(206, 20);
@@ -1541,9 +1540,9 @@ namespace DocearReminder
             // 
             // timeblockupdatetimer
             // 
-            this.timeblockupdatetimer.Enabled = true;
-            this.timeblockupdatetimer.Interval = 600000;
-            this.timeblockupdatetimer.Tick += new System.EventHandler(this.timeblockupdatetimer_Tick);
+            //this.timeblockupdatetimer.Enabled = true;
+            //this.timeblockupdatetimer.Interval = 600000;
+            //this.timeblockupdatetimer.Tick += new System.EventHandler(this.timeblockupdatetimer_Tick);
             // 
             // Jinji
             // 

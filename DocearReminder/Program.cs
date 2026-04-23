@@ -27,33 +27,26 @@ namespace DocearReminder
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Mutex run = new System.Threading.Mutex(true, "DocearReminder", out bool runone);
-            if (runone)
+            Mutex run = new System.Threading.Mutex(true, "DocearReminder", out bool runOne);
+            if (runOne)
             {
                 run.ReleaseMutex();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //检查自动更新？
-                //判断一下是否设置了账号密码，如果为空则打开设置账号密码的窗口
                 IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
-                bool IsSetPassword = ini.ReadString("password", "i", "") != "";
-                if (IsSetPassword)
+                bool isPasswordConfigured = ini.ReadString("password", "i", "") != "";
+                if (isPasswordConfigured)
                 {
                     LoginForm form1 = new LoginForm();
-                    if (form1.autologin||form1.ShowDialog() == DialogResult.OK)
+                    if (form1.autologin || form1.ShowDialog() == DialogResult.OK)
                     {
                         Application.Run(new DocearReminderForm());
-                        //Application.Run(new DrawIO());
                     }
                 }
                 else
                 {
                     Application.Run(new Password());
                 }
-            }
-            else
-            {
-                //Application.Run(new CalendarForm(System.IO.Path.GetFullPath(((new IniFile(System.IO.Path.GetFullPath(@".\config.ini"))).ReadString("path", "rootpath", "")))));
             }
         }
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -174,18 +167,6 @@ namespace DocearReminder
             public string ReadString(string section, string name, string def)
             {
                 return ReadStringDefault(section, name, def);
-                //do not need any more;
-                //StringBuilder vRetSb = new StringBuilder(2048);
-                //GetPrivateProfileString(section, name, def, vRetSb, 2048, this.m_FileName);
-                //string result = vRetSb.ToString();
-                //if (result.Contains(@":\"))
-                //{
-                //    if (result[0] != System.AppDomain.CurrentDomain.BaseDirectory[0])
-                //    {
-                //        result = System.AppDomain.CurrentDomain.BaseDirectory[0] + result.Substring(1);
-                //    }
-                //}
-                //return result;
             }
             /// <summary>
             /// [扩展]读取string字符串

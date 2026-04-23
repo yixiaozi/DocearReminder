@@ -15,10 +15,7 @@ using yixiaozi.Model.DocearReminder;
 using yixiaozi.Security;
 using yixiaozi.MyConvert;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections;
 using static DocearReminder.DocearReminderForm;
-using NPOI.SS.Formula.Functions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace DocearReminder
 {
@@ -440,45 +437,6 @@ namespace DocearReminder
 
         private void button4_Click(object sender, EventArgs e)
         {
-            return;
-            //DirectoryInfo path = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadString("path", "rootpath", ""))); //System.AppDomain.CurrentDomain.BaseDirectory);
-            //foreach (FileInfo file in path.GetFiles("*.mm", SearchOption.AllDirectories))
-            //{
-            //    try
-            //    {
-            //        System.Xml.XmlDocument x = new XmlDocument();
-            //        x.Load(file.FullName);
-            //        bool isNeedUpdate = false;
-            //        foreach (XmlNode node in x.GetElementsByTagName("node"))
-            //        {
-            //            try
-            //            {
-            //                if (node.Attributes != null && node.Attributes["TEXT"] != null && isURL(node.Attributes["TEXT"].Value) && node.Attributes["LINK"] == null)
-            //                {
-            //                    XmlAttribute LINK = x.CreateAttribute("LINK");
-            //                    LINK.Value = node.Attributes["TEXT"].Value;
-            //                    node.Attributes["TEXT"].Value = yixiaozi.Net.HttpHelp.Web.getTitle(node.Attributes["TEXT"].Value);
-            //                    node.Attributes.Append(LINK);
-            //                    isNeedUpdate=true;
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //            }
-            //        }
-            //        if (isNeedUpdate)
-            //        {
-            //            x.Save(file.FullName);
-            //            yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.FullName);
-            //            //Thread th = new Thread(() => DocearReminderForm.ConvertFile(file.FullName));
-            //            //th.Start();
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //    }
-            //}
-            //this.Close();
         }
         //所有links建议文件
         private void button5_Click(object sender, EventArgs e)
@@ -558,10 +516,7 @@ namespace DocearReminder
                     names.Add(filename);
                 }
             }
-            if (true)
-            {
-                MessageBox.Show(result);
-            }
+            MessageBox.Show(result);
         }
         #region 添加使用记录
 

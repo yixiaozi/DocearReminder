@@ -1,15 +1,6 @@
-﻿using NPOI.SS.Formula.Functions;
-using ScottPlot.Drawing.Colorsets;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System;
 using System.Speech.Recognition;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DocearReminder
@@ -17,6 +8,11 @@ namespace DocearReminder
     public partial class SwitchingState : Form
     {
         public MagnetWinForms.MagnetWinForms m_MagnetWinForms;
+        private DocearReminderForm MainForm
+        {
+            get { return Application.OpenForms[0] as DocearReminderForm; }
+        }
+
         public SwitchingState()
         {
             InitializeComponent();
@@ -108,13 +104,15 @@ namespace DocearReminder
         }
         public void MoneyDateTimePicker_ValueChanged(object sender, EventArgs e) 
         {
-            ((DocearReminderForm)Application.OpenForms[0]).RRReminderlist();
+            if (MainForm == null) return;
+            MainForm.RRReminderlist();
             MoneyDateTimePicker.Focus();//继续选中
         }
 
         public void KADateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            ((DocearReminderForm)Application.OpenForms[0]).RRReminderlist();
+            if (MainForm == null) return;
+            MainForm.RRReminderlist();
             KADateTimePicker.Focus();//继续选中
         }
         /// <summary>
@@ -124,63 +122,68 @@ namespace DocearReminder
         /// <param name="e"></param>
         public void c_speechcontrol_CheckedChanged(object sender, EventArgs e)
         {
+            if (MainForm == null) return;
             if (c_speechcontrol.Checked)
             {
-                ((DocearReminderForm)Application.OpenForms[0]).SRE.RecognizeAsync(RecognizeMode.Multiple);
-                ((DocearReminderForm)Application.OpenForms[0]).SRE_listening = true;
+                MainForm.SRE.RecognizeAsync(RecognizeMode.Multiple);
+                MainForm.SRE_listening = true;
             }
             else
             {
-                ((DocearReminderForm)Application.OpenForms[0]).SRE.RecognizeAsyncStop();
-                ((DocearReminderForm)Application.OpenForms[0]).SRE_listening = false;
+                MainForm.SRE.RecognizeAsyncStop();
+                MainForm.SRE_listening = false;
             }
         }
         public void IsDiary_CheckedChanged(object sender, EventArgs e)
         {
+            if (MainForm == null) return;
             //如果选中，则显示diary，隐藏任务表，否则相反
             if (IsDiary.Checked)
             {
-                ((DocearReminderForm)Application.OpenForms[0]).reminderList.Visible = false;
-                ((DocearReminderForm)Application.OpenForms[0]).reminderListBox.Visible = false;
-                ((DocearReminderForm)Application.OpenForms[0]).diary.Visible = true;
-                ((DocearReminderForm)Application.OpenForms[0]).ShowOrSetOneDiary(((DocearReminderForm)Application.OpenForms[0]).dateTimePicker.Value.Date);
+                MainForm.reminderList.Visible = false;
+                MainForm.reminderListBox.Visible = false;
+                MainForm.diary.Visible = true;
+                MainForm.ShowOrSetOneDiary(MainForm.dateTimePicker.Value.Date);
                 //光标进入diary最后
-                if (((DocearReminderForm)Application.OpenForms[0]).diary.Text.Length > 0)
+                if (MainForm.diary.Text.Length > 0)
                 {
-                    ((DocearReminderForm)Application.OpenForms[0]).diary.SelectionStart = ((DocearReminderForm)Application.OpenForms[0]).diary.Text.Length;
+                    MainForm.diary.SelectionStart = MainForm.diary.Text.Length;
                 }
-                ((DocearReminderForm)Application.OpenForms[0]).diary.Focus();
+                MainForm.diary.Focus();
             }
             else
             {
-                ((DocearReminderForm)Application.OpenForms[0]).SetDiarying = true;
-                ((DocearReminderForm)Application.OpenForms[0]).diary.Text = "";
-                ((DocearReminderForm)Application.OpenForms[0]).SetDiarying = false;
+                MainForm.SetDiarying = true;
+                MainForm.diary.Text = "";
+                MainForm.SetDiarying = false;
 
-                ((DocearReminderForm)Application.OpenForms[0]).diary.Visible = false;
+                MainForm.diary.Visible = false;
                 string mindmap = DocearReminderForm.ini.ReadString("Diary", "mindmap", "");
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(mindmap));
                 th.Start();
-                ((DocearReminderForm)Application.OpenForms[0]).reminderList.Visible = true;
-                ((DocearReminderForm)Application.OpenForms[0]).reminderListBox.Visible = true;
+                MainForm.reminderList.Visible = true;
+                MainForm.reminderListBox.Visible = true;
                 //选中reminderList
-                ((DocearReminderForm)Application.OpenForms[0]).reminderList.Focus();
+                MainForm.reminderList.Focus();
             }
         }
 
         private void showTimeBlock_CheckedChanged(object sender, EventArgs e)
         {
-            ((DocearReminderForm)Application.OpenForms[0]).ShowTimeBlockChange(sender, e);
+            if (MainForm == null) return;
+            MainForm.ShowTimeBlockChange(sender, e);
         }
 
         private void ShowKA_CheckedChanged(object sender, EventArgs e)
         {
-            ((DocearReminderForm)Application.OpenForms[0]).ShowKA_CheckedChanged(sender, e);
+            if (MainForm == null) return;
+            MainForm.ShowKA_CheckedChanged(sender, e);
         }
 
         private void ShowMoney_CheckedChanged(object sender, EventArgs e)
         {
-            ((DocearReminderForm)Application.OpenForms[0]).ShowMoney_CheckedChanged(sender, e);
+            if (MainForm == null) return;
+            MainForm.ShowMoney_CheckedChanged(sender, e);
         }
 
         private void SwitchingState_FormClosing(object sender, FormClosingEventArgs e)

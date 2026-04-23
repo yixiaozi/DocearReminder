@@ -1,19 +1,21 @@
 ﻿using Microsoft.SharePoint.Client;
 using Microsoft.Identity.Client;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DocearReminder
 {
     public class SharePointHelper
     {
-        public static ClientContext CreateAuthenticatedContext(string siteUrl, string userName, string password, string clientId = "", string tenantId = "")
+        public static ClientContext CreateAuthenticatedContext(
+            string siteUrl,
+            string userName,
+            string password,
+            string clientId = "",
+            string tenantId = "")
         {
             if (string.IsNullOrWhiteSpace(siteUrl))
             {
@@ -62,7 +64,7 @@ namespace DocearReminder
                 .Build();
 
             AuthenticationResult result = null;
-            IEnumerable<IAccount> accounts = Task.Run(() => app.GetAccountsAsync()).GetAwaiter().GetResult();
+            var accounts = Task.Run(() => app.GetAccountsAsync()).GetAwaiter().GetResult();
             IAccount firstAccount = accounts.FirstOrDefault();
 
             try
@@ -85,8 +87,7 @@ namespace DocearReminder
                     {
                         result = Task.Run(() => app
                             .AcquireTokenInteractive(scopes)
-                            .WithUseEmbeddedWebView(false)
-                            .WithPrompt(Prompt.SelectAccount)
+                            .WithUseEmbeddedWebView(true)
                             .ExecuteAsync(cts.Token)).GetAwaiter().GetResult();
                     }
                     catch (MsalServiceException ex) when (ex.ErrorCode == "invalid_resource" || ex.Message.Contains("AADSTS650057"))
@@ -107,38 +108,42 @@ namespace DocearReminder
             return context;
         }
 
-        public static ListItem GetListItem(ClientContext content,List list,string Title)
+        public static ListItem GetListItem(ClientContext clientContext, List list, string title)
         {
-            //查找Title等于reminder.json的条目
             CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = @"<View>
-                                    <Query>
-                                        <Where>
-                                            <Eq>
-                                                <FieldRef Name='Title' />
-                                                <Value Type='Text'>"+ Title + @"</Value>
-                                            </Eq>
-                                        </Where>
-                                    </Query>
-                                </View>";
+            camlQuery.ViewXml = BuildTitleEqualsQuery(title);
             ListItemCollection listItems = list.GetItems(camlQuery);
-            content.Load(listItems);
-            content.ExecuteQuery();
-            //如果没有找到，就创建一个
+            clientContext.Load(listItems);
+            clientContext.ExecuteQuery();
+
             if (listItems.Count == 0)
             {
                 ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
                 ListItem newItem = list.AddItem(itemCreateInfo);
-                newItem["Title"] = Title;
+                newItem["Title"] = title;
                 newItem.Update();
-                content.ExecuteQuery();
+                clientContext.ExecuteQuery();
                 return newItem;
             }
-            //获取reminder.json的内容
+
             ListItem item = listItems[0];
-            content.Load(item);
-            content.ExecuteQuery();
+            clientContext.Load(item);
+            clientContext.ExecuteQuery();
             return item;
+        }
+
+        private static string BuildTitleEqualsQuery(string title)
+        {
+            return @"<View>
+                        <Query>
+                            <Where>
+                                <Eq>
+                                    <FieldRef Name='Title' />
+                                    <Value Type='Text'>" + title + @"</Value>
+                                </Eq>
+                            </Where>
+                        </Query>
+                    </View>";
         }
     }
 }

@@ -188,7 +188,7 @@ namespace DocearReminder
         SwitchingState switchingState;
         TagCloud tagCloud;
         public static PositionDIffColl positionDIffCollection = new PositionDIffColl();
-        static ClientContext spContext= SharePointHelper.CreateAuthenticatedContext(ini.ReadString("sppassword", "url", ""), ini.ReadString("sppassword", "user", ""), ini.ReadString("sppassword", "password", ""));
+        static ClientContext spContext;
         static List config;
         static List Error;
         static ListItem reminderjson;
@@ -226,44 +226,64 @@ namespace DocearReminder
         public static ListItem noterichTextBoxItem;
 
 
+        private void InitializeSharePointContext()
+        {
+            try
+            {
+                spContext = SharePointHelper.CreateAuthenticatedContext(
+                    ini.ReadString("sppassword", "url", ""),
+                    ini.ReadString("sppassword", "user", ""),
+                    ini.ReadString("sppassword", "password", ""),
+                    ini.ReadString("sppassword", "clientId", ""),
+                    ini.ReadString("sppassword", "tenantId", ""));
+
+                config = spContext.Web.Lists.GetByTitle("config");
+                Error = spContext.Web.Lists.GetByTitle("Error");
+                spContext.Load(config);
+                spContext.Load(Error);
+                spContext.ExecuteQuery();
+
+                reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
+                timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
+                UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
+                hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
+                scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
+                IconNodesSelectedItem = SharePointHelper.GetListItem(spContext, config, "IconNodesSelected");
+                OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
+                ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
+                RecentOpenedMapItem = SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
+                TimeBlockSelectedItem = SharePointHelper.GetListItem(spContext, config, "TimeBlockSelected");
+                XnodesItem = SharePointHelper.GetListItem(spContext, config, "Xnodes");
+                QuickOpenLogItem = SharePointHelper.GetListItem(spContext, config, "QuickOpenLog");
+                unchkeckmindmapItem = SharePointHelper.GetListItem(spContext, config, "unchkeckmindmap");
+                unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
+                remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
+                PositionDIffCollItem = SharePointHelper.GetListItem(spContext, config, "PositionDIffColl");
+                mindmapsItem = SharePointHelper.GetListItem(spContext, config, "mindmaps");
+                timeblockItem = SharePointHelper.GetListItem(spContext, config, "timeblock");
+                allnodesiconItem = SharePointHelper.GetListItem(spContext, config, "allnodesicon");
+                noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "SharePoint connection failed.\r\n\r\n" +
+                    ex.Message +
+                    "\r\n\r\nPlease verify site URL and authentication config.\r\n" +
+                    "For modern auth, configure [sppassword] clientId (tenantId optional; defaults to organizations).\r\n" +
+                    "If clientId is empty, the app falls back to account-password mode.",
+                    "SharePoint Authentication Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                throw;
+            }
+        }
+
         #endregion 全局变量
         public DocearReminderForm()  
         {
             InitializeComponent();
-            config = spContext.Web.Lists.GetByTitle("config");
-            Error = spContext.Web.Lists.GetByTitle("Error"); 
-            spContext.Load(config);
-            spContext.Load(Error);
-            spContext.ExecuteQuery();
-            reminderjson = SharePointHelper.GetListItem(spContext, config, "reminder.json");
-            timeblockjson = SharePointHelper.GetListItem(spContext, config, "timeblock.json");
-            UsedTimerjson = SharePointHelper.GetListItem(spContext, config, "UsedTimer.json");
-            hopeNoteItem = SharePointHelper.GetListItem(spContext, config, "rootPathHopeNote");
-            scoreItem = SharePointHelper.GetListItem(spContext, config, "score");
-            IconNodesSelectedItem = SharePointHelper.GetListItem(spContext, config, "IconNodesSelected");
-            OpenedInRootSearchItem = SharePointHelper.GetListItem(spContext, config, "OpenedInRootSearch");
-            ignoreSuggestItem = SharePointHelper.GetListItem(spContext, config, "ignoreSuggest");
-            RecentOpenedMapItem= SharePointHelper.GetListItem(spContext, config, "RecentOpenedMap");
-            TimeBlockSelectedItem = SharePointHelper.GetListItem(spContext, config, "TimeBlockSelected");
-            XnodesItem = SharePointHelper.GetListItem(spContext, config, "Xnodes");
-            //QuickOpenLog
-            QuickOpenLogItem = SharePointHelper.GetListItem(spContext, config, "QuickOpenLog");
-            //unchkeckmindmap
-            unchkeckmindmapItem = SharePointHelper.GetListItem(spContext, config, "unchkeckmindmap");
-            //unchkeckdrawio
-            unchkeckdrawioItem = SharePointHelper.GetListItem(spContext, config, "unchkeckdrawio");
-            //remindmaps
-            remindmapsItem = SharePointHelper.GetListItem(spContext, config, "remindmaps");
-            //PositionDIffColl
-            PositionDIffCollItem = SharePointHelper.GetListItem(spContext, config, "PositionDIffColl");
-            //mindmaps
-            mindmapsItem = SharePointHelper.GetListItem(spContext, config, "mindmaps");
-            //timeblock
-            timeblockItem = SharePointHelper.GetListItem(spContext, config, "timeblock");
-            //allnodesicon
-            allnodesiconItem = SharePointHelper.GetListItem(spContext, config, "allnodesicon");
-            //noterichTextBox
-            noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
+            InitializeSharePointContext();
             positionDIffCollection.Get();
              
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);

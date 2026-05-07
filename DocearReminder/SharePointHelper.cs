@@ -1,8 +1,10 @@
-﻿using Microsoft.SharePoint.Client;
+using Microsoft.SharePoint.Client;
 using Microsoft.Identity.Client;
 using System;
+using System.IO;
 using System.Linq;
 using System.Security;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +12,8 @@ namespace DocearReminder
 {
     public class SharePointHelper
     {
+        private static string tokenCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DocearReminder\tokencache.bin";
+
         public static ClientContext CreateAuthenticatedContext(
             string siteUrl,
             string userName,
@@ -63,6 +67,8 @@ namespace DocearReminder
                 .WithRedirectUri("http://localhost")
                 .Build();
 
+            ConfigureTokenCache(app.UserTokenCache);
+
             AuthenticationResult result = null;
             var accounts = Task.Run(() => app.GetAccountsAsync()).GetAwaiter().GetResult();
             IAccount firstAccount = accounts.FirstOrDefault();
@@ -106,6 +112,45 @@ namespace DocearReminder
                 args.WebRequestExecutor.WebRequest.Headers["Authorization"] = "Bearer " + result.AccessToken;
             };
             return context;
+        }
+
+        private static void ConfigureTokenCache(ITokenCache tokenCache)
+        {
+            tokenCache.SetBeforeAccess(BeforeAccessNotification);
+            tokenCache.SetAfterAccess(AfterAccessNotification);
+        }
+
+        private static void BeforeAccessNotification(TokenCacheNotificationArgs args)
+        {
+            try
+            {
+                if (System.IO.File.Exists(tokenCachePath))
+                {
+                    byte[] encryptedData = System.IO.File.ReadAllBytes(tokenCachePath);
+                    byte[] decryptedData = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
+                    args.TokenCache.DeserializeMsalV3(decryptedData);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private static void AfterAccessNotification(TokenCacheNotificationArgs args)
+        {
+            try
+            {
+                if (args.HasStateChanged)
+                {
+                    byte[] data = args.TokenCache.SerializeMsalV3();
+                    byte[] encryptedData = ProtectedData.Protect(data, null, DataProtectionScope.CurrentUser);
+                    Directory.CreateDirectory(Path.GetDirectoryName(tokenCachePath));
+                    System.IO.File.WriteAllBytes(tokenCachePath, encryptedData);
+                }
+            }
+            catch
+            {
+            }
         }
 
         public static ListItem GetListItem(ClientContext clientContext, List list, string title)

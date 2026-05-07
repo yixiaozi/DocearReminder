@@ -1,4 +1,4 @@
-﻿using AForge.Controls;
+using AForge.Controls;
 using AForge.Video.DirectShow;
 using Gma.UserActivityMonitor;
 using Microsoft.SharePoint.Client;
@@ -2284,7 +2284,7 @@ namespace DocearReminder
                         mindmapfiles.Add(new mindmapfile { name = file.Name.Substring(0, file.Name.Length - 3), filePath = file.FullName });
                     }
                     string subPath = file.DirectoryName;
-                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot)  && subPath[0] != '.')
+                    if (!noFiles.Contains(file.Name) && file.Name[0] != '~' && !MyContains(file.FullName, noFolderInRoot) && subPath[0] != '.' && !file.Name.Contains("冲突副本"))
                     {
                         try
                         {
@@ -2384,10 +2384,37 @@ namespace DocearReminder
         public int GetTaskNumber(string fullName)
         {
             int tasknumber = 0;
-            //读取文件内容
-            string content = File.ReadAllText(fullName);
-            //如果文件中包含"plugins/TimeManagementReminder.xml"则为有任务，并且包含的次数就是tasknumber
-            tasknumber = content.Split(new string[] { "plugins/TimeManagementReminder.xml" }, StringSplitOptions.None).Length - 1;
+            try
+            {
+                System.Xml.XmlDocument x = new XmlDocument();
+                x.Load(fullName);
+                foreach (XmlNode node in x.GetElementsByTagName("hook"))
+                {
+                    if (node.Attributes["NAME"] != null && node.Attributes["NAME"].Value == "plugins/TimeManagementReminder.xml")
+                    {
+                        XmlNode parentNode = node.ParentNode;
+                        bool isInBin = false;
+                        while (parentNode != null)
+                        {
+                            if (parentNode.Attributes != null && parentNode.Attributes["TEXT"] != null && parentNode.Attributes["TEXT"].Value.ToLower() == "bin")
+                            {
+                                isInBin = true;
+                                break;
+                            }
+                            parentNode = parentNode.ParentNode;
+                        }
+                        if (!isInBin)
+                        {
+                            tasknumber++;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string content = File.ReadAllText(fullName);
+                tasknumber = content.Split(new string[] { "plugins/TimeManagementReminder.xml" }, StringSplitOptions.None).Length - 1;
+            }
             return tasknumber;
         }
 
@@ -2403,7 +2430,7 @@ namespace DocearReminder
                 }
                 foreach (string subDir in Directory.GetDirectories(path))
                 {
-                    if (subDir.Contains("."))
+                    if (subDir.Contains(".") || subDir.EndsWith("_data") || subDir.EndsWith("_data\\") || subDir.Contains("\\_data\\"))
                     {
                         continue;
                     }

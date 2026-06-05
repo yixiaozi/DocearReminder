@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +21,9 @@ namespace DocearReminder
         {
             InitializeComponent();
             Center();
+            // 设置默认时间范围为过去一周
+            dateTimePicker1.Value = DateTime.Today.AddDays(-7);
+            dateTimePicker2.Value = DateTime.Today;
             ShowChart();
         }
 

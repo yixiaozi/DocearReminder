@@ -232,7 +232,13 @@ namespace DocearReminder
         {
             InitializeComponent();
             TryInitSharePoint();
-            positionDIffCollection.Get();
+            try
+            {
+                positionDIffCollection.Get();
+            }
+            catch (Exception)
+            {
+            }
              
             m_MagnetWinForms = new MagnetWinForms.MagnetWinForms(this);
             timeAnalyze = new TimeAnalyze();
@@ -361,8 +367,8 @@ namespace DocearReminder
 
                 #region 加载一些配置文件
                 rootrootpath = new DirectoryInfo(System.IO.Path.GetFullPath(ini.ReadStringDefault("path", "rootpath", "")));
-                ignoreSuggest = ReadStringToList(GetListItemValue(ignoreSuggestItem, ""));
-                RecentOpenedMap = ReadStringToList(GetListItemValue(RecentOpenedMapItem, ""));
+                ignoreSuggest = ReadStringToList(GetListItemValue(ignoreSuggestItem, ReadLocalDataFile("ignoreSuggest.txt")));
+                RecentOpenedMap = ReadStringToList(GetListItemValue(RecentOpenedMapItem, ReadLocalDataFile("RecentOpenedMap.txt")));
 
                 IconNodesSelected = ReadStringToList(GetListItemValue(IconNodesSelectedItem, ""));
                 TimeBlockSelected = ReadStringToList(GetListItemValue(TimeBlockSelectedItem, ""));
@@ -551,7 +557,7 @@ namespace DocearReminder
                     
 
 
-                    dic.Add(searchword, "task@mindmap==.task +Enter" + Environment.NewLine + @"subnote +Enter" + Environment.NewLine + @"subtask +Shift+Enter==subtask. +Enter" + Environment.NewLine +
+                    dic.Add(searchword, "task@mindmap==.task +Enter" + Environment.NewLine + @"subnote +Enter（普通节点）" + Environment.NewLine + @"subtask +Shift+Enter（任务）==subtask. +Enter" + Environment.NewLine +
                         "@mindmap  detail of mindmap" + Environment.NewLine + "@mindmap +Shift open mindmap" +
                         Environment.NewLine + "#searchfiles" +
                         Environment.NewLine + "*searchnodes" +
@@ -795,15 +801,9 @@ namespace DocearReminder
                 noterichTextBoxItem = SharePointHelper.GetListItem(spContext, config, "noterichTextBox");
                 sharePointEnabled = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 sharePointEnabled = false;
-                MessageBox.Show(
-                    "SharePoint authentication failed.\r\n\r\n" + ex.Message +
-                    "\r\n\r\nPlease complete the Microsoft login window if it appears, and verify clientId/tenantId/url in [sppassword].",
-                    "SharePoint Authentication",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
             }
         }
 
@@ -821,6 +821,85 @@ namespace DocearReminder
             {
                 return defaultValue;
             }
+        }
+
+        static IEnumerable<string> GetMindmapsLocalPaths()
+        {
+            yield return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mindmaps.txt");
+            string rootPath = ini.ReadString("path", "rootpath", "");
+            if (!string.IsNullOrWhiteSpace(rootPath))
+            {
+                yield return Path.Combine(Path.GetFullPath(rootPath), ".files", "DocearReminder", "mindmaps.txt");
+            }
+        }
+
+        public static string ReadLocalDataFile(string fileName)
+        {
+            foreach (string path in GetLocalDataFilePaths(fileName))
+            {
+                try
+                {
+                    if (File.Exists(path))
+                    {
+                        return File.ReadAllText(path);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return "";
+        }
+
+        public static void WriteLocalDataFile(string fileName, string value)
+        {
+            foreach (string path in GetLocalDataFilePaths(fileName))
+            {
+                try
+                {
+                    string dir = Path.GetDirectoryName(path);
+                    if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    File.WriteAllText(path, value);
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        static IEnumerable<string> GetLocalDataFilePaths(string fileName)
+        {
+            yield return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string rootPath = ini.ReadString("path", "rootpath", "");
+            if (!string.IsNullOrWhiteSpace(rootPath))
+            {
+                yield return Path.Combine(Path.GetFullPath(rootPath), ".files", "DocearReminder", fileName);
+            }
+        }
+
+        public static string ReadMindmapsValue()
+        {
+            string sp = GetListItemValue(mindmapsItem, "");
+            if (!string.IsNullOrEmpty(sp))
+            {
+                return sp;
+            }
+            return ReadLocalDataFile("mindmaps.txt");
+        }
+
+        public static void WriteMindmapsValue(string value)
+        {
+            SaveValueOut(mindmapsItem, value);
+            WriteLocalDataFile("mindmaps.txt", value);
+        }
+
+        public static void SaveListValueOut(ListItem item, string fileName, string value)
+        {
+            SaveValueOut(item, value);
+            WriteLocalDataFile(fileName, value);
         }
 
         public void UsedTimerOnLoad()
@@ -2082,14 +2161,17 @@ namespace DocearReminder
                 MaxJsonLength = Int32.MaxValue
             };
             string json = js.Serialize(timeblocks);
-            timeblockjson["Value"] = json;
-            timeblockjson.Update();
-            try
+            if (sharePointEnabled && timeblockjson != null && spContext != null)
             {
-                spContext.ExecuteQuery();
-            }
-            catch (Exception)
-            {
+                timeblockjson["Value"] = json;
+                timeblockjson.Update();
+                try
+                {
+                    spContext.ExecuteQuery();
+                }
+                catch (Exception)
+                {
+                }
             }
             RecordTimeBlockJson(timeblockString);
         }
@@ -6565,8 +6647,12 @@ namespace DocearReminder
                     XmlAttribute TASKID = x.CreateAttribute("ID");
                     newNote.Attributes.Append(TASKID);
                     newNote.Attributes["ID"].Value = Guid.NewGuid().ToString();
-                    //如果已.开始，不设置任务，只添加文本
-                    if (!(taskName.StartsWith(".") || taskName.StartsWith(" ") || taskName.StartsWith("hhh")))
+                    // Enter=普通节点；Shift+Enter=任务（带提醒 hook）
+                    if (taskName.StartsWith(".") || taskName.StartsWith(" ") || taskName.StartsWith("hhh"))
+                    {
+                        newNotetext.Value = taskName.Substring(1);
+                    }
+                    else if (istask)
                     {
                         newNotetext.Value = taskName;
                         XmlNode remindernode = x.CreateElement("hook");
@@ -6582,7 +6668,7 @@ namespace DocearReminder
                     }
                     else
                     {
-                        newNotetext.Value = taskName.Substring(1);
+                        newNotetext.Value = taskName;
                     }
                     if (IsURL(newNotetext.Value))
                     {
@@ -6619,11 +6705,13 @@ namespace DocearReminder
                     x.Save(file.filePath);
                     Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(file.filePath));
                     th.Start();
-                    SaveLog("添加任务@：" + taskName + "    导图" + filename);
+                    SaveLog((istask ? "添加任务@" : "添加节点@") + "：" + taskName + "    导图" + filename);
                     ReSetValue();
                     searchword.Text = "";
-                    //如果新添加的思維导图没有，自动刷新，放弃了，刷新一下吧，不自动了
-                    RRReminderlist();
+                    if (istask)
+                    {
+                        RRReminderlist();
+                    }
                     return;
                 }
             }
@@ -6888,7 +6976,7 @@ namespace DocearReminder
                             {
                                 node.AppendChild(newNote);
                             }
-                            SaveLog("添加子节点：" + taskName + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
+                            SaveLog((istask ? "添加子任务：" : "添加子节点：") + taskName + "      @节点：" + selectedReminder.Name + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                             x.Save(selectedReminder.Value);
                             Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(selectedReminder.Value));
                             th.Start();
@@ -6998,13 +7086,10 @@ namespace DocearReminder
                 newNote.Attributes.Append(JINJI);
                 newNote.Attributes["JINJI"].Value = "1";
 
-                XmlNode newElem = x.CreateElement("icon");
-                //XmlAttribute BUILTIN = x.CreateAttribute("BUILTIN");
-                //BUILTIN.Value = "flag-orange";
-                //newElem.Attributes.Append(BUILTIN);
-                newNote.AppendChild(newElem);
                 if (istask)
                 {
+                    XmlNode newElem = x.CreateElement("icon");
+                    newNote.AppendChild(newElem);
                     XmlNode remindernode = x.CreateElement("hook");
                     XmlAttribute remindernodeName = x.CreateAttribute("NAME");
                     remindernodeName.Value = "plugins/TimeManagementReminder.xml";
@@ -7028,16 +7113,22 @@ namespace DocearReminder
                 x.Save(path);
                 Thread th = new Thread(() => yixiaozi.Model.DocearReminder.Helper.ConvertFile(path));
                 th.Start();
-                SaveLog("添加任务：" + changedtaskname + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
+                SaveLog((istask ? "添加任务：" : "添加节点：") + changedtaskname + "    导图：" + ((MyListBoxItem)MindmapList.SelectedItem).Text.Substring(3));
                 searchword.Text = "";
-                RRReminderlist();
+                if (istask)
+                {
+                    RRReminderlist();
+                }
             }
             else if (searchword.Text != "" && !searchword.Text.EndsWith(".") && !searchword.Text.EndsWith("hhh"))
             {
-                AddTaskToFile(ini.ReadString("path", "binmm", ""), "Tasks", searchword.Text, true);
+                AddTaskToFile(ini.ReadString("path", "binmm", ""), "Tasks", searchword.Text, istask);
                 ReSetValue();
                 searchword.Text = "";
-                RRReminderlist();
+                if (istask)
+                {
+                    RRReminderlist();
+                }
             }
         }
 
@@ -10550,7 +10641,7 @@ namespace DocearReminder
                                 ReSetValue();
                                 RRReminderlist();
                             }
-                            else if (e.Modifiers.CompareTo(Keys.Shift) == 0)
+                            else if ((e.KeyData & Keys.Shift) == Keys.Shift)
                             {
                                 AddTask(true);
                             }
@@ -14946,7 +15037,7 @@ namespace DocearReminder
                     }
                 }
                 RecentOpenedMap = newRecentOpenedMap;
-                SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
+                SaveListValueOut(RecentOpenedMapItem, "RecentOpenedMap.txt", ConvertListToString(RecentOpenedMap));
                 searchword.Text = "";
             }
             else if (searchword.Text.ToLower().StartsWith("usedsu3"))
@@ -15779,7 +15870,7 @@ namespace DocearReminder
                         RecentOpenedMap.Remove(info.StationName_CN);
                         RecentOpenedMap.Add(info.StationName_CN);
                     }
-                    SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
+                    SaveListValueOut(RecentOpenedMapItem, "RecentOpenedMap.txt", ConvertListToString(RecentOpenedMap));
 
                     if (command.Contains(info.StationName_CN))
                     {
@@ -15799,7 +15890,7 @@ namespace DocearReminder
                         {
                             RecentOpenedMap.Remove(info.StationName_CN);
                         }
-                        SaveValueOut(RecentOpenedMapItem, ConvertListToString(RecentOpenedMap));
+                        SaveListValueOut(RecentOpenedMapItem, "RecentOpenedMap.txt", ConvertListToString(RecentOpenedMap));
                     }
                     else
                     {
@@ -17833,14 +17924,11 @@ namespace DocearReminder
             /// <returns></returns>
             public static string GetAllStations()
             {
-                string stationStrs;
                 try
                 {
-                    string sr = mindmapsItem["Value"].SafeToString();
-                    stationStrs = sr.TrimEnd('@');
-                    return stationStrs;
+                    return ReadMindmapsValue().TrimEnd('@');
                 }
-                catch (IOException ex)
+                catch (IOException)
                 {
                     return "站点文件读取失败！";
                 }
@@ -19863,9 +19951,8 @@ namespace DocearReminder
             }
             public void Get()
             {
-                //PositionDIffCollItem
-                string json = PositionDIffCollItem["Value"].SafeToString() ;
-                if (json!="")
+                string json = DocearReminderForm.GetListItemValue(PositionDIffCollItem, "");
+                if (json != "")
                 {
                     PositionDIffColl positionDIffColl = JsonConvert.DeserializeObject<PositionDIffColl>(json);
                     this.PositionDIffs = positionDIffColl.PositionDIffs;

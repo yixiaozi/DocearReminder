@@ -233,7 +233,7 @@ namespace DocearReminder
 
         public static void RecordLog(string Content)
         {
-            SaveValueOut(mindmapsItem, Content);
+            WriteMindmapsValue(Content);
         }
         private static Encoding gb2312 = Encoding.GetEncoding("GB2312");
 

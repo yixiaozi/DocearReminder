@@ -34,8 +34,13 @@ namespace DocearReminder
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 IniFile ini = new IniFile(System.AppDomain.CurrentDomain.BaseDirectory + @"\config.ini");
+                bool skipLogin = ini.ReadString("config", "skipLogin", "").Equals("true", StringComparison.OrdinalIgnoreCase);
                 bool isPasswordConfigured = ini.ReadString("password", "i", "") != "";
-                if (isPasswordConfigured)
+                if (skipLogin)
+                {
+                    Application.Run(new DocearReminderForm());
+                }
+                else if (isPasswordConfigured)
                 {
                     LoginForm form1 = new LoginForm();
                     if (form1.autologin || form1.ShowDialog() == DialogResult.OK)
